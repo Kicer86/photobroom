@@ -1,0 +1,16 @@
+digraph "dlib_api::FaceEncoder::Data"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="dlib_api::FaceEncoder\l::Data",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" predictor_68_point" ,fontname="Helvetica"];
+  Node2 [label="lazy_ptr\< dlib::shape\l_predictor, ObjectDeserializer\l\< dlib::shape_predictor, predictor\l_68_point_model \> \>",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classlazy__ptr.html",tooltip=" "];
+  Node4 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" logger" ,fontname="Helvetica"];
+  Node4 [label="ILogger",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_i_logger.html",tooltip=" "];
+  Node5 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" predictor_5_point" ,fontname="Helvetica"];
+  Node5 [label="lazy_ptr\< dlib::shape\l_predictor, ObjectDeserializer\l\< dlib::shape_predictor, predictor\l_5_point_model \> \>",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$classlazy__ptr.html",tooltip=" "];
+  Node7 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" face_encoder" ,fontname="Helvetica"];
+  Node7 [label="dlib_api::face_recognition\l_model_v1",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classdlib__api_1_1face__recognition__model__v1.html",tooltip="tool for face recognition based on: https://github.com/davisking/dlib/blob/f7f6f6761817f2e6e5cf10ae42..."];
+}

@@ -1,0 +1,19 @@
+digraph "src/core/containers_utils.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/core/containers\l_utils.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/core/implementation\l/task_executor_utils.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__executor__utils_8cpp.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/core/unit_tests\l/containers_utils_tests.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$containers__utils__tests_8cpp.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="src/database/backends\l/memory_backend/memory\l_backend.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory__backend_8cpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/database/implementation\l/aphoto_change_log_operator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$aphoto__change__log__operator_8cpp.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="src/gui/desktop/ui\l/photos_grouping_dialog.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$photos__grouping__dialog_8cpp.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="src/gui/desktop/utils\l/people_manipulator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$people__manipulator_8cpp.html",tooltip=" "];
+}

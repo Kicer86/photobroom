@@ -1,0 +1,15 @@
+digraph "Database::ASqlBackend::addPhotos"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Database::ASqlBackend\l::addPhotos",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Add photos to database."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::ASqlBackend\l::insert",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a1d64f8cd8f9f51280302d9d51f314138",tooltip="insert set of photos to database"];
+  Node2 -> Node34 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="Database::ASqlBackend\l::openTransaction",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2",tooltip="begin transaction"];
+  Node1 -> Node34 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node36 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="Database::NotificationsAccumulator\l::photosAdded",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_notifications_accumulator.html#a550481b59f09818160110559abc98f54",tooltip=" "];
+}

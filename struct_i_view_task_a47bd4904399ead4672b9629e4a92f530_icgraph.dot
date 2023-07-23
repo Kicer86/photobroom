@@ -1,0 +1,15 @@
+digraph "IViewTask::getProgressBar"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="IViewTask::getProgressBar",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="TasksViewUtils::addFutureTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_tasks_view_utils.html#ae8ef4428b4fc785fc7c26e80dd3a6156",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PhotosAnalyzerImpl\l::addPhotos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PhotosAnalyzerImpl\l::PhotosAnalyzerImpl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

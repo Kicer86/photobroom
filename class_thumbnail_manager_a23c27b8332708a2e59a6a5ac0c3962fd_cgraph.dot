@@ -1,0 +1,30 @@
+digraph "ThumbnailManager::fetch"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="ThumbnailManager::fetch",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ObservableTaskExecutor::add",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_observable_task_executor.html#a45ae8c431e00a9e2b245ba2db9845d01",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ThumbnailManager::cache",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_thumbnail_manager.html#a48248deb9928c5aa44e271f177e5f2d4",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Parameters::databaseThumbnailSize",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_parameters.html#a2972f2483cb9fecdd3c2b201e15c4a30",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="evaluate",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$task__executor__utils_8hpp.html#ab600807ae28e81f2270dbd0213fd64bd",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="ThumbnailManager::find",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_thumbnail_manager.html#a7c97ab9eebab7904b0d6e8708d107d5f",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="IThumbnailsGenerator\l::generate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_i_thumbnails_generator.html#a9cb5f9d451440a1d5edbe228f01b0595",tooltip=" "];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="IThumbnailsGenerator\l::generateFrom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_i_thumbnails_generator.html#a7d4be3063adc1034883d8b48b53ca4c4",tooltip=" "];
+  Node1 -> Node12 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Database::IBackend\l::getThumbnail",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_database_1_1_i_backend.html#a36c1fc6a695f6e96760cb162d2393b9b",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="inlineTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$task__executor__utils_8cpp.html#a213d4c21978f3576665b6a549ed09c78",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="safe_callback_ctrl\l::make_safe_callback",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsafe__callback__ctrl.html#a18e58df2b8d236902a4ed694e1320e1d",tooltip=" "];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="Database::IBackend\l::setThumbnail",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_database_1_1_i_backend.html#a3aad05e09be92379edec72e60b095cea",tooltip=" "];
+}

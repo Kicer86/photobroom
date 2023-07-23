@@ -1,0 +1,23 @@
+digraph "TagValue::type"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="TagValue::type",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="TagValue::fromQVariant",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_tag_value.html#aa97dabc4424d27970dbf07bbecb725da",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="TagValue::fromRaw",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_tag_value.html#a23a09559a3f5de9a89b8a237fc2af081",tooltip=" "];
+  Node7 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="TEST_P",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tag__value__tests_8cpp.html#ac8d3bbe646f874b92387cb698b813369",tooltip=" "];
+  Node1 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="TagValue::fromString",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_tag_value.html#a989549d8434452524c96bd618ac4b069",tooltip=" "];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="Database::ASqlBackend\l::store",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5",tooltip="add tag to photo"];
+  Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="TEST",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tag__value__tests_8cpp.html#a9b445ea8e91ff02c21fabce30beaa587",tooltip=" "];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="Database::SqlFilterQuery\lGenerator::visit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_sql_filter_query_generator.html#a2b5439ac65bf6011b132f8f4200aecd9",tooltip=" "];
+}

@@ -1,0 +1,19 @@
+digraph "src/database/database_executor_traits.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/database\l_executor_traits.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/database/database\l_tools/implementation\l/series_detector.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$series__detector_8cpp.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/gui/desktop/models\l/series_model.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$series__model_8cpp.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="src/gui/desktop/quick\l_items/context_menu_manager.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$context__menu__manager_8cpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/gui/desktop/ui\l/mainwindow.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mainwindow_8cpp.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="src/gui/desktop/utils\l/people_manipulator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$people__manipulator_8cpp.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="src/gui/desktop/utils\l/thumbnail_manager.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$thumbnail__manager_8cpp.html",tooltip=" "];
+}

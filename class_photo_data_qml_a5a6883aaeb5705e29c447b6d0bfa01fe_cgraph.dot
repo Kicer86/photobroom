@@ -1,0 +1,22 @@
+digraph "PhotoDataQml::setPhotoData"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="PhotoDataQml::setPhotoData",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotoDataQml::getFlags",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photo_data_qml.html#a0d12bcb6ffdad1cc29f4e9cea53ec47f",tooltip="access to flags as a QML compatible map"];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Photo::DataDelta::getId",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photo_1_1_data_delta.html#a8dbb1d880f0c0b37a9629fae8d098413",tooltip=" "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Id::valid",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_id.html#aa535d6564e027b5889869dcb10093bed",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Photo::DataDelta::has",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photo_1_1_data_delta.html#a526b9c664ac0f9be3661a67ff2343401",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="PhotoDataQml::isGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photo_data_qml.html#ab1034364057bf340170712083e0d2c83",tooltip=" "];
+  Node7 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

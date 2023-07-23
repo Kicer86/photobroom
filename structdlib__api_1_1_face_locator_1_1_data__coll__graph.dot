@@ -1,0 +1,12 @@
+digraph "dlib_api::FaceLocator::Data"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="dlib_api::FaceLocator\l::Data",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" hog_face_detector" ,fontname="Helvetica"];
+  Node2 [label="lazy_ptr\< dlib::frontal\l_face_detector, decltype\l(&dlib::get_frontal_face\l_detector)\>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlazy__ptr.html",tooltip=" "];
+  Node3 -> Node1 [dir="back",color="darkorchid3",fontsize="10",style="dashed",label=" cnn_face_detector" ,fontname="Helvetica"];
+  Node3 [label="lazy_ptr\< dlib_api\l::cnn_face_detection\l_model_v1, decltype(&construct\l_cnn_face_detector)\>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classlazy__ptr.html",tooltip=" "];
+}

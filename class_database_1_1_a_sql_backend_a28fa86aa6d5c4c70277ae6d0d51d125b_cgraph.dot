@@ -1,0 +1,12 @@
+digraph "Database::ASqlBackend::listPeople"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Database::ASqlBackend\l::listPeople",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="get people details for given people ids"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::IPeopleInformation\lAccessor::listPeople",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_i_people_information_accessor.html#ae85c1ddb950bd0f7dfb7c4eaf33aa391",tooltip="list all people names"];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Database::ASqlBackend\l::peopleInformationAccessor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#affedc37c486bf6ef70dbbcec2392ba42",tooltip=" "];
+}

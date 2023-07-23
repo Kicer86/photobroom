@@ -1,0 +1,31 @@
+digraph "DbErrorOnFalse"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="DbErrorOnFalse",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::PhotoChangeLog\lOperator::append",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_photo_change_log_operator.html#a159940cd5cfab82ab1a0e4a5fb8d5799",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Database::ASqlBackend\l::checkStructure",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5",tooltip="validate database consistency"];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Database::ASqlBackend\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a8c4e2051ff9292e1635902200233c954",tooltip="initialize database connection"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="DbErrorOnFalse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ibackend_8hpp.html#a8235a54951cabcb6361b4cb12219f0b3",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Database::ASqlBackend\l::hasCurrentVersionTable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a9786615c15a6e0e878960d5e958012b2",tooltip=" "];
+  Node6 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Database::ASqlBackend\l::introduce",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb",tooltip="create new entry for photo in database"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Database::GroupOperator\l::listGroups",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_group_operator.html#a7769ec373316878bf78bf5c8615438cf",tooltip=" "];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Database::GroupOperator\l::membersOf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_group_operator.html#a6bbdf8576bf3ee2b776b83145de18f6a",tooltip=" "];
+  Node11 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Database::GroupOperator\l::removeGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="Database::ASqlBackend\l::update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a983b2800e084c638d48fcf6e07d280c2",tooltip="update photos details"];
+}

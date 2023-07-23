@@ -1,0 +1,15 @@
+digraph "GeneratorUtils::BreakableTask::canceled"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="GeneratorUtils::Breakable\lTask::canceled",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="GeneratorUtils::Breakable\lTask::BreakableTask",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_generator_utils_1_1_breakable_task.html#ac22bf1913360d3f058683ebd903dd338",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="GeneratorUtils::Breakable\lTask::cancel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_generator_utils_1_1_breakable_task.html#ad1457cb4804912ddc9e061cbdec09dbf",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PhotosGroupingDialog\l::startTask",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

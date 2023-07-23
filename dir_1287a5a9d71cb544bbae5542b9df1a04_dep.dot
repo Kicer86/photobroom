@@ -1,0 +1,11 @@
+digraph "src/crash_catcher" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_68267d1309a1af8e8297ef4c3efbcdba {
+    graph [ bgcolor="#ddddee", pencolor="black", label="src" fontname="Helvetica", fontsize="10", URL="dir_68267d1309a1af8e8297ef4c3efbcdba.html"]
+  dir_aebb8dcc11953d78e620bbef0b9e2183 [shape=box label="core" fillcolor="white" style="filled" color="red" URL="dir_aebb8dcc11953d78e620bbef0b9e2183.html"];
+  dir_1287a5a9d71cb544bbae5542b9df1a04 [shape=box, label="crash_catcher", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_1287a5a9d71cb544bbae5542b9df1a04.html"];
+  }
+  dir_1287a5a9d71cb544bbae5542b9df1a04->dir_aebb8dcc11953d78e620bbef0b9e2183 [headlabel="1", labeldistance=1.5 headhref="dir_000009_000001.html"];
+}

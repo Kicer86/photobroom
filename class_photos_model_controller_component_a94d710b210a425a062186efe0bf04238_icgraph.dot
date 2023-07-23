@@ -1,0 +1,22 @@
+digraph "PhotosModelControllerComponent::updateModelFilters"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="PhotosModelControllerComponent\l::updateModelFilters",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotosModelControllerComponent\l::markPhotosAsReviewed",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#aa27d6c4f3ce129b777554aeadcc122b2",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PhotosModelControllerComponent\l::PhotosModelControllerComponent",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#a052b444533a1b1f82edcaf68d3aba69e",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="PhotosModelControllerComponent\l::setCategory",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#a066f0ae57b78c028f0dd53aed1cd519f",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="PhotosModelControllerComponent\l::setRankFrom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#ad63ebe94a263a26c800bd70cc167d3f8",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="PhotosModelControllerComponent\l::setRankTo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#afe131f2b99e7fbd76cb325b616d2fdbc",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="PhotosModelControllerComponent\l::setTimeViewFrom",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#adfc8e17ca190278b3d9307e8b1ac35fb",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="PhotosModelControllerComponent\l::setTimeViewTo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#af5a6cb9198e789dd1cf8e93f511d4e95",tooltip=" "];
+}

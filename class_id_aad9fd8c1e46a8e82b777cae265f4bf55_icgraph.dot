@@ -1,0 +1,10 @@
+digraph "Id::next"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Id::next",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="NotificationsModel\l::insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_notifications_model.html#a14ecea098d975f338e328d6662ddfa9e",tooltip=" "];
+}

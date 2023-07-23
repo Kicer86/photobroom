@@ -1,0 +1,33 @@
+digraph "src/database/iphoto_operator.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/iphoto\l_operator.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/database/backends\l/memory_backend/memory\l_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$memory__backend_8hpp.html",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="src/database/backends\l/sql_backends/photo_operator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$photo__operator_8hpp.html",tooltip=" "];
+  Node1 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="src/database/database\l_tools/implementation\l/photos_analyzer.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$photos__analyzer_8cpp.html",tooltip=" "];
+  Node1 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="src/database/database\l_tools/implementation\l/photos_data_guesser.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$photos__data__guesser_8cpp.html",tooltip=" "];
+  Node1 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="src/database/database\l_tools/implementation\l/series_detector.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$series__detector_8cpp.html",tooltip=" "];
+  Node1 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="src/database/implementation\l/async_database.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$async__database_8cpp.html",tooltip=" "];
+  Node1 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="src/gui/desktop/models\l/duplicates_model.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$duplicates__model_8cpp.html",tooltip=" "];
+  Node1 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="src/gui/desktop/models\l/flat_model.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flat__model_8cpp.html",tooltip=" "];
+  Node1 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="src/gui/desktop/quick\l_items/photos_model_controller\l_component.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$photos__model__controller__component_8cpp.html",tooltip=" "];
+  Node1 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="src/gui/desktop/utils\l/collection_scanner.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$collection__scanner_8cpp.html",tooltip=" "];
+  Node1 -> Node37 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node37 [label="src/gui/desktop/utils\l/groups_manager.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$groups__manager_8cpp.html",tooltip=" "];
+  Node1 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="src/unit_tests_utils\l/mock_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__backend_8hpp.html",tooltip=" "];
+  Node1 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="src/unit_tests_utils\l/mock_photo_operator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__photo__operator_8hpp.html",tooltip=" "];
+}

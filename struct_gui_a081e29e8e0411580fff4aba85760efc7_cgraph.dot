@@ -1,0 +1,14 @@
+digraph "Gui::Gui"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Gui::Gui",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ObjectsAccessor::instance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_objects_accessor.html#adcde9d95f2bbdd55714d9bd9bb3efce4",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="register_qml_types",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$qml__setup_8cpp.html#a24f07940147a62fd0531800f0967d8ec",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="ObjectsAccessor::setCore\lFactory",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_objects_accessor.html#aac773b379a00b10448ebe91aff24c1a4",tooltip=" "];
+}

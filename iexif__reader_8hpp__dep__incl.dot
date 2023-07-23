@@ -1,0 +1,50 @@
+digraph "src/core/iexif_reader.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/core/iexif_reader.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/core/exif_reader\l_factory.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$exif__reader__factory_8hpp.html",tooltip=" "];
+  Node2 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/core/implementation\l/exif_reader_factory.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$exif__reader__factory_8cpp.html",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="src/core/implementation\l/aexif_reader.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$aexif__reader_8hpp.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="src/core/implementation\l/image_media_information.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$image__media__information_8cpp.html",tooltip=" "];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="src/core/implementation\l/image_media_information.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$image__media__information_8hpp.html",tooltip=" "];
+  Node15 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="src/core/implementation\l/image_tools.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$image__tools_8cpp.html",tooltip=" "];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="src/core/implementation\l/oriented_image.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$oriented__image_8cpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/core/implementation\l/thumbnail_generator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$thumbnail__generator_8cpp.html",tooltip=" "];
+  Node1 -> Node19 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node19 [label="src/database/database\l_tools/implementation\l/series_detector.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$series__detector_8cpp.html",tooltip=" "];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="src/face_recognition\l/face_recognition.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$face__recognition_8cpp.html",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="src/gui/desktop/models\l/faces_model.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$faces__model_8cpp.html",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="src/gui/desktop/models\l/series_model.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$series__model_8cpp.html",tooltip=" "];
+  Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="src/gui/desktop/ui\l/photos_grouping_dialog.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$photos__grouping__dialog_8cpp.html",tooltip=" "];
+  Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="src/gui/desktop/utils\l/grouppers/collage_generator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$collage__generator_8hpp.html",tooltip=" "];
+  Node24 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="src/gui/desktop/utils\l/grouppers/generator\l_utils.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$generator__utils_8cpp.html",tooltip=" "];
+  Node1 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="src/gui/desktop/utils\l/groups_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$groups__manager_8hpp.html",tooltip=" "];
+  Node29 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="src/gui/desktop/utils\l/people_manipulator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$people__manipulator_8cpp.html",tooltip=" "];
+  Node1 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="src/unit_tests_utils\l/mock_exif_reader.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__exif__reader_8hpp.html",tooltip=" "];
+  Node1 -> Node35 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="src/unit_tests_utils\l/mock_exif_reader_factory.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mock__exif__reader__factory_8hpp.html",tooltip=" "];
+}

@@ -1,0 +1,36 @@
+digraph "src/core/icore_factory_accessor.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/core/icore_factory\l_accessor.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/core/core_factory\l_accessor.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$core__factory__accessor_8hpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/core/implementation\l/media_information.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$media__information_8cpp.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="src/database/database\l_tools/implementation\l/photos_analyzer.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$photos__analyzer_8cpp.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="src/face_recognition\l/face_recognition.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$face__recognition_8cpp.html",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="src/gui/desktop/gui.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$gui_8cpp.html",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="src/gui/desktop/models\l/faces_model.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$faces__model_8cpp.html",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="src/gui/desktop/models\l/faces_model.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$faces__model_8hpp.html",tooltip=" "];
+  Node10 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="src/gui/desktop/models\l/series_model.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$series__model_8hpp.html",tooltip=" "];
+  Node1 -> Node16 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="src/gui/desktop/quick\l_items/context_menu_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$context__menu__manager_8hpp.html",tooltip=" "];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="src/gui/desktop/quick\l_items/objects_accessor.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$objects__accessor_8hpp.html",tooltip=" "];
+  Node18 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="src/gui/desktop/ui\l/mainwindow.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mainwindow_8cpp.html",tooltip=" "];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="src/gui/desktop/utils\l/people_manipulator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$people__manipulator_8cpp.html",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="src/unit_tests_utils\l/mock_core_factory_accessor.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mock__core__factory__accessor_8hpp.html",tooltip=" "];
+}

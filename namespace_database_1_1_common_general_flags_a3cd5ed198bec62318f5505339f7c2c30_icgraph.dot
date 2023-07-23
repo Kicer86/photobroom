@@ -1,0 +1,20 @@
+digraph "Database::CommonGeneralFlags::State"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Database::CommonGeneralFlags\l::State",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotosModelControllerComponent\l::allFilters",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#af3274daced5a79ff926ed999e93cd1f6",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Database::getValidPhotos\lFilter",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7",tooltip="return filter which will filter out broken photos (missing, broken, deleted etc)"];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="CollectionScanner::\lperformAnalysis",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2",tooltip=" "];
+  Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="Database::ASqlBackend\l::prune",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e",tooltip=" "];
+  Node1 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="Database::PhotoOperator\l::removePhotos",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1",tooltip=" "];
+  Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="CollectionScanner::scan",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a",tooltip=" "];
+}

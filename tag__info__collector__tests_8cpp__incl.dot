@@ -1,0 +1,23 @@
+digraph "src/database/unit_tests/tag_info_collector_tests.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/unit_tests\l/tag_info_collector_tests.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="gtest/gtest.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="core/base_tags.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$base__tags_8hpp.html",tooltip=" "];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="QDate",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="QTime",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="database_tools/tag\l_info_collector.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$tag__info__collector_8hpp.html",tooltip=" "];
+  Node1 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="unit_tests_utils/mock\l_database.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__database_8hpp.html",tooltip=" "];
+  Node1 -> Node61 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node61 [label="unit_tests_utils/mock\l_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__backend_8hpp.html",tooltip=" "];
+  Node1 -> Node67 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node67 [label="unit_tests_utils/empty\l_logger.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$empty__logger_8hpp.html",tooltip=" "];
+}

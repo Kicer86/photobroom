@@ -1,0 +1,28 @@
+digraph "Database::UpdateQueryData::addCondition"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Database::UpdateQueryData\l::addCondition",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::ASqlBackend::set",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a",tooltip="set flag for photo to given value"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Database::PhotoOperator\l::setPHash",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Database::ASqlBackend\l::setThumbnail",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#ada5bd4aac9dc99f381b3404a45df4c09",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Database::PeopleInformation\lAccessor::store",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91",tooltip="Store or update person."];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Database::ASqlBackend\l::store",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5",tooltip="add tag to photo"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Database::ASqlBackend\l::storeFlags",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a0ff78d8d57a9eae0213f2f837ddfc6b8",tooltip="store photo's flags"];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Database::ASqlBackend\l::storeGeometryFor",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a5e2dade3290d318258ea503ee1e409cc",tooltip="store photo's dimensions"];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="Database::ASqlBackend\l::storeGroup",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235",tooltip="store photo's group details"];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="Database::PeopleInformation\lAccessor::storePerson",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd",tooltip="store or update person details in database"];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="TEST",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$generic__sql__query__constructor__tests_8cpp.html#a3eb6598a51e35425b409e6e7976d4daf",tooltip=" "];
+}

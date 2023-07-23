@@ -1,0 +1,41 @@
+digraph "invokeMethod"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="invokeMethod",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ObservablesRegistry::add",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_observables_registry.html#a83278e3a050e96cb57bb8a7a3a38e52f",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PhotosAnalyzerImpl\l::addPhotos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b",tooltip=" "];
+  Node4 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="PhotosAnalyzerImpl\l::PhotosAnalyzerImpl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="call_from_this_thread",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$function__wrappers_8hpp.html#aecc0f8e40ad9d2f3d207ab496a72e961",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="CollectionScanner::\lcheckIfReady",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_collection_scanner.html#a6a86b486a44501010ddec4e8fd9c0d1a",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="FacesModel::FacesModel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_faces_model.html#ade2659609aa57a001733a7ed662ed074",tooltip=" "];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="FlatModel::fetchMatching\lPhotos",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0",tooltip=" "];
+  Node1 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="FlatModel::fetchPhotoProperties",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_flat_model.html#a7b363b60e1ec6b187585a70b748b30f5",tooltip=" "];
+  Node1 -> Node36 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node36 [label="PeopleManipulator::\lfindFaces_thrd",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_people_manipulator.html#adb1261c6f429ca2846f4226b5bc82251",tooltip=" "];
+  Node1 -> Node39 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node39 [label="PhotosModelControllerComponent\l::getTimeRangeForFilters",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="PhotosModelControllerComponent\l::markPhotosAsReviewed",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#aa27d6c4f3ce129b777554aeadcc122b2",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node41 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="PhotosDataGuesser::\lprocess",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_data_guesser.html#a412946143edadd31700d199cbc86205a",tooltip=" "];
+  Node1 -> Node43 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node43 [label="PhotosDataGuesser::\lprocessIds",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_data_guesser.html#a0c4d77b18414fe4f4612e187c13c5f20",tooltip=" "];
+  Node1 -> Node45 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="queued_slot",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$function__wrappers_8hpp.html#abd23a637b1d3daa9ac833b9305d6da20",tooltip=" "];
+  Node1 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="PeopleManipulator::\lrecognizeFaces_thrd",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_people_manipulator.html#af47d2d92d0cb2becfb199f67cd4cb48c",tooltip=" "];
+  Node1 -> Node49 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="MediaViewCtrl::setSource",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_media_view_ctrl.html#a98d9275bf877422453e14e46d1bbaf09",tooltip=" "];
+}

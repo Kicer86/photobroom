@@ -1,0 +1,50 @@
+digraph "src/database/ibackend.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/ibackend.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/database/backends\l/memory_backend/memory\l_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$memory__backend_8hpp.html",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="src/database/backends\l/sql_backends/group_operator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$group__operator_8cpp.html",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="src/database/backends\l/sql_backends/photo_change\l_log_operator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$photo__change__log__operator_8cpp.html",tooltip=" "];
+  Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="src/database/backends\l/sql_backends/photo_operator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$photo__operator_8cpp.html",tooltip=" "];
+  Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="src/database/backends\l/sql_backends/sql_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$sql__backend_8hpp.html",tooltip=" "];
+  Node1 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="src/database/database\l_tools/common_backend\l_operations.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$common__backend__operations_8hpp.html",tooltip=" "];
+  Node1 -> Node31 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="src/database/database\l_tools/implementation\l/json_to_backend.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$json__to__backend_8cpp.html",tooltip=" "];
+  Node1 -> Node32 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="src/database/database\l_tools/implementation\l/series_detector.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$series__detector_8cpp.html",tooltip=" "];
+  Node1 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="src/database/idatabase.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$idatabase_8hpp.html",tooltip=" "];
+  Node33 -> Node69 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node69 [label="src/database/implementation\l/async_database.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$async__database_8hpp.html",tooltip=" "];
+  Node69 -> Node70 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node70 [label="src/database/implementation\l/async_database.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$async__database_8cpp.html",tooltip=" "];
+  Node69 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node59 [label="src/database/implementation\l/database_builder.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$database__builder_8cpp.html",tooltip=" "];
+  Node33 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 -> Node72 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node72 [label="src/database/unit_tests\l/databaseTests.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$database_tests_8cpp.html",tooltip=" "];
+  Node33 -> Node73 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node73 [label="src/face_recognition\l/face_recognition.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$face__recognition_8cpp.html",tooltip=" "];
+  Node33 -> Node78 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 [label="src/gui/desktop/models\l/flat_model.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$flat__model_8cpp.html",tooltip=" "];
+  Node1 -> Node70 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node69 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node59 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node72 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node104 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node104 [label="src/database/unit_tests\l/db_error_tests.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$db__error__tests_8cpp.html",tooltip=" "];
+  Node1 -> Node73 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node78 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="src/gui/desktop/utils\l/people_manipulator.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$people__manipulator_8cpp.html",tooltip=" "];
+  Node1 -> Node105 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node105 [label="src/unit_tests_utils\l/mock_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__backend_8hpp.html",tooltip=" "];
+}

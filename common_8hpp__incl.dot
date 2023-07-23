@@ -1,0 +1,21 @@
+digraph "src/database/unit_tests_for_backends/common.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/unit_tests\l_for_backends/common.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="QTemporaryDir",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="gtest/gtest.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="gmock/gmock.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="backends/sql_backends\l/sqlite_backend/backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$sqlite__backend_2backend_8hpp.html",tooltip=" "];
+  Node1 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="backends/memory_backend\l/memory_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$memory__backend_8hpp.html",tooltip=" "];
+  Node1 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="project_info.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$project__info_8hpp.html",tooltip=" "];
+  Node1 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="unit_tests_utils/empty\l_logger.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$empty__logger_8hpp.html",tooltip=" "];
+}

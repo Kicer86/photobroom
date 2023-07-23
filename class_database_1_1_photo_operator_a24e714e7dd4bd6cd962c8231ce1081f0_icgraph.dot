@@ -1,0 +1,10 @@
+digraph "Database::PhotoOperator::getPhotos"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Database::PhotoOperator\l::getPhotos",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="find all photos matching filters"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::ASqlBackend\l::markStagedAsReviewed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a8e3356b06cf60068593e13c0997b85e6",tooltip="mark all staged photos as reviewed."];
+}

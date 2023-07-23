@@ -1,0 +1,27 @@
+digraph "src/database/explicit_photo_delta.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/explicit\l_photo_delta.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/database/database\l_tools/series_candidate.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$series__candidate_8hpp.html",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="src/database/ibackend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ibackend_8hpp.html",tooltip=" "];
+  Node1 -> Node108 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node108 [label="src/database/photo\l_utils.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$photo__utils_8hpp.html",tooltip=" "];
+  Node1 -> Node111 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node111 [label="src/database/unit_tests\l/explicit_photo_delta\l_tests.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$explicit__photo__delta__tests_8cpp.html",tooltip=" "];
+  Node1 -> Node112 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node112 [label="src/gui/desktop/models\l/aphoto_data_model.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$aphoto__data__model_8hpp.html",tooltip=" "];
+  Node1 -> Node115 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node115 [label="src/gui/desktop/models\l/itags_operator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$itags__operator_8hpp.html",tooltip=" "];
+  Node1 -> Node53 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="src/gui/desktop/models\l/photo_properties_model.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$photo__properties__model_8hpp.html",tooltip=" "];
+  Node1 -> Node57 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="src/gui/desktop/quick\l_items/context_menu_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$context__menu__manager_8hpp.html",tooltip=" "];
+  Node1 -> Node116 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node116 [label="src/gui/desktop/ui\l/photos_grouping_dialog.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$photos__grouping__dialog_8hpp.html",tooltip=" "];
+  Node1 -> Node118 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node118 [label="src/gui/desktop/utils\l/groups_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$groups__manager_8hpp.html",tooltip=" "];
+}

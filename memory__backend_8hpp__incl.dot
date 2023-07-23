@@ -1,0 +1,19 @@
+digraph "src/database/backends/memory_backend/memory_backend.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/backends\l/memory_backend/memory\l_backend.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="database/aphoto_change\l_log_operator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$aphoto__change__log__operator_8hpp.html",tooltip=" "];
+  Node1 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="database/apeople_information\l_accessor.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$apeople__information__accessor_8hpp.html",tooltip=" "];
+  Node1 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node32 [label="database/ibackend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ibackend_8hpp.html",tooltip=" "];
+  Node1 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="database/igroup_operator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$igroup__operator_8hpp.html",tooltip=" "];
+  Node1 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="database/iphoto_operator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$iphoto__operator_8hpp.html",tooltip=" "];
+  Node1 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="database_memory_backend\l_export.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+}

@@ -1,0 +1,16 @@
+digraph "src/gui/desktop/models/photo_properties_model.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/gui/desktop/models\l/photo_properties_model.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="QStandardItemModel",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="database/idatabase.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$idatabase_8hpp.html",tooltip=" "];
+  Node1 -> Node40 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="explicit_photo_delta.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$explicit__photo__delta_8hpp.html",tooltip=" "];
+  Node1 -> Node45 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node45 [label="database/database_tools\l/id_to_data_converter.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$id__to__data__converter_8hpp.html",tooltip=" "];
+  Node45 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

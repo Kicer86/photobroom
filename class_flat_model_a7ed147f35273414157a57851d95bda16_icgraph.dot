@@ -1,0 +1,12 @@
+digraph "FlatModel::parent"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="FlatModel::parent",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="FlatModel::columnCount",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_flat_model.html#a9bfa27c0da4c51942e8600aa04411925",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="FlatModel::rowCount",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_flat_model.html#abeb2d563300749d664eaf2d817d5a545",tooltip=" "];
+}

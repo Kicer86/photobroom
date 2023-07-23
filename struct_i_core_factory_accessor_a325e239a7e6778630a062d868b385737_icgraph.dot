@@ -1,0 +1,14 @@
+digraph "ICoreFactoryAccessor::getExifReaderFactory"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="ICoreFactoryAccessor\l::getExifReaderFactory",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="SeriesModel::fetchGroups",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_series_model.html#a8cdebcca8d2065de2c839755cc238875",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PeopleManipulator::\lfindFaces_thrd",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_people_manipulator.html#adb1261c6f429ca2846f4226b5bc82251",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="ContextMenuManager\l::manageGroupsAction",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3",tooltip=" "];
+}

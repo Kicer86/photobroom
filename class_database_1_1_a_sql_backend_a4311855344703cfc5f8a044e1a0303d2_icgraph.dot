@@ -1,0 +1,21 @@
+digraph "Database::ASqlBackend::openTransaction"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Database::ASqlBackend\l::openTransaction",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="begin transaction"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::ASqlBackend\l::addPhotos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a2564c757e1cb2fa493a1905b0c4993be",tooltip="Add photos to database."];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Database::ASqlBackend\l::checkStructure",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5",tooltip="validate database consistency"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Database::ASqlBackend\l::insert",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a1d64f8cd8f9f51280302d9d51f314138",tooltip="insert set of photos to database"];
+  Node5 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Database::ASqlBackend\l::prune",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Database::ASqlBackend::set",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a",tooltip="set flag for photo to given value"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Database::ASqlBackend\l::update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a983b2800e084c638d48fcf6e07d280c2",tooltip="update photos details"];
+}

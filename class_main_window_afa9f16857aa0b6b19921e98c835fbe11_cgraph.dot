@@ -1,0 +1,23 @@
+digraph "MainWindow::MainWindow"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="MainWindow::MainWindow",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ObjectsAccessor::instance",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_objects_accessor.html#adcde9d95f2bbdd55714d9bd9bb3efce4",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="MainWindow::registerConfigTab",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_main_window.html#ac773ed5064d37ccb8db2057313035e8a",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="CompleterFactory::set",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_completer_factory.html#a962747354de1050a4ebb445a4dec48f7",tooltip=" "];
+  Node1 -> Node22 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="ObjectsAccessor::setProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_objects_accessor.html#a887c236ace3f47fcdd493c2513ebf318",tooltip=" "];
+  Node1 -> Node23 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="MainWindow::setupConfig",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_main_window.html#a656a2e3b8f29394d7776c1fa26673c7d",tooltip=" "];
+  Node1 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="MainWindow::setupQmlView",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_main_window.html#abdb7e953826f7dcf308d32ddc75c3109",tooltip=" "];
+  Node28 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="MainWindow::updateGui",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_main_window.html#a15918b5da6cc172b4d4beefdd0f6e4bc",tooltip=" "];
+}

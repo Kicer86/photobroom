@@ -1,0 +1,12 @@
+digraph "ExiftoolUtils::parseOutput"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="ExiftoolUtils::parseOutput",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="VideoMediaInformation\l::getInformation",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_video_media_information.html#aff55ed26988978d5c685119f7ecda2ca",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="TEST",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$exiftool__video__details__reader__tests_8cpp.html#ad9a9f43d3187d515e345cbfe4f5472bb",tooltip=" "];
+}

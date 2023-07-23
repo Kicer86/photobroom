@@ -1,0 +1,46 @@
+digraph "src/database/implementation/database_builder.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/implementation\l/database_builder.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="database_builder.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$database__builder_8hpp.html",tooltip=" "];
+  Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="memory",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node15 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="cassert",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node46 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="fstream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="map",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node47 [label="core/ilogger.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ilogger_8hpp.html",tooltip=" "];
+  Node47 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node49 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 [label="core/ilogger_factory.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ilogger__factory_8hpp.html",tooltip=" "];
+  Node49 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node49 -> Node47 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="plugins/plugin_loader.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$plugin__loader_8hpp.html",tooltip=" "];
+  Node51 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node53 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node53 [label="async_database.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$async__database_8hpp.html",tooltip=" "];
+  Node53 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="idatabase.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$idatabase_8hpp.html",tooltip=" "];
+  Node8 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="ibackend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ibackend_8hpp.html",tooltip=" "];
+  Node53 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="idatabase_plugin.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$idatabase__plugin_8hpp.html",tooltip=" "];
+  Node55 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node38 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="project_info.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$project__info_8hpp.html",tooltip=" "];
+  Node1 -> Node57 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="observable_database.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$observable__database_8hpp.html",tooltip=" "];
+  Node57 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

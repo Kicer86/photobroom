@@ -1,0 +1,12 @@
+digraph "ProjectInfo::isValid"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="ProjectInfo::isValid",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ProjectCreator::create",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_project_creator.html#ac44110bce200c391b2e2c70d6c2ad177",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="MainWindow::openProject",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_main_window.html#aabba421121a791ec3aa10a742f37790a",tooltip=" "];
+}

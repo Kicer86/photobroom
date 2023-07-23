@@ -1,0 +1,14 @@
+digraph "Logger::log"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Logger::log",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Logger::currentDate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_logger.html#ac081f8418a867effa33c9270d5a2bf9a",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Logger::currentTime",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_logger.html#aef8a5056cd0825cb3415656546cf59a9",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Logger::severity",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_logger.html#a48a9dffeb9b376df414ea5021af387c2",tooltip=" "];
+}

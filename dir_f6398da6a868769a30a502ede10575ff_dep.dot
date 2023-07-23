@@ -1,0 +1,9 @@
+digraph "src/photos_crawler/implementation" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_cd4256b70439b2dfe0a5064303101a2f {
+    graph [ bgcolor="#ddddee", pencolor="black", label="photos_crawler" fontname="Helvetica", fontsize="10", URL="dir_cd4256b70439b2dfe0a5064303101a2f.html"]
+  dir_f6398da6a868769a30a502ede10575ff [shape=box, label="implementation", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_f6398da6a868769a30a502ede10575ff.html"];
+  }
+}

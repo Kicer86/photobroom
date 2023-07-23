@@ -1,0 +1,23 @@
+var searchData=
+[
+  ['data_5fdelta_5ftests_2ecpp_2870',['data_delta_tests.cpp',['../data__delta__tests_8cpp.html',1,'']]],
+  ['data_5ffrom_5fpath_5fextractor_2ecpp_2871',['data_from_path_extractor.cpp',['../data__from__path__extractor_8cpp.html',1,'']]],
+  ['data_5ffrom_5fpath_5fextractor_2ehpp_2872',['data_from_path_extractor.hpp',['../data__from__path__extractor_8hpp.html',1,'']]],
+  ['data_5ffrom_5fpath_5fextractor_5ftests_2ecpp_2873',['data_from_path_extractor_tests.cpp',['../data__from__path__extractor__tests_8cpp.html',1,'']]],
+  ['data_5fptr_2ehpp_2874',['data_ptr.hpp',['../data__ptr_8hpp.html',1,'']]],
+  ['database_5fbuilder_2ecpp_2875',['database_builder.cpp',['../database__builder_8cpp.html',1,'']]],
+  ['database_5fbuilder_2ehpp_2876',['database_builder.hpp',['../database__builder_8hpp.html',1,'']]],
+  ['database_5fexecutor_5ftraits_2ehpp_2877',['database_executor_traits.hpp',['../database__executor__traits_8hpp.html',1,'']]],
+  ['database_5fqueue_2ecpp_2878',['database_queue.cpp',['../database__queue_8cpp.html',1,'']]],
+  ['database_5fqueue_2ehpp_2879',['database_queue.hpp',['../database__queue_8hpp.html',1,'']]],
+  ['database_5fstatus_2ehpp_2880',['database_status.hpp',['../database__status_8hpp.html',1,'']]],
+  ['databasetests_2ecpp_2881',['databaseTests.cpp',['../database_tests_8cpp.html',1,'']]],
+  ['db_5ferror_5ftests_2ecpp_2882',['db_error_tests.cpp',['../db__error__tests_8cpp.html',1,'']]],
+  ['disk_5fobserver_2ecpp_2883',['disk_observer.cpp',['../disk__observer_8cpp.html',1,'']]],
+  ['disk_5fobserver_2ehpp_2884',['disk_observer.hpp',['../disk__observer_8hpp.html',1,'']]],
+  ['dlib_5fface_5frecognition_5fapi_2ecpp_2885',['dlib_face_recognition_api.cpp',['../dlib__face__recognition__api_8cpp.html',1,'']]],
+  ['dlib_5fface_5frecognition_5fapi_2ehpp_2886',['dlib_face_recognition_api.hpp',['../dlib__face__recognition__api_8hpp.html',1,'']]],
+  ['down_5fcast_2ehpp_2887',['down_cast.hpp',['../down__cast_8hpp.html',1,'']]],
+  ['duplicates_5fmodel_2ecpp_2888',['duplicates_model.cpp',['../duplicates__model_8cpp.html',1,'']]],
+  ['duplicates_5fmodel_2ehpp_2889',['duplicates_model.hpp',['../duplicates__model_8hpp.html',1,'']]]
+];

@@ -1,0 +1,38 @@
+digraph "src/gui/desktop/quick_items/context_menu_manager.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/gui/desktop/quick\l_items/context_menu_manager.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ranges",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="QDesktopServices",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="QFile",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="QFileInfo",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="QUrl",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="core/media_types.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$media__types_8hpp.html",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="core/task_executor\l_utils.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$task__executor__utils_8hpp.html",tooltip=" "];
+  Node1 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="core/ilogger_factory.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ilogger__factory_8hpp.html",tooltip=" "];
+  Node1 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="database/database_executor\l_traits.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$database__executor__traits_8hpp.html",tooltip=" "];
+  Node26 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node63 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node63 [label="database/igroup_operator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$igroup__operator_8hpp.html",tooltip=" "];
+  Node1 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 [label="database/photo_utils.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$photo__utils_8hpp.html",tooltip=" "];
+  Node1 -> Node66 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node66 [label="face_recognition/face\l_recognition.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$face__recognition_8hpp.html",tooltip=" "];
+  Node1 -> Node69 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node69 [label="ui/photos_grouping\l_dialog.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$photos__grouping__dialog_8hpp.html",tooltip=" "];
+  Node1 -> Node75 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node75 [label="utils/groups_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$groups__manager_8hpp.html",tooltip=" "];
+  Node1 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="context_menu_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$context__menu__manager_8hpp.html",tooltip=" "];
+}

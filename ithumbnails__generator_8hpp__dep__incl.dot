@@ -1,0 +1,13 @@
+digraph "src/core/ithumbnails_generator.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/core/ithumbnails\l_generator.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/core/thumbnail\l_generator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$thumbnail__generator_8hpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/gui/desktop/utils\l/thumbnail_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$thumbnail__manager_8hpp.html",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="src/unit_tests_utils\l/mock_thumbnails_generator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__thumbnails__generator_8hpp.html",tooltip=" "];
+}

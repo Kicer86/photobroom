@@ -1,0 +1,30 @@
+digraph "Database::ASqlBackend::checkStructure"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Database::ASqlBackend\l::checkStructure",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="validate database consistency"];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::ASqlBackend\l::checkDBVersion",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#aa1069ca198133cd660ca6a76c5861b81",tooltip="check current db version and upgrade structures if required"];
+  Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Database::ASqlBackend\l::ensureTableExists",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6",tooltip="Make sure given table exists in database."];
+  Node3 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Database::SqlQueryExecutor\l::exec",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94",tooltip=" "];
+  Node2 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="DbErrorOnFalse",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Database::ASqlBackend\l::hasCurrentVersionTable",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a9786615c15a6e0e878960d5e958012b2",tooltip=" "];
+  Node10 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node11 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="Database::ASqlBackend\l::openTransaction",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2",tooltip="begin transaction"];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="Database::db_error\l::status",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1db__error.html#a01059edea5c37cbd55061b53744f4c65",tooltip=" "];
+  Node1 -> Node14 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="Database::db_error\l::what",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1db__error.html#a88263a632a8efef3bb8842281505345a",tooltip=" "];
+}

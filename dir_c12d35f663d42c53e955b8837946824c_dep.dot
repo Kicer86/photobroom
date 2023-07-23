@@ -1,0 +1,9 @@
+digraph "src/photos_crawler/default_filesystem_scanners" {
+  compound=true
+  node [ fontsize="10", fontname="Helvetica"];
+  edge [ labelfontsize="10", labelfontname="Helvetica"];
+  subgraph clusterdir_cd4256b70439b2dfe0a5064303101a2f {
+    graph [ bgcolor="#ddddee", pencolor="black", label="photos_crawler" fontname="Helvetica", fontsize="10", URL="dir_cd4256b70439b2dfe0a5064303101a2f.html"]
+  dir_c12d35f663d42c53e955b8837946824c [shape=box, label="default_filesystem_scanners", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_c12d35f663d42c53e955b8837946824c.html"];
+  }
+}

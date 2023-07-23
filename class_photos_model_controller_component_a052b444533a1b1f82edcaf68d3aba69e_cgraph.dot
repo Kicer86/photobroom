@@ -1,0 +1,10 @@
+digraph "PhotosModelControllerComponent::PhotosModelControllerComponent"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="PhotosModelControllerComponent\l::PhotosModelControllerComponent",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotosModelControllerComponent\l::updateModelFilters",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#a94d710b210a425a062186efe0bf04238",tooltip=" "];
+}

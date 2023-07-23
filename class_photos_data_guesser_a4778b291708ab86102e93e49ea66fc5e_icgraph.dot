@@ -1,0 +1,12 @@
+digraph "PhotosDataGuesser::updateFetchStatus"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="PhotosDataGuesser::\lupdateFetchStatus",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotosDataGuesser::\lperformAnalysis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_data_guesser.html#aa1deadbac16619773fd436a54baee851",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PhotosDataGuesser::\lphotoDataFetched",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_data_guesser.html#a84e61891ba418cc5e87d40d3be4ca59c",tooltip=" "];
+}

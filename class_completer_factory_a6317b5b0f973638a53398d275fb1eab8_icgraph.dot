@@ -1,0 +1,12 @@
+digraph "CompleterFactory::getModelFor"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="CompleterFactory::getModelFor",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="CompleterFactory::access\lModel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_completer_factory.html#a9489e38e33d6bbdc184f86d49c4003a0",tooltip="access model with values for given tag type"];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="CompleterFactory::create\lCompleter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_completer_factory.html#ad8f684eebf006375ceac5e82f863595d",tooltip="create QCompleter for given set of types"];
+}

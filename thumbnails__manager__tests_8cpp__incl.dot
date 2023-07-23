@@ -1,0 +1,34 @@
+digraph "src/gui/unit_tests/utils/thumbnails_manager_tests.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/gui/unit_tests\l/utils/thumbnails_manager\l_tests.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="gmock/gmock.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="QImage",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="core/constants.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$constants_8hpp.html",tooltip=" "];
+  Node1 -> Node8 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="unit_tests_utils/empty\l_logger.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$empty__logger_8hpp.html",tooltip=" "];
+  Node1 -> Node13 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="unit_tests_utils/fake\l_task_executor.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$fake__task__executor_8hpp.html",tooltip=" "];
+  Node1 -> Node16 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node16 [label="unit_tests_utils/mock\l_thumbnails_generator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__thumbnails__generator_8hpp.html",tooltip=" "];
+  Node16 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="unit_tests_utils/mock\l_thumbnails_cache.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__thumbnails__cache_8hpp.html",tooltip=" "];
+  Node18 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="unit_tests_utils/mock\l_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__backend_8hpp.html",tooltip=" "];
+  Node29 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node62 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node62 [label="unit_tests_utils/mock\l_database.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__database_8hpp.html",tooltip=" "];
+  Node62 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node66 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node66 [label="unit_tests_utils/printers.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$printers_8hpp.html",tooltip=" "];
+  Node1 -> Node69 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node69 [label="utils/thumbnail_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$thumbnail__manager_8hpp.html",tooltip=" "];
+  Node69 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

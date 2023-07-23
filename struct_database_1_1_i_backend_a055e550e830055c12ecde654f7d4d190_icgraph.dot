@@ -1,0 +1,14 @@
+digraph "Database::IBackend::groupOperator"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Database::IBackend\l::groupOperator",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="get group operator"];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="GroupsManager::group",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Database::JsonToBackend\l::parseGroups",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="GroupsManager::ungroup",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c",tooltip=" "];
+}

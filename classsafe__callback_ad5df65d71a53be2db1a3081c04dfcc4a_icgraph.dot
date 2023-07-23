@@ -1,0 +1,12 @@
+digraph "safe_callback::is_valid"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="safe_callback::is_valid",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="safe_callback::operator()",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classsafe__callback.html#a30f35a3bdfab9dc429cefa404e6e3605",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="TEST",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$function__wrappers__tests_8cpp.html#ac0952fc8f61269e6296f4261b264e663",tooltip=" "];
+}

@@ -1,0 +1,18 @@
+digraph "ProjectInfo::getBaseDir"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="ProjectInfo::getBaseDir",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotosCollector::collect",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_collector.html#aa402bcaf9beb1d5eb6b9f0e380c33363",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Project::makePathRelative",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_project.html#aebd58bf011ee6412677d72d5d0b6a88a",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="ProjectManager::new_prj",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_project_manager.html#a1b1d9f731deac51d3d9dbb7ef892131a",tooltip=" "];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="ProjectManager::open",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="MainWindow::openProject",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_main_window.html#aabba421121a791ec3aa10a742f37790a",tooltip=" "];
+}

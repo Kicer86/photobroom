@@ -1,0 +1,18 @@
+digraph "PhotosGroupingDialog::PhotosGroupingDialog"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="PhotosGroupingDialog\l::PhotosGroupingDialog",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotosGroupingDialog\l::calculateFPS",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#aea8f68ac5b06f0a246ae6cc04d80e82e",tooltip=" "];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="PhotosGroupingDialog\l::fillModel",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#a5602e18dab61025c041f53bbe3e59254",tooltip=" "];
+  Node1 -> Node9 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="PhotosGroupingDialog\l::previewCancelPressed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#acdd897a76c29645a0d8bdc3eb814e78e",tooltip=" "];
+  Node1 -> Node10 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="PhotosGroupingDialog\l::previewPressed",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#a4fe16c0e98343d75ed8386a35e2f1471",tooltip=" "];
+  Node1 -> Node35 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node35 [label="PhotosGroupingDialog\l::scalePreview",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#ab7e1db7fe4e3ea6211b59044e362c900",tooltip=" "];
+}

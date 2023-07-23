@@ -1,0 +1,14 @@
+digraph "PeopleManipulator::recognizeFaces_thrd_fetch_from_db"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="PeopleManipulator::\lrecognizeFaces_thrd\l_fetch_from_db",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PeopleManipulator::\lfetchFingerprints",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_people_manipulator.html#ad60edc5600e54d3f4960441a1d667a9f",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PeopleManipulator::\lfetchPeopleFromDb",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_people_manipulator.html#afb4a27bdc6c2de2f914bb10e97980dd2",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="PeopleManipulator::\lpersonData",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_people_manipulator.html#affe184d500175172ab8617f0af75981c",tooltip=" "];
+}

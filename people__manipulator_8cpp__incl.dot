@@ -1,0 +1,26 @@
+digraph "src/gui/desktop/utils/people_manipulator.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/gui/desktop/utils\l/people_manipulator.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="people_manipulator.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$people__manipulator_8hpp.html",tooltip=" "];
+  Node1 -> Node50 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node50 [label="QFileInfo",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node51 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node51 [label="core/containers_utils.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$containers__utils_8hpp.html",tooltip=" "];
+  Node1 -> Node54 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node54 [label="core/icore_factory\l_accessor.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$icore__factory__accessor_8hpp.html",tooltip=" "];
+  Node1 -> Node55 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node55 [label="core/iexif_reader.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$iexif__reader_8hpp.html",tooltip=" "];
+  Node1 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node56 [label="core/task_executor\l_utils.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$task__executor__utils_8hpp.html",tooltip=" "];
+  Node1 -> Node42 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node42 [label="ibackend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ibackend_8hpp.html",tooltip=" "];
+  Node1 -> Node63 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node63 [label="database/database_executor\l_traits.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$database__executor__traits_8hpp.html",tooltip=" "];
+  Node63 -> Node56 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node64 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node64 [label="face_recognition/face\l_recognition.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$face__recognition_8hpp.html",tooltip=" "];
+}

@@ -1,0 +1,50 @@
+digraph "Database::ISqlQueryExecutor::exec"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Database::ISqlQueryExecutor\l::exec",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::GroupOperator\l::addGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_group_operator.html#abac9cd6ec0bf898cc604e5fd5d219d67",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Database::PhotoChangeLog\lOperator::append",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_photo_change_log_operator.html#a159940cd5cfab82ab1a0e4a5fb8d5799",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Database::PeopleInformation\lAccessor::dropPersonInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_people_information_accessor.html#a5f8668fcbe1bf1fdaad112f19d418cac",tooltip="drop person details from database"];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Database::PhotoChangeLog\lOperator::dumpChangeLog",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_photo_change_log_operator.html#a7db577a42f476fc38da3d26fd4a9e2b3",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Database::PeopleInformation\lAccessor::fingerprintsFor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_people_information_accessor.html#a6b06fa5412440b034abd1028c43b9d3a",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Database::PhotoOperator\l::getPHash",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_photo_operator.html#afb2efaf2200feb697c51bf35dad19e3d",tooltip=" "];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="Database::PhotoOperator\l::getPhotos",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0",tooltip="find all photos matching filters"];
+  Node1 -> Node17 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node17 [label="Database::PhotoOperator\l::hasPHash",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_photo_operator.html#ab246a44fbe0bef5f8eab10150b74c7c8",tooltip=" "];
+  Node17 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node18 [label="Database::PhotoOperator\l::setPHash",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7",tooltip=" "];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="Database::GroupOperator\l::listGroups",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_group_operator.html#a7769ec373316878bf78bf5c8615438cf",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="Database::PeopleInformation\lAccessor::listPeople",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_people_information_accessor.html#a2fbbd2e205b5ea165f13d6990cce5acd",tooltip="list all people names"];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="Database::GroupOperator\l::membersOf",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_group_operator.html#a6bbdf8576bf3ee2b776b83145de18f6a",tooltip=" "];
+  Node22 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node23 [label="Database::GroupOperator\l::removeGroup",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315",tooltip=" "];
+  Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="Database::PhotoOperator\l::onPhotos",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8",tooltip=" "];
+  Node1 -> Node25 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node25 [label="Database::PeopleInformation\lAccessor::person",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_people_information_accessor.html#a68e4ff266d1c8a9b2ada19811c972ea7",tooltip="get person name for given person id"];
+  Node25 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="Database::PeopleInformation\lAccessor::store",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91",tooltip="Store or update person."];
+  Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="Database::PhotoOperator\l::removePhotos",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1",tooltip=" "];
+  Node1 -> Node18 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node29 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node29 [label="Database::PeopleInformation\lAccessor::storePerson",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd",tooltip="store or update person details in database"];
+  Node1 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="Database::GroupOperator\l::type",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_group_operator.html#a2055bf7c5525db5b31eef31573816f16",tooltip=" "];
+  Node30 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

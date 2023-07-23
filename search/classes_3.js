@@ -1,0 +1,26 @@
+var searchData=
+[
+  ['data_2460',['Data',['../struct_animation_generator_1_1_data.html',1,'AnimationGenerator::Data'],['../struct_database_1_1_insert_query_data_1_1_data.html',1,'Database::InsertQueryData::Data'],['../struct_database_1_1_my_sql_backend_1_1_data.html',1,'Database::MySqlBackend::Data'],['../struct_database_1_1_s_q_lite_backend_1_1_data.html',1,'Database::SQLiteBackend::Data']]],
+  ['data_2461',['data',['../structdlib__api_1_1cnn__face__detection__model__v1_1_1data.html',1,'dlib_api::cnn_face_detection_model_v1::data'],['../structdlib__api_1_1face__recognition__model__v1_1_1data.html',1,'dlib_api::face_recognition_model_v1::data']]],
+  ['data_2462',['Data',['../structdlib__api_1_1_face_encoder_1_1_data.html',1,'dlib_api::FaceEncoder::Data'],['../structdlib__api_1_1_face_locator_1_1_data.html',1,'dlib_api::FaceLocator::Data'],['../struct_face_recognition_1_1_data.html',1,'FaceRecognition::Data'],['../struct_generator_utils_1_1_a_i_s_output_analyzer_1_1_data.html',1,'GeneratorUtils::AISOutputAnalyzer::Data'],['../struct_h_d_r_generator_1_1_data.html',1,'HDRGenerator::Data'],['../struct_photo_1_1_data.html',1,'Photo::Data'],['../struct_time_guardian_1_1_data.html',1,'TimeGuardian::Data']]],
+  ['data_5fptr_2463',['data_ptr',['../classol_1_1data__ptr.html',1,'ol']]],
+  ['data_5fptr_3c_20database_3a_3ainsertquerydata_3a_3adata_20_3e_2464',['data_ptr&lt; Database::InsertQueryData::Data &gt;',['../classol_1_1data__ptr.html',1,'ol']]],
+  ['data_5fptr_3c_20filter_20_3e_2465',['data_ptr&lt; Filter &gt;',['../classol_1_1data__ptr.html',1,'ol']]],
+  ['databasequeue_2466',['DatabaseQueue',['../class_database_1_1_database_queue.html',1,'Database']]],
+  ['databasetest_2467',['DatabaseTest',['../struct_database_test.html',1,'']]],
+  ['datadelta_2468',['DataDelta',['../class_photo_1_1_data_delta.html',1,'Photo']]],
+  ['datafrompathextractor_2469',['DataFromPathExtractor',['../class_data_from_path_extractor.html',1,'']]],
+  ['db_2470',['DB',['../struct_database_1_1_memory_backend_1_1_d_b.html',1,'Database::MemoryBackend']]],
+  ['db_5ferror_2471',['db_error',['../class_database_1_1db__error.html',1,'Database']]],
+  ['dbclosetask_2472',['DbCloseTask',['../struct_database_1_1_db_close_task.html',1,'Database']]],
+  ['deltatypes_2473',['DeltaTypes',['../struct_photo_1_1_delta_types.html',1,'Photo']]],
+  ['deltatypes_3c_20field_3a_3aflags_20_3e_2474',['DeltaTypes&lt; Field::Flags &gt;',['../struct_photo_1_1_delta_types_3_01_field_1_1_flags_01_4.html',1,'Photo']]],
+  ['deltatypes_3c_20field_3a_3ageometry_20_3e_2475',['DeltaTypes&lt; Field::Geometry &gt;',['../struct_photo_1_1_delta_types_3_01_field_1_1_geometry_01_4.html',1,'Photo']]],
+  ['deltatypes_3c_20field_3a_3agroupinfo_20_3e_2476',['DeltaTypes&lt; Field::GroupInfo &gt;',['../struct_photo_1_1_delta_types_3_01_field_1_1_group_info_01_4.html',1,'Photo']]],
+  ['deltatypes_3c_20field_3a_3apath_20_3e_2477',['DeltaTypes&lt; Field::Path &gt;',['../struct_photo_1_1_delta_types_3_01_field_1_1_path_01_4.html',1,'Photo']]],
+  ['deltatypes_3c_20field_3a_3aphash_20_3e_2478',['DeltaTypes&lt; Field::PHash &gt;',['../struct_photo_1_1_delta_types_3_01_field_1_1_p_hash_01_4.html',1,'Photo']]],
+  ['deltatypes_3c_20field_3a_3atags_20_3e_2479',['DeltaTypes&lt; Field::Tags &gt;',['../struct_photo_1_1_delta_types_3_01_field_1_1_tags_01_4.html',1,'Photo']]],
+  ['diskobserver_2480',['DiskObserver',['../class_disk_observer.html',1,'']]],
+  ['dummycallback_2481',['DummyCallback',['../struct_dummy_callback.html',1,'']]],
+  ['duplicatesmodel_2482',['DuplicatesModel',['../class_duplicates_model.html',1,'']]]
+];

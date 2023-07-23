@@ -1,0 +1,18 @@
+digraph "src/database/idatabase_plugin.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/idatabase\l_plugin.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/database/implementation\l/database_builder.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$database__builder_8cpp.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/database/implementation\l/ibackend_qt_interface.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$ibackend__qt__interface_8hpp.html",tooltip=" "];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="src/gui/desktop/widgets\l/project_creator/project\l_creator_dialog.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$project__creator__dialog_8cpp.html",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="src/plugins/implementation\l/plugin_loader.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$plugin__loader_8cpp.html",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="src/project_utils/iproject\l_manager.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$iproject__manager_8hpp.html",tooltip=" "];
+  Node22 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

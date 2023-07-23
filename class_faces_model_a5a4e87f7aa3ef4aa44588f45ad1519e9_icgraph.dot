@@ -1,0 +1,12 @@
+digraph "FacesModel::apply"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="FacesModel::apply",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="FacesModel::setDatabase",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_faces_model.html#ada2f30998287e7fa2cc79d4c79dd2d7a",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="FacesModel::~FacesModel",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_faces_model.html#a2e3f38979a755e135e3357defc231d28",tooltip=" "];
+}

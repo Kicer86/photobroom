@@ -1,0 +1,16 @@
+digraph "Queue::fire"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Queue::fire",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Queue::passTaskToExecutor",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_queue.html#aa584326f16e9e881e19d55d17aa894d6",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="take_back",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$containers__utils_8hpp.html#afca1b9ed616c9f3e12aae29f379f565c",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="take_front",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$containers__utils_8hpp.html#a5dac4e19c39a3637602e9a0054b8fe06",tooltip=" "];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Queue::task_finished\l_notification",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_queue.html#afdebd67db84bdce1ba3ef05d914e183c",tooltip=" "];
+}

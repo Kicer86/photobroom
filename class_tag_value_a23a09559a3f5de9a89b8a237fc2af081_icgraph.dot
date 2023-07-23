@@ -1,0 +1,16 @@
+digraph "TagValue::fromRaw"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="TagValue::fromRaw",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::ASqlBackend\l::getTagsFor",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#adcb6eb7ac6bcd49815d7b7e0f670c602",tooltip="get all tags assigned to photo"];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Database::ASqlBackend\l::listTagValues",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb",tooltip="list all values of tag for photos matching provided filter"];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="TEST",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tag__value__tests_8cpp.html#a40363eb8ad0f181c0b6740f19ed059ff",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="TEST_P",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$tag__value__tests_8cpp.html#ac8d3bbe646f874b92387cb698b813369",tooltip=" "];
+}

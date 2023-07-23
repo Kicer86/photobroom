@@ -1,0 +1,14 @@
+digraph "GroupsManager::includeRepresentatInDatabase"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="GroupsManager::includeRepresentat\lInDatabase",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Project::getProjectInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_project.html#a3a1a781b08d0b4f909ebb644ea279e1d",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="includeFileInPrivateMedia\lLocation",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$misc_8cpp.html#a1462eb2e12722f2967c8b06b31815565",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Project::makePathRelative",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_project.html#aebd58bf011ee6412677d72d5d0b6a88a",tooltip=" "];
+}

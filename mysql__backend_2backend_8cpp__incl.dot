@@ -1,0 +1,29 @@
+digraph "src/database/backends/sql_backends/mysql_backend/backend.cpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/backends\l/sql_backends/mysql_backend\l/backend.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mysql__backend_2backend_8hpp.html",tooltip=" "];
+  Node1 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node41 [label="stdexcept",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node76 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node76 [label="QProcess",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node77 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node77 [label="QSqlDatabase",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node78 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node78 [label="QDir",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node79 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node79 [label="core/iconfiguration.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$iconfiguration_8hpp.html",tooltip=" "];
+  Node1 -> Node80 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node80 [label="database/database_builder.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$database__builder_8hpp.html",tooltip=" "];
+  Node1 -> Node81 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node81 [label="database/project_info.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$project__info_8hpp.html",tooltip=" "];
+  Node1 -> Node65 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node65 [label="table_definition.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$table__definition_8hpp.html",tooltip=" "];
+  Node1 -> Node82 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node82 [label="database/backends/sql\l_backends/query_structs.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$query__structs_8hpp.html",tooltip=" "];
+  Node1 -> Node83 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node83 [label="mysql_server.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mysql__server_8hpp.html",tooltip=" "];
+}

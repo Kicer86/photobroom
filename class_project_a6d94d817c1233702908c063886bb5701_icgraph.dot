@@ -1,0 +1,19 @@
+digraph "Project::getDatabase"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Project::getDatabase",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ObjectsAccessor::database",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_objects_accessor.html#a4b983b925085a2cb58c60627f1e595b2",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="SeriesModel::fetchGroups",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_series_model.html#a8cdebcca8d2065de2c839755cc238875",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="ContextMenuManager\l::manageGroupsAction",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="ContextMenuManager\l::removeGroupOf",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_context_menu_manager.html#a5db0c9d95a29a7a3b0d387a0227f8d1d",tooltip=" "];
+  Node8 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="ContextMenuManager\l::setProject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_context_menu_manager.html#afee82226d8b74d2bd56c575f7c6f10a4",tooltip=" "];
+}

@@ -1,0 +1,56 @@
+digraph "Database::IDatabaseThread::exec"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Database::IDatabaseThread\l::exec",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotosDataGuesser::\lapply",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_data_guesser.html#a0bc34e155153f9a3b4af61c523e0adef",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ExecutorTraits\< Database\l::IDatabase, T \>::exec",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html#a7dcc57585506ca5a142812a3ba16250c",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="IdToDataConverter::\lfetchIds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_id_to_data_converter.html#aa417b3a4822c66fef649e76b57ec8c27",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="FlatModel::fetchPhotoData",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_flat_model.html#a4a19431437655a63979f89d71253a931",tooltip=" "];
+  Node1 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node10 [label="Database::DatabaseQueue\l::flushQueue",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_database_queue.html#a727922aa6057564410d837ace96f18a8",tooltip=" "];
+  Node1 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node11 [label="GroupsManager::group",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b",tooltip=" "];
+  Node1 -> Node12 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node12 [label="Database::AsyncDatabase\l::init",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_async_database.html#a836d2e0ec99e3b7aba3084716033f58d",tooltip=" "];
+  Node1 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node13 [label="PhotosModelControllerComponent\l::markNewAsReviewed",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#a67b32f8b713139eb8aac45654dba63c0",tooltip=" "];
+  Node1 -> Node14 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node14 [label="PhotosDataGuesser::\lperformAnalysis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_data_guesser.html#aa1deadbac16619773fd436a54baee851",tooltip=" "];
+  Node1 -> Node15 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node15 [label="CollectionScanner::\lperformAnalysis",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="PhotosAnalyzerImpl\l::PhotosAnalyzerImpl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="PhotosDataGuesser::\lphotosFetched",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_data_guesser.html#ab0dc77417158a8d20aecc97590a89d41",tooltip=" "];
+  Node1 -> Node24 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node24 [label="Database::DatabaseQueue\l::pushTask",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_database_queue.html#a986bb6cbf5feb18300106de60e39dc74",tooltip=" "];
+  Node1 -> Node26 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node26 [label="DuplicatesModel::reloadDuplicates",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_duplicates_model.html#aef4fce298f18eeccc00f4aa8a013cfe9",tooltip=" "];
+  Node1 -> Node27 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="FlatModel::reloadPhotos",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_flat_model.html#ad7e7b563526a60acc35ccbf1d2491ba3",tooltip=" "];
+  Node1 -> Node20 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node20 [label="CollectionScanner::scan",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a",tooltip=" "];
+  Node1 -> Node30 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node30 [label="PeopleListModel::setDB",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9",tooltip=" "];
+  Node1 -> Node33 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node33 [label="MediaViewCtrl::setSource",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_media_view_ctrl.html#a98d9275bf877422453e14e46d1bbaf09",tooltip=" "];
+  Node1 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node34 [label="TagsOperator::setTag",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd",tooltip=" "];
+  Node1 -> Node38 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node38 [label="PeopleManipulator::\lstore_people_information",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_people_manipulator.html#add0864334e050e3b8db558de4bb08904",tooltip=" "];
+  Node1 -> Node40 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node40 [label="GroupsManager::ungroup",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c",tooltip=" "];
+  Node1 -> Node46 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node46 [label="FlatModel::updatePhotos",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_flat_model.html#ab787f239714891d0dbea80843b519bf2",tooltip=" "];
+  Node1 -> Node57 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node57 [label="PhotosModelControllerComponent\l::updateTimeRange",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_model_controller_component.html#a95928dce8f42102f559369e1021598ad",tooltip=" "];
+  Node1 -> Node58 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node58 [label="TagInfoCollector::update\lValuesFor",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_tag_info_collector.html#ac9a9d5cb67ed21da76ad389a5de0f565",tooltip=" "];
+}

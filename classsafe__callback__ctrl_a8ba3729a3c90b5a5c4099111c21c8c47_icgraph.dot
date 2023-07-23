@@ -1,0 +1,22 @@
+digraph "safe_callback_ctrl::invalidate"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="safe_callback_ctrl\l::invalidate",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="IdToDataConverter::\lfetchIds",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_id_to_data_converter.html#aa417b3a4822c66fef649e76b57ec8c27",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ThumbnailManager::setDatabase\lCache",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_thumbnail_manager.html#a7fddd8eddd5597aa1544b96cbc8d9054",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="TEST",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$function__wrappers__tests_8cpp.html#ad74cc32bd4e3ca6b045e8605cbbc2ec3",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="IdToDataConverter::\l~IdToDataConverter",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_id_to_data_converter.html#a29dbd994bfe29dad181fe954b2dc77cd",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="MediaViewCtrl::~MediaViewCtrl",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_media_view_ctrl.html#a2f4ec59367bbaca76fa617cf4431cb2a",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="PeopleManipulator::\l~PeopleManipulator",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_people_manipulator.html#a3d5a40fb744d5be7ebbc3c78e379c402",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="ThumbnailManager::\l~ThumbnailManager",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_thumbnail_manager.html#a6156f4f5106eae3a22868b2e779bd940",tooltip=" "];
+}

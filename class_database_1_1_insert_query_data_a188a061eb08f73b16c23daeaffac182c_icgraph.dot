@@ -1,0 +1,12 @@
+digraph "Database::InsertQueryData::getName"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Database::InsertQueryData\l::getName",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::GenericSqlQuery\lConstructor::prepareInsertQuery",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_generic_sql_query_constructor.html#ac1d513f9a2812a65d663355999d1893a",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Database::GenericSqlQuery\lConstructor::prepareUpdateQuery",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_database_1_1_generic_sql_query_constructor.html#a2421c6d44273a5e274f0fa3df2fe5b43",tooltip=" "];
+}

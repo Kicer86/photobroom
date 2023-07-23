@@ -1,0 +1,14 @@
+digraph "PhotosGroupingDialog::cancel"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="PhotosGroupingDialog\l::cancel",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="PhotosGroupingDialog\l::previewCancelPressed",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#acdd897a76c29645a0d8bdc3eb814e78e",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="PhotosGroupingDialog\l::reject",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#ae32516085d8f17286e6cd01da236cb6a",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="PhotosGroupingDialog\l::startTask",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf",tooltip=" "];
+}

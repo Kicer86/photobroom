@@ -1,0 +1,12 @@
+digraph "TEST"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="TEST",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="ThumbnailsCache::find",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_thumbnails_cache.html#a3a1281f44f652a001a196a3d29305edd",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="ThumbnailsCache::store",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_thumbnails_cache.html#a40f3a3fa2690cd5e6061693e66a0c6f1",tooltip=" "];
+}

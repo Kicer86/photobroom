@@ -1,0 +1,14 @@
+digraph "ILogger::subLogger"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="ILogger::subLogger",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="SeriesDetector::analyzePhotos",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$class_series_detector.html#a6e234a1e8721233612cf4db84bf9dad5",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="TaskExecutor::eat",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$struct_task_executor.html#af4d3c0895333064d125202402bfe924e",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="MySqlServer::set",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_my_sql_server.html#afd07a3c9e8d190b39e90683fdda85e34",tooltip=" "];
+}

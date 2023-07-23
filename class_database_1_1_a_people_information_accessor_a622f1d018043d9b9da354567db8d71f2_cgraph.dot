@@ -1,0 +1,20 @@
+digraph "Database::APeopleInformationAccessor::store"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Database::APeopleInformation\lAccessor::store",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Store or update person details."];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Database::APeopleInformation\lAccessor::dropPersonInfo",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_people_information_accessor.html#a12693b70ac464f912024e6fe24073f0e",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="PersonName::id",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_person_name.html#a979b86cf90481f8e272512c14fa01e35",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Database::IPeopleInformation\lAccessor::listPeople",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_i_people_information_accessor.html#ae85c1ddb950bd0f7dfb7c4eaf33aa391",tooltip="list all people names"];
+  Node1 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Database::IPeopleInformation\lAccessor::person",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_i_people_information_accessor.html#a32037bc7577e537d8e2cbaae9ef83bf8",tooltip="get person details"];
+  Node1 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Database::APeopleInformation\lAccessor::storePerson",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_database_1_1_a_people_information_accessor.html#a0030d71a09a8ad1e94ad61ad785e1a49",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Id::valid",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_id.html#aa535d6564e027b5889869dcb10093bed",tooltip=" "];
+}

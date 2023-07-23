@@ -1,0 +1,12 @@
+digraph "DuplicatesModel::compileDuplicates"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="DuplicatesModel::compile\lDuplicates",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="DuplicatesModel::data",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_duplicates_model.html#aa7ec136eb8e2ff9d21f5c4727c3761f0",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="DuplicatesModel::setWork\lInProgress",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_duplicates_model.html#ad018ff99f351f0a7e9ce89e59d7a50f4",tooltip=" "];
+}

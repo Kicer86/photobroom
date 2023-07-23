@@ -1,0 +1,29 @@
+digraph "src/database/project_info.hpp"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="src/database/project\l_info.hpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="src/database/backends\l/memory_backend/memory\l_backend.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory__backend_8cpp.html",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="src/database/backends\l/sql_backends/mysql_backend\l/backend.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$mysql__backend_2backend_8cpp.html",tooltip=" "];
+  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="src/database/backends\l/sql_backends/sql_backend.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sql__backend_8cpp.html",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="src/database/backends\l/sql_backends/sqlite\l_backend/backend.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$sqlite__backend_2backend_8cpp.html",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="src/database/implementation\l/async_database.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$async__database_8cpp.html",tooltip=" "];
+  Node1 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="src/database/implementation\l/database_builder.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$database__builder_8cpp.html",tooltip=" "];
+  Node1 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="src/database/unit_tests\l/memory_backend_tests.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$memory__backend__tests_8cpp.html",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="src/database/unit_tests\l_for_backends/common.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$common_8hpp.html",tooltip=" "];
+  Node1 -> Node21 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node21 [label="src/project_utils/implementation\l/project_manager.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$project__manager_8cpp.html",tooltip=" "];
+  Node1 -> Node22 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node22 [label="src/unit_tests_utils\l/mock_backend.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__backend_8hpp.html",tooltip=" "];
+  Node1 -> Node28 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="src/unit_tests_utils\l/mock_database.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$mock__database_8hpp.html",tooltip=" "];
+}
