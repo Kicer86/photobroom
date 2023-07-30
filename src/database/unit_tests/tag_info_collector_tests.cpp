@@ -32,7 +32,7 @@ class TagInfoCollectorTest: public testing::Test
         TagInfoCollectorTest()
         {
             ON_CALL(database, execute(_))
-                .WillByDefault(Invoke([this](std::unique_ptr<MockDatabase::ITask>&& task)
+                .WillByDefault(Invoke([this](std::unique_ptr<DatabaseMock::ITask>&& task)
                 {
                     task->run(backend);
                 }));
@@ -42,7 +42,7 @@ class TagInfoCollectorTest: public testing::Test
         }
 
         NiceMock<MockBackend> backend;
-        NiceMock<MockDatabase> database;
+        NiceMock<DatabaseMock> database;
 };
 
 

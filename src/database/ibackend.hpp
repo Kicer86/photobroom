@@ -146,6 +146,13 @@ namespace Database
          */
         virtual void                     set(const Photo::Id& id, const QString& name, int value) = 0;
 
+        template<typename E>
+        requires std::is_enum_v<E>
+        inline void set(const Photo::Id& id, const QString& name, E value)
+        {
+            set(id, name, static_cast<int>(value));
+        }
+
         /**
          * \brief get flag value
          * \arg id id of photo

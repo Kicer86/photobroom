@@ -33,8 +33,8 @@ void SignalPostponer::setPatiece(const std::chrono::milliseconds& p)
 
 void SignalPostponer::notify()
 {
-    if (m_lazinessTimer.isActive() == false)        // lazy timer will be launched for the first time?
-        m_patienceTimer.start(static_cast<int>(m_patience.count()));  // start patience timer also
+    if (m_lazinessTimer.isActive() == false)                            // lazy timer will be launched for the first time?
+        m_patienceTimer.start(static_cast<int>(m_patience.count()));    // start patience timer also
 
     m_lazinessTimer.start(static_cast<int>(m_delay.count()));
 }

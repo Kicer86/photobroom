@@ -15,7 +15,7 @@ namespace Database
     {
         std::map<Photo::Id, Flags> m_flags;
         std::map<Group::Id, GroupData> m_groups;
-        std::set<Photo::Data, IdComparer<Photo::Data, Photo::Id>> m_photos;
+        std::set<Photo::FullDelta, IdComparer<Photo::FullDelta, Photo::Id>> m_photos;
         std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
         std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
         std::vector<LogEntry> m_logEntries;
@@ -49,41 +49,41 @@ namespace
         return (is_less? -1: 0) + (is_greater? 1: 0);
     }
 
-    std::vector<Photo::Data> filterPhotos(const std::vector<Photo::Data>& photos,
-                                          const Database::MemoryBackend::DB& db,
-                                          const Database::Filter& dbFilter)
+    std::vector<Photo::FullDelta> filterPhotos(const std::vector<Photo::FullDelta>& photos,
+                                               const Database::MemoryBackend::DB& db,
+                                               const Database::Filter& dbFilter)
     {
-        std::vector<Photo::Data> result = photos;
+        std::vector<Photo::FullDelta> result = photos;
 
         std::visit([&result, &db](auto&& filter)
         {
             using T = std::decay_t<decltype(filter)>;
             if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
             {
-                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::Data& photo) {
-                    return !photo.phash.valid();
+                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::FullDelta& photo) {
+                    return !photo.get<Photo::Field::PHash>().valid();
                 }), result.end());
 
-                std::sort(result.begin(), result.end(), [](const Photo::Data& lhs, const Photo::Data& rhs) {
-                    return lhs.phash < rhs.phash;
+                std::sort(result.begin(), result.end(), [](const Photo::FullDelta& lhs, const Photo::FullDelta& rhs) {
+                    return lhs.get<Photo::Field::PHash>() < rhs.get<Photo::Field::PHash>();
                 });
 
-                result.erase(remove_unique(result.begin(), result.end(), [](const Photo::Data& lhs, const Photo::Data& rhs) {
-                    return lhs.phash == rhs.phash;
+                result.erase(remove_unique(result.begin(), result.end(), [](const Photo::FullDelta& lhs, const Photo::FullDelta& rhs) {
+                    return lhs.get<Photo::Field::PHash>() == rhs.get<Photo::Field::PHash>();
                 }), result.end());
             }
             else if constexpr (std::is_same_v<T, Database::FilterPhotosWithPHash>)
             {
-                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::Data& photo) {
-                    return !photo.phash.valid();
+                result.erase(std::remove_if(result.begin(), result.end(), [](const Photo::FullDelta& photo) {
+                    return !photo.get<Photo::Field::PHash>().valid();
                 }), result.end());
             }
             else if constexpr (std::is_same_v<T, Database::FilterPhotosWithGeneralFlag>)
             {
-                result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const Photo::Data& photo) {
+                result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const Photo::FullDelta& photo) {
 
                     int value = 0;
-                    auto it = db.m_flags.find(photo.id);
+                    auto it = db.m_flags.find(photo.getId());
 
                     if (it != db.m_flags.end())             // if no flags for given photo, continue with value == 0
                     {
@@ -179,13 +179,10 @@ namespace Database
             const Photo::Id id(m_db->m_nextPhotoId);
             delta.setId(id);
 
-            Photo::Data data;
-            data.apply(delta);
-
-            auto [it, i] = m_db->m_photos.insert(data);      // insert empty Data for given id
+            auto [it, i] = m_db->m_photos.insert(Photo::FullDelta(delta));
             assert(i == true);
 
-            ids.push_back(data.id);
+            ids.push_back(id);
 
             m_db->m_nextPhotoId++;
         }
@@ -204,14 +201,14 @@ namespace Database
         for (const auto& delta: deltas)
         {
             auto it = m_db->m_photos.find(delta.getId());
+            Photo::FullDelta currentDelta(*it);
 
-            Photo::Data data = *it;
-            photoChangeLogOperator().storeDifference(data, delta);
+            photoChangeLogOperator().storeDifference(currentDelta, delta);
 
-            data.apply(delta);
+            currentDelta |= delta;
 
             it = m_db->m_photos.erase(it);
-            m_db->m_photos.insert(it, data);
+            m_db->m_photos.insert(it, currentDelta);
 
             ids.insert(delta.getId());
         }
@@ -228,8 +225,10 @@ namespace Database
 
         for(const auto& photo: m_db->m_photos)
         {
-            auto it = photo.tags.find(type);
-            if (it != photo.tags.end() && it->second.type() != Tag::ValueType::Empty)
+            const auto& tags = photo.get<Photo::Field::Tags>();
+            auto it = tags.find(type);
+
+            if (it != tags.end() && it->second.type() != Tag::ValueType::Empty)
                 values.insert(it->second);
         }
 
@@ -244,8 +243,13 @@ namespace Database
 
     Photo::Data MemoryBackend::getPhoto(const Photo::Id& id)
     {
+        Photo::Data data;
         auto it = m_db->m_photos.find(id);
-        return it == m_db->m_photos.end()? Photo::Data(): *it;
+
+        if (it != m_db->m_photos.end())
+            data.apply(*it);
+
+        return data;
     }
 
 
@@ -578,17 +582,21 @@ namespace Database
 
             std::vector<Photo::Id> photosToClear;
 
-            for(Photo::Data data: m_db->m_photos)
-                if (data.groupInfo.role != GroupInfo::Role::None &&
-                    data.groupInfo.group_id == gid)
+            for (const Photo::FullDelta& delta: m_db->m_photos)
+            {
+                const auto& groupInfo = delta.get<Photo::Field::GroupInfo>();
+
+                if (groupInfo.role != GroupInfo::Role::None &&
+                    groupInfo.group_id == gid)
                 {
-                    const Photo::Id id = data.id;
+                    const Photo::Id id = delta.getId();
 
                     photosToClear.push_back(id);
 
-                    if (data.groupInfo.role == GroupInfo::Role::Representative)
+                    if (groupInfo.role == GroupInfo::Role::Representative)
                         r_id = id;
                 }
+            }
 
             std::vector<Photo::DataDelta> deltas;
             deltas.reserve(photosToClear.size());
@@ -618,14 +626,15 @@ namespace Database
 
     std::vector<Photo::Id> MemoryBackend::membersOf(const Group::Id& id) const
     {
-        std::vector<Photo::Data> members;
-        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(members), [id](const Photo::Data& data)
+        std::vector<Photo::FullDelta> members;
+        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(members), [id](const Photo::FullDelta& data)
         {
-            return data.groupInfo.group_id == id && data.groupInfo.role == GroupInfo::Role::Member;
+            const auto& groupInfo = data.get<Photo::Field::GroupInfo>();
+            return groupInfo.group_id == id && groupInfo.role == GroupInfo::Role::Member;
         });
 
         std::vector<Photo::Id> ids;
-        std::transform(members.begin(), members.end(), std::back_inserter(ids), &Photo::getId);
+        std::transform(members.begin(), members.end(), std::back_inserter(ids), [](const Photo::FullDelta& d){ return d.getId(); });
 
         return ids;
     }
@@ -633,14 +642,14 @@ namespace Database
 
     std::vector<Group::Id> MemoryBackend::listGroups() const
     {
-        std::vector<Photo::Data> representatives;
-        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(representatives), [](const Photo::Data& data)
+        std::vector<Photo::FullDelta> representatives;
+        std::copy_if(m_db->m_photos.begin(), m_db->m_photos.end(), std::back_inserter(representatives), [](const Photo::FullDelta& data)
         {
-            return data.groupInfo.role == GroupInfo::Role::Representative;
+            return data.get<Photo::Field::GroupInfo>().role == GroupInfo::Role::Representative;
         });
 
         std::vector<GroupInfo> infos;
-        std::transform(representatives.begin(), representatives.end(), std::back_inserter(infos), &extract<Photo::Data, GroupInfo, &Photo::Data::groupInfo>);
+        std::transform(representatives.begin(), representatives.end(), std::back_inserter(infos), [](const Photo::FullDelta& d){ return d.get<Photo::Field::GroupInfo>(); });
 
         std::vector<Group::Id> ids;
         std::transform(infos.begin(), infos.end(), std::back_inserter(ids), &extract<GroupInfo, Group::Id, &GroupInfo::group_id>);
@@ -682,12 +691,12 @@ namespace Database
 
     std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter& filter)
     {
-        std::vector<Photo::Data> data(m_db->m_photos.begin(), m_db->m_photos.end());
+        std::vector<Photo::FullDelta> data(m_db->m_photos.begin(), m_db->m_photos.end());
         data = filterPhotos(data, *m_db, filter);
 
         std::vector<Photo::Id> ids;
         for(const auto& photo: data)
-            ids.push_back(photo.id);
+            ids.push_back(photo.getId());
 
         return ids;
     }
@@ -699,8 +708,8 @@ namespace Database
 
         if (it != m_db->m_photos.end())
         {
-            auto data = *it;
-            data.phash = phash;
+            auto data(*it);
+            data.insert<Photo::Field::PHash>(phash);
             m_db->m_photos.erase(it);
             m_db->m_photos.insert(data);
         }
@@ -713,8 +722,8 @@ namespace Database
 
         std::optional<Photo::PHashT> result;
 
-        if (it != m_db->m_photos.end() && it->phash.valid())
-            result = it->phash;
+        if (it != m_db->m_photos.end() && it->get<Photo::Field::PHash>().valid())
+            result = it->get<Photo::Field::PHash>();
 
         return result;
     }
@@ -724,13 +733,13 @@ namespace Database
     {
         auto it = m_db->m_photos.find(id);
 
-        return it == m_db->m_photos.end()? false: it->phash.valid();
+        return it == m_db->m_photos.end()? false: it->get<Photo::Field::PHash>().valid();
     }
 
 
-    Photo::Id MemoryBackend::getIdFor(const Photo::Data& d)
+    Photo::Id MemoryBackend::getIdFor(const Photo::FullDelta& d)
     {
-        return d.id;
+        return d.getId();
     }
 
 

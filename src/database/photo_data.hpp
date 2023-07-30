@@ -146,4 +146,4 @@ namespace Photo
     using SharedDataDelta = std::shared_ptr<SafeDataDelta>;
 }
 
-#endif // PHOTO_DATA_HPP
+#endif

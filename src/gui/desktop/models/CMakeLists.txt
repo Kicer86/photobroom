@@ -11,7 +11,6 @@ set(SRC
     flat_model.cpp
     flat_model.hpp
     itags_operator.hpp
-    model_types.hpp
     notifications_model.cpp
     notifications_model.hpp
     photo_properties_model.cpp

@@ -26,7 +26,7 @@ using testing::_;
 class SeriesDetectorTest: public testing::Test
 {
     public:
-        NiceMock<MockDatabase> db;
+        NiceMock<DatabaseMock> db;
         NiceMock<MockBackend> backend;
         EmptyLogger logger;
 
@@ -350,7 +350,7 @@ TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
 
     jsonReader.append(SeriesDB::db);
 
-    NiceMock<MockDatabase> mem_db;
+    NiceMock<DatabaseMock> mem_db;
 
     ON_CALL(mem_db, execute(_)).WillByDefault(Invoke([&mem_backend](const auto& task)
     {

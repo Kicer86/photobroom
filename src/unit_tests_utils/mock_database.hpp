@@ -8,7 +8,7 @@
 #include <database/project_info.hpp>
 
 
-struct MockDatabase: Database::IDatabase
+struct DatabaseMock: Database::IDatabase
 {
     MOCK_METHOD(Database::IBackend&, backend, (), (override));
     MOCK_METHOD(void, execute, (std::unique_ptr<Database::IDatabase::ITask> &&), (override));

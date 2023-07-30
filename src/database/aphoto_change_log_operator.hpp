@@ -10,7 +10,7 @@ namespace Database
     class DATABASE_EXPORT APhotoChangeLogOperator: public IPhotoChangeLogOperator
     {
         public:
-            void storeDifference(const Photo::Data &, const Photo::DataDelta &) override;
+            void storeDifference(const Photo::FullDelta &, const Photo::DataDelta &) override;
             void groupCreated(const Group::Id &, const Group::Type &, const Photo::Id& representative) override;
             void groupDeleted(const Group::Id &, const Photo::Id& representative, const std::vector<Photo::Id>& members) override;
 

@@ -126,8 +126,8 @@ void FacesModel::updateFaceInformation()
 
     if (faces_count > 0)
     {
-        beginInsertRows(QModelIndex(), 0, faces_count - 1);
-        m_facesCount = m_peopleManipulator->facesCount();
+        beginInsertRows(QModelIndex(), 0, static_cast<int>(faces_count - 1));
+        m_facesCount = static_cast<int>(m_peopleManipulator->facesCount());
         endInsertRows();
     }
 

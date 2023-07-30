@@ -73,8 +73,8 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
 
         if (xdim.has_value() && ydim.has_value())
         {
-            const long x = std::any_cast<long>(*xdim);
-            const long y = std::any_cast<long>(*ydim);
+            const int x = static_cast<int>(std::any_cast<long>(*xdim));
+            const int y = static_cast<int>(std::any_cast<long>(*ydim));
 
             // use exif if QImageReader could not handle image
             if (!result)
