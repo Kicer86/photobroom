@@ -28,7 +28,7 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#ae9f3134491cdfdfc696ab178ace218f1" target="_top" xlink:title="get particular photo">
-<polygon fill="white" stroke="#666666" points="306,-78 171,-78 171,-48 306,-48 306,-78"/>
+<polygon fill="#fff0f0" stroke="red" points="306,-78 171,-78 171,-48 306,-48 306,-78"/>
 <text text-anchor="start" x="179" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::MemoryBackend</text>
 <text text-anchor="middle" x="238.5" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhoto</text>
 </a>
@@ -40,9 +40,9 @@
 <path fill="none" stroke="#63b8ff" d="M135.29,-48.49C143.19,-49.61 151.31,-50.76 159.35,-51.9"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="158.75,-55.35 169.14,-53.29 159.73,-48.42 158.75,-55.35"/>
 </g>
-<!-- Node3 -->
+<!-- Node7 -->
 <g id="node3" class="node">
-<title>Node3</title>
+<title>Node7</title>
 <g id="a_node3"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#a5add72bb5517a444c7df2b5130aacf54" target="_top" xlink:title="find all photos matching filters">
 <polygon fill="white" stroke="#666666" points="306,-30 171,-30 171,0 306,0 306,-30"/>
 <text text-anchor="start" x="179" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">Database::MemoryBackend</text>
@@ -50,9 +50,9 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node3 -->
+<!-- Node1&#45;&gt;Node7 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node3</title>
+<title>Node1&#45;&gt;Node7</title>
 <path fill="none" stroke="#63b8ff" d="M135.29,-29.51C143.19,-28.39 151.31,-27.24 159.35,-26.1"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="159.73,-29.58 169.14,-24.71 158.75,-22.65 159.73,-29.58"/>
 </g>

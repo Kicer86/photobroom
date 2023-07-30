@@ -22,7 +22,7 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#ae9f3134491cdfdfc696ab178ace218f1" target="_top" xlink:title="get particular photo">
-<polygon fill="white" stroke="#666666" points="306,-67.5 171,-67.5 171,-37.5 306,-37.5 306,-67.5"/>
+<polygon fill="#fff0f0" stroke="red" points="306,-67.5 171,-67.5 171,-37.5 306,-37.5 306,-67.5"/>
 <text text-anchor="start" x="179" y="-55.5" font-family="Helvetica,sans-Serif" font-size="10.00">Database::MemoryBackend</text>
 <text text-anchor="middle" x="238.5" y="-44.5" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhoto</text>
 </a>
@@ -34,18 +34,18 @@
 <path fill="none" stroke="#63b8ff" d="M135.29,-39.19C143.19,-40.22 151.31,-41.28 159.35,-42.33"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="158.77,-45.78 169.14,-43.6 159.67,-38.84 158.77,-45.78"/>
 </g>
-<!-- Node3 -->
+<!-- Node7 -->
 <g id="node3" class="node">
-<title>Node3</title>
+<title>Node7</title>
 <g id="a_node3"><a xlink:href="../../d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="297.5,-19 179.5,-19 179.5,0 297.5,0 297.5,-19"/>
 <text text-anchor="middle" x="238.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::insert</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node3 -->
+<!-- Node1&#45;&gt;Node7 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node3</title>
+<title>Node1&#45;&gt;Node7</title>
 <path fill="none" stroke="#63b8ff" d="M135.29,-22.2C146.04,-20.86 157.2,-19.48 168.01,-18.14"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="168.13,-21.65 177.62,-16.94 167.26,-14.7 168.13,-21.65"/>
 </g>

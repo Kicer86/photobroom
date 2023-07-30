@@ -139,6 +139,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1e061ef0e8b1c3645f134171c4869bba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a1e061ef0e8b1c3645f134171c4869bba">set</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const QString &amp;name, int value)=0</td></tr>
 <tr class="memdesc:a1e061ef0e8b1c3645f134171c4869bba"><td class="mdescLeft">&#160;</td><td class="mdescRight">set flag for photo to given value  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#a1e061ef0e8b1c3645f134171c4869bba">More...</a><br /></td></tr>
 <tr class="separator:a1e061ef0e8b1c3645f134171c4869bba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6542bde9d1159f70eb1d543fcd11f6ad"><td class="memTemplParams" colspan="2">template&lt;typename E &gt; <br />
+requires std::is_enum_v&lt;E&gt;</td></tr>
+<tr class="memitem:a6542bde9d1159f70eb1d543fcd11f6ad"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6542bde9d1159f70eb1d543fcd11f6ad">set</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const QString &amp;name, E value)</td></tr>
+<tr class="separator:a6542bde9d1159f70eb1d543fcd11f6ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a615b18834b16996d902864516cdf374c"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a615b18834b16996d902864516cdf374c">get</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const QString &amp;name)=0</td></tr>
 <tr class="memdesc:a615b18834b16996d902864516cdf374c"><td class="mdescLeft">&#160;</td><td class="mdescRight">get flag value  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#a615b18834b16996d902864516cdf374c">More...</a><br /></td></tr>
 <tr class="separator:a615b18834b16996d902864516cdf374c"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -990,8 +994,53 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a6542bde9d1159f70eb1d543fcd11f6ad" name="a6542bde9d1159f70eb1d543fcd11f6ad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6542bde9d1159f70eb1d543fcd11f6ad">&#9670;&#160;</a></span>set() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename E &gt; <br />
+requires std::is_enum_v&lt;E&gt;</div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Database::IBackend::set </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>name</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">E&#160;</td>
+          <td class="paramname"><em>value</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a1e061ef0e8b1c3645f134171c4869bba" name="a1e061ef0e8b1c3645f134171c4869bba"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1e061ef0e8b1c3645f134171c4869bba">&#9670;&#160;</a></span>set()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a1e061ef0e8b1c3645f134171c4869bba">&#9670;&#160;</a></span>set() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">

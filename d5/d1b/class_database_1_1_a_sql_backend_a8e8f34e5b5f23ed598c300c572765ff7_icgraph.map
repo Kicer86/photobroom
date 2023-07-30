@@ -1,4 +1,5 @@
 <map id="Database::ASqlBackend::getPhotoDelta" name="Database::ASqlBackend::getPhotoDelta">
-<area shape="rect" id="node1" title=" " alt="" coords="216,5,379,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="216,49,379,89"/>
 <area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93d6664d9c92ca8a176d01c941ea149a" title="get particular photo" alt="" coords="5,5,168,45"/>
+<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aeabaa61a16e3602392353c5ce5727b91" title="store photo data" alt="" coords="5,93,168,133"/>
 </map>

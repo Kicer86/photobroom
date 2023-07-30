@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['severity_0',['Severity',['../df/ddd/struct_i_logger.html#a8f2e7ba99a1f34e02e7f77977a05e3fb',1,'ILogger']]],
-  ['state_1',['State',['../d5/d0f/class_series_model.html#a19e82219fa82d1487361e2ad81754ea4',1,'SeriesModel']]],
-  ['statetype_2',['StateType',['../d2/dbd/namespace_database_1_1_common_general_flags.html#adfa2cf60ec84c154d4847d2409f0742f',1,'Database::CommonGeneralFlags']]],
-  ['statuscodes_3',['StatusCodes',['../d0/d76/namespace_database.html#a25b897a700669116efa4f786360831a7',1,'Database']]]
+  ['tagtype_0',['TagType',['../d5/dd5/struct_i_exif_reader.html#a9cc3e1d2c3d9bd692ea65b3cace5be99',1,'IExifReader']]],
+  ['tmpoption_1',['TmpOption',['../dc/ddb/struct_system.html#a43b735bd074668fccc22bc0d244ec285',1,'System']]],
+  ['type_2',['Type',['../d8/d23/struct_group_candidate.html#aab9587276a1efe93deb9aa8aedd5849d',1,'GroupCandidate::Type()'],['../d2/d43/class_i_notifications.html#a257c001696253410f3b3d261d7044d16',1,'INotifications::Type()'],['../de/d4b/namespace_group.html#acdc7ef6661c356300b3384f3179f7878',1,'Group::Type()']]],
+  ['types_3',['Types',['../da/dac/namespace_tag.html#aff207a07ada4bab29906bfbb4975a78b',1,'Tag']]]
 ];

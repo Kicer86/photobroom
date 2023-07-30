@@ -1,15 +1,17 @@
 <map id="Photo::DataDelta::insert" name="Photo::DataDelta::insert">
-<area shape="rect" id="node1" title=" " alt="" coords="233,341,391,366"/>
+<area shape="rect" id="node1" title=" " alt="" coords="233,437,391,462"/>
 <area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#a12c76b50f0bf8a45045d37b3469b2470" title=" " alt="" coords="5,5,185,45"/>
-<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#ab37722297b03e09bee4eed0ce7e5cff8" title=" " alt="" coords="5,69,185,109"/>
-<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title=" " alt="" coords="14,133,177,173"/>
-<area shape="rect" id="node5" href="$db/d6e/class_collection_scanner.html#ab0b44dadf7d37b2eab5472d9813297c9" title=" " alt="" coords="29,197,162,237"/>
-<area shape="rect" id="node6" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="19,262,171,287"/>
-<area shape="rect" id="node7" href="$d8/d67/class_tags_operator.html#a96cdc88088e93389077d58878e904ba2" title=" " alt="" coords="12,311,179,337"/>
-<area shape="rect" id="node8" href="$d6/db9/class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86" title=" " alt="" coords="7,361,184,401"/>
-<area shape="rect" id="node9" href="$d6/db9/class_database_1_1_json_to_backend.html#a312265e80dffd02c61315a8f265e4067" title=" " alt="" coords="7,425,184,465"/>
-<area shape="rect" id="node10" href="$da/dba/class_database_1_1_memory_backend.html#ab5f22fc2d7d4f85f6e133e5a88e82ef9" title=" " alt="" coords="5,489,185,529"/>
-<area shape="rect" id="node11" href="$d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" title=" " alt="" coords="68,554,123,579"/>
-<area shape="rect" id="node12" href="$de/da7/class_thumbnail_manager_test.html#a9cd7e62565a5549ff6639af2b7817f95" title=" " alt="" coords="13,604,177,644"/>
-<area shape="rect" id="node13" href="$db/d8c/filters__tests_8cpp.html#a42d546c3dcc1282f0d34d8f1d1811e0c" title=" " alt="" coords="43,669,148,694"/>
+<area shape="rect" id="node3" href="$db/d29/class_photo_1_1_explicit_delta.html#a9bf03bab09fcca969c9b6badb1240869" title=" " alt="" coords="29,93,162,133"/>
+<area shape="rect" id="node4" href="$da/dba/class_database_1_1_memory_backend.html#ab37722297b03e09bee4eed0ce7e5cff8" title=" " alt="" coords="5,157,185,197"/>
+<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title=" " alt="" coords="14,221,177,261"/>
+<area shape="rect" id="node6" href="$db/d6e/class_collection_scanner.html#ab0b44dadf7d37b2eab5472d9813297c9" title=" " alt="" coords="29,285,162,325"/>
+<area shape="rect" id="node7" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="19,350,171,375"/>
+<area shape="rect" id="node8" href="$db/d29/class_photo_1_1_explicit_delta.html#a408a410342d25abd2215cc1f4a960d28" title=" " alt="" coords="29,400,162,440"/>
+<area shape="rect" id="node9" href="$d8/d67/class_tags_operator.html#a96cdc88088e93389077d58878e904ba2" title=" " alt="" coords="12,465,179,490"/>
+<area shape="rect" id="node10" href="$d6/db9/class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86" title=" " alt="" coords="7,515,184,555"/>
+<area shape="rect" id="node11" href="$d6/db9/class_database_1_1_json_to_backend.html#a312265e80dffd02c61315a8f265e4067" title=" " alt="" coords="7,579,184,619"/>
+<area shape="rect" id="node12" href="$da/dba/class_database_1_1_memory_backend.html#ab5f22fc2d7d4f85f6e133e5a88e82ef9" title=" " alt="" coords="5,643,185,683"/>
+<area shape="rect" id="node13" href="$d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" title=" " alt="" coords="68,707,123,733"/>
+<area shape="rect" id="node14" href="$de/da7/class_thumbnail_manager_test.html#a9cd7e62565a5549ff6639af2b7817f95" title=" " alt="" coords="13,757,177,797"/>
+<area shape="rect" id="node15" href="$db/d8c/filters__tests_8cpp.html#a42d546c3dcc1282f0d34d8f1d1811e0c" title=" " alt="" coords="43,822,148,847"/>
 </map>

@@ -199,6 +199,10 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a1e061ef0e8b1c3645f134171c4869bba inherit pub_methods_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a1e061ef0e8b1c3645f134171c4869bba">set</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const QString &amp;name, int value)=0</td></tr>
 <tr class="memdesc:a1e061ef0e8b1c3645f134171c4869bba inherit pub_methods_struct_database_1_1_i_backend"><td class="mdescLeft">&#160;</td><td class="mdescRight">set flag for photo to given value  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#a1e061ef0e8b1c3645f134171c4869bba">More...</a><br /></td></tr>
 <tr class="separator:a1e061ef0e8b1c3645f134171c4869bba inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6542bde9d1159f70eb1d543fcd11f6ad inherit pub_methods_struct_database_1_1_i_backend"><td class="memTemplParams" colspan="2">template&lt;typename E &gt; <br />
+requires std::is_enum_v&lt;E&gt;</td></tr>
+<tr class="memitem:a6542bde9d1159f70eb1d543fcd11f6ad inherit pub_methods_struct_database_1_1_i_backend"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6542bde9d1159f70eb1d543fcd11f6ad">set</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const QString &amp;name, E value)</td></tr>
+<tr class="separator:a6542bde9d1159f70eb1d543fcd11f6ad inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a615b18834b16996d902864516cdf374c inherit pub_methods_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; int &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a615b18834b16996d902864516cdf374c">get</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const QString &amp;name)=0</td></tr>
 <tr class="memdesc:a615b18834b16996d902864516cdf374c inherit pub_methods_struct_database_1_1_i_backend"><td class="mdescLeft">&#160;</td><td class="mdescRight">get flag value  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#a615b18834b16996d902864516cdf374c">More...</a><br /></td></tr>
 <tr class="separator:a615b18834b16996d902864516cdf374c inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -339,8 +343,8 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:aec32dcaca1c648f25ba2922cacdce172 inherit pub_methods_class_database_1_1_i_people_information_accessor"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../da/d2c/class_person_fingerprint.html#a2080c2ba84a67c40c23b43a4f4d1052b">PersonFingerprint::Id</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d8a/class_database_1_1_i_people_information_accessor.html#aec32dcaca1c648f25ba2922cacdce172">store</a> (const <a class="el" href="../../da/d2c/class_person_fingerprint.html">PersonFingerprint</a> &amp;)=0</td></tr>
 <tr class="separator:aec32dcaca1c648f25ba2922cacdce172 inherit pub_methods_class_database_1_1_i_people_information_accessor"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_methods_class_database_1_1_a_photo_change_log_operator"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_class_database_1_1_a_photo_change_log_operator')"><img src="../../closed.png" alt="-"/>&#160;Private Member Functions inherited from <a class="el" href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html">Database::APhotoChangeLogOperator</a></td></tr>
-<tr class="memitem:a0fa2a42c4a8b586e98163db993d6be0f inherit pub_methods_class_database_1_1_a_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#a0fa2a42c4a8b586e98163db993d6be0f">storeDifference</a> (const <a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a> &amp;, const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;) override</td></tr>
-<tr class="separator:a0fa2a42c4a8b586e98163db993d6be0f inherit pub_methods_class_database_1_1_a_photo_change_log_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0d3dcca2024cfd586edc78047f9f686 inherit pub_methods_class_database_1_1_a_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#aa0d3dcca2024cfd586edc78047f9f686">storeDifference</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#ae7beac179b7c2a7a82df40872e2ce108">Photo::FullDelta</a> &amp;, const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;) override</td></tr>
+<tr class="separator:aa0d3dcca2024cfd586edc78047f9f686 inherit pub_methods_class_database_1_1_a_photo_change_log_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ac5e2c5ecb1a6091dd433f265f91b05 inherit pub_methods_class_database_1_1_a_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#a8ac5e2c5ecb1a6091dd433f265f91b05">groupCreated</a> (const <a class="el" href="../../de/d4b/namespace_group.html#ab98b9fb1a6541e050598c8f496f3fe43">Group::Id</a> &amp;, const <a class="el" href="../../de/d4b/namespace_group.html#acdc7ef6661c356300b3384f3179f7878">Group::Type</a> &amp;, const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;representative) override</td></tr>
 <tr class="separator:a8ac5e2c5ecb1a6091dd433f265f91b05 inherit pub_methods_class_database_1_1_a_photo_change_log_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a567ce52e05b61948959d86c66f82cfe5 inherit pub_methods_class_database_1_1_a_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#a567ce52e05b61948959d86c66f82cfe5">groupDeleted</a> (const <a class="el" href="../../de/d4b/namespace_group.html#ab98b9fb1a6541e050598c8f496f3fe43">Group::Id</a> &amp;, const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;representative, const std::vector&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &gt; &amp;members) override</td></tr>
@@ -356,8 +360,8 @@ Private Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_struct_database_1_1_i_photo_change_log_operator"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_struct_database_1_1_i_photo_change_log_operator')"><img src="../../closed.png" alt="-"/>&#160;Private Member Functions inherited from <a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html">Database::IPhotoChangeLogOperator</a></td></tr>
 <tr class="memitem:a210692ec2862e58c31ca449416d5f74f inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a210692ec2862e58c31ca449416d5f74f">~IPhotoChangeLogOperator</a> ()=default</td></tr>
 <tr class="separator:a210692ec2862e58c31ca449416d5f74f inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3e824ad81d0b491022031c2d49a683c0 inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a3e824ad81d0b491022031c2d49a683c0">storeDifference</a> (const <a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a> &amp;, const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;)=0</td></tr>
-<tr class="separator:a3e824ad81d0b491022031c2d49a683c0 inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a34fd0801e82803d4275346477663de8b inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a34fd0801e82803d4275346477663de8b">storeDifference</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#ae7beac179b7c2a7a82df40872e2ce108">Photo::FullDelta</a> &amp;, const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;)=0</td></tr>
+<tr class="separator:a34fd0801e82803d4275346477663de8b inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ba24474a492a785f27ef3b11941468e inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a5ba24474a492a785f27ef3b11941468e">groupCreated</a> (const <a class="el" href="../../de/d4b/namespace_group.html#ab98b9fb1a6541e050598c8f496f3fe43">Group::Id</a> &amp;, const <a class="el" href="../../de/d4b/namespace_group.html#acdc7ef6661c356300b3384f3179f7878">Group::Type</a> &amp;, const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;representative)=0</td></tr>
 <tr class="separator:a5ba24474a492a785f27ef3b11941468e inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5acd2fcc149eb79fd1ad353ea76958d8 inherit pub_methods_struct_database_1_1_i_photo_change_log_operator"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a5acd2fcc149eb79fd1ad353ea76958d8">groupDeleted</a> (const <a class="el" href="../../de/d4b/namespace_group.html#ab98b9fb1a6541e050598c8f496f3fe43">Group::Id</a> &amp;, const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;representative, const std::vector&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &gt; &amp;members)=0</td></tr>
@@ -395,8 +399,8 @@ Private Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-static-methods" name="pri-static-methods"></a>
 Static Private Member Functions</h2></td></tr>
-<tr class="memitem:abfb558934339541f5e77ad37a7697745"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#abfb558934339541f5e77ad37a7697745">getIdFor</a> (const <a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a> &amp;d)</td></tr>
-<tr class="separator:abfb558934339541f5e77ad37a7697745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a18a2c4a82c72e6a8c9de533d55a8b349"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a18a2c4a82c72e6a8c9de533d55a8b349">getIdFor</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#ae7beac179b7c2a7a82df40872e2ce108">Photo::FullDelta</a> &amp;d)</td></tr>
+<tr class="separator:a18a2c4a82c72e6a8c9de533d55a8b349"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3de50b6c286ab49aecdc8f7dbb60411d"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../d7/dbf/namespace_person.html#a93741c8bae8219f36dfc39885c17fa1f">Person::Id</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a3de50b6c286ab49aecdc8f7dbb60411d">getIdFor</a> (const <a class="el" href="../../db/de4/class_person_name.html">PersonName</a> &amp;pn)</td></tr>
 <tr class="separator:a3de50b6c286ab49aecdc8f7dbb60411d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a44b4c394ea1e011a2351678c86933647"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="../../dd/dc4/class_person_info.html#aea8b90f97da1055008393ef1841f05ea">PersonInfo::Id</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a44b4c394ea1e011a2351678c86933647">getIdFor</a> (const <a class="el" href="../../dd/dc4/class_person_info.html">PersonInfo</a> &amp;pn)</td></tr>
@@ -608,7 +612,7 @@ If operation is sucessful <a class="el" href="../../d2/ddd/struct_database_1_1_i
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dba/class_database_1_1_memory_backend_a9d9d28d5c6ca50aec66b845a364124a2_cgraph.svg" width="419" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dba/class_database_1_1_memory_backend_a9d9d28d5c6ca50aec66b845a364124a2_cgraph.svg" width="419" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -983,8 +987,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="abfb558934339541f5e77ad37a7697745" name="abfb558934339541f5e77ad37a7697745"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abfb558934339541f5e77ad37a7697745">&#9670;&#160;</a></span>getIdFor() <span class="overload">[3/3]</span></h2>
+<a id="a18a2c4a82c72e6a8c9de533d55a8b349" name="a18a2c4a82c72e6a8c9de533d55a8b349"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a18a2c4a82c72e6a8c9de533d55a8b349">&#9670;&#160;</a></span>getIdFor() <span class="overload">[3/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -995,7 +999,7 @@ Here is the call graph for this function:</div>
         <tr>
           <td class="memname"><a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> Database::MemoryBackend::getIdFor </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#ae7beac179b7c2a7a82df40872e2ce108">Photo::FullDelta</a> &amp;&#160;</td>
           <td class="paramname"><em>d</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1064,6 +1068,12 @@ Here is the call graph for this function:</div>
 <p>get particular photo </p>
 
 <p>Implements <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a42a4220df0a0e8f90b93249e5dbb905d">Database::IBackend</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dba/class_database_1_1_memory_backend_ae9f3134491cdfdfc696ab178ace218f1_cgraph.svg" width="364" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -2209,7 +2219,7 @@ it won't be modified. </p><dl class="section see"><dt>See also</dt><dd><a class=
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dba/class_database_1_1_memory_backend_a4776d93a9968f87bc793e6fad9e96a89_cgraph.svg" width="426" height="230"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dba/class_database_1_1_memory_backend_a4776d93a9968f87bc793e6fad9e96a89_cgraph.svg" width="426" height="179"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">

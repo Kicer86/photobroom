@@ -1,7 +1,6 @@
 <map id="Photo::Data::apply" name="Photo::Data::apply">
-<area shape="rect" id="node1" title=" " alt="" coords="233,106,359,131"/>
-<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#a9d9d28d5c6ca50aec66b845a364124a2" title="Add photos to database." alt="" coords="5,5,185,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="233,77,359,102"/>
+<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#ae9f3134491cdfdfc696ab178ace218f1" title="get particular photo" alt="" coords="5,5,185,45"/>
 <area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93d6664d9c92ca8a176d01c941ea149a" title="get particular photo" alt="" coords="14,69,177,109"/>
 <area shape="rect" id="node4" href="$d6/dc3/data__delta__tests_8cpp.html#aa7cd8c97026be456e7cd0013cb585821" title=" " alt="" coords="68,134,123,159"/>
-<area shape="rect" id="node5" href="$da/dba/class_database_1_1_memory_backend.html#a4776d93a9968f87bc793e6fad9e96a89" title="update photos details" alt="" coords="5,184,185,224"/>
 </map>

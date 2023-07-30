@@ -50,9 +50,9 @@
 <!-- Node3 -->
 <g id="node4" class="node">
 <title>Node3</title>
-<g id="a_node4"><a xlink:href="d4/dd4/struct_mock_database.html" target="_top" xlink:title=" ">
+<g id="a_node4"><a xlink:href="dc/d07/struct_database_mock.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="422.5,-19 340.5,-19 340.5,0 422.5,0 422.5,-19"/>
-<text text-anchor="middle" x="381.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">MockDatabase</text>
+<text text-anchor="middle" x="381.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">DatabaseMock</text>
 </a>
 </g>
 </g>

@@ -1,8 +1,7 @@
 <map id="PersonName::id" name="PersonName::id">
-<area shape="rect" id="node1" title=" " alt="" coords="251,141,365,166"/>
-<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#a3de50b6c286ab49aecdc8f7dbb60411d" title=" " alt="" coords="14,5,194,45"/>
-<area shape="rect" id="node3" href="$db/d61/class_database_1_1_a_people_information_accessor.html#a622f1d018043d9b9da354567db8d71f2" title="Store or update person details." alt="" coords="5,69,203,109"/>
-<area shape="rect" id="node4" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="10,133,198,173"/>
-<area shape="rect" id="node5" href="$da/dba/class_database_1_1_memory_backend.html#a563165a3d8a9bc0e8279caaa15ac3f93" title="Store or update person." alt="" coords="14,197,194,237"/>
-<area shape="rect" id="node6" href="$d1/de3/people__tests_8cpp.html#a97345afb0f60799babf73c6a1e822e9e" title=" " alt="" coords="51,262,157,287"/>
+<area shape="rect" id="node1" title=" " alt="" coords="241,109,356,134"/>
+<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#a3de50b6c286ab49aecdc8f7dbb60411d" title=" " alt="" coords="9,5,189,45"/>
+<area shape="rect" id="node3" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,69,193,109"/>
+<area shape="rect" id="node4" href="$da/dba/class_database_1_1_memory_backend.html#a563165a3d8a9bc0e8279caaa15ac3f93" title="Store or update person." alt="" coords="9,133,189,173"/>
+<area shape="rect" id="node5" href="$d1/de3/people__tests_8cpp.html#a97345afb0f60799babf73c6a1e822e9e" title=" " alt="" coords="47,198,152,223"/>
 </map>

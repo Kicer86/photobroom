@@ -53,7 +53,7 @@
 <title>Node12</title>
 <g id="a_node4"><a xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="384.5,-85 241.5,-85 241.5,-66 384.5,-66 384.5,-85"/>
-<text text-anchor="middle" x="313" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">NiceMock&lt; MockDatabase &gt;</text>
+<text text-anchor="middle" x="313" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">NiceMock&lt; DatabaseMock &gt;</text>
 </a>
 </g>
 </g>

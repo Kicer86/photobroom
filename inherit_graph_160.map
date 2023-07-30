@@ -1,7 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,77,105"/>
-<area shape="rect" id="node2" href="$d1/d85/class_main_tab.html" title=" " alt="" coords="149,5,221,31"/>
-<area shape="rect" id="node3" href="$de/d4c/class_media_preview.html" title=" " alt="" coords="133,55,237,80"/>
-<area shape="rect" id="node4" href="$dc/df3/class_qt_ext_choose_file.html" title=" " alt="" coords="125,104,244,129"/>
-<area shape="rect" id="node5" href="$d7/dff/class_tools_tab.html" title=" " alt="" coords="147,153,223,179"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,77,31"/>
+<area shape="rect" id="node2" href="$d0/d92/class_watcher.html" title=" " alt="" coords="125,5,196,31"/>
 </map>
