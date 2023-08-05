@@ -12,8 +12,6 @@ struct DatabaseMock: Database::IDatabase
 {
     MOCK_METHOD(Database::IBackend&, backend, (), (override));
     MOCK_METHOD(void, execute, (std::unique_ptr<Database::IDatabase::ITask> &&), (override));
-    MOCK_METHOD(void, init, (const Database::ProjectInfo &, const Callback<const Database::BackendStatus &> &), (override) );
-    MOCK_METHOD(void, close, (), (override));
     MOCK_METHOD(std::unique_ptr<Database::IClient>, attach, (const QString &), (override));
 };
 

@@ -36,7 +36,7 @@ namespace Database
 class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
 {
     public:
-        ProjectManager(Database::IBuilder *);
+        ProjectManager(Database::IBuilder &);
         ProjectManager(const ProjectManager &) = default;
         virtual ~ProjectManager() = default;
 
@@ -47,7 +47,7 @@ class PROJECT_UTILS_EXPORT ProjectManager: public IProjectManager
         OpenStatus open(const QString &) override;
 
     private:
-        Database::IBuilder* m_dbBuilder;
+        Database::IBuilder& m_dbBuilder;
 
         void createIgnoreFile(const ProjectInfo &) const;
 };

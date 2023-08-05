@@ -39,8 +39,8 @@ namespace Database
     {
         virtual ~IBuilder() = default;
 
-        virtual std::unique_ptr<IDatabase> get(const ProjectInfo &) = 0;
+        virtual std::unique_ptr<IDatabaseRoot> get(const ProjectInfo &) = 0;
     };
 }
 
-#endif // IDATABASEBUILDER_HPP
+#endif

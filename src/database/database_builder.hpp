@@ -34,7 +34,7 @@ struct IConfiguration;
 
 namespace Database
 {
-    struct IDatabase;
+    struct IDatabaseRoot;
     struct IFrontend;
 
     struct DATABASE_EXPORT Builder: public IBuilder
@@ -46,7 +46,7 @@ namespace Database
             void set(ILoggerFactory *);
             void set(IConfiguration *);
 
-            virtual std::unique_ptr<IDatabase> get(const ProjectInfo &) override;
+            virtual std::unique_ptr<IDatabaseRoot> get(const ProjectInfo &) override;
 
         private:
             struct Impl;

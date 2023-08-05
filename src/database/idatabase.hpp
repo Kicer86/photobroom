@@ -113,23 +113,15 @@ namespace Database
     };
 
 
-    //Database interface.
-    //A bridge between clients and backend.
+    /**
+     * @brief Base Database interface.
+     * A bridge between regular clients and backend.
+     */
     struct DATABASE_EXPORT IDatabase: IDatabaseThread
     {
-        template <typename... Args>
-        using Callback = std::function<void(Args...)>;
-
         virtual ~IDatabase() = default;
 
-        // other
         virtual IBackend& backend() = 0;
-
-        //init backend - connect to database or create new one
-        virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) = 0;
-
-        //close database
-        virtual void close() = 0;
 
         /**
          * @brief Attach to db as a client
@@ -142,6 +134,27 @@ namespace Database
          * @return object blocking database's destruction
          */
         [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &) = 0;
+    };
+
+    /**
+     * @brief Database interface for main client
+     *
+     * Extends @ref Database::IDatabase by open/close methods
+     */
+    struct DATABASE_EXPORT IDatabaseRoot: IDatabase
+    {
+        template <typename... Args>
+        using Callback = std::function<void(Args...)>;
+
+        using OpenCallback = Callback<const BackendStatus &>;
+
+        virtual ~IDatabaseRoot() = default;
+
+        //init backend - connect to database or create new one
+        virtual void init(const ProjectInfo &, const OpenCallback &) = 0;
+
+        //close database
+        virtual void close() = 0;
     };
 }
 

@@ -37,7 +37,7 @@ namespace Database
     struct IThreadTask;
 
 
-    class AsyncDatabase: public IDatabase
+    class AsyncDatabase: public IDatabaseRoot
     {
         public:
             AsyncDatabase(std::unique_ptr<IBackend> &&, ILogger *);
