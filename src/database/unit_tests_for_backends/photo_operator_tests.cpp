@@ -123,7 +123,7 @@ TYPED_TEST(PhotoOperatorTest, sortingByPHashReversed)
 
     std::vector<Photo::DataDelta> photos;
     for (const auto& id: ids)
-        photos.push_back(this->m_backend->getPhotoDelta(id, {Photo::Field::PHash}));
+        photos.push_back(this->m_backend->template getPhotoDelta<Photo::Field::PHash>(id));
 
     std::vector<int> phashes;
     std::transform(photos.begin(), photos.end(), std::back_inserter(phashes), [](const Photo::DataDelta& data) { return data.get<Photo::Field::PHash>().value(); });
@@ -180,7 +180,7 @@ TYPED_TEST(PhotoOperatorTest, removal)
     // Some may ask Photo::DataDelta for it while photo is being deleted.
     // It is not convenient to protect them all against null result.
     // Instead db should mark such photos and delete them later (possibly on db close).
-    const Photo::DataDelta readData = this->m_backend->getPhotoDelta(id, {Photo::Field::Path});    // TODO: for some reason Photo::DataDelta cannot be replaced with auto. gcc 12.1.1 bug?
+    const Photo::DataDelta readData = this->m_backend->template getPhotoDelta<Photo::Field::Path>(id);    // TODO: for some reason Photo::DataDelta cannot be replaced with auto. gcc 12.1.1 bug?
     const auto& readDataPath = readData.get<Photo::Field::Path>();
     EXPECT_EQ(readDataPath, path);
 }
