@@ -76,7 +76,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 // load path to photo
                 const Photo::DataDelta photoData = evaluate<Photo::DataDelta(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
                 {
-                    return backend.getPhotoDelta(id, {Photo::Field::Path});
+                    return backend.getPhotoDelta<Photo::Field::Path>(id);
                 });
 
                 // generate base thumbnail
