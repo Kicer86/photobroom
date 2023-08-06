@@ -166,7 +166,7 @@ void PhotosDataGuesser::processIds(Database::IBackend& backend, const std::vecto
 
     for(const Photo::Id& id: ids)
     {
-        const Photo::DataDelta photoData = backend.getPhotoDelta(id, {Photo::Field::Path});
+        const auto photoData = backend.getPhotoDelta<Photo::Field::Path>(id);
         const auto tags = extractor.extract(photoData.get<Photo::Field::Path>());
 
         if (tags.empty() == false)
@@ -199,7 +199,7 @@ void PhotosDataGuesser::updatePhotos(Database::IBackend& backend, const std::vec
 
     for (const auto& info: infos)
     {
-        auto photoDelta = backend.getPhotoDelta(info.photoData.getId(), { Photo::Field::Tags });
+        auto photoDelta = backend.getPhotoDelta<Photo::Field::Tags>(info.photoData.getId());
         auto tags = photoDelta.get<Photo::Field::Tags>();
 
         if (info.date.isValid())
