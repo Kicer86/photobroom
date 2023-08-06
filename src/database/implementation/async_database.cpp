@@ -59,7 +59,7 @@ namespace Database
 
             for(;;)
             {
-                std::optional< std::unique_ptr<IDatabaseThread::ITask> > taskOpt = m_tasks.pop();
+                std::optional< std::unique_ptr<IDatabase::ITask> > taskOpt = m_tasks.pop();
 
                 if (taskOpt)
                 {
@@ -91,18 +91,18 @@ namespace Database
         }
 
 
-        void addTask(std::unique_ptr<IDatabaseThread::ITask>&& task)
+        void addTask(std::unique_ptr<IDatabase::ITask>&& task)
         {
             m_tasks.push(std::move(task));
         }
 
         private:
-            ol::TS_Queue<std::unique_ptr<IDatabaseThread::ITask>> m_tasks;
+            ol::TS_Queue<std::unique_ptr<IDatabase::ITask>> m_tasks;
             Database::IBackend& m_backend;
             std::unique_ptr<ILogger> m_logger;
     };
 
-    struct DbCloseTask final: IDatabaseThread::ITask
+    struct DbCloseTask final: IDatabase::ITask
     {
         DbCloseTask() = default;
 
@@ -184,7 +184,7 @@ namespace Database
     }
 
 
-    void AsyncDatabase::execute(std::unique_ptr<IDatabaseThread::ITask>&& task)
+    void AsyncDatabase::execute(std::unique_ptr<IDatabase::ITask>&& task)
     {
         addTask(std::move(task));
     }
@@ -226,7 +226,7 @@ namespace Database
     }
 
 
-    void AsyncDatabase::addTask(std::unique_ptr<IDatabaseThread::ITask>&& task)
+    void AsyncDatabase::addTask(std::unique_ptr<IDatabase::ITask>&& task)
     {
         // When task comes from from db's thread execute it immediately.
         // This simplifies some client's codes (when operating inside of execute())

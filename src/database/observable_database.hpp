@@ -19,10 +19,10 @@ class ObservableDatabase: public ObservableExecutor, public T
         }
 
     private:
-        class Task: public Database::IDatabaseThread::ITask
+        class Task: public Database::IDatabase::ITask
         {
             public:
-                Task(ObservableDatabase& executor, std::unique_ptr<Database::IDatabaseThread::ITask>&& task)
+                Task(ObservableDatabase& executor, std::unique_ptr<Database::IDatabase::ITask>&& task)
                     : m_task(std::move(task))
                     , m_executor(executor)
                 {
@@ -42,13 +42,13 @@ class ObservableDatabase: public ObservableExecutor, public T
                 }
 
             private:
-                std::unique_ptr<Database::IDatabaseThread::ITask> m_task;
+                std::unique_ptr<Database::IDatabase::ITask> m_task;
                 ObservableDatabase& m_executor;
         };
 
         friend class Task;
 
-        void execute(std::unique_ptr<Database::IDatabaseThread::ITask>&& task) override
+        void execute(std::unique_ptr<Database::IDatabase::ITask>&& task) override
         {
             auto observedTask = std::make_unique<Task>(*this, std::move(task));
 

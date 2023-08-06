@@ -84,7 +84,7 @@ namespace Database
             bool m_acceptClients = true;
             bool m_working;
 
-            void addTask(std::unique_ptr<IDatabaseThread::ITask> &&);
+            void addTask(std::unique_ptr<IDatabase::ITask> &&);
             void sendOnCloseNotification();
             void waitForClients(std::unique_lock<std::mutex> &);
             void stopExecutor();

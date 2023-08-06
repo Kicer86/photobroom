@@ -53,11 +53,26 @@ namespace Database
     struct IDatabaseClient;
     struct ProjectInfo;
 
+    struct IDatabase;
 
-    // class responsible for running tasks meant to be executed in db's thread on IBackend
-    struct DATABASE_EXPORT IDatabaseThread
+    struct IClient
     {
-        virtual ~IDatabaseThread() = default;
+        virtual ~IClient() = default;
+
+        virtual IDatabase& db() = 0;
+        virtual void onClose(const std::function<void()> &) = 0;
+    };
+
+
+    /**
+      * @brief Base Database interface.
+      * A bridge between regular clients and backend.
+      */
+    struct DATABASE_EXPORT IDatabase
+    {
+        virtual ~IDatabase() = default;
+
+        virtual IBackend& backend() = 0;
 
         template<typename Callable> requires std::is_invocable_v<Callable, IBackend &>
         void exec(Callable&& f, const std::string& name = std::source_location::current().function_name())
@@ -65,6 +80,18 @@ namespace Database
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f), name);
             execute(std::move(task));
         }
+
+        /**
+         * @brief Attach to db as a client
+         *
+         * After being closed, database will be kept alive until all clients
+         * destroy theirs std::unique_ptr<IClient> objects.
+         *
+         * That gives clients time to write down what they need to database
+         *
+         * @return object blocking database's destruction
+         */
+        [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &) = 0;
 
         struct ITask
         {
@@ -102,44 +129,12 @@ namespace Database
             virtual void execute(std::unique_ptr<ITask> &&) = 0;
     };
 
-    struct IDatabase;
-
-    struct IClient
-    {
-        virtual ~IClient() = default;
-
-        virtual IDatabase& db() = 0;
-        virtual void onClose(const std::function<void()> &) = 0;
-    };
-
-
-    /**
-     * @brief Base Database interface.
-     * A bridge between regular clients and backend.
-     */
-    struct DATABASE_EXPORT IDatabase: IDatabaseThread
-    {
-        virtual ~IDatabase() = default;
-
-        virtual IBackend& backend() = 0;
-
-        /**
-         * @brief Attach to db as a client
-         *
-         * After being closed, database will be kept alive until all clients
-         * destroy theirs std::unique_ptr<IClient> objects.
-         *
-         * That gives clients time to write down what they need to database
-         *
-         * @return object blocking database's destruction
-         */
-        [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &) = 0;
-    };
-
     /**
      * @brief Database interface for main client
      *
-     * Extends @ref Database::IDatabase by open/close methods
+     * Extends @ref Database::IDatabase by open/close methods.
+     * This interface is returned by @ref Database::IBuilder and should be kept by main client
+     * to control db open and close operations. Other clients should use @ref Database::IDatabase
      */
     struct DATABASE_EXPORT IDatabaseRoot: IDatabase
     {
