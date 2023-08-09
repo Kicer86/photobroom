@@ -165,21 +165,36 @@ ApplicationWindow {
                 id: toolsStackView
 
                 Loader {
-                    active: PhotoBroomProject.projectOpen
+                    active: PhotoBroomProject.projectOpen && toolsStackView.currentIndex == StackLayout.index
 
-                    sourceComponent: PhotoDataCompletion { }
+                    Component {
+                        id: data_completion
+                        PhotoDataCompletion { }
+                    }
+
+                    sourceComponent: PhotoBroomProject.projectOpen? data_completion : undefined
                 }
 
                 Loader {
-                    active: PhotoBroomProject.projectOpen
+                    active: PhotoBroomProject.projectOpen && toolsStackView.currentIndex == StackLayout.index
 
-                    sourceComponent: Internals.DuplicatesView { }
+                    Component {
+                        id: duplicates_view
+                        Internals.DuplicatesView { }
+                    }
+
+                    sourceComponent: PhotoBroomProject.projectOpen? duplicates_view : undefined
                 }
 
                 Loader {
-                    active: PhotoBroomProject.projectOpen
+                    active: PhotoBroomProject.projectOpen && toolsStackView.currentIndex == StackLayout.index
 
-                    sourceComponent: SeriesDetection { }
+                    Component {
+                        id: series_detection
+                        SeriesDetection { }
+                    }
+
+                    sourceComponent: PhotoBroomProject.projectOpen? series_detection : undefined
                 }
             }
         }
