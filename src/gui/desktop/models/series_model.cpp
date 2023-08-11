@@ -176,7 +176,9 @@ void SeriesModel::fetchGroups()
 
             timer.start();
             promise.addResult(detector.listCandidates());
-            m_logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(timer.elapsed())/1000.0));
+
+            const auto elapsed = timer.elapsed();
+            m_logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
         },
         "SeriesDetector"
     );
