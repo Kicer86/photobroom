@@ -14,6 +14,9 @@ class DuplicatesModel: public QAbstractListModel
     Q_PROPERTY(bool workInProgress READ isWorking NOTIFY workStatusChanged)
 
 public:
+    DuplicatesModel();
+    ~DuplicatesModel() override;
+
     QVariant data(const QModelIndex& index, int role) const override;
     int rowCount(const QModelIndex& parent) const override;
     QHash<int, QByteArray> roleNames() const override;

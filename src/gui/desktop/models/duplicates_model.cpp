@@ -16,6 +16,20 @@ enum Roles
 ENUM_ROLES_SETUP(Roles);
 
 
+DuplicatesModel::DuplicatesModel()
+{
+
+}
+
+
+DuplicatesModel::~DuplicatesModel()
+{
+
+}
+
+
+
+
 QVariant DuplicatesModel::data(const QModelIndex& index, int role) const
 {
     const auto row = index.row();
