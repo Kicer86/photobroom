@@ -32,6 +32,7 @@ SeriesModel::SeriesModel()
 
 SeriesModel::~SeriesModel()
 {
+    // TODO: this should not block
     m_candidatesFuture.cancel();
     m_candidatesFuture.waitForFinished();
 }
@@ -171,6 +172,8 @@ void SeriesModel::fetchGroups()
 
             QElapsedTimer timer;
 
+            using namespace std::chrono_literals;
+            std::this_thread::sleep_for(3s);
             auto detectLogger = m_logger->subLogger("SeriesDetector");
             SeriesDetector detector(*detectLogger, m_project->getDatabase(), exif.get(), &promise);
 
