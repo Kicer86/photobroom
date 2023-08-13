@@ -161,27 +161,29 @@ void SeriesModel::fetchGroups()
 
     stoppableTask<std::vector<GroupCandidate>>(
         m_work,
-        [this](const std::stop_token& stopToken, std::function<void(const std::vector<GroupCandidate> &)> callback)
+        [this]
+        (const std::stop_token& stopToken, std::function<void(const std::vector<GroupCandidate> &)> callback)
         {
             auto& executor = m_core->getTaskExecutor();
+
             runOn(
                 executor,
-                [this, callback, stopToken]()
+                [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach("SeriesDetector"), callback, stopToken]() mutable
                 {
-                    IExifReaderFactory& exif = m_core->getExifReaderFactory();
+                    IExifReaderFactory& exif = core->getExifReaderFactory();
 
                     QElapsedTimer timer;
 
                     using namespace std::chrono_literals;
                     std::this_thread::sleep_for(3s);
-                    auto detectLogger = m_logger->subLogger("SeriesDetector");
-                    SeriesDetector detector(*detectLogger, m_project->getDatabase(), exif.get(), stopToken);
+                    auto detectLogger = logger->subLogger("SeriesDetector");
+                    SeriesDetector detector(*detectLogger, dbClient->db(), exif.get(), stopToken);
 
                     timer.start();
                     const auto candidates = detector.listCandidates();
                     const auto elapsed = timer.elapsed();
 
-                    m_logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
+                    logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
 
                     callback(candidates);
                 },
