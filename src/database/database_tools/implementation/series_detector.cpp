@@ -295,6 +295,7 @@ namespace
 
                 std::vector<SeriesDetector::ExplicitDelta> members;
 
+                m_logger->debug(QString("Processing group of %1 condidates").arg(std::distance(m_photos.end(), it)));
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
                 {
                     const auto& data = *it2;
@@ -309,6 +310,7 @@ namespace
                     else
                         break;
                 }
+                m_logger->debug("Group processing finished");
 
                 const auto membersCount = members.size();
 
