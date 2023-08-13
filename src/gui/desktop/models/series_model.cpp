@@ -43,7 +43,7 @@ void SeriesModel::group(const QList<int>& rows)
 
     for(const int i: rows)
     {
-        const auto& candidate = m_candidates[i];
+        const auto& candidate = m_candidates[static_cast<std::size_t>(i)];
 
         toStore.push_back(candidate.members);
     }
@@ -105,7 +105,7 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
 {
     if (index.isValid() && index.column() == 0 && index.row() < static_cast<int>(m_candidates.size()))
     {
-        const auto& candidate = m_candidates[index.row()];
+        const auto& candidate = m_candidates[static_cast<std::size_t>(index.row())];
 
         if (role == PhotoDataRole)
             return QVariant::fromValue(candidate.members.front());
@@ -133,7 +133,7 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
 
 int SeriesModel::rowCount(const QModelIndex& parent) const
 {
-    return parent.isValid()? 0: m_candidates.size();
+    return parent.isValid()? 0: static_cast<int>(m_candidates.size());
 }
 
 
@@ -176,7 +176,7 @@ void SeriesModel::fetchGroups()
 
             timer.start();
             promise.addResult(detector.listCandidates());
-            m_logger->debug(QString("Photos analysis took %1s").arg(timer.elapsed()/1000.0));
+            m_logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(timer.elapsed())/1000.0));
         },
         "SeriesDetector"
     );
@@ -187,7 +187,7 @@ void SeriesModel::fetchGroups()
 
 void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
 {
-    beginInsertRows({}, 0, canditates.size() - 1);
+    beginInsertRows({}, 0, static_cast<int>(canditates.size()) - 1);
     m_candidates = canditates;
     m_logger->info(QString("Got %1 group canditates").arg(m_candidates.size()));
     endInsertRows();
