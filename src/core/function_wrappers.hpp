@@ -247,11 +247,52 @@ using StoppableTaskCallback = std::function<void(const T&)>;
 template<typename R, typename Callback>
 void stoppableTask(const std::stop_source& stop_source, std::function<void(const std::stop_token &, StoppableTaskCallback<R>)> task, Callback callback)
 {
-    safe_callback_ctrl ctrl;
-    auto safe_callback = ctrl.make_safe_callback<R>(callback);
+    // Helper class containing safe_callback_ctrl related stuff.
+    // It's purpose is to live as long as task and callback are alive to make sure
+    // safe_callback_ctrl and std::stop_callback are alive as well (used by stop_token stop request).
+    class Context final
+    {
+    public:
+        Context(std::stop_token stop_token)
+            : stop_callback(
+                stop_token,
+                [this]
+                {
+                    ctrl.invalidate();
+                    callback_invalidated = true;
+                })
+        {
+
+        }
+
+        ~Context()
+        {
+            // task should called callback (if valid)
+            assert(callback_called || callback_invalidated);
+
+            // ctrl needs to be invalidated before destruction
+            ctrl.invalidate();
+        }
+
+        safe_callback_ctrl ctrl;
+        std::stop_callback<std::function<void()>> stop_callback;
+        bool callback_called = false;
+        bool callback_invalidated = false;
+    };
 
     const auto stop_token = stop_source.get_token();
-    std::stop_callback stop_callback(stop_token, [&ctrl]{ ctrl.invalidate(); });
+    auto context = std::make_shared<Context>(stop_token);
+
+    // inject context into callback so it will live with it and wrap it with safe_callback so
+    // it can be invalidated when stop (on stop_token) is requested.
+    auto safe_callback = context->ctrl.template make_safe_callback<R>(
+        [context, callback](const R& r)
+        {
+            callback(r);
+
+            // mark callback called
+            context->callback_called = true;
+        });
 
     task(stop_token, safe_callback);
 };

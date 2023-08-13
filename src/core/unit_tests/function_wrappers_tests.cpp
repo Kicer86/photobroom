@@ -1,5 +1,6 @@
 
 #include <functional>
+#include <thread>
 #include <gmock/gmock.h>
 
 #include "function_wrappers.hpp"
@@ -82,4 +83,76 @@ TEST(SafeCallbackTest, sequentialCall)
     EXPECT_TRUE(safe_callback2.is_valid());
     safe_callback1();
     safe_callback2(123, 456);
+}
+
+
+TEST(StoppableTask, notStopped)
+{
+    int result = 0;
+    std::mutex mutex;
+
+    mutex.lock();
+
+    std::stop_source stop_source;
+    stoppableTask<int>(
+        stop_source,
+        [](const std::stop_token &, auto c)
+        {
+            std::jthread([c](const std::stop_token &)
+            {
+                c(5);
+            });
+        },
+        [&result, &mutex](int v)
+        {
+            result = v;
+            mutex.unlock();
+        }
+    );
+
+    // wait for task to finish
+    mutex.lock();
+
+    EXPECT_EQ(result, 5);
+}
+
+
+TEST(StoppableTask, stopped)
+{
+    bool stopped = false;
+    bool called = false;
+    std::mutex mutex_1, mutex_2;
+
+    mutex_1.lock();
+    mutex_2.lock();
+
+    std::stop_source stop_source;
+    stoppableTask<int>(
+        stop_source,
+        [&stopped, &mutex_1, &mutex_2](const std::stop_token& s, auto c)
+        {
+            std::thread([c, s, &stopped, &mutex_1, &mutex_2]
+            {
+                mutex_1.lock();                     // wait for mutex (step #1)
+                stopped = s.stop_requested();
+                c(5);
+                mutex_2.unlock();                   // release mutex (step #2)
+            }).detach();
+        },
+        [&called](int)
+        {
+            called = true;
+        }
+    );
+
+    // step #1: stop task and let it finish
+    stop_source.request_stop();
+    mutex_1.unlock();
+
+    // step #2: wait for task to finish
+    mutex_2.lock();
+
+    // verify expectations
+    EXPECT_TRUE(stopped);
+    EXPECT_FALSE(called);
 }
