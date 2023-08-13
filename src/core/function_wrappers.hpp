@@ -29,7 +29,7 @@ template<typename... Args>
 class safe_callback final
 {
     public:
-        safe_callback(const std::shared_ptr<safe_callback_data>& data, const std::function<void(Args...)>& callback): m_data(data), m_callback(callback) {}
+        safe_callback(const std::shared_ptr<safe_callback_data>& data, std::function<void(Args...)>&& callback): m_data(data), m_callback(callback) {}
         safe_callback(const safe_callback<Args...> &) = default;
 
         safe_callback& operator=(const safe_callback<Args...> &) = default;
@@ -82,9 +82,9 @@ class safe_callback_ctrl final
         }
 
         template<typename... R, typename T>
-        auto make_safe_callback(const T& callback) const
+        auto make_safe_callback(T&& callback) const
         {
-            safe_callback<R...> callbackPtr(m_data, callback);
+            safe_callback<R...> callbackPtr(m_data, std::forward<T>(callback));
 
             return callbackPtr;
         }
