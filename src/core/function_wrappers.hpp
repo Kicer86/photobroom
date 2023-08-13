@@ -5,6 +5,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <stop_token>
 
 #include <QPointer>
 #include <QThread>
@@ -230,5 +231,30 @@ std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
             (object->*method)(std::forward<Args>(args)...);
     };
 }
+
+template<typename T>
+using StoppableTaskCallback = std::function<void(const T&)>;
+/**
+ * @brief run @p task and then call @p callback with result if @ref stop_source was not stopped
+ * @param stop_source used to get stop_token passed to @p task. @p task should take use of it to stop work when needed.
+ * @param task stoppable task to be executed. @p task should call provided callback with result whem job is done
+ * @param callback callback provided by user to be called when @p task is done
+ *
+ * stoppableTask() will wrap @p callback using @ref safe_callback_ctrl to make sure it won't be called when @p stop_source was stopped.
+ * Therefore it is safe to destroy any objects used by @p callback before @p task is done.
+ * @note All objects in @p task need to be valid during execution.
+ */
+template<typename R, typename Callback>
+void stoppableTask(const std::stop_source& stop_source, std::function<void(const std::stop_token &, StoppableTaskCallback<R>)> task, Callback callback)
+{
+    safe_callback_ctrl ctrl;
+    auto safe_callback = ctrl.make_safe_callback<R>(callback);
+
+    const auto stop_token = stop_source.get_token();
+    std::stop_callback stop_callback(stop_token, [&ctrl]{ ctrl.invalidate(); });
+
+    task(stop_token, safe_callback);
+};
+
 
 #endif
