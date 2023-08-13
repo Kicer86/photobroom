@@ -4,6 +4,7 @@
 
 #include <QAbstractItemModel>
 #include <QFuture>
+#include <stop_token>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/itasks_view.hpp>
@@ -62,7 +63,7 @@ private:
     std::vector<GroupCandidate> m_candidates;
     Project* m_project = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
-    QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
+    std::stop_source m_work;
     State m_state = Idle;
 
     void setState(State);

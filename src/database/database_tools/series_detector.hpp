@@ -21,7 +21,7 @@
 
 #include <chrono>
 #include <deque>
-#include <QPromise>
+#include <stop_token>
 
 #include <core/ilogger.hpp>
 #include <database/group.hpp>
@@ -48,14 +48,14 @@ class DATABASE_EXPORT SeriesDetector
             Rules(std::chrono::milliseconds manualSeriesMaxGap = std::chrono::seconds(10), bool neighbors = false);
         };
 
-        SeriesDetector(ILogger &, Database::IDatabase &, IExifReader &, const QPromise<std::vector<GroupCandidate>> * = nullptr);
+        SeriesDetector(ILogger &, Database::IDatabase &, IExifReader &, const std::stop_token &);
 
         std::vector<GroupCandidate> listCandidates(const Rules& = Rules()) const;
 
     private:
         ILogger& m_logger;
         Database::IDatabase& m_db;
-        const QPromise<std::vector<GroupCandidate>>* m_promise;
+        std::stop_token m_stopToken;
         IExifReader& m_exifReader;
 
         std::vector<GroupCandidate> analyzePhotos(const std::deque<ExplicitDelta> &, const Rules &) const;

@@ -32,9 +32,7 @@ SeriesModel::SeriesModel()
 
 SeriesModel::~SeriesModel()
 {
-    // TODO: this should not block
-    m_candidatesFuture.cancel();
-    m_candidatesFuture.waitForFinished();
+    m_work.request_stop();
 }
 
 
@@ -161,32 +159,37 @@ void SeriesModel::fetchGroups()
 {
     setState(State::Fetching);
 
-    auto& executor = m_core->getTaskExecutor();
-
-    m_candidatesFuture = runOn<std::vector<GroupCandidate>>
-    (
-        executor,
-        [this](QPromise<std::vector<GroupCandidate>>& promise)
+    stoppableTask<std::vector<GroupCandidate>>(
+        m_work,
+        [this](const std::stop_token& stopToken, std::function<void(const std::vector<GroupCandidate> &)> callback)
         {
-            IExifReaderFactory& exif = m_core->getExifReaderFactory();
+            auto& executor = m_core->getTaskExecutor();
+            runOn(
+                executor,
+                [this, callback, stopToken]()
+                {
+                    IExifReaderFactory& exif = m_core->getExifReaderFactory();
 
-            QElapsedTimer timer;
+                    QElapsedTimer timer;
 
-            using namespace std::chrono_literals;
-            std::this_thread::sleep_for(3s);
-            auto detectLogger = m_logger->subLogger("SeriesDetector");
-            SeriesDetector detector(*detectLogger, m_project->getDatabase(), exif.get(), &promise);
+                    using namespace std::chrono_literals;
+                    std::this_thread::sleep_for(3s);
+                    auto detectLogger = m_logger->subLogger("SeriesDetector");
+                    SeriesDetector detector(*detectLogger, m_project->getDatabase(), exif.get(), stopToken);
 
-            timer.start();
-            promise.addResult(detector.listCandidates());
+                    timer.start();
+                    const auto candidates = detector.listCandidates();
+                    const auto elapsed = timer.elapsed();
 
-            const auto elapsed = timer.elapsed();
-            m_logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
+                    m_logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
+
+                    callback(candidates);
+                },
+                "SeriesDetector"
+            );
         },
-        "SeriesDetector"
+        std::bind(&SeriesModel::updateModel, this, _1)
     );
-
-    m_candidatesFuture.then(std::bind(&SeriesModel::updateModel, this, _1));
 }
 
 
