@@ -174,8 +174,6 @@ void SeriesModel::fetchGroups()
 
                     QElapsedTimer timer;
 
-                    using namespace std::chrono_literals;
-                    std::this_thread::sleep_for(3s);
                     auto detectLogger = logger->subLogger("SeriesDetector");
                     SeriesDetector detector(*detectLogger, dbClient->db(), exif.get(), stopToken);
 
