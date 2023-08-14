@@ -37,7 +37,8 @@ jobs:
 
     - name: python deps
       run: |
-        pip install Pillow cairosvg
+        pip install Pillow cairosvg pipwin
+        pipwin install cairocffi
 
     - name: Cache external tools
       uses: actions/cache@v3
