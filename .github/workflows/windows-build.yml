@@ -36,7 +36,7 @@ jobs:
         modules: 'qtmultimedia'
 
     - name: Cache external tools
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: out/build/ninja_release_vcpkg/tools
         key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
