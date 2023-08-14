@@ -59,7 +59,7 @@ namespace Database
             class Client: public IClient
             {
             public:
-                Client(AsyncDatabase &);
+                explicit Client(AsyncDatabase &);
                 ~Client() override;
 
                 IDatabase& db() override;
