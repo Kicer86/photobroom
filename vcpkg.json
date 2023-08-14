@@ -16,7 +16,10 @@
         "default-features": false,
         "features": [ "contrib" ]
     },
-    "cairo",
+    {
+      "name": "cairo",
+      "platform": "windows"
+    },
     "exiv2",
     "jsoncpp",
     "libguarded",
