@@ -20,6 +20,7 @@
 #ifndef DATABASETHREAD_HPP
 #define DATABASETHREAD_HPP
 
+#include <condition_variable>
 #include <thread>
 #include <vector>
 
@@ -36,7 +37,7 @@ namespace Database
     struct IThreadTask;
 
 
-    class AsyncDatabase: public IDatabase
+    class AsyncDatabase: public IDatabaseRoot
     {
         public:
             AsyncDatabase(std::unique_ptr<IBackend> &&, ILogger *);
@@ -50,18 +51,44 @@ namespace Database
             IBackend& backend() override;
 
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
-            virtual void closeConnections() override;
+            virtual void close() override;
+
+            std::unique_ptr<IClient> attach(const QString &) override;
 
         private:
+            class Client: public IClient
+            {
+            public:
+                explicit Client(AsyncDatabase &);
+                ~Client() override;
+
+                IDatabase& db() override;
+                void onClose(const std::function<void()> &) override;
+
+                void callOnClose() const;
+
+            private:
+                std::function<void()> m_onClose;
+                AsyncDatabase& m_db;
+            };
+
+            friend struct Client;
+
+            std::set<Client *> m_clients;
+            std::mutex m_clientsMutex;
             std::unique_ptr<ILogger> m_logger;
             std::unique_ptr<IBackend> m_backend;
             std::unique_ptr<Executor> m_executor;
+            std::condition_variable m_clientsChangeCV;
             std::thread m_thread;
+            bool m_acceptClients = true;
             bool m_working;
 
-            //store task to be executed by thread
-            void addTask(std::unique_ptr<IDatabaseThread::ITask> &&);
+            void addTask(std::unique_ptr<IDatabase::ITask> &&);
+            void sendOnCloseNotification();
+            void waitForClients(std::unique_lock<std::mutex> &);
             void stopExecutor();
+            void remove(Client *);
     };
 
 }

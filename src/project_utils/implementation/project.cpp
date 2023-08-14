@@ -23,8 +23,6 @@
 #include <QFileInfo>
 #include <QString>
 
-#include <database/idatabase_builder.hpp>
-
 
 ProjectInfo::ProjectInfo(const QString& _path): ProjectInfo()
 {
@@ -93,9 +91,9 @@ QString ProjectInfo::getInternalLocation(InternalData dataType) const
 const char* Project::ignoreFileName = ".photo_broom_ignore";
 
 
-Project::Project(std::unique_ptr<Database::IDatabase>&& db, const ProjectInfo& prjInfo):
+Project::Project(Database::IBuilder& dbBuilder, const ProjectInfo& prjInfo):
     m_prjInfo(prjInfo),
-    m_database(std::move(db)),
+    m_dbBuilder(dbBuilder),
     m_lock(prjInfo.getPath() + ".lock")
 {
     // create internal directories
@@ -112,6 +110,19 @@ Project::~Project()
 bool Project::lockProject()
 {
     return m_lock.tryLock();
+}
+
+
+void Project::openDatabase(const Database::ProjectInfo& prjInfo, const Database::IDatabaseRoot::OpenCallback& openCallback)
+{
+    m_database = m_dbBuilder.get(prjInfo);
+    m_database->init(prjInfo, openCallback);
+}
+
+
+void Project::closeDatabase()
+{
+    m_database->close();
 }
 
 

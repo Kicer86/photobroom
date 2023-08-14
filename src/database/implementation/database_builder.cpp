@@ -90,7 +90,7 @@ namespace Database
     }
 
 
-    std::unique_ptr<IDatabase> Builder::get(const ProjectInfo& info)
+    std::unique_ptr<IDatabaseRoot> Builder::get(const ProjectInfo& info)
     {
         Database::IPlugin* plugin = m_impl->pluginLoader->getDBPlugin(info.backendName);
         assert(plugin);

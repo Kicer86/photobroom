@@ -59,7 +59,7 @@ namespace Database
 
             for(;;)
             {
-                std::optional< std::unique_ptr<IDatabaseThread::ITask> > taskOpt = m_tasks.pop();
+                std::optional< std::unique_ptr<IDatabase::ITask> > taskOpt = m_tasks.pop();
 
                 if (taskOpt)
                 {
@@ -91,18 +91,18 @@ namespace Database
         }
 
 
-        void addTask(std::unique_ptr<IDatabaseThread::ITask>&& task)
+        void addTask(std::unique_ptr<IDatabase::ITask>&& task)
         {
             m_tasks.push(std::move(task));
         }
 
         private:
-            ol::TS_Queue<std::unique_ptr<IDatabaseThread::ITask>> m_tasks;
+            ol::TS_Queue<std::unique_ptr<IDatabase::ITask>> m_tasks;
             Database::IBackend& m_backend;
             std::unique_ptr<ILogger> m_logger;
     };
 
-    struct DbCloseTask final: IDatabaseThread::ITask
+    struct DbCloseTask final: IDatabase::ITask
     {
         DbCloseTask() = default;
 
@@ -121,12 +121,46 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend,
-                                 ILogger* logger):
-        m_logger(logger->subLogger("AsyncDatabase")),
-        m_backend(std::move(backend)),
-        m_executor(std::make_unique<Executor>(*m_backend.get(), m_logger.get())),
-        m_working(true)
+    AsyncDatabase::Client::Client(AsyncDatabase& _db)
+        : m_db(_db)
+    {
+
+    }
+
+
+    AsyncDatabase::Client::~Client()
+    {
+        m_db.remove(this);
+    }
+
+
+    IDatabase& AsyncDatabase::Client::db()
+    {
+        return m_db;
+    }
+
+
+    void AsyncDatabase::Client::onClose(const std::function<void()>& onClose_)
+    {
+        m_onClose = onClose_;
+    }
+
+
+    void AsyncDatabase::Client::callOnClose() const
+    {
+        if (m_onClose)
+            m_onClose();
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    AsyncDatabase::AsyncDatabase(std::unique_ptr<IBackend>&& backend, ILogger* logger)
+        : m_logger(logger->subLogger("AsyncDatabase"))
+        , m_backend(std::move(backend))
+        , m_executor(std::make_unique<Executor>(*m_backend.get(), m_logger.get()))
+        , m_working(true)
     {
         m_thread = std::thread(&Executor::begin, m_executor.get());
     }
@@ -135,13 +169,7 @@ namespace Database
     AsyncDatabase::~AsyncDatabase()
     {
         //terminate thread
-        closeConnections();
-    }
-
-
-    void AsyncDatabase::closeConnections()
-    {
-        stopExecutor();
+        close();
     }
 
 
@@ -156,7 +184,7 @@ namespace Database
     }
 
 
-    void AsyncDatabase::execute(std::unique_ptr<IDatabaseThread::ITask>&& task)
+    void AsyncDatabase::execute(std::unique_ptr<IDatabase::ITask>&& task)
     {
         addTask(std::move(task));
     }
@@ -168,7 +196,37 @@ namespace Database
     }
 
 
-    void AsyncDatabase::addTask(std::unique_ptr<IDatabaseThread::ITask>&& task)
+    void AsyncDatabase::close()
+    {
+        // close clients
+        std::unique_lock lk(m_clientsMutex);
+        m_acceptClients = false;
+
+        sendOnCloseNotification();
+        waitForClients(lk);
+
+        // finish tasks
+        stopExecutor();
+    }
+
+
+    std::unique_ptr<IClient> AsyncDatabase::attach(const QString& name)
+    {
+        if (m_acceptClients)
+        {
+            auto observer = std::make_unique<Client>(*this);
+
+            std::lock_guard _(m_clientsMutex);
+            m_clients.insert(observer.get());
+
+            return observer;
+        }
+        else
+            return {};
+    }
+
+
+    void AsyncDatabase::addTask(std::unique_ptr<IDatabase::ITask>&& task)
     {
         // When task comes from from db's thread execute it immediately.
         // This simplifies some client's codes (when operating inside of execute())
@@ -179,6 +237,24 @@ namespace Database
             assert(m_working);
             m_executor->addTask(std::move(task));
         }
+    }
+
+
+    void AsyncDatabase::sendOnCloseNotification()
+    {
+        assert(m_clientsMutex.try_lock() == false);     // m_clientsMutex should be locked by caller
+
+        for(auto& client: m_clients)
+            client->callOnClose();
+    }
+
+
+    void AsyncDatabase::waitForClients(std::unique_lock<std::mutex>& clientsLock)
+    {
+        m_clientsChangeCV.wait(clientsLock, [this]()
+        {
+            return m_clients.empty();
+        });
     }
 
 
@@ -197,6 +273,14 @@ namespace Database
             assert(m_thread.joinable());
             m_thread.join();
         }
+    }
+
+
+    void AsyncDatabase::remove(Client* c)
+    {
+        std::lock_guard _(m_clientsMutex);
+        m_clients.erase(c);
+        m_clientsChangeCV.notify_all();
     }
 
 }

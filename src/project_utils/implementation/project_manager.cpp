@@ -36,7 +36,7 @@
 #include "project.hpp"
 
 
-ProjectManager::ProjectManager(Database::IBuilder* builder): m_dbBuilder(builder)
+ProjectManager::ProjectManager(Database::IBuilder& builder): m_dbBuilder(builder)
 {
 
 }
@@ -80,7 +80,7 @@ ProjectInfo ProjectManager::new_prj(const QString& prjName, const Database::IPlu
 
 ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
 {
-    std::unique_ptr<Project> project = std::make_unique<Project>(nullptr, prjInfo);
+    std::unique_ptr<Project> project = std::make_unique<Project>(m_dbBuilder, prjInfo);
     Database::BackendStatus db_status;
 
     const QString& prjPath = prjInfo.getPath();
@@ -97,11 +97,6 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
         const QString location = basePath + "/" + prjFile.value("location").toString();
         prjFile.endGroup();
 
-        Database::ProjectInfo dbPrjInfo(location, backend);
-        auto db = m_dbBuilder->get(dbPrjInfo);
-
-        project = std::make_unique<Project>(std::move(db), prjInfo);
-
         const bool lock_status = project->lockProject();
 
         if (lock_status)
@@ -109,7 +104,8 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
             std::promise<Database::BackendStatus> openResult;
             auto openFuture = openResult.get_future();
 
-            project->getDatabase().init(dbPrjInfo, [&openResult](const Database::BackendStatus& status)
+            const Database::ProjectInfo dbPrjInfo(location, backend);
+            project->openDatabase(dbPrjInfo, [&openResult](const Database::BackendStatus& status)
             {
                 openResult.set_value(status);
             });
@@ -121,10 +117,7 @@ ProjectManager::OpenStatus ProjectManager::open(const ProjectInfo& prjInfo)
 
         }
         else
-        {
             db_status = Database::StatusCodes::ProjectLocked;
-            project = std::make_unique<Project>(nullptr, prjInfo);
-        }
     }
     else
         db_status = Database::StatusCodes::OpenFailed;

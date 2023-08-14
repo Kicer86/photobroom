@@ -22,16 +22,11 @@
 
 #include <memory>
 
-#include <QString>
 #include <QLockFile>
+#include <QString>
 
 #include "project_utils_export.h"
-
-
-namespace Database
-{
-    struct IDatabase;
-}
+#include <database/idatabase_builder.hpp>
 
 
 struct PROJECT_UTILS_EXPORT ProjectInfo
@@ -66,13 +61,15 @@ class PROJECT_UTILS_EXPORT Project
     public:
         static const char* ignoreFileName;
 
-        Project(std::unique_ptr<Database::IDatabase> &&, const ProjectInfo &);
+        Project(Database::IBuilder &, const ProjectInfo &);
         Project(const Project &) = delete;
         virtual ~Project();
 
         Project& operator=(const Project &) = delete;
 
         bool lockProject();
+        void openDatabase(const Database::ProjectInfo& prjInfo, const Database::IDatabaseRoot::OpenCallback &);
+        void closeDatabase();
 
         Database::IDatabase& getDatabase() const;
         const ProjectInfo& getProjectInfo() const;
@@ -81,7 +78,8 @@ class PROJECT_UTILS_EXPORT Project
 
     private:
         ProjectInfo m_prjInfo;
-        std::unique_ptr<Database::IDatabase> m_database;
+        Database::IBuilder& m_dbBuilder;
+        std::unique_ptr<Database::IDatabaseRoot> m_database;
         QLockFile m_lock;
 };
 

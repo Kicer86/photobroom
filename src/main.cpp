@@ -202,7 +202,7 @@ int main(int argc, char **argv)
     database_builder.set(&logger_factory);
     database_builder.set(&configuration);
 
-    ProjectManager prjManager(&database_builder);
+    ProjectManager prjManager(database_builder);
 
     switch (status)
     {
