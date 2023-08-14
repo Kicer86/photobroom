@@ -6,8 +6,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    reviewers:
+      - "Kicer86"
 
   - package-ecosystem: "gitsubmodule"
     directory: "/"
     schedule:
       interval: "weekly"
+    reviewers:
+      - "Kicer86"
