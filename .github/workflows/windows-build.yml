@@ -55,7 +55,7 @@ jobs:
         vcpkgJsonGlob: vcpkg.json
 
     - name: Add msbuild to PATH
-      uses: ilammy/msvc-dev-cmd@v1.11.0
+      uses: ilammy/msvc-dev-cmd@v1.12.1
 
     - name: Build
       run: |
