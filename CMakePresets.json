@@ -50,7 +50,8 @@
       "inherits": "ninja_release_vcpkg",
       "displayName": "Ninja Release Config Static",
       "cacheVariables": {
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded"
       }
     }
   ],
