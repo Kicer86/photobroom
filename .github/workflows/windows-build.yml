@@ -41,7 +41,7 @@ jobs:
 
     - name: test
       run: |
-        dir "*libcairo-2*" /s
+        Get-ChildItem -Path C:\ -Filter "libcairo-2*" -Recurse -ErrorAction SilentlyContinue -Force
 
     - name: Cache external tools
       uses: actions/cache@v3
