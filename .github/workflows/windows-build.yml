@@ -39,10 +39,6 @@ jobs:
       run: |
         pip install Pillow cairosvg
 
-    - name: test
-      run: |
-        Get-ChildItem -Path C:\ -Filter "libcairo-2*" -Recurse -ErrorAction SilentlyContinue -Force
-
     - name: Cache external tools
       uses: actions/cache@v3
       with:
