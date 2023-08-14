@@ -64,18 +64,18 @@
 <polygon fill="#9a32cd" stroke="#9a32cd" points="175.81,-57.53 183.84,-64.45 181.88,-54.04 175.81,-57.53"/>
 <text text-anchor="middle" x="196.5" y="-40" font-family="Helvetica,sans-Serif" font-size="10.00"> m_project</text>
 </g>
-<!-- Node8 -->
+<!-- Node9 -->
 <g id="node5" class="node">
-<title>Node8</title>
+<title>Node9</title>
 <g id="a_node5"><a xlink:href="../../d5/da9/struct_i_core_factory_accessor.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="344,-85 231,-85 231,-66 344,-66 344,-85"/>
 <text text-anchor="middle" x="287.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">ICoreFactoryAccessor</text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node1 -->
+<!-- Node9&#45;&gt;Node1 -->
 <g id="edge4" class="edge">
-<title>Node8&#45;&gt;Node1</title>
+<title>Node9&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M264.55,-59.65C252.6,-52.28 237.58,-43.58 223.5,-37 209.03,-30.24 192.33,-24.13 178.46,-19.48"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="262.56,-62.53 272.88,-64.89 266.28,-56.6 262.56,-62.53"/>
 <text text-anchor="middle" x="260" y="-40" font-family="Helvetica,sans-Serif" font-size="10.00"> m_core</text>

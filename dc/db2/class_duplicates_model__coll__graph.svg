@@ -35,8 +35,8 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="229.5,-85 122.5,-85 122.5,-66 229.5,-66 229.5,-85"/>
+<g id="a_node3"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html" target="_top" xlink:title="Base Database interface. A bridge between regular clients and backend.">
+<polygon fill="white" stroke="#666666" points="229.5,-85 122.5,-85 122.5,-66 229.5,-66 229.5,-85"/>
 <text text-anchor="middle" x="176" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 </a>
 </g>

@@ -18,7 +18,7 @@ var searchData=
   ['tagvaluetraits_3c_20qstring_20_3e_15',['TagValueTraits&lt; QString &gt;',['../d5/d94/struct_tag_value_traits_3_01_q_string_01_4.html',1,'']]],
   ['tagvaluetraits_3c_20qtime_20_3e_16',['TagValueTraits&lt; QTime &gt;',['../df/d74/struct_tag_value_traits_3_01_q_time_01_4.html',1,'']]],
   ['tagvaluevariantsettertest_17',['TagValueVariantSetterTest',['../d4/d06/struct_tag_value_variant_setter_test.html',1,'']]],
-  ['task_18',['Task',['../d8/d97/struct_database_1_1_i_database_thread_1_1_task.html',1,'Database::IDatabaseThread::Task&lt; Callable &gt;'],['../d0/dd8/class_observable_database_1_1_task.html',1,'ObservableDatabase&lt; T &gt;::Task'],['../d0/d1f/class_observable_task_executor_1_1_task.html',1,'ObservableTaskExecutor&lt; T &gt;::Task']]],
+  ['task_18',['Task',['../dd/d3e/struct_database_1_1_i_database_1_1_task.html',1,'Database::IDatabase::Task&lt; Callable &gt;'],['../d0/dd8/class_observable_database_1_1_task.html',1,'ObservableDatabase&lt; T &gt;::Task'],['../d0/d1f/class_observable_task_executor_1_1_task.html',1,'ObservableTaskExecutor&lt; T &gt;::Task']]],
   ['taskexecutor_19',['TaskExecutor',['../de/d64/struct_task_executor.html',1,'']]],
   ['tasksmodel_20',['TasksModel',['../da/dbc/class_tasks_model.html',1,'']]],
   ['tasksqueue_21',['TasksQueue',['../d6/d2e/class_tasks_queue.html',1,'']]],
@@ -37,6 +37,6 @@ var searchData=
   ['transactionmanager_3c_20transaction_20_3e_34',['TransactionManager&lt; Transaction &gt;',['../df/db0/class_database_1_1_transaction_manager.html',1,'Database']]],
   ['transactionwrapper_35',['TransactionWrapper',['../df/d96/class_database_1_1_transaction_wrapper.html',1,'Database']]],
   ['ts_5fqueue_36',['TS_Queue',['../d2/d36/classol_1_1_t_s___queue.html',1,'ol']]],
-  ['ts_5fqueue_3c_20std_3a_3aunique_5fptr_3c_20database_3a_3aidatabasethread_3a_3aitask_20_3e_20_3e_37',['TS_Queue&lt; std::unique_ptr&lt; Database::IDatabaseThread::ITask &gt; &gt;',['../d2/d36/classol_1_1_t_s___queue.html',1,'ol']]],
+  ['ts_5fqueue_3c_20std_3a_3aunique_5fptr_3c_20database_3a_3aidatabase_3a_3aitask_20_3e_20_3e_37',['TS_Queue&lt; std::unique_ptr&lt; Database::IDatabase::ITask &gt; &gt;',['../d2/d36/classol_1_1_t_s___queue.html',1,'ol']]],
   ['ts_5fqueue_3c_20std_3a_3aunique_5fptr_3c_20itask_20_3e_20_3e_38',['TS_Queue&lt; std::unique_ptr&lt; ITask &gt; &gt;',['../d2/d36/classol_1_1_t_s___queue.html',1,'ol']]]
 ];

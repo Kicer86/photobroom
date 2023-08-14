@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['explicitdelta_0',['ExplicitDelta',['../db/d29/class_photo_1_1_explicit_delta.html#a82534241b27451697931fd8029a936b4',1,'Photo::ExplicitDelta']]]
+  ['client_0',['Client',['../dc/dc0/class_database_1_1_async_database.html#a9bee35b146080ab7239cc8aff02333c3',1,'Database::AsyncDatabase']]]
 ];

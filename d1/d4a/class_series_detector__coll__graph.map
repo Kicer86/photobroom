@@ -1,6 +1,6 @@
 <map id="SeriesDetector" name="SeriesDetector">
 <area shape="rect" id="node1" title=" " alt="" coords="114,93,222,119"/>
 <area shape="rect" id="node2" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="5,5,72,31"/>
-<area shape="rect" id="node3" href="$d7/da9/struct_database_1_1_i_database.html" title=" " alt="" coords="97,5,239,31"/>
+<area shape="rect" id="node3" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="97,5,239,31"/>
 <area shape="rect" id="node4" href="$d5/dd5/struct_i_exif_reader.html" title=" " alt="" coords="264,5,352,31"/>
 </map>

@@ -13,7 +13,7 @@ var searchData=
   ['tail_10',['tail',['../d2/d05/class_generator_utils_1_1_generic_analyzer.html#a4a8d8125af2dcc6bba594a9906649f1a',1,'GeneratorUtils::GenericAnalyzer']]],
   ['take_5fback_11',['take_back',['../de/d87/containers__utils_8hpp.html#afca1b9ed616c9f3e12aae29f379f565c',1,'containers_utils.hpp']]],
   ['take_5ffront_12',['take_front',['../de/d87/containers__utils_8hpp.html#a5dac4e19c39a3637602e9a0054b8fe06',1,'containers_utils.hpp']]],
-  ['task_13',['Task',['../d0/d1f/class_observable_task_executor_1_1_task.html#af172a0f705e537bb689ca340fd459ef1',1,'ObservableTaskExecutor::Task::Task()'],['../d8/d97/struct_database_1_1_i_database_thread_1_1_task.html#a29603d67757fcbf7bbd1429e7202375c',1,'Database::IDatabaseThread::Task::Task()'],['../d0/dd8/class_observable_database_1_1_task.html#ad7feef0b877007e3930f54e79ddf5bfe',1,'ObservableDatabase::Task::Task()']]],
+  ['task_13',['Task',['../d0/d1f/class_observable_task_executor_1_1_task.html#af172a0f705e537bb689ca340fd459ef1',1,'ObservableTaskExecutor::Task::Task()'],['../dd/d3e/struct_database_1_1_i_database_1_1_task.html#a88dd58d6ec556fd32549bf6054f0193c',1,'Database::IDatabase::Task::Task()'],['../d0/dd8/class_observable_database_1_1_task.html#a4af8a9da9b537f0a19f79108ecb568b1',1,'ObservableDatabase::Task::Task()']]],
   ['task_5ffinished_14',['task_finished',['../d4/da4/class_queue.html#a1f682045e1c9c9b18f65d5f4e7b8ea92',1,'Queue']]],
   ['task_5ffinished_5fnotification_15',['task_finished_notification',['../d4/da4/class_queue.html#afdebd67db84bdce1ba3ef05d914e183c',1,'Queue']]],
   ['taskexecuted_16',['taskExecuted',['../d5/d20/class_observable_executor.html#a204f6bfdc8d818f11bbd81ac2f1b1cd2',1,'ObservableExecutor']]],

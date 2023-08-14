@@ -48,9 +48,9 @@
 <path fill="none" stroke="#63b8ff" d="M336.53,-61.02C311.94,-49.95 277.79,-34.58 256.43,-24.97"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="334.82,-64.08 345.38,-64.99 337.69,-57.7 334.82,-64.08"/>
 </g>
-<!-- Node135 -->
+<!-- Node139 -->
 <g id="node4" class="node">
-<title>Node135</title>
+<title>Node139</title>
 <g id="a_node4"><a xlink:href="../../d9/d0f/person__data_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="419,-30 314,-30 314,0 419,0 419,-30"/>
 <text text-anchor="start" x="322" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">src/database/person</text>
@@ -58,15 +58,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node135 -->
+<!-- Node1&#45;&gt;Node139 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node135</title>
+<title>Node1&#45;&gt;Node139</title>
 <path fill="none" stroke="#63b8ff" d="M366.5,-54.51C366.5,-46.49 366.5,-37.43 366.5,-30.11"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="363,-54.35 366.5,-64.35 370,-54.35 363,-54.35"/>
 </g>
-<!-- Node152 -->
+<!-- Node156 -->
 <g id="node5" class="node">
-<title>Node152</title>
+<title>Node156</title>
 <g id="a_node5"><a xlink:href="../../dc/d82/photo__types_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="537.5,-30 437.5,-30 437.5,0 537.5,0 537.5,-30"/>
 <text text-anchor="start" x="445.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">src/database/photo</text>
@@ -74,24 +74,24 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node152 -->
+<!-- Node1&#45;&gt;Node156 -->
 <g id="edge4" class="edge">
-<title>Node1&#45;&gt;Node152</title>
+<title>Node1&#45;&gt;Node156</title>
 <path fill="none" stroke="#63b8ff" d="M395.21,-60.62C414.03,-51.52 438.58,-39.65 457.63,-30.44"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="393.72,-57.45 386.24,-64.96 396.77,-63.75 393.72,-57.45"/>
 </g>
-<!-- Node165 -->
+<!-- Node169 -->
 <g id="node6" class="node">
-<title>Node165</title>
+<title>Node169</title>
 <g id="a_node6"><a xlink:href="../../d7/d64/inotifications_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="677,-24.5 556,-24.5 556,-5.5 677,-5.5 677,-24.5"/>
 <text text-anchor="middle" x="616.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/gui/inotifications.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node165 -->
+<!-- Node1&#45;&gt;Node169 -->
 <g id="edge5" class="edge">
-<title>Node1&#45;&gt;Node165</title>
+<title>Node1&#45;&gt;Node169</title>
 <path fill="none" stroke="#63b8ff" d="M415.73,-62.98C463.4,-51.82 534.7,-35.14 578.26,-24.95"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="415.15,-59.52 406.22,-65.21 416.75,-66.34 415.15,-59.52"/>
 </g>

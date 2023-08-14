@@ -29,6 +29,6 @@ var searchData=
   ['busy_26',['busy',['../d0/d5d/class_tags_model.html#a504f8b946e4c5fdac4ccf73ae18924ef',1,'TagsModel::busy()'],['../d2/dbb/class_photo_properties_model.html#a78e23292638789f8fe2466df8d147d69',1,'PhotoPropertiesModel::busy()'],['../d0/d5d/class_tags_model.html#a9725f362a800a5b292487b980aaa9c4d',1,'TagsModel::busy()'],['../d2/dbb/class_photo_properties_model.html#a0971898be4d5bf5ab881632726b47451',1,'PhotoPropertiesModel::busy()']]],
   ['busychanged_27',['busyChanged',['../d2/dbb/class_photo_properties_model.html#a460d7bb6ecfed63b3c4105e2ba60c64a',1,'PhotoPropertiesModel::busyChanged()'],['../d0/d5d/class_tags_model.html#a4b30d796f3122fd687ea345d5afadd21',1,'TagsModel::busyChanged()']]],
   ['buttonclicked_28',['buttonClicked',['../dc/df3/class_qt_ext_choose_file.html#ac13cdc356e83a0770d1e74318c1e7eec',1,'QtExtChooseFile']]],
-  ['by_29',['By',['../dd/dd5/struct_database_1_1_actions_1_1_sort.html#a86c6840a4188009d3115652c30725aa3',1,'Database::Actions::Sort']]],
-  ['by_30',['by',['../dd/dd5/struct_database_1_1_actions_1_1_sort.html#ab655cc4e433cf13c89b5d381bfa03340',1,'Database::Actions::Sort']]]
+  ['by_29',['by',['../dd/dd5/struct_database_1_1_actions_1_1_sort.html#ab655cc4e433cf13c89b5d381bfa03340',1,'Database::Actions::Sort']]],
+  ['by_30',['By',['../dd/dd5/struct_database_1_1_actions_1_1_sort.html#a86c6840a4188009d3115652c30725aa3',1,'Database::Actions::Sort']]]
 ];

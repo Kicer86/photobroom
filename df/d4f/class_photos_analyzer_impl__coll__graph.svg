@@ -68,8 +68,8 @@
 <!-- Node10 -->
 <g id="node5" class="node">
 <title>Node10</title>
-<g id="a_node5"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="116,-93 9,-93 9,-74 116,-74 116,-93"/>
+<g id="a_node5"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html" target="_top" xlink:title="Base Database interface. A bridge between regular clients and backend.">
+<polygon fill="white" stroke="#666666" points="116,-93 9,-93 9,-74 116,-74 116,-93"/>
 <text text-anchor="middle" x="62.5" y="-81" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 </a>
 </g>
@@ -81,34 +81,34 @@
 <polygon fill="#9a32cd" stroke="#9a32cd" points="127.79,-78.81 117.79,-82.32 127.79,-85.81 127.79,-78.81"/>
 <text text-anchor="middle" x="188.5" y="-90.5" font-family="Helvetica,sans-Serif" font-size="10.00"> m_database</text>
 </g>
-<!-- Node12 -->
+<!-- Node11 -->
 <g id="node6" class="node">
-<title>Node12</title>
+<title>Node11</title>
 <g id="a_node6"><a xlink:href="../../d6/d44/struct_i_tasks_view.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="96.5,-56 28.5,-56 28.5,-37 96.5,-37 96.5,-56"/>
 <text text-anchor="middle" x="62.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">ITasksView</text>
 </a>
 </g>
 </g>
-<!-- Node12&#45;&gt;Node1 -->
+<!-- Node11&#45;&gt;Node1 -->
 <g id="edge5" class="edge">
-<title>Node12&#45;&gt;Node1</title>
+<title>Node11&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M108.15,-47.42C143.07,-49.17 192.49,-53.91 234,-66.5 253.3,-72.35 273.66,-83.48 287.12,-91.62"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="108.55,-43.94 98.41,-47 108.25,-50.93 108.55,-43.94"/>
 <text text-anchor="middle" x="188.5" y="-69.5" font-family="Helvetica,sans-Serif" font-size="10.00"> m_tasksView</text>
 </g>
-<!-- Node13 -->
+<!-- Node12 -->
 <g id="node7" class="node">
-<title>Node13</title>
+<title>Node12</title>
 <g id="a_node7"><a xlink:href="../../da/d69/struct_i_view_task.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="94,-19 31,-19 31,0 94,0 94,-19"/>
 <text text-anchor="middle" x="62.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">IViewTask</text>
 </a>
 </g>
 </g>
-<!-- Node13&#45;&gt;Node1 -->
+<!-- Node12&#45;&gt;Node1 -->
 <g id="edge6" class="edge">
-<title>Node13&#45;&gt;Node1</title>
+<title>Node12&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M105.49,-8.54C141.38,-9.34 193.48,-14.43 234,-34.5 261.28,-48.01 284.56,-76.44 295.62,-91.56"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="105.99,-5.05 95.96,-8.44 105.92,-12.05 105.99,-5.05"/>
 <text text-anchor="middle" x="188.5" y="-37.5" font-family="Helvetica,sans-Serif" font-size="10.00"> m_viewTask</text>

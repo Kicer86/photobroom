@@ -21,10 +21,10 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="../../dc/dc0/class_database_1_1_async_database.html#a7ce040f53625cc3197090d50c90c2c8c" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="../../dc/dc0/class_database_1_1_async_database.html#a5e7522d1b923190e4251fbc33be813c7" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="298,-30 167,-30 167,0 298,0 298,-30"/>
 <text text-anchor="start" x="175" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">Database::AsyncDatabase</text>
-<text text-anchor="middle" x="232.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::closeConnections</text>
+<text text-anchor="middle" x="232.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::close</text>
 </a>
 </g>
 </g>

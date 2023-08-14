@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['inttask_0',['IntTask',['../d6/d2e/class_tasks_queue.html#ae6c0750b36e814dd7176de676b95e901',1,'TasksQueue']]]
+  ['explicitdelta_0',['ExplicitDelta',['../db/d29/class_photo_1_1_explicit_delta.html#a82534241b27451697931fd8029a936b4',1,'Photo::ExplicitDelta']]]
 ];

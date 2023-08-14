@@ -10,7 +10,7 @@ var indexSectionsWithContent =
   7: "bcefilmoprstv",
   8: "_abcdefghilmnopqrstuvw",
   9: "abcdefgimnprstuw",
-  10: "eiost",
+  10: "ceiost",
   11: "_cdefiprst",
   12: "t",
   13: "cdis"

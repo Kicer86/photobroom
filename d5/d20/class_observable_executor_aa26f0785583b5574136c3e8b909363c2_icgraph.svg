@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d0/dd8/class_observable_database_1_1_task.html#ad7feef0b877007e3930f54e79ddf5bfe" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="../../d0/dd8/class_observable_database_1_1_task.html#a4af8a9da9b537f0a19f79108ecb568b1" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="116,-78 9,-78 9,-48 116,-48 116,-78"/>
 <text text-anchor="start" x="17" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">ObservableDatabase</text>
 <text text-anchor="middle" x="62.5" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">::Task::Task</text>

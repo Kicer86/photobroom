@@ -48,50 +48,50 @@
 <polygon fill="#9a32cd" stroke="#9a32cd" points="122.82,-113.02 113.25,-117.56 123.56,-119.98 122.82,-113.02"/>
 <text text-anchor="middle" x="214" y="-111.5" font-family="Helvetica,sans-Serif" font-size="10.00"> model</text>
 </g>
-<!-- Node8 -->
+<!-- Node7 -->
 <g id="node4" class="node">
-<title>Node8</title>
+<title>Node7</title>
 <g id="a_node4"><a xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="153.5,-93 10.5,-93 10.5,-74 153.5,-74 153.5,-93"/>
 <text text-anchor="middle" x="82" y="-81" font-family="Helvetica,sans-Serif" font-size="10.00">NiceMock&lt; DatabaseMock &gt;</text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node1 -->
+<!-- Node7&#45;&gt;Node1 -->
 <g id="edge3" class="edge">
-<title>Node8&#45;&gt;Node1</title>
+<title>Node7&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M165.25,-83.5C199.01,-83.5 236.49,-83.5 263.74,-83.5"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="165.48,-80 155.48,-83.5 165.48,-87 165.48,-80"/>
 <text text-anchor="middle" x="214" y="-86.5" font-family="Helvetica,sans-Serif" font-size="10.00"> db</text>
 </g>
-<!-- Node9 -->
+<!-- Node8 -->
 <g id="node5" class="node">
-<title>Node9</title>
+<title>Node8</title>
 <g id="a_node5"><a xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="152,-56 12,-56 12,-37 152,-37 152,-56"/>
 <text text-anchor="middle" x="82" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">NiceMock&lt; MockBackend &gt;</text>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node1 -->
+<!-- Node8&#45;&gt;Node1 -->
 <g id="edge4" class="edge">
-<title>Node9&#45;&gt;Node1</title>
+<title>Node8&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M163.44,-55.32C189.86,-58.76 219.29,-63.17 246,-68.5 253.07,-69.91 260.56,-71.69 267.7,-73.53"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="164.18,-51.89 153.82,-54.1 163.3,-58.83 164.18,-51.89"/>
 <text text-anchor="middle" x="214" y="-71.5" font-family="Helvetica,sans-Serif" font-size="10.00"> backend</text>
 </g>
-<!-- Node10 -->
+<!-- Node9 -->
 <g id="node6" class="node">
-<title>Node10</title>
+<title>Node9</title>
 <g id="a_node6"><a xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="164,-19 0,-19 0,0 164,0 164,-19"/>
 <text text-anchor="middle" x="82" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">NiceMock&lt; PhotoOperatorMock &gt;</text>
 </a>
 </g>
 </g>
-<!-- Node10&#45;&gt;Node1 -->
+<!-- Node9&#45;&gt;Node1 -->
 <g id="edge5" class="edge">
-<title>Node10&#45;&gt;Node1</title>
+<title>Node9&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M175.38,-21.09C199.03,-25.96 223.98,-32.83 246,-42.5 263.76,-50.3 281.39,-64.36 292.11,-73.82"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="176.24,-17.69 165.75,-19.21 174.9,-24.56 176.24,-17.69"/>
 <text text-anchor="middle" x="214" y="-45.5" font-family="Helvetica,sans-Serif" font-size="10.00"> photoOperator</text>

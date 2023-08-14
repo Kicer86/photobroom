@@ -1,5 +1,6 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="5,31,156,56"/>
-<area shape="rect" id="node2" href="$d5/d24/class_core_factory_accessor.html" title=" " alt="" coords="222,5,369,31"/>
-<area shape="rect" id="node3" href="$d8/df8/class_i_core_factory_accessor_mock.html" title=" " alt="" coords="204,55,387,80"/>
+<area shape="rect" id="node1" href="$d7/db4/struct_i_configuration.html" title=" " alt="" coords="5,55,107,80"/>
+<area shape="rect" id="node2" href="$db/d54/class_configuration.html" title=" " alt="" coords="173,5,270,31"/>
+<area shape="rect" id="node3" href="$d7/de5/class_i_configuration_mock.html" title=" " alt="" coords="155,55,288,80"/>
+<area shape="rect" id="node4" href="$de/d96/struct_mock_configuration.html" title=" " alt="" coords="157,104,286,129"/>
 </map>

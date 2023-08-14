@@ -1,4 +1,4 @@
 <map id="Database::DatabaseQueue" name="Database::DatabaseQueue">
 <area shape="rect" id="node1" title="Accumulative queue for database tasks." alt="" coords="5,93,181,119"/>
-<area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html" title=" " alt="" coords="22,5,165,31"/>
+<area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="22,5,165,31"/>
 </map>

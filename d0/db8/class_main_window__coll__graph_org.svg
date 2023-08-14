@@ -47,18 +47,18 @@
 <path fill="none" stroke="#63b8ff" d="M79.23,-253.05C113.87,-253.05 165.59,-253.05 202.74,-253.05"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="79.25,-249.55 69.25,-253.05 79.25,-256.55 79.25,-249.55"/>
 </g>
-<!-- Node25 -->
+<!-- Node24 -->
 <g id="node13" class="node">
-<title>Node25</title>
+<title>Node24</title>
 <g id="a_node13"><a xlink:href="../../dd/dde/class_features_observer.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="297,-447.55 202,-447.55 202,-428.55 297,-428.55 297,-447.55"/>
 <text text-anchor="middle" x="249.5" y="-435.55" font-family="Helvetica,sans-Serif" font-size="10.00">FeaturesObserver</text>
 </a>
 </g>
 </g>
-<!-- Node2&#45;&gt;Node25 -->
+<!-- Node2&#45;&gt;Node24 -->
 <g id="edge15" class="edge">
-<title>Node2&#45;&gt;Node25</title>
+<title>Node2&#45;&gt;Node24</title>
 <path fill="none" stroke="#63b8ff" d="M54.39,-272.41C77.51,-307.01 130.56,-379.62 193,-420.05 197.93,-423.25 203.48,-425.92 209.11,-428.14"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="57.44,-270.68 49.03,-264.24 51.59,-274.52 57.44,-270.68"/>
 </g>
@@ -204,25 +204,25 @@
 <polygon fill="#9a32cd" stroke="#9a32cd" points="307.45,-244.78 297.77,-249.11 308.03,-251.76 307.45,-244.78"/>
 <text text-anchor="middle" x="374.5" y="-249.05" font-family="Helvetica,sans-Serif" font-size="10.00"> m_completerFactory</text>
 </g>
-<!-- Node21 -->
+<!-- Node20 -->
 <g id="node12" class="node">
-<title>Node21</title>
+<title>Node20</title>
 <g id="a_node12"><a xlink:href="../../d3/d28/class_notifications_model.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="298,-75.55 201,-75.55 201,-56.55 298,-56.55 298,-75.55"/>
 <text text-anchor="middle" x="249.5" y="-63.55" font-family="Helvetica,sans-Serif" font-size="10.00">NotificationsModel</text>
 </a>
 </g>
 </g>
-<!-- Node21&#45;&gt;Node1 -->
+<!-- Node20&#45;&gt;Node1 -->
 <g id="edge13" class="edge">
-<title>Node21&#45;&gt;Node1</title>
+<title>Node20&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M309.57,-55.15C346.4,-51.76 392.76,-54.14 425,-79.05 472.26,-115.57 477.65,-196.48 478.06,-224.37"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="309.53,-51.63 299.98,-56.2 310.3,-58.59 309.53,-51.63"/>
 <text text-anchor="middle" x="374.5" y="-82.05" font-family="Helvetica,sans-Serif" font-size="10.00"> m_notifications</text>
 </g>
-<!-- Node25&#45;&gt;Node1 -->
+<!-- Node24&#45;&gt;Node1 -->
 <g id="edge14" class="edge">
-<title>Node25&#45;&gt;Node1</title>
+<title>Node24&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M308.52,-444.26C345.98,-445.02 393.45,-439.43 425,-412.05 476.63,-367.26 479.1,-274.58 478.42,-244.05"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="308.88,-440.77 298.75,-443.89 308.62,-447.77 308.88,-440.77"/>
 <text text-anchor="middle" x="374.5" y="-447.05" font-family="Helvetica,sans-Serif" font-size="10.00"> m_featuresObserver</text>

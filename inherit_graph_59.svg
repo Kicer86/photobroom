@@ -11,10 +11,10 @@
 <!-- Node0 -->
 <g id="node1" class="node">
 <title>Node0</title>
-<g id="a_node1"><a xlink:href="d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html" target="_top" xlink:title=" ">
+<g id="a_node1"><a xlink:href="da/dbd/struct_executor_traits_3_01_database_1_1_database_queue_00_01_t_01_4.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="128,-30 0,-30 0,0 128,0 128,-30"/>
 <text text-anchor="start" x="8" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">ExecutorTraits&lt; Database</text>
-<text text-anchor="middle" x="64" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::IDatabase, T &gt;</text>
+<text text-anchor="middle" x="64" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::DatabaseQueue, T &gt;</text>
 </a>
 </g>
 </g>

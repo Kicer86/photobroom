@@ -63,34 +63,34 @@
 <polygon fill="#9a32cd" stroke="#9a32cd" points="225.68,-54.14 229.34,-64.09 232.68,-54.03 225.68,-54.14"/>
 <text text-anchor="middle" x="271" y="-40" font-family="Helvetica,sans-Serif" font-size="10.00"> m_tagInfoCollector</text>
 </g>
-<!-- Node8 -->
+<!-- Node7 -->
 <g id="node5" class="node">
-<title>Node8</title>
+<title>Node7</title>
 <g id="a_node5"><a xlink:href="../../de/d4e/class_people_list_model.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="381,-85 292,-85 292,-66 381,-66 381,-85"/>
 <text text-anchor="middle" x="336.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">PeopleListModel</text>
 </a>
 </g>
 </g>
-<!-- Node8&#45;&gt;Node1 -->
+<!-- Node7&#45;&gt;Node1 -->
 <g id="edge4" class="edge">
-<title>Node8&#45;&gt;Node1</title>
+<title>Node7&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M328.8,-55.4C325.3,-48.77 320.57,-41.8 314.5,-37 303.23,-28.08 288.95,-22.15 275.29,-18.21"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="325.58,-56.77 332.91,-64.42 331.95,-53.87 325.58,-56.77"/>
 <text text-anchor="middle" x="367.5" y="-40" font-family="Helvetica,sans-Serif" font-size="10.00"> m_peopleListModel</text>
 </g>
-<!-- Node10 -->
+<!-- Node9 -->
 <g id="node6" class="node">
-<title>Node10</title>
+<title>Node9</title>
 <g id="a_node6"><a xlink:href="../../d1/d78/struct_i_logger_factory.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="488.5,-85 406.5,-85 406.5,-66 488.5,-66 488.5,-85"/>
 <text text-anchor="middle" x="447.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">ILoggerFactory</text>
 </a>
 </g>
 </g>
-<!-- Node10&#45;&gt;Node1 -->
+<!-- Node9&#45;&gt;Node1 -->
 <g id="edge5" class="edge">
-<title>Node10&#45;&gt;Node1</title>
+<title>Node9&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M436.4,-56.51C431,-49.29 423.85,-41.59 415.5,-37 392.08,-24.13 322.67,-16.9 275.33,-13.35"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="433.29,-58.17 441.79,-64.49 439.09,-54.25 433.29,-58.17"/>
 <text text-anchor="middle" x="466" y="-40" font-family="Helvetica,sans-Serif" font-size="10.00"> m_loggerFactory</text>

@@ -2,6 +2,6 @@
 <area shape="rect" id="node1" title=" " alt="" coords="51,181,270,207"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,93,76,119"/>
 <area shape="rect" id="node3" href="$d1/da6/class_flat_model.html" title=" " alt="" coords="185,93,264,119"/>
-<area shape="rect" id="node4" href="$d7/da9/struct_database_1_1_i_database.html" title=" " alt="" coords="75,5,217,31"/>
+<area shape="rect" id="node4" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="75,5,217,31"/>
 <area shape="rect" id="node5" href="$d1/d5c/struct_i_completer_factory.html" title=" " alt="" coords="289,93,417,119"/>
 </map>

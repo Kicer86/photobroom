@@ -5,5 +5,5 @@
 <area shape="rect" id="node4" href="$d5/d65/class_observable_task_executor.html" title=" " alt="" coords="5,105,172,145"/>
 <area shape="rect" id="node5" href="$d7/ddf/struct_i_thumbnails_cache.html" title=" " alt="" coords="23,169,154,195"/>
 <area shape="rect" id="node6" href="$df/d64/class_i_thumbnails_generator.html" title=" " alt="" coords="13,219,164,244"/>
-<area shape="rect" id="node7" href="$d7/da9/struct_database_1_1_i_database.html" title=" " alt="" coords="17,268,160,293"/>
+<area shape="rect" id="node7" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="17,268,160,293"/>
 </map>

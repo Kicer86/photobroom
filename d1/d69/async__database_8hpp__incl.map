@@ -1,7 +1,8 @@
 <map id="src/database/implementation/async_database.hpp" name="src/database/implementation/async_database.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="51,5,240,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,64,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="141,240,200,265"/>
-<area shape="rect" id="node4" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="139,93,242,119"/>
-<area shape="rect" id="node5" href="$da/d2a/ibackend_8hpp.html" title=" " alt="" coords="208,167,307,192"/>
+<area shape="rect" id="node1" title=" " alt="" coords="158,5,347,45"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,93,132,119"/>
+<area shape="rect" id="node3" title=" " alt="" coords="157,93,215,119"/>
+<area shape="rect" id="node4" title=" " alt="" coords="293,240,351,265"/>
+<area shape="rect" id="node5" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="291,93,393,119"/>
+<area shape="rect" id="node6" href="$da/d2a/ibackend_8hpp.html" title=" " alt="" coords="359,167,458,192"/>
 </map>

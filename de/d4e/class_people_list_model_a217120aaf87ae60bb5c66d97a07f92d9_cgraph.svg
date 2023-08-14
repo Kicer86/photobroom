@@ -35,9 +35,9 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d4/d9f/struct_database_1_1_i_database_thread.html#a6bdc1d4ea20d65caa82f4d732ead6830" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="295.5,-116 158.5,-116 158.5,-86 295.5,-86 295.5,-116"/>
-<text text-anchor="start" x="166.5" y="-104" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabaseThread</text>
+<g id="a_node3"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="280.5,-116 173.5,-116 173.5,-86 280.5,-86 280.5,-116"/>
+<text text-anchor="start" x="181.5" y="-104" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 <text text-anchor="middle" x="227" y="-93" font-family="Helvetica,sans-Serif" font-size="10.00">::exec</text>
 </a>
 </g>
@@ -45,8 +45,8 @@
 <!-- Node1&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node1&#45;&gt;Node3</title>
-<path fill="none" stroke="#63b8ff" d="M121.35,-87C129.66,-88.12 138.29,-89.27 146.88,-90.42"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="146.23,-93.86 156.61,-91.72 147.16,-86.93 146.23,-93.86"/>
+<path fill="none" stroke="#63b8ff" d="M121.35,-87C134.63,-88.78 148.75,-90.67 162.18,-92.46"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="161.39,-95.89 171.76,-93.75 162.32,-88.95 161.39,-95.89"/>
 </g>
 <!-- Node6 -->
 <g id="node4" class="node">

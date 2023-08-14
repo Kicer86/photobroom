@@ -52,8 +52,8 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="110,-56 3,-56 3,-37 110,-37 110,-56"/>
+<g id="a_node4"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html" target="_top" xlink:title="Base Database interface. A bridge between regular clients and backend.">
+<polygon fill="white" stroke="#666666" points="110,-56 3,-56 3,-37 110,-37 110,-56"/>
 <text text-anchor="middle" x="56.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 </a>
 </g>
@@ -65,18 +65,18 @@
 <polygon fill="#9a32cd" stroke="#9a32cd" points="122.01,-46.3 111.79,-49.1 121.53,-53.28 122.01,-46.3"/>
 <text text-anchor="middle" x="159" y="-59.5" font-family="Helvetica,sans-Serif" font-size="10.00"> m_database</text>
 </g>
-<!-- Node6 -->
+<!-- Node5 -->
 <g id="node5" class="node">
-<title>Node6</title>
+<title>Node5</title>
 <g id="a_node5"><a xlink:href="../../d5/da9/struct_i_core_factory_accessor.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="113,-19 0,-19 0,0 113,0 113,-19"/>
 <text text-anchor="middle" x="56.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">ICoreFactoryAccessor</text>
 </a>
 </g>
 </g>
-<!-- Node6&#45;&gt;Node1 -->
+<!-- Node5&#45;&gt;Node1 -->
 <g id="edge4" class="edge">
-<title>Node6&#45;&gt;Node1</title>
+<title>Node5&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M124.42,-18.28C144.93,-22.2 167.29,-27.74 187,-35.5 201.2,-41.09 215.88,-50.52 226.01,-57.69"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="125.19,-14.86 114.72,-16.53 123.94,-21.75 125.19,-14.86"/>
 <text text-anchor="middle" x="159" y="-38.5" font-family="Helvetica,sans-Serif" font-size="10.00"> m_core</text>

@@ -36,8 +36,8 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="175.5,-85 68.5,-85 68.5,-66 175.5,-66 175.5,-85"/>
+<g id="a_node3"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html" target="_top" xlink:title="Base Database interface. A bridge between regular clients and backend.">
+<polygon fill="white" stroke="#666666" points="175.5,-85 68.5,-85 68.5,-66 175.5,-66 175.5,-85"/>
 <text text-anchor="middle" x="122" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 </a>
 </g>
@@ -49,18 +49,18 @@
 <polygon fill="#9a32cd" stroke="#9a32cd" points="118.5,-54.09 122,-64.09 125.5,-54.09 118.5,-54.09"/>
 <text text-anchor="middle" x="135.5" y="-40" font-family="Helvetica,sans-Serif" font-size="10.00"> m_db</text>
 </g>
-<!-- Node5 -->
+<!-- Node4 -->
 <g id="node4" class="node">
-<title>Node5</title>
+<title>Node4</title>
 <g id="a_node4"><a xlink:href="../../d5/dd5/struct_i_exif_reader.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="260,-85 194,-85 194,-66 260,-66 260,-85"/>
 <text text-anchor="middle" x="227" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">IExifReader</text>
 </a>
 </g>
 </g>
-<!-- Node5&#45;&gt;Node1 -->
+<!-- Node4&#45;&gt;Node1 -->
 <g id="edge3" class="edge">
-<title>Node5&#45;&gt;Node1</title>
+<title>Node4&#45;&gt;Node1</title>
 <path fill="none" stroke="#9a32cd" stroke-dasharray="5,2" d="M202.81,-59.75C182.3,-47.26 153.58,-29.75 136.48,-19.32"/>
 <polygon fill="#9a32cd" stroke="#9a32cd" points="200.75,-62.6 211.11,-64.81 204.39,-56.62 200.75,-62.6"/>
 <text text-anchor="middle" x="211" y="-40" font-family="Helvetica,sans-Serif" font-size="10.00"> m_exifReader</text>

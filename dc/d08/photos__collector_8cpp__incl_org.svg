@@ -95,9 +95,9 @@
 <path fill="none" stroke="#63b8ff" d="M409.92,-67.36C460.32,-55.75 534.33,-38.72 583.08,-27.49"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="583.86,-30.91 592.82,-25.25 582.29,-24.08 583.86,-30.91"/>
 </g>
-<!-- Node20 -->
+<!-- Node57 -->
 <g id="node7" class="node">
-<title>Node20</title>
+<title>Node57</title>
 <g id="a_node7"><a xlink:href="../../d4/dba/photo__crawler_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="821,-30 711,-30 711,0 821,0 821,-30"/>
 <text text-anchor="start" x="719" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">photos_crawler/photo</text>
@@ -105,9 +105,9 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node20 -->
+<!-- Node1&#45;&gt;Node57 -->
 <g id="edge6" class="edge">
-<title>Node1&#45;&gt;Node20</title>
+<title>Node1&#45;&gt;Node57</title>
 <path fill="none" stroke="#63b8ff" d="M409.89,-73.34C476.19,-65.01 591.32,-49.67 699.43,-30.39"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="699.84,-33.87 709.06,-28.66 698.59,-26.98 699.84,-33.87"/>
 </g>
