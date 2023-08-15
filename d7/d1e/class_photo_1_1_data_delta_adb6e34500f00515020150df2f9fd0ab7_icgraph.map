@@ -1,5 +1,5 @@
 <map id="Photo::DataDelta::get" name="Photo::DataDelta::get">
-<area shape="rect" id="node1" title=" " alt="" coords="456,445,599,471"/>
+<area shape="rect" id="node1" title=" " alt="" coords="456,367,599,392"/>
 <area shape="rect" id="node2" href="$d5/df1/struct_photo_1_1_data.html#a08fbe960d4ddc3a2c2c49dd6a82acf25" title=" " alt="" coords="249,5,375,31"/>
 <area shape="rect" id="node3" href="$db/d29/class_photo_1_1_explicit_delta.html#aa17dc0e526caaa840d26a44e3b0d9b40" title=" " alt="" coords="233,55,391,80"/>
 <area shape="rect" id="node4" href="$d7/ddf/class_photo_data_qml.html#a0d12bcb6ffdad1cc29f4e9cea53ec47f" title="access to flags as a QML compatible map" alt="" coords="231,104,393,129"/>
@@ -10,12 +10,9 @@
 <area shape="rect" id="node9" href="$d4/d50/namespace_photo.html#acfa4c22bb2d186512596cbe74c290e7a" title=" " alt="" coords="261,367,363,392"/>
 <area shape="rect" id="node10" href="$d7/ddf/class_photo_data_qml.html#a36de9c664118b798d1871c7effd2a20b" title=" " alt="" coords="243,416,381,441"/>
 <area shape="rect" id="node11" href="$d4/d0e/class_people_manipulator.html#ad2be46cf0f87e8e8a207b7e9135a69d0" title=" " alt="" coords="245,466,379,506"/>
-<area shape="rect" id="node12" href="$d4/dd6/class_photos_data_guesser.html#a0c4d77b18414fe4f4612e187c13c5f20" title=" " alt="" coords="239,530,385,570"/>
-<area shape="rect" id="node13" href="$d3/d07/class_media_view_ctrl.html#a98d9275bf877422453e14e46d1bbaf09" title=" " alt="" coords="227,595,397,620"/>
-<area shape="rect" id="node14" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="5,667,168,707"/>
-<area shape="rect" id="node15" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#aa0d3dcca2024cfd586edc78047f9f686" title=" " alt="" coords="216,695,408,735"/>
-<area shape="rect" id="node16" href="$d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" title=" " alt="" coords="285,760,339,785"/>
-<area shape="rect" id="node17" href="$dc/d67/photo__operator__tests_8cpp.html#afab36bb9de4466def2cc9e038abf1d38" title=" " alt="" coords="259,809,365,835"/>
-<area shape="rect" id="node18" href="$de/db3/class_context_menu_manager.html#ae6cff95d57472c72bfc4b576f507fe6c" title=" " alt="" coords="238,859,386,899"/>
-<area shape="rect" id="node19" href="$d4/dd6/class_photos_data_guesser.html#a871a5f672326c05ca924bd17f41796dc" title=" " alt="" coords="239,923,385,963"/>
+<area shape="rect" id="node12" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="5,553,168,593"/>
+<area shape="rect" id="node13" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#aa0d3dcca2024cfd586edc78047f9f686" title=" " alt="" coords="216,581,408,621"/>
+<area shape="rect" id="node14" href="$d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" title=" " alt="" coords="285,645,339,671"/>
+<area shape="rect" id="node15" href="$dc/d67/photo__operator__tests_8cpp.html#afab36bb9de4466def2cc9e038abf1d38" title=" " alt="" coords="259,695,365,720"/>
+<area shape="rect" id="node16" href="$de/db3/class_context_menu_manager.html#ae6cff95d57472c72bfc4b576f507fe6c" title=" " alt="" coords="238,745,386,785"/>
 </map>

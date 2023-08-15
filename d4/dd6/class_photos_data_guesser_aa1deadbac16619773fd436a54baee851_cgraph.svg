@@ -66,9 +66,9 @@
 <path fill="none" stroke="#63b8ff" d="M109.15,-78C117.02,-76.68 125.19,-75.3 133.26,-73.95"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="133.77,-77.41 143.05,-72.31 132.61,-70.51 133.77,-77.41"/>
 </g>
-<!-- Node19 -->
+<!-- Node18 -->
 <g id="node5" class="node">
-<title>Node19</title>
+<title>Node18</title>
 <g id="a_node5"><a xlink:href="../../d4/dd6/class_photos_data_guesser.html#a4778b291708ab86102e93e49ea66fc5e" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="254,-30 145,-30 145,0 254,0 254,-30"/>
 <text text-anchor="start" x="153" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosDataGuesser::</text>
@@ -76,9 +76,9 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node19 -->
+<!-- Node1&#45;&gt;Node18 -->
 <g id="edge4" class="edge">
-<title>Node1&#45;&gt;Node19</title>
+<title>Node1&#45;&gt;Node18</title>
 <path fill="none" stroke="#63b8ff" d="M83.06,-71.57C100.62,-61.9 123.96,-49.35 145,-39 147.56,-37.74 150.2,-36.47 152.87,-35.21"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="154.26,-38.42 161.85,-31.04 151.31,-32.07 154.26,-38.42"/>
 </g>

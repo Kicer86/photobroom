@@ -1,9 +1,8 @@
 <map id="MediaViewCtrl::setSource" name="MediaViewCtrl::setSource">
-<area shape="rect" id="node1" title=" " alt="" coords="5,145,176,170"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,119,176,145"/>
 <area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="241,5,384,45"/>
-<area shape="rect" id="node3" href="$d7/d1e/class_photo_1_1_data_delta.html#adb6e34500f00515020150df2f9fd0ab7" title=" " alt="" coords="241,70,384,95"/>
-<area shape="rect" id="node4" href="$df/db2/class_objects_accessor.html#adcde9d95f2bbdd55714d9bd9bb3efce4" title=" " alt="" coords="224,119,401,145"/>
-<area shape="rect" id="node5" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="261,169,364,194"/>
-<area shape="rect" id="node6" href="$d2/d3a/classsafe__callback__ctrl.html#a18e58df2b8d236902a4ed694e1320e1d" title=" " alt="" coords="239,219,386,259"/>
-<area shape="rect" id="node7" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="234,283,391,309"/>
+<area shape="rect" id="node3" href="$df/db2/class_objects_accessor.html#adcde9d95f2bbdd55714d9bd9bb3efce4" title=" " alt="" coords="224,70,401,95"/>
+<area shape="rect" id="node4" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="261,119,364,145"/>
+<area shape="rect" id="node5" href="$d2/d3a/classsafe__callback__ctrl.html#a18e58df2b8d236902a4ed694e1320e1d" title=" " alt="" coords="239,169,386,209"/>
+<area shape="rect" id="node6" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="234,234,391,259"/>
 </map>
