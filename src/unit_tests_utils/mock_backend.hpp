@@ -15,38 +15,22 @@
 
 struct MockBackend: public Database::IBackend
 {
-  MOCK_METHOD1(addPhotos,
-      bool(std::vector<Photo::DataDelta> &));
-  MOCK_METHOD2(addGroup,
-      Group::Id(const Photo::Id &, Group::Type));
+  MOCK_METHOD(bool, addPhotos, (std::vector<Photo::DataDelta> &), (override));
 
   MOCK_METHOD(bool, update, (const std::vector<Photo::DataDelta> &), (override));
 
   MOCK_METHOD(std::vector<TagValue>, listTagValues, (const Tag::Types &, const Database::Filter &), (override));
-  MOCK_METHOD0(getAllPhotos,
-      std::vector<Photo::Id>());
-  MOCK_METHOD1(getPhoto,
-      Photo::Data(const Photo::Id &));
+  MOCK_METHOD(Photo::Data, getPhoto, (const Photo::Id &), (override));
   MOCK_METHOD(Photo::DataDelta, getPhotoDelta, (const Photo::Id &, const std::set<Photo::Field> &), (override));
   MOCK_METHOD(int, getPhotosCount, (const Database::Filter &), (override));
-  MOCK_METHOD0(listPeople,
-      std::vector<PersonName>());
-  MOCK_METHOD1(listPeople,
-      std::vector<PersonInfo>(const Photo::Id &));
-  MOCK_METHOD1(person,
-      PersonName(const Person::Id &));
-  MOCK_METHOD3(set,
-      void(const Photo::Id &, const QString &, int value));
-  MOCK_METHOD2(get,
-      std::optional<int>(const Photo::Id &, const QString &));
+  MOCK_METHOD(void, set, (const Photo::Id &, const QString &, int value), (override));
+  MOCK_METHOD(std::optional<int>, get, (const Photo::Id &, const QString &), (override));
   MOCK_METHOD(void, setBits, (const Photo::Id& id, const QString& name, int bits), (override));
   MOCK_METHOD(void, clearBits, (const Photo::Id& id, const QString& name, int bits), (override));
   MOCK_METHOD(void, setThumbnail, (const Photo::Id &, const QByteArray &), (override));
   MOCK_METHOD(QByteArray, getThumbnail, (const Photo::Id &), (override));
-  MOCK_METHOD0(markStagedAsReviewed,
-      std::vector<Photo::Id>());
-  MOCK_METHOD1(init,
-      Database::BackendStatus(const Database::ProjectInfo &));
+  MOCK_METHOD(std::vector<Photo::Id>, markStagedAsReviewed, (), (override));
+  MOCK_METHOD(Database::BackendStatus, init, (const Database::ProjectInfo &), (override));
   MOCK_METHOD(void, closeConnections, (), (override));
   MOCK_METHOD(std::shared_ptr<Database::ITransaction>, openTransaction, (), (override));
 
