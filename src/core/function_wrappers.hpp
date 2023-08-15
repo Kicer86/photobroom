@@ -253,7 +253,7 @@ void stoppableTask(const std::stop_source& stop_source, std::function<void(const
     class Context final
     {
     public:
-        Context(std::stop_token stop_token)
+        explicit Context(std::stop_token stop_token)
             : stop_callback(
                 stop_token,
                 [this]
