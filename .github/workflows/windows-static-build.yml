@@ -1,0 +1,81 @@
+
+name: Build-Static-Windows
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
+
+jobs:
+  build:
+    runs-on: windows-2022
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - name: Prepare build dir
+      run: |
+        New-Item -ItemType directory -Path "c:\" -Name "build"
+        New-Item -ItemType Junction  -Path "out" -Target "c:\build"
+        Move-Item -Path vcpkg -Destination c:\build
+        New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.4.0'
+        cache: 'true'
+        modules: 'qtmultimedia'
+
+    - name: python deps
+      run: |
+        pip install Pillow cairosvg pipwin
+        pipwin install cairocffi
+
+    - name: Cache external tools
+      uses: actions/cache@v2
+      with:
+        path: out/build/ninja_release_vcpkg/tools
+        key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
+
+    - name: disable debug build for vcpkg
+      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows-static.cmake
+
+    - name: Setup ccache
+      uses: Chocobo1/setup-ccache-action@v1
+      with:
+        windows_compile_environment: msvc
+
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v10.2
+      with:
+        vcpkgJsonGlob: vcpkg.json
+
+    - name: Add msbuild to PATH
+      uses: ilammy/msvc-dev-cmd@v1.11.0
+
+    - name: Build
+      run: |
+        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DBUILD_SHARED_LIBS=FALSE -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+        cmake --build --preset "Ninja Release"
+
+    - name: Make package
+      run: cmake --build --target package --preset 'Ninja Release'
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: Installer
+        path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
+
+    - name: Verify list of files in installer
+      run: |
+        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
