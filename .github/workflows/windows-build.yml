@@ -42,12 +42,12 @@ jobs:
         key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
 
     - name: disable debug build for vcpkg
-      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows-static.cmake
+      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
 
     - name: Setup ccache
       uses: Chocobo1/setup-ccache-action@v1
       with:
-        windows_compile_environment: msvc
+        windows_compile_environment: msvc 
 
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.1
@@ -59,7 +59,7 @@ jobs:
 
     - name: Build
       run: |
-        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DVCPKG_TARGET_TRIPLET=x64-windows-static -DVCPKG_HOST_TRIPLET=x64-windows-static -DBUILD_SHARED_LIBS=FALSE -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded
+        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
         cmake --build --preset "Build Release"
 
     - name: Make package
@@ -73,4 +73,4 @@ jobs:
 
     - name: Verify list of files in installer
       run: |
-        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py .github/expected_file_list
+        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
