@@ -17,7 +17,9 @@ dlib::matrix<dlib::rgb_pixel> qimage_to_dlib_matrix(const QImage& qimage)
         for(int c = 0; c < size.width(); c++)
         {
             const QRgb rgb = qimage.pixel(c, r);
-            matrix(r, c) = dlib::rgb_pixel(qRed(rgb), qGreen(rgb), qBlue(rgb));
+            matrix(r, c) = dlib::rgb_pixel(static_cast<unsigned char>(qRed(rgb)),
+                                           static_cast<unsigned char>(qGreen(rgb)),
+                                           static_cast<unsigned char>(qBlue(rgb)));
         }
 
     return matrix;

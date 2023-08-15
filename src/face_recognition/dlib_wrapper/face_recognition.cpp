@@ -114,7 +114,7 @@ namespace dlib_api
 
 
         dlib::array<dlib::matrix<dlib::rgb_pixel>> face_chips;
-        for (int i = 0; i < batch_imgs.size(); ++i)
+        for (std::size_t i = 0; i < batch_imgs.size(); ++i)
         {
             auto& faces = batch_faces[i];
             auto& img = batch_imgs[i];
@@ -137,9 +137,9 @@ namespace dlib_api
             // extract descriptors and convert from float vectors to double vectors
             auto descriptors = m_data->net(face_chips, 16);
             auto next = std::begin(descriptors);
-            for (int i = 0; i < batch_faces.size(); ++i)
+            for (std::size_t i = 0; i < batch_faces.size(); ++i)
             {
-                for (int j = 0; j < batch_faces[i].size(); ++j)
+                for (std::size_t j = 0; j < batch_faces[i].size(); ++j)
                 {
                     face_descriptors[i].push_back(dlib::matrix_cast<double>(*next++));
                 }
@@ -150,9 +150,9 @@ namespace dlib_api
         {
             // extract descriptors and convert from float vectors to double vectors
             auto fimg = std::begin(face_chips);
-            for (int i = 0; i < batch_faces.size(); ++i)
+            for (std::size_t i = 0; i < batch_faces.size(); ++i)
             {
-                for (int j = 0; j < batch_faces[i].size(); ++j)
+                for (std::size_t j = 0; j < batch_faces[i].size(); ++j)
                 {
                     auto& r = mean(mat(m_data->net(jitter_image(*fimg++, num_jitters), 16)));
                     face_descriptors[i].push_back(dlib::matrix_cast<double>(r));

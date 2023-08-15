@@ -109,7 +109,7 @@ void ModelCompositor::dataSourceChanged(const IModelCompositorDataSource* change
                 endRemoveRows();
             }
 
-            const auto changed_source_size = changed_source->data().size();
+            const auto changed_source_size = static_cast<int>(changed_source->data().size());
 
             if (changed_source_size > 0)
             {

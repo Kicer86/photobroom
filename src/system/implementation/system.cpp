@@ -110,7 +110,7 @@ QString System::getUniqueFileName(const QString& path, const QString& fileExt)
 
     int* cachedValue = state.object(path);
     int value = cachedValue == nullptr?
-        QDir(path).entryList().size():
+        static_cast<int>(QDir(path).entryList().size()):
         *cachedValue;
 
     QString full_path;

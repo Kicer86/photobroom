@@ -104,8 +104,10 @@ namespace dlib_api
 
         QRect dlib_rect_to_qrect(const dlib::rectangle& rect)
         {
-            const QRect qrect(rect.left(), rect.top(),
-                              rect.right() - rect.left(), rect.bottom() - rect.top());
+            const QRect qrect(static_cast<int>(rect.left()),
+                              static_cast<int>(rect.top()),
+                              static_cast<int>(rect.right() - rect.left()),
+                              static_cast<int>(rect.bottom() - rect.top()));
 
             return qrect;
         }
