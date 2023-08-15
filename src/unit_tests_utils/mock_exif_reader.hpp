@@ -13,9 +13,9 @@
 
 struct MockExifReader: IExifReader
 {
-    MOCK_METHOD1(hasExif, bool(const QString &));
-    MOCK_METHOD1(getTagsFor, Tag::TagsList(const QString &));
-    MOCK_METHOD2(get, std::optional<std::any>(const QString &, const TagType &));
+    MOCK_METHOD(bool, hasExif, (const QString &), (override));
+    MOCK_METHOD(Tag::TagsList, getTagsFor, (const QString &), (override));
+    MOCK_METHOD(std::optional<std::any>, get, (const QString &, const TagType &), (override));
 };
 
 #endif
