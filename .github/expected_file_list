@@ -30,6 +30,7 @@ libgfortran-5.dll
 liblapack.dll
 libquadmath-0.dll
 libwinpthread-1.dll
+msvcp140_atomic_wait.dll
 msvcp140.dll
 msvcrt.dll
 openblas.dll
