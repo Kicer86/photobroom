@@ -59,11 +59,11 @@ jobs:
 
     - name: Build
       run: |
-        cmake --preset "ninja_release" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
-        cmake --build --preset "Build Release"
+        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
+        cmake --build --preset "ninja_release"
 
     - name: Make package
-      run: cmake --build --target package --preset 'Build Release'
+      run: cmake --build --target package --preset 'ninja_release'
 
     - name: Upload artifact
       uses: actions/upload-artifact@v3
