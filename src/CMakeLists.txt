@@ -32,8 +32,6 @@ add_executable(photo_broom
 
 if(WIN32)
 
-    find_program(Python python REQUIRED)
-
     set_target_properties(photo_broom PROPERTIES WIN32_EXECUTABLE TRUE)
 
     target_sources(photo_broom
