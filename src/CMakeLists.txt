@@ -32,11 +32,28 @@ add_executable(photo_broom
 
 if(WIN32)
 
+    find_program(Magick magick)
+
+    if(Magick)
+        add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
+            COMMAND ${Magick} convert ${CMAKE_SOURCE_DIR}/images/photo_broom.svg -resize 32x32 ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
+            DEPENDS ${CMAKE_SOURCE_DIR}/images/photo_broom.svg
+        )
+    else()
+        find_program(Python python REQUIRED)
+
+        add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
+            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${CMAKE_SOURCE_DIR}/images/photo_broom.svg ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico --width 32 --height 32
+            DEPENDS ${CMAKE_SOURCE_DIR}/images/photo_broom.svg
+        )
+    endif()
+
     set_target_properties(photo_broom PROPERTIES WIN32_EXECUTABLE TRUE)
 
     target_sources(photo_broom
         PRIVATE
             env/PhotoBroom.rc
+            ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
     )
 
     # used by env/PhotoBroom.rc

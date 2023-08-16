@@ -1,5 +1,5 @@
 
-find_program(python python REQUIRED)
+find_program(Python python REQUIRED)
 
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
@@ -207,7 +207,7 @@ function(stringify_file output_file input_file variable_with_type namespace)
         OUTPUT
             ${output_file}
         COMMAND
-            ${python} ${PROJECT_SOURCE_DIR}/cmake/stringify.py
+            ${Python} ${PROJECT_SOURCE_DIR}/cmake/stringify.py
         ARGS
             ${input_file}
             ${output_file}
