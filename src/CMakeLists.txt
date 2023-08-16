@@ -34,7 +34,7 @@ if(WIN32)
 
     find_program(Magick magick)
 
-    if(Magic)
+    if(Magick)
         add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
             COMMAND ${Magick} convert ${CMAKE_SOURCE_DIR}/images/photo_broom.svg -resize 32x32 ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
             DEPENDS ${CMAKE_SOURCE_DIR}/images/photo_broom.svg
