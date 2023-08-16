@@ -7,9 +7,6 @@ on:
       - master
   pull_request:
 
-env:
-  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
-
 jobs:
   build:
     runs-on: windows-2022
@@ -27,13 +24,6 @@ jobs:
         New-Item -ItemType Junction  -Path "out" -Target "c:\build"
         Move-Item -Path vcpkg -Destination c:\build
         New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
-
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3
-      with:
-        version: '6.4.0'
-        cache: 'true'
-        modules: 'qtmultimedia'
 
     - name: Cache external tools
       uses: actions/cache@v2
