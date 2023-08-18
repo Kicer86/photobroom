@@ -159,15 +159,14 @@ void SeriesModel::fetchGroups()
 {
     setState(State::Fetching);
 
+    // TODO: find some smart way to eliminate external lambda
     stoppableTask<std::vector<GroupCandidate>>(
         m_work,
         [this]
         (const std::stop_token& stopToken, std::function<void(const std::vector<GroupCandidate> &)> callback)
         {
-            auto& executor = m_core->getTaskExecutor();
-
             runOn(
-                executor,
+                m_core->getTaskExecutor(),
                 [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach("SeriesDetector"), callback, stopToken]() mutable
                 {
                     IExifReaderFactory& exif = core->getExifReaderFactory();
