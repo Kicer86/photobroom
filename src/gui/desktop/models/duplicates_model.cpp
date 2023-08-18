@@ -76,7 +76,7 @@ bool DuplicatesModel::isWorking() const
 
 
 
-Database::IDatabase * DuplicatesModel::db() const
+Database::IDatabase* DuplicatesModel::db() const
 {
     return m_db;
 }
