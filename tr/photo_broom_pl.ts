@@ -886,7 +886,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+118"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+102"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

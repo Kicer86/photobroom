@@ -12,13 +12,14 @@
 #include <database/database_tools/series_candidate.hpp>
 #include <project_utils/project.hpp>
 
+#include "aheavy_list_model.hpp"
+
 
 class SeriesDetector;
 
-class SeriesModel: public QAbstractListModel
+class SeriesModel: public AHeavyListModel<std::vector<GroupCandidate>>
 {
     Q_OBJECT
-    Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(Project* project MEMBER m_project REQUIRED)
     Q_PROPERTY(ICoreFactoryAccessor* coreFactory WRITE setCoreAccessor READ coreAccessor REQUIRED)
 
@@ -31,22 +32,11 @@ public:
         MembersRole,
     };
 
-    enum State
-    {
-        Idle,
-        Fetching,
-        Loaded,
-        Storing,
-    };
-    Q_ENUMS(State)
-
     SeriesModel();
     ~SeriesModel();
 
-    Q_INVOKABLE void reload();
     Q_INVOKABLE void group(const QList<int> &);
     Q_INVOKABLE bool isEmpty() const;
-    State state() const;
 
     void setCoreAccessor(ICoreFactoryAccessor *);
     ICoreFactoryAccessor* coreAccessor() const;
@@ -55,21 +45,16 @@ public:
     int rowCount(const QModelIndex& parent) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-signals:
-    void stateChanged() const;
-
 private:
     std::unique_ptr<ILogger> m_logger;
     std::vector<GroupCandidate> m_candidates;
     Project* m_project = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
     std::stop_source m_work;
-    State m_state = Idle;
 
-    void setState(State);
-    void fetchGroups();
-    void updateModel(const std::vector<GroupCandidate> &);
-    void clear();
+    void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>>) override;
+    void updateData(const std::vector<GroupCandidate> &) override;
+    void clearData() override;
 };
 
 #endif

@@ -78,25 +78,9 @@ ICoreFactoryAccessor* SeriesModel::coreAccessor() const
 }
 
 
-void SeriesModel::reload()
-{
-    if (m_state == State::Idle || m_state == State::Loaded)
-    {
-        clear();
-        fetchGroups();
-    }
-}
-
-
 bool SeriesModel::isEmpty() const
 {
     return rowCount({}) == 0;
-}
-
-
-SeriesModel::State SeriesModel::state() const
-{
-    return m_state;
 }
 
 
@@ -147,66 +131,44 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
 }
 
 
-void SeriesModel::setState(SeriesModel::State state)
+void SeriesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>> callback)
 {
-    m_state = state;
-
-    emit stateChanged();
-}
-
-
-void SeriesModel::fetchGroups()
-{
-    setState(State::Fetching);
-
-    // TODO: find some smart way to eliminate external lambda
-    stoppableTask<std::vector<GroupCandidate>>(
-        m_work,
-        [this]
-        (const std::stop_token& stopToken, std::function<void(const std::vector<GroupCandidate> &)> callback)
+    runOn(
+        m_core->getTaskExecutor(),
+        [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach("SeriesDetector"), callback, stopToken]() mutable
         {
-            runOn(
-                m_core->getTaskExecutor(),
-                [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach("SeriesDetector"), callback, stopToken]() mutable
-                {
-                    IExifReaderFactory& exif = core->getExifReaderFactory();
+            IExifReaderFactory& exif = core->getExifReaderFactory();
 
-                    QElapsedTimer timer;
+            QElapsedTimer timer;
 
-                    auto detectLogger = logger->subLogger("SeriesDetector");
-                    SeriesDetector detector(*detectLogger, dbClient->db(), exif.get(), stopToken);
+            auto detectLogger = logger->subLogger("SeriesDetector");
+            SeriesDetector detector(*detectLogger, dbClient->db(), exif.get(), stopToken);
 
-                    timer.start();
-                    const auto candidates = detector.listCandidates();
-                    const auto elapsed = timer.elapsed();
+            timer.start();
+            const auto candidates = detector.listCandidates();
+            const auto elapsed = timer.elapsed();
 
-                    logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
+            logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
 
-                    callback(candidates);
-                },
-                "SeriesDetector"
-            );
+            callback(candidates);
         },
-        std::bind(&SeriesModel::updateModel, this, _1)
+        "SeriesDetector"
     );
 }
 
 
-void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
+void SeriesModel::updateData(const std::vector<GroupCandidate>& canditates)
 {
     beginInsertRows({}, 0, static_cast<int>(canditates.size()) - 1);
     m_candidates = canditates;
     m_logger->info(QString("Got %1 group canditates").arg(m_candidates.size()));
     endInsertRows();
-
-    setState(State::Loaded);
 }
 
 
-void SeriesModel::clear()
+void SeriesModel::clearData()
 {
     beginResetModel();
     m_candidates.clear();
-    setState(State::Idle);
     endResetModel();
 }
