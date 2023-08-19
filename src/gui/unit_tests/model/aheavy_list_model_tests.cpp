@@ -28,7 +28,7 @@ TEST(AHeavyListModelTest, initialState)
 TEST(AHeavyListModelTest, process)
 {
     AHeavyListModelMock model;
-    EXPECT_CALL(model, clearData).Times(2);
+    EXPECT_CALL(model, clearData).Times(2);     // First one before Fetching, second one at the end of the test
     EXPECT_CALL(model, loadData).WillOnce(
         Invoke(
             [&model](const std::stop_token, auto callback)
