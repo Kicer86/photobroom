@@ -16,15 +16,13 @@ Item
 
         width: parent.width
 
-        text: qsTr("Click here to load duplicates.")
-
         MouseArea {
             anchors.fill: parent
 
-            enabled: duplicatesModel.workInProgress == false
+            enabled: duplicatesModel.state == SeriesModel.Idle || duplicatesModel.state == SeriesModel.Loaded
             cursorShape: enabled? Qt.PointingHandCursor: Qt.ArrowCursor
 
-            onClicked: duplicatesModel.reloadDuplicates()
+            onClicked: duplicatesModel.reload()
         }
     }
 
@@ -40,8 +38,13 @@ Item
             id: duplicatesModel
             database: PhotoBroomProject.database
 
-            onWorkInProgressChanged: {
-                status.text = workInProgress? qsTr("Looking for duplicates."): qsTr("Click here to search for duplicates again.");
+            onStateChanged: {
+                switch (duplicatesModel.state) {
+                    case SeriesModel.Fetching: status.text = qsTr("Looking for duplicates."); break;
+                    case SeriesModel.Loaded: status.text = qsTr("Click here to search for duplicates again."); break;
+                    case SeriesModel.Idle:  status.text = qsTr("Click here to load duplicates."); break;
+                }
+
                 duplicatesListStatus.visible = true;
             }
         }
@@ -58,14 +61,14 @@ Item
                 anchors.verticalCenter:   parent.verticalCenter
 
                 text: qsTr("No duplicates found")
-                visible: duplicatesList.count == 0 && duplicatesModel.workInProgress == false
+                visible: duplicatesList.count == 0 && duplicatesModel.state == SeriesModel.Loaded
             }
 
             BusyIndicator {
                 anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter:   parent.verticalCenter
 
-                running: duplicatesModel.workInProgress
+                running: duplicatesModel.state == SeriesModel.Fetching
             }
         }
 

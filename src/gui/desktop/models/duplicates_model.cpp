@@ -1,5 +1,4 @@
 
-#include <core/function_wrappers.hpp>
 #include <core/qmodel_utils.hpp>
 #include <database/iphoto_operator.hpp>
 #include <database/photo_utils.hpp>
@@ -60,18 +59,12 @@ QHash<int, QByteArray> DuplicatesModel::roleNames() const
 
 void DuplicatesModel::setDB(Database::IDatabase* db)
 {
-    assert(m_workInProgress == false);
+    assert(state() == State::Idle || state() == State::Loaded);
 
     m_db = db;
     clear();
 
     emit dbChanged();
-}
-
-
-bool DuplicatesModel::isWorking() const
-{
-    return m_workInProgress;
 }
 
 
@@ -82,35 +75,26 @@ Database::IDatabase* DuplicatesModel::db() const
 }
 
 
-void DuplicatesModel::reloadDuplicates()
+void DuplicatesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<Photo::DataDelta>> callback)
 {
-    if (m_db && m_workInProgress == false)
+    m_db->exec([callback](Database::IBackend& backend)
     {
-        clear();
+        const auto ids = backend.photoOperator().onPhotos(Database::FilterSimilarPhotos{}, Database::Actions::Sort(Database::Actions::Sort::By::PHash));
 
-        setWorkInProgress(true);
+        std::vector<Photo::DataDelta> data;
+        data.reserve(ids.size());
 
-        auto resultCallback = make_cross_thread_function<std::vector<Photo::DataDelta>>(this, &DuplicatesModel::compileDuplicates);
+        for(const auto& id: ids)
+            data.push_back(backend.getPhotoDelta(id, {Photo::Field::PHash, Photo::Field::Path}));
 
-        m_db->exec([resultCallback](Database::IBackend& backend)
-        {
-            const auto ids = backend.photoOperator().onPhotos(Database::FilterSimilarPhotos{}, Database::Actions::Sort(Database::Actions::Sort::By::PHash));
-
-            std::vector<Photo::DataDelta> data;
-            data.reserve(ids.size());
-
-            for(const auto& id: ids)
-                data.push_back(backend.getPhotoDelta(id, {Photo::Field::PHash, Photo::Field::Path}));
-
-            resultCallback(data);
-        },
-        "Looking for photo duplicates"
-        );
-    }
+        callback(data);
+    },
+    "Looking for photo duplicates"
+    );
 }
 
 
-void DuplicatesModel::compileDuplicates(const std::vector<Photo::DataDelta>& duplicatePhotos)
+void DuplicatesModel::updateData(const std::vector<Photo::DataDelta>& duplicatePhotos)
 {
     std::vector<std::vector<Photo::DataDelta>> grouped;
 
@@ -130,20 +114,10 @@ void DuplicatesModel::compileDuplicates(const std::vector<Photo::DataDelta>& dup
     beginInsertRows({}, 0, grouped.size() - 1);
     m_duplicates.swap(grouped);
     endInsertRows();
-
-    setWorkInProgress(false);
 }
 
 
-void DuplicatesModel::setWorkInProgress(bool work)
-{
-    m_workInProgress = work;
-
-    emit workStatusChanged(work);
-}
-
-
-void DuplicatesModel::clear()
+void DuplicatesModel::clearData()
 {
     beginResetModel();
     m_duplicates.clear();
