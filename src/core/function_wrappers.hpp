@@ -82,7 +82,7 @@ class safe_callback_ctrl final
         }
 
         template<typename... R, typename T>
-        auto make_safe_callback(T&& callback) const
+        [[nodiscard]] auto make_safe_callback(T&& callback) const
         {
             safe_callback<R...> callbackPtr(m_data, std::forward<T>(callback));
 
@@ -172,7 +172,7 @@ void call_from_this_thread(QThread* thread, const F& function, Args&&... args)
 // functor in another thread
 template<typename... Args, typename ObjT, typename F>
 requires std::is_base_of_v<QObject, ObjT>
-std::function<void(Args...)> make_cross_thread_function(ObjT* object, const F& function)
+[[nodiscard]] std::function<void(Args...)> make_cross_thread_function(ObjT* object, const F& function)
 {
     std::function<void(Args...)> result = [=](Args&&... args)
     {
@@ -184,7 +184,7 @@ std::function<void(Args...)> make_cross_thread_function(ObjT* object, const F& f
 
 
 template<typename... Args, typename F>
-std::function<void(Args...)> make_cross_thread_function(QThread* thread, const F& function)
+[[nodiscard]] std::function<void(Args...)> make_cross_thread_function(QThread* thread, const F& function)
 {
     std::function<void(Args...)> result = [=](Args&&... args)
     {
@@ -200,7 +200,7 @@ std::function<void(Args...)> make_cross_thread_function(QThread* thread, const F
 // Similar to safe_callback_ctrl (but method will be invoked in target's thread)
 template<typename ObjT, typename R, typename ...Args>
 requires std::is_base_of_v<QObject, ObjT>
-auto queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
+[[nodiscard]] auto queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
     QPointer<ObjT> objPtr(obj);
 
@@ -219,7 +219,7 @@ auto queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
 // In contrast to queued_slot() method is invoked in caller's thread
 template<typename ObjT, typename R, typename ...Args>
 requires std::is_base_of_v<QObject, ObjT>
-std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
+[[nodiscard]] std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
     QPointer<ObjT> objPtr(obj);
 
