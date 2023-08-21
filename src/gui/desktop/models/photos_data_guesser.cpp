@@ -2,13 +2,14 @@
 #include <functional>
 #include <QRegularExpression>
 
+#include <core/data_from_path_extractor.hpp>
 #include <core/function_wrappers.hpp>
 #include <core/qmodel_utils.hpp>
-#include "database/filter.hpp"
-#include "database/iphoto_operator.hpp"
-#include "../photos_data_guesser.hpp"
-#include "data_from_path_extractor.hpp"
-#include "photos_analyzer_constants.hpp"
+#include <database/filter.hpp>
+#include <database/iphoto_operator.hpp>
+#include <database/photo_flags_values.hpp>
+
+#include "photos_data_guesser.hpp"
 
 
 using namespace std::placeholders;

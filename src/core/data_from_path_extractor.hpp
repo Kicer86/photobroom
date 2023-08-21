@@ -6,8 +6,10 @@
 
 #include <core/tag.hpp>
 
+#include <core_export.h>
 
-class DataFromPathExtractor
+
+class CORE_EXPORT DataFromPathExtractor
 {
     public:
         DataFromPathExtractor();

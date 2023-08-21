@@ -16,6 +16,7 @@ set(SRC
     notifications_model.hpp
     photo_properties_model.cpp
     photo_properties_model.hpp
+    photos_data_guesser.cpp
     roles_expansion.hpp
     series_model.cpp
     series_model.hpp

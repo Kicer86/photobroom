@@ -5,14 +5,13 @@
 #include <QAbstractListModel>
 #include <QDateTime>
 
-#include "database_export.h"
 #include "database/idatabase.hpp"
 
 
 /**
  * @brief class provides photos with extra information guessed from filename, content etc.
  */
-class DATABASE_EXPORT PhotosDataGuesser: public QAbstractListModel
+class PhotosDataGuesser: public QAbstractListModel
 {
     Q_OBJECT
     Q_PROPERTY(Database::IDatabase* database READ database WRITE setDatabase REQUIRED)
