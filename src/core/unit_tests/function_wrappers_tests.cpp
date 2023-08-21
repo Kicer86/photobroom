@@ -2,6 +2,7 @@
 #include <functional>
 #include <thread>
 #include <gmock/gmock.h>
+#include <QCoreApplication>
 
 #include "function_wrappers.hpp"
 
@@ -107,7 +108,8 @@ TEST(StoppableTask, notStopped)
         {
             result = v;
             mutex.unlock();
-        }
+        },
+        false
     );
 
     // wait for task to finish
@@ -142,7 +144,8 @@ TEST(StoppableTask, stopped)
         [&called](int)
         {
             called = true;
-        }
+        },
+        false
     );
 
     // step #1: stop task and let it finish
@@ -155,4 +158,84 @@ TEST(StoppableTask, stopped)
     // verify expectations
     EXPECT_TRUE(stopped);
     EXPECT_FALSE(called);
+}
+
+
+TEST(StoppableTask, sameThread)
+{
+    std::string arg1 = "test\0";
+    char* argv[] = {arg1.data()};
+    int argc = 1;
+    QCoreApplication app(argc, argv);
+
+    std::thread::id callbackThreadId;
+    const std::thread::id mainThreadId = std::this_thread::get_id();
+    std::mutex mutex_1, mutex_2;
+
+    mutex_1.lock();
+    mutex_2.lock();
+
+    std::stop_source stop_source;
+    stoppableTask<int>(
+        stop_source,
+        [&mutex_1](const std::stop_token &, auto c)
+        {
+            std::thread([c, &mutex_1]
+            {
+                c(5);
+                mutex_1.unlock();
+            }).detach();
+        },
+        [&mutex_2, &callbackThreadId](int)
+        {
+            callbackThreadId = std::this_thread::get_id();
+            mutex_2.unlock();
+        }
+    );
+
+    // wait for callback to be called
+    mutex_1.lock();
+
+    // process qt messages
+    app.processEvents();
+
+    // wait for callback
+    mutex_2.lock();
+
+    // verify expectations
+    EXPECT_EQ(mainThreadId, callbackThreadId);
+}
+
+
+TEST(StoppableTask, notSameThread)
+{
+    std::thread::id callbackThreadId;
+    const std::thread::id mainThreadId = std::this_thread::get_id();
+    std::mutex mutex;
+
+    mutex.lock();;
+
+    std::stop_source stop_source;
+    stoppableTask<int>(
+        stop_source,
+        [](const std::stop_token &, auto c)
+        {
+            std::thread([c]
+            {
+                c(5);
+            }).detach();
+        },
+        [&mutex, &callbackThreadId](int)
+        {
+            callbackThreadId = std::this_thread::get_id();
+            mutex.unlock();
+        },
+        false
+    );
+
+    // wait for callback
+    mutex.lock();
+
+    // verify expectations
+    EXPECT_NE(mainThreadId, callbackThreadId);
 }

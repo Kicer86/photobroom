@@ -239,13 +239,14 @@ using StoppableTaskCallback = std::function<void(const T&)>;
  * @param stop_source used to get stop_token passed to @p task. @p task should take use of it to stop work when needed.
  * @param task stoppable task to be executed. @p task should call provided callback with result whem job is done
  * @param callback callback provided by user to be called when @p task is done
+ * @param sameThread if set to true, @p callback will be called from the same thread as @p task
  *
  * stoppableTask() will wrap @p callback using @ref safe_callback_ctrl to make sure it won't be called when @p stop_source was stopped.
  * Therefore it is safe to destroy any objects used by @p callback before @p task is done.
  * @note All objects in @p task need to be valid during execution.
  */
 template<typename R, typename Callback>
-void stoppableTask(const std::stop_source& stop_source, std::function<void(const std::stop_token &, StoppableTaskCallback<R>)> task, Callback callback)
+void stoppableTask(const std::stop_source& stop_source, std::function<void(const std::stop_token &, StoppableTaskCallback<R>)> task, Callback callback, bool sameThread = true)
 {
     // Helper class containing safe_callback_ctrl related stuff.
     // It's purpose is to live as long as task and callback are alive to make sure
@@ -294,7 +295,13 @@ void stoppableTask(const std::stop_source& stop_source, std::function<void(const
             context->callback_called = true;
         });
 
-    task(stop_token, safe_callback);
+    if (sameThread)
+    {
+        auto thisThreadCallback = make_cross_thread_function<R>(QThread::currentThread(), safe_callback);
+        task(stop_token, thisThreadCallback);
+    }
+    else
+        task(stop_token, safe_callback);
 };
 
 
