@@ -28,6 +28,7 @@ addTestTarget(core
                     unit_tests/qmodelindex_selector_tests.cpp
                     unit_tests/status_tests.cpp
                     unit_tests/tag_value_tests.cpp
+
                 LIBRARIES
                     GTest::gtest
                     GTest::gmock
