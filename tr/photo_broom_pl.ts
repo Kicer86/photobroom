@@ -539,7 +539,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+130"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+116"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
@@ -549,17 +549,17 @@ Kod błędu: %1</translation>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+18"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Processing photos...</source>
         <translation>Przetwarzanie zdjęć...</translation>
     </message>
     <message numerus="yes">
-        <location line="+7"/>
+        <location line="+9"/>
         <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
         <translation>
             <numerusform>%n zdjęcie zawiera datę w nazwie pliku. Zatwierdź je, jeśli data jest poprawna.</numerusform>
@@ -568,7 +568,7 @@ Kod błędu: %1</translation>
         </translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+9"/>
         <source>Saving results</source>
         <translation>Zapisywanie wyników</translation>
     </message>

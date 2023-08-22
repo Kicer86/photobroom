@@ -30,8 +30,6 @@ ENUM_ROLES_SETUP(Roles);
 
 PhotosDataGuesser::PhotosDataGuesser()
     : m_db(nullptr)
-    , m_fetching(false)
-    , m_updating(false)
 {
 
 }
@@ -51,29 +49,6 @@ Database::IDatabase * PhotosDataGuesser::database() const
 }
 
 
-bool PhotosDataGuesser::isFetchInProgress() const
-{
-    return m_fetching;
-}
-
-
-bool PhotosDataGuesser::isUpdateInProgress() const
-{
-    return m_updating;
-}
-
-
-void PhotosDataGuesser::performAnalysis()
-{
-    if (m_db != nullptr)
-    {
-        clear();
-        m_db->exec(std::bind(&PhotosDataGuesser::process, this, _1));
-        updateFetchStatus(true);
-    }
-}
-
-
 void PhotosDataGuesser::apply(const QList<int>& included)
 {
     std::vector<CollectedData> photosToProcess;
@@ -82,7 +57,6 @@ void PhotosDataGuesser::apply(const QList<int>& included)
     for (const int i: included)
         photosToProcess.push_back(m_photos[i]);
 
-    updateUpdateStatus(true);
     m_db->exec(std::bind(&PhotosDataGuesser::updatePhotos, this, _1, photosToProcess));
 }
 
@@ -125,71 +99,63 @@ QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
 }
 
 
-void PhotosDataGuesser::clear()
+void PhotosDataGuesser::loadData(const std::stop_token &stopToken, StoppableTaskCallback<std::vector<CollectedData>> callback)
+{
+    if (m_db != nullptr)
+        m_db->exec([this, callback](Database::IBackend& backend)
+        {
+            const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, PhotosAnalyzerConsts::ExifFlagVersion } });
+            const Database::FilterPhotosWithTag date(Tag::Types::Date);
+            const Database::FilterNotMatchingFilter noDate(date);
+            const Database::GroupFilter filters = {analyzed, noDate};
+            const auto ids = backend.photoOperator().getPhotos(filters);
+
+            static const DataFromPathExtractor extractor;
+            std::vector<CollectedData> photos;
+
+            for(const Photo::Id& id: ids)
+            {
+                const auto photoData = backend.getPhotoDelta<Photo::Field::Path>(id);
+                const auto tags = extractor.extract(photoData.get<Photo::Field::Path>());
+
+                if (tags.empty() == false)
+                {
+                    CollectedData data;
+
+                    auto it = tags.find(Tag::Types::Date);
+
+                    if (it != tags.end())
+                        data.date = it->second.getDate();
+
+                    it = tags.find(Tag::Types::Time);
+
+                    if (it != tags.end())
+                        data.time = it->second.getTime();
+
+                    data.photoData = photoData;
+                    photos.push_back(data);
+                }
+            }
+
+            callback(photos);
+        });
+}
+
+
+void PhotosDataGuesser::updateData(const std::vector<CollectedData>& data)
+{
+    const int count = static_cast<int>(data.size());
+    beginInsertRows({}, 0, count - 1);
+    m_photos = data;
+    endInsertRows();
+}
+
+
+void PhotosDataGuesser::clearData()
 {
     beginResetModel();
     m_photos.clear();
     endResetModel();
-}
-
-
-void PhotosDataGuesser::updateFetchStatus(bool status)
-{
-    m_fetching = status;
-    emit fetchInProgressChanged(m_fetching);
-}
-
-
-void PhotosDataGuesser::updateUpdateStatus(bool status)
-{
-    m_updating = status;
-    emit updateInProgressChanged(m_updating);
-}
-
-
-void PhotosDataGuesser::process(Database::IBackend& backend)
-{
-    const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, PhotosAnalyzerConsts::ExifFlagVersion } });
-    const Database::FilterPhotosWithTag date(Tag::Types::Date);
-    const Database::FilterNotMatchingFilter noDate(date);
-    const Database::GroupFilter filters = {analyzed, noDate};
-    const auto photos = backend.photoOperator().getPhotos(filters);
-
-    invokeMethod(this, &PhotosDataGuesser::photosFetched, photos);
-}
-
-
-void PhotosDataGuesser::processIds(Database::IBackend& backend, const std::vector<Photo::Id>& ids)
-{
-    static const DataFromPathExtractor extractor;
-
-    std::vector<CollectedData> photos;
-
-    for(const Photo::Id& id: ids)
-    {
-        const auto photoData = backend.getPhotoDelta<Photo::Field::Path>(id);
-        const auto tags = extractor.extract(photoData.get<Photo::Field::Path>());
-
-        if (tags.empty() == false)
-        {
-            CollectedData data;
-
-            auto it = tags.find(Tag::Types::Date);
-
-            if (it != tags.end())
-                data.date = it->second.getDate();
-
-            it = tags.find(Tag::Types::Time);
-
-            if (it != tags.end())
-                data.time = it->second.getTime();
-
-            data.photoData = photoData;
-            photos.push_back(data);
-        }
-    }
-
-    invokeMethod(this, &PhotosDataGuesser::photoDataFetched, photos);
 }
 
 
@@ -216,22 +182,4 @@ void PhotosDataGuesser::updatePhotos(Database::IBackend& backend, const std::vec
 
     if (deltasToStore.empty() == false)
         backend.update(deltasToStore);
-
-    updateUpdateStatus(false);
-}
-
-
-void PhotosDataGuesser::photosFetched(const std::vector<Photo::Id>& ids)
-{
-    m_db->exec(std::bind(&PhotosDataGuesser::processIds, this, _1, ids));
-}
-
-
-void PhotosDataGuesser::photoDataFetched(const std::vector<CollectedData>& data)
-{
-    const int count = static_cast<int>(data.size());
-    beginInsertRows({}, 0, count - 1);
-    m_photos = data;
-    endInsertRows();
-    updateFetchStatus(false);
 }

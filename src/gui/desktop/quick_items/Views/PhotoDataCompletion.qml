@@ -15,7 +15,7 @@ Item {
 
     function reloadModel() {
         delegateState.clear();
-        dataSource.performAnalysis();
+        dataSource.reload();
     }
 
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
@@ -24,20 +24,6 @@ Item {
     PhotosDataGuesser {
         id: dataSource
         database: PhotoBroomProject.database
-
-        onFetchInProgressChanged: {
-            if (fetchInProgress)
-                root.state = "fetching";
-            else
-                root.state = "summary";
-        }
-
-        onUpdateInProgressChanged: {
-            if (updateInProgress)
-                root.state = "updating"
-            else
-                reloadModel();
-        }
     }
 
     Column {
@@ -165,6 +151,8 @@ Item {
     states: [
         State {
             name: "information"
+            when: dataSource.state == SeriesModel.Idle
+
             PropertyChanges {
                 target: status
                 text: qsTr("Click here to scan for additional information about photos from file names and paths.")
@@ -172,6 +160,8 @@ Item {
         },
         State {
             name: "fetching"
+            when: dataSource.state == SeriesModel.Fetching
+
             PropertyChanges {
                 target: status
                 text: qsTr("Processing photos...")
@@ -179,6 +169,8 @@ Item {
         },
         State {
             name: "summary"
+            when: dataSource.state == SeriesModel.Loaded
+
             PropertyChanges {
                 target: status
                 text: qsTr("For %n photo(s) dates were detected in file names. Review results and save them if valid.", "", listView.count)
@@ -186,6 +178,8 @@ Item {
         },
         State {
             name: "updating"
+            when: dataSource.state == SeriesModel.Storing
+
             PropertyChanges {
                 target: status
                 text: qsTr("Saving results")
