@@ -820,33 +820,33 @@ Error code: %1</source>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="211"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="29"/>
         <source>Click here to scan for photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="158"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="128"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished">Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="225"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="33"/>
         <source>Saving groups...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="239"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="30"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="253"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="31"/>
         <source>Click here to rescan for photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="187"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="32"/>
         <source>There are no group candidates.</source>
         <translation>There are no group candidates.</translation>
     </message>

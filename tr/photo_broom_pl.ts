@@ -852,33 +852,33 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+211"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+29"/>
         <source>Click here to scan for photo series.</source>
         <translation>Kliknij tutaj aby wyszukać serie zdjęć.</translation>
     </message>
     <message>
-        <location line="-53"/>
+        <location line="+99"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="-95"/>
         <source>Saving groups...</source>
         <translation>Zapisywanie grup...</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-3"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+1"/>
         <source>Click here to rescan for photo series.</source>
         <translation>Kliknij tutaj aby wyszukać na nowo serii zdjęć.</translation>
     </message>
     <message>
-        <location line="-66"/>
+        <location line="+1"/>
         <source>There are no group candidates.</source>
         <translation>Brak potencjalnych grup.</translation>
     </message>
