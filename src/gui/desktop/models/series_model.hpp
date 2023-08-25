@@ -35,8 +35,6 @@ public:
     SeriesModel();
     ~SeriesModel();
 
-    Q_INVOKABLE void group(const QList<int> &);
-
     void setCoreAccessor(ICoreFactoryAccessor *);
     ICoreFactoryAccessor* coreAccessor() const;
 
@@ -54,6 +52,7 @@ private:
     void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>>) override;
     void updateData(const std::vector<GroupCandidate> &) override;
     void clearData() override;
+    void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 };
 
 #endif

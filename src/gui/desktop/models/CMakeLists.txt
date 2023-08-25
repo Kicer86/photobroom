@@ -2,7 +2,7 @@
 set(SRC
     actions_model.cpp
     actions_model.hpp
-    aheavy_list_model.cpp
+    aheavy_list_model.hpp                   # needed for moc
     aphoto_data_model.cpp
     aphoto_data_model.hpp
     duplicates_model.cpp

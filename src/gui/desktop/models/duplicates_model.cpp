@@ -123,3 +123,8 @@ void DuplicatesModel::clearData()
     m_duplicates.clear();
     endResetModel();
 }
+
+void DuplicatesModel::applyRows(const QList<int> &, ApplyToken)
+{
+    assert(!"Nothing to be done");
+}

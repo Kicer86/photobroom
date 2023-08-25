@@ -29,6 +29,7 @@ private:
     void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<Photo::DataDelta>>) override;
     void updateData(const std::vector<Photo::DataDelta> &) override;
     void clearData() override;
+    void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 
 signals:
     void dbChanged() const;

@@ -14,6 +14,7 @@ public:
     MOCK_METHOD(void, clearData, (), (override));
     MOCK_METHOD(void, loadData, (const std::stop_token &stopToken, StoppableTaskCallback<int>), (override));
     MOCK_METHOD(void, updateData, (const int &), (override));
+    MOCK_METHOD(void, applyRows, (const QList<int> &, AHeavyListModel::ApplyToken), (override));
 };
 
 

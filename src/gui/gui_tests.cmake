@@ -9,7 +9,7 @@ include_directories(unit_tests)
 
 addTestTarget(gui
                 SOURCES
-                    desktop/models/aheavy_list_model.cpp
+                    desktop/models/aheavy_list_model.hpp                   # needed for moc
                     desktop/models/aphoto_data_model.cpp
                     desktop/models/flat_model.cpp
                     desktop/utils/model_index_utils.cpp

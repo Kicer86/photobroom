@@ -49,18 +49,6 @@ Database::IDatabase * PhotosDataGuesser::database() const
 }
 
 
-void PhotosDataGuesser::apply(const QList<int>& included)
-{
-    std::vector<CollectedData> photosToProcess;
-    photosToProcess.reserve(included.size());
-
-    for (const int i: included)
-        photosToProcess.push_back(m_photos[i]);
-
-    m_db->exec(std::bind(&PhotosDataGuesser::updatePhotos, this, _1, photosToProcess));
-}
-
-
 Photo::Id PhotosDataGuesser::getId(int row) const
 {
     return m_photos[row].photoData.getId();
@@ -159,27 +147,36 @@ void PhotosDataGuesser::clearData()
 }
 
 
-void PhotosDataGuesser::updatePhotos(Database::IBackend& backend, const std::vector<CollectedData>& infos)
+void PhotosDataGuesser::applyRows(const QList<int>& included, AHeavyListModel::ApplyToken token)
 {
-    std::vector<Photo::DataDelta> deltasToStore;
-    deltasToStore.reserve(infos.size());
+    std::vector<CollectedData> photosToProcess;
+    photosToProcess.reserve(included.size());
 
-    for (const auto& info: infos)
+    for (const int i: included)
+        photosToProcess.push_back(m_photos[i]);
+
+    m_db->exec([photosToProcess, token = std::move(token)](Database::IBackend& backend)
     {
-        auto photoDelta = backend.getPhotoDelta<Photo::Field::Tags>(info.photoData.getId());
-        auto tags = photoDelta.get<Photo::Field::Tags>();
+        std::vector<Photo::DataDelta> deltasToStore;
+        deltasToStore.reserve(photosToProcess.size());
 
-        if (info.date.isValid())
-            tags[Tag::Types::Date] = info.date;
+        for (const auto& info: photosToProcess)
+        {
+            auto photoDelta = backend.getPhotoDelta<Photo::Field::Tags>(info.photoData.getId());
+            auto tags = photoDelta.get<Photo::Field::Tags>();
 
-        if (info.time.isValid())
-            tags[Tag::Types::Time] = info.time;
+            if (info.date.isValid())
+                tags[Tag::Types::Date] = info.date;
 
-        photoDelta.insert<Photo::Field::Tags>(tags);
+            if (info.time.isValid())
+                tags[Tag::Types::Time] = info.time;
 
-        deltasToStore.push_back(photoDelta);
-    }
+            photoDelta.insert<Photo::Field::Tags>(tags);
 
-    if (deltasToStore.empty() == false)
-        backend.update(deltasToStore);
+            deltasToStore.push_back(photoDelta);
+        }
+
+        if (deltasToStore.empty() == false)
+            backend.update(deltasToStore);
+    });
 }

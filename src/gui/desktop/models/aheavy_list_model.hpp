@@ -7,6 +7,12 @@
 
 #include <core/function_wrappers.hpp>
 
+/**
+ * @brief Qt interface of AHeavyListModel
+ *
+ * @ref AHeavyListModel is a template. Template class cannot be moced, so types and methods used by views
+ * are extracted to this class
+ */
 
 class AHeavyListModelBase: public QAbstractListModel
 {
@@ -26,17 +32,17 @@ public:
     Q_ENUMS(State)
 
     virtual Q_INVOKABLE void reload() = 0;
-    Q_INVOKABLE bool isEmpty() const;
-    State state() const;
+    virtual Q_INVOKABLE void apply() = 0;
+    virtual Q_INVOKABLE void apply(const QList<int> &) = 0;
+    Q_INVOKABLE bool isEmpty() const
+    {
+        return rowCount({}) == 0;
+    }
+
+    virtual State state() const = 0;
 
 signals:
     void stateChanged() const;
-
-protected:
-    void setState(State);
-
-private:
-    State m_state = Idle;
 };
 
 
@@ -44,6 +50,29 @@ template<typename T>
 class AHeavyListModel: public AHeavyListModelBase
 {
 public:
+    friend struct ApplyFinisher;
+    struct ApplyFinisher
+    {
+        ApplyFinisher(AHeavyListModel* m): m_m(m)
+        {
+            m_m->setState(State::Storing);
+        }
+
+        ~ApplyFinisher()
+        {
+            m_m->clear();
+        }
+
+        void operator()(void *)
+        {
+
+        }
+
+        AHeavyListModel* m_m;
+    };
+
+    using ApplyToken = std::unique_ptr<ApplyFinisher>;
+
     ~AHeavyListModel()
     {
         m_work.request_stop();
@@ -66,19 +95,49 @@ public:
         }
     }
 
+    void apply() override
+    {
+        ApplyToken token = std::make_unique<ApplyFinisher>(this);
+        applyRows({}, std::move(token));
+    }
+
+    void apply(const QList<int>& rows) override
+    {
+        if (rows.isEmpty() == false)
+        {
+            ApplyToken token = std::make_unique<ApplyFinisher>(this);
+            applyRows(rows, std::move(token));
+        }
+    }
+
     void clear()
     {
         setState(State::Idle);
         clearData();
     }
 
+    State state() const override
+    {
+        return m_state;
+    }
+
 protected:
     virtual void clearData() = 0;
     virtual void loadData(const std::stop_token& stopToken, StoppableTaskCallback<T>) = 0;
     virtual void updateData(const T &) = 0;
+    virtual void applyRows(const QList<int> &, ApplyToken) = 0;
+
 
 private:
+    State m_state = Idle;
     std::stop_source m_work;
+
+    void setState(AHeavyListModelBase::State state)
+    {
+        m_state = state;
+
+        emit stateChanged();
+    }
 };
 
 #endif

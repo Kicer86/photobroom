@@ -31,7 +31,6 @@ public:
     void setDatabase(Database::IDatabase *);
     Database::IDatabase* database() const;
 
-    Q_INVOKABLE void apply(const QList<int> &);
     Q_INVOKABLE Photo::Id getId(int row) const;
 
     QVariant data(const QModelIndex & index, int role) const override;
@@ -45,8 +44,7 @@ private:
     void loadData(const std::stop_token &stopToken, StoppableTaskCallback<std::vector<CollectedData>>) override;
     void updateData(const std::vector<CollectedData> &) override;
     void clearData() override;
-
-    void updatePhotos(Database::IBackend &, const std::vector<CollectedData> &);
+    void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 };
 
 #endif

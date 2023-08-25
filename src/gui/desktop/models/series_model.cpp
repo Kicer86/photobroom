@@ -36,35 +36,6 @@ SeriesModel::~SeriesModel()
 }
 
 
-void SeriesModel::group(const QList<int>& rows)
-{
-    std::vector<std::vector<GroupCandidate::ExplicitDelta>> toStore;
-
-    for(const int i: rows)
-    {
-        const auto& candidate = m_candidates[static_cast<std::size_t>(i)];
-
-        toStore.push_back(candidate.members);
-    }
-
-    auto& executor = m_core->getTaskExecutor();
-
-    QPromise<void> promise;
-    QFuture<void> future = promise.future();
-    future.then(std::bind(&SeriesModel::clear, this));
-
-    setState(State::Storing);
-
-    runOn(executor, [groups = std::move(toStore), project = m_project, promise = std::move(promise)]() mutable
-    {
-        GroupsManager::groupIntoUnified(*project, std::move(promise), groups);
-    },
-    "unified group generation");
-
-    // TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
-}
-
-
 void SeriesModel::setCoreAccessor(ICoreFactoryAccessor* core)
 {
     m_core = core;
@@ -165,4 +136,28 @@ void SeriesModel::clearData()
     beginResetModel();
     m_candidates.clear();
     endResetModel();
+}
+
+
+void SeriesModel::applyRows(const QList<int>& rows, AHeavyListModel::ApplyToken token)
+{
+    std::vector<std::vector<GroupCandidate::ExplicitDelta>> toStore;
+
+    for(const int i: rows)
+    {
+        const auto& candidate = m_candidates[static_cast<std::size_t>(i)];
+
+        toStore.push_back(candidate.members);
+    }
+
+    auto& executor = m_core->getTaskExecutor();
+
+    runOn(executor, [groups = std::move(toStore), project = m_project, token = std::move(token)]() mutable
+    {
+        QPromise<void> promise;
+        GroupsManager::groupIntoUnified(*project, std::move(promise), groups);
+    },
+    "unified group generation");
+
+    // TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
 }
