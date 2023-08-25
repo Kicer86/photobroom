@@ -102,7 +102,7 @@ QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
 void PhotosDataGuesser::loadData(const std::stop_token &stopToken, StoppableTaskCallback<std::vector<CollectedData>> callback)
 {
     if (m_db != nullptr)
-        m_db->exec([this, callback](Database::IBackend& backend)
+        m_db->exec([callback](Database::IBackend& backend)
         {
             const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, PhotosAnalyzerConsts::ExifFlagVersion } });
             const Database::FilterPhotosWithTag date(Tag::Types::Date);
