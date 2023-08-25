@@ -26,6 +26,7 @@ public:
     Q_ENUMS(State)
 
     virtual Q_INVOKABLE void reload() = 0;
+    Q_INVOKABLE bool isEmpty() const;
     State state() const;
 
 signals:

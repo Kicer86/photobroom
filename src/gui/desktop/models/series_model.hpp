@@ -36,7 +36,6 @@ public:
     ~SeriesModel();
 
     Q_INVOKABLE void group(const QList<int> &);
-    Q_INVOKABLE bool isEmpty() const;
 
     void setCoreAccessor(ICoreFactoryAccessor *);
     ICoreFactoryAccessor* coreAccessor() const;

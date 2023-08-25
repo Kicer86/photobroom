@@ -78,12 +78,6 @@ ICoreFactoryAccessor* SeriesModel::coreAccessor() const
 }
 
 
-bool SeriesModel::isEmpty() const
-{
-    return rowCount({}) == 0;
-}
-
-
 QVariant SeriesModel::data(const QModelIndex& index, int role) const
 {
     if (index.isValid() && index.column() == 0 && index.row() < static_cast<int>(m_candidates.size()))
