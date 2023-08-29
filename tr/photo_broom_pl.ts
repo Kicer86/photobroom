@@ -539,7 +539,22 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+116"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+29"/>
+        <source>Processing done. Click here for rerun.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No results.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Saving results...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+59"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
@@ -549,28 +564,14 @@ Kod błędu: %1</translation>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="-87"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+1"/>
         <source>Processing photos...</source>
         <translation>Przetwarzanie zdjęć...</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+9"/>
-        <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
-        <translation>
-            <numerusform>%n zdjęcie zawiera datę w nazwie pliku. Zatwierdź je, jeśli data jest poprawna.</numerusform>
-            <numerusform>%n zdjęcia zawierają datę w nazwie pliku. Zatwierdź je, jeśli daty są poprawne.</numerusform>
-            <numerusform>%n zdjęć zawiera datę w nazwie pliku. Zatwierdź je, jeśli daty są poprawne.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location line="+9"/>
-        <source>Saving results</source>
-        <translation>Zapisywanie wyników</translation>
     </message>
 </context>
 <context>
@@ -852,7 +853,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+29"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+30"/>
         <source>Click here to scan for photo series.</source>
         <translation>Kliknij tutaj aby wyszukać serie zdjęć.</translation>
     </message>
@@ -886,7 +887,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+102"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+67"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

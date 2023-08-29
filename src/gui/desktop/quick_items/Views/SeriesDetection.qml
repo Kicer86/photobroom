@@ -9,6 +9,7 @@ import photo_broom.singletons
 import "../Components" as Components
 import "ViewsComponents" as Internals
 
+
 /*
  * Series detection dialog
  */
@@ -130,14 +131,8 @@ Internals.ToolsBase
         onClicked: {
             var selected = delegateState.getItems((state) => {return state;});
 
-            groupsModelId.group(selected);
+            groupsModelId.apply(selected);
             delegateState.clear();
         }
     }}
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/

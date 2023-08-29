@@ -515,38 +515,39 @@ Error code: %1</source>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="116"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="29"/>
+        <source>Processing done. Click here for rerun.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="30"/>
+        <source>No results.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="31"/>
+        <source>Saving results...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="90"/>
         <source>Guessed date:</source>
         <translation>Guessed date:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="140"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="114"/>
         <source>Save selected photos</source>
         <translation>Save selected photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="158"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="27"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Click here to scan for additional information about photos from file names and paths.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="167"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="28"/>
         <source>Processing photos...</source>
         <translation>Processing photos...</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="176"/>
-        <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
-        <translatorcomment>For %n photos dates were detected in file names. Review results and save them if valid.</translatorcomment>
-        <translation>
-            <numerusform>For %n photo date was detected in file names. Review result and save it if valid.</numerusform>
-            <numerusform>For %n photos dates were detected in file names. Review results and save them if valid.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="185"/>
-        <source>Saving results</source>
-        <translation>Saving results</translation>
     </message>
 </context>
 <context>
@@ -820,33 +821,33 @@ Error code: %1</source>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="29"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="30"/>
         <source>Click here to scan for photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="128"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="129"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished">Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="33"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="34"/>
         <source>Saving groups...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="31"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="32"/>
         <source>Click here to rescan for photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="32"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="33"/>
         <source>There are no group candidates.</source>
         <translation>There are no group candidates.</translation>
     </message>
@@ -854,17 +855,17 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="102"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="67"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="103"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="68"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="104"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="69"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>
