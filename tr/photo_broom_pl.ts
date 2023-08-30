@@ -175,12 +175,12 @@
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="+16"/>
         <source>Click here to load duplicates.</source>
-        <translation>Kliknij tutaj, aby załadować duplikaty.</translation>
+        <translation>Kliknij tutaj aby załadować duplikaty.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Looking for duplicates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Trwa wyszukiwanie duplikatów...</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -198,22 +198,22 @@
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+166"/>
         <source>unknown</source>
-        <translation type="unfinished">nieznane</translation>
+        <translation>nieznane</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Mark found faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Podświetl znalezione twarze</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Detecting and analyzing faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie i rozpoznawanie twarzy</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Could not detect any face.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znalaziono ani jednej twarzy.</translation>
     </message>
 </context>
 <context>
@@ -541,17 +541,17 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+29"/>
         <source>Processing done. Click here for rerun.</source>
-        <translation type="unfinished"></translation>
+        <translation>Przetwarzanie zakończone. Kliknij tutaj, aby przeszukać ponownie.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>No results.</source>
-        <translation type="unfinished"></translation>
+        <translation>Brak wyników.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Saving results...</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapisywanie wyników...</translation>
     </message>
     <message>
         <location line="+58"/>

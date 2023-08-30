@@ -168,22 +168,22 @@
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="16"/>
         <source>Click here to load duplicates.</source>
-        <translation type="unfinished"></translation>
+        <translation>Click here to load duplicates.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="17"/>
         <source>Looking for duplicates...</source>
-        <translation type="unfinished"></translation>
+        <translation>Looking for duplicates...</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="18"/>
         <source>Click here to search for duplicates again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Click here to search for duplicates again.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="19"/>
         <source>No duplicates found</source>
-        <translation type="unfinished"></translation>
+        <translation>No duplicates found</translation>
     </message>
 </context>
 <context>
@@ -191,22 +191,22 @@
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="166"/>
         <source>unknown</source>
-        <translation type="unfinished"></translation>
+        <translation>unknown</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="206"/>
         <source>Mark found faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Mark found faces</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="219"/>
         <source>Detecting and analyzing faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Detecting and analyzing faces</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="219"/>
         <source>Could not detect any face.</source>
-        <translation type="unfinished"></translation>
+        <translation>Could not detect any face.</translation>
     </message>
 </context>
 <context>
@@ -517,17 +517,17 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="29"/>
         <source>Processing done. Click here for rerun.</source>
-        <translation type="unfinished"></translation>
+        <translation>Processing done. Click here for rerun.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="30"/>
         <source>No results.</source>
-        <translation type="unfinished"></translation>
+        <translation>No results.</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="31"/>
         <source>Saving results...</source>
-        <translation type="unfinished"></translation>
+        <translation>Saving results...</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="89"/>
