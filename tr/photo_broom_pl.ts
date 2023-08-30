@@ -554,17 +554,17 @@ Kod błędu: %1</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+58"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+22"/>
         <source>Save selected photos</source>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-84"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
@@ -858,13 +858,13 @@ Kod błędu: %1</translation>
         <translation>Kliknij tutaj aby wyszukać serie zdjęć.</translation>
     </message>
     <message>
-        <location line="+99"/>
+        <location line="+95"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="-95"/>
+        <location line="-91"/>
         <source>Saving groups...</source>
         <translation>Zapisywanie grup...</translation>
     </message>

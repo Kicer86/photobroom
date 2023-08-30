@@ -36,15 +36,14 @@ Internals.ToolsBase {
         database: PhotoBroomProject.database
     }
 
-    view: Component { ListView {
+    view: Component { Components.ExListView {
         id: listView
 
-        clip: true
 
         spacing: 5
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
-        flickDeceleration: 10000
+
         model: dataSource
 
         delegate: Item {
@@ -97,8 +96,6 @@ Internals.ToolsBase {
             color: currentPalette.highlight
             radius: 5
         }
-
-        ScrollBar.vertical: ScrollBar {}
 
         onCurrentIndexChanged: {
             root.selectedPhoto = dataSource.getId(currentIndex);

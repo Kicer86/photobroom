@@ -40,17 +40,13 @@ Internals.ToolsBase
         project: PhotoBroomProject.project
     }
 
-    view: Component { ListView {
+    view: Component { Components.ExListView {
         id: groupsListId
 
         property alias thumbnailSize: thumbnailSliderId.size
 
-        clip: true
         model: groupsModelId
         spacing: 10
-
-        ScrollBar.vertical: ScrollBar { }
-        flickDeceleration: 10000
 
         delegate: Item {
             id: delegateId
