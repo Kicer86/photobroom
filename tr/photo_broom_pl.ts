@@ -173,14 +173,14 @@
 <context>
     <name>DuplicatesView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="+45"/>
+        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="+16"/>
         <source>Click here to load duplicates.</source>
         <translation>Kliknij tutaj, aby załadować duplikaty.</translation>
     </message>
     <message>
-        <location line="-2"/>
-        <source>Looking for duplicates.</source>
-        <translation>Wyszukiwanie duplikatów.</translation>
+        <location line="+1"/>
+        <source>Looking for duplicates...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
@@ -188,7 +188,7 @@
         <translation>Kliknij tutaj aby wyszukać duplikaty ponownie.</translation>
     </message>
     <message>
-        <location line="+19"/>
+        <location line="+1"/>
         <source>No duplicates found</source>
         <translation>Nie znaleziono duplikatów</translation>
     </message>

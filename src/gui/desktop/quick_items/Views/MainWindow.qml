@@ -196,7 +196,7 @@ ApplicationWindow {
 
                     Component {
                         id: duplicates_view
-                        Internals.DuplicatesView { }
+                        DuplicatesView { }
                     }
 
                     sourceComponent: PhotoBroomProject.projectOpen? duplicates_view : undefined

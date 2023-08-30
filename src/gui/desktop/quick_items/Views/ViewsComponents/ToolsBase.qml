@@ -26,7 +26,7 @@ Item
     required property string loadingPrompt
     required property string loadedPrompt
     required property string emptyPrompt
-    property string storingPrompt: undefined
+    property string storingPrompt: ""
 
 
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
