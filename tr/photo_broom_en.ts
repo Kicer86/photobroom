@@ -166,22 +166,22 @@
 <context>
     <name>DuplicatesView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="45"/>
+        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="45"/>
         <source>Click here to load duplicates.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="43"/>
+        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="43"/>
         <source>Looking for duplicates.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="44"/>
+        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="44"/>
         <source>Click here to search for duplicates again.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="63"/>
+        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="63"/>
         <source>No duplicates found</source>
         <translation type="unfinished"></translation>
     </message>

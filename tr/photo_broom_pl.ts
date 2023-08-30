@@ -173,7 +173,7 @@
 <context>
     <name>DuplicatesView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="+45"/>
+        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="+45"/>
         <source>Click here to load duplicates.</source>
         <translation>Kliknij tutaj, aby załadować duplikaty.</translation>
     </message>
