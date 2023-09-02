@@ -909,7 +909,7 @@ Error code: %1</source>
     <message>
         <location filename="../src/gui/desktop/quick_items/Components/TimeRange.qml" line="51"/>
         <source>unknown</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">unknown</translation>
     </message>
 </context>
 <context>
