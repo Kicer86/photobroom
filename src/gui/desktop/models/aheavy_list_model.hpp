@@ -36,7 +36,7 @@ public:
     virtual Q_INVOKABLE void apply(const QList<int> &) = 0;
     Q_INVOKABLE bool isEmpty() const
     {
-        return rowCount({}) == 0;
+        return rowCount() == 0;
     }
 
     virtual State state() const = 0;
@@ -53,14 +53,23 @@ public:
     friend struct ApplyFinisher;
     struct ApplyFinisher
     {
-        ApplyFinisher(AHeavyListModel* m): m_m(m)
+        ApplyFinisher(AHeavyListModel* m, int rowsAffected)
+        : m_m(m)
+        , m_rowsAffected(rowsAffected)
+        , m_totalRows(m->rowCount())
         {
             m_m->setState(State::Storing);
         }
 
         ~ApplyFinisher()
         {
-            m_m->clear();
+            m_m->setState(State::Loaded);
+
+            // assert model has removed affected rows
+            const int currentRowCount = m_m->rowCount();
+            const int expectedRowCount = m_totalRows - m_rowsAffected;
+
+            assert(currentRowCount == expectedRowCount);
         }
 
         void operator()(void *)
@@ -69,6 +78,8 @@ public:
         }
 
         AHeavyListModel* m_m;
+        int m_rowsAffected;
+        const int m_totalRows;
     };
 
     using ApplyToken = std::unique_ptr<ApplyFinisher>;
@@ -97,7 +108,9 @@ public:
 
     void apply() override
     {
-        ApplyToken token = std::make_unique<ApplyFinisher>(this);
+        const int totalRows = rowCount();
+
+        ApplyToken token = std::make_unique<ApplyFinisher>(this, totalRows);
         applyRows({}, std::move(token));
     }
 
@@ -105,12 +118,18 @@ public:
     {
         if (rows.isEmpty() == false)
         {
-            ApplyToken token = std::make_unique<ApplyFinisher>(this);
+            ApplyToken token = std::make_unique<ApplyFinisher>(this, rows.count());
             applyRows(rows, std::move(token));
         }
     }
 
     void clear()
+    {
+        setState(State::Idle);
+        clearData();
+    }
+
+    void clear(const QList<int>& rows)
     {
         setState(State::Idle);
         clearData();
@@ -126,7 +145,6 @@ protected:
     virtual void loadData(const std::stop_token& stopToken, StoppableTaskCallback<T>) = 0;
     virtual void updateData(const T &) = 0;
     virtual void applyRows(const QList<int> &, ApplyToken) = 0;
-
 
 private:
     State m_state = Idle;
