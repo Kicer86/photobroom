@@ -31,7 +31,7 @@ DuplicatesModel::~DuplicatesModel()
 
 QVariant DuplicatesModel::data(const QModelIndex& index, int role) const
 {
-    const auto row = index.row();
+    const auto row = static_cast<std::size_t>(index.row());
 
     if (role == DuplicatesRole && index.column() == 0 && row < m_duplicates.size())
         return QVariant::fromValue(m_duplicates[row]);
