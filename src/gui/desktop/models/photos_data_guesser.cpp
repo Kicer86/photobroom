@@ -51,13 +51,15 @@ Database::IDatabase * PhotosDataGuesser::database() const
 
 Photo::Id PhotosDataGuesser::getId(int row) const
 {
-    return m_photos[row].photoData.getId();
+    const auto& photos = internalData();
+    return photos[row].photoData.getId();
 }
 
 
 QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 {
-    const auto& photo = m_photos[index.row()];
+    const auto& photos = internalData();
+    const auto& photo = photos[index.row()];
 
     if (role == photoPathRole)
         return photo.photoData.get<Photo::Field::Path>();
@@ -69,12 +71,6 @@ QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
         return photo.time.toString();
     else
         return {};
-}
-
-
-int PhotosDataGuesser::rowCount(const QModelIndex& parent) const
-{
-    return parent.isValid()? 0 : static_cast<int>(m_photos.size());
 }
 
 
@@ -130,30 +126,15 @@ void PhotosDataGuesser::loadData(const std::stop_token &stopToken, StoppableTask
 }
 
 
-void PhotosDataGuesser::updateData(const std::vector<CollectedData>& data)
-{
-    const int count = static_cast<int>(data.size());
-    beginInsertRows({}, 0, count - 1);
-    m_photos = data;
-    endInsertRows();
-}
-
-
-void PhotosDataGuesser::clearData()
-{
-    beginResetModel();
-    m_photos.clear();
-    endResetModel();
-}
-
-
 void PhotosDataGuesser::applyRows(const QList<int>& included, AHeavyListModel::ApplyToken token)
 {
     std::vector<CollectedData> photosToProcess;
     photosToProcess.reserve(included.size());
 
+    const auto& photos = internalData();
+
     for (const int i: included)
-        photosToProcess.push_back(m_photos[i]);
+        photosToProcess.push_back(photos[i]);
 
     m_db->exec([photosToProcess, token = std::move(token)](Database::IBackend& backend)
     {

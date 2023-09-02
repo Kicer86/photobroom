@@ -89,6 +89,11 @@ public:
         m_work.request_stop();
     }
 
+    int rowCount(const QModelIndex& parent = {}) const override
+    {
+        return parent.isValid()? 0: static_cast<int>(m_data.size());
+    }
+
     void reload() override
     {
         using namespace std::placeholders;
@@ -97,11 +102,11 @@ public:
         {
             clear();
 
-            stoppableTask<T>
+            stoppableTask<std::vector<T>>
             (
                 m_work,
-                [this](const std::stop_token& stop, StoppableTaskCallback<T> callback) { setState(State::Fetching); loadData(stop, callback); },
-                [this](const T& data) { updateData(data); setState(State::Loaded); }
+                [this](const std::stop_token& stop, StoppableTaskCallback<std::vector<T>> callback) { setState(State::Fetching); loadData(stop, callback); },
+                [this](const std::vector<T>& data) { updateData(data); setState(State::Loaded); }
             );
         }
     }
@@ -141,12 +146,16 @@ public:
     }
 
 protected:
-    virtual void clearData() = 0;
-    virtual void loadData(const std::stop_token& stopToken, StoppableTaskCallback<T>) = 0;
-    virtual void updateData(const T &) = 0;
+    virtual void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<T>>) = 0;
     virtual void applyRows(const QList<int> &, ApplyToken) = 0;
 
+    const std::vector<T>& internalData() const
+    {
+        return m_data;
+    }
+
 private:
+    std::vector<T> m_data;
     State m_state = Idle;
     std::stop_source m_work;
 
@@ -155,6 +164,21 @@ private:
         m_state = state;
 
         emit stateChanged();
+    }
+
+    void clearData()
+    {
+        beginResetModel();
+        m_data.clear();
+        endResetModel();
+    }
+
+    void updateData(const std::vector<T>& data)
+    {
+        const int count = static_cast<int>(data.size());
+        beginInsertRows({}, 0, count - 1);
+        m_data = data;
+        endInsertRows();
     }
 };
 

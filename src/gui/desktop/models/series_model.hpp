@@ -17,7 +17,7 @@
 
 class SeriesDetector;
 
-class SeriesModel: public AHeavyListModel<std::vector<GroupCandidate>>
+class SeriesModel: public AHeavyListModel<GroupCandidate>
 {
     Q_OBJECT
     Q_PROPERTY(Project* project MEMBER m_project REQUIRED)
@@ -39,19 +39,15 @@ public:
     ICoreFactoryAccessor* coreAccessor() const;
 
     QVariant data(const QModelIndex& index, int role) const override;
-    int rowCount(const QModelIndex& parent) const override;
     QHash<int, QByteArray> roleNames() const override;
 
 private:
     std::unique_ptr<ILogger> m_logger;
-    std::vector<GroupCandidate> m_candidates;
     Project* m_project = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
     std::stop_source m_work;
 
     void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>>) override;
-    void updateData(const std::vector<GroupCandidate> &) override;
-    void clearData() override;
     void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 };
 

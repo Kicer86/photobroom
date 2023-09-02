@@ -855,17 +855,17 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="67"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="69"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="68"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="69"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>

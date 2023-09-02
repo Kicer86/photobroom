@@ -16,19 +16,15 @@ public:
     ~DuplicatesModel() override;
 
     QVariant data(const QModelIndex& index, int role) const override;
-    int rowCount(const QModelIndex& parent) const override;
     QHash<int, QByteArray> roleNames() const override;
 
     void setDB(Database::IDatabase *);
     Database::IDatabase* db() const;
 
 private:
-    std::vector<std::vector<Photo::DataDelta>> m_duplicates;
     Database::IDatabase* m_db = nullptr;
 
-    void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<Photo::DataDelta>>) override;
-    void updateData(const std::vector<Photo::DataDelta> &) override;
-    void clearData() override;
+    void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<std::vector<Photo::DataDelta>>>) override;
     void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 
 signals:

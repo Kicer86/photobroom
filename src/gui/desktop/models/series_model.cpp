@@ -51,9 +51,11 @@ ICoreFactoryAccessor* SeriesModel::coreAccessor() const
 
 QVariant SeriesModel::data(const QModelIndex& index, int role) const
 {
-    if (index.isValid() && index.column() == 0 && index.row() < static_cast<int>(m_candidates.size()))
+    const auto& candidates = internalData();
+
+    if (index.isValid() && index.column() == 0 && index.row() < static_cast<int>(candidates.size()))
     {
-        const auto& candidate = m_candidates[static_cast<std::size_t>(index.row())];
+        const auto& candidate = candidates[static_cast<std::size_t>(index.row())];
 
         if (role == PhotoDataRole)
             return QVariant::fromValue(candidate.members.front());
@@ -76,12 +78,6 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
     }
 
     return {};
-}
-
-
-int SeriesModel::rowCount(const QModelIndex& parent) const
-{
-    return parent.isValid()? 0: static_cast<int>(m_candidates.size());
 }
 
 
@@ -122,30 +118,15 @@ void SeriesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallba
 }
 
 
-void SeriesModel::updateData(const std::vector<GroupCandidate>& canditates)
-{
-    beginInsertRows({}, 0, static_cast<int>(canditates.size()) - 1);
-    m_candidates = canditates;
-    m_logger->info(QString("Got %1 group canditates").arg(m_candidates.size()));
-    endInsertRows();
-}
-
-
-void SeriesModel::clearData()
-{
-    beginResetModel();
-    m_candidates.clear();
-    endResetModel();
-}
-
-
 void SeriesModel::applyRows(const QList<int>& rows, AHeavyListModel::ApplyToken token)
 {
     std::vector<std::vector<GroupCandidate::ExplicitDelta>> toStore;
 
+    const auto& candidates = internalData();
+
     for(const int i: rows)
     {
-        const auto& candidate = m_candidates[static_cast<std::size_t>(i)];
+        const auto& candidate = candidates[static_cast<std::size_t>(i)];
 
         toStore.push_back(candidate.members);
     }
