@@ -110,6 +110,7 @@ void SeriesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallba
             const auto elapsed = timer.elapsed();
 
             logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
+            logger->info(QString("Got %1 group canditates").arg(candidates.size()));
 
             callback(candidates);
         },
