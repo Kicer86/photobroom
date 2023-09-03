@@ -51,15 +51,17 @@ Database::IDatabase * PhotosDataGuesser::database() const
 
 Photo::Id PhotosDataGuesser::getId(int row) const
 {
+    const auto rowNo = static_cast<std::size_t>(row);
     const auto& photos = internalData();
-    return photos[row].photoData.getId();
+    return photos[rowNo].photoData.getId();
 }
 
 
 QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
 {
+    const auto rowNo = static_cast<std::size_t>(index.row());
     const auto& photos = internalData();
-    const auto& photo = photos[index.row()];
+    const auto& photo = photos[rowNo];
 
     if (role == photoPathRole)
         return photo.photoData.get<Photo::Field::Path>();
@@ -86,7 +88,7 @@ QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
 void PhotosDataGuesser::loadData(const std::stop_token &stopToken, StoppableTaskCallback<std::vector<CollectedData>> callback)
 {
     if (m_db != nullptr)
-        m_db->exec([callback](Database::IBackend& backend)
+        m_db->exec([callback, stopToken](Database::IBackend& backend)
         {
             const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, PhotosAnalyzerConsts::ExifFlagVersion } });
             const Database::FilterPhotosWithTag date(Tag::Types::Date);
@@ -99,6 +101,9 @@ void PhotosDataGuesser::loadData(const std::stop_token &stopToken, StoppableTask
 
             for(const Photo::Id& id: ids)
             {
+                if (stopToken.stop_requested())
+                    break;
+
                 const auto photoData = backend.getPhotoDelta<Photo::Field::Path>(id);
                 const auto tags = extractor.extract(photoData.get<Photo::Field::Path>());
 
