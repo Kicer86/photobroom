@@ -173,22 +173,22 @@
 <context>
     <name>DuplicatesView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DuplicatesView.qml" line="+19"/>
+        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="+16"/>
         <source>Click here to load duplicates.</source>
-        <translation>Kliknij tutaj, aby załadować duplikaty.</translation>
+        <translation>Kliknij tutaj aby załadować duplikaty.</translation>
     </message>
     <message>
-        <location line="+25"/>
-        <source>Looking for duplicates.</source>
-        <translation>Wyszukiwanie duplikatów.</translation>
+        <location line="+1"/>
+        <source>Looking for duplicates...</source>
+        <translation>Trwa wyszukiwanie duplikatów...</translation>
     </message>
     <message>
-        <location line="+0"/>
+        <location line="+1"/>
         <source>Click here to search for duplicates again.</source>
         <translation>Kliknij tutaj aby wyszukać duplikaty ponownie.</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="+1"/>
         <source>No duplicates found</source>
         <translation>Nie znaleziono duplikatów</translation>
     </message>
@@ -198,22 +198,22 @@
     <message>
         <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+166"/>
         <source>unknown</source>
-        <translation type="unfinished">nieznane</translation>
+        <translation>nieznane</translation>
     </message>
     <message>
         <location line="+40"/>
         <source>Mark found faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Podświetl znalezione twarze</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Detecting and analyzing faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Wyszukiwanie i rozpoznawanie twarzy</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Could not detect any face.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nie znalaziono ani jednej twarzy.</translation>
     </message>
 </context>
 <context>
@@ -539,38 +539,39 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+130"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+29"/>
+        <source>Processing done. Click here for rerun.</source>
+        <translation>Przetwarzanie zakończone. Kliknij tutaj, aby przeszukać ponownie.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>No results.</source>
+        <translation>Brak wyników.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Saving results...</source>
+        <translation>Zapisywanie wyników...</translation>
+    </message>
+    <message>
+        <location line="+58"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
     <message>
-        <location line="+24"/>
+        <location line="+22"/>
         <source>Save selected photos</source>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location line="-84"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+1"/>
         <source>Processing photos...</source>
         <translation>Przetwarzanie zdjęć...</translation>
-    </message>
-    <message numerus="yes">
-        <location line="+7"/>
-        <source>For %n photo(s) dates were detected in file names. Review results and save them if valid.</source>
-        <translation>
-            <numerusform>%n zdjęcie zawiera datę w nazwie pliku. Zatwierdź je, jeśli data jest poprawna.</numerusform>
-            <numerusform>%n zdjęcia zawierają datę w nazwie pliku. Zatwierdź je, jeśli daty są poprawne.</numerusform>
-            <numerusform>%n zdjęć zawiera datę w nazwie pliku. Zatwierdź je, jeśli daty są poprawne.</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location line="+7"/>
-        <source>Saving results</source>
-        <translation>Zapisywanie wyników</translation>
     </message>
 </context>
 <context>
@@ -852,33 +853,33 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+211"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+30"/>
         <source>Click here to scan for photo series.</source>
         <translation>Kliknij tutaj aby wyszukać serie zdjęć.</translation>
     </message>
     <message>
-        <location line="-53"/>
+        <location line="+95"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="-91"/>
         <source>Saving groups...</source>
         <translation>Zapisywanie grup...</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="-3"/>
         <source>Looking for group candidates...</source>
         <translation>Wyszukiwanie potencjalnych grup...</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+1"/>
         <source>Click here to rescan for photo series.</source>
         <translation>Kliknij tutaj aby wyszukać na nowo serii zdjęć.</translation>
     </message>
     <message>
-        <location line="-66"/>
+        <location line="+1"/>
         <source>There are no group candidates.</source>
         <translation>Brak potencjalnych grup.</translation>
     </message>
@@ -886,7 +887,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+119"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+69"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

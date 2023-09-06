@@ -24,9 +24,9 @@
 #include <core/itask_executor.hpp>
 #include <database/iphoto_operator.hpp>
 #include <database/general_flags.hpp>
+#include <database/photo_flags_values.hpp>
 
 #include "photos_analyzer_p.hpp"
-#include "photos_analyzer_constants.hpp"
 #include "../photos_analyzer.hpp"
 
 

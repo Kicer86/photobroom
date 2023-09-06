@@ -21,6 +21,7 @@ set(CORE_SOURCES
     constants.hpp                                           implementation/constants.cpp
     containers_utils.hpp
     core_factory_accessor.hpp                               implementation/core_factory_accessor.cpp
+                                                            implementation/data_from_path_extractor.cpp
     data_ptr.hpp
     disk_observer.hpp                                       implementation/disk_observer.cpp
     exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp

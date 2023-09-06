@@ -32,37 +32,7 @@ SeriesModel::SeriesModel()
 
 SeriesModel::~SeriesModel()
 {
-    m_candidatesFuture.cancel();
-    m_candidatesFuture.waitForFinished();
-}
-
-
-void SeriesModel::group(const QList<int>& rows)
-{
-    std::vector<std::vector<GroupCandidate::ExplicitDelta>> toStore;
-
-    for(const int i: rows)
-    {
-        const auto& candidate = m_candidates[static_cast<std::size_t>(i)];
-
-        toStore.push_back(candidate.members);
-    }
-
-    auto& executor = m_core->getTaskExecutor();
-
-    QPromise<void> promise;
-    QFuture<void> future = promise.future();
-    future.then(std::bind(&SeriesModel::clear, this));
-
-    setState(State::Storing);
-
-    runOn(executor, [groups = std::move(toStore), project = m_project, promise = std::move(promise)]() mutable
-    {
-        GroupsManager::groupIntoUnified(*project, std::move(promise), groups);
-    },
-    "unified group generation");
-
-    // TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
+    m_work.request_stop();
 }
 
 
@@ -79,33 +49,13 @@ ICoreFactoryAccessor* SeriesModel::coreAccessor() const
 }
 
 
-void SeriesModel::reload()
-{
-    if (m_state == State::Idle || m_state == State::Loaded)
-    {
-        clear();
-        fetchGroups();
-    }
-}
-
-
-bool SeriesModel::isEmpty() const
-{
-    return rowCount({}) == 0;
-}
-
-
-SeriesModel::State SeriesModel::state() const
-{
-    return m_state;
-}
-
-
 QVariant SeriesModel::data(const QModelIndex& index, int role) const
 {
-    if (index.isValid() && index.column() == 0 && index.row() < static_cast<int>(m_candidates.size()))
+    const auto& candidates = internalData();
+
+    if (index.isValid() && index.column() == 0 && index.row() < static_cast<int>(candidates.size()))
     {
-        const auto& candidate = m_candidates[static_cast<std::size_t>(index.row())];
+        const auto& candidate = candidates[static_cast<std::size_t>(index.row())];
 
         if (role == PhotoDataRole)
             return QVariant::fromValue(candidate.members.front());
@@ -131,12 +81,6 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
 }
 
 
-int SeriesModel::rowCount(const QModelIndex& parent) const
-{
-    return parent.isValid()? 0: static_cast<int>(m_candidates.size());
-}
-
-
 QHash<int, QByteArray> SeriesModel::roleNames() const
 {
     auto roles = QAbstractListModel::roleNames();
@@ -148,58 +92,54 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
 }
 
 
-void SeriesModel::setState(SeriesModel::State state)
+void SeriesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>> callback)
 {
-    m_state = state;
-
-    emit stateChanged();
-}
-
-
-void SeriesModel::fetchGroups()
-{
-    setState(State::Fetching);
-
-    auto& executor = m_core->getTaskExecutor();
-
-    m_candidatesFuture = runOn<std::vector<GroupCandidate>>
-    (
-        executor,
-        [this](QPromise<std::vector<GroupCandidate>>& promise)
+    runOn(
+        m_core->getTaskExecutor(),
+        [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach("SeriesDetector"), callback, stopToken]() mutable
         {
-            IExifReaderFactory& exif = m_core->getExifReaderFactory();
+            IExifReaderFactory& exif = core->getExifReaderFactory();
 
             QElapsedTimer timer;
 
-            auto detectLogger = m_logger->subLogger("SeriesDetector");
-            SeriesDetector detector(*detectLogger, m_project->getDatabase(), exif.get(), &promise);
+            auto detectLogger = logger->subLogger("SeriesDetector");
+            SeriesDetector detector(*detectLogger, dbClient->db(), exif.get(), stopToken);
 
             timer.start();
-            promise.addResult(detector.listCandidates());
-            m_logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(timer.elapsed())/1000.0));
+            const auto candidates = detector.listCandidates();
+            const auto elapsed = timer.elapsed();
+
+            logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
+            logger->info(QString("Got %1 group canditates").arg(candidates.size()));
+
+            callback(candidates);
         },
         "SeriesDetector"
     );
-
-    m_candidatesFuture.then(std::bind(&SeriesModel::updateModel, this, _1));
 }
 
 
-void SeriesModel::updateModel(const std::vector<GroupCandidate>& canditates)
+void SeriesModel::applyRows(const QList<int>& rows, AHeavyListModel::ApplyToken token)
 {
-    beginInsertRows({}, 0, static_cast<int>(canditates.size()) - 1);
-    m_candidates = canditates;
-    m_logger->info(QString("Got %1 group canditates").arg(m_candidates.size()));
-    endInsertRows();
+    std::vector<std::vector<GroupCandidate::ExplicitDelta>> toStore;
 
-    setState(State::Loaded);
-}
+    const auto& candidates = internalData();
 
+    for(const int i: rows)
+    {
+        const auto& candidate = candidates[static_cast<std::size_t>(i)];
 
-void SeriesModel::clear()
-{
-    beginResetModel();
-    m_candidates.clear();
-    setState(State::Idle);
-    endResetModel();
+        toStore.push_back(candidate.members);
+    }
+
+    auto& executor = m_core->getTaskExecutor();
+
+    runOn(executor, [groups = std::move(toStore), project = m_project, token = std::move(token)]() mutable
+    {
+        QPromise<void> promise;
+        GroupsManager::groupIntoUnified(*project, std::move(promise), groups);
+    },
+    "unified group generation");
+
+    // TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
 }

@@ -4,6 +4,7 @@
 
 #include <QAbstractItemModel>
 #include <QFuture>
+#include <stop_token>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/itasks_view.hpp>
@@ -11,13 +12,14 @@
 #include <database/database_tools/series_candidate.hpp>
 #include <project_utils/project.hpp>
 
+#include "aheavy_list_model.hpp"
+
 
 class SeriesDetector;
 
-class SeriesModel: public QAbstractListModel
+class SeriesModel: public AHeavyListModel<GroupCandidate>
 {
     Q_OBJECT
-    Q_PROPERTY(State state READ state NOTIFY stateChanged)
     Q_PROPERTY(Project* project MEMBER m_project REQUIRED)
     Q_PROPERTY(ICoreFactoryAccessor* coreFactory WRITE setCoreAccessor READ coreAccessor REQUIRED)
 
@@ -30,45 +32,23 @@ public:
         MembersRole,
     };
 
-    enum State
-    {
-        Idle,
-        Fetching,
-        Loaded,
-        Storing,
-    };
-    Q_ENUMS(State)
-
     SeriesModel();
     ~SeriesModel();
-
-    Q_INVOKABLE void reload();
-    Q_INVOKABLE void group(const QList<int> &);
-    Q_INVOKABLE bool isEmpty() const;
-    State state() const;
 
     void setCoreAccessor(ICoreFactoryAccessor *);
     ICoreFactoryAccessor* coreAccessor() const;
 
     QVariant data(const QModelIndex& index, int role) const override;
-    int rowCount(const QModelIndex& parent) const override;
     QHash<int, QByteArray> roleNames() const override;
-
-signals:
-    void stateChanged() const;
 
 private:
     std::unique_ptr<ILogger> m_logger;
-    std::vector<GroupCandidate> m_candidates;
     Project* m_project = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
-    QFuture<std::vector<GroupCandidate>> m_candidatesFuture;
-    State m_state = Idle;
+    std::stop_source m_work;
 
-    void setState(State);
-    void fetchGroups();
-    void updateModel(const std::vector<GroupCandidate> &);
-    void clear();
+    void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>>) override;
+    void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 };
 
 #endif

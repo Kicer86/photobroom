@@ -2,72 +2,31 @@
 import QtQuick
 import QtQuick.Controls
 
-import "../../Components" as Components
 import quick_items
 import photo_broom.models
 import photo_broom.singletons
 import QmlItems
 
+import "../Components" as Components
+import "ViewsComponents" as Internals
 
-Item
+
+Internals.ToolsBase
 {
-    Components.InfoItem {
-        id: status
+    idlePrompt:    qsTr("Click here to load duplicates.")
+    loadingPrompt: qsTr("Looking for duplicates...")
+    loadedPrompt:  qsTr("Click here to search for duplicates again.")
+    emptyPrompt:   qsTr("No duplicates found")
 
-        width: parent.width
-
-        text: qsTr("Click here to load duplicates.")
-
-        MouseArea {
-            anchors.fill: parent
-
-            enabled: duplicatesModel.workInProgress == false
-            cursorShape: enabled? Qt.PointingHandCursor: Qt.ArrowCursor
-
-            onClicked: duplicatesModel.reloadDuplicates()
-        }
+    model: DuplicatesModel {
+        id: duplicatesModel
+        database: PhotoBroomProject.database
     }
 
-    Components.ExListView  {
-
+    view: Component { Components.ExListView  {
         id: duplicatesList
 
-        width: parent.width
-        anchors.top: status.bottom
-        anchors.bottom: parent.bottom
-
-        model: DuplicatesModel {
-            id: duplicatesModel
-            database: PhotoBroomProject.database
-
-            onWorkInProgressChanged: {
-                status.text = workInProgress? qsTr("Looking for duplicates."): qsTr("Click here to search for duplicates again.");
-                duplicatesListStatus.visible = true;
-            }
-        }
-
-        Item {
-            id: duplicatesListStatus
-
-            anchors.fill: parent
-
-            visible: false
-
-            Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter:   parent.verticalCenter
-
-                text: qsTr("No duplicates found")
-                visible: duplicatesList.count == 0 && duplicatesModel.workInProgress == false
-            }
-
-            BusyIndicator {
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter:   parent.verticalCenter
-
-                running: duplicatesModel.workInProgress
-            }
-        }
+        model: duplicatesModel
 
         delegate: Components.ExListView {
 
@@ -127,5 +86,5 @@ Item
                 }
             }
         }
-    }
+    }}
 }

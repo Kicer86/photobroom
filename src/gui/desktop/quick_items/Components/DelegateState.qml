@@ -13,11 +13,23 @@ Item {
     }
 
     function state(index) {
-        return dataSet.objectAt(index).state;
+        if (index < dataSet.count) {
+            let obj = dataSet.objectAt(index);
+
+            if (obj)
+                return obj.state;
+        }
+
+        return false;
     }
 
     function setState(index, state) {
-        dataSet.objectAt(index).state = state;
+        if (index < dataSet.count) {
+            let obj = dataSet.objectAt(index);
+
+            if (obj)
+                obj.state = state;
+        }
     }
 
     function getItems(condition) {

@@ -57,18 +57,13 @@ set(DATABASE_SOURCES
     database_tools/itag_info_collector.hpp
     database_tools/json_to_backend.hpp
     database_tools/photos_analyzer.hpp
-    database_tools/photos_data_guesser.hpp
     database_tools/series_candidate.hpp
     database_tools/series_detector.hpp
     database_tools/tag_info_collector.hpp
 
-    database_tools/implementation/data_from_path_extractor.cpp
-    database_tools/implementation/data_from_path_extractor.hpp
     database_tools/implementation/id_to_data_converter.cpp
     database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/photos_analyzer.cpp
-    database_tools/implementation/photos_analyzer_constants.hpp
-    database_tools/implementation/photos_data_guesser.cpp
     database_tools/implementation/series_detector.cpp
     database_tools/implementation/tag_info_collector.cpp
 )

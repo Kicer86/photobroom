@@ -9,6 +9,7 @@ include_directories(unit_tests)
 
 addTestTarget(gui
                 SOURCES
+                    desktop/models/aheavy_list_model.hpp                   # needed for moc
                     desktop/models/aphoto_data_model.cpp
                     desktop/models/flat_model.cpp
                     desktop/utils/model_index_utils.cpp
@@ -17,6 +18,7 @@ addTestTarget(gui
                     desktop/utils/thumbnails_cache.cpp
 
                     # model tests:
+                    unit_tests/model/aheavy_list_model_tests.cpp
                     unit_tests/model/aphoto_data_model_tests.cpp
                     unit_tests/model/flat_model_tests.cpp
 

@@ -2,6 +2,7 @@
 set(SRC
     actions_model.cpp
     actions_model.hpp
+    aheavy_list_model.hpp                   # needed for moc
     aphoto_data_model.cpp
     aphoto_data_model.hpp
     duplicates_model.cpp
@@ -15,6 +16,7 @@ set(SRC
     notifications_model.hpp
     photo_properties_model.cpp
     photo_properties_model.hpp
+    photos_data_guesser.cpp
     roles_expansion.hpp
     series_model.cpp
     series_model.hpp

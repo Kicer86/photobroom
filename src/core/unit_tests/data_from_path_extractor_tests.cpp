@@ -1,8 +1,9 @@
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
+#include <QDate>
 
-#include "database_tools/implementation/data_from_path_extractor.cpp"
+#include "data_from_path_extractor.hpp"
 
 
 using testing::ElementsAre;

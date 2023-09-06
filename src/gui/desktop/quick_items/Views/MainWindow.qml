@@ -87,9 +87,9 @@ ApplicationWindow {
             id: toolsMenu
             title: qsTr("&Tools")
             enabled: PhotoBroomProject.projectOpen
-            Action { text: qsTr("S&eries detector...");       onTriggered: { toolsStackView.currentIndex = 2; mainView.currentIndex = 1; } }
-            Action { text: qsTr("Ph&oto data completion..."); onTriggered: { toolsStackView.currentIndex = 0; mainView.currentIndex = 1; } }
-            Action { text: qsTr("Look for &duplicates");      onTriggered: { toolsStackView.currentIndex = 1; mainView.currentIndex = 1; } }
+            Action { text: qsTr("S&eries detector...");       onTriggered: { toolsStackView.currentIndex = 1; mainView.currentIndex = 1; } }
+            Action { text: qsTr("Ph&oto data completion..."); onTriggered: { toolsStackView.currentIndex = 2; mainView.currentIndex = 1; } }
+            Action { text: qsTr("Look for &duplicates");      onTriggered: { toolsStackView.currentIndex = 3; mainView.currentIndex = 1; } }
         }
         Menu {
             id: settingsMenu
@@ -164,23 +164,44 @@ ApplicationWindow {
             StackLayout {
                 id: toolsStackView
 
-                Loader {
-                    active: PhotoBroomProject.projectOpen
+                // default, empty item used when no tool is meant to be active
+                Item {
 
-                    sourceComponent: PhotoDataCompletion { }
                 }
 
                 Loader {
-                    active: PhotoBroomProject.projectOpen
+                    active: PhotoBroomProject.projectOpen && toolsStackView.currentIndex == StackLayout.index
 
-                    sourceComponent: Internals.DuplicatesView { }
+                    Component {
+                        id: series_detection
+                        SeriesDetection { }
+                    }
+
+                    sourceComponent: PhotoBroomProject.projectOpen? series_detection : undefined
                 }
 
                 Loader {
-                    active: PhotoBroomProject.projectOpen
+                    active: PhotoBroomProject.projectOpen && toolsStackView.currentIndex == StackLayout.index
 
-                    sourceComponent: SeriesDetection { }
+                    Component {
+                        id: data_completion
+                        PhotoDataCompletion { }
+                    }
+
+                    sourceComponent: PhotoBroomProject.projectOpen? data_completion : undefined
                 }
+
+                Loader {
+                    active: PhotoBroomProject.projectOpen && toolsStackView.currentIndex == StackLayout.index
+
+                    Component {
+                        id: duplicates_view
+                        DuplicatesView { }
+                    }
+
+                    sourceComponent: PhotoBroomProject.projectOpen? duplicates_view : undefined
+                }
+
             }
         }
     }

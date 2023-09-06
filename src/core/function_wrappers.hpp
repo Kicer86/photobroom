@@ -5,6 +5,7 @@
 #include <functional>
 #include <memory>
 #include <mutex>
+#include <stop_token>
 
 #include <QPointer>
 #include <QThread>
@@ -28,7 +29,7 @@ template<typename... Args>
 class safe_callback final
 {
     public:
-        safe_callback(const std::shared_ptr<safe_callback_data>& data, const std::function<void(Args...)>& callback): m_data(data), m_callback(callback) {}
+        safe_callback(const std::shared_ptr<safe_callback_data>& data, std::function<void(Args...)>&& callback): m_data(data), m_callback(callback) {}
         safe_callback(const safe_callback<Args...> &) = default;
 
         safe_callback& operator=(const safe_callback<Args...> &) = default;
@@ -81,9 +82,9 @@ class safe_callback_ctrl final
         }
 
         template<typename... R, typename T>
-        auto make_safe_callback(const T& callback) const
+        [[nodiscard]] auto make_safe_callback(T&& callback) const
         {
-            safe_callback<R...> callbackPtr(m_data, callback);
+            safe_callback<R...> callbackPtr(m_data, std::forward<T>(callback));
 
             return callbackPtr;
         }
@@ -171,7 +172,7 @@ void call_from_this_thread(QThread* thread, const F& function, Args&&... args)
 // functor in another thread
 template<typename... Args, typename ObjT, typename F>
 requires std::is_base_of_v<QObject, ObjT>
-std::function<void(Args...)> make_cross_thread_function(ObjT* object, const F& function)
+[[nodiscard]] std::function<void(Args...)> make_cross_thread_function(ObjT* object, const F& function)
 {
     std::function<void(Args...)> result = [=](Args&&... args)
     {
@@ -183,7 +184,7 @@ std::function<void(Args...)> make_cross_thread_function(ObjT* object, const F& f
 
 
 template<typename... Args, typename F>
-std::function<void(Args...)> make_cross_thread_function(QThread* thread, const F& function)
+[[nodiscard]] std::function<void(Args...)> make_cross_thread_function(QThread* thread, const F& function)
 {
     std::function<void(Args...)> result = [=](Args&&... args)
     {
@@ -199,7 +200,7 @@ std::function<void(Args...)> make_cross_thread_function(QThread* thread, const F
 // Similar to safe_callback_ctrl (but method will be invoked in target's thread)
 template<typename ObjT, typename R, typename ...Args>
 requires std::is_base_of_v<QObject, ObjT>
-auto queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
+[[nodiscard]] auto queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
     QPointer<ObjT> objPtr(obj);
 
@@ -218,7 +219,7 @@ auto queued_slot(ObjT* obj, R(ObjT::*method)(Args...))
 // In contrast to queued_slot() method is invoked in caller's thread
 template<typename ObjT, typename R, typename ...Args>
 requires std::is_base_of_v<QObject, ObjT>
-std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
+[[nodiscard]] std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
 {
     QPointer<ObjT> objPtr(obj);
 
@@ -230,5 +231,78 @@ std::function<void(Args...)> direct_slot(ObjT* obj, R(ObjT::*method)(Args...))
             (object->*method)(std::forward<Args>(args)...);
     };
 }
+
+template<typename T>
+using StoppableTaskCallback = std::function<void(const T&)>;
+/**
+ * @brief run @p task and then call @p callback with result if @ref stop_source was not stopped
+ * @param stop_source used to get stop_token passed to @p task. @p task should take use of it to stop work when needed.
+ * @param task stoppable task to be executed. @p task should call provided callback with result whem job is done
+ * @param callback callback provided by user to be called when @p task is done
+ * @param sameThread if set to true, @p callback will be called from the same thread as @p task
+ *
+ * stoppableTask() will wrap @p callback using @ref safe_callback_ctrl to make sure it won't be called when @p stop_source was stopped.
+ * Therefore it is safe to destroy any objects used by @p callback before @p task is done.
+ * @note All objects in @p task need to be valid during execution.
+ */
+template<typename R, typename Callback>
+void stoppableTask(const std::stop_source& stop_source, std::function<void(const std::stop_token &, StoppableTaskCallback<R>)> task, Callback callback, bool sameThread = true)
+{
+    // Helper class containing safe_callback_ctrl related stuff.
+    // It's purpose is to live as long as task and callback are alive to make sure
+    // safe_callback_ctrl and std::stop_callback are alive as well (used by stop_token stop request).
+    class Context final
+    {
+    public:
+        explicit Context(std::stop_token stop_token)
+            : stop_callback(
+                stop_token,
+                [this]
+                {
+                    ctrl.invalidate();
+                    callback_invalidated = true;
+                })
+        {
+
+        }
+
+        ~Context()
+        {
+            // task should called callback (if valid)
+            assert(callback_called || callback_invalidated);
+
+            // ctrl needs to be invalidated before destruction
+            ctrl.invalidate();
+        }
+
+        safe_callback_ctrl ctrl;
+        std::stop_callback<std::function<void()>> stop_callback;
+        bool callback_called = false;
+        bool callback_invalidated = false;
+    };
+
+    const auto stop_token = stop_source.get_token();
+    auto context = std::make_shared<Context>(stop_token);
+
+    // inject context into callback so it will live with it and wrap it with safe_callback so
+    // it can be invalidated when stop (on stop_token) is requested.
+    auto safe_callback = context->ctrl.template make_safe_callback<R>(
+        [context, callback](const R& r)
+        {
+            callback(r);
+
+            // mark callback called
+            context->callback_called = true;
+        });
+
+    if (sameThread)
+    {
+        auto thisThreadCallback = make_cross_thread_function<R>(QThread::currentThread(), safe_callback);
+        task(stop_token, thisThreadCallback);
+    }
+    else
+        task(stop_token, safe_callback);
+};
+
 
 #endif

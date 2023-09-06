@@ -9,6 +9,7 @@ find_package(Qt6Test REQUIRED)
 addTestTarget(core
                 SOURCES
                     implementation/base_tags.cpp
+                    implementation/data_from_path_extractor.cpp
                     #implementation/oriented_image.cpp
                     implementation/exiftool_video_details_reader.cpp
                     implementation/model_compositor.cpp
@@ -19,6 +20,7 @@ addTestTarget(core
                     imodel_compositor_data_source.hpp
 
                     unit_tests/containers_utils_tests.cpp
+                    unit_tests/data_from_path_extractor_tests.cpp
                     unit_tests/exiftool_video_details_reader_tests.cpp
                     unit_tests/function_wrappers_tests.cpp
                     unit_tests/lazy_ptr_tests.cpp
@@ -28,6 +30,7 @@ addTestTarget(core
                     unit_tests/qmodelindex_selector_tests.cpp
                     unit_tests/status_tests.cpp
                     unit_tests/tag_value_tests.cpp
+
                 LIBRARIES
                     GTest::gtest
                     GTest::gmock

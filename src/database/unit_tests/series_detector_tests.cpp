@@ -45,7 +45,7 @@ TEST_F(SeriesDetectorTest, constructor)
     EXPECT_NO_THROW({
         MockExifReader exif;
 
-        SeriesDetector sd(logger, db, exif);
+        SeriesDetector sd(logger, db, exif, {});
     });
 }
 
@@ -95,7 +95,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(logger, db, exif);
+    const SeriesDetector sd(logger, db, exif, {});
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -151,7 +151,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
         return result;
     }));
 
-    const SeriesDetector sd(logger, db, exif);
+    const SeriesDetector sd(logger, db, exif, {});
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -210,7 +210,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
 
     ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Return(-1.f));
 
-    const SeriesDetector sd(logger, db, exif);
+    const SeriesDetector sd(logger, db, exif, {});
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -249,7 +249,7 @@ TEST_F(SeriesDetectorTest, smartphoneSeries)
         return Photo::DataDelta(data);
     }));
 
-    const SeriesDetector sd(logger, db, exif);
+    const SeriesDetector sd(logger, db, exif, {});
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -331,7 +331,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
         return result;
     }));
 
-    const SeriesDetector sd(logger, db, exif);
+    const SeriesDetector sd(logger, db, exif, {});
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -357,7 +357,7 @@ TEST_F(SeriesDetectorTest, PhotosTakenOneByOne)
         task->run(mem_backend);
     }));
 
-    const SeriesDetector sd(logger, mem_db, exif);
+    const SeriesDetector sd(logger, mem_db, exif, {});
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates(SeriesDetector::Rules(std::chrono::seconds(10), true));
 
     ASSERT_EQ(groupCanditates.size(), 2);
@@ -394,6 +394,6 @@ TEST_F(SeriesDetectorTest, Complexity)
         return Photo::DataDelta(data);
     }));
 
-    const SeriesDetector sd(logger, db, exif);
+    const SeriesDetector sd(logger, db, exif, {});
     const std::vector<GroupCandidate> groupCanditates = sd.listCandidates();
 }
