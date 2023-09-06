@@ -20,7 +20,7 @@ var searchData=
   ['tagtype_17',['tagType',['../db/da3/struct_database_1_1_filter_photos_with_tag.html#ae2e084203704490bf60e8b0adf90cfcc',1,'Database::FilterPhotosWithTag']]],
   ['tagvalue_18',['tagValue',['../db/da3/struct_database_1_1_filter_photos_with_tag.html#a9685d35d08519fc71df83582915be19c',1,'Database::FilterPhotosWithTag']]],
   ['thumbnailwidth_19',['thumbnailWidth',['../d9/d2f/namespace_view_config_keys.html#a974bf7b2f70dc2d3b7034424fb523b17',1,'ViewConfigKeys']]],
-  ['time_20',['time',['../de/dce/struct_photos_data_guesser_1_1_collected_data.html#a554c2f273039a96d632d4d0818c91612',1,'PhotosDataGuesser::CollectedData']]],
+  ['time_20',['time',['../d5/d1f/struct_collected_data.html#ad4f9468de8572684bf56d3c0891cd5f1',1,'CollectedData']]],
   ['toolais_21',['ToolAIS',['../da/dda/namespacegui_1_1features.html#a8a79bd0f1855e7187b3c61f807873ccf',1,'gui::features']]],
   ['toolexiftool_22',['ToolExifTool',['../da/dda/namespacegui_1_1features.html#acbf604f8bac2ed5568f516c4571f2f44',1,'gui::features']]],
   ['top_23',['top',['../d5/d48/struct_q_model_index_selector_test.html#a6e942f5eace14f094f3254a30af8f633',1,'QModelIndexSelectorTest']]],

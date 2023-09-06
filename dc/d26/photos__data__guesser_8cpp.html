@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Photo Broom: src/database/database_tools/implementation/photos_data_guesser.cpp File Reference</title>
+<title>Photo Broom: src/gui/desktop/models/photos_data_guesser.cpp File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -69,7 +69,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_803ee67260c130b45d29089798491ab2.html">database</a></li><li class="navelem"><a class="el" href="../../dir_25cd647fda867a7ef4aaf9819f50dd27.html">database_tools</a></li><li class="navelem"><a class="el" href="../../dir_6693635f49fae5b78749715f7f98d885.html">implementation</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_99d0482cf009f9d97a0877749b817f19.html">gui</a></li><li class="navelem"><a class="el" href="../../dir_c090f567964b7b78a4e63a3af92480e4.html">desktop</a></li><li class="navelem"><a class="el" href="../../dir_eedf6bf7af32f88c96a361dd896f2edf.html">models</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -80,13 +80,13 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;QRegularExpression&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../d8/dbb/data__from__path__extractor_8hpp_source.html">core/data_from_path_extractor.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d0/dd6/function__wrappers_8hpp_source.html">core/function_wrappers.hpp</a>&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../d8/dda/qmodel__utils_8hpp_source.html">core/qmodel_utils.hpp</a>&gt;</code><br />
-<code>#include &quot;<a class="el" href="../../d1/dd2/filter_8hpp_source.html">database/filter.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d4/d3c/iphoto__operator_8hpp_source.html">database/iphoto_operator.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d4/d2d/photos__data__guesser_8hpp_source.html">../photos_data_guesser.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d8/dbb/data__from__path__extractor_8hpp_source.html">data_from_path_extractor.hpp</a>&quot;</code><br />
-<code>#include &quot;<a class="el" href="../../d7/dee/photos__analyzer__constants_8hpp_source.html">photos_analyzer_constants.hpp</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="../../d1/dd2/filter_8hpp_source.html">database/filter.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../d4/d3c/iphoto__operator_8hpp_source.html">database/iphoto_operator.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../da/d9f/photo__flags__values_8hpp_source.html">database/photo_flags_values.hpp</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../d4/d2d/photos__data__guesser_8hpp_source.html">photos_data_guesser.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for photos_data_guesser.cpp:</div>
 <div class="dyncontent">

@@ -1,7 +1,7 @@
 <map id="Database::IBackend::update" name="Database::IBackend::update">
-<area shape="rect" id="node1" title="update photos details" alt="" coords="231,85,369,125"/>
-<area shape="rect" id="node2" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="18,5,170,31"/>
-<area shape="rect" id="node3" href="$d6/db9/class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86" title=" " alt="" coords="5,55,183,95"/>
-<area shape="rect" id="node4" href="$d8/d67/class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd" title=" " alt="" coords="21,120,167,145"/>
-<area shape="rect" id="node5" href="$d4/dd6/class_photos_data_guesser.html#a871a5f672326c05ca924bd17f41796dc" title=" " alt="" coords="21,170,167,210"/>
+<area shape="rect" id="node1" title="update photos details" alt="" coords="231,92,369,132"/>
+<area shape="rect" id="node2" href="$d4/dd6/class_photos_data_guesser.html#a6af361bc3eec4228a6c171e97126af1d" title=" " alt="" coords="21,5,167,45"/>
+<area shape="rect" id="node3" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="18,70,170,95"/>
+<area shape="rect" id="node4" href="$d6/db9/class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86" title=" " alt="" coords="5,120,183,160"/>
+<area shape="rect" id="node5" href="$d8/d67/class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd" title=" " alt="" coords="21,185,167,210"/>
 </map>

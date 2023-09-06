@@ -50,9 +50,9 @@
 <path fill="none" stroke="#63b8ff" d="M233.79,-144.58C212.81,-153.65 187.34,-164.18 164,-172.5 155.71,-175.46 146.86,-178.34 138.16,-181.03"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="235.16,-147.8 242.92,-140.59 232.36,-141.38 235.16,-147.8"/>
 </g>
-<!-- Node18 -->
+<!-- Node16 -->
 <g id="node4" class="node">
-<title>Node18</title>
+<title>Node16</title>
 <g id="a_node4"><a xlink:href="../../db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="132,-163.5 32,-163.5 32,-133.5 132,-133.5 132,-163.5"/>
 <text text-anchor="start" x="40" y="-151.5" font-family="Helvetica,sans-Serif" font-size="10.00">CollectionScanner::</text>
@@ -60,15 +60,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node18 -->
+<!-- Node1&#45;&gt;Node16 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node18</title>
+<title>Node1&#45;&gt;Node16</title>
 <path fill="none" stroke="#63b8ff" d="M188.29,-135.57C169.07,-137.93 149.45,-140.34 132.44,-142.43"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="188.54,-139.07 198.04,-134.38 187.69,-132.12 188.54,-139.07"/>
 </g>
-<!-- Node24 -->
+<!-- Node22 -->
 <g id="node5" class="node">
-<title>Node24</title>
+<title>Node22</title>
 <g id="a_node5"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="143,-115.5 21,-115.5 21,-85.5 143,-85.5 143,-115.5"/>
 <text text-anchor="start" x="29" y="-103.5" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
@@ -76,15 +76,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node24 -->
+<!-- Node1&#45;&gt;Node22 -->
 <g id="edge4" class="edge">
-<title>Node1&#45;&gt;Node24</title>
+<title>Node1&#45;&gt;Node22</title>
 <path fill="none" stroke="#63b8ff" d="M188.47,-113.45C173.16,-111.57 157.6,-109.66 143.3,-107.9"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="187.69,-116.88 198.04,-114.62 188.54,-109.93 187.69,-116.88"/>
 </g>
-<!-- Node26 -->
+<!-- Node24 -->
 <g id="node6" class="node">
-<title>Node26</title>
+<title>Node24</title>
 <g id="a_node6"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="144.5,-67.5 19.5,-67.5 19.5,-37.5 144.5,-37.5 144.5,-67.5"/>
 <text text-anchor="start" x="27.5" y="-55.5" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PhotoOperator</text>
@@ -92,24 +92,24 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node26 -->
+<!-- Node1&#45;&gt;Node24 -->
 <g id="edge5" class="edge">
-<title>Node1&#45;&gt;Node26</title>
+<title>Node1&#45;&gt;Node24</title>
 <path fill="none" stroke="#63b8ff" d="M233.79,-104.42C212.81,-95.35 187.34,-84.82 164,-76.5 155.71,-73.54 146.86,-70.66 138.16,-67.97"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="232.36,-107.62 242.92,-108.41 235.16,-101.2 232.36,-107.62"/>
 </g>
-<!-- Node23 -->
+<!-- Node21 -->
 <g id="node7" class="node">
-<title>Node23</title>
+<title>Node21</title>
 <g id="a_node7"><a xlink:href="../../db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="142.5,-19 21.5,-19 21.5,0 142.5,0 142.5,-19"/>
 <text text-anchor="middle" x="82" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">CollectionScanner::scan</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node23 -->
+<!-- Node1&#45;&gt;Node21 -->
 <g id="edge6" class="edge">
-<title>Node1&#45;&gt;Node23</title>
+<title>Node1&#45;&gt;Node21</title>
 <path fill="none" stroke="#63b8ff" d="M257.13,-101.14C235.69,-79.12 200.66,-46.85 164,-28.5 156.64,-24.81 148.54,-21.83 140.39,-19.41"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="254.45,-103.4 263.88,-108.22 259.51,-98.56 254.45,-103.4"/>
 </g>

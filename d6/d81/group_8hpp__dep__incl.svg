@@ -157,9 +157,9 @@ var sectionId = 'dynsection-1';
 <path fill="none" stroke="#63b8ff" d="M331.33,-200.79C384.7,-194.83 451.7,-183.28 468.9,-162 489.87,-136.07 449.77,-111.4 416.57,-96.48"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="331.25,-197.28 321.67,-201.82 331.99,-204.24 331.25,-197.28"/>
 </g>
-<!-- Node79 -->
+<!-- Node77 -->
 <g id="node8" class="node">
-<title>Node79</title>
+<title>Node77</title>
 <g id="a_node8"><a xlink:href="../../dc/db1/groups__manager_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="625.9,-162 515.9,-162 515.9,-132 625.9,-132 625.9,-162"/>
 <text text-anchor="start" x="523.9" y="-150" font-family="Helvetica,sans-Serif" font-size="10.00">src/gui/desktop/utils</text>
@@ -167,9 +167,9 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node79 -->
+<!-- Node1&#45;&gt;Node77 -->
 <g id="edge10" class="edge">
-<title>Node1&#45;&gt;Node79</title>
+<title>Node1&#45;&gt;Node77</title>
 <path fill="none" stroke="#63b8ff" d="M322.1,-195.51C370.85,-186.68 440.8,-173.84 501.9,-162 506.34,-161.14 510.94,-160.24 515.56,-159.32"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="321.51,-192.06 312.29,-197.28 322.75,-198.95 321.51,-192.06"/>
 </g>

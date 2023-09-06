@@ -35,9 +35,9 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d5/d0f/class_series_model.html#a8cdebcca8d2065de2c839755cc238875" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="283,-153.5 155,-153.5 155,-134.5 283,-134.5 283,-153.5"/>
-<text text-anchor="middle" x="219" y="-141.5" font-family="Helvetica,sans-Serif" font-size="10.00">SeriesModel::fetchGroups</text>
+<g id="a_node3"><a xlink:href="../../d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="275.5,-153.5 162.5,-153.5 162.5,-134.5 275.5,-134.5 275.5,-153.5"/>
+<text text-anchor="middle" x="219" y="-141.5" font-family="Helvetica,sans-Serif" font-size="10.00">SeriesModel::loadData</text>
 </a>
 </g>
 </g>
@@ -47,9 +47,9 @@
 <path fill="none" stroke="#63b8ff" d="M323.61,-118.68C303.18,-123.67 280.06,-129.32 260.85,-134.02"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="324.29,-122.12 333.17,-116.34 322.63,-115.32 324.29,-122.12"/>
 </g>
-<!-- Node5 -->
+<!-- Node4 -->
 <g id="node4" class="node">
-<title>Node5</title>
+<title>Node4</title>
 <g id="a_node4"><a xlink:href="../../de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="115,-99 0,-99 0,-69 115,-69 115,-99"/>
 <text text-anchor="start" x="8" y="-87" font-family="Helvetica,sans-Serif" font-size="10.00">ContextMenuManager</text>
@@ -57,15 +57,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
+<!-- Node1&#45;&gt;Node4 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node5</title>
+<title>Node1&#45;&gt;Node4</title>
 <path fill="none" stroke="#63b8ff" d="M311.67,-101.57C254.21,-97.58 170.55,-91.78 115.35,-87.95"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="311.07,-105.04 321.29,-102.24 311.55,-98.05 311.07,-105.04"/>
 </g>
-<!-- Node8 -->
+<!-- Node7 -->
 <g id="node5" class="node">
-<title>Node8</title>
+<title>Node7</title>
 <g id="a_node5"><a xlink:href="../../de/db3/class_context_menu_manager.html#a5db0c9d95a29a7a3b0d387a0227f8d1d" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="274.5,-78 163.5,-78 163.5,-48 274.5,-48 274.5,-78"/>
 <text text-anchor="start" x="171.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">ContextMenuManager</text>
@@ -73,15 +73,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node8 -->
+<!-- Node1&#45;&gt;Node7 -->
 <g id="edge4" class="edge">
-<title>Node1&#45;&gt;Node8</title>
+<title>Node1&#45;&gt;Node7</title>
 <path fill="none" stroke="#63b8ff" d="M328.66,-93.05C311.69,-88.35 292.37,-83.01 274.77,-78.15"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="327.4,-96.33 337.98,-95.62 329.27,-89.58 327.4,-96.33"/>
 </g>
-<!-- Node7 -->
+<!-- Node6 -->
 <g id="node6" class="node">
-<title>Node7</title>
+<title>Node6</title>
 <g id="a_node6"><a xlink:href="../../de/db3/class_context_menu_manager.html#afee82226d8b74d2bd56c575f7c6f10a4" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="274.5,-30 163.5,-30 163.5,0 274.5,0 274.5,-30"/>
 <text text-anchor="start" x="171.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">ContextMenuManager</text>
@@ -89,15 +89,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
+<!-- Node1&#45;&gt;Node6 -->
 <g id="edge6" class="edge">
-<title>Node1&#45;&gt;Node7</title>
+<title>Node1&#45;&gt;Node6</title>
 <path fill="none" stroke="#63b8ff" d="M356.26,-88.68C339.09,-73.91 312.74,-52.93 287,-39 281.24,-35.88 274.99,-33.03 268.71,-30.46"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="353.83,-91.2 363.66,-95.16 358.44,-85.94 353.83,-91.2"/>
 </g>
-<!-- Node8&#45;&gt;Node5 -->
+<!-- Node7&#45;&gt;Node4 -->
 <g id="edge5" class="edge">
-<title>Node8&#45;&gt;Node5</title>
+<title>Node7&#45;&gt;Node4</title>
 <path fill="none" stroke="#63b8ff" d="M151.71,-71.73C139.64,-73.32 127.16,-74.96 115.39,-76.51"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="152.15,-75.2 161.61,-70.42 151.24,-68.26 152.15,-75.2"/>
 </g>

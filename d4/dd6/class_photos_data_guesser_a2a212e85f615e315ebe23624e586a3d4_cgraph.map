@@ -1,0 +1,9 @@
+<map id="PhotosDataGuesser::loadData" name="PhotosDataGuesser::loadData">
+<area shape="rect" id="node1" title=" " alt="" coords="5,151,151,191"/>
+<area shape="rect" id="node2" href="$d4/dd6/class_photos_data_guesser.html#a6407dd88379eb705fe612c243968e54e" title=" " alt="" coords="199,5,369,31"/>
+<area shape="rect" id="node3" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="213,55,355,95"/>
+<area shape="rect" id="node4" href="$d5/d26/class_data_from_path_extractor.html#a1ecd0e2a673e71024cc5aa528bad1592" title=" " alt="" coords="205,119,363,159"/>
+<area shape="rect" id="node5" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title=" " alt="" coords="215,183,353,223"/>
+<area shape="rect" id="node6" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#af4cadc51c5fb475fc6acf0a78b23193a" title="find all photos matching filters" alt="" coords="199,247,369,287"/>
+<area shape="rect" id="node7" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="215,311,353,351"/>
+</map>

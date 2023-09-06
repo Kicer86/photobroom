@@ -178,9 +178,9 @@
 <path fill="none" stroke="#63b8ff" d="M836.15,-88.35C939.95,-83.39 1149.93,-70.42 1325.5,-41 1333.72,-39.62 1342.35,-37.84 1350.76,-35.92"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="836.27,-84.85 826.45,-88.81 836.6,-91.84 836.27,-84.85"/>
 </g>
-<!-- Node80 -->
+<!-- Node78 -->
 <g id="node12" class="node">
-<title>Node80</title>
+<title>Node78</title>
 <g id="a_node12"><a xlink:href="../../dc/db1/groups__manager_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="1602.5,-35.5 1492.5,-35.5 1492.5,-5.5 1602.5,-5.5 1602.5,-35.5"/>
 <text text-anchor="start" x="1500.5" y="-23.5" font-family="Helvetica,sans-Serif" font-size="10.00">src/gui/desktop/utils</text>
@@ -188,9 +188,9 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node80 -->
+<!-- Node1&#45;&gt;Node78 -->
 <g id="edge11" class="edge">
-<title>Node1&#45;&gt;Node80</title>
+<title>Node1&#45;&gt;Node78</title>
 <path fill="none" stroke="#63b8ff" d="M836.01,-91.31C961.71,-90.86 1247.77,-84.61 1483.5,-41 1490.47,-39.71 1497.75,-37.93 1504.8,-35.96"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="836.22,-87.81 826.23,-91.34 836.24,-94.81 836.22,-87.81"/>
 </g>

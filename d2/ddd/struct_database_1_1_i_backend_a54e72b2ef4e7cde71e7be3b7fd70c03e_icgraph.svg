@@ -12,73 +12,73 @@
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="update photos details">
-<polygon fill="#999999" stroke="#666666" points="273,-94 169,-94 169,-64 273,-64 273,-94"/>
-<text text-anchor="start" x="177" y="-82" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
-<text text-anchor="middle" x="221" y="-71" font-family="Helvetica,sans-Serif" font-size="10.00">::update</text>
+<polygon fill="#999999" stroke="#666666" points="273,-88.5 169,-88.5 169,-58.5 273,-58.5 273,-88.5"/>
+<text text-anchor="start" x="177" y="-76.5" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
+<text text-anchor="middle" x="221" y="-65.5" font-family="Helvetica,sans-Serif" font-size="10.00">::update</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="../../df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="123.5,-153.5 9.5,-153.5 9.5,-134.5 123.5,-134.5 123.5,-153.5"/>
-<text text-anchor="middle" x="66.5" y="-141.5" font-family="Helvetica,sans-Serif" font-size="10.00">GroupsManager::group</text>
+<g id="a_node2"><a xlink:href="../../d4/dd6/class_photos_data_guesser.html#a6af361bc3eec4228a6c171e97126af1d" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="121,-153.5 12,-153.5 12,-123.5 121,-123.5 121,-153.5"/>
+<text text-anchor="start" x="20" y="-141.5" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosDataGuesser::</text>
+<text text-anchor="middle" x="66.5" y="-130.5" font-family="Helvetica,sans-Serif" font-size="10.00">applyRows</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="#63b8ff" d="M184.7,-99.77C169.19,-108.34 150.54,-117.91 133,-125 124.66,-128.37 115.5,-131.42 106.74,-134.03"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="186.07,-103.01 193.08,-95.06 182.64,-96.91 186.07,-103.01"/>
+<path fill="none" stroke="#63b8ff" d="M178.82,-93.83C164.44,-100.68 148.12,-108.18 133,-114.5 126.07,-117.4 118.66,-120.3 111.4,-123.03"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="180.03,-97.13 187.53,-89.64 177,-90.82 180.03,-97.13"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d6/db9/class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="133,-116 0,-116 0,-86 133,-86 133,-116"/>
-<text text-anchor="start" x="8" y="-104" font-family="Helvetica,sans-Serif" font-size="10.00">Database::JsonToBackend</text>
-<text text-anchor="middle" x="66.5" y="-93" font-family="Helvetica,sans-Serif" font-size="10.00">::parseGroups</text>
+<g id="a_node3"><a xlink:href="../../df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="123.5,-105 9.5,-105 9.5,-86 123.5,-86 123.5,-105"/>
+<text text-anchor="middle" x="66.5" y="-93" font-family="Helvetica,sans-Serif" font-size="10.00">GroupsManager::group</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node1&#45;&gt;Node3</title>
-<path fill="none" stroke="#63b8ff" d="M157.41,-88.03C149.51,-89.17 141.41,-90.34 133.46,-91.48"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="157.9,-91.5 167.3,-86.6 156.9,-84.57 157.9,-91.5"/>
+<path fill="none" stroke="#63b8ff" d="M157.74,-82.48C146.51,-84.1 134.86,-85.78 123.81,-87.38"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="157.9,-86 167.3,-81.1 156.9,-79.07 157.9,-86"/>
 </g>
-<!-- Node5 -->
+<!-- Node4 -->
 <g id="node4" class="node">
-<title>Node5</title>
-<g id="a_node4"><a xlink:href="../../d8/d67/class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="121.5,-67.5 11.5,-67.5 11.5,-48.5 121.5,-48.5 121.5,-67.5"/>
-<text text-anchor="middle" x="66.5" y="-55.5" font-family="Helvetica,sans-Serif" font-size="10.00">TagsOperator::setTag</text>
+<title>Node4</title>
+<g id="a_node4"><a xlink:href="../../d6/db9/class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="133,-67.5 0,-67.5 0,-37.5 133,-37.5 133,-67.5"/>
+<text text-anchor="start" x="8" y="-55.5" font-family="Helvetica,sans-Serif" font-size="10.00">Database::JsonToBackend</text>
+<text text-anchor="middle" x="66.5" y="-44.5" font-family="Helvetica,sans-Serif" font-size="10.00">::parseGroups</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
+<!-- Node1&#45;&gt;Node4 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<path fill="none" stroke="#63b8ff" d="M157.64,-70.41C145.81,-68.78 133.52,-67.09 121.97,-65.5"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="156.91,-73.85 167.3,-71.74 157.87,-66.91 156.91,-73.85"/>
+<title>Node1&#45;&gt;Node4</title>
+<path fill="none" stroke="#63b8ff" d="M157.41,-64.88C149.51,-63.79 141.41,-62.68 133.46,-61.58"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="156.91,-68.35 167.3,-66.24 157.87,-61.41 156.91,-68.35"/>
 </g>
-<!-- Node9 -->
+<!-- Node6 -->
 <g id="node5" class="node">
-<title>Node9</title>
-<g id="a_node5"><a xlink:href="../../d4/dd6/class_photos_data_guesser.html#a871a5f672326c05ca924bd17f41796dc" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="121,-30 12,-30 12,0 121,0 121,-30"/>
-<text text-anchor="start" x="20" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosDataGuesser::</text>
-<text text-anchor="middle" x="66.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">updatePhotos</text>
+<title>Node6</title>
+<g id="a_node5"><a xlink:href="../../d8/d67/class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="121.5,-19 11.5,-19 11.5,0 121.5,0 121.5,-19"/>
+<text text-anchor="middle" x="66.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">TagsOperator::setTag</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node9 -->
+<!-- Node1&#45;&gt;Node6 -->
 <g id="edge4" class="edge">
-<title>Node1&#45;&gt;Node9</title>
-<path fill="none" stroke="#63b8ff" d="M176.5,-58.92C162.67,-52.69 147.26,-45.91 133,-40 125.24,-36.78 116.91,-33.48 108.87,-30.38"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="174.8,-61.99 185.35,-62.93 177.69,-55.61 174.8,-61.99"/>
+<title>Node1&#45;&gt;Node6</title>
+<path fill="none" stroke="#63b8ff" d="M183.52,-52.61C168.23,-44.39 150.07,-35.31 133,-28.5 124.53,-25.12 115.23,-22.05 106.37,-19.42"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="181.81,-55.67 192.27,-57.4 185.17,-49.53 181.81,-55.67"/>
 </g>
 </g>
 </svg>

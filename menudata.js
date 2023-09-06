@@ -211,9 +211,7 @@ var menudata={children:[
 {text:"p",url:"functions_prop.html#index_p"},
 {text:"r",url:"functions_prop.html#index_r"},
 {text:"s",url:"functions_prop.html#index_s"},
-{text:"t",url:"functions_prop.html#index_t"},
-{text:"u",url:"functions_prop.html#index_u"},
-{text:"w",url:"functions_prop.html#index_w"}]},
+{text:"t",url:"functions_prop.html#index_t"}]},
 {text:"Related Functions",url:"functions_rela.html"}]}]},
 {text:"Files",url:"files.html",children:[
 {text:"File List",url:"files.html"},

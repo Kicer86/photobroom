@@ -1,12 +1,12 @@
 <map id="src/database/database_tools/series_detector.hpp" name="src/database/database_tools/series_detector.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="342,5,517,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="347,5,522,45"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,93,67,119"/>
 <area shape="rect" id="node3" title=" " alt="" coords="91,93,149,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="173,93,253,119"/>
-<area shape="rect" id="node5" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="278,93,391,119"/>
-<area shape="rect" id="node6" href="$d8/d3d/group_8hpp.html" title=" " alt="" coords="585,167,719,192"/>
-<area shape="rect" id="node7" title=" " alt="" coords="535,240,662,265"/>
-<area shape="rect" id="node8" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="467,93,626,119"/>
-<area shape="rect" id="node9" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="702,93,813,119"/>
-<area shape="rect" id="node10" href="$d7/dcd/series__candidate_8hpp.html" title=" " alt="" coords="837,93,981,119"/>
+<area shape="rect" id="node4" title=" " alt="" coords="173,93,259,119"/>
+<area shape="rect" id="node5" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="283,93,397,119"/>
+<area shape="rect" id="node6" href="$d8/d3d/group_8hpp.html" title=" " alt="" coords="590,167,725,192"/>
+<area shape="rect" id="node7" title=" " alt="" coords="541,240,667,265"/>
+<area shape="rect" id="node8" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="473,93,631,119"/>
+<area shape="rect" id="node9" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="707,93,818,119"/>
+<area shape="rect" id="node10" href="$d7/dcd/series__candidate_8hpp.html" title=" " alt="" coords="843,93,987,119"/>
 </map>

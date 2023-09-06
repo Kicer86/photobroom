@@ -80,12 +80,14 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;functional&gt;</code><br />
+<code>#include &lt;thread&gt;</code><br />
 <code>#include &lt;gmock/gmock.h&gt;</code><br />
+<code>#include &lt;QCoreApplication&gt;</code><br />
 <code>#include &quot;<a class="el" href="../../d0/dd6/function__wrappers_8hpp_source.html">function_wrappers.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for function_wrappers_tests.cpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/de6/function__wrappers__tests_8cpp__incl.svg" width="340" height="198"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/de6/function__wrappers__tests_8cpp__incl.svg" width="551" height="198"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><table class="memberdecls">
@@ -106,10 +108,18 @@ Functions</h2></td></tr>
 <tr class="separator:af2b22a50e4d31a5d0cba9b304871162c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a937be3db7a7a9625c1a192fbc9774352"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6f/function__wrappers__tests_8cpp.html#a937be3db7a7a9625c1a192fbc9774352">TEST</a> (SafeCallbackTest, sequentialCall)</td></tr>
 <tr class="separator:a937be3db7a7a9625c1a192fbc9774352"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a70ee2880cf1155981a786ca945dae934"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6f/function__wrappers__tests_8cpp.html#a70ee2880cf1155981a786ca945dae934">TEST</a> (StoppableTask, notStopped)</td></tr>
+<tr class="separator:a70ee2880cf1155981a786ca945dae934"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8ead98556f0835d6718c68cd481f24bb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6f/function__wrappers__tests_8cpp.html#a8ead98556f0835d6718c68cd481f24bb">TEST</a> (StoppableTask, stopped)</td></tr>
+<tr class="separator:a8ead98556f0835d6718c68cd481f24bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad70a68e12076fb40992f146acbf350c7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6f/function__wrappers__tests_8cpp.html#ad70a68e12076fb40992f146acbf350c7">TEST</a> (StoppableTask, sameThread)</td></tr>
+<tr class="separator:ad70a68e12076fb40992f146acbf350c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a772f606a03af14cee1f6ab8247083bf7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d6f/function__wrappers__tests_8cpp.html#a772f606a03af14cee1f6ab8247083bf7">TEST</a> (StoppableTask, notSameThread)</td></tr>
+<tr class="separator:a772f606a03af14cee1f6ab8247083bf7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="af2b22a50e4d31a5d0cba9b304871162c" name="af2b22a50e4d31a5d0cba9b304871162c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af2b22a50e4d31a5d0cba9b304871162c">&#9670;&#160;</a></span>TEST() <span class="overload">[1/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#af2b22a50e4d31a5d0cba9b304871162c">&#9670;&#160;</a></span>TEST() <span class="overload">[1/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -143,7 +153,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a794873e55bc918bcc5b229b7fb78a74d" name="a794873e55bc918bcc5b229b7fb78a74d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a794873e55bc918bcc5b229b7fb78a74d">&#9670;&#160;</a></span>TEST() <span class="overload">[2/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a794873e55bc918bcc5b229b7fb78a74d">&#9670;&#160;</a></span>TEST() <span class="overload">[2/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -177,7 +187,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="ad74cc32bd4e3ca6b045e8605cbbc2ec3" name="ad74cc32bd4e3ca6b045e8605cbbc2ec3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad74cc32bd4e3ca6b045e8605cbbc2ec3">&#9670;&#160;</a></span>TEST() <span class="overload">[3/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad74cc32bd4e3ca6b045e8605cbbc2ec3">&#9670;&#160;</a></span>TEST() <span class="overload">[3/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -211,7 +221,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a937be3db7a7a9625c1a192fbc9774352" name="a937be3db7a7a9625c1a192fbc9774352"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a937be3db7a7a9625c1a192fbc9774352">&#9670;&#160;</a></span>TEST() <span class="overload">[4/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a937be3db7a7a9625c1a192fbc9774352">&#9670;&#160;</a></span>TEST() <span class="overload">[4/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -245,7 +255,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="ac0952fc8f61269e6296f4261b264e663" name="ac0952fc8f61269e6296f4261b264e663"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac0952fc8f61269e6296f4261b264e663">&#9670;&#160;</a></span>TEST() <span class="overload">[5/5]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ac0952fc8f61269e6296f4261b264e663">&#9670;&#160;</a></span>TEST() <span class="overload">[5/9]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -275,6 +285,118 @@ Here is the call graph for this function:</div>
 <div class="center"><iframe scrolling="no" frameborder="0" src="../../da/d6f/function__wrappers__tests_8cpp_ac0952fc8f61269e6296f4261b264e663_cgraph.svg" width="266" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
+
+</div>
+</div>
+<a id="a772f606a03af14cee1f6ab8247083bf7" name="a772f606a03af14cee1f6ab8247083bf7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a772f606a03af14cee1f6ab8247083bf7">&#9670;&#160;</a></span>TEST() <span class="overload">[6/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">StoppableTask&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">notSameThread&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a70ee2880cf1155981a786ca945dae934" name="a70ee2880cf1155981a786ca945dae934"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a70ee2880cf1155981a786ca945dae934">&#9670;&#160;</a></span>TEST() <span class="overload">[7/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">StoppableTask&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">notStopped&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad70a68e12076fb40992f146acbf350c7" name="ad70a68e12076fb40992f146acbf350c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad70a68e12076fb40992f146acbf350c7">&#9670;&#160;</a></span>TEST() <span class="overload">[8/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">StoppableTask&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">sameThread&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a8ead98556f0835d6718c68cd481f24bb" name="a8ead98556f0835d6718c68cd481f24bb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8ead98556f0835d6718c68cd481f24bb">&#9670;&#160;</a></span>TEST() <span class="overload">[9/9]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TEST </td>
+          <td>(</td>
+          <td class="paramtype">StoppableTask&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">stopped&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

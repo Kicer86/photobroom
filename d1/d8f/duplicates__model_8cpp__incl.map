@@ -1,8 +1,7 @@
 <map id="src/gui/desktop/models/duplicates_model.cpp" name="src/gui/desktop/models/duplicates_model.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="401,5,559,45"/>
-<area shape="rect" id="node2" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="5,93,187,119"/>
-<area shape="rect" id="node3" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="211,93,359,119"/>
-<area shape="rect" id="node4" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="384,93,576,119"/>
-<area shape="rect" id="node5" href="$da/d1a/photo__utils_8hpp.html" title=" " alt="" coords="601,93,767,119"/>
-<area shape="rect" id="node6" href="$d6/d5c/duplicates__model_8hpp.html" title=" " alt="" coords="792,93,939,119"/>
+<area shape="rect" id="node1" title=" " alt="" coords="297,5,454,45"/>
+<area shape="rect" id="node2" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="5,93,153,119"/>
+<area shape="rect" id="node3" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="178,93,370,119"/>
+<area shape="rect" id="node4" href="$da/d1a/photo__utils_8hpp.html" title=" " alt="" coords="395,93,561,119"/>
+<area shape="rect" id="node5" href="$d6/d5c/duplicates__model_8hpp.html" title=" " alt="" coords="586,93,733,119"/>
 </map>

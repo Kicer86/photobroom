@@ -81,8 +81,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a08be837b86bb6137b4466ce459878917"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7b/classsafe__callback.html#a08be837b86bb6137b4466ce459878917">safe_callback</a> (const std::shared_ptr&lt; <a class="el" href="../../d5/d1d/structsafe__callback__data.html">safe_callback_data</a> &gt; &amp;data, const std::function&lt; void(Args...)&gt; &amp;callback)</td></tr>
-<tr class="separator:a08be837b86bb6137b4466ce459878917"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd5c808ecfbda2ed1178538c332af5a3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7b/classsafe__callback.html#abd5c808ecfbda2ed1178538c332af5a3">safe_callback</a> (const std::shared_ptr&lt; <a class="el" href="../../d5/d1d/structsafe__callback__data.html">safe_callback_data</a> &gt; &amp;data, std::function&lt; void(Args...)&gt; &amp;&amp;callback)</td></tr>
+<tr class="separator:abd5c808ecfbda2ed1178538c332af5a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae275c7b9f755fcd87398c1d7dd57ac5f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7b/classsafe__callback.html#ae275c7b9f755fcd87398c1d7dd57ac5f">safe_callback</a> (const <a class="el" href="../../d1/d7b/classsafe__callback.html">safe_callback</a>&lt; Args... &gt; &amp;)=default</td></tr>
 <tr class="separator:ae275c7b9f755fcd87398c1d7dd57ac5f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a3da668e6f27c61c78e31443266ff8f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d1/d7b/classsafe__callback.html">safe_callback</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7b/classsafe__callback.html#a8a3da668e6f27c61c78e31443266ff8f">operator=</a> (const <a class="el" href="../../d1/d7b/classsafe__callback.html">safe_callback</a>&lt; Args... &gt; &amp;)=default</td></tr>
@@ -102,8 +102,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a5e4b5a93f3a1a5336ad511a7e34a12dc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a08be837b86bb6137b4466ce459878917" name="a08be837b86bb6137b4466ce459878917"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a08be837b86bb6137b4466ce459878917">&#9670;&#160;</a></span>safe_callback() <span class="overload">[1/2]</span></h2>
+<a id="abd5c808ecfbda2ed1178538c332af5a3" name="abd5c808ecfbda2ed1178538c332af5a3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abd5c808ecfbda2ed1178538c332af5a3">&#9670;&#160;</a></span>safe_callback() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -122,7 +122,7 @@ template&lt;typename... Args&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::function&lt; void(Args...)&gt; &amp;&#160;</td>
+          <td class="paramtype">std::function&lt; void(Args...)&gt; &amp;&amp;&#160;</td>
           <td class="paramname"><em>callback</em>&#160;</td>
         </tr>
         <tr>

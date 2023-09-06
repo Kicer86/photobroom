@@ -1,9 +1,9 @@
 <map id="Database::IBackend::getPhotoDelta" name="Database::IBackend::getPhotoDelta">
-<area shape="rect" id="node1" title=" " alt="" coords="273,149,412,189"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#a7b363b60e1ec6b187585a70b748b30f5" title=" " alt="" coords="12,5,219,31"/>
-<area shape="rect" id="node3" href="$d4/d0e/class_people_manipulator.html#ad2be46cf0f87e8e8a207b7e9135a69d0" title=" " alt="" coords="48,55,183,95"/>
-<area shape="rect" id="node4" href="$d4/dd6/class_photos_data_guesser.html#a0c4d77b18414fe4f4612e187c13c5f20" title=" " alt="" coords="43,119,188,159"/>
-<area shape="rect" id="node5" href="$d3/d94/class_duplicates_model.html#aef4fce298f18eeccc00f4aa8a013cfe9" title=" " alt="" coords="5,184,225,209"/>
-<area shape="rect" id="node6" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="35,233,196,259"/>
-<area shape="rect" id="node7" href="$d4/dd6/class_photos_data_guesser.html#a871a5f672326c05ca924bd17f41796dc" title=" " alt="" coords="43,283,188,323"/>
+<area shape="rect" id="node1" title=" " alt="" coords="260,149,399,189"/>
+<area shape="rect" id="node2" href="$d4/dd6/class_photos_data_guesser.html#a6af361bc3eec4228a6c171e97126af1d" title=" " alt="" coords="36,5,181,45"/>
+<area shape="rect" id="node3" href="$d1/da6/class_flat_model.html#a7b363b60e1ec6b187585a70b748b30f5" title=" " alt="" coords="5,70,212,95"/>
+<area shape="rect" id="node4" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="36,120,181,160"/>
+<area shape="rect" id="node5" href="$d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" title=" " alt="" coords="21,185,196,210"/>
+<area shape="rect" id="node6" href="$d4/d0e/class_people_manipulator.html#ad2be46cf0f87e8e8a207b7e9135a69d0" title=" " alt="" coords="41,235,176,275"/>
+<area shape="rect" id="node7" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="28,299,189,325"/>
 </map>

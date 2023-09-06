@@ -46,7 +46,7 @@ if (edges && edges.length) {
         </defs>
 
 <script type="text/javascript">
-var viewWidth = 708;
+var viewWidth = 554;
 var viewHeight = 93;
 var sectionId = 'dynsection-0';
 </script>
@@ -58,86 +58,71 @@ var sectionId = 'dynsection-0';
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title=" ">
-<polygon fill="#999999" stroke="#666666" points="415,-85 297,-85 297,-55 415,-55 415,-85"/>
-<text text-anchor="start" x="305" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">src/gui/desktop/models</text>
-<text text-anchor="middle" x="356" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">/duplicates_model.cpp</text>
+<polygon fill="#999999" stroke="#666666" points="336.5,-85 218.5,-85 218.5,-55 336.5,-55 336.5,-85"/>
+<text text-anchor="start" x="226.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">src/gui/desktop/models</text>
+<text text-anchor="middle" x="277.5" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">/duplicates_model.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="../../d0/dd6/function__wrappers_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="136,-19 0,-19 0,0 136,0 136,-19"/>
-<text text-anchor="middle" x="68" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">core/function_wrappers.hpp</text>
+<g id="a_node2"><a xlink:href="../../d8/dda/qmodel__utils_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="111,-19 0,-19 0,0 111,0 111,-19"/>
+<text text-anchor="middle" x="55.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">core/qmodel_utils.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="#63b8ff" d="M296.68,-56.95C245.8,-46.62 173.07,-31.84 123.37,-21.75"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="124.18,-18.34 113.68,-19.78 122.79,-25.2 124.18,-18.34"/>
+<path fill="none" stroke="#63b8ff" d="M222.62,-54.54C184.97,-44.62 135.62,-31.61 100.33,-22.31"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="101.42,-18.98 90.86,-19.82 99.64,-25.75 101.42,-18.98"/>
 </g>
-<!-- Node8 -->
+<!-- Node7 -->
 <g id="node3" class="node">
-<title>Node8</title>
-<g id="a_node3"><a xlink:href="../../d8/dda/qmodel__utils_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="265.5,-19 154.5,-19 154.5,0 265.5,0 265.5,-19"/>
-<text text-anchor="middle" x="210" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">core/qmodel_utils.hpp</text>
+<title>Node7</title>
+<g id="a_node3"><a xlink:href="../../d4/d3c/iphoto__operator_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="273.5,-19 129.5,-19 129.5,0 273.5,0 273.5,-19"/>
+<text text-anchor="middle" x="201.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">database/iphoto_operator.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node8 -->
+<!-- Node1&#45;&gt;Node7 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node8</title>
-<path fill="none" stroke="#63b8ff" d="M319.91,-54.54C296.25,-45.06 265.58,-32.77 242.65,-23.58"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="244.07,-20.38 233.48,-19.91 241.46,-26.88 244.07,-20.38"/>
+<title>Node1&#45;&gt;Node7</title>
+<path fill="none" stroke="#63b8ff" d="M258.71,-54.54C247.45,-45.87 233.13,-34.85 221.63,-26"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="224.03,-23.42 213.97,-20.1 219.76,-28.97 224.03,-23.42"/>
 </g>
-<!-- Node13 -->
+<!-- Node39 -->
 <g id="node4" class="node">
-<title>Node13</title>
-<g id="a_node4"><a xlink:href="../../d4/d3c/iphoto__operator_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="428,-19 284,-19 284,0 428,0 428,-19"/>
-<text text-anchor="middle" x="356" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">database/iphoto_operator.hpp</text>
+<title>Node39</title>
+<g id="a_node4"><a xlink:href="../../da/d1a/photo__utils_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="417,-19 292,-19 292,0 417,0 417,-19"/>
+<text text-anchor="middle" x="354.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">database/photo_utils.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node13 -->
+<!-- Node1&#45;&gt;Node39 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node13</title>
-<path fill="none" stroke="#63b8ff" d="M356,-54.54C356,-47.34 356,-38.53 356,-30.68"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="359.5,-30.69 356,-20.69 352.5,-30.69 359.5,-30.69"/>
+<title>Node1&#45;&gt;Node39</title>
+<path fill="none" stroke="#63b8ff" d="M296.53,-54.54C307.95,-45.87 322.45,-34.85 334.1,-26"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="336.03,-28.93 341.88,-20.09 331.8,-23.35 336.03,-28.93"/>
 </g>
 <!-- Node44 -->
 <g id="node5" class="node">
 <title>Node44</title>
-<g id="a_node5"><a xlink:href="../../da/d1a/photo__utils_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="571.5,-19 446.5,-19 446.5,0 571.5,0 571.5,-19"/>
-<text text-anchor="middle" x="509" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">database/photo_utils.hpp</text>
+<g id="a_node5"><a xlink:href="../../d6/d5c/duplicates__model_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="545.5,-19 435.5,-19 435.5,0 545.5,0 545.5,-19"/>
+<text text-anchor="middle" x="490.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">duplicates_model.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node44 -->
 <g id="edge4" class="edge">
 <title>Node1&#45;&gt;Node44</title>
-<path fill="none" stroke="#63b8ff" d="M393.82,-54.54C418.72,-45.02 451.05,-32.66 475.11,-23.46"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="476.36,-26.73 484.45,-19.89 473.86,-20.19 476.36,-26.73"/>
-</g>
-<!-- Node49 -->
-<g id="node6" class="node">
-<title>Node49</title>
-<g id="a_node6"><a xlink:href="../../d6/d5c/duplicates__model_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="700,-19 590,-19 590,0 700,0 700,-19"/>
-<text text-anchor="middle" x="645" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">duplicates_model.hpp</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node49 -->
-<g id="edge5" class="edge">
-<title>Node1&#45;&gt;Node49</title>
-<path fill="none" stroke="#63b8ff" d="M415.18,-57.02C466.35,-46.66 539.76,-31.8 589.75,-21.68"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="590.39,-25.13 599.5,-19.71 589,-18.26 590.39,-25.13"/>
+<path fill="none" stroke="#63b8ff" d="M330.15,-54.54C366.12,-44.66 413.22,-31.73 447.05,-22.43"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="447.8,-25.86 456.52,-19.83 445.95,-19.11 447.8,-25.86"/>
 </g>
 </g>
 </svg>

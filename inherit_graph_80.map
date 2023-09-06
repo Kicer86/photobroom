@@ -1,5 +1,4 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="5,31,156,56"/>
-<area shape="rect" id="node2" href="$d5/d24/class_core_factory_accessor.html" title=" " alt="" coords="222,5,369,31"/>
-<area shape="rect" id="node3" href="$d8/df8/class_i_core_factory_accessor_mock.html" title=" " alt="" coords="204,55,387,80"/>
+<area shape="rect" id="node1" href="$de/dfa/struct_i_config_storage.html" title="Configuration load/save." alt="" coords="5,5,112,31"/>
+<area shape="rect" id="node2" href="$d9/d02/class_config_storage.html" title=" " alt="" coords="160,5,263,31"/>
 </map>

@@ -78,18 +78,18 @@
 <path fill="none" stroke="#63b8ff" d="M204.46,-54.54C220.7,-45.49 241.53,-33.88 257.74,-24.85"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="259.27,-28.01 266.3,-20.08 255.86,-21.89 259.27,-28.01"/>
 </g>
-<!-- Node11 -->
+<!-- Node12 -->
 <g id="node6" class="node">
-<title>Node11</title>
+<title>Node12</title>
 <g id="a_node6"><a xlink:href="../../dc/d82/photo__types_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="499.5,-19 369.5,-19 369.5,0 499.5,0 499.5,-19"/>
 <text text-anchor="middle" x="434.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">database/photo_types.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node11 -->
+<!-- Node1&#45;&gt;Node12 -->
 <g id="edge5" class="edge">
-<title>Node1&#45;&gt;Node11</title>
+<title>Node1&#45;&gt;Node12</title>
 <path fill="none" stroke="#63b8ff" d="M241.78,-54.54C285.77,-44.49 343.59,-31.27 384.38,-21.95"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="384.97,-25.41 393.94,-19.77 383.41,-18.59 384.97,-25.41"/>
 </g>

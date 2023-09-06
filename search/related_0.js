@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['client_0',['Client',['../dc/dc0/class_database_1_1_async_database.html#a9bee35b146080ab7239cc8aff02333c3',1,'Database::AsyncDatabase']]]
+  ['applyfinisher_0',['ApplyFinisher',['../de/d3a/class_a_heavy_list_model.html#af42dda104c3fe4bfa58cdd2eab0ec3c0',1,'AHeavyListModel']]]
 ];

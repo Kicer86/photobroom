@@ -100,8 +100,8 @@ Public Types</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a8297e19ed171b4f4d174bb5428b55cd9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/df6/class_series_detector.html#a8297e19ed171b4f4d174bb5428b55cd9">SeriesDetector</a> (<a class="el" href="../../df/ddd/struct_i_logger.html">ILogger</a> &amp;, <a class="el" href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a> &amp;, <a class="el" href="../../d5/dd5/struct_i_exif_reader.html">IExifReader</a> &amp;, const QPromise&lt; std::vector&lt; <a class="el" href="../../d8/d23/struct_group_candidate.html">GroupCandidate</a> &gt; &gt; *=nullptr)</td></tr>
-<tr class="separator:a8297e19ed171b4f4d174bb5428b55cd9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e78c1604c3bc1b33f6da7cb180a9e47"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/df6/class_series_detector.html#a2e78c1604c3bc1b33f6da7cb180a9e47">SeriesDetector</a> (<a class="el" href="../../df/ddd/struct_i_logger.html">ILogger</a> &amp;, <a class="el" href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a> &amp;, <a class="el" href="../../d5/dd5/struct_i_exif_reader.html">IExifReader</a> &amp;, const std::stop_token &amp;)</td></tr>
+<tr class="separator:a2e78c1604c3bc1b33f6da7cb180a9e47"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7fb133fe47e82c32db512738a9e02742"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d8/d23/struct_group_candidate.html">GroupCandidate</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/df6/class_series_detector.html#a7fb133fe47e82c32db512738a9e02742">listCandidates</a> (const <a class="el" href="../../db/da7/struct_series_detector_1_1_rules.html">Rules</a> &amp;=<a class="el" href="../../db/da7/struct_series_detector_1_1_rules.html">Rules</a>()) const</td></tr>
 <tr class="separator:a7fb133fe47e82c32db512738a9e02742"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -118,8 +118,8 @@ Private Attributes</h2></td></tr>
 <tr class="separator:af8fa2e75de8504a3527482ec6b009c4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad3c80f2c7238ca95e9cfc733dc3154d6"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/df6/class_series_detector.html#ad3c80f2c7238ca95e9cfc733dc3154d6">m_db</a></td></tr>
 <tr class="separator:ad3c80f2c7238ca95e9cfc733dc3154d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a50621c84f2325b148320a4a3067a1d1c"><td class="memItemLeft" align="right" valign="top">const QPromise&lt; std::vector&lt; <a class="el" href="../../d8/d23/struct_group_candidate.html">GroupCandidate</a> &gt; &gt; *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/df6/class_series_detector.html#a50621c84f2325b148320a4a3067a1d1c">m_promise</a></td></tr>
-<tr class="separator:a50621c84f2325b148320a4a3067a1d1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0676ef1cfba09970880ec0a93c4fb59"><td class="memItemLeft" align="right" valign="top">std::stop_token&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/df6/class_series_detector.html#ae0676ef1cfba09970880ec0a93c4fb59">m_stopToken</a></td></tr>
+<tr class="separator:ae0676ef1cfba09970880ec0a93c4fb59"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9e41c9d471dd95aefba6604f211d0c0a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/dd5/struct_i_exif_reader.html">IExifReader</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/df6/class_series_detector.html#a9e41c9d471dd95aefba6604f211d0c0a">m_exifReader</a></td></tr>
 <tr class="separator:a9e41c9d471dd95aefba6604f211d0c0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -139,8 +139,8 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a8297e19ed171b4f4d174bb5428b55cd9" name="a8297e19ed171b4f4d174bb5428b55cd9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8297e19ed171b4f4d174bb5428b55cd9">&#9670;&#160;</a></span>SeriesDetector()</h2>
+<a id="a2e78c1604c3bc1b33f6da7cb180a9e47" name="a2e78c1604c3bc1b33f6da7cb180a9e47"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2e78c1604c3bc1b33f6da7cb180a9e47">&#9670;&#160;</a></span>SeriesDetector()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -166,8 +166,8 @@ Private Attributes</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const QPromise&lt; std::vector&lt; <a class="el" href="../../d8/d23/struct_group_candidate.html">GroupCandidate</a> &gt; &gt; *&#160;</td>
-          <td class="paramname"><em>p</em> = <code>nullptr</code>&#160;</td>
+          <td class="paramtype">const std::stop_token &amp;&#160;</td>
+          <td class="paramname"><em>stopToken</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -252,7 +252,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d3/df6/class_series_detector_a7fb133fe47e82c32db512738a9e02742_icgraph.svg" width="426" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d3/df6/class_series_detector_a7fb133fe47e82c32db512738a9e02742_icgraph.svg" width="326" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -373,8 +373,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a50621c84f2325b148320a4a3067a1d1c" name="a50621c84f2325b148320a4a3067a1d1c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a50621c84f2325b148320a4a3067a1d1c">&#9670;&#160;</a></span>m_promise</h2>
+<a id="ae0676ef1cfba09970880ec0a93c4fb59" name="ae0676ef1cfba09970880ec0a93c4fb59"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0676ef1cfba09970880ec0a93c4fb59">&#9670;&#160;</a></span>m_stopToken</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -383,7 +383,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const QPromise&lt;std::vector&lt;<a class="el" href="../../d8/d23/struct_group_candidate.html">GroupCandidate</a>&gt; &gt;* SeriesDetector::m_promise</td>
+          <td class="memname">std::stop_token SeriesDetector::m_stopToken</td>
         </tr>
       </table>
   </td>

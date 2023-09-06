@@ -9,6 +9,7 @@ var searchData=
   ['alevel4_6',['alevel4',['../d8/d85/structdlib__api_1_1face__recognition__model__v1_1_1data.html#a1687ccc5366bb9989f1b6ac51676dddd',1,'dlib_api::face_recognition_model_v1::data']]],
   ['analyzerexpectations_7',['AnalyzerExpectations',['../dc/d2e/analyzer_tests_8cpp.html#a7b6cd0b8ce3ff1c7aafd41f22fa9b388',1,'analyzerTests.cpp']]],
   ['anet_5ftype_8',['anet_type',['../d8/d85/structdlib__api_1_1face__recognition__model__v1_1_1data.html#a8c78439ef68be9c202a10709661c1a46',1,'dlib_api::face_recognition_model_v1::data']]],
-  ['ares_9',['ares',['../d8/d85/structdlib__api_1_1face__recognition__model__v1_1_1data.html#aff74a8c7574d4dfb2170c92f748dae77',1,'dlib_api::face_recognition_model_v1::data']]],
-  ['ares_5fdown_10',['ares_down',['../d8/d85/structdlib__api_1_1face__recognition__model__v1_1_1data.html#a125639797865e2fff32075b33c0da9cc',1,'dlib_api::face_recognition_model_v1::data']]]
+  ['applytoken_9',['ApplyToken',['../de/d3a/class_a_heavy_list_model.html#a412be64a5c2fa3d4410122ba56f8e0bb',1,'AHeavyListModel']]],
+  ['ares_10',['ares',['../d8/d85/structdlib__api_1_1face__recognition__model__v1_1_1data.html#aff74a8c7574d4dfb2170c92f748dae77',1,'dlib_api::face_recognition_model_v1::data']]],
+  ['ares_5fdown_11',['ares_down',['../d8/d85/structdlib__api_1_1face__recognition__model__v1_1_1data.html#a125639797865e2fff32075b33c0da9cc',1,'dlib_api::face_recognition_model_v1::data']]]
 ];

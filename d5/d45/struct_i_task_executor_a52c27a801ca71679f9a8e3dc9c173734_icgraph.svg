@@ -63,9 +63,9 @@
 <path fill="none" stroke="#63b8ff" d="M192.29,-69.53C162.1,-66.28 127.46,-62.56 105.91,-60.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="191.78,-72.99 202.1,-70.58 192.53,-66.04 191.78,-72.99"/>
 </g>
-<!-- Node12 -->
+<!-- Node13 -->
 <g id="node5" class="node">
-<title>Node12</title>
+<title>Node13</title>
 <g id="a_node5"><a xlink:href="../../d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="140.5,-30 27.5,-30 27.5,0 140.5,0 140.5,-30"/>
 <text text-anchor="start" x="35.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosGroupingDialog</text>
@@ -73,9 +73,9 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node12 -->
+<!-- Node1&#45;&gt;Node13 -->
 <g id="edge4" class="edge">
-<title>Node1&#45;&gt;Node12</title>
+<title>Node1&#45;&gt;Node13</title>
 <path fill="none" stroke="#63b8ff" d="M220.66,-61.45C204.96,-54.53 185.66,-46.4 168,-40 158.8,-36.67 148.93,-33.42 139.31,-30.42"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="218.94,-64.52 229.5,-65.39 221.79,-58.12 218.94,-64.52"/>
 </g>

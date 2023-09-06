@@ -75,6 +75,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">function_wrappers.hpp File Reference</div></div>
 </div><!--header-->
@@ -82,12 +83,13 @@ $(function() {
 <div class="textblock"><code>#include &lt;functional&gt;</code><br />
 <code>#include &lt;memory&gt;</code><br />
 <code>#include &lt;mutex&gt;</code><br />
+<code>#include &lt;stop_token&gt;</code><br />
 <code>#include &lt;QPointer&gt;</code><br />
 <code>#include &lt;QThread&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for function_wrappers.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/da7/function__wrappers_8hpp__incl.svg" width="458" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/da7/function__wrappers_8hpp__incl.svg" width="568" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -107,6 +109,12 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d3a/classsafe__callback__ctrl.html">safe_callback_ctrl</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="typedef-members" name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ad76586bb432a9f8930e65e8a8bd63db7"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ad76586bb432a9f8930e65e8a8bd63db7"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#ad76586bb432a9f8930e65e8a8bd63db7">StoppableTaskCallback</a> = std::function&lt; void(const T &amp;)&gt;</td></tr>
+<tr class="separator:ad76586bb432a9f8930e65e8a8bd63db7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
@@ -132,7 +140,28 @@ requires std::is_base_of_v&lt;QObject, ObjT&gt;</td></tr>
 requires std::is_base_of_v&lt;QObject, ObjT&gt;</td></tr>
 <tr class="memitem:a76705db9a2f88696a1977ce8dd36090b"><td class="memTemplItemLeft" align="right" valign="top">std::function&lt; void(Args...)&gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#a76705db9a2f88696a1977ce8dd36090b">direct_slot</a> (ObjT *obj, R(ObjT::*method)(Args...))</td></tr>
 <tr class="separator:a76705db9a2f88696a1977ce8dd36090b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdb781e65227ba6f2caf77f774c6649b"><td class="memTemplParams" colspan="2">template&lt;typename R , typename Callback &gt; </td></tr>
+<tr class="memitem:acdb781e65227ba6f2caf77f774c6649b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#acdb781e65227ba6f2caf77f774c6649b">stoppableTask</a> (const std::stop_source &amp;stop_source, std::function&lt; void(const std::stop_token &amp;, <a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#ad76586bb432a9f8930e65e8a8bd63db7">StoppableTaskCallback</a>&lt; R &gt;)&gt; task, Callback callback, bool sameThread=true)</td></tr>
+<tr class="memdesc:acdb781e65227ba6f2caf77f774c6649b"><td class="mdescLeft">&#160;</td><td class="mdescRight">run <code>task</code> and then call <code>callback</code> with result if stop_source was not stopped  <a href="../../d0/dd6/function__wrappers_8hpp.html#acdb781e65227ba6f2caf77f774c6649b">More...</a><br /></td></tr>
+<tr class="separator:acdb781e65227ba6f2caf77f774c6649b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Typedef Documentation</h2>
+<a id="ad76586bb432a9f8930e65e8a8bd63db7" name="ad76586bb432a9f8930e65e8a8bd63db7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad76586bb432a9f8930e65e8a8bd63db7">&#9670;&#160;</a></span>StoppableTaskCallback</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#ad76586bb432a9f8930e65e8a8bd63db7">StoppableTaskCallback</a> =  std::function&lt;void(const T&amp;)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="aecc0f8e40ad9d2f3d207ab496a72e961" name="aecc0f8e40ad9d2f3d207ab496a72e961"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aecc0f8e40ad9d2f3d207ab496a72e961">&#9670;&#160;</a></span>call_from_this_thread()</h2>
@@ -244,7 +273,7 @@ requires std::is_base_of&lt;QObject, Obj&gt;</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/function__wrappers_8hpp_abcb82074b30c95a4c32fffd37ae0a63d_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/function__wrappers_8hpp_abcb82074b30c95a4c32fffd37ae0a63d_icgraph.svg" width="380" height="523"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -351,6 +380,60 @@ Here is the call graph for this function:</div>
 <div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/function__wrappers_8hpp_a708f7a554cf400a711aa8fbd58e90d5e_cgraph.svg" width="254" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
+
+</div>
+</div>
+<a id="acdb781e65227ba6f2caf77f774c6649b" name="acdb781e65227ba6f2caf77f774c6649b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdb781e65227ba6f2caf77f774c6649b">&#9670;&#160;</a></span>stoppableTask()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename R , typename Callback &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void stoppableTask </td>
+          <td>(</td>
+          <td class="paramtype">const std::stop_source &amp;&#160;</td>
+          <td class="paramname"><em>stop_source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::function&lt; void(const std::stop_token &amp;, <a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#ad76586bb432a9f8930e65e8a8bd63db7">StoppableTaskCallback</a>&lt; R &gt;)&gt;&#160;</td>
+          <td class="paramname"><em>task</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Callback&#160;</td>
+          <td class="paramname"><em>callback</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>sameThread</em> = <code>true</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>run <code>task</code> and then call <code>callback</code> with result if stop_source was not stopped </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">stop_source</td><td>used to get stop_token passed to <code>task</code>. <code>task</code> should take use of it to stop work when needed. </td></tr>
+    <tr><td class="paramname">task</td><td>stoppable task to be executed. <code>task</code> should call provided callback with result whem job is done </td></tr>
+    <tr><td class="paramname">callback</td><td>callback provided by user to be called when <code>task</code> is done </td></tr>
+    <tr><td class="paramname">sameThread</td><td>if set to true, <code>callback</code> will be called from the same thread as <code>task</code> </td></tr>
+  </table>
+  </dd>
+</dl>
+<p><a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#acdb781e65227ba6f2caf77f774c6649b" title="run task and then call callback with result if stop_source was not stopped">stoppableTask()</a> will wrap <code>callback</code> using <a class="el" href="../../d2/d3a/classsafe__callback__ctrl.html">safe_callback_ctrl</a> to make sure it won't be called when <code>stop_source</code> was stopped. Therefore it is safe to destroy any objects used by <code>callback</code> before <code>task</code> is done. </p><dl class="section note"><dt>Note</dt><dd>All objects in <code>task</code> need to be valid during execution. </dd></dl>
 
 </div>
 </div>

@@ -9,7 +9,7 @@ var searchData=
   ['person_5fid_6',['person_id',['../d9/d4b/struct_database_1_1_filter_photos_with_person.html#ae2c702df60b9e837fb00e1949dc0005f',1,'Database::FilterPhotosWithPerson']]],
   ['ph_5fid_7',['ph_id',['../dd/dc4/class_person_info.html#ae997fe94486f3961061ed28540f87dcb',1,'PersonInfo']]],
   ['phash_8',['phash',['../d5/df1/struct_photo_1_1_data.html#af4693e7df015ddc83f28fe2dd7bfb0ce',1,'Photo::Data']]],
-  ['photodata_9',['photoData',['../de/dce/struct_photos_data_guesser_1_1_collected_data.html#ad6048a01293083b2548fd5d22613a08b',1,'PhotosDataGuesser::CollectedData']]],
+  ['photodata_9',['photoData',['../d5/d1f/struct_collected_data.html#a138fc399b5bcfac050e13d66afe533c5',1,'CollectedData']]],
   ['photooperator_10',['photoOperator',['../d6/d32/class_flat_model_test.html#a708646cdbfb02602b3d4f9248be34a9a',1,'FlatModelTest']]],
   ['photos_11',['photos',['../d5/da4/struct_animation_generator_1_1_data.html#a044bdb67463854fe8453dfd65d57b444',1,'AnimationGenerator::Data::photos()'],['../d0/d4b/struct_h_d_r_generator_1_1_data.html#ab20df77119157b5a26b4b503dd4225bc',1,'HDRGenerator::Data::photos()']]],
   ['photos_5fsaved_12',['photos_saved',['../d5/da1/struct_generator_utils_1_1_a_i_s_output_analyzer_1_1_data.html#aeba117a55e58b8053bb85c30867f155d',1,'GeneratorUtils::AISOutputAnalyzer::Data']]],

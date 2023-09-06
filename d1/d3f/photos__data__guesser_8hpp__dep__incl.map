@@ -1,5 +1,5 @@
-<map id="src/database/database_tools/photos_data_guesser.hpp" name="src/database/database_tools/photos_data_guesser.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="79,5,288,45"/>
-<area shape="rect" id="node2" href="$dc/d26/photos__data__guesser_8cpp.html" title=" " alt="" coords="5,93,180,148"/>
-<area shape="rect" id="node3" href="$d5/db6/qml__setup_8cpp.html" title=" " alt="" coords="205,101,343,141"/>
+<map id="src/gui/desktop/models/photos_data_guesser.hpp" name="src/gui/desktop/models/photos_data_guesser.hpp">
+<area shape="rect" id="node1" title=" " alt="" coords="96,5,271,45"/>
+<area shape="rect" id="node2" href="$dc/d26/photos__data__guesser_8cpp.html" title=" " alt="" coords="5,93,180,133"/>
+<area shape="rect" id="node3" href="$d5/db6/qml__setup_8cpp.html" title=" " alt="" coords="205,93,343,133"/>
 </map>

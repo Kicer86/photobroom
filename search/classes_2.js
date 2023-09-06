@@ -4,7 +4,7 @@ var searchData=
   ['cnn_5fface_5fdetection_5fmodel_5fv1_1',['cnn_face_detection_model_v1',['../d3/d3e/classdlib__api_1_1cnn__face__detection__model__v1.html',1,'dlib_api']]],
   ['coldefinition_2',['ColDefinition',['../d6/d76/struct_database_1_1_col_definition.html',1,'Database']]],
   ['collagegenerator_3',['CollageGenerator',['../db/d56/class_collage_generator.html',1,'']]],
-  ['collecteddata_4',['CollectedData',['../de/dce/struct_photos_data_guesser_1_1_collected_data.html',1,'PhotosDataGuesser']]],
+  ['collecteddata_4',['CollectedData',['../d5/d1f/struct_collected_data.html',1,'']]],
   ['collectionscanner_5',['CollectionScanner',['../db/d6e/class_collection_scanner.html',1,'']]],
   ['completerfactory_6',['CompleterFactory',['../d6/d62/class_completer_factory.html',1,'']]],
   ['configdialogmanager_7',['ConfigDialogManager',['../df/dc2/class_config_dialog_manager.html',1,'']]],

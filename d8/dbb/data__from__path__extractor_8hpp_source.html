@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.5"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Photo Broom: src/database/database_tools/implementation/data_from_path_extractor.hpp Source File</title>
+<title>Photo Broom: src/core/data_from_path_extractor.hpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -69,7 +69,7 @@ $(function() {
 
 <div id="nav-path" class="navpath">
   <ul>
-<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_803ee67260c130b45d29089798491ab2.html">database</a></li><li class="navelem"><a class="el" href="../../dir_25cd647fda867a7ef4aaf9819f50dd27.html">database_tools</a></li><li class="navelem"><a class="el" href="../../dir_6693635f49fae5b78749715f7f98d885.html">implementation</a></li>  </ul>
+<li class="navelem"><a class="el" href="../../dir_68267d1309a1af8e8297ef4c3efbcdba.html">src</a></li><li class="navelem"><a class="el" href="../../dir_aebb8dcc11953d78e620bbef0b9e2183.html">core</a></li>  </ul>
 </div>
 </div><!-- top -->
 <div class="header">
@@ -84,31 +84,30 @@ $(function() {
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;<a class="code" href="../../d1/d74/tag_8hpp.html">core/tag.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../d5/d26/class_data_from_path_extractor.html">   10</a></span><span class="keyword">class </span><a class="code hl_class" href="../../d5/d26/class_data_from_path_extractor.html">DataFromPathExtractor</a></div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        <a class="code hl_function" href="../../d5/d26/class_data_from_path_extractor.html#a5d26588f7a90496d3ab209efe9ce1796">DataFromPathExtractor</a>();</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <a class="code hl_typedef" href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a> <a class="code hl_function" href="../../d5/d26/class_data_from_path_extractor.html#a1ecd0e2a673e71024cc5aa528bad1592">extract</a>(<span class="keyword">const</span> QString&amp; path) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span><span class="preprocessor">#include &lt;core_export.h&gt;</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../d5/d26/class_data_from_path_extractor.html">   12</a></span><span class="keyword">class </span>CORE_EXPORT <a class="code hl_class" href="../../d5/d26/class_data_from_path_extractor.html">DataFromPathExtractor</a></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>{</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <a class="code hl_class" href="../../d5/d26/class_data_from_path_extractor.html">DataFromPathExtractor</a>();</div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../d5/d26/class_data_from_path_extractor.html#a7b5392cf450511f342dcaf7fc5204aea">   18</a></span>        QRegularExpression <a class="code hl_variable" href="../../d5/d26/class_data_from_path_extractor.html#a7b5392cf450511f342dcaf7fc5204aea">m_expr1</a>;</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="../../d5/d26/class_data_from_path_extractor.html#a46639382d08539b2c19abeea9ac00332">   19</a></span>        QRegularExpression <a class="code hl_variable" href="../../d5/d26/class_data_from_path_extractor.html#a46639382d08539b2c19abeea9ac00332">m_expr2</a>;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <a class="code hl_typedef" href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a> <a class="code hl_function" href="../../d5/d26/class_data_from_path_extractor.html#abd813b7eeed1d84852072896ef1e0da8">extractRegex1</a>(<span class="keyword">const</span> QString&amp; path) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <a class="code hl_typedef" href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a> <a class="code hl_function" href="../../d5/d26/class_data_from_path_extractor.html#ae82a0e15ef1edf792d7b51441d8183f9">extractRegex2</a>(<span class="keyword">const</span> QString&amp; path) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>};</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span> </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#endif </span><span class="comment">// DATAFROMPATHEXTRACTOR_HPP</span></div>
-<div class="ttc" id="aclass_data_from_path_extractor_html"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html">DataFromPathExtractor</a></div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.hpp:11</div></div>
-<div class="ttc" id="aclass_data_from_path_extractor_html_a1ecd0e2a673e71024cc5aa528bad1592"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html#a1ecd0e2a673e71024cc5aa528bad1592">DataFromPathExtractor::extract</a></div><div class="ttdeci">Tag::TagsList extract(const QString &amp;path) const</div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.cpp:18</div></div>
-<div class="ttc" id="aclass_data_from_path_extractor_html_a46639382d08539b2c19abeea9ac00332"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html#a46639382d08539b2c19abeea9ac00332">DataFromPathExtractor::m_expr2</a></div><div class="ttdeci">QRegularExpression m_expr2</div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.hpp:19</div></div>
-<div class="ttc" id="aclass_data_from_path_extractor_html_a5d26588f7a90496d3ab209efe9ce1796"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html#a5d26588f7a90496d3ab209efe9ce1796">DataFromPathExtractor::DataFromPathExtractor</a></div><div class="ttdeci">DataFromPathExtractor()</div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.cpp:8</div></div>
-<div class="ttc" id="aclass_data_from_path_extractor_html_a7b5392cf450511f342dcaf7fc5204aea"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html#a7b5392cf450511f342dcaf7fc5204aea">DataFromPathExtractor::m_expr1</a></div><div class="ttdeci">QRegularExpression m_expr1</div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.hpp:18</div></div>
-<div class="ttc" id="aclass_data_from_path_extractor_html_abd813b7eeed1d84852072896ef1e0da8"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html#abd813b7eeed1d84852072896ef1e0da8">DataFromPathExtractor::extractRegex1</a></div><div class="ttdeci">Tag::TagsList extractRegex1(const QString &amp;path) const</div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.cpp:26</div></div>
-<div class="ttc" id="aclass_data_from_path_extractor_html_ae82a0e15ef1edf792d7b51441d8183f9"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html#ae82a0e15ef1edf792d7b51441d8183f9">DataFromPathExtractor::extractRegex2</a></div><div class="ttdeci">Tag::TagsList extractRegex2(const QString &amp;path) const</div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.cpp:76</div></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <a class="code hl_typedef" href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a> <a class="code hl_function" href="../../d8/d43/core_2utils_8hpp.html#a5e859b50386e6dde87931f359e372688">extract</a>(<span class="keyword">const</span> QString&amp; path) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="../../d5/d26/class_data_from_path_extractor.html#a7b5392cf450511f342dcaf7fc5204aea">   20</a></span>        QRegularExpression <a class="code hl_variable" href="../../d5/d26/class_data_from_path_extractor.html#a7b5392cf450511f342dcaf7fc5204aea">m_expr1</a>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="../../d5/d26/class_data_from_path_extractor.html#a46639382d08539b2c19abeea9ac00332">   21</a></span>        QRegularExpression <a class="code hl_variable" href="../../d5/d26/class_data_from_path_extractor.html#a46639382d08539b2c19abeea9ac00332">m_expr2</a>;</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <a class="code hl_typedef" href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a> extractRegex1(<span class="keyword">const</span> QString&amp; path) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <a class="code hl_typedef" href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a> extractRegex2(<span class="keyword">const</span> QString&amp; path) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>};</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#endif </span><span class="comment">// DATAFROMPATHEXTRACTOR_HPP</span></div>
+<div class="ttc" id="aclass_data_from_path_extractor_html"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html">DataFromPathExtractor</a></div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.hpp:13</div></div>
+<div class="ttc" id="aclass_data_from_path_extractor_html_a46639382d08539b2c19abeea9ac00332"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html#a46639382d08539b2c19abeea9ac00332">DataFromPathExtractor::m_expr2</a></div><div class="ttdeci">QRegularExpression m_expr2</div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.hpp:21</div></div>
+<div class="ttc" id="aclass_data_from_path_extractor_html_a7b5392cf450511f342dcaf7fc5204aea"><div class="ttname"><a href="../../d5/d26/class_data_from_path_extractor.html#a7b5392cf450511f342dcaf7fc5204aea">DataFromPathExtractor::m_expr1</a></div><div class="ttdeci">QRegularExpression m_expr1</div><div class="ttdef"><b>Definition:</b> data_from_path_extractor.hpp:20</div></div>
+<div class="ttc" id="acore_2utils_8hpp_html_a5e859b50386e6dde87931f359e372688"><div class="ttname"><a href="../../d8/d43/core_2utils_8hpp.html#a5e859b50386e6dde87931f359e372688">extract</a></div><div class="ttdeci">R extract(const T &amp;type)</div><div class="ttdef"><b>Definition:</b> utils.hpp:7</div></div>
 <div class="ttc" id="anamespace_tag_html_ad16db965857beb8e99d35bb5997a6d8a"><div class="ttname"><a href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a></div><div class="ttdeci">std::map&lt; Tag::Types, TagValue &gt; TagsList</div><div class="ttdef"><b>Definition:</b> tag.hpp:185</div></div>
 <div class="ttc" id="atag_8hpp_html"><div class="ttname"><a href="../../d1/d74/tag_8hpp.html">tag.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->

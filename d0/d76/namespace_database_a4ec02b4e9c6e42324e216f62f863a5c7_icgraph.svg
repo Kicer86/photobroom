@@ -33,9 +33,9 @@
 <path fill="none" stroke="#63b8ff" d="M171.48,-45.56C163.51,-46.58 155.41,-47.62 147.46,-48.64"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="171.65,-49.07 181.13,-44.32 170.76,-42.12 171.65,-49.07"/>
 </g>
-<!-- Node6 -->
+<!-- Node4 -->
 <g id="node3" class="node">
-<title>Node6</title>
+<title>Node4</title>
 <g id="a_node3"><a xlink:href="../../dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="127,-30 20,-30 20,0 127,0 127,-30"/>
 <text text-anchor="start" x="28" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosAnalyzerImpl</text>
@@ -43,9 +43,9 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
+<!-- Node1&#45;&gt;Node4 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node6</title>
+<title>Node1&#45;&gt;Node4</title>
 <path fill="none" stroke="#63b8ff" d="M171.43,-26.87C156.64,-25.06 141.39,-23.19 127.5,-21.49"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="170.77,-30.31 181.12,-28.06 171.62,-23.37 170.77,-30.31"/>
 </g>

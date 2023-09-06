@@ -11,8 +11,6 @@ var searchData=
   ['watchfor_8',['watchFor',['../db/d54/class_configuration.html#a307089c448f48acb1b00c93e132223fc',1,'Configuration::watchFor()'],['../d7/db4/struct_i_configuration.html#afb7c554a124245f565595c931d3fa02b',1,'IConfiguration::watchFor()'],['../d6/d43/class_configuration_private.html#a96e76ba1e1eb28eb409c2c6c600ac5ec',1,'ConfigurationPrivate::watchFor()']]],
   ['webp_5fgenerator_5ftests_2ecpp_9',['webp_generator_tests.cpp',['../d0/d67/webp__generator__tests_8cpp.html',1,'']]],
   ['what_10',['what',['../d5/dcf/class_database_1_1db__error.html#aaf317da7aa6d7286bba22edbdecd747a',1,'Database::db_error']]],
-  ['workinprogress_11',['workInProgress',['../d3/d94/class_duplicates_model.html#a34eb3541448398b7950f41ef1f77899d',1,'DuplicatesModel']]],
-  ['workstate_12',['WorkState',['../d3/d01/class_work_state.html',1,'WorkState'],['../d3/d01/class_work_state.html#a35d7269296f8e936485b02d95f5466bb',1,'WorkState::WorkState(const WorkState &amp;)=delete'],['../d3/d01/class_work_state.html#aa74fa3429fcb24c56aa21f581f928179',1,'WorkState::WorkState()=default']]],
-  ['workstatuschanged_13',['workStatusChanged',['../d3/d94/class_duplicates_model.html#aafd23b93726fa2af0dbdb87c49e6050d',1,'DuplicatesModel']]],
-  ['writeto_14',['writeTo',['../d9/d02/class_config_storage.html#a0ed280b984d3983d43fb42742653e8ec',1,'ConfigStorage']]]
+  ['workstate_11',['WorkState',['../d3/d01/class_work_state.html',1,'WorkState'],['../d3/d01/class_work_state.html#a35d7269296f8e936485b02d95f5466bb',1,'WorkState::WorkState(const WorkState &amp;)=delete'],['../d3/d01/class_work_state.html#aa74fa3429fcb24c56aa21f581f928179',1,'WorkState::WorkState()=default']]],
+  ['writeto_12',['writeTo',['../d9/d02/class_config_storage.html#a0ed280b984d3983d43fb42742653e8ec',1,'ConfigStorage']]]
 ];
