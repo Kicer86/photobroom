@@ -74,7 +74,12 @@ QVariant SeriesModel::data(const QModelIndex& index, int role) const
             return type;
         }
         else if (role == MembersRole)
-            return QVariant::fromValue(candidate.members);
+        {
+            const auto members = candidate.members;
+            const std::vector<Photo::DataDelta> members_delta(members.begin(), members.end());
+
+            return QVariant::fromValue(members_delta);
+        }
     }
 
     return {};
