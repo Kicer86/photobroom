@@ -19,13 +19,9 @@
 #include "thumbnail_generator.hpp"
 
 #include <QElapsedTimer>
-#include <QEventLoop>
 #include <QFile>
 #include <QFileInfo>
-#include <QMediaPlayer>
-#include <QProcess>
-#include <QVideoFrame>
-#include <QVideoSink>
+#include <opencv2/opencv.hpp>
 
 #include <system/system.hpp>
 #include "constants.hpp"
@@ -113,40 +109,19 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
 
         if (milliseconds > 0)
         {
-            QVideoSink videoSink;
-            QMediaPlayer player;
+            cv::VideoCapture video(absolute_path.toStdString());
 
-            // load media and wait for finish
+            if (video.isOpened())
             {
-                QEventLoop eventLoop;
-                QObject::connect(&player, &QMediaPlayer::mediaStatusChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
-                player.setVideoSink(&videoSink);
-                player.setSource(QUrl::fromLocalFile(path));
-                eventLoop.exec();
-            }
+                const double position = static_cast<double>(milliseconds) / 10.0;
+                video.set(cv::CAP_PROP_POS_MSEC, position);
 
-            player.play();
+                cv::Mat frame;
+                video >> frame;
 
-            // set desired position
-            if (player.isSeekable())
-            {
-                QEventLoop eventLoop;
-                QObject::connect(&player, &QMediaPlayer::positionChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
-                player.setPosition(milliseconds / 10);
-                eventLoop.exec();
-            }
+                assert(frame.type() == CV_8UC3);
 
-            // wait for frame to be ready
-            if (player.error() == QMediaPlayer::NoError && player.playbackState() == QMediaPlayer::PlayingState)
-            {
-                QEventLoop eventLoop;
-                QObject::connect(&videoSink, &QVideoSink::videoFrameChanged, &eventLoop, [&eventLoop]{ eventLoop.exit(); });
-                eventLoop.exec();
-
-                player.stop();
-                const auto frame = videoSink.videoFrame();
-
-                result = frame.toImage();
+                result = QImage(static_cast<uchar*>(frame.data), frame.cols, frame.rows, frame.step, QImage::Format_RGB888).rgbSwapped();
             }
         }
     }

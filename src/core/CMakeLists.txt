@@ -1,4 +1,5 @@
 
+find_package(OpenCV REQUIRED)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui Multimedia)
 find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
@@ -92,8 +93,9 @@ target_link_libraries(core
                         PRIVATE
                             system
                             ${CMAKE_THREAD_LIBS_INIT}
-                            exiv2lib
                             CsLibGuarded::CsLibGuarded
+                            exiv2lib
+                            opencv_videoio
 )
 
 target_include_directories(core PUBLIC
