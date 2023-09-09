@@ -1,9 +1,14 @@
 
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+
 #include <core/exif_reader_factory.hpp>
 #include <core/itask_executor.hpp>
 #include <core/logger_factory.hpp>
 #include <core/oriented_image.hpp>
 #include <core/task_executor_utils.hpp>
+#include <database/database_executor_traits.hpp>
 
 #include "batch_face_detector.hpp"
 
@@ -126,34 +131,75 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
 {
     while(supervisor->keepWorking())
     {
-        std::unique_lock lk(m_idsMtx);
+        const auto id_opt = getNextId();
 
-        if (m_ids.empty() == false)
+        if (id_opt)
         {
-            FaceEditor fe(m_dbClient->db(), *m_core, m_logger);
+            const auto id = *id_opt;
 
-            const auto id = m_ids.front();
-            m_ids.pop_front();
-
-            runOn(m_core->getTaskExecutor(), [fe = std::move(fe), id, this, supervisor]() mutable
+            // check if data already in db
+            const QByteArray blob = evaluate<QByteArray(Database::IBackend &)>(m_dbClient->db(), [id](Database::IBackend& backend)
             {
-                auto faces = fe.getFacesFor(id);
-                std::vector<Face> facesDetails;
-
-                for (auto& face: faces)
-                {
-                    const auto faceImg = face->image()->copy(face->rect());
-                    facesDetails.emplace_back(std::move(face), faceImg);
-                }
-
-                invokeMethod(this, &BatchFaceDetector::appendFaces, std::move(facesDetails));
-                supervisor->resume();
+                return backend.readBlob(id, Database::IBackend::BlobType::BatchFaceFetcher);
             });
+
+            if (blob.isEmpty())
+            {
+                // no data in db, generate
+                runOn(m_core->getTaskExecutor(), [id, this, supervisor]() mutable
+                {
+                    FaceEditor fe(m_dbClient->db(), *m_core, m_logger);
+
+                    auto faces = fe.getFacesFor(id);
+                    std::vector<Face> facesDetails;
+
+                    // store data in db
+                    QJsonArray facesJson;
+                    for (auto& face: faces)
+                    {
+                        QJsonObject rectJson;
+                        rectJson["x"] = face->rect().x();
+                        rectJson["y"] = face->rect().y();
+                        rectJson["w"] = face->rect().width();
+                        rectJson["h"] = face->rect().height();
+
+                        QJsonObject faceJson;
+                        faceJson["face"] = rectJson;
+
+                        facesJson.append(faceJson);
+                    }
+
+                    const QJsonDocument json(facesJson);
+
+                    execute(m_dbClient->db(), [id, blob = json.toJson()](Database::IBackend& backend)
+                    {
+                        return backend.writeBlob(id, Database::IBackend::BlobType::BatchFaceFetcher, blob);
+                    });
+
+                    // prepare details for model
+                    for (auto& face: faces)
+                    {
+                        const auto faceImg = face->image()->copy(face->rect());
+                        facesDetails.emplace_back(std::move(face), faceImg);
+                    }
+
+                    invokeMethod(this, &BatchFaceDetector::appendFaces, std::move(facesDetails));
+
+                    supervisor->resume();
+                });
+
+                co_yield ITaskExecutor::ProcessState::Suspended;
+            }
+            else
+            {
+                // use data stored in blob
+
+
+                co_yield ITaskExecutor::ProcessState::Running;
+            }
         }
-
-        lk.unlock();
-
-        co_yield ITaskExecutor::ProcessState::Suspended;
+        else
+            co_yield ITaskExecutor::ProcessState::Suspended;
     }
 
     // face scanning is done, db won't be needed anymore, release it
@@ -186,4 +232,20 @@ void BatchFaceDetector::newPhotos(const QModelIndex &, int first, int last)
 
     // make sure processing process is not suspended
     m_photosProcessingProcess->resume();
+}
+
+
+std::optional<Photo::Id> BatchFaceDetector::getNextId()
+{
+    std::lock_guard lk(m_idsMtx);
+
+    std::optional<Photo::Id> result;
+
+    if (m_ids.empty() == false)
+    {
+        result = m_ids.front();
+        m_ids.pop_front();
+    }
+
+    return result;
 }
