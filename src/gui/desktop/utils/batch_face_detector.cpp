@@ -146,60 +146,20 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
             if (blob.isEmpty())
             {
                 // no data in db, generate
-                runOn(m_core->getTaskExecutor(), [id, this, supervisor]() mutable
-                {
-                    FaceEditor fe(m_dbClient->db(), *m_core, m_logger);
+                loadPhotoData(id, supervisor);
 
-                    auto faces = fe.getFacesFor(id);
-                    std::vector<Face> facesDetails;
-
-                    // store data in db
-                    QJsonArray facesJson;
-                    for (auto& face: faces)
-                    {
-                        QJsonObject rectJson;
-                        rectJson["x"] = face->rect().x();
-                        rectJson["y"] = face->rect().y();
-                        rectJson["w"] = face->rect().width();
-                        rectJson["h"] = face->rect().height();
-
-                        QJsonObject faceJson;
-                        faceJson["face"] = rectJson;
-
-                        facesJson.append(faceJson);
-                    }
-
-                    const QJsonDocument json(facesJson);
-
-                    execute(m_dbClient->db(), [id, blob = json.toJson()](Database::IBackend& backend)
-                    {
-                        return backend.writeBlob(id, Database::IBackend::BlobType::BatchFaceFetcher, blob);
-                    });
-
-                    // prepare details for model
-                    for (auto& face: faces)
-                    {
-                        const auto faceImg = face->image()->copy(face->rect());
-                        facesDetails.emplace_back(std::move(face), faceImg);
-                    }
-
-                    invokeMethod(this, &BatchFaceDetector::appendFaces, std::move(facesDetails));
-
-                    supervisor->resume();
-                });
-
-                co_yield ITaskExecutor::ProcessState::Suspended;
+                co_yield ITaskExecutor::ProcessState::Suspended;            // waiting for photo to be loaded, go to sleep
             }
             else
             {
                 // use data stored in blob
 
 
-                co_yield ITaskExecutor::ProcessState::Running;
+                co_yield ITaskExecutor::ProcessState::Running;              // data processed immediately, ask for more cpu time
             }
         }
         else
-            co_yield ITaskExecutor::ProcessState::Suspended;
+            co_yield ITaskExecutor::ProcessState::Suspended;                // no data, go to sleep
     }
 
     // face scanning is done, db won't be needed anymore, release it
@@ -248,4 +208,50 @@ std::optional<Photo::Id> BatchFaceDetector::getNextId()
     }
 
     return result;
+}
+
+
+void BatchFaceDetector::loadPhotoData(const Photo::Id& id, ITaskExecutor::IProcessSupervisor* supervisor)
+{
+    runOn(m_core->getTaskExecutor(), [id, this, supervisor]() mutable
+    {
+        FaceEditor fe(m_dbClient->db(), *m_core, m_logger);
+
+        auto faces = fe.getFacesFor(id);
+        std::vector<Face> facesDetails;
+
+        // store data in db
+        QJsonArray facesJson;
+        for (auto& face: faces)
+        {
+            QJsonObject rectJson;
+            rectJson["x"] = face->rect().x();
+            rectJson["y"] = face->rect().y();
+            rectJson["w"] = face->rect().width();
+            rectJson["h"] = face->rect().height();
+
+            QJsonObject faceJson;
+            faceJson["face"] = rectJson;
+
+            facesJson.append(faceJson);
+        }
+
+        const QJsonDocument json(facesJson);
+
+        execute(m_dbClient->db(), [id, blob = json.toJson()](Database::IBackend& backend)
+        {
+            return backend.writeBlob(id, Database::IBackend::BlobType::BatchFaceFetcher, blob);
+        });
+
+        // prepare details for model
+        for (auto& face: faces)
+        {
+            const auto faceImg = face->image()->copy(face->rect());
+            facesDetails.emplace_back(std::move(face), faceImg);
+        }
+
+        invokeMethod(this, &BatchFaceDetector::appendFaces, std::move(facesDetails));
+
+        supervisor->resume();
+    });
 }
