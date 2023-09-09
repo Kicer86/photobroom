@@ -93,6 +93,7 @@ namespace Database
         enum class BlobType
         {
             Thumbnail = 0,
+            BatchFaceFetcher = 1,
         };
 
         virtual ~IBackend() = default;
