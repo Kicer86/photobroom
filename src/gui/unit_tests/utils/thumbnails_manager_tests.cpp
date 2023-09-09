@@ -141,7 +141,7 @@ TEST_F(ThumbnailManagerTest, generatedThumbnailsIsBeingCached)
         .WillRepeatedly(Return(img));
 
     // database behavior (thumbnail storage)
-    EXPECT_CALL(backend, setThumbnail(id, _)).Times(1);
+    EXPECT_CALL(backend, writeBlob(id, Database::IBackend::BlobType::Thumbnail, _)).Times(1);
 
     ThumbnailManager tm(executor, generator, cache, std::make_unique<EmptyLogger>());
     tm.setDatabaseCache(&db);
@@ -161,7 +161,7 @@ TEST_F(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     NiceMock<MockThumbnailsCache> cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
 
-    EXPECT_CALL(backend, setThumbnail(id, _)).Times(0);
+    EXPECT_CALL(backend, writeBlob(id, Database::IBackend::BlobType::Thumbnail, _)).Times(0);
 
     MockThumbnailsGenerator generator;
 

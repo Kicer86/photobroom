@@ -19,7 +19,7 @@ namespace Database
         std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
         std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
         std::vector<LogEntry> m_logEntries;
-        std::map<Photo::Id, QByteArray> m_thumbnails;
+        std::map<std::pair<Photo::Id, IBackend::BlobType>, QByteArray> m_blobs;
 
         int m_nextPhotoId = 0;
         int m_nextPersonName = 0;
@@ -345,15 +345,15 @@ namespace Database
     }
 
 
-    void MemoryBackend::setThumbnail(const Photo::Id& id, const QByteArray& thumbnail)
+    void MemoryBackend::writeBlob(const Photo::Id& id, BlobType bt, const QByteArray& blob)
     {
-        m_db->m_thumbnails[id] = thumbnail;
+        m_db->m_blobs[{id, bt}] = blob;
     }
 
 
-    QByteArray MemoryBackend::getThumbnail(const Photo::Id& id)
+    QByteArray MemoryBackend::readBlob(const Photo::Id& id, BlobType bt)
     {
-        return m_db->m_thumbnails[id];
+        return m_db->m_blobs[{id, bt}];
     }
 
 

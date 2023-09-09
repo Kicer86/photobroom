@@ -512,33 +512,35 @@ namespace Database
     }
 
 
-    void ASqlBackend::setThumbnail(const Photo::Id& id, const QByteArray& thumbnail)
+    void ASqlBackend::writeBlob(const Photo::Id& id, BlobType bt, const QByteArray& blob)
     {
-        UpdateQueryData data(TAB_THUMBS);
+        UpdateQueryData data(TAB_BLOBS);
         data.addCondition("photo_id", QString::number(id.value()));
-        data.setColumns("photo_id", "data");
-        data.setValues(QString::number(id.value()), thumbnail);
+        data.addCondition("type", QString::number(static_cast<int>(bt)));
+        data.setColumns("photo_id", "type", "data");
+        data.setValues(QString::number(id.value()), QString::number(static_cast<int>(bt)), blob);
 
         updateOrInsert(data);
     }
 
 
-    QByteArray ASqlBackend::getThumbnail(const Photo::Id& id)
+    QByteArray ASqlBackend::readBlob(const Photo::Id& id, BlobType bt)
     {
-        const QString thbQuery = QString("SELECT data FROM %1 WHERE photo_id=%2")
-            .arg(TAB_THUMBS)
-            .arg(QString::number(id.value()));
+        const QString blobQuery = QString("SELECT data FROM %1 WHERE photo_id=%2 AND type=%3")
+            .arg(TAB_BLOBS)
+            .arg(QString::number(id.value()))
+            .arg(QString::number(static_cast<int>(bt)));
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        const bool status = m_executor.exec(thbQuery, &query);
+        const bool status = m_executor.exec(blobQuery, &query);
 
-        const QByteArray thumbnail = status && query.next()?
+        const QByteArray blob = status && query.next()?
             query.value(0).toByteArray():
             QByteArray {};
 
-        return thumbnail;
+        return blob;
     }
 
 
@@ -734,9 +736,29 @@ namespace Database
                     status = m_executor.exec(drop_table, &query);
                     if (status == false)
                         break;
-                }
+                } [[fallthrough]];
 
-                case 6:             // current version, break updgrades chain
+                case 6:
+                {
+                    // move thumbnails to blob table
+                    const QString copy_thumbnails =
+                    QString("INSERT INTO blobs(photo_id, type, data) SELECT photo_id, %1 AS type, data FROM thumbnails")
+                            .arg(static_cast<int>(IBackend::BlobType::Thumbnail));
+
+                    status = m_executor.exec(copy_thumbnails, &query);
+                    if (status == false)
+                        break;
+
+                    // drop thumbnails
+                    const QString drop_table = QString("DROP TABLE thumbnails");
+
+                    status = m_executor.exec(drop_table, &query);
+                    if (status == false)
+                        break;
+
+                } [[fallthrough]];
+
+                case 7:             // current version, break updgrades chain
                     break;
 
                 default:
@@ -1386,7 +1408,7 @@ namespace Database
             QString("DELETE FROM " TAB_PEOPLE            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_PHOTOS_CHANGE_LOG " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_TAGS              " WHERE photo_id IN (SELECT * FROM drop_indices)"),
-            QString("DELETE FROM " TAB_THUMBS            " WHERE photo_id IN (SELECT * FROM drop_indices)"),
+            QString("DELETE FROM " TAB_BLOBS             " WHERE photo_id IN (SELECT * FROM drop_indices)"),
             QString("DELETE FROM " TAB_PHASHES           " WHERE photo_id IN (SELECT * FROM drop_indices)"),
 
             QString("DELETE FROM " TAB_PHOTOS            " WHERE id IN (SELECT * FROM drop_indices)"),

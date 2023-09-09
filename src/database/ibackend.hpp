@@ -90,6 +90,11 @@ namespace Database
      */
     struct DATABASE_EXPORT IBackend: public QObject
     {
+        enum class BlobType
+        {
+            Thumbnail = 0,
+        };
+
         virtual ~IBackend() = default;
 
         /** \brief Add photos to database
@@ -111,8 +116,6 @@ namespace Database
          * \see Photo::Field
          */
         virtual bool update(const std::vector<Photo::DataDelta>& delta) = 0;
-
-        //read data
 
         /// list all values of tag for photos matching provided filter
         virtual std::vector<TagValue>    listTagValues(const Tag::Types &,
@@ -183,12 +186,21 @@ namespace Database
          */
         virtual void clearBits(const Photo::Id& id, const QString& name, int bits) = 0;
 
-        virtual void setThumbnail(const Photo::Id &, const QByteArray &) = 0;
+        /**
+         * @brief Write @p blob of type @p bt
+         * @arg id associated photo id
+         * @arg bt blob type
+         * @arg blob raw data
+         */
+        virtual void writeBlob(const Photo::Id& id, BlobType bt, const QByteArray& blob) = 0;
 
-        // reading extra data
-        virtual QByteArray getThumbnail(const Photo::Id &) = 0;
-
-        // modify data
+        /**
+         * @brief Read blob of type @p bt associated with photo @p id
+         * @arg id photo id
+         * @arg bt blob type
+         * @return raw data
+         */
+        virtual QByteArray readBlob(const Photo::Id& id, BlobType bt) = 0;
 
         /**
          * \brief mark all staged photos as reviewed.
