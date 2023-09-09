@@ -20,9 +20,7 @@
 
 #include <cassert>
 
-#include <QVariant>
-#include <QMediaPlayer>
-#include <QEventLoop>
+#include <opencv2/opencv.hpp>
 
 #include "constants.hpp"
 #include "iconfiguration.hpp"
@@ -48,14 +46,12 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
     info.common.dimension = videoDetailsReader.resolutionOf();
     info.common.creationTime = videoDetailsReader.creationTime();
 
-    QMediaPlayer player;
-    player.setSource(QUrl::fromLocalFile(path));
-
-    QEventLoop eventLoop;
-    QObject::connect(&player, &QMediaPlayer::mediaStatusChanged, &eventLoop, &QEventLoop::exit);
-    eventLoop.exec();
-
-    info.details = VideoFile{.duration = std::chrono::milliseconds(player.duration()) };
+    cv::VideoCapture video(path.toStdString());
+    if (video.isOpened())
+    {
+         const qint64 lenght = static_cast<int64>(video.get(cv::CAP_PROP_FRAME_COUNT) / video.get(cv::CAP_PROP_FPS) * 1000);
+         info.details = VideoFile{.duration = std::chrono::milliseconds(lenght) };
+    }
 
     return info;
 }
