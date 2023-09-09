@@ -742,8 +742,7 @@ namespace Database
                 {
                     // move thumbnails to blob table
                     const QString copy_thumbnails =
-                    QString("INSERT INTO %1(photo_id, type, data) SELECT photo_id, %2 AS type, data FROM thumbnails")
-                            .arg(TAB_BLOBS)
+                    QString("INSERT INTO blobs(photo_id, type, data) SELECT photo_id, %1 AS type, data FROM thumbnails")
                             .arg(static_cast<int>(IBackend::BlobType::Thumbnail));
 
                     status = m_executor.exec(copy_thumbnails, &query);
