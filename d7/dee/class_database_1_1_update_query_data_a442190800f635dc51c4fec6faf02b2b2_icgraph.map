@@ -2,12 +2,12 @@
 <area shape="rect" id="node1" title=" " alt="" coords="241,279,428,319"/>
 <area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a" title="set flag for photo to given value" alt="" coords="6,5,193,31"/>
 <area shape="rect" id="node3" href="$da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" title=" " alt="" coords="16,55,183,95"/>
-<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ada5bd4aac9dc99f381b3404a45df4c09" title=" " alt="" coords="18,119,181,159"/>
-<area shape="rect" id="node5" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,183,193,223"/>
-<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="18,247,181,287"/>
-<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a0ff78d8d57a9eae0213f2f837ddfc6b8" title="store photo&#39;s flags" alt="" coords="18,311,181,351"/>
-<area shape="rect" id="node8" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a5e2dade3290d318258ea503ee1e409cc" title="store photo&#39;s dimensions" alt="" coords="18,375,181,415"/>
-<area shape="rect" id="node9" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235" title="store photo&#39;s group details" alt="" coords="18,439,181,479"/>
-<area shape="rect" id="node10" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="5,503,193,543"/>
-<area shape="rect" id="node11" href="$dc/d71/generic__sql__query__constructor__tests_8cpp.html#a3eb6598a51e35425b409e6e7976d4daf" title=" " alt="" coords="72,568,127,593"/>
+<area shape="rect" id="node4" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,119,193,159"/>
+<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="18,183,181,223"/>
+<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a0ff78d8d57a9eae0213f2f837ddfc6b8" title="store photo&#39;s flags" alt="" coords="18,247,181,287"/>
+<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a5e2dade3290d318258ea503ee1e409cc" title="store photo&#39;s dimensions" alt="" coords="18,311,181,351"/>
+<area shape="rect" id="node8" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235" title="store photo&#39;s group details" alt="" coords="18,375,181,415"/>
+<area shape="rect" id="node9" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="5,439,193,479"/>
+<area shape="rect" id="node10" href="$dc/d71/generic__sql__query__constructor__tests_8cpp.html#a3eb6598a51e35425b409e6e7976d4daf" title=" " alt="" coords="72,504,127,529"/>
+<area shape="rect" id="node11" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a2345f2b0475973d11df4cb1b7cd0d201" title="Write blob of type bt." alt="" coords="18,554,181,594"/>
 </map>

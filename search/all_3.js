@@ -169,7 +169,7 @@ var searchData=
   ['currentdatabasechanged_166',['currentDatabaseChanged',['../d9/dc6/class_main_window.html#ab3226c9a1d7a78182e0d3c3d37c388bf',1,'MainWindow']]],
   ['currentdate_167',['currentDate',['../d3/d42/class_logger.html#ac081f8418a867effa33c9270d5a2bf9a',1,'Logger']]],
   ['currentprojectchanged_168',['currentProjectChanged',['../d9/dc6/class_main_window.html#a5b763cb1c840150346684186b33add74',1,'MainWindow']]],
-  ['currenttime_169',['currentTime',['../d3/d42/class_logger.html#aef8a5056cd0825cb3415656546cf59a9',1,'Logger']]],
-  ['currenttime_170',['CurrentTime',['../d4/df7/class_database_1_1_insert_query_data.html#abec99e2e29a6108b371843bd65f5a000a28d966bf69234556641d197315891ba0',1,'Database::InsertQueryData']]],
+  ['currenttime_169',['CurrentTime',['../d4/df7/class_database_1_1_insert_query_data.html#abec99e2e29a6108b371843bd65f5a000a28d966bf69234556641d197315891ba0',1,'Database::InsertQueryData']]],
+  ['currenttime_170',['currentTime',['../d3/d42/class_logger.html#aef8a5056cd0825cb3415656546cf59a9',1,'Logger']]],
   ['currentversion_171',['currentVersion',['../d9/dc6/class_main_window.html#abfb6056aa085805e2546d823e828e1ef',1,'MainWindow']]]
 ];

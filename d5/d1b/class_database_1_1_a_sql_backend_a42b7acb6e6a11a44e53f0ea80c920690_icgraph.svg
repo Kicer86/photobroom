@@ -36,10 +36,10 @@
 <!-- Node5 -->
 <g id="node3" class="node">
 <title>Node5</title>
-<g id="a_node3"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#ada5bd4aac9dc99f381b3404a45df4c09" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="131,-174 9,-174 9,-144 131,-144 131,-174"/>
+<g id="a_node3"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a0ff78d8d57a9eae0213f2f837ddfc6b8" target="_top" xlink:title="store photo&#39;s flags">
+<polygon fill="#fff0f0" stroke="red" points="131,-174 9,-174 9,-144 131,-144 131,-174"/>
 <text text-anchor="start" x="17" y="-162" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
-<text text-anchor="middle" x="70" y="-151" font-family="Helvetica,sans-Serif" font-size="10.00">::setThumbnail</text>
+<text text-anchor="middle" x="70" y="-151" font-family="Helvetica,sans-Serif" font-size="10.00">::storeFlags</text>
 </a>
 </g>
 </g>
@@ -49,29 +49,29 @@
 <path fill="none" stroke="#63b8ff" d="M172.07,-129.6C156.18,-134.22 139.32,-139.13 124.02,-143.58"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="172.81,-133.03 181.43,-126.87 170.85,-126.31 172.81,-133.03"/>
 </g>
-<!-- Node6 -->
+<!-- Node7 -->
 <g id="node4" class="node">
-<title>Node6</title>
-<g id="a_node4"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a0ff78d8d57a9eae0213f2f837ddfc6b8" target="_top" xlink:title="store photo&#39;s flags">
+<title>Node7</title>
+<g id="a_node4"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a5e2dade3290d318258ea503ee1e409cc" target="_top" xlink:title="store photo&#39;s dimensions">
 <polygon fill="#fff0f0" stroke="red" points="131,-126 9,-126 9,-96 131,-96 131,-126"/>
 <text text-anchor="start" x="17" y="-114" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
-<text text-anchor="middle" x="70" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">::storeFlags</text>
+<text text-anchor="middle" x="70" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">::storeGeometryFor</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
+<!-- Node1&#45;&gt;Node7 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node6</title>
+<title>Node1&#45;&gt;Node7</title>
 <path fill="none" stroke="#63b8ff" d="M164.54,-111C153.44,-111 142.08,-111 131.27,-111"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="164.45,-114.5 174.45,-111 164.45,-107.5 164.45,-114.5"/>
 </g>
 <!-- Node8 -->
 <g id="node5" class="node">
 <title>Node8</title>
-<g id="a_node5"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a5e2dade3290d318258ea503ee1e409cc" target="_top" xlink:title="store photo&#39;s dimensions">
+<g id="a_node5"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235" target="_top" xlink:title="store photo&#39;s group details">
 <polygon fill="#fff0f0" stroke="red" points="131,-78 9,-78 9,-48 131,-48 131,-78"/>
 <text text-anchor="start" x="17" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
-<text text-anchor="middle" x="70" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">::storeGeometryFor</text>
+<text text-anchor="middle" x="70" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">::storeGroup</text>
 </a>
 </g>
 </g>
@@ -84,10 +84,10 @@
 <!-- Node9 -->
 <g id="node6" class="node">
 <title>Node9</title>
-<g id="a_node6"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235" target="_top" xlink:title="store photo&#39;s group details">
-<polygon fill="#fff0f0" stroke="red" points="131,-30 9,-30 9,0 131,0 131,-30"/>
+<g id="a_node6"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a2345f2b0475973d11df4cb1b7cd0d201" target="_top" xlink:title="Write blob of type bt.">
+<polygon fill="white" stroke="#666666" points="131,-30 9,-30 9,0 131,0 131,-30"/>
 <text text-anchor="start" x="17" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
-<text text-anchor="middle" x="70" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::storeGroup</text>
+<text text-anchor="middle" x="70" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::writeBlob</text>
 </a>
 </g>
 </g>

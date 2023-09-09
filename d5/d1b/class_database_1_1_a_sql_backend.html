@@ -168,10 +168,12 @@ requires std::is_enum_v&lt;E&gt;</td></tr>
 <tr class="memitem:aa2a9300036c9a979d277bf5ba1a7acd5 inherit pub_methods_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#aa2a9300036c9a979d277bf5ba1a7acd5">clearBits</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const QString &amp;name, int bits)=0</td></tr>
 <tr class="memdesc:aa2a9300036c9a979d277bf5ba1a7acd5 inherit pub_methods_struct_database_1_1_i_backend"><td class="mdescLeft">&#160;</td><td class="mdescRight">clear bits for provided flag  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#aa2a9300036c9a979d277bf5ba1a7acd5">More...</a><br /></td></tr>
 <tr class="separator:aa2a9300036c9a979d277bf5ba1a7acd5 inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3aad05e09be92379edec72e60b095cea inherit pub_methods_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a3aad05e09be92379edec72e60b095cea">setThumbnail</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;, const QByteArray &amp;)=0</td></tr>
-<tr class="separator:a3aad05e09be92379edec72e60b095cea inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a36c1fc6a695f6e96760cb162d2393b9b inherit pub_methods_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">virtual QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a36c1fc6a695f6e96760cb162d2393b9b">getThumbnail</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;)=0</td></tr>
-<tr class="separator:a36c1fc6a695f6e96760cb162d2393b9b inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c2625eb52e87f68797a234f3cbecbb3 inherit pub_methods_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a9c2625eb52e87f68797a234f3cbecbb3">writeBlob</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">BlobType</a> bt, const QByteArray &amp;blob)=0</td></tr>
+<tr class="memdesc:a9c2625eb52e87f68797a234f3cbecbb3 inherit pub_methods_struct_database_1_1_i_backend"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write <code>blob</code> of type <code>bt</code>.  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#a9c2625eb52e87f68797a234f3cbecbb3">More...</a><br /></td></tr>
+<tr class="separator:a9c2625eb52e87f68797a234f3cbecbb3 inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5416f184b6b6703b55df570976e80eb5 inherit pub_methods_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">virtual QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a5416f184b6b6703b55df570976e80eb5">readBlob</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">BlobType</a> bt)=0</td></tr>
+<tr class="memdesc:a5416f184b6b6703b55df570976e80eb5 inherit pub_methods_struct_database_1_1_i_backend"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read blob of type <code>bt</code> associated with photo <code>id</code>.  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#a5416f184b6b6703b55df570976e80eb5">More...</a><br /></td></tr>
+<tr class="separator:a5416f184b6b6703b55df570976e80eb5 inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ebec55f1e5c7f5f1ae193f7cd2ae9e9 inherit pub_methods_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a3ebec55f1e5c7f5f1ae193f7cd2ae9e9">markStagedAsReviewed</a> ()=0</td></tr>
 <tr class="memdesc:a3ebec55f1e5c7f5f1ae193f7cd2ae9e9 inherit pub_methods_struct_database_1_1_i_backend"><td class="mdescLeft">&#160;</td><td class="mdescRight">mark all staged photos as reviewed.  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#a3ebec55f1e5c7f5f1ae193f7cd2ae9e9">More...</a><br /></td></tr>
 <tr class="separator:a3ebec55f1e5c7f5f1ae193f7cd2ae9e9 inherit pub_methods_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -248,10 +250,12 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a3e487165f32855d9aec8064fa48c65e3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a3e487165f32855d9aec8064fa48c65e3">clearBits</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const QString &amp;name, int bits) override final</td></tr>
 <tr class="memdesc:a3e487165f32855d9aec8064fa48c65e3"><td class="mdescLeft">&#160;</td><td class="mdescRight">clear bits for provided flag  <a href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a3e487165f32855d9aec8064fa48c65e3">More...</a><br /></td></tr>
 <tr class="separator:a3e487165f32855d9aec8064fa48c65e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ada5bd4aac9dc99f381b3404a45df4c09"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#ada5bd4aac9dc99f381b3404a45df4c09">setThumbnail</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;, const QByteArray &amp;) override</td></tr>
-<tr class="separator:ada5bd4aac9dc99f381b3404a45df4c09"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a03bd96a6f2fd8b32f33be3fa5e488e61"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a03bd96a6f2fd8b32f33be3fa5e488e61">getThumbnail</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;) override</td></tr>
-<tr class="separator:a03bd96a6f2fd8b32f33be3fa5e488e61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2345f2b0475973d11df4cb1b7cd0d201"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a2345f2b0475973d11df4cb1b7cd0d201">writeBlob</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">BlobType</a>, const QByteArray &amp;blob) override</td></tr>
+<tr class="memdesc:a2345f2b0475973d11df4cb1b7cd0d201"><td class="mdescLeft">&#160;</td><td class="mdescRight">Write <code>blob</code> of type <code>bt</code>.  <a href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a2345f2b0475973d11df4cb1b7cd0d201">More...</a><br /></td></tr>
+<tr class="separator:a2345f2b0475973d11df4cb1b7cd0d201"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab99323191d7f092cb1720b259746c3b0"><td class="memItemLeft" align="right" valign="top">QByteArray&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#ab99323191d7f092cb1720b259746c3b0">readBlob</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">BlobType</a>) override</td></tr>
+<tr class="memdesc:ab99323191d7f092cb1720b259746c3b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Read blob of type <code>bt</code> associated with photo <code>id</code>.  <a href="../../d5/d1b/class_database_1_1_a_sql_backend.html#ab99323191d7f092cb1720b259746c3b0">More...</a><br /></td></tr>
+<tr class="separator:ab99323191d7f092cb1720b259746c3b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e3356b06cf60068593e13c0997b85e6"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a8e3356b06cf60068593e13c0997b85e6">markStagedAsReviewed</a> () override final</td></tr>
 <tr class="memdesc:a8e3356b06cf60068593e13c0997b85e6"><td class="mdescLeft">&#160;</td><td class="mdescRight">mark all staged photos as reviewed.  <a href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a8e3356b06cf60068593e13c0997b85e6">More...</a><br /></td></tr>
 <tr class="separator:a8e3356b06cf60068593e13c0997b85e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -346,6 +350,10 @@ Private Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="inherited" name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_struct_database_1_1_i_backend"><td colspan="2" onclick="javascript:toggleInherit('pub_types_struct_database_1_1_i_backend')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a></td></tr>
+<tr class="memitem:a6d56873f677525946d702d26fd12d963 inherit pub_types_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">BlobType</a> { <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963ab7c161bb87bb0308fb25e6f68d0a5632">Thumbnail</a> = 0
+ }</td></tr>
+<tr class="separator:a6d56873f677525946d702d26fd12d963 inherit pub_types_struct_database_1_1_i_backend"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header signals_struct_database_1_1_i_backend"><td colspan="2" onclick="javascript:toggleInherit('signals_struct_database_1_1_i_backend')"><img src="../../closed.png" alt="-"/>&#160;Signals inherited from <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a></td></tr>
 <tr class="memitem:a009667e29a73bb7772829d8dcf208a92 inherit signals_struct_database_1_1_i_backend"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92">photosAdded</a> (const std::vector&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &gt; &amp;)</td></tr>
 <tr class="memdesc:a009667e29a73bb7772829d8dcf208a92 inherit signals_struct_database_1_1_i_backend"><td class="mdescLeft">&#160;</td><td class="mdescRight">emited after new photos were added to database  <a href="../../d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92">More...</a><br /></td></tr>
@@ -1361,40 +1369,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a03bd96a6f2fd8b32f33be3fa5e488e61" name="a03bd96a6f2fd8b32f33be3fa5e488e61"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a03bd96a6f2fd8b32f33be3fa5e488e61">&#9670;&#160;</a></span>getThumbnail()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QByteArray Database::ASqlBackend::getThumbnail </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
-          <td class="paramname"><em>id</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a36c1fc6a695f6e96760cb162d2393b9b">Database::IBackend</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_a03bd96a6f2fd8b32f33be3fa5e488e61_cgraph.svg" width="408" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
 <a id="a8b66e6fa978d2fbc27e93902776daf90" name="a8b66e6fa978d2fbc27e93902776daf90"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8b66e6fa978d2fbc27e93902776daf90">&#9670;&#160;</a></span>groupOperator()</h2>
 
@@ -2013,6 +1987,57 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="ab99323191d7f092cb1720b259746c3b0" name="ab99323191d7f092cb1720b259746c3b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab99323191d7f092cb1720b259746c3b0">&#9670;&#160;</a></span>readBlob()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QByteArray Database::ASqlBackend::readBlob </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">BlobType</a>&#160;</td>
+          <td class="paramname"><em>bt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Read blob of type <code>bt</code> associated with photo <code>id</code>. </p>
+<ul>
+<li>id photo id </li>
+<li>bt blob type <dl class="section return"><dt>Returns</dt><dd>raw data </dd></dl>
+</li>
+</ul>
+
+<p>Implements <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a5416f184b6b6703b55df570976e80eb5">Database::IBackend</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_ab99323191d7f092cb1720b259746c3b0_cgraph.svg" width="408" height="75"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
 <a id="a82939c363f70dc3c14243b7d51f1f33a" name="a82939c363f70dc3c14243b7d51f1f33a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a82939c363f70dc3c14243b7d51f1f33a">&#9670;&#160;</a></span>set()</h2>
 
@@ -2130,50 +2155,6 @@ Here is the caller graph for this function:</div>
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_aa6a769e34be141b0da34148e5a0c9250_cgraph.svg" width="408" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
-<a id="ada5bd4aac9dc99f381b3404a45df4c09" name="ada5bd4aac9dc99f381b3404a45df4c09"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ada5bd4aac9dc99f381b3404a45df4c09">&#9670;&#160;</a></span>setThumbnail()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">void Database::ASqlBackend::setThumbnail </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const QByteArray &amp;&#160;</td>
-          <td class="paramname"><em>thumbnail</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a3aad05e09be92379edec72e60b095cea">Database::IBackend</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_ada5bd4aac9dc99f381b3404a45df4c09_cgraph.svg" width="408" height="243"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -2622,6 +2603,63 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_a42b7acb6e6a11a44e53f0ea80c920690_icgraph.svg" width="408" height="294"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
+<a id="a2345f2b0475973d11df4cb1b7cd0d201" name="a2345f2b0475973d11df4cb1b7cd0d201"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2345f2b0475973d11df4cb1b7cd0d201">&#9670;&#160;</a></span>writeBlob()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Database::ASqlBackend::writeBlob </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">BlobType</a>&#160;</td>
+          <td class="paramname"><em>bt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QByteArray &amp;&#160;</td>
+          <td class="paramname"><em>blob</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Write <code>blob</code> of type <code>bt</code>. </p>
+<ul>
+<li>id associated photo id </li>
+<li>bt blob type </li>
+<li>blob raw data </li>
+</ul>
+
+<p>Implements <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a9c2625eb52e87f68797a234f3cbecbb3">Database::IBackend</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_a2345f2b0475973d11df4cb1b7cd0d201_cgraph.svg" width="408" height="243"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 

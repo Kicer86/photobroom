@@ -274,7 +274,7 @@ requires std::input_iterator&lt;T&gt; &amp;&amp; std::is_same_v&lt;typename T::v
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a6c2a5b0b13b5843895b54552930d7bd0"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a6c2a5b0b13b5843895b54552930d7bd0">db_version</a> = 6</td></tr>
+<tr class="memitem:a6c2a5b0b13b5843895b54552930d7bd0"><td class="memItemLeft" align="right" valign="top">const int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a6c2a5b0b13b5843895b54552930d7bd0">db_version</a> = 7</td></tr>
 <tr class="separator:a6c2a5b0b13b5843895b54552930d7bd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2d3b8a7e25fb971584371712555634c5"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/dc1/struct_database_1_1_table_definition.html">TableDefinition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a2d3b8a7e25fb971584371712555634c5">table_versionHistory</a> (<a class="el" href="../../d0/d08/tables_8hpp.html#add14c44cd0250b63a777e885549dd904">TAB_VER</a>, { { &quot;version&quot;, &quot;INT NOT NULL&quot; } })</td></tr>
 <tr class="separator:a2d3b8a7e25fb971584371712555634c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -282,8 +282,8 @@ Variables</h2></td></tr>
 <tr class="separator:aca5c5668e78114476788fe53d24b7465"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a426b63a94a56336a844676fcc0e132d8"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/dc1/struct_database_1_1_table_definition.html">TableDefinition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a426b63a94a56336a844676fcc0e132d8">table_tags</a> (<a class="el" href="../../d0/d08/tables_8hpp.html#acd78d3a518c29018b4479bdf305b84fe">TAB_TAGS</a>, { { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;value&quot;, QString(&quot;VARCHAR(%1)&quot;).arg(<a class="el" href="../../d9/db9/struct_config_consts_1_1_constraints.html#ac777579eda98b0447159924b59fd2580">ConfigConsts::Constraints::database_tag_value_len</a>) }, { &quot;name&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; }, }, { { &quot;tg_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(id)&quot; }, { &quot;tg_photo_id&quot;, &quot;INDEX&quot;, &quot;(photo_id)&quot; } })</td></tr>
 <tr class="separator:a426b63a94a56336a844676fcc0e132d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aeb96447db4d02671e3b09b76ba5c582a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/dc1/struct_database_1_1_table_definition.html">TableDefinition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#aeb96447db4d02671e3b09b76ba5c582a">table_thumbnails</a> (<a class="el" href="../../d0/d08/tables_8hpp.html#a078e04bc54ac37da60cd921ee263e4a7">TAB_THUMBS</a>, { { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;data&quot;, &quot;BLOB&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;th_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id)&quot; } })</td></tr>
-<tr class="separator:aeb96447db4d02671e3b09b76ba5c582a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea151e33b1a4ddf23453dce5bde9b896"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/dc1/struct_database_1_1_table_definition.html">TableDefinition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#aea151e33b1a4ddf23453dce5bde9b896">table_blobs</a> (<a class="el" href="../../d0/d08/tables_8hpp.html#a3f361c6d4c0b54eb8908612c28e48e23">TAB_BLOBS</a>, { { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;type&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;data&quot;, &quot;BLOB&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;bb_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id, type)&quot; } })</td></tr>
+<tr class="separator:aea151e33b1a4ddf23453dce5bde9b896"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab2e74d29c8fbf496c36906d6a993ecd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/dc1/struct_database_1_1_table_definition.html">TableDefinition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#ab2e74d29c8fbf496c36906d6a993ecd0">table_geometry</a> (<a class="el" href="../../d0/d08/tables_8hpp.html#a08ee087ef95ab484eba3663c56557686">TAB_GEOMETRY</a>, { { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;photo_id INTEGER NOT NULL&quot;, &quot;&quot; }, { &quot;width&quot;, &quot;INT NOT NULL&quot; }, { &quot;height&quot;, &quot;INT NOT NULL&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;g_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(id)&quot; }, { &quot;g_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id)&quot; }, })</td></tr>
 <tr class="separator:ab2e74d29c8fbf496c36906d6a993ecd0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a86f1ca016811e70c5dbbe4137a9f9dd0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../da/dc1/struct_database_1_1_table_definition.html">TableDefinition</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a86f1ca016811e70c5dbbe4137a9f9dd0">table_flags</a> (<a class="el" href="../../d0/d08/tables_8hpp.html#a62c5b66331551451d96e3cb645fea321">TAB_FLAGS</a>, { { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { <a class="el" href="../../d0/d08/tables_8hpp.html#afedf7ca078bf8142f80c2fe0a22e2898">FLAG_STAGING_AREA</a>, &quot;INT NOT NULL&quot; }, { <a class="el" href="../../d0/d08/tables_8hpp.html#ae7b51a9b88cef4be492c8f320d4bf66a">FLAG_TAGS_LOADED</a>, &quot;INT NOT NULL&quot; }, { <a class="el" href="../../d0/d08/tables_8hpp.html#a256975cb89da2d83b8ad8bffb2c4ad86">FLAG_GEOM_LOADED</a>, &quot;INT NOT NULL&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;fl_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id)&quot; } })</td></tr>
@@ -606,7 +606,41 @@ Here is the caller graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">const int Database::db_version = 6</td>
+          <td class="memname">const int Database::db_version = 7</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="aea151e33b1a4ddf23453dce5bde9b896" name="aea151e33b1a4ddf23453dce5bde9b896"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea151e33b1a4ddf23453dce5bde9b896">&#9670;&#160;</a></span>table_blobs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../da/dc1/struct_database_1_1_table_definition.html">TableDefinition</a> Database::table_blobs(<a class="el" href="../../d0/d08/tables_8hpp.html#a3f361c6d4c0b54eb8908612c28e48e23">TAB_BLOBS</a>, { { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;type&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;data&quot;, &quot;BLOB&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;bb_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id, type)&quot; } }) </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d0/d08/tables_8hpp.html#a3f361c6d4c0b54eb8908612c28e48e23">TAB_BLOBS</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">{ { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;type&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;data&quot;, &quot;BLOB&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">{ { &quot;bb_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id, type)&quot; } }&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -979,40 +1013,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aeb96447db4d02671e3b09b76ba5c582a" name="aeb96447db4d02671e3b09b76ba5c582a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aeb96447db4d02671e3b09b76ba5c582a">&#9670;&#160;</a></span>table_thumbnails</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../da/dc1/struct_database_1_1_table_definition.html">TableDefinition</a> Database::table_thumbnails(<a class="el" href="../../d0/d08/tables_8hpp.html#a078e04bc54ac37da60cd921ee263e4a7">TAB_THUMBS</a>, { { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;data&quot;, &quot;BLOB&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;th_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id)&quot; } }) </td>
-          <td>(</td>
-          <td class="paramtype"><a class="el" href="../../d0/d08/tables_8hpp.html#a078e04bc54ac37da60cd921ee263e4a7">TAB_THUMBS</a>&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">{ { &quot;id&quot;, &quot;&quot;, <a class="el" href="../../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208aab718adec73e04ce3ec720dd11a06a308">ColDefinition::Purpose::ID</a> }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;data&quot;, &quot;BLOB&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">{ { &quot;th_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id)&quot; } }&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a2d3b8a7e25fb971584371712555634c5" name="a2d3b8a7e25fb971584371712555634c5"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2d3b8a7e25fb971584371712555634c5">&#9670;&#160;</a></span>table_versionHistory</h2>
 
@@ -1057,7 +1057,6 @@ Here is the caller graph for this function:</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#add14c44cd0250b63a777e885549dd904">TAB_VER</a>,                  <a class="code hl_variable" href="../../d0/d76/namespace_database.html#a2d3b8a7e25fb971584371712555634c5">table_versionHistory</a> },</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#acf43fafb2d48562227515203fa367ca1">TAB_PHOTOS</a>,               <a class="code hl_variable" href="../../d0/d76/namespace_database.html#aca5c5668e78114476788fe53d24b7465">table_photos</a> },</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#acd78d3a518c29018b4479bdf305b84fe">TAB_TAGS</a>,                 table_tags },</div>
-<div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#a078e04bc54ac37da60cd921ee263e4a7">TAB_THUMBS</a>,               <a class="code hl_variable" href="../../d0/d76/namespace_database.html#aeb96447db4d02671e3b09b76ba5c582a">table_thumbnails</a> },</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#a62c5b66331551451d96e3cb645fea321">TAB_FLAGS</a>,                <a class="code hl_variable" href="../../d0/d76/namespace_database.html#a86f1ca016811e70c5dbbe4137a9f9dd0">table_flags</a> },</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#a08ee087ef95ab484eba3663c56557686">TAB_GEOMETRY</a>,             <a class="code hl_variable" href="../../d0/d76/namespace_database.html#ab2e74d29c8fbf496c36906d6a993ecd0">table_geometry</a> },</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#a7ee65dab73da2c1a4ebc7101956f9424">TAB_GROUPS</a>,               <a class="code hl_variable" href="../../d0/d76/namespace_database.html#aafd13ea96bb89a27d54fb93ca25fc161">table_groups</a> },</div>
@@ -1068,6 +1067,7 @@ Here is the caller graph for this function:</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#a023e6f7a9aa3cac7ba3eac7f7a190b50">TAB_GENERAL_FLAGS</a>,        <a class="code hl_variable" href="../../d0/d76/namespace_database.html#a4b65bf9f6642167822f3715d2862e558">table_general_flags</a> },</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#acf512dfeb876f0fc9d24a2309b25d258">TAB_PHOTOS_CHANGE_LOG</a>,    <a class="code hl_variable" href="../../d0/d76/namespace_database.html#a2c4ae2f33367d64da57c4ff726059ff1">table_photos_change_log</a> },</div>
 <div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#a0cb1a0ff29be1aee827d91cc63f84177">TAB_PHASHES</a>,              <a class="code hl_variable" href="../../d0/d76/namespace_database.html#a75bb2f8d2322a63b4dc8214e2a6f8c77">table_phashes</a> },</div>
+<div class="line">            { <a class="code hl_define" href="../../d0/d08/tables_8hpp.html#a3f361c6d4c0b54eb8908612c28e48e23">TAB_BLOBS</a>,                <a class="code hl_variable" href="../../d0/d76/namespace_database.html#aea151e33b1a4ddf23453dce5bde9b896">table_blobs</a> },</div>
 <div class="line">        }</div>
 <div class="ttc" id="anamespace_database_html_a28cfbed9e9ca2b364e3aa0afb35de032"><div class="ttname"><a href="../../d0/d76/namespace_database.html#a28cfbed9e9ca2b364e3aa0afb35de032">Database::table_faces_fingerprints</a></div><div class="ttdeci">TableDefinition table_faces_fingerprints(TAB_FACES_FINGERPRINTS, { { &quot;id&quot;, &quot;&quot;, ColDefinition::Purpose::ID }, { &quot;fingerprint&quot;, &quot;BLOB&quot; }, })</div></div>
 <div class="ttc" id="anamespace_database_html_a2a996832999423c2271eaccc7d0faf69"><div class="ttname"><a href="../../d0/d76/namespace_database.html#a2a996832999423c2271eaccc7d0faf69">Database::table_people_locations</a></div><div class="ttdeci">TableDefinition table_people_locations(TAB_PEOPLE, { { &quot;id&quot;, &quot;&quot;, ColDefinition::Purpose::ID }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;person_id&quot;, &quot;INTEGER&quot; }, { &quot;fingerprint_id&quot;, &quot;INTEGER&quot; }, { &quot;location&quot;, &quot;CHAR(64)&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; }, { &quot;FOREIGN KEY(person_id) REFERENCES &quot; TAB_PEOPLE_NAMES &quot;(id)&quot;, &quot;&quot; }, { &quot;FOREIGN KEY(fingerprint_id) REFERENCES &quot; TAB_FACES_FINGERPRINTS &quot;(id)&quot;, &quot;&quot; }, })</div></div>
@@ -1081,21 +1081,21 @@ Here is the caller graph for this function:</div>
 <div class="ttc" id="anamespace_database_html_aafd13ea96bb89a27d54fb93ca25fc161"><div class="ttname"><a href="../../d0/d76/namespace_database.html#aafd13ea96bb89a27d54fb93ca25fc161">Database::table_groups</a></div><div class="ttdeci">TableDefinition table_groups(TAB_GROUPS, { { &quot;id&quot;, &quot;&quot;, ColDefinition::Purpose::ID }, { &quot;representative_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;type&quot;, &quot;INTEGER&quot; }, { &quot;FOREIGN KEY(representative_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } })</div></div>
 <div class="ttc" id="anamespace_database_html_ab2e74d29c8fbf496c36906d6a993ecd0"><div class="ttname"><a href="../../d0/d76/namespace_database.html#ab2e74d29c8fbf496c36906d6a993ecd0">Database::table_geometry</a></div><div class="ttdeci">TableDefinition table_geometry(TAB_GEOMETRY, { { &quot;id&quot;, &quot;&quot;, ColDefinition::Purpose::ID }, { &quot;photo_id INTEGER NOT NULL&quot;, &quot;&quot; }, { &quot;width&quot;, &quot;INT NOT NULL&quot; }, { &quot;height&quot;, &quot;INT NOT NULL&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;g_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(id)&quot; }, { &quot;g_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id)&quot; }, })</div></div>
 <div class="ttc" id="anamespace_database_html_aca5c5668e78114476788fe53d24b7465"><div class="ttname"><a href="../../d0/d76/namespace_database.html#aca5c5668e78114476788fe53d24b7465">Database::table_photos</a></div><div class="ttdeci">TableDefinition table_photos(TAB_PHOTOS, { { &quot;id&quot;, &quot;&quot;, ColDefinition::Purpose::ID }, { &quot;path&quot;, &quot;VARCHAR(1024) NOT NULL&quot; }, { &quot;store_date&quot;, &quot;TIMESTAMP NOT NULL&quot; } }, { { &quot;ph_path&quot;, &quot;INDEX&quot;, &quot;(path)&quot; } })</div></div>
-<div class="ttc" id="anamespace_database_html_aeb96447db4d02671e3b09b76ba5c582a"><div class="ttname"><a href="../../d0/d76/namespace_database.html#aeb96447db4d02671e3b09b76ba5c582a">Database::table_thumbnails</a></div><div class="ttdeci">TableDefinition table_thumbnails(TAB_THUMBS, { { &quot;id&quot;, &quot;&quot;, ColDefinition::Purpose::ID }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;data&quot;, &quot;BLOB&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;th_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id)&quot; } })</div></div>
-<div class="ttc" id="atables_8hpp_html_a023e6f7a9aa3cac7ba3eac7f7a190b50"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a023e6f7a9aa3cac7ba3eac7f7a190b50">TAB_GENERAL_FLAGS</a></div><div class="ttdeci">#define TAB_GENERAL_FLAGS</div><div class="ttdef"><b>Definition:</b> tables.hpp:19</div></div>
-<div class="ttc" id="atables_8hpp_html_a078e04bc54ac37da60cd921ee263e4a7"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a078e04bc54ac37da60cd921ee263e4a7">TAB_THUMBS</a></div><div class="ttdeci">#define TAB_THUMBS</div><div class="ttdef"><b>Definition:</b> tables.hpp:11</div></div>
-<div class="ttc" id="atables_8hpp_html_a08ee087ef95ab484eba3663c56557686"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a08ee087ef95ab484eba3663c56557686">TAB_GEOMETRY</a></div><div class="ttdeci">#define TAB_GEOMETRY</div><div class="ttdef"><b>Definition:</b> tables.hpp:13</div></div>
-<div class="ttc" id="atables_8hpp_html_a0cb1a0ff29be1aee827d91cc63f84177"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a0cb1a0ff29be1aee827d91cc63f84177">TAB_PHASHES</a></div><div class="ttdeci">#define TAB_PHASHES</div><div class="ttdef"><b>Definition:</b> tables.hpp:21</div></div>
-<div class="ttc" id="atables_8hpp_html_a62c5b66331551451d96e3cb645fea321"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a62c5b66331551451d96e3cb645fea321">TAB_FLAGS</a></div><div class="ttdeci">#define TAB_FLAGS</div><div class="ttdef"><b>Definition:</b> tables.hpp:12</div></div>
-<div class="ttc" id="atables_8hpp_html_a6d1eca956a99c28d7df882f9354a1dcb"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a6d1eca956a99c28d7df882f9354a1dcb">TAB_PEOPLE</a></div><div class="ttdeci">#define TAB_PEOPLE</div><div class="ttdef"><b>Definition:</b> tables.hpp:17</div></div>
-<div class="ttc" id="atables_8hpp_html_a7ee65dab73da2c1a4ebc7101956f9424"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a7ee65dab73da2c1a4ebc7101956f9424">TAB_GROUPS</a></div><div class="ttdeci">#define TAB_GROUPS</div><div class="ttdef"><b>Definition:</b> tables.hpp:14</div></div>
-<div class="ttc" id="atables_8hpp_html_a927769b0e1cc14602d53ebe80f7da67f"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a927769b0e1cc14602d53ebe80f7da67f">TAB_PEOPLE_NAMES</a></div><div class="ttdeci">#define TAB_PEOPLE_NAMES</div><div class="ttdef"><b>Definition:</b> tables.hpp:16</div></div>
-<div class="ttc" id="atables_8hpp_html_abc827e5b167cbaef85436c4e5c492887"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#abc827e5b167cbaef85436c4e5c492887">TAB_GROUPS_MEMBERS</a></div><div class="ttdeci">#define TAB_GROUPS_MEMBERS</div><div class="ttdef"><b>Definition:</b> tables.hpp:15</div></div>
+<div class="ttc" id="anamespace_database_html_aea151e33b1a4ddf23453dce5bde9b896"><div class="ttname"><a href="../../d0/d76/namespace_database.html#aea151e33b1a4ddf23453dce5bde9b896">Database::table_blobs</a></div><div class="ttdeci">TableDefinition table_blobs(TAB_BLOBS, { { &quot;id&quot;, &quot;&quot;, ColDefinition::Purpose::ID }, { &quot;photo_id&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;type&quot;, &quot;INTEGER NOT NULL&quot; }, { &quot;data&quot;, &quot;BLOB&quot; }, { &quot;FOREIGN KEY(photo_id) REFERENCES &quot; TAB_PHOTOS &quot;(id)&quot;, &quot;&quot; } }, { { &quot;bb_photo_id&quot;, &quot;UNIQUE INDEX&quot;, &quot;(photo_id, type)&quot; } })</div></div>
+<div class="ttc" id="atables_8hpp_html_a023e6f7a9aa3cac7ba3eac7f7a190b50"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a023e6f7a9aa3cac7ba3eac7f7a190b50">TAB_GENERAL_FLAGS</a></div><div class="ttdeci">#define TAB_GENERAL_FLAGS</div><div class="ttdef"><b>Definition:</b> tables.hpp:18</div></div>
+<div class="ttc" id="atables_8hpp_html_a08ee087ef95ab484eba3663c56557686"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a08ee087ef95ab484eba3663c56557686">TAB_GEOMETRY</a></div><div class="ttdeci">#define TAB_GEOMETRY</div><div class="ttdef"><b>Definition:</b> tables.hpp:12</div></div>
+<div class="ttc" id="atables_8hpp_html_a0cb1a0ff29be1aee827d91cc63f84177"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a0cb1a0ff29be1aee827d91cc63f84177">TAB_PHASHES</a></div><div class="ttdeci">#define TAB_PHASHES</div><div class="ttdef"><b>Definition:</b> tables.hpp:20</div></div>
+<div class="ttc" id="atables_8hpp_html_a3f361c6d4c0b54eb8908612c28e48e23"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a3f361c6d4c0b54eb8908612c28e48e23">TAB_BLOBS</a></div><div class="ttdeci">#define TAB_BLOBS</div><div class="ttdef"><b>Definition:</b> tables.hpp:21</div></div>
+<div class="ttc" id="atables_8hpp_html_a62c5b66331551451d96e3cb645fea321"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a62c5b66331551451d96e3cb645fea321">TAB_FLAGS</a></div><div class="ttdeci">#define TAB_FLAGS</div><div class="ttdef"><b>Definition:</b> tables.hpp:11</div></div>
+<div class="ttc" id="atables_8hpp_html_a6d1eca956a99c28d7df882f9354a1dcb"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a6d1eca956a99c28d7df882f9354a1dcb">TAB_PEOPLE</a></div><div class="ttdeci">#define TAB_PEOPLE</div><div class="ttdef"><b>Definition:</b> tables.hpp:16</div></div>
+<div class="ttc" id="atables_8hpp_html_a7ee65dab73da2c1a4ebc7101956f9424"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a7ee65dab73da2c1a4ebc7101956f9424">TAB_GROUPS</a></div><div class="ttdeci">#define TAB_GROUPS</div><div class="ttdef"><b>Definition:</b> tables.hpp:13</div></div>
+<div class="ttc" id="atables_8hpp_html_a927769b0e1cc14602d53ebe80f7da67f"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#a927769b0e1cc14602d53ebe80f7da67f">TAB_PEOPLE_NAMES</a></div><div class="ttdeci">#define TAB_PEOPLE_NAMES</div><div class="ttdef"><b>Definition:</b> tables.hpp:15</div></div>
+<div class="ttc" id="atables_8hpp_html_abc827e5b167cbaef85436c4e5c492887"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#abc827e5b167cbaef85436c4e5c492887">TAB_GROUPS_MEMBERS</a></div><div class="ttdeci">#define TAB_GROUPS_MEMBERS</div><div class="ttdef"><b>Definition:</b> tables.hpp:14</div></div>
 <div class="ttc" id="atables_8hpp_html_acd78d3a518c29018b4479bdf305b84fe"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#acd78d3a518c29018b4479bdf305b84fe">TAB_TAGS</a></div><div class="ttdeci">#define TAB_TAGS</div><div class="ttdef"><b>Definition:</b> tables.hpp:10</div></div>
 <div class="ttc" id="atables_8hpp_html_acf43fafb2d48562227515203fa367ca1"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#acf43fafb2d48562227515203fa367ca1">TAB_PHOTOS</a></div><div class="ttdeci">#define TAB_PHOTOS</div><div class="ttdef"><b>Definition:</b> tables.hpp:9</div></div>
-<div class="ttc" id="atables_8hpp_html_acf512dfeb876f0fc9d24a2309b25d258"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#acf512dfeb876f0fc9d24a2309b25d258">TAB_PHOTOS_CHANGE_LOG</a></div><div class="ttdeci">#define TAB_PHOTOS_CHANGE_LOG</div><div class="ttdef"><b>Definition:</b> tables.hpp:20</div></div>
+<div class="ttc" id="atables_8hpp_html_acf512dfeb876f0fc9d24a2309b25d258"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#acf512dfeb876f0fc9d24a2309b25d258">TAB_PHOTOS_CHANGE_LOG</a></div><div class="ttdeci">#define TAB_PHOTOS_CHANGE_LOG</div><div class="ttdef"><b>Definition:</b> tables.hpp:19</div></div>
 <div class="ttc" id="atables_8hpp_html_add14c44cd0250b63a777e885549dd904"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#add14c44cd0250b63a777e885549dd904">TAB_VER</a></div><div class="ttdeci">#define TAB_VER</div><div class="ttdef"><b>Definition:</b> tables.hpp:8</div></div>
-<div class="ttc" id="atables_8hpp_html_ae9c944c3d3520e77cb0546b294ae3f9d"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#ae9c944c3d3520e77cb0546b294ae3f9d">TAB_FACES_FINGERPRINTS</a></div><div class="ttdeci">#define TAB_FACES_FINGERPRINTS</div><div class="ttdef"><b>Definition:</b> tables.hpp:18</div></div>
+<div class="ttc" id="atables_8hpp_html_ae9c944c3d3520e77cb0546b294ae3f9d"><div class="ttname"><a href="../../d0/d08/tables_8hpp.html#ae9c944c3d3520e77cb0546b294ae3f9d">TAB_FACES_FINGERPRINTS</a></div><div class="ttdeci">#define TAB_FACES_FINGERPRINTS</div><div class="ttdef"><b>Definition:</b> tables.hpp:17</div></div>
 </div><!-- fragment -->
 </div>
 </div>

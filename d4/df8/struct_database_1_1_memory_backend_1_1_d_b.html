@@ -94,8 +94,8 @@ Public Attributes</h2></td></tr>
 <tr class="separator:a92ba5bb715915b2b1fdd7193cf4d55e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa814164b46bb7cdd592b87b362963217"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a94148e04e8c2e2a04e499e65f6375330">LogEntry</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df8/struct_database_1_1_memory_backend_1_1_d_b.html#aa814164b46bb7cdd592b87b362963217">m_logEntries</a></td></tr>
 <tr class="separator:aa814164b46bb7cdd592b87b362963217"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9c54236fd2db6814f2bf8a02ab38aebf"><td class="memItemLeft" align="right" valign="top">std::map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, QByteArray &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df8/struct_database_1_1_memory_backend_1_1_d_b.html#a9c54236fd2db6814f2bf8a02ab38aebf">m_thumbnails</a></td></tr>
-<tr class="separator:a9c54236fd2db6814f2bf8a02ab38aebf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac737576032111080f1f3701d61816e28"><td class="memItemLeft" align="right" valign="top">std::map&lt; std::pair&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">IBackend::BlobType</a> &gt;, QByteArray &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df8/struct_database_1_1_memory_backend_1_1_d_b.html#ac737576032111080f1f3701d61816e28">m_blobs</a></td></tr>
+<tr class="separator:ac737576032111080f1f3701d61816e28"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a787906b8a8c855ac0415676538221369"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df8/struct_database_1_1_memory_backend_1_1_d_b.html#a787906b8a8c855ac0415676538221369">m_nextPhotoId</a> = 0</td></tr>
 <tr class="separator:a787906b8a8c855ac0415676538221369"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b9a97bda630e647270350fcc650de4f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/df8/struct_database_1_1_memory_backend_1_1_d_b.html#a2b9a97bda630e647270350fcc650de4f">m_nextPersonName</a> = 0</td></tr>
@@ -106,6 +106,20 @@ Public Attributes</h2></td></tr>
 <tr class="separator:aabaf35a088253ace3e5f7d15b1b04838"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Data Documentation</h2>
+<a id="ac737576032111080f1f3701d61816e28" name="ac737576032111080f1f3701d61816e28"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac737576032111080f1f3701d61816e28">&#9670;&#160;</a></span>m_blobs</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::map&lt;std::pair&lt;<a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6d56873f677525946d702d26fd12d963">IBackend::BlobType</a>&gt;, QByteArray&gt; Database::MemoryBackend::DB::m_blobs</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a522ec5dc13b7877d0bc1cb8a7872af1b" name="a522ec5dc13b7877d0bc1cb8a7872af1b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a522ec5dc13b7877d0bc1cb8a7872af1b">&#9670;&#160;</a></span>m_flags</h2>
 
@@ -240,20 +254,6 @@ Public Attributes</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">std::set&lt;<a class="el" href="../../d4/d50/namespace_photo.html#ae7beac179b7c2a7a82df40872e2ce108">Photo::FullDelta</a>, <a class="el" href="../../d1/d1b/struct_database_1_1_memory_backend_1_1_id_comparer.html">IdComparer</a>&lt;<a class="el" href="../../d4/d50/namespace_photo.html#ae7beac179b7c2a7a82df40872e2ce108">Photo::FullDelta</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>&gt; &gt; Database::MemoryBackend::DB::m_photos</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a9c54236fd2db6814f2bf8a02ab38aebf" name="a9c54236fd2db6814f2bf8a02ab38aebf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9c54236fd2db6814f2bf8a02ab38aebf">&#9670;&#160;</a></span>m_thumbnails</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::map&lt;<a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, QByteArray&gt; Database::MemoryBackend::DB::m_thumbnails</td>
         </tr>
       </table>
 </div><div class="memdoc">
