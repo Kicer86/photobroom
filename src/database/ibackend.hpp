@@ -117,8 +117,6 @@ namespace Database
          */
         virtual bool update(const std::vector<Photo::DataDelta>& delta) = 0;
 
-        //read data
-
         /// list all values of tag for photos matching provided filter
         virtual std::vector<TagValue>    listTagValues(const Tag::Types &,
                                                        const Filter &) = 0;
@@ -188,11 +186,6 @@ namespace Database
          */
         virtual void clearBits(const Photo::Id& id, const QString& name, int bits) = 0;
 
-        virtual void setThumbnail(const Photo::Id &, const QByteArray &) = 0;
-
-        // reading extra data
-        virtual QByteArray getThumbnail(const Photo::Id &) = 0;
-
         /**
          * @brief Write @p blob of type @p bt
          * @arg id associated photo id
@@ -208,8 +201,6 @@ namespace Database
          * @return raw data
          */
         virtual QByteArray readBlob(const Photo::Id& id, BlobType bt) = 0;
-
-        // modify data
 
         /**
          * \brief mark all staged photos as reviewed.

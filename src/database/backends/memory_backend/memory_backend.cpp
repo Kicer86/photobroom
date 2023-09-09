@@ -19,7 +19,6 @@ namespace Database
         std::set<PersonName, IdComparer<PersonName, Person::Id>> m_peopleNames;
         std::set<PersonInfo, IdComparer<PersonInfo, PersonInfo::Id>> m_peopleInfo;
         std::vector<LogEntry> m_logEntries;
-        std::map<Photo::Id, QByteArray> m_thumbnails;
         std::map<std::pair<Photo::Id, IBackend::BlobType>, QByteArray> m_blobs;
 
         int m_nextPhotoId = 0;
@@ -343,18 +342,6 @@ namespace Database
 
         value &= ~bits;
         set(id, name, value);
-    }
-
-
-    void MemoryBackend::setThumbnail(const Photo::Id& id, const QByteArray& thumbnail)
-    {
-        m_db->m_thumbnails[id] = thumbnail;
-    }
-
-
-    QByteArray MemoryBackend::getThumbnail(const Photo::Id& id)
-    {
-        return m_db->m_thumbnails[id];
     }
 
 

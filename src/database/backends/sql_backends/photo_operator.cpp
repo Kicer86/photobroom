@@ -35,18 +35,6 @@ namespace Database
 {
 
     namespace {
-        std::map<const char *, const char *> tables_to_clear =
-        {
-            { TAB_FLAGS,          "photo_id" },
-            { TAB_GENERAL_FLAGS,  "photo_id" },
-            { TAB_GEOMETRY,       "photo_id" },
-            { TAB_GROUPS_MEMBERS, "photo_id" },
-            { TAB_PEOPLE,         "photo_id" },
-            { TAB_TAGS,           "photo_id" },
-            { TAB_THUMBS,         "photo_id" },
-            { TAB_PHOTOS,         "id"       }
-        };
-
         std::map<Tag::Types, const char *> namesForJoins =
         {
             { Tag::Types::Event,    "event_tag"    },

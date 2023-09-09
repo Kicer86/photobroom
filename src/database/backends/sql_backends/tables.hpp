@@ -8,7 +8,6 @@
 #define TAB_VER                  "version"
 #define TAB_PHOTOS               "photos"
 #define TAB_TAGS                 "tags"
-#define TAB_THUMBS               "thumbnails"
 #define TAB_FLAGS                "flags"
 #define TAB_GEOMETRY             "geometry"
 #define TAB_GROUPS               "groups"

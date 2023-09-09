@@ -10,7 +10,7 @@ namespace Database
         //check for proper sizes
         static_assert(sizeof(int) >= 4, "int is smaller than MySQL's equivalent");
 
-        const int db_version = 6;
+        const int db_version = 7;
 
         TableDefinition
         table_versionHistory(TAB_VER,
@@ -43,19 +43,6 @@ namespace Database
         {
             { "tg_id", "UNIQUE INDEX", "(id)" },
             { "tg_photo_id", "INDEX", "(photo_id)" }
-        });
-
-
-        TableDefinition
-        table_thumbnails(TAB_THUMBS,
-        {
-            { "id", "", ColDefinition::Purpose::ID                      },
-            { "photo_id", "INTEGER NOT NULL"                            },
-            { "data", "BLOB"                                            },
-            { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
-        },
-        {
-            { "th_photo_id", "UNIQUE INDEX", "(photo_id)" }  //one thumbnail per photo
         });
 
 
@@ -194,7 +181,6 @@ namespace Database
             { TAB_VER,                  table_versionHistory },
             { TAB_PHOTOS,               table_photos },
             { TAB_TAGS,                 table_tags },
-            { TAB_THUMBS,               table_thumbnails },
             { TAB_FLAGS,                table_flags },
             { TAB_GEOMETRY,             table_geometry },
             { TAB_GROUPS,               table_groups },

@@ -65,7 +65,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
             if (m_db)                   // load thumbnail from db
                 dbThumb = evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
                 {
-                    return backend.getThumbnail(id);
+                    return backend.readBlob(id, Database::IBackend::BlobType::Thumbnail);
                 });
 
             QImage baseThumbnail;
@@ -92,7 +92,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
 
                     execute<Database::IDatabase>(*m_db, [id, dbThumb](Database::IBackend& backend)
                     {
-                        backend.setThumbnail(id, dbThumb);
+                        backend.writeBlob(id, Database::IBackend::BlobType::Thumbnail, dbThumb);
                     });
                 }
             }
