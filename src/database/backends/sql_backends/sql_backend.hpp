@@ -157,6 +157,9 @@ namespace Database
             void setThumbnail(const Photo::Id &, const QByteArray &) override;
             QByteArray getThumbnail(const Photo::Id &) override;
 
+            void writeBlob(const Photo::Id &, BlobType, const QByteArray& blob) override;
+            QByteArray readBlob(const Photo::Id &, BlobType) override;
+
             std::vector<Photo::Id> markStagedAsReviewed() override final;
             //
 

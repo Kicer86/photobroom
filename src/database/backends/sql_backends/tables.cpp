@@ -60,6 +60,20 @@ namespace Database
 
 
         TableDefinition
+        table_blobs(TAB_BLOBS,
+        {
+            { "id", "", ColDefinition::Purpose::ID                      },
+            { "photo_id", "INTEGER NOT NULL"                            },
+            { "type", "INTEGER NOT NULL"                                },
+            { "data", "BLOB"                                            },
+            { "FOREIGN KEY(photo_id) REFERENCES " TAB_PHOTOS "(id)", "" }
+        },
+        {
+            { "bb_photo_id", "UNIQUE INDEX", "(photo_id, type)" }
+        });
+
+
+        TableDefinition
         table_geometry(TAB_GEOMETRY,
         {
             { "id", "", ColDefinition::Purpose::ID   },
@@ -191,5 +205,6 @@ namespace Database
             { TAB_GENERAL_FLAGS,        table_general_flags },
             { TAB_PHOTOS_CHANGE_LOG,    table_photos_change_log },
             { TAB_PHASHES,              table_phashes },
+            { TAB_BLOBS,                table_blobs },
         };
 }

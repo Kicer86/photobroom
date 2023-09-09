@@ -90,6 +90,11 @@ namespace Database
      */
     struct DATABASE_EXPORT IBackend: public QObject
     {
+        enum class BlobType
+        {
+            Thumbnail = 0,
+        };
+
         virtual ~IBackend() = default;
 
         /** \brief Add photos to database
@@ -187,6 +192,22 @@ namespace Database
 
         // reading extra data
         virtual QByteArray getThumbnail(const Photo::Id &) = 0;
+
+        /**
+         * @brief Write @p blob of type @p bt
+         * @arg id associated photo id
+         * @arg bt blob type
+         * @arg blob raw data
+         */
+        virtual void writeBlob(const Photo::Id& id, BlobType bt, const QByteArray& blob) = 0;
+
+        /**
+         * @brief Read blob of type @p bt associated with photo @p id
+         * @arg id photo id
+         * @arg bt blob type
+         * @return raw data
+         */
+        virtual QByteArray readBlob(const Photo::Id& id, BlobType bt) = 0;
 
         // modify data
 

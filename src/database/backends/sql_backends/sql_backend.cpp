@@ -542,6 +542,38 @@ namespace Database
     }
 
 
+    void ASqlBackend::writeBlob(const Photo::Id& id, BlobType bt, const QByteArray& blob)
+    {
+        UpdateQueryData data(TAB_BLOBS);
+        data.addCondition("photo_id", QString::number(id.value()));
+        data.addCondition("type", QString::number(static_cast<int>(bt)));
+        data.setColumns("photo_id", "type", "data");
+        data.setValues(QString::number(id.value()), QString::number(static_cast<int>(bt)), blob);
+
+        updateOrInsert(data);
+    }
+
+
+    QByteArray ASqlBackend::readBlob(const Photo::Id& id, BlobType bt)
+    {
+        const QString blobQuery = QString("SELECT data FROM %1 WHERE photo_id=%2 AND type=%3")
+            .arg(TAB_BLOBS)
+            .arg(QString::number(id.value()))
+            .arg(QString::number(static_cast<int>(bt)));
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        const bool status = m_executor.exec(blobQuery, &query);
+
+        const QByteArray blob = status && query.next()?
+            query.value(0).toByteArray():
+            QByteArray {};
+
+        return blob;
+    }
+
+
     std::vector<Photo::Id> ASqlBackend::markStagedAsReviewed()
     {
         FilterPhotosWithFlags filter;

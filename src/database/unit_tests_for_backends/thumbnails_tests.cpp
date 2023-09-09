@@ -20,8 +20,8 @@ TYPED_TEST(ThumbnailsTest, storesThumbnail)
     this->m_backend->addPhotos(photos);
     const auto id = photos.front().getId();
 
-    this->m_backend->setThumbnail(id, QByteArray("thumbnail"));
-    const QByteArray thumbnail = this->m_backend->getThumbnail(id);
+    this->m_backend->writeBlob(id, Database::IBackend::BlobType::Thumbnail, QByteArray("thumbnail"));
+    const QByteArray thumbnail = this->m_backend->readBlob(id, Database::IBackend::BlobType::Thumbnail);
 
     EXPECT_EQ(thumbnail, "thumbnail");
 }
@@ -36,9 +36,9 @@ TYPED_TEST(ThumbnailsTest, thumbnailOverride)
     this->m_backend->addPhotos(photos);
     const auto id = photos.front().getId();
 
-    this->m_backend->setThumbnail(id, QByteArray("thumbnail"));
-    this->m_backend->setThumbnail(id, QByteArray("thumbnail2"));
-    const QByteArray thumbnail = this->m_backend->getThumbnail(id);
+    this->m_backend->writeBlob(id, Database::IBackend::BlobType::Thumbnail, QByteArray("thumbnail"));
+    this->m_backend->writeBlob(id, Database::IBackend::BlobType::Thumbnail, QByteArray("thumbnail2"));
+    const QByteArray thumbnail = this->m_backend->readBlob(id, Database::IBackend::BlobType::Thumbnail);
 
     EXPECT_EQ(thumbnail, "thumbnail2");
 }
@@ -52,7 +52,7 @@ TYPED_TEST(ThumbnailsTest, emptyResultWhenMissing)
 
     this->m_backend->addPhotos(photos);
     const auto id = photos.front().getId();
-    const QByteArray thumbnail = this->m_backend->getThumbnail(id);
+    const QByteArray thumbnail = this->m_backend->readBlob(id, Database::IBackend::BlobType::Thumbnail);
 
     EXPECT_TRUE(thumbnail.isEmpty());
 }

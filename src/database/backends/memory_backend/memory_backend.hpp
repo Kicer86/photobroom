@@ -42,6 +42,8 @@ namespace Database
             void clearBits(const Photo::Id& id, const QString& name, int bits) override final;
             void setThumbnail(const Photo::Id &, const QByteArray &) override;
             QByteArray getThumbnail(const Photo::Id &) override;
+            void writeBlob(const Photo::Id &, BlobType, const QByteArray &) override;
+            QByteArray readBlob(const Photo::Id &, BlobType) override;
             std::vector<Photo::Id> markStagedAsReviewed() override;
             BackendStatus init(const ProjectInfo &) override;
             void closeConnections() override;
