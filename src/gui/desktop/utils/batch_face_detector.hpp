@@ -69,7 +69,7 @@ private:
     void appendFaces(std::vector<Face> &&);
     void newPhotos(const QModelIndex &, int, int);
     std::optional<Photo::Id> getNextId();
-    void loadPhotoData(const Photo::Id &);
+    void loadFacesFromPhoto(const Photo::Id &);
 };
 
 #endif

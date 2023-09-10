@@ -148,8 +148,8 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
                 // no data in db, generate
                 runOn(m_core->getTaskExecutor(), [id, this, supervisor]() mutable
                 {
-                    loadPhotoData(id);
-                    supervisor->resume();                                   // restore this task after data were loaded from photo
+                    loadFacesFromPhoto(id);
+                    supervisor->resume();                                   // restore this task after faces were loaded from photo
                 });
 
                 co_yield ITaskExecutor::ProcessState::Suspended;            // waiting for photo to be loaded, go to sleep
@@ -215,7 +215,7 @@ std::optional<Photo::Id> BatchFaceDetector::getNextId()
 }
 
 
-void BatchFaceDetector::loadPhotoData(const Photo::Id& id)
+void BatchFaceDetector::loadFacesFromPhoto(const Photo::Id& id)
 {
     FaceEditor fe(m_dbClient->db(), *m_core, m_logger);
 
