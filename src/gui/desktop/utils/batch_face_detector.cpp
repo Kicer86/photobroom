@@ -1,8 +1,4 @@
 
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-
 #include <core/exif_reader_factory.hpp>
 #include <core/itask_executor.hpp>
 #include <core/logger_factory.hpp>
@@ -137,33 +133,15 @@ ITaskExecutor::ProcessCoroutine BatchFaceDetector::processPhotos(ITaskExecutor::
         {
             const auto id = *id_opt;
 
-            // check if data already in db
-            const QByteArray blob = evaluate<QByteArray(Database::IBackend &)>(m_dbClient->db(), [id](Database::IBackend& backend)
+            // no data in db, generate
+            runOn(m_core->getTaskExecutor(), [id, this, supervisor]() mutable
             {
-                return backend.readBlob(id, Database::IBackend::BlobType::BatchFaceFetcher);
+                loadFacesFromPhoto(id);
+                supervisor->resume();                                   // restore this task after faces were loaded from photo
             });
-
-            if (blob.isEmpty())
-            {
-                // no data in db, generate
-                runOn(m_core->getTaskExecutor(), [id, this, supervisor]() mutable
-                {
-                    loadFacesFromPhoto(id);
-                    supervisor->resume();                                   // restore this task after faces were loaded from photo
-                });
-
-                co_yield ITaskExecutor::ProcessState::Suspended;            // waiting for photo to be loaded, go to sleep
-            }
-            else
-            {
-                // use data stored in blob
-
-
-                co_yield ITaskExecutor::ProcessState::Running;              // data processed immediately, ask for more cpu time
-            }
         }
-        else
-            co_yield ITaskExecutor::ProcessState::Suspended;                // no data, go to sleep
+
+        co_yield ITaskExecutor::ProcessState::Suspended;
     }
 
     // face scanning is done, db won't be needed anymore, release it
@@ -221,29 +199,6 @@ void BatchFaceDetector::loadFacesFromPhoto(const Photo::Id& id)
 
     auto faces = fe.getFacesFor(id);
     std::vector<Face> facesDetails;
-
-    // store data in db
-    QJsonArray facesJson;
-    for (auto& face: faces)
-    {
-        QJsonObject rectJson;
-        rectJson["x"] = face->rect().x();
-        rectJson["y"] = face->rect().y();
-        rectJson["w"] = face->rect().width();
-        rectJson["h"] = face->rect().height();
-
-        QJsonObject faceJson;
-        faceJson["face"] = rectJson;
-
-        facesJson.append(faceJson);
-    }
-
-    const QJsonDocument json(facesJson);
-
-    execute(m_dbClient->db(), [id, blob = json.toJson()](Database::IBackend& backend)
-    {
-        return backend.writeBlob(id, Database::IBackend::BlobType::BatchFaceFetcher, blob);
-    });
 
     // prepare details for model
     for (auto& face: faces)
