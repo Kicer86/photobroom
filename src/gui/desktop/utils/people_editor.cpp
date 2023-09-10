@@ -18,6 +18,9 @@
 #include "people_editor.hpp"
 
 #include <QFileInfo>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 #include <core/containers_utils.hpp>
 #include <core/icore_factory_accessor.hpp>
@@ -66,6 +69,97 @@ namespace
         avg_face /= static_cast<double>(faces.size());
 
         return avg_face;
+    }
+
+    QJsonObject toJson(const QRect& rect)
+    {
+        QJsonObject rectJson;
+        rectJson["x"] = rect.x();
+        rectJson["y"] = rect.y();
+        rectJson["w"] = rect.width();
+        rectJson["h"] = rect.height();
+
+        return rectJson;
+    }
+
+    QJsonObject toJson(const PersonInfo& pi)
+    {
+        assert(pi.id.valid() == false);
+        assert(pi.p_id.valid() == false);
+        assert(pi.ph_id.valid());
+        assert(pi.f_id.valid() == false);
+
+        QJsonObject piJson;
+        piJson["ph_id"] = pi.ph_id.value();
+        piJson["rect"] = toJson(pi.rect);
+
+        return piJson;
+    }
+
+    QJsonArray toJson(const Person::Fingerprint& fp)
+    {
+        QJsonArray fpJson;
+
+        for(const auto v: fp)
+            fpJson.append(v);
+
+        return fpJson;
+    }
+
+    QJsonObject toJson(const PersonFingerprint& fp)
+    {
+        assert(fp.id().valid() == false);
+
+        QJsonObject fpJson;
+        fpJson["fingerprint"] = toJson(fp.fingerprint());
+
+        return fpJson;
+    }
+
+    QJsonObject toJson(const FaceInfo& face)
+    {
+        QJsonObject faceJson;
+        faceJson["face"] = toJson(face.face);
+        faceJson["fingerprint"] = toJson(face.fingerprint);
+
+        return faceJson;
+    }
+
+    QJsonArray toJson(const std::vector<FaceInfo>& faces)
+    {
+        QJsonArray facesJson;
+        for (auto& face: faces)
+            facesJson.append(toJson(face));
+
+        return facesJson;
+    }
+
+    std::vector<FaceInfo> fromJson(const QJsonDocument& doc)
+    {
+        std::vector<FaceInfo> result;
+
+        const QJsonArray faceInfos = doc.array();
+        for (const QJsonValue faceValue: faceInfos)
+        {
+            const QJsonObject faceInfoObject = faceValue.toObject();
+            const QJsonObject faceObject = faceInfoObject["face"].toObject();
+            const QJsonObject fingerprintObject = faceInfoObject["fingerprint"].toObject();
+            const QJsonObject faceRect = faceObject["rect"].toObject();
+            const QJsonArray personFingerprintObject = fingerprintObject["fingerprint"].toArray();
+
+            const QRect rect(faceRect["x"].toInt(), faceRect["y"].toInt(), faceRect["w"].toInt(), faceRect["h"].toInt());
+            Person::Fingerprint fingerprint;
+            std::ranges::transform(personFingerprintObject, std::back_inserter(fingerprint), [](const auto v){return v.toDouble();});
+            const Photo::Id ph_id(faceObject["ph_id"]);
+
+            FaceInfo fi(ph_id, rect);
+            fi.fingerprint = PersonFingerprint({}, fingerprint);
+            fi.person = PersonName();
+
+            result.push_back(fi);
+        }
+
+        return result;
     }
 
 
@@ -269,28 +363,54 @@ namespace
             // no data in db
             if (list_of_faces.empty())
             {
-                // analyze photo - look for faces
-                const auto detected_faces = detectFaces(image, logger);
-                std::ranges::transform(detected_faces, std::back_inserter(result), [id](const QRect& rect)
+                // check in cache
+                const QByteArray blob = evaluate<QByteArray(Database::IBackend &)>(db, [id](Database::IBackend& backend)
                 {
-                    return FaceInfo(id, rect);;
+                    return backend.readBlob(id, Database::IBackend::BlobType::BatchFaceFetcher);
                 });
 
-                //calculate fingerprints
-                calculateMissingFingerprints(result, image, logger);
-
-                //recognize people
-                recognizePeople(result, db, logger);
-
-                if (result.empty())
+                if (blob.isEmpty() == false)
                 {
-                    db.exec([id](Database::IBackend& backend)
+                    const QJsonDocument json = QJsonDocument::fromJson(blob);
+
+                    result = fromJson(json);
+                }
+                else
+                {
+                    // analyze photo - look for faces
+                    const auto detected_faces = detectFaces(image, logger);
+                    std::ranges::transform(detected_faces, std::back_inserter(result), [id](const QRect& rect)
                     {
-                        backend.set(
-                            id,
-                            FacesAnalysisState,
-                            FacesAnalysisType::AnalysedAndNotFound);
+                        return FaceInfo(id, rect);;
                     });
+
+                    //calculate fingerprints
+                    calculateMissingFingerprints(result, image, logger);
+
+                    //recognize people
+                    recognizePeople(result, db, logger);
+
+                    if (result.empty())
+                    {
+                        // mark photo as one without faces
+                        db.exec([id](Database::IBackend& backend)
+                        {
+                            backend.set(
+                                id,
+                                FacesAnalysisState,
+                                FacesAnalysisType::AnalysedAndNotFound);
+                        });
+                    }
+                    else
+                    {
+                        // store detected, but not confirmed by user faces as blob in database for cache
+                        const QJsonDocument json(toJson(result));
+
+                        execute(db, [id, blob = json.toJson()](Database::IBackend& backend)
+                        {
+                            return backend.writeBlob(id, Database::IBackend::BlobType::BatchFaceFetcher, blob);
+                        });
+                    }
                 }
             }
             else    // data in db just use it
