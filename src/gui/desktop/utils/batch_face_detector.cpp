@@ -4,7 +4,6 @@
 #include <core/logger_factory.hpp>
 #include <core/oriented_image.hpp>
 #include <core/task_executor_utils.hpp>
-#include <database/database_executor_traits.hpp>
 
 #include "batch_face_detector.hpp"
 
