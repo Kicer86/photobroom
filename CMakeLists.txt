@@ -14,6 +14,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 20)
 
+set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
+
 #check if git modules are setup
 if(NOT EXISTS ${PROJECT_SOURCE_DIR}/cmake_modules/FindEasyExif.cmake)
     message(FATAL_ERROR "Git submodules were not updated. See docs/build.txt for instructions.")
@@ -126,6 +128,7 @@ endif(UNIX OR CYGWIN)
 
 #subdirs
 add_subdirectory(src)
+add_subdirectory(tools)
 add_subdirectory(tr)
 
 #documentation
