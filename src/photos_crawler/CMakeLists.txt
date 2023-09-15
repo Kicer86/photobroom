@@ -4,8 +4,6 @@ find_package(Threads)
 
 include(GenerateExportHeader)
 
-include_directories(${CMAKE_BINARY_DIR}/exports)
-
 set(ANALYZER_SOURCES
     default_analyzers/file_analyzer.cpp
     default_filesystem_scanners/filesystemscanner.cpp
