@@ -1,7 +1,6 @@
 <map id="TagValue::fromRaw" name="TagValue::fromRaw">
-<area shape="rect" id="node1" title=" " alt="" coords="216,106,351,131"/>
+<area shape="rect" id="node1" title=" " alt="" coords="216,77,351,102"/>
 <area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adcb6eb7ac6bcd49815d7b7e0f670c602" title="get all tags assigned to photo" alt="" coords="5,5,168,45"/>
 <area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb" title="list all values of tag for photos matching provided filter" alt="" coords="5,69,168,109"/>
-<area shape="rect" id="node4" href="$d6/d20/tag__value__tests_8cpp.html#a40363eb8ad0f181c0b6740f19ed059ff" title=" " alt="" coords="59,134,114,159"/>
-<area shape="rect" id="node5" href="$d6/d20/tag__value__tests_8cpp.html#ac8d3bbe646f874b92387cb698b813369" title=" " alt="" coords="51,183,122,209"/>
+<area shape="rect" id="node4" href="$d6/d20/tag__value__tests_8cpp.html#ac8d3bbe646f874b92387cb698b813369" title=" " alt="" coords="51,134,122,159"/>
 </map>
