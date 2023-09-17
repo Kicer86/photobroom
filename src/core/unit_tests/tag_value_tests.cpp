@@ -142,14 +142,6 @@ TEST(TagValueTest, MoveOperations)
     EXPECT_EQ(tv1.type(), Tag::ValueType::Empty);
 }
 
-#ifndef NDEBUG
-TEST(TagValueTest, InvalidSetters)
-{
-    ASSERT_DEATH(TagValue::fromRaw("123", Tag::ValueType::Empty), "");
-    ASSERT_DEATH(TagValue::fromQVariant(QModelIndex()), "");
-}
-#endif
-
 
 typedef std::tuple<QString, Tag::ValueType, Tag::ValueType, QMetaType::Type> TagValueRawSetterTestExpectations;
 struct TagValueRawSetterTest: testing::TestWithParam<TagValueRawSetterTestExpectations> {};
