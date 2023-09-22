@@ -116,7 +116,7 @@ namespace Database
                 {
                     const auto person = value.toObject();
 
-                    return PersonFullInfo{.name = person["name"].toString()};
+                    return PersonFullInfo{.name = PersonName(person["name"].toString())};
                 });
 
                 delta.insert<Photo::Field::People>(people);

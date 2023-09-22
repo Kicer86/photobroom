@@ -41,9 +41,9 @@ class DATABASE_EXPORT PersonName final
 {
     public:
         PersonName();
-        PersonName(const Person::Id &, const QString &);
-        PersonName(const QString &);
-        PersonName(const PersonName &);
+        explicit PersonName(const Person::Id &, const QString &);
+        explicit PersonName(const QString &);
+        PersonName(const PersonName &) = default;
         ~PersonName() = default;
 
         PersonName& operator=(const PersonName &) = default;
@@ -64,8 +64,8 @@ class DATABASE_EXPORT PersonFingerprint
         using Id = ::Id<int, struct fingerprint_tag>;
 
         PersonFingerprint() {}
-        PersonFingerprint(const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint) {}
-        PersonFingerprint(const Id& id, const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint), m_id(id) {}
+        explicit PersonFingerprint(const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint) {}
+        explicit PersonFingerprint(const Id& id, const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint), m_id(id) {}
 
         auto operator<=>(const PersonFingerprint &) const = default;
 
@@ -125,6 +125,6 @@ public:
 };
 
 
-Q_DECLARE_METATYPE( PersonName )
+Q_DECLARE_METATYPE(PersonName)
 
 #endif
