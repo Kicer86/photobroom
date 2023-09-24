@@ -73,7 +73,7 @@ if(BUILD_TESTING)
     endif()
 
     add_custom_target(RunUnitTests ${run_ut}
-                      COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest -L UnitTest --output-on-failure)
+                      COMMAND TSAN_OPTIONS=suppressions=${CMAKE_SOURCE_DIR}/sanitizer-thread-suppressions.txt ctest --label-exclude LearningTest --output-on-failure)
 endif(BUILD_TESTING)
 
 #system related definitions
