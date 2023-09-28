@@ -5,6 +5,14 @@ find_package(GTest REQUIRED CONFIG)
 find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
 
+include(${PROJECT_SOURCE_DIR}/tools/reflect++/Reflect++.cmake)
+
+ReflectFiles(
+    core
+    ReflectionFiles
+
+    unit_tests/json_serializer_tests.hpp
+)
 
 addTestTarget(core
                 SOURCES
@@ -23,6 +31,7 @@ addTestTarget(core
                     unit_tests/data_from_path_extractor_tests.cpp
                     unit_tests/exiftool_video_details_reader_tests.cpp
                     unit_tests/function_wrappers_tests.cpp
+                    unit_tests/json_serializer_tests.cpp
                     unit_tests/lazy_ptr_tests.cpp
                     unit_tests/model_compositor_tests.cpp
                     #unit_tests/oriented_image_tests.cpp
@@ -30,6 +39,8 @@ addTestTarget(core
                     unit_tests/qmodelindex_selector_tests.cpp
                     unit_tests/status_tests.cpp
                     unit_tests/tag_value_tests.cpp
+
+                    ${ReflectionFiles}
 
                 LIBRARIES
                     GTest::gtest
