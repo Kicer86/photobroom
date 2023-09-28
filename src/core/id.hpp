@@ -121,4 +121,4 @@ class Id
         bool m_valid = false;
 };
 
-#endif // ID_HPP
+#endif
