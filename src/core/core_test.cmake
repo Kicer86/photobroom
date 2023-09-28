@@ -8,10 +8,11 @@ find_package(Qt6Test REQUIRED)
 include(${PROJECT_SOURCE_DIR}/tools/reflect++/Reflect++.cmake)
 
 ReflectFiles(
-    core
     ReflectionFiles
-
-    unit_tests/json_serializer_tests.hpp
+    TARGET
+        core
+    SOURCES
+        unit_tests/json_serializer_tests.hpp
 )
 
 addTestTarget(core
