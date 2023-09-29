@@ -14,6 +14,13 @@ namespace
 
         auto operator<=>(const XYZ &) const = default;
     };
+
+    struct IJK
+    {
+        std::vector<int> a;
+
+        auto operator<=>(const IJK &) const = default;
+    };
 }
 
 namespace JSon
@@ -21,6 +28,8 @@ namespace JSon
     template<>
     struct CustomType<XYZ>
     {
+        using type = QJsonObject;
+
         static QJsonObject serialize(const XYZ& xyz)
         {
             QJsonObject json;
@@ -40,7 +49,33 @@ namespace JSon
             return xyz;
         }
     };
+
+    template<>
+    struct CustomType<IJK>
+    {
+        using type = QJsonArray;
+
+        static QJsonArray serialize(const IJK& ijk)
+        {
+            QJsonArray array;
+            std::ranges::copy(ijk.a, std::back_inserter(array));
+
+            return array;
+        }
+
+        static IJK deserialize(const QJsonArray& json)
+        {
+            IJK ijk;
+
+            std::transform(json.begin(), json.end(), std::back_inserter(ijk.a), [](const QJsonValueConstRef& value) {return value.toInt();});
+
+            return ijk;
+        }
+    };
 }
+
+
+static_assert(JSon::impl::hasCustomSerialization<XYZ>);
 
 
 TEST(JsonSerializerTest, SerializationDeserialization)
@@ -58,7 +93,6 @@ TEST(JsonSerializerTest, SerializationDeserialization)
 
 TEST(JsonSerializerTest, CustomSerializationDeserialization)
 {
-    static_assert(JSon::impl::hasCustomSerialization<XYZ>);
 
     XYZ xyz;
     xyz.a = 77;
@@ -71,10 +105,8 @@ TEST(JsonSerializerTest, CustomSerializationDeserialization)
 }
 
 
-TEST(JsonSerializerTest, CustomSerializationDeserializationToArray)
+TEST(JsonSerializerTest, CustomSerializationDeserializationOfArray)
 {
-    static_assert(JSon::impl::hasCustomSerialization<XYZ>);
-
     std::vector<XYZ> xyz;
     for(int i = 0; i < 5; i++)
         xyz.emplace_back(rand(), rand());
@@ -83,4 +115,78 @@ TEST(JsonSerializerTest, CustomSerializationDeserializationToArray)
     const auto xyz2 = JSon::deserialize<std::vector<XYZ>>(json);
 
     EXPECT_EQ(xyz, xyz2);
+}
+
+
+TEST(JsonSerializerTest, CustomArraySerializationDeserialization)
+{
+    IJK ijk;
+    ijk.a.push_back(1);
+    ijk.a.push_back(2);
+    ijk.a.push_back(555);
+
+    const QJsonDocument json = JSon::serialize(ijk);
+    const auto ijk2 = JSon::deserialize<IJK>(json);
+
+    EXPECT_EQ(ijk, ijk2);
+}
+
+
+TEST(JsonSerializerTest, CustomTypeSerialization)
+{
+    const XYZ xyz;
+    const auto json = JSon::serialize(xyz);
+
+    const QJsonDocument expectedJson = QJsonDocument::fromJson(
+        R"(
+            {
+                "a": 7,
+                "b": 8
+            }
+        )"
+    );
+
+    EXPECT_EQ(json, expectedJson);
+}
+
+
+TEST(JsonSerializerTest, ArrayOfCustomTypeSerialization)
+{
+    const std::vector<XYZ> xyz({ {1, 2}, {-5, -9}, {-100, 800} });
+    const auto json = JSon::serialize(xyz);
+
+    const QJsonDocument expectedJson = QJsonDocument::fromJson(
+        R"(
+            [
+                {
+                    "a": 1,    "b": 2
+                },
+                {
+                    "a": -5,   "b": -9
+                },
+                {
+                    "a": -100, "b": 800
+                }
+            ]
+        )"
+    );
+
+    EXPECT_EQ(json, expectedJson);
+}
+
+
+TEST(JsonSerializerTest, ArrayOfSimpleTypeSerialization)
+{
+    const std::vector<int> xyz({-10, -5, 1, 9, -500, 9});
+    const auto json = JSon::serialize(xyz);
+
+    const QJsonDocument expectedJson = QJsonDocument::fromJson(
+        R"(
+            [
+                -10, -5, 1, 9, -500, 9
+            ]
+        )"
+    );
+
+    EXPECT_EQ(json, expectedJson);
 }
