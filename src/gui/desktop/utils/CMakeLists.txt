@@ -4,6 +4,8 @@ add_subdirectory(animated_webp)
 find_package(Qt6 REQUIRED COMPONENTS Svg Quick QuickWidgets)
 find_package(OpenCV REQUIRED)
 
+include(${PROJECT_SOURCE_DIR}/tools/reflect++/Reflect++.cmake)
+
 set(UTILS_SOURCES
     grouppers/animation_generator.cpp
     grouppers/animation_generator.hpp
@@ -55,7 +57,7 @@ set(UTILS_SOURCES
     variant_display.hpp
 )
 
-add_library(gui_utils OBJECT ${UTILS_SOURCES})
+add_library(gui_utils OBJECT ${UTILS_SOURCES} ${ReflectionFiles})
 set_target_properties(gui_utils PROPERTIES AUTOMOC TRUE)
 target_link_libraries(gui_utils
                         PRIVATE
@@ -77,5 +79,15 @@ target_include_directories(gui_utils
                             PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src/gui/
                                 ${CMAKE_SOURCE_DIR}/src/gui/desktop
+                                ${CMAKE_CURRENT_BINARY_DIR}
 )
 
+ReflectFiles(
+    ReflectionFiles
+    TARGET
+        gui_utils
+    SOURCES
+        people_editor.hpp
+)
+
+target_sources(gui_utils PRIVATE ${ReflectionFiles})
