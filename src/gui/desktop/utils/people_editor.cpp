@@ -16,6 +16,7 @@
  */
 
 #include "people_editor.hpp"
+#include "people_editor_r++.hpp"
 
 #include <QFileInfo>
 #include <QJsonArray>
@@ -26,6 +27,7 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/json_serializer.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/ibackend.hpp>
 #include <database/database_executor_traits.hpp>
@@ -34,6 +36,29 @@
 
 
 using namespace Database::CommonGeneralFlags;
+
+namespace JSon
+{
+    template<typename T, typename Tag>
+    struct CustomType<Id<T, Tag>>
+    {
+        using type = QJsonObject;
+
+        static QJsonObject serialize(const Id<T, Tag>& id)
+        {
+            QJsonObject json;
+            json["id"] = id.value();
+
+            return json;
+        }
+
+        static Id<T, Tag> deserialize(const QJsonObject& json)
+        {
+            return Id<T, Tag>(json["id"].toVariant().value<T>());
+        }
+    };
+}
+
 
 namespace
 {
@@ -70,98 +95,6 @@ namespace
 
         return avg_face;
     }
-
-    QJsonObject toJson(const QRect& rect)
-    {
-        QJsonObject rectJson;
-        rectJson["x"] = rect.x();
-        rectJson["y"] = rect.y();
-        rectJson["w"] = rect.width();
-        rectJson["h"] = rect.height();
-
-        return rectJson;
-    }
-
-    QJsonObject toJson(const PersonInfo& pi)
-    {
-        assert(pi.id.valid() == false);
-        assert(pi.p_id.valid() == false);
-        assert(pi.ph_id.valid());
-        assert(pi.f_id.valid() == false);
-
-        QJsonObject piJson;
-        piJson["ph_id"] = pi.ph_id.value();
-        piJson["rect"] = toJson(pi.rect);
-
-        return piJson;
-    }
-
-    QJsonArray toJson(const Person::Fingerprint& fp)
-    {
-        QJsonArray fpJson;
-
-        for(const auto v: fp)
-            fpJson.append(v);
-
-        return fpJson;
-    }
-
-    QJsonObject toJson(const PersonFingerprint& fp)
-    {
-        assert(fp.id().valid() == false);
-
-        QJsonObject fpJson;
-        fpJson["fingerprint"] = toJson(fp.fingerprint());
-
-        return fpJson;
-    }
-
-    QJsonObject toJson(const FaceInfo& face)
-    {
-        QJsonObject faceJson;
-        faceJson["face"] = toJson(face.face);
-        faceJson["fingerprint"] = toJson(face.fingerprint);
-
-        return faceJson;
-    }
-
-    QJsonArray toJson(const std::vector<FaceInfo>& faces)
-    {
-        QJsonArray facesJson;
-        for (auto& face: faces)
-            facesJson.append(toJson(face));
-
-        return facesJson;
-    }
-
-    std::vector<FaceInfo> fromJson(const QJsonDocument& doc)
-    {
-        std::vector<FaceInfo> result;
-
-        const QJsonArray faceInfos = doc.array();
-        for (const QJsonValue faceValue: faceInfos)
-        {
-            const QJsonObject faceInfoObject = faceValue.toObject();
-            const QJsonObject faceObject = faceInfoObject["face"].toObject();
-            const QJsonObject fingerprintObject = faceInfoObject["fingerprint"].toObject();
-            const QJsonObject faceRect = faceObject["rect"].toObject();
-            const QJsonArray personFingerprintObject = fingerprintObject["fingerprint"].toArray();
-
-            const QRect rect(faceRect["x"].toInt(), faceRect["y"].toInt(), faceRect["w"].toInt(), faceRect["h"].toInt());
-            Person::Fingerprint fingerprint;
-            std::ranges::transform(personFingerprintObject, std::back_inserter(fingerprint), [](const auto v){return v.toDouble();});
-            const Photo::Id ph_id(faceObject["ph_id"]);
-
-            FaceInfo fi(ph_id, rect);
-            fi.fingerprint = PersonFingerprint({}, fingerprint);
-            fi.person = PersonName();
-
-            result.push_back(fi);
-        }
-
-        return result;
-    }
-
 
     bool wasPhotoAnalyzedAndHasNoFaces(Database::IDatabase& db, const Photo::Id& ph_id)
     {
@@ -247,7 +180,7 @@ namespace
             {
                 const auto fingerprint = face_recognition.getFingerprint(image, faceInfo.face.rect);
 
-                faceInfo.fingerprint = fingerprint;
+                faceInfo.fingerprint = PersonFingerprint(fingerprint);
             }
     }
 
@@ -372,8 +305,16 @@ namespace
                 if (blob.isEmpty() == false)
                 {
                     const QJsonDocument json = QJsonDocument::fromJson(blob);
+                    const std::vector<FaceEditor::CalculatedData> storage = JSon::deserialize<std::vector<FaceEditor::CalculatedData>>(json);
 
-                    result = fromJson(json);
+                    for (const auto& faceData: storage)
+                    {
+                        FaceInfo fi(faceData.ph_id, faceData.position);
+                        fi.fingerprint = PersonFingerprint(faceData.fingerprint);
+                        fi.person = PersonName(faceData.name);
+
+                        result.push_back(fi);
+                    }
                 }
                 else
                 {
@@ -381,7 +322,7 @@ namespace
                     const auto detected_faces = detectFaces(image, logger);
                     std::ranges::transform(detected_faces, std::back_inserter(result), [id](const QRect& rect)
                     {
-                        return FaceInfo(id, rect);;
+                        return FaceInfo(id, rect);
                     });
 
                     //calculate fingerprints
@@ -403,8 +344,13 @@ namespace
                     }
                     else
                     {
-                        // store detected, but not confirmed by user faces as blob in database for cache
-                        const QJsonDocument json(toJson(result));
+                        std::vector<FaceEditor::CalculatedData> storage;
+
+                        for (const auto& faceInfo: result)
+                            storage.emplace_back(faceInfo.face.rect, faceInfo.fingerprint.fingerprint(), faceInfo.person.name(), faceInfo.face.ph_id);
+
+                        // store detected, but not confirmed by user, faces as blob in database for cache
+                        const QJsonDocument json = JSon::serialize(storage);
 
                         execute(db, [id, blob = json.toJson()](Database::IBackend& backend)
                         {

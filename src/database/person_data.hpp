@@ -33,7 +33,7 @@
 namespace Person
 {
     using Id = Id<int, struct person_tag>;
-    typedef std::vector<double> Fingerprint;
+    using Fingerprint = std::vector<double>;
 }
 
 
