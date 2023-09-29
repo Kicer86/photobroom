@@ -66,7 +66,7 @@ namespace JSon
                 return object;
             }
             else
-                static_assert(false, "Unexpected type");
+                assert(!"Unexpected type");
         }
 
 
