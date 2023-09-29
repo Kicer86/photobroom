@@ -67,7 +67,7 @@ namespace JSon
         {
             IJK ijk;
 
-            std::transform(json.begin(), json.end(), std::back_inserter(ijk.a), [](const QJsonValueConstRef& value) {return value.toInt();});
+            std::transform(json.begin(), json.end(), std::back_inserter(ijk.a), [](const auto& value) {return value.toInt();});
 
             return ijk;
         }
