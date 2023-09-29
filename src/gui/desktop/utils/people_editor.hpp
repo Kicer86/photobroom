@@ -48,6 +48,15 @@ public:
 
     std::vector<std::unique_ptr<IFace>> getFacesFor(const Photo::Id &);
 
+    // internal usage
+    struct CalculatedData
+    {
+        QRect position;
+        Person::Fingerprint fingerprint;
+        QString name;
+        Photo::Id ph_id;
+    };
+
 private:
     std::unique_ptr<ILogger> m_logger;
     Database::IDatabase& m_db;
