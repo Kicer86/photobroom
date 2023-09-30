@@ -207,13 +207,12 @@ namespace
     class FacesSaver
     {
         public:
-            FacesSaver(Database::IDatabase &, ICoreFactoryAccessor &);
+            FacesSaver(Database::IDatabase &);
             ~FacesSaver();
 
             void store(FaceInfo &);
 
         private:
-            ICoreFactoryAccessor& m_core;
             Database::IDatabase& m_db;
             std::vector<PersonName> m_people;
 
@@ -415,7 +414,7 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
         m_logger,
         id);
 
-    auto storage = std::make_shared<FacesSaver>(m_db, m_core);
+    auto storage = std::make_shared<FacesSaver>(m_db);
 
     std::vector<std::unique_ptr<IFace>> result;
 
@@ -428,9 +427,8 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
 }
 
 
-FacesSaver::FacesSaver(Database::IDatabase& db, ICoreFactoryAccessor& core)
-    : m_core(core)
-    , m_db(db)
+FacesSaver::FacesSaver(Database::IDatabase& db)
+    : m_db(db)
 {
     m_people = fetchPeople();
 }
