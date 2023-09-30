@@ -62,6 +62,8 @@ namespace JSon
 
 namespace
 {
+    constexpr auto CacheBlob = "people_editor_cache";
+
     struct FaceInfo
     {
         PersonInfo face;
@@ -284,7 +286,7 @@ namespace
 
         const QByteArray blob = evaluate<QByteArray(Database::IBackend &)>(db, [id](Database::IBackend& backend)
         {
-            return backend.readBlob(id, Database::IBackend::BlobType::BatchFaceFetcher);
+            return backend.readBlob(id, CacheBlob);
         });
 
         if (blob.isEmpty() == false)
@@ -317,7 +319,7 @@ namespace
 
         execute(db, [id, blob = json.toJson()](Database::IBackend& backend)
         {
-            backend.writeBlob(id, Database::IBackend::BlobType::BatchFaceFetcher, blob);
+            backend.writeBlob(id, CacheBlob, blob);
         });
     }
 

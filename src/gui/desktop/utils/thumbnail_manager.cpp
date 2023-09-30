@@ -25,6 +25,10 @@
 #include <database/database_executor_traits.hpp>
 #include "ithumbnails_cache.hpp"
 
+namespace
+{
+    constexpr auto BlobType = "thumbnail";
+}
 
 using namespace std::placeholders;
 
@@ -65,7 +69,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
             if (m_db)                   // load thumbnail from db
                 dbThumb = evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
                 {
-                    return backend.readBlob(id, Database::IBackend::BlobType::Thumbnail);
+                    return backend.readBlob(id, BlobType);
                 });
 
             QImage baseThumbnail;
@@ -92,7 +96,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
 
                     execute<Database::IDatabase>(*m_db, [id, dbThumb](Database::IBackend& backend)
                     {
-                        backend.writeBlob(id, Database::IBackend::BlobType::Thumbnail, dbThumb);
+                        backend.writeBlob(id, BlobType, dbThumb);
                     });
                 }
             }
