@@ -278,6 +278,49 @@ namespace
         });
     }
 
+    std::vector<FaceInfo> loadCachedFacesFor(Database::IDatabase& db, const Photo::Id& id)
+    {
+        std::vector<FaceInfo> result;
+
+        const QByteArray blob = evaluate<QByteArray(Database::IBackend &)>(db, [id](Database::IBackend& backend)
+        {
+            return backend.readBlob(id, Database::IBackend::BlobType::BatchFaceFetcher);
+        });
+
+        if (blob.isEmpty() == false)
+        {
+            const QJsonDocument json = QJsonDocument::fromJson(blob);
+            const std::vector<FaceEditor::CalculatedData> storage = JSon::deserialize<std::vector<FaceEditor::CalculatedData>>(json);
+
+            for (const auto& faceData: storage)
+            {
+                FaceInfo fi(faceData.ph_id, faceData.position);
+                fi.fingerprint = PersonFingerprint(faceData.fingerprint);
+                fi.person = PersonName(faceData.name);
+
+                result.push_back(fi);
+            }
+        }
+
+        return result;
+    }
+
+    void cacheFacesFor(Database::IDatabase& db, const Photo::Id& id, const std::vector<FaceInfo>& result)
+    {
+        std::vector<FaceEditor::CalculatedData> storage;
+
+        for (const auto& faceInfo: result)
+            storage.emplace_back(faceInfo.face.rect, faceInfo.fingerprint.fingerprint(), faceInfo.person.name(), faceInfo.face.ph_id);
+
+        // store detected, but not confirmed by user, faces as blob in database for cache
+        const QJsonDocument json = JSon::serialize(storage);
+
+        execute(db, [id, blob = json.toJson()](Database::IBackend& backend)
+        {
+            backend.writeBlob(id, Database::IBackend::BlobType::BatchFaceFetcher, blob);
+        });
+    }
+
     std::vector<FaceInfo> findFaces(Database::IDatabase& db,
                                     const OrientedImage& image,
                                     const std::unique_ptr<ILogger>& logger,
@@ -296,26 +339,9 @@ namespace
             if (list_of_faces.empty())
             {
                 // check in cache
-                const QByteArray blob = evaluate<QByteArray(Database::IBackend &)>(db, [id](Database::IBackend& backend)
-                {
-                    return backend.readBlob(id, Database::IBackend::BlobType::BatchFaceFetcher);
-                });
+                result = loadCachedFacesFor(db, id);
 
-                if (blob.isEmpty() == false)
-                {
-                    const QJsonDocument json = QJsonDocument::fromJson(blob);
-                    const std::vector<FaceEditor::CalculatedData> storage = JSon::deserialize<std::vector<FaceEditor::CalculatedData>>(json);
-
-                    for (const auto& faceData: storage)
-                    {
-                        FaceInfo fi(faceData.ph_id, faceData.position);
-                        fi.fingerprint = PersonFingerprint(faceData.fingerprint);
-                        fi.person = PersonName(faceData.name);
-
-                        result.push_back(fi);
-                    }
-                }
-                else
+                if (result.empty())
                 {
                     // analyze photo - look for faces
                     const auto detected_faces = detectFaces(image, logger);
@@ -342,20 +368,7 @@ namespace
                         });
                     }
                     else
-                    {
-                        std::vector<FaceEditor::CalculatedData> storage;
-
-                        for (const auto& faceInfo: result)
-                            storage.emplace_back(faceInfo.face.rect, faceInfo.fingerprint.fingerprint(), faceInfo.person.name(), faceInfo.face.ph_id);
-
-                        // store detected, but not confirmed by user, faces as blob in database for cache
-                        const QJsonDocument json = JSon::serialize(storage);
-
-                        execute(db, [id, blob = json.toJson()](Database::IBackend& backend)
-                        {
-                            return backend.writeBlob(id, Database::IBackend::BlobType::BatchFaceFetcher, blob);
-                        });
-                    }
+                        cacheFacesFor(db, id, result);
                 }
             }
             else    // data in db just use it
