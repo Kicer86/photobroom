@@ -90,12 +90,6 @@ namespace Database
      */
     struct DATABASE_EXPORT IBackend: public QObject
     {
-        enum class BlobType
-        {
-            Thumbnail = 0,
-            BatchFaceFetcher = 1,
-        };
-
         virtual ~IBackend() = default;
 
         /** \brief Add photos to database
@@ -193,7 +187,7 @@ namespace Database
          * @arg bt blob type
          * @arg blob raw data
          */
-        virtual void writeBlob(const Photo::Id& id, BlobType bt, const QByteArray& blob) = 0;
+        virtual void writeBlob(const Photo::Id& id, const QString& bt, const QByteArray& blob) = 0;
 
         /**
          * @brief Read blob of type @p bt associated with photo @p id
@@ -201,7 +195,7 @@ namespace Database
          * @arg bt blob type
          * @return raw data
          */
-        virtual QByteArray readBlob(const Photo::Id& id, BlobType bt) = 0;
+        virtual QByteArray readBlob(const Photo::Id& id, const QString& bt) = 0;
 
         /**
          * \brief mark all staged photos as reviewed.

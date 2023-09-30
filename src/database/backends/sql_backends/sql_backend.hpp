@@ -154,8 +154,8 @@ namespace Database
             void                     setBits(const Photo::Id& id, const QString& name, int bits) override final;
             void                     clearBits(const Photo::Id& id, const QString& name, int bits) override final;
 
-            void writeBlob(const Photo::Id &, BlobType, const QByteArray& blob) override;
-            QByteArray readBlob(const Photo::Id &, BlobType) override;
+            void writeBlob(const Photo::Id &, const QString& bt, const QByteArray& blob) override;
+            QByteArray readBlob(const Photo::Id &, const QString& bt) override;
 
             std::vector<Photo::Id> markStagedAsReviewed() override final;
             //
