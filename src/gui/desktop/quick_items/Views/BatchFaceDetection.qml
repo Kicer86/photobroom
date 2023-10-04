@@ -47,6 +47,7 @@ Item {
                     required property var decoration
                     required property var display
                     required property var index
+                    required property var model
 
                     width: 170
                     height: 200
@@ -108,6 +109,8 @@ Item {
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: display
                             width: parent.width - 40
+
+                            onEditingFinished: model.edit = text
                         }
                     }
                 }
