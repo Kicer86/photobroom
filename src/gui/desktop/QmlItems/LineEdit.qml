@@ -12,11 +12,15 @@ Rectangle {
     border.width: 1
     radius: 2
 
+    signal editingFinished()
+
     TextInput {
         id: input
         anchors.fill: parent
         anchors.margins: 4
 
         selectByMouse: true
+
+        onEditingFinished: parent.editingFinished()
     }
 }
