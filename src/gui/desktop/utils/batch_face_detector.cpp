@@ -110,6 +110,26 @@ QVariant BatchFaceDetector::data(const QModelIndex& idx, int role) const
 }
 
 
+bool BatchFaceDetector::setData(const QModelIndex& idx, const QVariant& value, int role)
+{
+    assert(idx.row() < static_cast<int>(m_faces.size()));
+    assert(idx.column() == 0);
+    const QString name = value.toString();
+    const size_t row = static_cast<size_t>(idx.row());
+
+    auto& face = m_faces[row].faceData;
+
+    if (role == Qt::EditRole && name != face->name())
+    {
+        face->setName(name);
+
+        return true;
+    }
+    else
+        return false;
+}
+
+
 void BatchFaceDetector::accept(int idx)
 {
 
