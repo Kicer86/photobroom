@@ -2,8 +2,6 @@
 #ifndef GROUP_HPP
 #define GROUP_HPP
 
-#include <tuple>
-
 #include <core/id.hpp>
 #include "database_export.h"
 

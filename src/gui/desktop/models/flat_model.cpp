@@ -17,8 +17,6 @@
 
 #include "flat_model.hpp"
 
-#include <tuple>
-
 #include <core/function_wrappers.hpp>
 #include <database/ibackend.hpp>
 #include <database/idatabase.hpp>
