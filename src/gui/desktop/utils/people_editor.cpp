@@ -16,7 +16,7 @@
  */
 
 #include "people_editor.hpp"
-#include "people_editor_r++.hpp"
+#include "people_editor_impl_r++.hpp"
 
 #include <QFileInfo>
 #include <QJsonArray>
@@ -33,6 +33,8 @@
 #include <database/database_executor_traits.hpp>
 #include <database/general_flags.hpp>
 #include <face_recognition/face_recognition.hpp>
+
+#include "implementation/people_editor_impl.hpp"
 
 
 using namespace Database::CommonGeneralFlags;
@@ -63,25 +65,6 @@ namespace JSon
 namespace
 {
     constexpr auto CacheBlob = "people_editor_cache";
-
-    struct FaceInfo
-    {
-        PersonInfo face;
-        PersonName person;
-        PersonFingerprint fingerprint;
-
-        FaceInfo(const Photo::Id& id, const QRect& r)
-        {
-            face.ph_id = id;
-            face.rect = r;
-        }
-
-        explicit FaceInfo(const PersonInfo& pi)
-            : face(pi)
-        {
-
-        }
-    };
 
     Person::Fingerprint average_fingerprint(const std::vector<PersonFingerprint>& faces)
     {
@@ -206,13 +189,13 @@ namespace
             }
     }
 
-    class FacesSaver
+    class FacesSaver: public IFacesSaver
     {
         public:
             FacesSaver(Database::IDatabase &);
             ~FacesSaver();
 
-            void store(FaceInfo &);
+            void store(FaceInfo &) override;
 
         private:
             Database::IDatabase& m_db;
@@ -228,7 +211,7 @@ namespace
 
     struct Face: public IFace
     {
-        Face(const FaceInfo& fi, std::shared_ptr<OrientedImage> image, std::shared_ptr<FacesSaver> saver)
+        Face(const FaceInfo& fi, std::shared_ptr<OrientedImage> image, std::shared_ptr<IFacesSaver> saver)
             : m_faceInfo(fi)
             , m_image(image)
             , m_saver(saver)
@@ -261,7 +244,7 @@ namespace
 
         FaceInfo m_faceInfo;
         std::shared_ptr<OrientedImage> m_image;
-        std::shared_ptr<FacesSaver> m_saver;
+        std::shared_ptr<IFacesSaver> m_saver;
     };
 
     void sortFaces(std::vector<FaceInfo>& faces)
@@ -292,7 +275,7 @@ namespace
         if (blob.isEmpty() == false)
         {
             const QJsonDocument json = QJsonDocument::fromJson(blob);
-            const std::vector<FaceEditor::CalculatedData> storage = JSon::deserialize<std::vector<FaceEditor::CalculatedData>>(json);
+            const std::vector<CalculatedData> storage = JSon::deserialize<std::vector<CalculatedData>>(json);
 
             for (const auto& faceData: storage)
             {
@@ -309,7 +292,7 @@ namespace
 
     void cacheFacesFor(Database::IDatabase& db, const Photo::Id& id, const std::vector<FaceInfo>& result)
     {
-        std::vector<FaceEditor::CalculatedData> storage;
+        std::vector<CalculatedData> storage;
 
         for (const auto& faceInfo: result)
             storage.emplace_back(faceInfo.face.rect, faceInfo.fingerprint.fingerprint(), faceInfo.person.name(), faceInfo.face.ph_id);
@@ -429,7 +412,12 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
         m_logger,
         id);
 
-    auto storage = std::make_shared<FacesSaver>(m_db);
+    auto storage = m_facesSaver.lock();
+    if (storage.get() == nullptr)
+    {
+        storage = std::make_shared<FacesSaver>(m_db);
+        m_facesSaver = storage;
+    }
 
     std::vector<std::unique_ptr<IFace>> result;
 
