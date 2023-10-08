@@ -18,14 +18,13 @@
 #ifndef PEOPLEMANIPULATOR_HPP
 #define PEOPLEMANIPULATOR_HPP
 
+#include <core/core_factory_accessor.hpp>
 #include <core/function_wrappers.hpp>
 #include <core/ilogger.hpp>
 #include <core/oriented_image.hpp>
 #include <database/photo_types.hpp>
 #include <database/idatabase.hpp>
 
-
-struct ICoreFactoryAccessor;
 
 class IFace
 {
@@ -41,6 +40,8 @@ public:
 };
 
 
+struct IFacesSaver;
+
 class FaceEditor
 {
 public:
@@ -48,16 +49,8 @@ public:
 
     std::vector<std::unique_ptr<IFace>> getFacesFor(const Photo::Id &);
 
-    // internal usage
-    struct CalculatedData
-    {
-        QRect position;
-        Person::Fingerprint fingerprint;
-        QString name;
-        Photo::Id ph_id;
-    };
-
 private:
+    std::weak_ptr<IFacesSaver> m_facesSaver;
     std::unique_ptr<ILogger> m_logger;
     Database::IDatabase& m_db;
     ICoreFactoryAccessor& m_core;

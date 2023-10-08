@@ -87,7 +87,7 @@ ReflectFiles(
     TARGET
         gui_utils
     SOURCES
-        people_editor.hpp
+        implementation/people_editor_impl.hpp
 )
 
 target_sources(gui_utils PRIVATE ${ReflectionFiles})
