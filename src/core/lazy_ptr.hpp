@@ -13,16 +13,19 @@ class lazy_ptr
 {
     public:
         lazy_ptr()
-            : m_constructor()
         {
 
         }
 
         template<typename C>
         explicit lazy_ptr(const C& constructor)
-            : m_constructor()
         {
-            if constexpr (std::is_pointer_v<decltype(constructor())>)
+            if constexpr (std::is_same_v<decltype(constructor()), std::unique_ptr<T>>)
+                m_constructor = [constructor]() -> std::unique_ptr<T>
+                {
+                    return constructor();
+                };
+            else if constexpr (std::is_pointer_v<decltype(constructor())>)
                 m_constructor = [constructor]() -> std::unique_ptr<T>
                 {
                     return std::unique_ptr<T>(constructor());
