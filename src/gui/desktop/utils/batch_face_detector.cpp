@@ -9,6 +9,14 @@
 
 #include <iostream>
 
+
+BatchFaceDetector::BatchFaceDetector()
+    : m_faceEditor(make_lazy_ptr<FaceEditor>([this]{ return std::make_unique<FaceEditor>(*this->db(), *this->core(), this->m_logger); }))
+{
+
+}
+
+
 BatchFaceDetector::~BatchFaceDetector()
 {
     // db client should be destroyed by now
@@ -214,9 +222,7 @@ std::optional<Photo::Id> BatchFaceDetector::getNextId()
 
 void BatchFaceDetector::loadFacesFromPhoto(const Photo::Id& id)
 {
-    FaceEditor fe(m_dbClient->db(), *m_core, m_logger);
-
-    auto faces = fe.getFacesFor(id);
+    auto faces = m_faceEditor->getFacesFor(id);
     std::vector<Face> facesDetails;
 
     // prepare details for model

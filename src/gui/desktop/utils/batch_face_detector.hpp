@@ -9,6 +9,7 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
+#include <core/lazy_ptr.hpp>
 
 #include "models/aphoto_data_model.hpp"
 #include "people_editor.hpp"
@@ -22,6 +23,7 @@ class BatchFaceDetector: public QAbstractListModel
     Q_PROPERTY(APhotoDataModel* photos_model WRITE setPhotosModel READ photosModel)
 
 public:
+    BatchFaceDetector();
     ~BatchFaceDetector();
 
     void setPhotosModel(APhotoDataModel *);
@@ -62,6 +64,7 @@ private:
     std::vector<Face> m_faces;
     std::unique_ptr<ILogger> m_logger;
     std::unique_ptr<Database::IClient> m_dbClient;
+    lazy_ptr<FaceEditor> m_faceEditor;
     APhotoDataModel* m_photosModel = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
     std::shared_ptr<ITaskExecutor::IProcessControl> m_photosProcessingProcess;
