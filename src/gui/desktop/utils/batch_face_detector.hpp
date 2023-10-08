@@ -42,22 +42,7 @@ public:
     Q_INVOKABLE void drop(int);
 
 private:
-    struct Face
-    {
-        Face(std::unique_ptr<IFace> f, const QImage& img)
-            : faceData(std::move(f))
-            , faceImg(img)
-        {}
-
-        Face(const Face &) = delete;
-        Face(Face &&) = default;
-
-        Face& operator=(const Face &) = delete;
-        Face& operator=(Face &&) = default;
-
-        std::unique_ptr<IFace> faceData;
-        QImage faceImg;
-    };
+    using Face = std::pair<std::unique_ptr<IFace>, QImage>;
 
     std::deque<Photo::Id> m_ids;
     std::mutex m_idsMtx;
