@@ -192,7 +192,7 @@ namespace
     class FacesSaver: public IFacesSaver
     {
         public:
-            FacesSaver(Database::IDatabase &);
+            explicit FacesSaver(Database::IDatabase &);
             ~FacesSaver();
 
             void store(FaceInfo &) override;
