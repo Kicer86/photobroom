@@ -143,10 +143,11 @@ void FacesModel::initialSetup()
 
     runOn(m_core->getTaskExecutor(), [this]()
     {
+        const auto logger = m_core->getLoggerFactory().get("FacesModel");
         const auto faces = std::make_shared<std::vector<std::unique_ptr<IFace>>>(FaceEditor(
             *m_database,
             *m_core,
-            m_core->getLoggerFactory().get("FacesModel")).getFacesFor(m_id));
+            *logger).getFacesFor(m_id));
         invokeMethod(this, &FacesModel::updateFaceInformation, faces);
     });
 

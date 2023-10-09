@@ -64,8 +64,8 @@ namespace
 
 
 
-FaceRecognition::FaceRecognition(const std::unique_ptr<ILogger>& logger)
-    : m_logger(logger->subLogger("FaceRecognition"))
+FaceRecognition::FaceRecognition(const ILogger& logger)
+    : m_logger(logger.subLogger("FaceRecognition"))
 {
 
 }

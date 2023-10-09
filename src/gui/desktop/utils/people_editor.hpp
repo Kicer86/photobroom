@@ -45,7 +45,7 @@ struct IFacesSaver;
 class FaceEditor
 {
 public:
-    FaceEditor(Database::IDatabase &, ICoreFactoryAccessor &, const std::unique_ptr<ILogger> &);
+    FaceEditor(Database::IDatabase &, ICoreFactoryAccessor &, const ILogger &);
 
     std::vector<std::unique_ptr<IFace>> getFacesFor(const Photo::Id &);
 
