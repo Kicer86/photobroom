@@ -43,7 +43,7 @@ namespace Database
 class FACE_RECOGNITION_EXPORT FaceRecognition final
 {
     public:
-        FaceRecognition(const std::unique_ptr<ILogger>& logger);
+        FaceRecognition(const ILogger& logger);
         FaceRecognition(const FaceRecognition &) = delete;
 
         ~FaceRecognition();

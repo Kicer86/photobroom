@@ -11,7 +11,7 @@
 
 
 BatchFaceDetector::BatchFaceDetector()
-    : m_faceEditor(make_lazy_ptr<FaceEditor>([this]{ return std::make_unique<FaceEditor>(*this->db(), *this->core(), this->m_logger); }))
+    : m_faceEditor(make_lazy_ptr<FaceEditor>([this]{ return std::make_unique<FaceEditor>(*this->db(), *this->core(), *this->m_logger); }))
 {
 
 }

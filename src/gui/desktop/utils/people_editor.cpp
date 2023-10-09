@@ -152,12 +152,12 @@ namespace
         });
     }
 
-    std::vector<QRect> detectFaces(const OrientedImage& image, const std::unique_ptr<ILogger>& logger)
+    std::vector<QRect> detectFaces(const OrientedImage& image, const ILogger& logger)
     {
         return FaceRecognition(logger).fetchFaces(image);
     }
 
-    void calculateMissingFingerprints(std::vector<FaceInfo>& faces, const OrientedImage& image, const std::unique_ptr<ILogger>& logger)
+    void calculateMissingFingerprints(std::vector<FaceInfo>& faces, const OrientedImage& image, const ILogger& logger)
     {
         FaceRecognition face_recognition(logger);
         for (FaceInfo& faceInfo: faces)
@@ -169,7 +169,7 @@ namespace
             }
     }
 
-    void recognizePeople(std::vector<FaceInfo>& faces, Database::IDatabase& db, const std::unique_ptr<ILogger>& logger)
+    void recognizePeople(std::vector<FaceInfo>& faces, Database::IDatabase& db, const ILogger& logger)
     {
         FaceRecognition face_recognition(logger);
         const auto people_fingerprints = fetchPeopleAndFingerprints(db);
@@ -189,7 +189,7 @@ namespace
             }
     }
 
-    std::vector<FaceInfo> findAndRecognizePeople(const OrientedImage& image, Database::IDatabase& db, const Photo::Id& id, const std::unique_ptr<ILogger>& logger)
+    std::vector<FaceInfo> findAndRecognizePeople(const OrientedImage& image, Database::IDatabase& db, const Photo::Id& id, const ILogger& logger)
     {
         std::vector<FaceInfo> result;
 
@@ -328,7 +328,7 @@ namespace
 
     std::vector<FaceInfo> findFaces(Database::IDatabase& db,
                                     const OrientedImage& image,
-                                    const std::unique_ptr<ILogger>& logger,
+                                    const ILogger& logger,
                                     const Photo::Id& id)
     {
         std::vector<FaceInfo> result;
@@ -399,8 +399,8 @@ namespace
 }
 
 
-FaceEditor::FaceEditor(Database::IDatabase& db, ICoreFactoryAccessor& core, const std::unique_ptr<ILogger>& logger)
-    : m_logger(logger->subLogger("FaceEditor"))
+FaceEditor::FaceEditor(Database::IDatabase& db, ICoreFactoryAccessor& core, const ILogger& logger)
+    : m_logger(logger.subLogger("FaceEditor"))
     , m_db(db)
     , m_core(core)
 {
@@ -418,7 +418,7 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
     const auto faces = findFaces(
         m_db,
         *image,
-        m_logger,
+        *m_logger,
         id);
 
     auto storage = m_facesSaver.lock();
