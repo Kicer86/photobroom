@@ -140,7 +140,7 @@ bool BatchFaceDetector::setData(const QModelIndex& idx, const QVariant& value, i
 
 void BatchFaceDetector::accept(int idx)
 {
-
+    m_faces[idx].first->store();
 }
 
 
