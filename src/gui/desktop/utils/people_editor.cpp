@@ -189,6 +189,26 @@ namespace
             }
     }
 
+    std::vector<FaceInfo> findAndRecognizePeople(const OrientedImage& image, Database::IDatabase& db, const Photo::Id& id, const std::unique_ptr<ILogger>& logger)
+    {
+        std::vector<FaceInfo> result;
+
+        // analyze photo - look for faces
+        const auto detected_faces = detectFaces(image, logger);
+        std::ranges::transform(detected_faces, std::back_inserter(result), [id](const QRect& rect)
+        {
+            return FaceInfo(id, rect);
+        });
+
+        //calculate fingerprints
+        calculateMissingFingerprints(result, image, logger);
+
+        //recognize people
+        recognizePeople(result, db, logger);
+
+        return result;
+    }
+
     class FacesSaver: public IFacesSaver
     {
         public:
@@ -328,18 +348,7 @@ namespace
 
                 if (result.empty())
                 {
-                    // analyze photo - look for faces
-                    const auto detected_faces = detectFaces(image, logger);
-                    std::ranges::transform(detected_faces, std::back_inserter(result), [id](const QRect& rect)
-                    {
-                        return FaceInfo(id, rect);
-                    });
-
-                    //calculate fingerprints
-                    calculateMissingFingerprints(result, image, logger);
-
-                    //recognize people
-                    recognizePeople(result, db, logger);
+                    result = findAndRecognizePeople(image, db, id, logger);
 
                     if (result.empty())
                     {
