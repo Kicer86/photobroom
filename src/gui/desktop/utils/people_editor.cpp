@@ -34,6 +34,7 @@
 #include <database/general_flags.hpp>
 #include <face_recognition/face_recognition.hpp>
 
+#include "implementation/faces_saver.hpp"
 #include "implementation/people_editor_impl.hpp"
 
 
@@ -209,64 +210,6 @@ namespace
         return result;
     }
 
-    class FacesSaver: public IFacesSaver
-    {
-        public:
-            explicit FacesSaver(Database::IDatabase &);
-            ~FacesSaver();
-
-            void store(FaceInfo &) override;
-
-        private:
-            Database::IDatabase& m_db;
-            std::vector<PersonName> m_people;
-
-            void store_person_name(FaceInfo& face);
-            void store_fingerprint(FaceInfo& face);
-            void store_person_information(const FaceInfo& face);
-
-            std::vector<PersonName> fetchPeople() const;
-            PersonName storeNewPerson(const QString& name) const;
-    };
-
-    struct Face: public IFace
-    {
-        Face(const FaceInfo& fi, std::shared_ptr<OrientedImage> image, std::shared_ptr<IFacesSaver> saver)
-            : m_faceInfo(fi)
-            , m_image(image)
-            , m_saver(saver)
-        {}
-
-        const QRect& rect() const override
-        {
-            return m_faceInfo.face.rect;
-        }
-
-        const QString& name() const override
-        {
-            return m_faceInfo.person.name();
-        }
-
-        const OrientedImage& image() const override
-        {
-            return *m_image;
-        }
-
-        void setName(const QString& name) override
-        {
-            m_faceInfo.person = PersonName(name);
-        }
-
-        void store() override
-        {
-            m_saver->store(m_faceInfo);
-        }
-
-        FaceInfo m_faceInfo;
-        std::shared_ptr<OrientedImage> m_image;
-        std::shared_ptr<IFacesSaver> m_saver;
-    };
-
     void sortFaces(std::vector<FaceInfo>& faces)
     {
         // sort faces so they appear from left to right
@@ -436,112 +379,4 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
     });
 
     return result;
-}
-
-
-FacesSaver::FacesSaver(Database::IDatabase& db)
-    : m_db(db)
-{
-    m_people = fetchPeople();
-}
-
-
-FacesSaver::~FacesSaver()
-{
-
-}
-
-
-void FacesSaver::store(FaceInfo& face)
-{
-    store_person_name(face);
-    store_fingerprint(face);
-
-    // update names assigned to face
-    face.face.p_id = face.person.id();
-
-    // update fingerprints assigned to face
-    if (face.face.f_id.valid() == false)
-        face.face.f_id = face.fingerprint.id();
-
-    store_person_information(face);
-}
-
-
-void FacesSaver::store_person_name(FaceInfo& face)
-{
-    const bool nameChanged =
-        face.person.id().valid() == false && face.person.name().isEmpty() == false;
-
-    if (nameChanged)
-    {
-        // introduce name associated with face to db (if needed)
-        const QString& name = face.person.name();
-
-        auto it = std::find_if(m_people.cbegin(), m_people.cend(), [name](const PersonName& d)
-        {
-            return d.name() == name;
-        });
-
-        if (it == m_people.cend())        // new name, store it in db
-        {
-            face.person = storeNewPerson(name);
-            m_people.push_back(face.person);
-        }
-        else
-            face.person = *it;
-    }
-}
-
-
-void FacesSaver::store_fingerprint(FaceInfo& face)
-{
-    if (face.fingerprint.id().valid() == false)
-    {
-        const PersonFingerprint::Id fid =
-            evaluate<PersonFingerprint::Id(Database::IBackend &)>(m_db, [fingerprint = face.fingerprint](Database::IBackend& backend)
-        {
-            return backend.peopleInformationAccessor().store(fingerprint);
-        });
-
-        const PersonFingerprint fingerprint(fid, face.fingerprint.fingerprint());
-        face.fingerprint = fingerprint;
-    }
-}
-
-
-void FacesSaver::store_person_information(const FaceInfo& face)
-{
-    const PersonInfo& faceInfo = face.face;
-    const PersonFingerprint& fingerprint = face.fingerprint;
-
-    m_db.exec([faceInfo, fingerprint](Database::IBackend& backend)
-    {
-        backend.peopleInformationAccessor().store(faceInfo);
-    });
-}
-
-
-std::vector<PersonName> FacesSaver::fetchPeople() const
-{
-    return evaluate<std::vector<PersonName>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
-    {
-        auto people = backend.peopleInformationAccessor().listPeople();
-
-        return people;
-    });
-}
-
-
-PersonName FacesSaver::storeNewPerson(const QString& name) const
-{
-    const PersonName person = evaluate<PersonName (Database::IBackend &)>
-            (m_db, [name](Database::IBackend& backend)
-    {
-        const PersonName d(Person::Id(), name);
-        const auto id = backend.peopleInformationAccessor().store(d);
-        return PersonName(id, name);
-    });
-
-    return person;
 }
