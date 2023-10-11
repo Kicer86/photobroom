@@ -56,6 +56,7 @@ private:
 
     ITaskExecutor::ProcessCoroutine processPhotos(ITaskExecutor::IProcessSupervisor *);
     void appendFaces(std::vector<Face> &&);
+    void removeFace(int);
     void newPhotos(const QModelIndex &, int, int);
     std::optional<Photo::Id> getNextId();
     void loadFacesFromPhoto(const Photo::Id &);
