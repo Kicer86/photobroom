@@ -1,7 +1,6 @@
 
 #include <cassert>
 
-#include <core/down_cast.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>

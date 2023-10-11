@@ -11,7 +11,6 @@
 #include <core/constants.hpp>
 #include <core/containers_utils.hpp>
 #include <core/iexif_reader.hpp>
-#include <core/down_cast.hpp>
 #include <core/tags_utils.hpp>
 #include <system/system.hpp>
 #include <project_utils/project.hpp>
