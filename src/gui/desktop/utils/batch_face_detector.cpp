@@ -1,4 +1,5 @@
 
+#include <core/cast.hpp>
 #include <core/exif_reader_factory.hpp>
 #include <core/itask_executor.hpp>
 #include <core/logger_factory.hpp>
@@ -140,13 +141,14 @@ bool BatchFaceDetector::setData(const QModelIndex& idx, const QVariant& value, i
 
 void BatchFaceDetector::accept(int idx)
 {
-    m_faces[idx].first->store();
+    m_faces[safe_cast<std::size_t>(idx)].first->store();
+    removeFace(idx);
 }
 
 
 void BatchFaceDetector::drop(int idx)
 {
-
+    removeFace(idx);
 }
 
 
@@ -186,6 +188,14 @@ void BatchFaceDetector::appendFaces(std::vector<Face>&& faces)
         m_faces.insert(m_faces.end(), std::make_move_iterator(faces.begin()),  std::make_move_iterator(faces.end()));
         endInsertRows();
     }
+}
+
+
+void BatchFaceDetector::removeFace(int idx)
+{
+    beginRemoveRows({}, idx, idx);
+    m_faces.erase(m_faces.begin() + idx);
+    endRemoveRows();
 }
 
 
