@@ -53,6 +53,7 @@ Item {
                     height: 200
 
                     Column {
+                        id: faceItem
                         anchors.fill: parent
 
                         Item {
@@ -86,7 +87,10 @@ Item {
 
                                         style: ImageButton.Scale
 
-                                        onClicked: detector.accept(delegateItem.index)
+                                        onClicked: {
+                                            faceItem.updateModel();
+                                            detector.accept(delegateItem.index);
+                                        }
                                     }
 
                                     ImageButton {
@@ -106,11 +110,15 @@ Item {
                         }
 
                         LineEdit {
+                            id: personName
+
                             anchors.horizontalCenter: parent.horizontalCenter
                             text: display
                             width: parent.width - 40
+                        }
 
-                            onEditingFinished: model.edit = text
+                        function updateModel() {
+                           model.edit = personName.text
                         }
                     }
                 }
