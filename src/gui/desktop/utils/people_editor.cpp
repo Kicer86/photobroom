@@ -181,7 +181,7 @@ namespace
             {
                 const int pos = face_recognition.recognize(faceInfo.fingerprint.fingerprint(), known_fingerprints);
 
-                if (pos >=0)
+                if (pos >= 0)
                 {
                     const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
                     const Person::Id found_person = known_people[pos];

@@ -125,7 +125,7 @@ void FacesModel::updateFaceInformation(std::shared_ptr<std::vector<std::unique_p
 
     if (faces_count > 0)
     {
-        beginInsertRows(QModelIndex(), 0, static_cast<int>(faces_count - 1));
+        beginInsertRows({}, 0, faces_count - 1);
         m_faces = std::move(*faces);
         endInsertRows();
     }
