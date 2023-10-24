@@ -22,6 +22,7 @@ jobs:
 
     - name: Install system dependencies
       run: |
+        brew unlink python@3.11 && brew link --overwrite python@3.11
         brew install        \
           llvm              \
           qt6               \
