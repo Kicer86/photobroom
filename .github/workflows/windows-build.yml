@@ -29,7 +29,7 @@ jobs:
         New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
 
     - name: Install Qt
-      uses: jurplel/install-qt-action@v3
+      uses: jurplel/install-qt-action@v4
       with:
         version: '6.4.0'
         cache: 'true'
