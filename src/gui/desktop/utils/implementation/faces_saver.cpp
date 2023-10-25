@@ -79,9 +79,8 @@ void FacesSaver::store_fingerprint(FaceInfo& face)
 void FacesSaver::store_person_information(const FaceInfo& face)
 {
     const PersonInfo& faceInfo = face.face;
-    const PersonFingerprint& fingerprint = face.fingerprint;
 
-    m_db.exec([faceInfo, fingerprint](Database::IBackend& backend)
+    m_db.exec([faceInfo](Database::IBackend& backend)
     {
         backend.peopleInformationAccessor().store(faceInfo);
     });
