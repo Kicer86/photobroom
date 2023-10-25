@@ -41,6 +41,7 @@ public:
 
 
 struct IFacesSaver;
+class FaceInfo;
 
 class FaceEditor
 {
@@ -54,6 +55,9 @@ private:
     std::unique_ptr<ILogger> m_logger;
     Database::IDatabase& m_db;
     ICoreFactoryAccessor& m_core;
+
+    std::vector<FaceInfo> findFaces(const OrientedImage &, const Photo::Id &);
+    std::shared_ptr<IFacesSaver> getFaceSaver();
 };
 
 #endif
