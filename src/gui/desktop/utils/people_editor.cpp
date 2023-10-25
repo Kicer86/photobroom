@@ -190,7 +190,7 @@ namespace
             }
     }
 
-    std::vector<FaceInfo> findAndRecognizePeople(const OrientedImage& image, Database::IDatabase& db, const Photo::Id& id, const ILogger& logger)
+    std::vector<FaceInfo> findPeople(const OrientedImage& image, Database::IDatabase& db, const Photo::Id& id, const ILogger& logger)
     {
         std::vector<FaceInfo> result;
 
@@ -203,9 +203,6 @@ namespace
 
         //calculate fingerprints
         calculateMissingFingerprints(result, image, logger);
-
-        //recognize people
-        recognizePeople(result, db, logger);
 
         return result;
     }
@@ -224,120 +221,6 @@ namespace
             else
                 return lhs_face.top() < rhs_face.top();   // when in line - lhs needs to be above
         });
-    }
-
-    std::vector<FaceInfo> loadCachedFacesFor(Database::IDatabase& db, const Photo::Id& id)
-    {
-        std::vector<FaceInfo> result;
-
-        const QByteArray blob = evaluate<QByteArray(Database::IBackend &)>(db, [id](Database::IBackend& backend)
-        {
-            return backend.readBlob(id, CacheBlob);
-        });
-
-        if (blob.isEmpty() == false)
-        {
-            const QJsonDocument json = QJsonDocument::fromJson(blob);
-            const std::vector<CalculatedData> storage = JSon::deserialize<std::vector<CalculatedData>>(json);
-
-            for (const auto& faceData: storage)
-            {
-                FaceInfo fi(faceData.ph_id, faceData.position);
-                fi.fingerprint = PersonFingerprint(faceData.fingerprint);
-                fi.person = PersonName(faceData.name);
-
-                result.push_back(fi);
-            }
-        }
-
-        return result;
-    }
-
-    void cacheFacesFor(Database::IDatabase& db, const Photo::Id& id, const std::vector<FaceInfo>& result)
-    {
-        std::vector<CalculatedData> storage;
-
-        for (const auto& faceInfo: result)
-            storage.emplace_back(faceInfo.face.rect, faceInfo.fingerprint.fingerprint(), faceInfo.person.name(), faceInfo.face.ph_id);
-
-        // store detected, but not confirmed by user, faces as blob in database for cache
-        const QJsonDocument json = JSon::serialize(storage);
-
-        execute(db, [id, blob = json.toJson()](Database::IBackend& backend)
-        {
-            backend.writeBlob(id, CacheBlob, blob);
-        });
-    }
-
-    std::vector<FaceInfo> findFaces(Database::IDatabase& db,
-                                    const OrientedImage& image,
-                                    const ILogger& logger,
-                                    const Photo::Id& id)
-    {
-        std::vector<FaceInfo> result;
-
-        const bool facesNotFound = wasPhotoAnalyzedAndHasNoFaces(db, id);
-
-        // photo not analyzed yet (no records in db) or analyzed and we have data in db
-        if (facesNotFound == false)
-        {
-            const std::vector<PersonInfo> list_of_faces = fetchFacesFromDb(db, id);
-
-            // no data in db
-            if (list_of_faces.empty())
-            {
-                // check in cache
-                result = loadCachedFacesFor(db, id);
-
-                if (result.empty())
-                {
-                    result = findAndRecognizePeople(image, db, id, logger);
-
-                    if (result.empty())
-                    {
-                        // mark photo as one without faces
-                        db.exec([id](Database::IBackend& backend)
-                        {
-                            backend.set(
-                                id,
-                                FacesAnalysisState,
-                                FacesAnalysisType::AnalysedAndNotFound);
-                        });
-                    }
-                    else
-                        cacheFacesFor(db, id, result);
-                }
-            }
-            else    // data in db just use it
-            {
-                evaluate<void(Database::IBackend &)>(db, [&result, &list_of_faces](Database::IBackend& backend)
-                {
-                    std::vector<PersonInfo::Id> pi_ids;
-                    std::ranges::transform(list_of_faces, std::back_inserter(pi_ids), [](const PersonInfo& pi)
-                    {
-                        return pi.id;
-                    });
-
-                    const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(pi_ids);
-                    assert(fingerprints.size() == list_of_faces.size());
-
-                    for (const PersonInfo& pi: list_of_faces)
-                    {
-                        FaceInfo fi(pi);
-                        fi.fingerprint = fingerprints.find(pi.id)->second;
-
-                        if (pi.p_id.valid())
-                            fi.person = backend.peopleInformationAccessor().person(pi.p_id);
-
-                        result.push_back(fi);
-                    };
-                });
-            }
-        }
-
-        sortFaces(result);
-
-        return result;
     }
 }
 
@@ -358,18 +241,9 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
     const QString full_path = pathInfo.absoluteFilePath();
     auto image = std::make_shared<OrientedImage>(m_core.getExifReaderFactory().get(), full_path);
 
-    const auto faces = findFaces(
-        m_db,
-        *image,
-        *m_logger,
-        id);
+    const auto faces = findFaces(*image, id);
 
-    auto storage = m_facesSaver.lock();
-    if (storage.get() == nullptr)
-    {
-        storage = std::make_shared<FacesSaver>(m_db);
-        m_facesSaver = storage;
-    }
+    auto storage = getFaceSaver();
 
     std::vector<std::unique_ptr<IFace>> result;
 
@@ -379,4 +253,85 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
     });
 
     return result;
+}
+
+std::vector<FaceInfo> FaceEditor::findFaces(const OrientedImage& image, const Photo::Id& id)
+{
+    std::vector<FaceInfo> result;
+
+    const bool facesNotFound = wasPhotoAnalyzedAndHasNoFaces(m_db, id);
+
+    // photo not analyzed yet (no records in db) or analyzed and we have data in db
+    if (facesNotFound == false)
+    {
+        const std::vector<PersonInfo> list_of_faces = fetchFacesFromDb(m_db, id);
+
+        // no data in db
+        if (list_of_faces.empty())
+        {
+            result = findPeople(image, m_db, id, *m_logger);
+
+            if (result.empty())
+            {
+                // mark photo as one without faces
+                m_db.exec([id](Database::IBackend& backend)
+                {
+                    backend.set(
+                        id,
+                        FacesAnalysisState,
+                        FacesAnalysisType::AnalysedAndNotFound);
+                });
+            }
+            else
+            {
+                // store face location and fingerprint in db
+                auto storage = getFaceSaver();
+                for (auto& face: result)
+                    storage->store(face);
+            }
+        }
+        else    // data in db just use it
+        {
+            evaluate<void(Database::IBackend &)>(m_db, [&result, &list_of_faces](Database::IBackend& backend)
+            {
+                std::vector<PersonInfo::Id> pi_ids;
+                std::ranges::transform(list_of_faces, std::back_inserter(pi_ids), [](const PersonInfo& pi)
+                {
+                    return pi.id;
+                });
+
+                const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(pi_ids);
+                assert(fingerprints.size() == list_of_faces.size());
+
+                for (const PersonInfo& pi: list_of_faces)
+                {
+                    FaceInfo fi(pi);
+                    fi.fingerprint = fingerprints.find(pi.id)->second;
+
+                    if (pi.p_id.valid())
+                        fi.person = backend.peopleInformationAccessor().person(pi.p_id);
+
+                    result.push_back(fi);
+                };
+            });
+        }
+    }
+
+    sortFaces(result);
+
+    return result;
+}
+
+
+std::shared_ptr<IFacesSaver> FaceEditor::getFaceSaver()
+{
+    auto storage = m_facesSaver.lock();
+
+    if (storage.get() == nullptr)
+    {
+        storage = std::make_shared<FacesSaver>(m_db);
+        m_facesSaver = storage;
+    }
+
+    return storage;
 }
