@@ -18,13 +18,13 @@ jobs:
         submodules: true
 
     - name: Verify integrity
-      uses: 2m/arch-pkgbuild-builder@v1.19
+      uses: 2m/arch-pkgbuild-builder@v1.20
       with:
         target: 'srcinfo'
         pkgname: '.github/aur/photobroom-git'
 
     - name: Build Package
-      uses: 2m/arch-pkgbuild-builder@v1.19
+      uses: 2m/arch-pkgbuild-builder@v1.20
       with:
         target: 'pkgbuild'
         pkgname: '.github/aur/photobroom-git'
