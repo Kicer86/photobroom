@@ -240,10 +240,10 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
     const QFileInfo pathInfo(path);
     const QString full_path = pathInfo.absoluteFilePath();
     auto image = std::make_shared<OrientedImage>(m_core.getExifReaderFactory().get(), full_path);
-
-    const auto faces = findFaces(*image, id);
-
     auto storage = getFaceSaver();
+
+    auto faces = findFaces(*image, id);
+    recognizePeople(faces, m_db, *m_logger);
 
     std::vector<std::unique_ptr<IFace>> result;
 
@@ -254,6 +254,7 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
 
     return result;
 }
+
 
 std::vector<FaceInfo> FaceEditor::findFaces(const OrientedImage& image, const Photo::Id& id)
 {
