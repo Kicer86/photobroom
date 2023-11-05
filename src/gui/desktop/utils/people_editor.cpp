@@ -15,9 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "people_editor.hpp"
-#include "people_editor_impl_r++.hpp"
-
 #include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -27,7 +24,6 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/iexif_reader.hpp>
-#include <core/json_serializer.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/ibackend.hpp>
 #include <database/database_executor_traits.hpp>
@@ -37,36 +33,14 @@
 #include "implementation/faces_saver.hpp"
 #include "implementation/people_editor_impl.hpp"
 
+#include "people_editor.hpp"
+
 
 using namespace Database::CommonGeneralFlags;
-
-namespace JSon
-{
-    template<typename T, typename Tag>
-    struct CustomType<Id<T, Tag>>
-    {
-        using type = QJsonObject;
-
-        static QJsonObject serialize(const Id<T, Tag>& id)
-        {
-            QJsonObject json;
-            json["id"] = id.value();
-
-            return json;
-        }
-
-        static Id<T, Tag> deserialize(const QJsonObject& json)
-        {
-            return Id<T, Tag>(json["id"].toVariant().value<T>());
-        }
-    };
-}
 
 
 namespace
 {
-    constexpr auto CacheBlob = "people_editor_cache";
-
     Person::Fingerprint average_fingerprint(const std::vector<PersonFingerprint>& faces)
     {
         if (faces.empty())
