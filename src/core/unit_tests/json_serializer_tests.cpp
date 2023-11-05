@@ -82,7 +82,7 @@ TEST(JsonSerializerTest, SerializationDeserialization)
 {
     DEF def;
     def.abc_vec.emplace_back(11, 15.f, -8., "World", QRect(3, 6, 9, 11));
-    def.abc_list.emplace_back(-6, -765.f, 89., "World", QRect(-1, -50, 9, 11));
+    def.abc_deque.emplace_back(-6, -765.f, 89., "World", QRect(-1, -50, 9, 11));
 
     const QJsonDocument json = JSon::serialize(def);
     const DEF def2 = JSon::deserialize<DEF>(json);

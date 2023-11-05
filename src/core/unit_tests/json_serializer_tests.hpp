@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <list>
+#include <deque>
 #include <string>
 #include <vector>
 #include <QRect>
@@ -27,11 +27,11 @@ namespace
     struct DEF
     {
         std::vector<ABC> abc_vec;
-        std::list<ABC> abc_list;
+        std::deque<ABC> abc_deque;
 
         bool operator==(const DEF& other) const
         {
-            return std::tie(abc_vec, abc_list) == std::tie(other.abc_vec, other.abc_list);
+            return std::tie(abc_vec, abc_deque) == std::tie(other.abc_vec, other.abc_deque);
         }
     };
 }
