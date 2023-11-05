@@ -83,12 +83,4 @@ target_include_directories(gui_utils
                                 ${CMAKE_CURRENT_BINARY_DIR}
 )
 
-ReflectFiles(
-    ReflectionFiles
-    TARGET
-        gui_utils
-    SOURCES
-        implementation/people_editor_impl.hpp
-)
-
 target_sources(gui_utils PRIVATE ${ReflectionFiles})
