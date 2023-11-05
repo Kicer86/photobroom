@@ -11,14 +11,6 @@
 #include "../people_editor.hpp"
 
 
-struct CalculatedData
-{
-    QRect position;
-    Person::Fingerprint fingerprint;
-    QString name;
-    Photo::Id ph_id;
-};
-
 struct FaceInfo
 {
     PersonInfo face;
