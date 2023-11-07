@@ -109,10 +109,7 @@ namespace Database
                 std::vector<PersonFullInfo> people;
                 const auto array = it.value().toArray();
 
-                std::transform(array.cbegin(),
-                               array.cend(),
-                               std::back_inserter(people),
-                               [](const QJsonValue& value)
+                std::ranges::transform(array, std::back_inserter(people), [](const QJsonValue& value)
                 {
                     const auto person = value.toObject();
 
