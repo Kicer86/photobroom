@@ -54,7 +54,16 @@ namespace Database
             */
             virtual PersonInfo::Id           store(const PersonInfo& pi) = 0;
 
-            virtual PersonFingerprint::Id    store(const PersonFingerprint &) = 0;
+            /**
+             * @brief Store person's fingerprint in db
+             * @arg fp Person's fingerprint
+             * @return fingerprint id assigned by db
+             *
+             * If @a fp has valid id but empty fingerprint, it will be removed from db.
+             * If @a fp has invalid id but valid fingerprint data, new entry will be added to db.
+             * If @a fp has both entries valid, fingerpritn data for given id will be updated.
+             */
+            virtual PersonFingerprint::Id    store(const PersonFingerprint& fp) = 0;
     };
 }
 
