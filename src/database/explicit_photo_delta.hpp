@@ -104,6 +104,14 @@ namespace Photo
         }
 
         template<Field field>
+        typename DeltaTypes<field>::Storage& get()
+        {
+            static_assert(has<field>(), "ExplicitDelta has no required Photo::Field");
+
+            return m_data.get<field>();
+        }
+
+        template<Field field>
         void insert(const typename DeltaTypes<field>::Storage& d)
         {
             static_assert(has<field>(), "ExplicitDelta has no required Photo::Field");
