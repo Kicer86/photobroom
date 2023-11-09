@@ -46,4 +46,41 @@ namespace Database
 
         return result;
     }
+
+    PersonInfo::Id APeopleInformationAccessor::store(const Photo::Id& ph_id, const PersonFullInfo& pi)
+    {
+        const auto p_id = store(pi.name);
+        const auto f_id = store(pi.fingerprint);
+
+        const PersonInfo pf(pi.pi_id, p_id, ph_id, f_id, pi.position);
+        return store(pf);
+    }
+
+    std::vector<PersonFullInfo> Database::APeopleInformationAccessor::listPeopleFull(const Photo::Id& id)
+    {
+        const auto simpleList = listPeople(id);
+
+        std::vector<PersonInfo::Id> pi_ids;
+        std::ranges::transform(simpleList, std::back_inserter(pi_ids), [](const PersonInfo& pi)
+        {
+            return pi.id;
+        });
+
+        const auto fingerprints = fingerprintsFor(pi_ids);
+
+        std::vector<PersonFullInfo> fullInfo;
+        std::ranges::transform(simpleList, std::back_inserter(fullInfo), [this, &fingerprints](const PersonInfo& pi)
+        {
+            PersonFullInfo pfi;
+            pfi.pi_id = pi.id;
+            pfi.position = pi.rect;
+            pfi.fingerprint = fingerprints.find(pi.id)->second;
+            pfi.name = person(pi.p_id);
+
+            return pfi;
+        });
+
+        return fullInfo;
+    }
+
 }
