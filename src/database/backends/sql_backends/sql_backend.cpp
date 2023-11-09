@@ -975,14 +975,8 @@ namespace Database
             const auto& people = data.get<Photo::Field::People>();
             auto& accessor = peopleInformationAccessor();
 
-            for(const auto& person: people)
-            {
-                const auto p_id = accessor.store(person.name);
-                const auto f_id = accessor.store(person.fingerprint);
-
-                const PersonInfo pf(p_id, data.getId(), f_id, person.position);
-                accessor.store(pf);
-            }
+            for(const PersonFullInfo& person: people)
+                accessor.store(data.getId(), person);
         }
 
         photoChangeLogOperator().storeDifference(currentStateOfPhoto, data);

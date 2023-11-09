@@ -120,6 +120,7 @@ public:
     QRect position;
     PersonFingerprint fingerprint;
     PersonName name;
+    PersonInfo::Id pi_id;
 
     auto operator<=>(const PersonFullInfo &) const = default;
 };
