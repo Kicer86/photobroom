@@ -280,7 +280,7 @@ namespace Database
         {
             if (fingerprint.fingerprint().empty())
             {
-                const QString delete_query = QString ("DELETE from %1 WHERE id = %2")
+                const QString delete_query = QString("DELETE from %1 WHERE id = %2")
                                                 .arg(TAB_FACES_FINGERPRINTS)
                                                 .arg(fid.value());
 
