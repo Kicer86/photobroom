@@ -241,7 +241,7 @@ namespace Database
             if (query.numRowsAffected() == 0)   // any update?
                 id = Person::Id();              // nope - error
         }
-        else             // id invalid? add new person or nothing when already exists
+        else if (d.name().isEmpty() == false)   // id invalid? add new person (if name is set) or nothing when already exists
         {
             const PersonName pn = person(d.name());
 
@@ -300,7 +300,7 @@ namespace Database
                 m_executor.exec(query);
             }
         }
-        else
+        else if (fingerprint_list.isEmpty() == false)
         {
             InsertQueryData insertData(TAB_FACES_FINGERPRINTS);
             insertData.addColumn("fingerprint");
