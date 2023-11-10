@@ -10,6 +10,8 @@ find_package(Threads   REQUIRED)
 find_package(MagicEnum REQUIRED)
 find_package(OpenCV    REQUIRED)
 
+include(${PROJECT_SOURCE_DIR}/tools/reflect++/Reflect++.cmake)
+
 set(DATABASE_SOURCES
     actions.hpp
     apeople_information_accessor.hpp
@@ -90,6 +92,15 @@ target_include_directories(database
 )
 
 set_target_properties(database PROPERTIES AUTOMOC TRUE)
+
+ReflectFiles(ReflectionFiles
+    TARGET
+        database
+    SOURCES
+        person_data.hpp
+)
+
+target_sources(database PRIVATE ${ReflectionFiles})
 
 generate_export_header(database)
 hideSymbols(database)
