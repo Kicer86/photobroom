@@ -77,7 +77,9 @@ class DATABASE_EXPORT PersonFingerprint
         Id m_id;
 };
 
-
+/**
+ * @brief Container for DB IDs of people related entries.
+ */
 class DATABASE_EXPORT PersonInfo
 {
     public:
@@ -113,10 +115,29 @@ class DATABASE_EXPORT PersonInfo
         auto operator<=>(const PersonInfo &) const = default;
 };
 
+/**
+ *  @brief Container for person data (without DB IDs)
+ */
+struct PersonData
+{
+    QRect rect;
+    Person::Fingerprint fingerprint;
+    QString name;
+};
 
+/**
+ * @brief Container for all people related data (DB IDs + values)
+ */
 class PersonFullInfo
 {
 public:
+    PersonFullInfo() = default;
+    PersonFullInfo(const PersonData& data)
+        : position(data.rect)
+        , fingerprint(data.fingerprint)
+        , name(data.name)
+    {}
+
     QRect position;
     PersonFingerprint fingerprint;
     PersonName name;
