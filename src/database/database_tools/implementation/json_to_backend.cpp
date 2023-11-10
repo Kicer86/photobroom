@@ -7,7 +7,10 @@
 #include <QStringList>
 #include <QVariant>
 
+#include "person_data_r++.hpp"
+
 #include <core/containers_utils.hpp>
+#include <core/json_serializer.hpp>
 #include "../json_to_backend.hpp"
 #include "database/ibackend.hpp"
 #include "database/igroup_operator.hpp"
@@ -111,9 +114,9 @@ namespace Database
 
                 std::ranges::transform(array, std::back_inserter(people), [](const QJsonValue& value)
                 {
-                    const auto person = value.toObject();
-
-                    return PersonFullInfo{.name = PersonName(person["name"].toString())};
+                    const auto personData = JSon::deserialize<PersonData>(value);
+                    const PersonFullInfo personFullInfo(personData);
+                    return personFullInfo;
                 });
 
                 delta.insert<Photo::Field::People>(people);
