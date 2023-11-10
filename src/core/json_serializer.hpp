@@ -155,7 +155,9 @@ namespace JSon
         template<typename T, typename JT>
         T getDeserialized(const JT& value)
         {
-            if constexpr (hasAssignmentOperator<QJsonValueRef, T>)
+            if (value.isUndefined())
+                return {};
+            else if constexpr (hasAssignmentOperator<QJsonValueRef, T>)
                 return value.toVariant().template value<T>();
             else if constexpr (isQtStreamable<T>)
             {
@@ -183,6 +185,12 @@ namespace JSon
     T deserialize(const QJsonDocument& doc)
     {
         return impl::deserialize<T>(doc);
+    }
+
+    template<typename T>
+    T deserialize(const QJsonValue& value)
+    {
+        return impl::deserialize<T>(value);
     }
 }
 
