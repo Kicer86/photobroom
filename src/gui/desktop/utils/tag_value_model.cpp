@@ -57,11 +57,11 @@ namespace
 }
 
 
-TagValueModel::TagValueModel(const std::set<Tag::Types>& infos, ITagInfoCollector* collector, ILoggerFactory* loggerFactory):
+TagValueModel::TagValueModel(const std::set<Tag::Types>& infos, ITagInfoCollector* collector, const ILogger& logger):
     m_values(),
     m_tagInfos(infos),
     m_tagInfoCollector(collector),
-    m_loggerFactory(loggerFactory)
+    m_logger(logger.subLogger("TagValueModel"))
 {
     connect(m_tagInfoCollector, &ITagInfoCollector::setOfValuesChanged,
             this,               &TagValueModel::collectorNotification);
@@ -106,8 +106,7 @@ void TagValueModel::updateData()
                                     .arg(combined_name)
                                     .arg(values_joined);
 
-    auto logger = m_loggerFactory->get({"gui", "TagValueModel"});
-    logger->debug(logMessage);
+    m_logger->debug(logMessage);
 
     emit dataChanged();
 }

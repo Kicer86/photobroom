@@ -25,8 +25,8 @@
 #include "idatabase.hpp"
 
 
-TagInfoCollector::TagInfoCollector(std::unique_ptr<ILogger> logger)
-    : m_logger(std::move(logger))
+TagInfoCollector::TagInfoCollector(const ILogger& logger)
+    : m_logger(logger.subLogger("TagInfoCollector"))
     , m_database(nullptr)
 {
 

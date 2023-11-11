@@ -53,18 +53,18 @@
 
 MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p):
     QObject(p),
+    m_logger(coreFactory->getLoggerFactory().get("gui")),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
     m_currentPrj(nullptr),
     m_configuration(coreFactory->getConfiguration()),
-    m_loggerFactory(coreFactory->getLoggerFactory()),
     m_updater(nullptr),
     m_coreAccessor(coreFactory),
     m_thumbnailsManager(thbMgr),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
     m_toolsTabCtrl(new ToolsTabController),
-    m_completerFactory(m_loggerFactory),
+    m_completerFactory(*m_logger),
     m_featuresObserver(featuresManager, m_notifications)
 {
     // setup
@@ -181,7 +181,7 @@ void MainWindow::set(IUpdater* updater)
 
 void MainWindow::checkVersion()
 {
-    m_loggerFactory.get("Updater")->info("Checking for new version");
+    m_logger->info("Checking for new version");
 
     auto callback = std::bind(&MainWindow::currentVersion, this, std::placeholders::_1);
     m_updater->getStatus(callback);
@@ -190,12 +190,10 @@ void MainWindow::checkVersion()
 
 void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
 {
-    auto logger = m_loggerFactory.get("Updater");
-
     switch (versionInfo.status)
     {
         case IUpdater::OnlineVersion::NewVersionAvailable:
-            logger->info("New version avialable");
+            m_logger->info("New version available");
             QMessageBox::information(nullptr,
                                      tr("New version"),
                                      tr("New version of PhotoBroom is available <a href=\"%1\">here</a>.")
@@ -204,7 +202,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
             break;
 
         case IUpdater::OnlineVersion::ConnectionError:
-            logger->error("Error when checking for new version");
+            m_logger->error("Error when checking for new version");
             QMessageBox::critical(nullptr,
                                   tr("Internet connection problem"),
                                   tr("Could not check if there is new version of PhotoBroom.\n"
@@ -213,7 +211,7 @@ void MainWindow::currentVersion(const IUpdater::OnlineVersion& versionInfo)
             break;
 
         case IUpdater::OnlineVersion::UpToDate:
-            logger->info("Application is up to date");
+            m_logger->info("Application is up to date");
             break;
     }
 }

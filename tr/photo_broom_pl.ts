@@ -404,7 +404,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+200"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+198"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>

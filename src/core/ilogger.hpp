@@ -30,7 +30,7 @@ struct ILogger
     virtual void debug(const QString &) = 0;
     virtual void trace(const QString &) = 0;
 
-    virtual std::unique_ptr<ILogger> subLogger(const QString& sub_utility) = 0;
+    virtual std::unique_ptr<ILogger> subLogger(const QString& sub_utility) const = 0;
 };
 
 #endif

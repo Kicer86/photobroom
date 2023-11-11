@@ -103,7 +103,7 @@ void Logger::trace(const QString& msg)
 }
 
 
-std::unique_ptr<ILogger> Logger::subLogger(const QString& sub_utility)
+std::unique_ptr<ILogger> Logger::subLogger(const QString& sub_utility) const
 {
     QStringList sub_utility_name = m_utility;
     sub_utility_name.append(sub_utility);

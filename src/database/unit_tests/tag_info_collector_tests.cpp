@@ -50,14 +50,14 @@ TEST_F(TagInfoCollectorTest, Constructor)
 {
     EXPECT_NO_THROW(
     {
-        TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
+        TagInfoCollector tagInfoCollector(EmptyLogger{});
     });
 }
 
 
 TEST_F(TagInfoCollectorTest, GetWithoutDatabase)
 {
-    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
+    TagInfoCollector tagInfoCollector(EmptyLogger{});
 
     std::vector<Tag::Types> tags = BaseTags::getAll();
 
@@ -90,7 +90,7 @@ TEST_F(TagInfoCollectorTest, LoadDataOnDatabaseSet)
     EXPECT_CALL(backend, listTagValues(Tag::Types::Category, _))
         .WillOnce( Return(std::vector<TagValue>{QColor(Qt::red), QColor(Qt::blue)}) );
 
-    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
+    TagInfoCollector tagInfoCollector(EmptyLogger{});
     tagInfoCollector.set(&database);
 
     const std::vector<TagValue>& dates = tagInfoCollector.get(Tag::Types::Date);
@@ -147,7 +147,7 @@ TEST_F(TagInfoCollectorTest, EmptyDatabase)
     EXPECT_CALL(backend, listTagValues(Tag::Types::Category, _))
         .WillOnce( Return( std::vector<TagValue>()) );
 
-    TagInfoCollector tagInfoCollector(std::make_unique<EmptyLogger>());
+    TagInfoCollector tagInfoCollector(EmptyLogger{});
     tagInfoCollector.set(&database);
 
     const std::vector<TagValue>& dates = tagInfoCollector.get(Tag::Types::Date);

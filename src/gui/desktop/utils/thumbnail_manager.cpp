@@ -29,9 +29,9 @@
 using namespace std::placeholders;
 
 
-ThumbnailManager::ThumbnailManager(ITaskExecutor& executor, IThumbnailsGenerator& gen, IThumbnailsCache& cache, std::unique_ptr<ILogger> logger, Database::IDatabase* db):
+ThumbnailManager::ThumbnailManager(ITaskExecutor& executor, IThumbnailsGenerator& gen, IThumbnailsCache& cache, const ILogger& logger, Database::IDatabase* db):
     m_tasks(executor, TasksQueue::Mode::Lifo),
-    m_logger(std::move(logger)),
+    m_logger(logger.subLogger("ThumbnailManager")),
     m_cache(cache),
     m_generator(gen),
     m_db(db)

@@ -36,7 +36,7 @@ namespace Database
 }
 
 class IModelCompositorDataSource;
-struct ILoggerFactory;
+struct ILogger;
 class PeopleListModel;
 
 /**
@@ -47,7 +47,7 @@ class PeopleListModel;
 class CompleterFactory: public QObject, public ICompleterFactory
 {
     public:
-        explicit CompleterFactory(ILoggerFactory &);
+        explicit CompleterFactory(const ILogger &);
         CompleterFactory(const CompleterFactory &) = delete;
         ~CompleterFactory();
         CompleterFactory& operator=(const CompleterFactory &) = delete;
@@ -61,12 +61,12 @@ class CompleterFactory: public QObject, public ICompleterFactory
         const IModelCompositorDataSource& accessPeopleModel() override;
 
     private:
+        std::unique_ptr<ILogger> m_logger;
         TagInfoCollector m_tagInfoCollector;
         std::map<std::set<Tag::Types>, std::unique_ptr<IModelCompositorDataSource>> m_tagValueModels;
         PeopleListModel m_peopleListModel;
-        ILoggerFactory& m_loggerFactory;
 
         IModelCompositorDataSource* getModelFor(const std::set<Tag::Types> &);
 };
 
-#endif // COMPLETERFACTORY_HPP
+#endif
