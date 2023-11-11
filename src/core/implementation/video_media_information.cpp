@@ -48,7 +48,7 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
     info.common.creationTime = videoDetailsReader.creationTime();
 
     m_logger->trace(QString("Opening video file %1 for reading video details").arg(path));
-    cv::VideoCapture video(path.toStdString());
+    cv::VideoCapture video(path.toStdString(), cv::CAP_FFMPEG);
     if (video.isOpened())
     {
         m_logger->trace("File opened successfully");

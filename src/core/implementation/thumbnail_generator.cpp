@@ -115,7 +115,7 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
 
             if (milliseconds > 0)
             {
-                cv::VideoCapture video(absolute_path.toStdString());
+                cv::VideoCapture video(absolute_path.toStdString(), cv::CAP_FFMPEG);
 
                 if (video.isOpened())
                 {
