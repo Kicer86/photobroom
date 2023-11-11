@@ -22,14 +22,16 @@
 
 #include <QString>
 
+#include "ilogger.hpp"
 #include "imedia_information.hpp"
+
 
 struct IConfiguration;
 
 class VideoMediaInformation
 {
     public:
-        explicit VideoMediaInformation(IConfiguration &);
+        explicit VideoMediaInformation(IConfiguration &, const ILogger &);
         VideoMediaInformation(const VideoMediaInformation &) = delete;
         VideoMediaInformation(VideoMediaInformation &&) = delete;
 
@@ -42,6 +44,7 @@ class VideoMediaInformation
 
     private:
         QString m_exiftoolPath;
+        std::unique_ptr<ILogger> m_logger;
 };
 
 #endif // VIDEOINFORMATION_HPP

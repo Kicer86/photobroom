@@ -1,4 +1,6 @@
 
+#ifndef EXIFTOOL_VIDEO_DETAILS_READER_HPP_INCLUDED
+#define EXIFTOOL_VIDEO_DETAILS_READER_HPP_INCLUDED
 
 #include <optional>
 
@@ -29,3 +31,5 @@ class ExiftoolVideoDetailsReader
         const std::map<QString, QString> m_entries;
 };
 
+
+#endif
