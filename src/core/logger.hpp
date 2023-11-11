@@ -54,7 +54,7 @@ class CORE_EXPORT Logger final: public ILogger
         void debug(const QString &) override;
         void trace(const QString &) override;
 
-        std::unique_ptr<ILogger> subLogger(const QString & sub_utility) override;
+        std::unique_ptr<ILogger> subLogger(const QString & sub_utility) const override;
 
     private:
         const QStringList m_utility;

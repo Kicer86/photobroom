@@ -11,7 +11,7 @@
 class FeaturesManager: public IFeaturesManager
 {
 public:
-    FeaturesManager(IConfiguration &, std::unique_ptr<ILogger> &);
+    FeaturesManager(IConfiguration &, const std::unique_ptr<ILogger> &);
 
     bool has(const QString &) const override;
 

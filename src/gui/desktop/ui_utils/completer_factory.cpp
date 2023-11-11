@@ -22,7 +22,7 @@
 #include <QCompleter>
 #include <QStringListModel>
 
-#include <core/ilogger_factory.hpp>
+#include <core/ilogger.hpp>
 #include <core/model_compositor.hpp>
 #include <database/database_tools/tag_info_collector.hpp>
 
@@ -45,11 +45,11 @@ namespace
 }
 
 
-CompleterFactory::CompleterFactory(ILoggerFactory& lf):
-    m_tagInfoCollector(lf.get("TagInfoCollector")),
+CompleterFactory::CompleterFactory(const ILogger& logger):
+    m_logger(logger.subLogger("CompleterFactory")),
+    m_tagInfoCollector(*m_logger->subLogger("CompleterFactory")),
     m_tagValueModels(),
-    m_peopleListModel(),
-    m_loggerFactory(lf)
+    m_peopleListModel()
 {
 
 }
@@ -106,7 +106,7 @@ IModelCompositorDataSource* CompleterFactory::getModelFor(const std::set<Tag::Ty
 
     if (it == m_tagValueModels.end())
     {
-        auto tags_model = std::make_unique<TagValueModel>(infos, &m_tagInfoCollector, &m_loggerFactory);
+        auto tags_model = std::make_unique<TagValueModel>(infos, &m_tagInfoCollector, *m_logger);
 
         std::tie(it, std::ignore) = m_tagValueModels.emplace(infos, std::move(tags_model));
     }

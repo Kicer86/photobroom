@@ -25,14 +25,14 @@
 #include <core/tag.hpp>
 #include <core/imodel_compositor_data_source.hpp>
 
-struct ILoggerFactory;
+struct ILogger;
 struct ITagInfoCollector;
 
 
 class TagValueModel: public IModelCompositorDataSource
 {
     public:
-        TagValueModel(const std::set<Tag::Types> &, ITagInfoCollector *, ILoggerFactory *);
+        TagValueModel(const std::set<Tag::Types> &, ITagInfoCollector *, const ILogger &);
         TagValueModel(const TagValueModel &) = delete;
         ~TagValueModel();
         TagValueModel& operator=(const TagValueModel &) = delete;
@@ -43,7 +43,7 @@ class TagValueModel: public IModelCompositorDataSource
         QStringList m_values;
         std::set<Tag::Types> m_tagInfos;
         ITagInfoCollector* m_tagInfoCollector;
-        ILoggerFactory* m_loggerFactory;
+        std::unique_ptr<ILogger> m_logger;
 
         void updateData();
         void collectorNotification(const Tag::Types &);

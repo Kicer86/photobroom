@@ -27,7 +27,7 @@ namespace
 }
 
 
-FeaturesManager::FeaturesManager(IConfiguration& configuration, std::unique_ptr<ILogger>& logger)
+FeaturesManager::FeaturesManager(IConfiguration& configuration, const std::unique_ptr<ILogger>& logger)
     : m_logger(logger->subLogger("FeaturesManager"))
     , m_configuration(configuration)
 {

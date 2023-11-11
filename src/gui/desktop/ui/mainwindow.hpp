@@ -51,11 +51,11 @@ class MainWindow: public QObject
 
     private:
         TasksModel                m_tasksModel;
+        std::unique_ptr<ILogger>  m_logger;
         IProjectManager*          m_prjManager;
         IPluginLoader*            m_pluginLoader;
         std::unique_ptr<Project>  m_currentPrj;
         IConfiguration&           m_configuration;
-        ILoggerFactory&           m_loggerFactory;
         IUpdater*                 m_updater;
         ICoreFactoryAccessor*     m_coreAccessor;
         IThumbnailsManager*       m_thumbnailsManager;

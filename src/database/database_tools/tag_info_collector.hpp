@@ -37,7 +37,7 @@ namespace Database
 class DATABASE_EXPORT TagInfoCollector: public ITagInfoCollector
 {
     public:
-        TagInfoCollector(std::unique_ptr<ILogger>);
+        TagInfoCollector(const ILogger &);
         TagInfoCollector(const TagInfoCollector &) = delete;
         ~TagInfoCollector() = default;
 
