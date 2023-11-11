@@ -80,7 +80,7 @@
 <!-- Node7 -->
 <g id="node6" class="node">
 <title>Node7</title>
-<g id="a_node6"><a xlink:href="../../df/ddd/struct_i_logger.html#a6afcc66362b9e901c7e42d90f33f19c0" target="_top" xlink:title=" ">
+<g id="a_node6"><a xlink:href="../../df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="310,-19 210,-19 210,0 310,0 310,-19"/>
 <text text-anchor="middle" x="260" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">ILogger::subLogger</text>
 </a>

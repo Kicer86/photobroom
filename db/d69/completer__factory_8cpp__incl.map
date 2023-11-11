@@ -1,10 +1,10 @@
 <map id="src/gui/desktop/ui_utils/completer_factory.cpp" name="src/gui/desktop/ui_utils/completer_factory.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="313,5,497,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="233,5,417,45"/>
 <area shape="rect" id="node2" href="$de/d29/completer__factory_8hpp.html" title=" " alt="" coords="5,93,155,119"/>
-<area shape="rect" id="node3" href="$df/d46/tag__info__collector_8hpp.html" title=" " alt="" coords="53,167,219,207"/>
-<area shape="rect" id="node4" title=" " alt="" coords="229,93,320,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="344,93,467,119"/>
-<area shape="rect" id="node6" href="$d4/d57/ilogger__factory_8hpp.html" title=" " alt="" coords="491,93,650,119"/>
-<area shape="rect" id="node7" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="675,93,856,119"/>
-<area shape="rect" id="node8" href="$da/d9f/tag__value__model_8hpp.html" title=" " alt="" coords="881,93,1053,119"/>
+<area shape="rect" id="node3" href="$df/d46/tag__info__collector_8hpp.html" title=" " alt="" coords="38,167,205,207"/>
+<area shape="rect" id="node4" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="125,255,238,280"/>
+<area shape="rect" id="node5" title=" " alt="" coords="280,93,371,119"/>
+<area shape="rect" id="node6" title=" " alt="" coords="395,93,517,119"/>
+<area shape="rect" id="node7" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="541,93,723,119"/>
+<area shape="rect" id="node8" href="$da/d9f/tag__value__model_8hpp.html" title=" " alt="" coords="747,93,919,119"/>
 </map>

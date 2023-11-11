@@ -22,7 +22,7 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="../../dd/d17/class_thumbnail_manager.html#a23c27b8332708a2e59a6a5ac0c3962fd" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="125,-24.5 0,-24.5 0,-5.5 125,-5.5 125,-24.5"/>
+<polygon fill="white" stroke="#666666" points="125,-24.5 0,-24.5 0,-5.5 125,-5.5 125,-24.5"/>
 <text text-anchor="middle" x="62.5" y="-12.5" font-family="Helvetica,sans-Serif" font-size="10.00">ThumbnailManager::fetch</text>
 </a>
 </g>

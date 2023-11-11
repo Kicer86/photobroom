@@ -89,7 +89,7 @@ var searchData=
   ['comparisonop_86',['ComparisonOp',['../d0/d76/namespace_database.html#a07331544e1f883d05a954e9681abbcc7',1,'Database']]],
   ['completer_5ffactory_2ecpp_87',['completer_factory.cpp',['../d6/d2c/completer__factory_8cpp.html',1,'']]],
   ['completer_5ffactory_2ehpp_88',['completer_factory.hpp',['../de/d29/completer__factory_8hpp.html',1,'']]],
-  ['completerfactory_89',['CompleterFactory',['../d6/d62/class_completer_factory.html#a44ed2872c4881afb1172235175ca8a67',1,'CompleterFactory::CompleterFactory()'],['../d6/d62/class_completer_factory.html',1,'CompleterFactory'],['../d6/d62/class_completer_factory.html#ae34dc5550dfad365384c9ec745e7ce44',1,'CompleterFactory::CompleterFactory()']]],
+  ['completerfactory_89',['CompleterFactory',['../d6/d62/class_completer_factory.html#a4ec84ef5c5ff025c3a243cd83a561ac6',1,'CompleterFactory::CompleterFactory()'],['../d6/d62/class_completer_factory.html',1,'CompleterFactory'],['../d6/d62/class_completer_factory.html#ae34dc5550dfad365384c9ec745e7ce44',1,'CompleterFactory::CompleterFactory()']]],
   ['compute_5fface_5fdescriptor_90',['compute_face_descriptor',['../d5/dae/classdlib__api_1_1face__recognition__model__v1.html#af2b8679711b6350b830defa229e3b0ce',1,'dlib_api::face_recognition_model_v1']]],
   ['compute_5fface_5fdescriptor_5ffrom_5faligned_5fimage_91',['compute_face_descriptor_from_aligned_image',['../d5/dae/classdlib__api_1_1face__recognition__model__v1.html#af1572f95a585bc86fb5a14cd0e250859',1,'dlib_api::face_recognition_model_v1']]],
   ['compute_5fface_5fdescriptors_92',['compute_face_descriptors',['../d5/dae/classdlib__api_1_1face__recognition__model__v1.html#a394860c4bd9b69e704504fd366e39f0a',1,'dlib_api::face_recognition_model_v1']]],

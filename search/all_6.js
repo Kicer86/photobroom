@@ -38,7 +38,7 @@ var searchData=
   ['features_5fmanager_5fcompositor_2ehpp_35',['features_manager_compositor.hpp',['../dd/db7/features__manager__compositor_8hpp.html',1,'']]],
   ['features_5fobserver_2ecpp_36',['features_observer.cpp',['../da/d23/features__observer_8cpp.html',1,'']]],
   ['features_5fobserver_2ehpp_37',['features_observer.hpp',['../da/d16/features__observer_8hpp.html',1,'']]],
-  ['featuresmanager_38',['FeaturesManager',['../d6/deb/class_features_manager.html#a0e15989714e25937d488c626aa20092a',1,'FeaturesManager::FeaturesManager()'],['../d6/deb/class_features_manager.html',1,'FeaturesManager']]],
+  ['featuresmanager_38',['FeaturesManager',['../d6/deb/class_features_manager.html#a9592cb146d0539ec2ec7a71f8f40e191',1,'FeaturesManager::FeaturesManager()'],['../d6/deb/class_features_manager.html',1,'FeaturesManager']]],
   ['featuresmanagercompositor_39',['FeaturesManagerCompositor',['../da/dd5/class_features_manager_compositor.html',1,'']]],
   ['featuresobserver_40',['FeaturesObserver',['../dd/dde/class_features_observer.html',1,'FeaturesObserver'],['../dd/dde/class_features_observer.html#a0fe8050b941c7df4daf1bfd5c0c1df69',1,'FeaturesObserver::FeaturesObserver()']]],
   ['feeddateandtime_41',['feedDateAndTime',['../d1/d85/class_a_exif_reader.html#ae428ad3429c3c7dc0f83f2303b0a2c01',1,'AExifReader']]],

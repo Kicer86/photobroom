@@ -32,33 +32,33 @@
 <path fill="none" stroke="#63b8ff" d="M85.39,-56.42C102.94,-60.83 123.82,-66.09 142.5,-70.79"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="141.48,-74.14 152.03,-73.19 143.19,-67.35 141.48,-74.14"/>
 </g>
-<!-- Node6 -->
+<!-- Node5 -->
 <g id="node3" class="node">
-<title>Node6</title>
+<title>Node5</title>
 <g id="a_node3"><a xlink:href="../../d7/db4/struct_i_configuration.html#a56f21aac17f8a84e7c708081b922f595" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="252,-56 136,-56 136,-37 252,-37 252,-56"/>
 <text text-anchor="middle" x="194" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">IConfiguration::getEntry</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
+<!-- Node1&#45;&gt;Node5 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node6</title>
+<title>Node1&#45;&gt;Node5</title>
 <path fill="none" stroke="#63b8ff" d="M90.1,-46.5C100.82,-46.5 112.54,-46.5 124.11,-46.5"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="124.07,-50 134.07,-46.5 124.07,-43 124.07,-50"/>
 </g>
-<!-- Node7 -->
+<!-- Node6 -->
 <g id="node4" class="node">
-<title>Node7</title>
+<title>Node6</title>
 <g id="a_node4"><a xlink:href="../../d7/db4/struct_i_configuration.html#a3f387c30272b219a1be93b6f12610435" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="252,-19 136,-19 136,0 252,0 252,-19"/>
 <text text-anchor="middle" x="194" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">IConfiguration::setEntry</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
+<!-- Node1&#45;&gt;Node6 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node7</title>
+<title>Node1&#45;&gt;Node6</title>
 <path fill="none" stroke="#63b8ff" d="M85.39,-36.58C102.94,-32.17 123.82,-26.91 142.5,-22.21"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="143.19,-25.65 152.03,-19.81 141.48,-18.86 143.19,-25.65"/>
 </g>

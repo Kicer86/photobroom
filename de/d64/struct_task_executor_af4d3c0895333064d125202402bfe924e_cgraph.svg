@@ -111,7 +111,7 @@
 <!-- Node8 -->
 <g id="node8" class="node">
 <title>Node8</title>
-<g id="a_node8"><a xlink:href="../../df/ddd/struct_i_logger.html#a6afcc66362b9e901c7e42d90f33f19c0" target="_top" xlink:title=" ">
+<g id="a_node8"><a xlink:href="../../df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="237,-19 137,-19 137,0 237,0 237,-19"/>
 <text text-anchor="middle" x="187" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">ILogger::subLogger</text>
 </a>

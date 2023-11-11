@@ -1,8 +1,7 @@
 <map id="CompleterFactory" name="CompleterFactory">
-<area shape="rect" id="node1" title="Factory for QCompleters." alt="" coords="248,93,372,119"/>
+<area shape="rect" id="node1" title="Factory for QCompleters." alt="" coords="175,93,299,119"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,5,76,31"/>
 <area shape="rect" id="node3" href="$d1/d5c/struct_i_completer_factory.html" title=" " alt="" coords="101,5,229,31"/>
 <area shape="rect" id="node4" href="$d6/d99/class_tag_info_collector.html" title=" " alt="" coords="253,5,370,31"/>
 <area shape="rect" id="node5" href="$de/d4e/class_people_list_model.html" title=" " alt="" coords="395,5,513,31"/>
-<area shape="rect" id="node6" href="$d1/d78/struct_i_logger_factory.html" title=" " alt="" coords="547,5,657,31"/>
 </map>

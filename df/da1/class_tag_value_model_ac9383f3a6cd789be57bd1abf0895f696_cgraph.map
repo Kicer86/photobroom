@@ -1,6 +1,5 @@
 <map id="TagValueModel::updateData" name="TagValueModel::updateData">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,189,80"/>
-<area shape="rect" id="node2" href="$d1/d78/struct_i_logger_factory.html#aca982aa12ae7cad04f1a90a5e48caa63" title=" " alt="" coords="243,5,377,31"/>
-<area shape="rect" id="node3" href="$de/d63/struct_i_tag_info_collector.html#a380111fb3b98e3bcb5243edb88f15ee2" title=" " alt="" coords="237,55,383,80"/>
-<area shape="rect" id="node4" href="$de/dd4/class_base_tags.html#a7b65c7bd0c368919cce09effdcdf83b6" title="Get raw text for tag." alt="" coords="240,104,380,129"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,31,189,56"/>
+<area shape="rect" id="node2" href="$de/d63/struct_i_tag_info_collector.html#a380111fb3b98e3bcb5243edb88f15ee2" title=" " alt="" coords="237,5,383,31"/>
+<area shape="rect" id="node3" href="$de/dd4/class_base_tags.html#a7b65c7bd0c368919cce09effdcdf83b6" title="Get raw text for tag." alt="" coords="240,55,380,80"/>
 </map>

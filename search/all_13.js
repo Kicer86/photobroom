@@ -188,7 +188,7 @@ var searchData=
   ['string_185',['STRING',['../d1/db9/face__recognition_2learning__tests_2utils_8cpp.html#a8f7bd5242b15da973671df869db5fe85',1,'utils.cpp']]],
   ['string_186',['string',['../df/d7c/class_tag_value.html#a3dcb33e9cb91ca3f5a21724a347f2119',1,'TagValue']]],
   ['stubqabstractitemmodel_187',['StubQAbstractItemModel',['../dc/d03/struct_stub_q_abstract_item_model.html',1,'']]],
-  ['sublogger_188',['subLogger',['../d3/ddb/class_empty_logger.html#a134684c7e0a3269eadcb7bedea81dc24',1,'EmptyLogger::subLogger()'],['../d3/d42/class_logger.html#af1a80a7c792ec9f292fa712b7d9e1bde',1,'Logger::subLogger()'],['../df/ddd/struct_i_logger.html#a6afcc66362b9e901c7e42d90f33f19c0',1,'ILogger::subLogger()']]],
+  ['sublogger_188',['subLogger',['../d3/ddb/class_empty_logger.html#a75a0a0861b5da724c3d4831a455f84eb',1,'EmptyLogger::subLogger()'],['../d3/d42/class_logger.html#a3c52871649f3a3e7aeab8d4ad2437b86',1,'Logger::subLogger()'],['../df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643',1,'ILogger::subLogger()']]],
   ['svg_5futils_2ecpp_189',['svg_utils.cpp',['../d1/de6/svg__utils_8cpp.html',1,'']]],
   ['svg_5futils_2ehpp_190',['svg_utils.hpp',['../dd/dda/svg__utils_8hpp.html',1,'']]],
   ['svgutils_191',['SVGUtils',['../d2/d8a/namespace_s_v_g_utils.html',1,'']]],
