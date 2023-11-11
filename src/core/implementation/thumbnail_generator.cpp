@@ -103,7 +103,7 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
     {
         m_logger->trace(QString("Opening video file %1 to read frame for thumbnail").arg(path));
         const QString absolute_path = pathInfo.absoluteFilePath();
-        const VideoMediaInformation videoMediaInfo(*m_configuration);
+        const VideoMediaInformation videoMediaInfo(*m_configuration, *m_logger);
         const auto fileInfo = videoMediaInfo.getInformation(absolute_path);
         const auto videoInfo = std::get<VideoFile>(fileInfo.details);
         const auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(videoInfo.duration).count();
@@ -128,7 +128,7 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
                 result = QImage(static_cast<uchar*>(frame.data), frame.cols, frame.rows, static_cast<qsizetype>(frame.step), QImage::Format_RGB888).rgbSwapped();
             }
             else
-                m_logger->trace("Error while opening stream");
+                m_logger->warning(QString("Error while ppening video file %1 to read frame for thumbnail").arg(path));
         }
     }
 

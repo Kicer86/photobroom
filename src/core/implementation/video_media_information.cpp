@@ -28,7 +28,8 @@
 #include "video_media_information.hpp"
 
 
-VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration)
+VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration, const ILogger& logger)
+    : m_logger(logger.subLogger("VideoMediaInformation"))
 {
     const QVariant exiftoolVar = configuration.getEntry(ExternalToolsConfigKeys::exiftoolPath);
 
@@ -46,12 +47,17 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
     info.common.dimension = videoDetailsReader.resolutionOf();
     info.common.creationTime = videoDetailsReader.creationTime();
 
+    m_logger->trace(QString("Opening video file %1 for reading video details").arg(path));
     cv::VideoCapture video(path.toStdString());
     if (video.isOpened())
     {
-         const qint64 lenght = static_cast<int64>(video.get(cv::CAP_PROP_FRAME_COUNT) / video.get(cv::CAP_PROP_FPS) * 1000);
-         info.details = VideoFile{.duration = std::chrono::milliseconds(lenght) };
+        m_logger->trace("File opened successfully");
+
+        const qint64 lenght = static_cast<int64>(video.get(cv::CAP_PROP_FRAME_COUNT) / video.get(cv::CAP_PROP_FPS) * 1000);
+        info.details = VideoFile{.duration = std::chrono::milliseconds(lenght) };
     }
+    else
+        m_logger->warning(QString("Error when opening video file %1 for reading video details").arg(path));
 
     return info;
 }
