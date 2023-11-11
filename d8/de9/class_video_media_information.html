@@ -81,8 +81,8 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ae4e23058147b8f04b3010aa6dace125c"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de9/class_video_media_information.html#ae4e23058147b8f04b3010aa6dace125c">VideoMediaInformation</a> (<a class="el" href="../../d7/db4/struct_i_configuration.html">IConfiguration</a> &amp;)</td></tr>
-<tr class="separator:ae4e23058147b8f04b3010aa6dace125c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f07c3f75658c97c14e35c6f9ae92867"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de9/class_video_media_information.html#a2f07c3f75658c97c14e35c6f9ae92867">VideoMediaInformation</a> (<a class="el" href="../../d7/db4/struct_i_configuration.html">IConfiguration</a> &amp;, const <a class="el" href="../../df/ddd/struct_i_logger.html">ILogger</a> &amp;)</td></tr>
+<tr class="separator:a2f07c3f75658c97c14e35c6f9ae92867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace5adaeab6124b12aac11f866af029d4"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de9/class_video_media_information.html#ace5adaeab6124b12aac11f866af029d4">VideoMediaInformation</a> (const <a class="el" href="../../d8/de9/class_video_media_information.html">VideoMediaInformation</a> &amp;)=delete</td></tr>
 <tr class="separator:ace5adaeab6124b12aac11f866af029d4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a06c4853aaf6e82d5078c5b8a5c0f4bc6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de9/class_video_media_information.html#a06c4853aaf6e82d5078c5b8a5c0f4bc6">VideoMediaInformation</a> (<a class="el" href="../../d8/de9/class_video_media_information.html">VideoMediaInformation</a> &amp;&amp;)=delete</td></tr>
@@ -100,10 +100,12 @@ Public Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:a8dd5fbd893d0f117cf56a609b509bd43"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de9/class_video_media_information.html#a8dd5fbd893d0f117cf56a609b509bd43">m_exiftoolPath</a></td></tr>
 <tr class="separator:a8dd5fbd893d0f117cf56a609b509bd43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adae0d0154d9d96ca66cc90a5f62fb0c7"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../df/ddd/struct_i_logger.html">ILogger</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/de9/class_video_media_information.html#adae0d0154d9d96ca66cc90a5f62fb0c7">m_logger</a></td></tr>
+<tr class="separator:adae0d0154d9d96ca66cc90a5f62fb0c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ae4e23058147b8f04b3010aa6dace125c" name="ae4e23058147b8f04b3010aa6dace125c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae4e23058147b8f04b3010aa6dace125c">&#9670;&#160;</a></span>VideoMediaInformation() <span class="overload">[1/3]</span></h2>
+<a id="a2f07c3f75658c97c14e35c6f9ae92867" name="a2f07c3f75658c97c14e35c6f9ae92867"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2f07c3f75658c97c14e35c6f9ae92867">&#9670;&#160;</a></span>VideoMediaInformation() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -115,8 +117,18 @@ Private Attributes</h2></td></tr>
           <td class="memname">VideoMediaInformation::VideoMediaInformation </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d7/db4/struct_i_configuration.html">IConfiguration</a> &amp;&#160;</td>
-          <td class="paramname"><em>configuration</em></td><td>)</td>
+          <td class="paramname"><em>configuration</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const <a class="el" href="../../df/ddd/struct_i_logger.html">ILogger</a> &amp;&#160;</td>
+          <td class="paramname"><em>logger</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -128,7 +140,7 @@ Private Attributes</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/de9/class_video_media_information_ae4e23058147b8f04b3010aa6dace125c_cgraph.svg" width="375" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/de9/class_video_media_information_a2f07c3f75658c97c14e35c6f9ae92867_cgraph.svg" width="375" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -306,6 +318,28 @@ Here is the caller graph for this function:</div>
       <table class="memname">
         <tr>
           <td class="memname">QString VideoMediaInformation::m_exiftoolPath</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="adae0d0154d9d96ca66cc90a5f62fb0c7" name="adae0d0154d9d96ca66cc90a5f62fb0c7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adae0d0154d9d96ca66cc90a5f62fb0c7">&#9670;&#160;</a></span>m_logger</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="../../df/ddd/struct_i_logger.html">ILogger</a>&gt; VideoMediaInformation::m_logger</td>
         </tr>
       </table>
   </td>
