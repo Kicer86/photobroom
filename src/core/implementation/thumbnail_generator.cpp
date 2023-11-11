@@ -105,30 +105,34 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
         const QString absolute_path = pathInfo.absoluteFilePath();
         const VideoMediaInformation videoMediaInfo(*m_configuration, *m_logger);
         const auto fileInfo = videoMediaInfo.getInformation(absolute_path);
-        const auto videoInfo = std::get<VideoFile>(fileInfo.details);
-        const auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(videoInfo.duration).count();
 
-        m_logger->trace(QString("Video file %1ms long").arg(milliseconds));
-
-        if (milliseconds > 0)
+        if (std::holds_alternative<VideoFile>(fileInfo.details))
         {
-            cv::VideoCapture video(absolute_path.toStdString());
+            const auto videoInfo = std::get<VideoFile>(fileInfo.details);
+            const auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(videoInfo.duration).count();
 
-            if (video.isOpened())
+            m_logger->trace(QString("Video file %1ms long").arg(milliseconds));
+
+            if (milliseconds > 0)
             {
-                m_logger->trace("Stream opened successfully");
-                const double position = static_cast<double>(milliseconds) / 10.0;
-                video.set(cv::CAP_PROP_POS_MSEC, position);
+                cv::VideoCapture video(absolute_path.toStdString());
 
-                cv::Mat frame;
-                video >> frame;
+                if (video.isOpened())
+                {
+                    m_logger->trace("Stream opened successfully");
+                    const double position = static_cast<double>(milliseconds) / 10.0;
+                    video.set(cv::CAP_PROP_POS_MSEC, position);
 
-                assert(frame.type() == CV_8UC3);
+                    cv::Mat frame;
+                    video >> frame;
 
-                result = QImage(static_cast<uchar*>(frame.data), frame.cols, frame.rows, static_cast<qsizetype>(frame.step), QImage::Format_RGB888).rgbSwapped();
+                    assert(frame.type() == CV_8UC3);
+
+                    result = QImage(static_cast<uchar*>(frame.data), frame.cols, frame.rows, static_cast<qsizetype>(frame.step), QImage::Format_RGB888).rgbSwapped();
+                }
+                else
+                    m_logger->warning(QString("Error while ppening video file %1 to read frame for thumbnail").arg(path));
             }
-            else
-                m_logger->warning(QString("Error while ppening video file %1 to read frame for thumbnail").arg(path));
         }
     }
 
