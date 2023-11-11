@@ -101,11 +101,14 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
 
     if (pathInfo.exists())
     {
+        m_logger->trace(QString("Opening video file %1 to read frame for thumbnail").arg(path));
         const QString absolute_path = pathInfo.absoluteFilePath();
         const VideoMediaInformation videoMediaInfo(*m_configuration);
         const auto fileInfo = videoMediaInfo.getInformation(absolute_path);
         const auto videoInfo = std::get<VideoFile>(fileInfo.details);
         const auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(videoInfo.duration).count();
+
+        m_logger->trace(QString("Video file %1ms long").arg(milliseconds));
 
         if (milliseconds > 0)
         {
@@ -113,6 +116,7 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
 
             if (video.isOpened())
             {
+                m_logger->trace("Stream opened successfully");
                 const double position = static_cast<double>(milliseconds) / 10.0;
                 video.set(cv::CAP_PROP_POS_MSEC, position);
 
@@ -121,10 +125,14 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
 
                 assert(frame.type() == CV_8UC3);
 
-                result = QImage(static_cast<uchar*>(frame.data), frame.cols, frame.rows, frame.step, QImage::Format_RGB888).rgbSwapped();
+                result = QImage(static_cast<uchar*>(frame.data), frame.cols, frame.rows, static_cast<qsizetype>(frame.step), QImage::Format_RGB888).rgbSwapped();
             }
+            else
+                m_logger->trace("Error while opening stream");
         }
     }
+
+    m_logger->trace(QString("Video file %1 closed").arg(path));
 
     return result;
 }
