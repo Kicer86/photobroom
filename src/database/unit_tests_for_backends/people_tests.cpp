@@ -1,8 +1,14 @@
 
+#include "database_tools/json_to_backend.hpp"
+#include "unit_tests_utils/photos_with_people.json.hpp"
+#include "backend_utils.hpp"
+
 #include "common.hpp"
 
 
 // TODO: reenable
+
+using testing::UnorderedElementsAre;
 
 template<typename T>
 struct PeopleTest: DatabaseTest<T>
@@ -552,3 +558,25 @@ TYPED_TEST(PeopleTest, removePersonWhenItsRemovedFromTags)
     });
 }
 */
+
+TYPED_TEST(PeopleTest, readPeopleViaDataDelta)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(PeopleDB::db);
+
+    const auto photos = Database::getPhotoDelta<Photo::Field::People>(*this->m_backend);
+
+    std::vector<PersonFullInfo> peopleInfo;
+
+    for(const auto& photo: photos)
+        for(const auto& person: photo.template get<Photo::Field::People>())
+            peopleInfo.push_back(person);
+
+    std::set<QString> peopleNames;
+    std::ranges::transform(peopleInfo, std::inserter(peopleNames, peopleNames.end()), [](const auto& personInfo)
+    {
+        return personInfo.name.name();
+    });
+
+    EXPECT_THAT(peopleNames, UnorderedElementsAre("person 1", "person 2", "person 3", "person 4", "person 5"));
+}

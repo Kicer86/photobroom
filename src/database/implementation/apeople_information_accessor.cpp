@@ -74,8 +74,13 @@ namespace Database
             PersonFullInfo pfi;
             pfi.pi_id = pi.id;
             pfi.position = pi.rect;
-            pfi.fingerprint = fingerprints.find(pi.id)->second;
-            pfi.name = person(pi.p_id);
+
+            auto fi_it = fingerprints.find(pi.id);
+            if (fi_it != fingerprints.end())
+                pfi.fingerprint = fingerprints.find(pi.id)->second;
+
+            if (pi.p_id.valid())
+                pfi.name = person(pi.p_id);
 
             return pfi;
         });

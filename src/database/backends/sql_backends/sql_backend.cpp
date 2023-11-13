@@ -427,6 +427,13 @@ namespace Database
                 if (phash.has_value())
                     photoData.insert<Photo::Field::PHash>(*phash);
             }
+
+            if (fields.contains(Photo::Field::People))
+            {
+                auto& peopleAccessor = peopleInformationAccessor();
+                const auto people = peopleAccessor.listPeopleFull(id);
+                photoData.insert<Photo::Field::People>(people);
+            }
         }
 
         return photoData;

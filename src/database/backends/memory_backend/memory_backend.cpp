@@ -253,13 +253,21 @@ namespace Database
 
         for (const auto& delta: deltas)
         {
-            auto it = m_db->m_photos.find(delta.getId());
-            StoregeDelta currentDelta(*it);
+            auto currentDelta = IBackend::getPhotoDelta<
+                Photo::Field::Tags,
+                Photo::Field::Flags,
+                Photo::Field::Path,
+                Photo::Field::Geometry,
+                Photo::Field::GroupInfo,
+                Photo::Field::PHash,
+                Photo::Field::People
+            >(delta.getId());
 
             photoChangeLogOperator().storeDifference(currentDelta, delta);
 
             currentDelta |= delta;
 
+            auto it = m_db->m_photos.find(delta.getId());
             it = m_db->m_photos.erase(it);
             m_db->m_photos.insert(it, currentDelta);
 
@@ -341,6 +349,13 @@ namespace Database
 
         if (fields.contains(Photo::Field::PHash))
             delta.insert<Photo::Field::PHash>(data.phash);
+
+        if (fields.contains(Photo::Field::People))
+        {
+            auto& peopleAccessor = peopleInformationAccessor();
+            const auto peopleData = peopleAccessor.listPeopleFull(data.id);
+            delta.insert<Photo::Field::People>(peopleData);
+        }
 
         return delta;
     }
