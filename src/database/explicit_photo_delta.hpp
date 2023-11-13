@@ -77,7 +77,7 @@ namespace Photo
         {
             for(const Photo::Field field : magic_enum::enum_values<Photo::Field>())
                 if (other.has(field) && has(field) == false)
-                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " from DataDelta is part of this ExplicitDelta.");
+                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " from DataDelta is not part of this ExplicitDelta.");
 
             fill<dataFields...>();
             m_data |= other;
