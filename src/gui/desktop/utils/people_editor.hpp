@@ -40,24 +40,22 @@ public:
 };
 
 
-struct IFacesSaver;
-class FaceInfo;
-
 class FaceEditor
 {
 public:
+    using PeopleData = Photo::ExplicitDelta<Photo::Field::People>;
+
     FaceEditor(Database::IDatabase &, ICoreFactoryAccessor &, const ILogger &);
 
     std::vector<std::unique_ptr<IFace>> getFacesFor(const Photo::Id &);
 
 private:
-    std::weak_ptr<IFacesSaver> m_facesSaver;
+
     std::unique_ptr<ILogger> m_logger;
     Database::IDatabase& m_db;
     ICoreFactoryAccessor& m_core;
 
-    std::vector<FaceInfo> findFaces(const OrientedImage &, const Photo::Id &);
-    std::shared_ptr<IFacesSaver> getFaceSaver();
+    PeopleData findFaces(const OrientedImage &, const Photo::Id &);
 };
 
 #endif
