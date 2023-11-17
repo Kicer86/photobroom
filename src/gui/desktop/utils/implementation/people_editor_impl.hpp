@@ -2,8 +2,7 @@
 #ifndef PEOPLE_EDITOR_IMPL_HPP_INCLUDED
 #define PEOPLE_EDITOR_IMPL_HPP_INCLUDED
 
-#include <QRect>
-#include <QString>
+#include <functional>
 
 #include <database/person_data.hpp>
 #include <database/idatabase.hpp>
@@ -11,48 +10,23 @@
 #include "../people_editor.hpp"
 
 
-struct FaceInfo
-{
-    PersonInfo face;
-    PersonName person;
-    PersonFingerprint fingerprint;
-
-    FaceInfo(const Photo::Id& id, const QRect& r)
-    {
-        face.ph_id = id;
-        face.rect = r;
-    }
-
-    explicit FaceInfo(const PersonInfo& pi)
-        : face(pi)
-    {
-
-    }
-};
-
-struct IFacesSaver
-{
-    virtual ~IFacesSaver() = default;
-    virtual void store(FaceInfo &) = 0;
-};
-
-
 struct Face: public IFace
 {
-    Face(const FaceInfo& fi, std::shared_ptr<OrientedImage> image, std::shared_ptr<IFacesSaver> saver)
+    Face(const Photo::Id& id, const PersonFullInfo& fi, std::shared_ptr<OrientedImage> image, std::shared_ptr<Database::IClient> dbClient)
         : m_faceInfo(fi)
         , m_image(image)
-        , m_saver(saver)
+        , m_dbClient(dbClient)
+        , m_id(id)
     {}
 
     const QRect& rect() const override
     {
-        return m_faceInfo.face.rect;
+        return m_faceInfo.position;
     }
 
     const QString& name() const override
     {
-        return m_faceInfo.person.name();
+        return m_faceInfo.name.name();
     }
 
     const OrientedImage& image() const override
@@ -62,17 +36,21 @@ struct Face: public IFace
 
     void setName(const QString& name) override
     {
-        m_faceInfo.person = PersonName(name);
+        m_faceInfo.name = PersonName(name);
     }
 
     void store() override
     {
-        m_saver->store(m_faceInfo);
+        m_dbClient->db().exec([id = m_id, pfi = m_faceInfo](Database::IBackend& backend)
+        {
+            backend.peopleInformationAccessor().store(id, pfi);
+        });
     }
 
-    FaceInfo m_faceInfo;
+    PersonFullInfo m_faceInfo;
     std::shared_ptr<OrientedImage> m_image;
-    std::shared_ptr<IFacesSaver> m_saver;
+    std::shared_ptr<Database::IClient> m_dbClient;
+    Photo::Id m_id;
 };
 
 #endif
