@@ -93,6 +93,8 @@ QVariant FacesModel::data(const QModelIndex& index, int role) const
             return m_faces[row]->name();
         else if (role == Roles::FaceRectRole)
             return m_faces[row]->rect();
+        else if (role == Roles::UncertainRole)
+            return m_isUncertain[row];
     }
 
     return {};
@@ -127,6 +129,20 @@ void FacesModel::updateFaceInformation(std::shared_ptr<std::vector<std::unique_p
     {
         beginInsertRows({}, 0, faces_count - 1);
         m_faces = std::move(*faces);
+        m_isUncertain.resize(m_faces.size());
+
+        // perform recognition
+        for (unsigned int i = 0; i < m_faces.size(); i++)
+        {
+            const auto& person = m_faces[i]->person();
+
+            if (person.id().valid() == false)
+            {
+                m_isUncertain[i] = true;
+                m_faces[i]->recognize();
+            }
+        }
+
         endInsertRows();
     }
 

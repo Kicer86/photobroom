@@ -159,11 +159,16 @@ Item {
 
             required property var display       // DisplayRole
             required property var index
+            required property bool uncertain
 
             readOnly: true
             hoverEnabled: true
             text: display
             placeholderText: qsTr("unknown")
+
+            palette {
+                base: uncertain? "yellow" : systemPalette.base
+            }
 
             onPressed: {
                 name.readOnly = false;
