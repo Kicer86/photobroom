@@ -26,6 +26,8 @@
 #include <database/idatabase.hpp>
 
 
+class Recognizer;
+
 class IFace
 {
 public:
@@ -33,9 +35,11 @@ public:
 
     virtual const QRect& rect() const = 0;
     virtual const QString& name() const = 0;
+    virtual const PersonName& person() const = 0;
     virtual const OrientedImage& image() const = 0;
 
     virtual void setName(const QString &) = 0;
+    virtual bool recognize() = 0;
     virtual void store() = 0;
 };
 
@@ -50,8 +54,8 @@ public:
     std::vector<std::unique_ptr<IFace>> getFacesFor(const Photo::Id &);
 
 private:
-
     std::unique_ptr<ILogger> m_logger;
+    std::shared_ptr<Recognizer> m_recognizer;
     Database::IDatabase& m_db;
     ICoreFactoryAccessor& m_core;
 
