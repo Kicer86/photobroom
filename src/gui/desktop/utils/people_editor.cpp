@@ -76,44 +76,6 @@ namespace
         });
     }
 
-    PersonName personName(Database::IDatabase& db, const Person::Id& id)
-    {
-        const PersonName person = evaluate<PersonName (Database::IBackend &)>
-            (db, [id](Database::IBackend& backend)
-        {
-            const auto people = backend.peopleInformationAccessor().person(id);
-
-            return people;
-        });
-
-        return person;
-    }
-
-    std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> fetchPeopleAndFingerprints(Database::IDatabase& db)
-    {
-        typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
-
-        return evaluate<Result(Database::IBackend &)>(db, [](Database::IBackend& backend)
-        {
-            std::vector<Person::Fingerprint> people_fingerprints;
-            std::vector<Person::Id> people;
-
-            const auto all_people = backend.peopleInformationAccessor().listPeople();
-            for(const auto& person: all_people)
-            {
-                const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(person.id());
-
-                if (fingerprints.empty() == false)
-                {
-                    people_fingerprints.push_back(average_fingerprint(fingerprints));
-                    people.push_back(person.id());
-                }
-            }
-
-            return std::tuple(people_fingerprints, people);
-        });
-    }
-
     std::vector<QRect> detectFaces(const OrientedImage& image, const ILogger& logger)
     {
         return FaceRecognition(logger).fetchFaces(image);
@@ -128,26 +90,6 @@ namespace
                 const auto fingerprint = face_recognition.getFingerprint(image, faceInfo.position);
 
                 faceInfo.fingerprint = PersonFingerprint(fingerprint);
-            }
-    }
-
-    void recognizePeople(FaceEditor::PeopleData& peopleData, Database::IDatabase& db, const ILogger& logger)
-    {
-        FaceRecognition face_recognition(logger);
-        const auto people_fingerprints = fetchPeopleAndFingerprints(db);
-        const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(people_fingerprints);
-
-        for (auto& personData: peopleData.get<Photo::Field::People>())
-            if (personData.name.name().isEmpty())
-            {
-                const int pos = face_recognition.recognize(personData.fingerprint.fingerprint(), known_fingerprints);
-
-                if (pos >= 0)
-                {
-                    const std::vector<Person::Id>& known_people = std::get<1>(people_fingerprints);
-                    const Person::Id found_person = known_people[safe_cast<std::size_t>(pos)];
-                    personData.name = personName(db, found_person);
-                }
             }
     }
 
@@ -189,9 +131,76 @@ namespace
     }
 }
 
+class Recognizer: public IRecognizePerson
+{
+    public:
+        Recognizer(Database::IDatabase& db, const ILogger& logger)
+            : m_logger(logger.subLogger("Recognizer"))
+        {
+            fetchPeopleAndFingerprints(db);
+        }
+
+        PersonName recognize(const PersonFullInfo& pi) override
+        {
+            FaceRecognition face_recognition(*m_logger);
+            PersonName result;
+
+            const std::vector<Person::Fingerprint>& known_fingerprints = std::get<0>(m_fingerprints);
+
+            if (pi.name.name().isEmpty())
+            {
+                const int pos = face_recognition.recognize(pi.fingerprint.fingerprint(), known_fingerprints);
+
+                if (pos >= 0)
+                {
+                    const std::vector<Person::Id>& known_people = std::get<1>(m_fingerprints);
+                    const Person::Id found_person = known_people[safe_cast<std::size_t>(pos)];
+                    result = m_people.at(found_person);
+                }
+            }
+
+            return result;
+        }
+
+    private:
+        using Fingerprints = std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>>;
+        using People = std::map<Person::Id, PersonName>;
+        Fingerprints m_fingerprints;
+        People m_people;
+        std::unique_ptr<ILogger> m_logger;
+
+        void fetchPeopleAndFingerprints(Database::IDatabase& db)
+        {
+            typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
+
+            evaluate<void(Database::IBackend &)>(db, [this](Database::IBackend& backend)
+            {
+                std::vector<Person::Fingerprint> people_fingerprints;
+                std::vector<Person::Id> people;
+
+                const auto all_people = backend.peopleInformationAccessor().listPeople();
+
+                for(const auto& person: all_people)
+                {
+                    m_people.emplace(person.id(), person);
+                    const auto fingerprints = backend.peopleInformationAccessor().fingerprintsFor(person.id());
+
+                    if (fingerprints.empty() == false)
+                    {
+                        people_fingerprints.push_back(average_fingerprint(fingerprints));
+                        people.push_back(person.id());
+                    }
+                }
+
+                m_fingerprints = std::tuple(people_fingerprints, people);
+            });
+        }
+};
+
 
 FaceEditor::FaceEditor(Database::IDatabase& db, ICoreFactoryAccessor& core, const ILogger& logger)
     : m_logger(logger.subLogger("FaceEditor"))
+    , m_recognizer(std::make_shared<Recognizer>(db, *m_logger))
     , m_db(db)
     , m_core(core)
 {
@@ -207,14 +216,13 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
     auto image = std::make_shared<OrientedImage>(m_core.getExifReaderFactory().get(), full_path);
 
     auto faces = findFaces(*image, id);
-    recognizePeople(faces, m_db, *m_logger);
 
     std::shared_ptr<Database::IClient> dbClient = m_db.attach("FaceEditor");
     std::vector<std::unique_ptr<IFace>> result;
 
-    std::ranges::transform(faces.get<Photo::Field::People>(), std::back_inserter(result), [id = faces.getId(), &image, &dbClient](const auto& personData)
+    std::ranges::transform(faces.get<Photo::Field::People>(), std::back_inserter(result), [id = faces.getId(), &image, &dbClient, recognizer = m_recognizer](const auto& personData)
     {
-        return std::make_unique<Face>(id, personData, image, dbClient);
+        return std::make_unique<Face>(id, personData, recognizer, image, dbClient);
     });
 
     return result;
