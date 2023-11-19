@@ -217,12 +217,12 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+166"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+167"/>
         <source>unknown</source>
         <translation>nieznane</translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+44"/>
         <source>Mark found faces</source>
         <translation>Podświetl znalezione twarze</translation>
     </message>

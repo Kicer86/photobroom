@@ -26,7 +26,7 @@ class FacesModel: public QAbstractListModel
         enum Roles
         {
             FaceRectRole = Qt::UserRole + 1,
-            _lastRole,
+            UncertainRole,
         };
 
         Q_ENUMS(Roles)
@@ -51,6 +51,7 @@ class FacesModel: public QAbstractListModel
         Database::IDatabase* m_database = nullptr;
         ICoreFactoryAccessor* m_core = nullptr;
         std::vector<std::unique_ptr<IFace>> m_faces;
+        std::vector<bool> m_isUncertain;
         QSize m_photoSize;
         int m_state = 0;
 

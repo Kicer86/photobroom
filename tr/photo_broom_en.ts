@@ -210,22 +210,22 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="166"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="167"/>
         <source>unknown</source>
         <translation>unknown</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="206"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="211"/>
         <source>Mark found faces</source>
         <translation>Mark found faces</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="219"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="224"/>
         <source>Detecting and analyzing faces</source>
         <translation>Detecting and analyzing faces</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="219"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="224"/>
         <source>Could not detect any face.</source>
         <translation>Could not detect any face.</translation>
     </message>
