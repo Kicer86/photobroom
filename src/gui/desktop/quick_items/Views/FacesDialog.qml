@@ -157,9 +157,9 @@ Item {
         delegate: TextField {
             id: name
 
-            required property var display       // DisplayRole
             required property var index
-            required property bool uncertain
+            required property var display       // DisplayRole
+            required property bool uncertain    // UncertainRole
 
             readOnly: true
             hoverEnabled: true
