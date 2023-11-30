@@ -1,7 +1,7 @@
 
-set(GitHubAPI_QtBackend ON)
-set(GitHubAPI_UseQt6 TRUE)
-add_subdirectory(github_api)
+set(CppRestAPI_QtBackend ON)
+set(CppRestAPI_UseQt6 TRUE)
+add_subdirectory(cpp_restapi)
 
 find_package(Qt6 REQUIRED COMPONENTS Network)
 
@@ -29,7 +29,7 @@ set(TO_MOC
 qt6_wrap_cpp(MOCED ${TO_MOC})
 
 add_library(updater ${SRCS} ${MOCED} ${HEADERS})
-target_link_libraries(updater PRIVATE github_api Qt::Network)
+target_link_libraries(updater PRIVATE cpp_restapi Qt::Network)
 target_include_directories(updater PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 
 generate_export_header(updater)
@@ -39,8 +39,8 @@ if(BUILD_SHARED_LIBS)
     install(TARGETS updater RUNTIME DESTINATION ${PATH_LIBS}
                             LIBRARY DESTINATION ${PATH_LIBS})
 
-    install(TARGETS github_api RUNTIME DESTINATION ${PATH_LIBS}
-                               LIBRARY DESTINATION ${PATH_LIBS})
+    install(TARGETS cpp_restapi RUNTIME DESTINATION ${PATH_LIBS}
+                                LIBRARY DESTINATION ${PATH_LIBS})
 endif()
 
 

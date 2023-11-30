@@ -26,20 +26,18 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-#include "github_api/github_api_qt.hpp"
-#include "github_api/iconnection.hpp"
-#include "github_api/request.hpp"
+#include <cpp_restapi/qt_connection.hpp>
+#include <cpp_restapi/github/connection_builder.hpp>
+#include <cpp_restapi/github/request.hpp>
 
 #include "config.hpp"
 
 #include "version.hpp"
 
 
-UpdaterImpl::UpdaterImpl(): m_request(nullptr)
+UpdaterImpl::UpdaterImpl()
 {
-    GitHub::QtBackend::Api api(m_manager);
-
-    m_request.reset(new GitHub::Request(api.connect()));
+    m_connection = cpp_restapi::GitHub::ConnectionBuilder().build<cpp_restapi::QtBackend::Connection>(m_manager);
 }
 
 
@@ -51,8 +49,10 @@ UpdaterImpl::~UpdaterImpl()
 
 void UpdaterImpl::checkVersion(const IUpdater::StatusCallback& callback)
 {
+    cpp_restapi::GitHub::Request request(m_connection);
+
     const Version currentVersion = Version::fromString(PHOTO_BROOM_VERSION);
-    const std::string json = m_request->getReleases("Kicer86", "photobroom");
+    const std::string json = request.getReleases("Kicer86", "photobroom");
     const QJsonDocument doc = QJsonDocument::fromJson(json.c_str());
 
     std::map<Version, int> versions;
@@ -115,7 +115,9 @@ std::pair<QString, int> UpdaterImpl::releaseVersion(const QJsonObject& release) 
 
 QString UpdaterImpl::getReleaseUrl(int id) const
 {
-    const std::string json = m_request->getRelease("Kicer86", "photobroom", id);
+    cpp_restapi::GitHub::Request request(m_connection);
+
+    const std::string json = request.getRelease("Kicer86", "photobroom", id);
     const QJsonDocument doc = QJsonDocument::fromJson(json.c_str());
     const QJsonObject release = doc.object();
 
