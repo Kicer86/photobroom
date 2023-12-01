@@ -5,6 +5,12 @@ find_package(Threads          REQUIRED)
 
 include(GenerateExportHeader)
 
+if(TARGET Exiv2::exiv2lib)
+    set(EXIV2_LIB Exiv2::exiv2lib)
+else()
+    set(EXIV2_LIB exiv2lib)
+endif()
+
 set(CORE_SOURCES
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
     implementation/configuration_p.hpp
@@ -93,7 +99,7 @@ target_link_libraries(core
                         PRIVATE
                             system
                             ${CMAKE_THREAD_LIBS_INIT}
-                            exiv2lib
+                            ${EXIV2_LIB}
 )
 
 target_include_directories(core PUBLIC
