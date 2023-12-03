@@ -25,14 +25,12 @@
 #include <QObject>
 #include <QNetworkReply>
 
+#include <cpp_restapi/iconnection.hpp>
+
 #include "iupdater.hpp"
 
-class QJsonDocument;
 
-namespace GitHub
-{
-    class Request;
-}
+class QJsonDocument;
 
 class UpdaterImpl : public QObject
 {
@@ -49,7 +47,7 @@ class UpdaterImpl : public QObject
 
     private:
         QNetworkAccessManager m_manager;
-        std::unique_ptr<GitHub::Request> m_request;
+        std::shared_ptr<cpp_restapi::IConnection> m_connection;
 
         std::pair<QString, int> releaseVersion(const QJsonObject &) const;
         QString getReleaseUrl(int) const;

@@ -10,6 +10,7 @@ advapi32.dll
 animatedwebp.dll
 concrt140.dll
 core.dll
+cpp_restapi.dll
 crash_catcher.dll
 d3d11.dll
 D3Dcompiler_47.dll
@@ -22,7 +23,6 @@ face_recognition_models\dlib_face_recognition_resnet_model_v1.dat
 face_recognition_models\mmod_human_face_detector.dat
 face_recognition_models\shape_predictor_5_face_landmarks.dat
 face_recognition_models\shape_predictor_68_face_landmarks.dat
-github_api.dll
 gui.dll
 icons\svg\photo_broom.svg
 jsoncpp.dll
