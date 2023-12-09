@@ -1,7 +1,7 @@
 
 find_package(OpenCV           REQUIRED)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui Multimedia)
-find_package(exiv2     0.28.0 REQUIRED )
+find_package(exiv2     0.28.1 REQUIRED)
 find_package(Threads          REQUIRED)
 find_package(CsLibGuarded     REQUIRED)
 
