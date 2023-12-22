@@ -19,3 +19,6 @@
 [submodule "tools/reflex++"]
 	path = tools/reflect++
 	url = https://github.com/Kicer86/reflexpp.git
+[submodule "src/third_party/reflect-cpp"]
+	path = src/third_party/reflect-cpp
+	url = https://github.com/getml/reflect-cpp.git

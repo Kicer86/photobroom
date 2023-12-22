@@ -1,5 +1,6 @@
 
 #include <cassert>
+#include <ranges>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
@@ -178,6 +179,9 @@ void FacesModel::updateDetectionState(int state)
 
 void FacesModel::apply()
 {
-    for(auto& face: m_faces)
-        face->store();
+    /*
+    for (const auto [uncertain, face] : std::views::zip(m_isUncertain, m_faces))
+        if (not uncertain)
+            face->store();
+    */
 }

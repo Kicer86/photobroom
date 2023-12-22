@@ -3,6 +3,8 @@
 
 #include "json_serializer_tests_r++.hpp"
 #include "json_serializer.hpp"
+#include "rfl.hpp"
+#include <rfl/json.hpp>
 
 
 namespace
@@ -102,6 +104,9 @@ TEST(JsonSerializerTest, CustomSerializationDeserialization)
     const XYZ xyz2 = JSon::deserialize<XYZ>(json);
 
     EXPECT_EQ(xyz, xyz2);
+
+
+    rfl::json::write(xyz, std::cout) << std::endl;
 }
 
 

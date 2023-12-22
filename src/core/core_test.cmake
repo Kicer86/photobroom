@@ -42,6 +42,7 @@ addTestTarget(core
                     unit_tests/tag_value_tests.cpp
 
                     ${ReflectionFiles}
+                    ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/src/yyjson.c
 
                 LIBRARIES
                     GTest::gtest
@@ -55,6 +56,7 @@ addTestTarget(core
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
+                    ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
 
                 DEFINITIONS
                     CORE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings

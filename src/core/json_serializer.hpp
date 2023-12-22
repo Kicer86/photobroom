@@ -9,7 +9,6 @@
 
 #include "generic_concepts.hpp"
 
-
 namespace JSon
 {
     template<typename T>
