@@ -1,5 +1,6 @@
 
 #include <cassert>
+#include <ranges>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>

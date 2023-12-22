@@ -128,7 +128,6 @@ endif(UNIX OR CYGWIN)
 
 #subdirs
 add_subdirectory(src)
-add_subdirectory(tools)
 add_subdirectory(tr)
 
 #documentation

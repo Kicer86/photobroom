@@ -16,6 +16,6 @@
 [submodule "src/gui/desktop/utils/animated_webp"]
 	path = src/gui/desktop/utils/animated_webp
 	url = https://github.com/Kicer86/AnimatedWebP.git
-[submodule "tools/reflex++"]
-	path = tools/reflect++
-	url = https://github.com/Kicer86/reflexpp.git
+[submodule "src/third_party/reflect-cpp"]
+	path = src/third_party/reflect-cpp
+	url = https://github.com/getml/reflect-cpp.git
