@@ -111,7 +111,10 @@ bool FacesModel::setData(const QModelIndex& index, const QVariant& data, int rol
 {
     const std::size_t r = static_cast<std::size_t>(index.row());
     if (role == Qt::EditRole && index.column() == 0 && r < m_faces.size())
+    {
         m_faces[r]->setName(data.toString());
+        m_isUncertain[r] = false;
+    }
 
     return true;
 }
@@ -178,6 +181,9 @@ void FacesModel::updateDetectionState(int state)
 
 void FacesModel::apply()
 {
-    for(auto& face: m_faces)
-        face->store();
+    assert(m_faces.size() == m_isUncertain.size());
+
+    for(std::size_t i = 0; i < m_faces.size(); i++)
+        if (not m_isUncertain[i])
+            m_faces[i]->store();
 }
