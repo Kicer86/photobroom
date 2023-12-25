@@ -113,7 +113,13 @@ bool FacesModel::setData(const QModelIndex& index, const QVariant& data, int rol
     if (role == Qt::EditRole && index.column() == 0 && r < m_faces.size())
     {
         m_faces[r]->setName(data.toString());
-        m_isUncertain[r] = false;
+
+        if (m_isUncertain[r])
+        {
+            m_isUncertain[r] = false;
+
+            emit dataChanged(index, index, {UncertainRole});
+        }
     }
 
     return true;
