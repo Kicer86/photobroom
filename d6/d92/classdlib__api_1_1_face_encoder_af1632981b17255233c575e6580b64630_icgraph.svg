@@ -22,7 +22,7 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:href="../../de/d37/class_face_recognition.html#a1f8d75f210b991bf5bfb6e05c6c8c4a0" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="153,-56 0,-56 0,-37 153,-37 153,-56"/>
+<polygon fill="white" stroke="#666666" points="153,-56 0,-56 0,-37 153,-37 153,-56"/>
 <text text-anchor="middle" x="76.5" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">FaceRecognition::getFingerprint</text>
 </a>
 </g>
@@ -33,18 +33,18 @@
 <path fill="none" stroke="#63b8ff" d="M177.31,-35.08C169.42,-35.98 161.31,-36.91 153.3,-37.82"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="177.64,-38.56 187.18,-33.95 176.85,-31.61 177.64,-38.56"/>
 </g>
-<!-- Node10 -->
+<!-- Node3 -->
 <g id="node3" class="node">
-<title>Node10</title>
+<title>Node3</title>
 <g id="a_node3"><a xlink:href="../../d3/dbd/scaled__face__similarity__tests_8cpp.html#a4b20c3bbe8d8aeabc96e6eec881fda73" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="103,-19 50,-19 50,0 103,0 103,-19"/>
 <text text-anchor="middle" x="76.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">TEST_F</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node10 -->
+<!-- Node1&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node10</title>
+<title>Node1&#45;&gt;Node3</title>
 <path fill="none" stroke="#63b8ff" d="M177.36,-20.33C151.44,-17.52 123.23,-14.46 103.43,-12.31"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="176.86,-23.79 187.18,-21.39 177.62,-16.84 176.86,-23.79"/>
 </g>

@@ -34,9 +34,9 @@
 <path fill="none" stroke="#63b8ff" d="M238.31,-157.58C223.8,-183.76 197.65,-224.2 164,-247.5 158.09,-251.59 151.48,-255 144.64,-257.83"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="241.28,-159.45 242.92,-148.98 235.11,-156.14 241.28,-159.45"/>
 </g>
-<!-- Node18 -->
+<!-- Node19 -->
 <g id="node3" class="node">
-<title>Node18</title>
+<title>Node19</title>
 <g id="a_node3"><a xlink:href="../../d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="164,-238.5 0,-238.5 0,-208.5 164,-208.5 164,-238.5"/>
 <text text-anchor="start" x="8" y="-226.5" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosModelControllerComponent</text>
@@ -44,15 +44,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node18 -->
+<!-- Node1&#45;&gt;Node19 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node18</title>
+<title>Node1&#45;&gt;Node19</title>
 <path fill="none" stroke="#63b8ff" d="M226.43,-155.41C209.86,-169.8 186.92,-187.79 164,-199.5 157.73,-202.7 150.96,-205.55 144.11,-208.06"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="228.65,-158.11 233.8,-148.85 224,-152.88 228.65,-158.11"/>
 </g>
-<!-- Node20 -->
+<!-- Node21 -->
 <g id="node4" class="node">
-<title>Node20</title>
+<title>Node21</title>
 <g id="a_node4"><a xlink:href="../../d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="136.5,-190.5 27.5,-190.5 27.5,-160.5 136.5,-160.5 136.5,-190.5"/>
 <text text-anchor="start" x="35.5" y="-178.5" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosDataGuesser::</text>
@@ -60,30 +60,30 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node20 -->
+<!-- Node1&#45;&gt;Node21 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node20</title>
+<title>Node1&#45;&gt;Node21</title>
 <path fill="none" stroke="#63b8ff" d="M188.72,-148.44C171.71,-152.8 153.42,-157.48 136.91,-161.7"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="189.4,-151.88 198.22,-146.01 187.66,-145.1 189.4,-151.88"/>
 </g>
-<!-- Node21 -->
+<!-- Node22 -->
 <g id="node5" class="node">
-<title>Node21</title>
+<title>Node22</title>
 <g id="a_node5"><a xlink:href="../../d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="147.5,-142 16.5,-142 16.5,-123 147.5,-123 147.5,-142"/>
 <text text-anchor="middle" x="82" y="-130" font-family="Helvetica,sans-Serif" font-size="10.00">DuplicatesModel::loadData</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node21 -->
+<!-- Node1&#45;&gt;Node22 -->
 <g id="edge4" class="edge">
-<title>Node1&#45;&gt;Node21</title>
+<title>Node1&#45;&gt;Node22</title>
 <path fill="none" stroke="#63b8ff" d="M188.33,-132.5C175.16,-132.5 161.24,-132.5 147.98,-132.5"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="188.17,-136 198.17,-132.5 188.17,-129 188.17,-136"/>
 </g>
-<!-- Node22 -->
+<!-- Node23 -->
 <g id="node6" class="node">
-<title>Node22</title>
+<title>Node23</title>
 <g id="a_node6"><a xlink:href="../../dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="135.5,-104.5 28.5,-104.5 28.5,-74.5 135.5,-74.5 135.5,-104.5"/>
 <text text-anchor="start" x="36.5" y="-92.5" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosAnalyzerImpl</text>
@@ -91,39 +91,39 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node22 -->
+<!-- Node1&#45;&gt;Node23 -->
 <g id="edge5" class="edge">
-<title>Node1&#45;&gt;Node22</title>
+<title>Node1&#45;&gt;Node23</title>
 <path fill="none" stroke="#63b8ff" d="M189,-116.63C171.5,-112.15 152.64,-107.32 135.75,-103"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="187.66,-119.9 198.22,-118.99 189.4,-113.12 187.66,-119.9"/>
 </g>
-<!-- Node23 -->
+<!-- Node24 -->
 <g id="node7" class="node">
-<title>Node23</title>
+<title>Node24</title>
 <g id="a_node7"><a xlink:href="../../db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="142.5,-56 21.5,-56 21.5,-37 142.5,-37 142.5,-56"/>
 <text text-anchor="middle" x="82" y="-44" font-family="Helvetica,sans-Serif" font-size="10.00">CollectionScanner::scan</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node23 -->
+<!-- Node1&#45;&gt;Node24 -->
 <g id="edge6" class="edge">
-<title>Node1&#45;&gt;Node23</title>
+<title>Node1&#45;&gt;Node24</title>
 <path fill="none" stroke="#63b8ff" d="M226.95,-109.42C210.46,-94.79 187.39,-76.61 164,-65.5 156.3,-61.84 147.85,-58.86 139.4,-56.44"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="224.53,-111.95 234.28,-116.09 229.24,-106.77 224.53,-111.95"/>
 </g>
-<!-- Node24 -->
+<!-- Node25 -->
 <g id="node8" class="node">
-<title>Node24</title>
+<title>Node25</title>
 <g id="a_node8"><a xlink:href="../../df/d40/namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="144.5,-19 19.5,-19 19.5,0 144.5,0 144.5,-19"/>
 <text text-anchor="middle" x="82" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">GroupsManager::ungroup</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node24 -->
+<!-- Node1&#45;&gt;Node25 -->
 <g id="edge7" class="edge">
-<title>Node1&#45;&gt;Node24</title>
+<title>Node1&#45;&gt;Node25</title>
 <path fill="none" stroke="#63b8ff" d="M236.59,-107.27C221.56,-83.29 195.77,-48.08 164,-28.5 157.97,-24.79 151.29,-21.8 144.41,-19.39"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="233.58,-109.06 241.75,-115.79 239.56,-105.43 233.58,-109.06"/>
 </g>

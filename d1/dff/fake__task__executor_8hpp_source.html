@@ -77,32 +77,40 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="../../d1/dff/fake__task__executor_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a id="l00001" name="l00001"></a><span class="lineno">    1</span> </div>
-<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#include &lt;<a class="code" href="../../d5/d80/itask__executor_8hpp.html">core/itask_executor.hpp</a>&gt;</span></div>
-<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
-<div class="line"><a id="l00004" name="l00004"></a><span class="lineno"><a class="line" href="../../da/dd9/class_fake_task_executor.html">    4</a></span><span class="keyword">class </span><a class="code hl_class" href="../../da/dd9/class_fake_task_executor.html">FakeTaskExecutor</a>: <span class="keyword">public</span> <a class="code hl_struct" href="../../d5/d45/struct_i_task_executor.html">ITaskExecutor</a></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span>{</div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../da/dd9/class_fake_task_executor.html#a6fd812da856e721c1e8d14e9091362e5">    7</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="../../da/dd9/class_fake_task_executor.html#a6fd812da856e721c1e8d14e9091362e5">add</a>(std::unique_ptr&lt;ITask&gt;&amp;&amp; task)<span class="keyword"> override</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>            task-&gt;perform();</div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>        }</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span> </div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno"><a class="line" href="../../da/dd9/class_fake_task_executor.html#a65a04b4ef3273076ca65c6d8d7b4f5aa">   12</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="../../da/dd9/class_fake_task_executor.html#a65a04b4ef3273076ca65c6d8d7b4f5aa">addLight</a>(std::unique_ptr&lt;ITask&gt;&amp;&amp; task)<span class="keyword"> override</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>            task-&gt;perform();</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        }</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno"><a class="line" href="../../da/dd9/class_fake_task_executor.html#a2847e7bd5c76c0d6604fa63647869caa">   17</a></span>        <span class="keywordtype">int</span> <a class="code hl_function" href="../../da/dd9/class_fake_task_executor.html#a2847e7bd5c76c0d6604fa63647869caa">heavyWorkers</a>()<span class="keyword"> const override</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="keyword">        </span>{</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>            <span class="keywordflow">return</span> 1;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        }</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>};</div>
-<div class="ttc" id="aclass_fake_task_executor_html"><div class="ttname"><a href="../../da/dd9/class_fake_task_executor.html">FakeTaskExecutor</a></div><div class="ttdef"><b>Definition:</b> fake_task_executor.hpp:5</div></div>
-<div class="ttc" id="aclass_fake_task_executor_html_a2847e7bd5c76c0d6604fa63647869caa"><div class="ttname"><a href="../../da/dd9/class_fake_task_executor.html#a2847e7bd5c76c0d6604fa63647869caa">FakeTaskExecutor::heavyWorkers</a></div><div class="ttdeci">int heavyWorkers() const override</div><div class="ttdef"><b>Definition:</b> fake_task_executor.hpp:17</div></div>
-<div class="ttc" id="aclass_fake_task_executor_html_a65a04b4ef3273076ca65c6d8d7b4f5aa"><div class="ttname"><a href="../../da/dd9/class_fake_task_executor.html#a65a04b4ef3273076ca65c6d8d7b4f5aa">FakeTaskExecutor::addLight</a></div><div class="ttdeci">void addLight(std::unique_ptr&lt; ITask &gt; &amp;&amp;task) override</div><div class="ttdef"><b>Definition:</b> fake_task_executor.hpp:12</div></div>
-<div class="ttc" id="aclass_fake_task_executor_html_a6fd812da856e721c1e8d14e9091362e5"><div class="ttname"><a href="../../da/dd9/class_fake_task_executor.html#a6fd812da856e721c1e8d14e9091362e5">FakeTaskExecutor::add</a></div><div class="ttdeci">void add(std::unique_ptr&lt; ITask &gt; &amp;&amp;task) override</div><div class="ttdef"><b>Definition:</b> fake_task_executor.hpp:7</div></div>
+<div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#ifndef FAKE_TASK_EXECUTOR_HPP_INCLUDED</span></div>
+<div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define FAKE_TASK_EXECUTOR_HPP_INCLUDED</span></div>
+<div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;<a class="code" href="../../d5/d80/itask__executor_8hpp.html">core/itask_executor.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno"><a class="line" href="../../da/dd9/class_fake_task_executor.html">    7</a></span><span class="keyword">class </span><a class="code hl_class" href="../../da/dd9/class_fake_task_executor.html">FakeTaskExecutor</a>: <span class="keyword">public</span> <a class="code hl_struct" href="../../d5/d45/struct_i_task_executor.html">ITaskExecutor</a></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span>{</div>
+<div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../da/dd9/class_fake_task_executor.html#a6fd812da856e721c1e8d14e9091362e5">   10</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="../../da/dd9/class_fake_task_executor.html#a6fd812da856e721c1e8d14e9091362e5">add</a>(std::unique_ptr&lt;ITask&gt;&amp;&amp; task)<span class="keyword"> override</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>            task-&gt;perform();</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        }</div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno"><a class="line" href="../../da/dd9/class_fake_task_executor.html#ad8b7cb22428d299584daa4b1ab642ef2">   15</a></span>        std::shared_ptr&lt;IProcessControl&gt; <a class="code hl_function" href="../../da/dd9/class_fake_task_executor.html#ad8b7cb22428d299584daa4b1ab642ef2">add</a>(<a class="code hl_typedef" href="../../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3">Process</a> &amp;&amp;)<span class="keyword"> override</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>            assert(!<span class="stringliteral">&quot;Not implemented yet&quot;</span>);</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>            <span class="keywordflow">return</span> <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        }</div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="../../da/dd9/class_fake_task_executor.html#a2847e7bd5c76c0d6604fa63647869caa">   23</a></span>        <span class="keywordtype">int</span> <a class="code hl_function" href="../../da/dd9/class_fake_task_executor.html#a2847e7bd5c76c0d6604fa63647869caa">heavyWorkers</a>()<span class="keyword"> const override</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span>            <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        }</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>};</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclass_fake_task_executor_html"><div class="ttname"><a href="../../da/dd9/class_fake_task_executor.html">FakeTaskExecutor</a></div><div class="ttdef"><b>Definition:</b> fake_task_executor.hpp:8</div></div>
+<div class="ttc" id="aclass_fake_task_executor_html_a2847e7bd5c76c0d6604fa63647869caa"><div class="ttname"><a href="../../da/dd9/class_fake_task_executor.html#a2847e7bd5c76c0d6604fa63647869caa">FakeTaskExecutor::heavyWorkers</a></div><div class="ttdeci">int heavyWorkers() const override</div><div class="ttdef"><b>Definition:</b> fake_task_executor.hpp:23</div></div>
+<div class="ttc" id="aclass_fake_task_executor_html_a6fd812da856e721c1e8d14e9091362e5"><div class="ttname"><a href="../../da/dd9/class_fake_task_executor.html#a6fd812da856e721c1e8d14e9091362e5">FakeTaskExecutor::add</a></div><div class="ttdeci">void add(std::unique_ptr&lt; ITask &gt; &amp;&amp;task) override</div><div class="ttdef"><b>Definition:</b> fake_task_executor.hpp:10</div></div>
+<div class="ttc" id="aclass_fake_task_executor_html_ad8b7cb22428d299584daa4b1ab642ef2"><div class="ttname"><a href="../../da/dd9/class_fake_task_executor.html#ad8b7cb22428d299584daa4b1ab642ef2">FakeTaskExecutor::add</a></div><div class="ttdeci">std::shared_ptr&lt; IProcessControl &gt; add(Process &amp;&amp;) override</div><div class="ttdef"><b>Definition:</b> fake_task_executor.hpp:15</div></div>
 <div class="ttc" id="aitask__executor_8hpp_html"><div class="ttname"><a href="../../d5/d80/itask__executor_8hpp.html">itask_executor.hpp</a></div></div>
-<div class="ttc" id="astruct_i_task_executor_html"><div class="ttname"><a href="../../d5/d45/struct_i_task_executor.html">ITaskExecutor</a></div><div class="ttdef"><b>Definition:</b> itask_executor.hpp:30</div></div>
+<div class="ttc" id="astruct_i_task_executor_html"><div class="ttname"><a href="../../d5/d45/struct_i_task_executor.html">ITaskExecutor</a></div><div class="ttdef"><b>Definition:</b> itask_executor.hpp:32</div></div>
+<div class="ttc" id="astruct_i_task_executor_html_a089b5728cdde5a6fa979ff68161fc1d3"><div class="ttname"><a href="../../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3">ITaskExecutor::Process</a></div><div class="ttdeci">std::function&lt; ProcessCoroutine(IProcessSupervisor *)&gt; Process</div><div class="ttdef"><b>Definition:</b> itask_executor.hpp:88</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

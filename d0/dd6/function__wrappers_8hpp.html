@@ -85,11 +85,12 @@ $(function() {
 <code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;stop_token&gt;</code><br />
 <code>#include &lt;QPointer&gt;</code><br />
+<code>#include &lt;QPromise&gt;</code><br />
 <code>#include &lt;QThread&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for function_wrappers.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d8/da7/function__wrappers_8hpp__incl.svg" width="568" height="110"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d8/da7/function__wrappers_8hpp__incl.svg" width="100%" height="382"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -122,6 +123,10 @@ Functions</h2></td></tr>
 requires std::is_base_of&lt;QObject, Obj&gt;</td></tr>
 <tr class="memitem:abcb82074b30c95a4c32fffd37ae0a63d"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d">invokeMethod</a> (Obj *object, const F &amp;method, Args &amp;&amp;... args)</td></tr>
 <tr class="separator:abcb82074b30c95a4c32fffd37ae0a63d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14984293c6d86455300119cf42a78e5b"><td class="memTemplParams" colspan="2">template&lt;typename F , typename ObjT , typename... Args&gt; <br />
+requires std::is_base_of_v&lt;QObject, ObjT&gt;</td></tr>
+<tr class="memitem:a14984293c6d86455300119cf42a78e5b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#a14984293c6d86455300119cf42a78e5b">call_from_object_thread</a> (QPointer&lt; ObjT &gt; object, const F &amp;function, Args &amp;&amp;... args)</td></tr>
+<tr class="separator:a14984293c6d86455300119cf42a78e5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aecc0f8e40ad9d2f3d207ab496a72e961"><td class="memTemplParams" colspan="2">template&lt;typename F , typename... Args&gt; </td></tr>
 <tr class="memitem:aecc0f8e40ad9d2f3d207ab496a72e961"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#aecc0f8e40ad9d2f3d207ab496a72e961">call_from_this_thread</a> (QThread *thread, const F &amp;function, Args &amp;&amp;... args)</td></tr>
 <tr class="separator:aecc0f8e40ad9d2f3d207ab496a72e961"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -163,6 +168,49 @@ template&lt;typename T &gt; </div>
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="a14984293c6d86455300119cf42a78e5b" name="a14984293c6d86455300119cf42a78e5b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14984293c6d86455300119cf42a78e5b">&#9670;&#160;</a></span>call_from_object_thread()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename F , typename ObjT , typename... Args&gt; <br />
+requires std::is_base_of_v&lt;QObject, ObjT&gt;</div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void call_from_object_thread </td>
+          <td>(</td>
+          <td class="paramtype">QPointer&lt; ObjT &gt;&#160;</td>
+          <td class="paramname"><em>object</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const F &amp;&#160;</td>
+          <td class="paramname"><em>function</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Args &amp;&amp;...&#160;</td>
+          <td class="paramname"><em>args</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/function__wrappers_8hpp_a14984293c6d86455300119cf42a78e5b_icgraph.svg" width="408" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
 <a id="aecc0f8e40ad9d2f3d207ab496a72e961" name="aecc0f8e40ad9d2f3d207ab496a72e961"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aecc0f8e40ad9d2f3d207ab496a72e961">&#9670;&#160;</a></span>call_from_this_thread()</h2>
 
@@ -273,7 +321,7 @@ requires std::is_base_of&lt;QObject, Obj&gt;</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/function__wrappers_8hpp_abcb82074b30c95a4c32fffd37ae0a63d_icgraph.svg" width="380" height="523"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/function__wrappers_8hpp_abcb82074b30c95a4c32fffd37ae0a63d_icgraph.svg" width="380" height="458"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -307,6 +355,12 @@ requires std::is_base_of_v&lt;QObject, ObjT&gt;</div>
         </tr>
       </table>
 </div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/dd6/function__wrappers_8hpp_a8c89a5a5ebce62a9c9be03d8ccd30d10_cgraph.svg" width="408" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
 
 </div>
 </div>

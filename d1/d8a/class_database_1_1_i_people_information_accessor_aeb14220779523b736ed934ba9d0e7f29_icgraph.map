@@ -1,4 +1,5 @@
 <map id="Database::IPeopleInformationAccessor::listPeople" name="Database::IPeopleInformationAccessor::listPeople">
-<area shape="rect" id="node1" title="list all people names" alt="" coords="216,5,408,45"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a28fa86aa6d5c4c70277ae6d0d51d125b" title="get people details for given people ids" alt="" coords="5,5,168,45"/>
+<area shape="rect" id="node1" title="list all people names" alt="" coords="241,37,433,77"/>
+<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a28fa86aa6d5c4c70277ae6d0d51d125b" title="get people details for given people ids" alt="" coords="18,5,181,45"/>
+<area shape="rect" id="node3" href="$db/dd9/class_database_1_1_people_information_accessor.html#a37fc4fe1950e5652d93ad8d81d3db63f" title=" " alt="" coords="5,69,193,109"/>
 </map>

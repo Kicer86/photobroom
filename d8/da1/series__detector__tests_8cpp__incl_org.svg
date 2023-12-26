@@ -95,9 +95,9 @@
 <path fill="none" stroke="#63b8ff" d="M527.41,-65.64C499.35,-56.28 462.51,-44 432.5,-34"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="433.81,-30.75 423.21,-30.9 431.59,-37.39 433.81,-30.75"/>
 </g>
-<!-- Node57 -->
+<!-- Node58 -->
 <g id="node7" class="node">
-<title>Node57</title>
+<title>Node58</title>
 <g id="a_node7"><a xlink:href="../../da/d9a/mock__exif__reader_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="561.5,-30 451.5,-30 451.5,0 561.5,0 561.5,-30"/>
 <text text-anchor="start" x="459.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">unit_tests_utils/mock</text>
@@ -105,15 +105,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node57 -->
+<!-- Node1&#45;&gt;Node58 -->
 <g id="edge6" class="edge">
-<title>Node1&#45;&gt;Node57</title>
+<title>Node1&#45;&gt;Node58</title>
 <path fill="none" stroke="#63b8ff" d="M556.3,-65.8C548.18,-57.68 537.81,-47.31 528.65,-38.15"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="531.28,-35.83 521.73,-31.23 526.33,-40.78 531.28,-35.83"/>
 </g>
-<!-- Node60 -->
+<!-- Node61 -->
 <g id="node8" class="node">
-<title>Node60</title>
+<title>Node61</title>
 <g id="a_node8"><a xlink:href="../../d8/dee/mock__photo__operator_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="689.5,-30 579.5,-30 579.5,0 689.5,0 689.5,-30"/>
 <text text-anchor="start" x="587.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">unit_tests_utils/mock</text>
@@ -121,15 +121,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node60 -->
+<!-- Node1&#45;&gt;Node61 -->
 <g id="edge7" class="edge">
-<title>Node1&#45;&gt;Node60</title>
+<title>Node1&#45;&gt;Node61</title>
 <path fill="none" stroke="#63b8ff" d="M584.7,-65.8C592.82,-57.68 603.19,-47.31 612.35,-38.15"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="614.67,-40.78 619.27,-31.23 609.72,-35.83 614.67,-40.78"/>
 </g>
-<!-- Node61 -->
+<!-- Node62 -->
 <g id="node9" class="node">
-<title>Node61</title>
+<title>Node62</title>
 <g id="a_node9"><a xlink:href="../../d7/d86/memory__backend_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="845.5,-30 707.5,-30 707.5,0 845.5,0 845.5,-30"/>
 <text text-anchor="start" x="715.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">backends/memory_backend</text>
@@ -137,15 +137,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node61 -->
+<!-- Node1&#45;&gt;Node62 -->
 <g id="edge8" class="edge">
-<title>Node1&#45;&gt;Node61</title>
+<title>Node1&#45;&gt;Node62</title>
 <path fill="none" stroke="#63b8ff" d="M616.99,-65.56C647.37,-56.12 687.26,-43.72 719.55,-33.69"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="720.23,-37.15 728.74,-30.84 718.15,-30.46 720.23,-37.15"/>
 </g>
-<!-- Node65 -->
+<!-- Node66 -->
 <g id="node10" class="node">
-<title>Node65</title>
+<title>Node66</title>
 <g id="a_node10"><a xlink:href="../../d3/dcf/json__to__backend_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="967.5,-30 863.5,-30 863.5,0 967.5,0 967.5,-30"/>
 <text text-anchor="start" x="871.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">database_tools/json</text>
@@ -153,15 +153,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node65 -->
+<!-- Node1&#45;&gt;Node66 -->
 <g id="edge9" class="edge">
-<title>Node1&#45;&gt;Node65</title>
+<title>Node1&#45;&gt;Node66</title>
 <path fill="none" stroke="#63b8ff" d="M636.39,-69.38C691.47,-60.29 772.37,-46.4 852.06,-30.43"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="852.7,-33.88 861.81,-28.47 851.32,-27.01 852.7,-33.88"/>
 </g>
-<!-- Node68 -->
+<!-- Node69 -->
 <g id="node11" class="node">
-<title>Node68</title>
+<title>Node69</title>
 <g id="a_node11"><a xlink:href="../../d9/d71/series__detector_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="1097.5,-30 985.5,-30 985.5,0 1097.5,0 1097.5,-30"/>
 <text text-anchor="start" x="993.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">database_tools/series</text>
@@ -169,15 +169,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node68 -->
+<!-- Node1&#45;&gt;Node69 -->
 <g id="edge10" class="edge">
-<title>Node1&#45;&gt;Node68</title>
+<title>Node1&#45;&gt;Node69</title>
 <path fill="none" stroke="#63b8ff" d="M636.16,-73.74C714.3,-65.89 848.93,-51.07 973.9,-30.34"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="974.41,-33.81 983.7,-28.7 973.26,-26.9 974.41,-33.81"/>
 </g>
-<!-- Node76 -->
+<!-- Node77 -->
 <g id="node12" class="node">
-<title>Node76</title>
+<title>Node77</title>
 <g id="a_node12"><a xlink:title=" ">
 <polygon fill="#e0e0e0" stroke="#999999" points="1263.5,-30 1115.5,-30 1115.5,0 1263.5,0 1263.5,-30"/>
 <text text-anchor="start" x="1123.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">unit_tests_utils/db</text>
@@ -185,15 +185,15 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node76 -->
+<!-- Node1&#45;&gt;Node77 -->
 <g id="edge11" class="edge">
-<title>Node1&#45;&gt;Node76</title>
+<title>Node1&#45;&gt;Node77</title>
 <path fill="none" stroke="#63b8ff" d="M636.27,-75.44C735.41,-68.22 929.25,-52.76 1104.11,-30.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="1104.36,-33.74 1113.83,-28.99 1103.46,-26.8 1104.36,-33.74"/>
 </g>
-<!-- Node77 -->
+<!-- Node78 -->
 <g id="node13" class="node">
-<title>Node77</title>
+<title>Node78</title>
 <g id="a_node13"><a xlink:href="../../d3/d62/mock__database_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="1391.5,-30 1281.5,-30 1281.5,0 1391.5,0 1391.5,-30"/>
 <text text-anchor="start" x="1289.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">unit_tests_utils/mock</text>
@@ -201,9 +201,9 @@
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node77 -->
+<!-- Node1&#45;&gt;Node78 -->
 <g id="edge12" class="edge">
-<title>Node1&#45;&gt;Node77</title>
+<title>Node1&#45;&gt;Node78</title>
 <path fill="none" stroke="#63b8ff" d="M636.16,-78.48C758.86,-74.95 1031.32,-63.88 1269.76,-30.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="1270.18,-33.73 1279.59,-28.85 1269.19,-26.8 1270.18,-33.73"/>
 </g>

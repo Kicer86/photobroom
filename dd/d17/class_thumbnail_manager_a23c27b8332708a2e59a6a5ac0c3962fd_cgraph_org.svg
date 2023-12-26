@@ -158,7 +158,7 @@
 <!-- Node14 -->
 <g id="node11" class="node">
 <title>Node14</title>
-<g id="a_node11"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a5416f184b6b6703b55df570976e80eb5" target="_top" xlink:title="Read blob of type bt associated with photo id.">
+<g id="a_node11"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a727dd5575e1ae8565377b4be2df76524" target="_top" xlink:title="Read blob of type bt associated with photo id.">
 <polygon fill="white" stroke="#666666" points="300.5,-78 196.5,-78 196.5,-48 300.5,-48 300.5,-78"/>
 <text text-anchor="start" x="204.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="248.5" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">::readBlob</text>
@@ -174,7 +174,7 @@
 <!-- Node15 -->
 <g id="node12" class="node">
 <title>Node15</title>
-<g id="a_node12"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a9c2625eb52e87f68797a234f3cbecbb3" target="_top" xlink:title="Write blob of type bt.">
+<g id="a_node12"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#aefdb3497be40914b407537004a76f1d3" target="_top" xlink:title="Write blob of type bt.">
 <polygon fill="white" stroke="#666666" points="300.5,-30 196.5,-30 196.5,0 300.5,0 300.5,-30"/>
 <text text-anchor="start" x="204.5" y="-18" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="248.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">::writeBlob</text>

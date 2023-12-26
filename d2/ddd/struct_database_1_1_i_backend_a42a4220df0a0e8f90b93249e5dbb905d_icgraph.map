@@ -1,5 +1,4 @@
 <map id="Database::IBackend::getPhoto" name="Database::IBackend::getPhoto">
-<area shape="rect" id="node1" title="get particular photo" alt="" coords="227,23,365,63"/>
-<area shape="rect" id="node2" href="$d0/d76/namespace_database.html#a602ea90a84cc50ef96721e531a788d08" title=" " alt="" coords="5,5,179,31"/>
-<area shape="rect" id="node3" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="16,55,168,80"/>
+<area shape="rect" id="node1" title="get particular photo" alt="" coords="227,5,365,45"/>
+<area shape="rect" id="node2" href="$d0/d76/namespace_database.html#a602ea90a84cc50ef96721e531a788d08" title=" " alt="" coords="5,13,179,38"/>
 </map>

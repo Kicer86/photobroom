@@ -33,18 +33,18 @@
 <path fill="none" stroke="#63b8ff" d="M63.38,-54.54C57.24,-46.56 49.57,-36.59 43.09,-28.16"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="45.97,-26.17 37.1,-20.37 40.42,-30.44 45.97,-26.17"/>
 </g>
-<!-- Node8 -->
+<!-- Node7 -->
 <g id="node3" class="node">
-<title>Node8</title>
+<title>Node7</title>
 <g id="a_node3"><a xlink:href="../../dc/d82/photo__types_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="164,-19 77,-19 77,0 164,0 164,-19"/>
 <text text-anchor="middle" x="120.5" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">photo_types.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node8 -->
+<!-- Node1&#45;&gt;Node7 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node8</title>
+<title>Node1&#45;&gt;Node7</title>
 <path fill="none" stroke="#63b8ff" d="M85.87,-54.54C92.14,-46.56 99.98,-36.59 106.61,-28.16"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="109.31,-30.39 112.74,-20.36 103.81,-26.06 109.31,-30.39"/>
 </g>

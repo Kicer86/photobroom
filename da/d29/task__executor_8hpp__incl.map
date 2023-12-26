@@ -1,7 +1,10 @@
 <map id="src/core/task_executor.hpp" name="src/core/task_executor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="63,5,241,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,64,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="103,152,201,177"/>
-<area shape="rect" id="node4" href="$d5/d80/itask__executor_8hpp.html" title=" " alt="" coords="139,79,269,104"/>
-<area shape="rect" id="node5" href="$de/d19/ts__queue_8hpp.html" title=" " alt="" coords="293,79,392,104"/>
+<area shape="rect" id="node1" title=" " alt="" coords="158,5,337,31"/>
+<area shape="rect" id="node2" title=" " alt="" coords="12,152,139,177"/>
+<area shape="rect" id="node3" title=" " alt="" coords="24,79,71,104"/>
+<area shape="rect" id="node4" title=" " alt="" coords="184,152,241,177"/>
+<area shape="rect" id="node5" title=" " alt="" coords="218,79,277,104"/>
+<area shape="rect" id="node6" title=" " alt="" coords="418,152,517,177"/>
+<area shape="rect" id="node7" href="$d5/d80/itask__executor_8hpp.html" title=" " alt="" coords="351,79,482,104"/>
+<area shape="rect" id="node8" href="$de/d19/ts__queue_8hpp.html" title=" " alt="" coords="95,79,194,104"/>
 </map>

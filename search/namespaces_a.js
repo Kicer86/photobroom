@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['tag_0',['Tag',['../da/dac/namespace_tag.html',1,'']]],
-  ['tasksviewutils_1',['TasksViewUtils',['../df/d05/namespace_tasks_view_utils.html',1,'']]]
+  ['qmlutils_0',['QmlUtils',['../d2/d0d/namespace_qml_utils.html',1,'']]],
+  ['qmodelindexselector_1',['QModelIndexSelector',['../d1/dbb/namespace_q_model_index_selector.html',1,'']]]
 ];

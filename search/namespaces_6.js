@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['ol_0',['ol',['../d1/de7/namespaceol.html',1,'']]],
-  ['openlibrary_5fcopyptr_1',['OpenLibrary_CopyPtr',['../d2/d76/namespaceol_1_1_open_library___copy_ptr.html',1,'ol']]]
+  ['lazy_5fptr_5fimpl_0',['lazy_ptr_impl',['../da/d9e/namespacelazy__ptr__impl.html',1,'']]]
 ];

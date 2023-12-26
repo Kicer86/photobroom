@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
-<g id="a_node1"><a xlink:title="Structure containing chosen of photo details.">
+<g id="a_node1"><a xlink:title="Structure containing chosen details of photo.">
 <polygon fill="#999999" stroke="#666666" points="117.5,-19 28.5,-19 28.5,0 117.5,0 117.5,-19"/>
 <text text-anchor="middle" x="73" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta</text>
 </a>

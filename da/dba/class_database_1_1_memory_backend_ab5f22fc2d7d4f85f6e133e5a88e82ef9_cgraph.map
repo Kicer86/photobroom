@@ -1,5 +1,7 @@
 <map id="Database::MemoryBackend::removeGroup" name="Database::MemoryBackend::removeGroup">
-<area shape="rect" id="node1" title=" " alt="" coords="5,27,185,67"/>
-<area shape="rect" id="node2" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="245,5,402,31"/>
-<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#a4776d93a9968f87bc793e6fad9e96a89" title="update photos details" alt="" coords="233,55,413,95"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,85,185,125"/>
+<area shape="rect" id="node2" href="$db/d29/class_photo_1_1_explicit_delta.html#aa17dc0e526caaa840d26a44e3b0d9b40" title=" " alt="" coords="245,5,402,31"/>
+<area shape="rect" id="node3" href="$db/d29/class_photo_1_1_explicit_delta.html#a17a99123198a14dfec77677700c8d2ad" title=" " alt="" coords="257,55,390,95"/>
+<area shape="rect" id="node4" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="245,120,402,145"/>
+<area shape="rect" id="node5" href="$da/dba/class_database_1_1_memory_backend.html#a4776d93a9968f87bc793e6fad9e96a89" title="update photos details" alt="" coords="233,170,413,210"/>
 </map>

@@ -1,6 +1,7 @@
 <map id="runOn" name="runOn">
-<area shape="rect" id="node1" title=" " alt="" coords="216,55,273,80"/>
+<area shape="rect" id="node1" title=" " alt="" coords="216,80,273,105"/>
 <area shape="rect" id="node2" href="$d5/d0f/class_series_model.html#a2caeed0a8014c3f20679d4ea1ff45fef" title=" " alt="" coords="5,5,168,31"/>
-<area shape="rect" id="node3" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="11,55,162,80"/>
-<area shape="rect" id="node4" href="$d4/d0e/class_people_manipulator.html#aa07ba41060250e8cd2592eac946fcbe1" title=" " alt="" coords="19,105,154,145"/>
+<area shape="rect" id="node3" href="$d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61" title=" " alt="" coords="5,55,168,80"/>
+<area shape="rect" id="node4" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="11,104,162,129"/>
+<area shape="rect" id="node5" href="$dc/d96/class_batch_face_detector.html#aa2e68fd59715fbacac2435f1a1f21b28" title=" " alt="" coords="17,154,157,194"/>
 </map>

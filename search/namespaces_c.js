@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['viewconfigkeys_0',['ViewConfigKeys',['../d9/d2f/namespace_view_config_keys.html',1,'']]]
+  ['tag_0',['Tag',['../da/dac/namespace_tag.html',1,'']]],
+  ['tasksviewutils_1',['TasksViewUtils',['../df/d05/namespace_tasks_view_utils.html',1,'']]]
 ];

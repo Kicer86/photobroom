@@ -1,7 +1,8 @@
 <map id="ITaskExecutor::add" name="ITaskExecutor::add">
-<area shape="rect" id="node1" title=" " alt="" coords="277,95,409,121"/>
+<area shape="rect" id="node1" title=" " alt="" coords="277,119,409,145"/>
 <area shape="rect" id="node2" href="$d4/dcd/struct_executor_traits_3_01_i_task_executor_00_01_t_01_4.html#a872fd90a0b9466a1cf0ae7ffb69a84af" title=" " alt="" coords="16,5,219,45"/>
 <area shape="rect" id="node3" href="$d6/d2e/class_tasks_queue.html#a8ec78924657af44b92805025440220f5" title=" " alt="" coords="5,70,229,95"/>
 <area shape="rect" id="node4" href="$d4/d20/task__executor__utils_8hpp.html#a2ca7a07566bec22218321fdca74d520f" title=" " alt="" coords="89,119,146,145"/>
-<area shape="rect" id="node5" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="42,169,193,209"/>
+<area shape="rect" id="node5" href="$dc/d96/class_batch_face_detector.html#a124571fabcba2eeec5d93158e122e598" title=" " alt="" coords="47,169,187,209"/>
+<area shape="rect" id="node6" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="42,233,193,273"/>
 </map>

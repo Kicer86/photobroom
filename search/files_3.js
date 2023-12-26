@@ -17,7 +17,6 @@ var searchData=
   ['disk_5fobserver_2ehpp_14',['disk_observer.hpp',['../d2/dce/disk__observer_8hpp.html',1,'']]],
   ['dlib_5fface_5frecognition_5fapi_2ecpp_15',['dlib_face_recognition_api.cpp',['../d4/d47/dlib__face__recognition__api_8cpp.html',1,'']]],
   ['dlib_5fface_5frecognition_5fapi_2ehpp_16',['dlib_face_recognition_api.hpp',['../df/dc1/dlib__face__recognition__api_8hpp.html',1,'']]],
-  ['down_5fcast_2ehpp_17',['down_cast.hpp',['../d2/dbc/down__cast_8hpp.html',1,'']]],
-  ['duplicates_5fmodel_2ecpp_18',['duplicates_model.cpp',['../df/d45/duplicates__model_8cpp.html',1,'']]],
-  ['duplicates_5fmodel_2ehpp_19',['duplicates_model.hpp',['../d6/d5c/duplicates__model_8hpp.html',1,'']]]
+  ['duplicates_5fmodel_2ecpp_17',['duplicates_model.cpp',['../df/d45/duplicates__model_8cpp.html',1,'']]],
+  ['duplicates_5fmodel_2ehpp_18',['duplicates_model.hpp',['../d6/d5c/duplicates__model_8hpp.html',1,'']]]
 ];

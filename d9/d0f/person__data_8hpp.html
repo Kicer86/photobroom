@@ -84,18 +84,19 @@ $(function() {
 <code>#include &lt;QString&gt;</code><br />
 <code>#include &lt;QRect&gt;</code><br />
 <code>#include &lt;<a class="el" href="../../db/db3/id_8hpp_source.html">core/id.hpp</a>&gt;</code><br />
-<code>#include &quot;<a class="el" href="../../db/d39/photo__data_8hpp_source.html">photo_data.hpp</a>&quot;</code><br />
+<code>#include &lt;<a class="el" href="../../df/d30/qt__operators_8hpp_source.html">core/qt_operators.hpp</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../dc/d82/photo__types_8hpp_source.html">photo_types.hpp</a>&quot;</code><br />
 <code>#include &quot;database_export.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for person_data.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../de/d5d/person__data_8hpp__incl.svg" width="574" height="198"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../de/d5d/person__data_8hpp__incl.svg" width="578" height="198"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d2/d42/person__data_8hpp__dep__incl.svg" width="100%" height="591"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d2/d42/person__data_8hpp__dep__incl.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div>
@@ -108,6 +109,13 @@ Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/d2c/class_person_fingerprint.html">PersonFingerprint</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/dc4/class_person_info.html">PersonInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container for DB IDs of people related entries.  <a href="../../dd/dc4/class_person_info.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d7c/struct_person_data.html">PersonData</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container for person data (without DB IDs)  <a href="../../d9/d7c/struct_person_data.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dbb/class_person_full_info.html">PersonFullInfo</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Container for all people related data (DB IDs + values)  <a href="../../da/dbb/class_person_full_info.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="namespaces" name="namespaces"></a>
@@ -119,8 +127,8 @@ Namespaces</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:a93741c8bae8219f36dfc39885c17fa1f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dbf/namespace_person.html#a93741c8bae8219f36dfc39885c17fa1f">Person::Id</a> = <a class="el" href="../../db/dfb/class_id.html">Id</a>&lt; int, struct person_tag &gt;</td></tr>
 <tr class="separator:a93741c8bae8219f36dfc39885c17fa1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7d55658fa6f6bafdab318d267894e814"><td class="memItemLeft" align="right" valign="top">typedef std::vector&lt; double &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dbf/namespace_person.html#a7d55658fa6f6bafdab318d267894e814">Person::Fingerprint</a></td></tr>
-<tr class="separator:a7d55658fa6f6bafdab318d267894e814"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7480020d457c6a5871e198c1bf71b128"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/dbf/namespace_person.html#a7480020d457c6a5871e198c1bf71b128">Person::Fingerprint</a> = std::vector&lt; double &gt;</td></tr>
+<tr class="separator:a7480020d457c6a5871e198c1bf71b128"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 </div><!-- contents -->
 <!-- start footer part -->

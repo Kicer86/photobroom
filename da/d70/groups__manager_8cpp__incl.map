@@ -1,13 +1,13 @@
 <map id="src/gui/desktop/utils/groups_manager.cpp" name="src/gui/desktop/utils/groups_manager.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="756,5,902,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="764,181,844,207"/>
-<area shape="rect" id="node3" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="26,101,208,126"/>
-<area shape="rect" id="node4" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="232,101,391,126"/>
-<area shape="rect" id="node5" href="$d9/d8f/igroup__operator_8hpp.html" title=" " alt="" coords="416,101,608,126"/>
-<area shape="rect" id="node6" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="632,101,824,126"/>
-<area shape="rect" id="node7" href="$da/d1a/photo__utils_8hpp.html" title=" " alt="" coords="848,101,1015,126"/>
-<area shape="rect" id="node8" href="$d0/d0e/misc_8hpp.html" title=" " alt="" coords="1039,101,1187,126"/>
-<area shape="rect" id="node9" href="$dd/d90/system_8hpp.html" title=" " alt="" coords="1211,101,1346,126"/>
-<area shape="rect" id="node10" href="$d9/de7/collage__generator_8hpp.html" title=" " alt="" coords="1370,93,1522,133"/>
-<area shape="rect" id="node11" href="$dc/db1/groups__manager_8hpp.html" title=" " alt="" coords="1547,101,1690,126"/>
+<area shape="rect" id="node1" title=" " alt="" coords="755,5,901,45"/>
+<area shape="rect" id="node2" title=" " alt="" coords="76,181,156,207"/>
+<area shape="rect" id="node3" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="25,101,207,126"/>
+<area shape="rect" id="node4" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="231,101,390,126"/>
+<area shape="rect" id="node5" href="$d9/d8f/igroup__operator_8hpp.html" title=" " alt="" coords="415,101,607,126"/>
+<area shape="rect" id="node6" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="631,101,823,126"/>
+<area shape="rect" id="node7" href="$da/d1a/photo__utils_8hpp.html" title=" " alt="" coords="847,101,1014,126"/>
+<area shape="rect" id="node8" href="$d0/d0e/misc_8hpp.html" title=" " alt="" coords="1038,101,1186,126"/>
+<area shape="rect" id="node9" href="$dd/d90/system_8hpp.html" title=" " alt="" coords="1210,101,1345,126"/>
+<area shape="rect" id="node10" href="$d9/de7/collage__generator_8hpp.html" title=" " alt="" coords="1369,93,1521,133"/>
+<area shape="rect" id="node11" href="$dc/db1/groups__manager_8hpp.html" title=" " alt="" coords="1546,101,1689,126"/>
 </map>

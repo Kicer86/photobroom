@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['modeltypes_0',['ModelTypes',['../d2/dca/aphoto__data__model__tests_8cpp.html#abfc0ef06ce8868946216e35f42551d80',1,'aphoto_data_model_tests.cpp']]]
+  ['locker_0',['Locker',['../d8/da6/class_signal_blocker.html#a00b89d54b1a3df6511fc0492766c5c29',1,'SignalBlocker']]],
+  ['logentry_1',['LogEntry',['../da/dba/class_database_1_1_memory_backend.html#a94148e04e8c2e2a04e499e65f6375330',1,'Database::MemoryBackend']]]
 ];

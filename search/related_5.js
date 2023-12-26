@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['safe_5fcallback_0',['safe_callback',['../d2/d3a/classsafe__callback__ctrl.html#ad5e2d403c45aa276ea3232d3878660ce',1,'safe_callback_ctrl']]]
+  ['processinfo_0',['ProcessInfo',['../de/d64/struct_task_executor.html#a88e1f3a26a09caffdd90d15c5784e03e',1,'TaskExecutor']]]
 ];

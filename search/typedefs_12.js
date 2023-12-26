@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['watcher_0',['Watcher',['../d7/db4/struct_i_configuration.html#a92edfb8ef30ebe2f0231f76160ec8f87',1,'IConfiguration']]]
+  ['valuetype_0',['ValueType',['../d3/d36/struct_tag_type_traits_3_01_tag_1_1_types_1_1_event_01_4.html#aa78b37445f7933ef8ce5b9a63a33853b',1,'TagTypeTraits&lt; Tag::Types::Event &gt;']]]
 ];

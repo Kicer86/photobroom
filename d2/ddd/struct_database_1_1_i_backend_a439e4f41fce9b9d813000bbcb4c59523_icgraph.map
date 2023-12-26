@@ -1,9 +1,11 @@
 <map id="Database::IBackend::getPhotoDelta" name="Database::IBackend::getPhotoDelta">
-<area shape="rect" id="node1" title=" " alt="" coords="260,149,399,189"/>
+<area shape="rect" id="node1" title=" " alt="" coords="260,191,399,231"/>
 <area shape="rect" id="node2" href="$d4/dd6/class_photos_data_guesser.html#a6af361bc3eec4228a6c171e97126af1d" title=" " alt="" coords="36,5,181,45"/>
 <area shape="rect" id="node3" href="$d1/da6/class_flat_model.html#a7b363b60e1ec6b187585a70b748b30f5" title=" " alt="" coords="5,70,212,95"/>
-<area shape="rect" id="node4" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="36,120,181,160"/>
-<area shape="rect" id="node5" href="$d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" title=" " alt="" coords="21,185,196,210"/>
-<area shape="rect" id="node6" href="$d4/d0e/class_people_manipulator.html#ad2be46cf0f87e8e8a207b7e9135a69d0" title=" " alt="" coords="41,235,176,275"/>
-<area shape="rect" id="node7" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="28,299,189,325"/>
+<area shape="rect" id="node4" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="35,119,182,145"/>
+<area shape="rect" id="node5" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="33,169,185,194"/>
+<area shape="rect" id="node6" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="36,219,181,259"/>
+<area shape="rect" id="node7" href="$d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" title=" " alt="" coords="21,283,196,309"/>
+<area shape="rect" id="node8" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="28,333,189,358"/>
+<area shape="rect" id="node9" href="$da/dba/class_database_1_1_memory_backend.html#a4776d93a9968f87bc793e6fad9e96a89" title="update photos details" alt="" coords="19,383,199,423"/>
 </map>

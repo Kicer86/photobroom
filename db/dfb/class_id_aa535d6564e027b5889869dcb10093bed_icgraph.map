@@ -1,18 +1,20 @@
 <map id="Id::valid" name="Id::valid">
-<area shape="rect" id="node1" title=" " alt="" coords="491,355,557,380"/>
-<area shape="rect" id="node2" href="$d7/ddf/class_photo_data_qml.html#a0d12bcb6ffdad1cc29f4e9cea53ec47f" title="access to flags as a QML compatible map" alt="" coords="263,5,425,31"/>
-<area shape="rect" id="node3" href="$d7/ddf/class_photo_data_qml.html#a5a6883aaeb5705e29c447b6d0bfa01fe" title=" " alt="" coords="5,56,197,81"/>
-<area shape="rect" id="node4" href="$d8/d51/struct_group_info.html#a08f92dd26a2f16e05ac3a96f7712798a" title=" " alt="" coords="273,107,415,132"/>
-<area shape="rect" id="node5" href="$d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61" title=" " alt="" coords="263,156,425,181"/>
-<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="20,298,183,338"/>
-<area shape="rect" id="node7" href="$d7/ddf/class_photo_data_qml.html#ab1034364057bf340170712083e0d2c83" title=" " alt="" coords="265,205,423,231"/>
-<area shape="rect" id="node8" href="$d7/d1e/class_photo_1_1_data_delta.html#a937a374107a40054d349dfae25fd020f" title=" " alt="" coords="253,304,435,329"/>
-<area shape="rect" id="node9" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a60f421a38c172aec7b8bcf4d7ee819c2" title=" " alt="" coords="5,547,197,587"/>
-<area shape="rect" id="node10" href="$d7/d1e/class_photo_1_1_data_delta.html#a8a610541a977ccd70ba88e4c2315f9b5" title=" " alt="" coords="267,255,421,280"/>
-<area shape="rect" id="node11" href="$db/d61/class_database_1_1_a_people_information_accessor.html#a622f1d018043d9b9da354567db8d71f2" title="Store or update person details." alt="" coords="245,455,443,495"/>
-<area shape="rect" id="node12" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="250,519,438,559"/>
-<area shape="rect" id="node13" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="20,658,183,698"/>
-<area shape="rect" id="node14" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235" title="store photo&#39;s group details" alt="" coords="263,735,425,775"/>
-<area shape="rect" id="node15" href="$d2/d3c/groups__tests_8cpp.html#ae5ba4c6033035ab33b90129c07e657d3" title=" " alt="" coords="291,685,397,711"/>
-<area shape="rect" id="node16" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="309,405,379,431"/>
+<area shape="rect" id="node1" title=" " alt="" coords="491,418,557,443"/>
+<area shape="rect" id="node2" href="$d7/ddf/class_photo_data_qml.html#a0d12bcb6ffdad1cc29f4e9cea53ec47f" title="access to flags as a QML compatible map" alt="" coords="263,203,425,228"/>
+<area shape="rect" id="node3" href="$d7/ddf/class_photo_data_qml.html#a5a6883aaeb5705e29c447b6d0bfa01fe" title=" " alt="" coords="5,55,197,80"/>
+<area shape="rect" id="node4" href="$d8/d51/struct_group_info.html#a08f92dd26a2f16e05ac3a96f7712798a" title=" " alt="" coords="273,104,415,130"/>
+<area shape="rect" id="node5" href="$d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61" title=" " alt="" coords="263,154,425,179"/>
+<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="20,328,183,368"/>
+<area shape="rect" id="node7" href="$d7/ddf/class_photo_data_qml.html#ab1034364057bf340170712083e0d2c83" title=" " alt="" coords="265,55,423,80"/>
+<area shape="rect" id="node8" href="$db/d61/class_database_1_1_a_people_information_accessor.html#aa12efdeae67a30bdffc7ee51df90f7cf" title="list full people data for photo" alt="" coords="245,302,443,342"/>
+<area shape="rect" id="node9" href="$d7/d1e/class_photo_1_1_data_delta.html#a937a374107a40054d349dfae25fd020f" title=" " alt="" coords="253,367,435,392"/>
+<area shape="rect" id="node10" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a60f421a38c172aec7b8bcf4d7ee819c2" title=" " alt="" coords="5,661,197,701"/>
+<area shape="rect" id="node11" href="$d0/d9c/struct_face.html#a4cab63b8b80c5ab812642fbf88136f79" title=" " alt="" coords="288,468,400,494"/>
+<area shape="rect" id="node12" href="$d7/d1e/class_photo_1_1_data_delta.html#a8a610541a977ccd70ba88e4c2315f9b5" title=" " alt="" coords="267,252,421,278"/>
+<area shape="rect" id="node13" href="$db/d61/class_database_1_1_a_people_information_accessor.html#a622f1d018043d9b9da354567db8d71f2" title="Store or update person details." alt="" coords="245,569,443,609"/>
+<area shape="rect" id="node14" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="250,633,438,673"/>
+<area shape="rect" id="node15" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="20,772,183,812"/>
+<area shape="rect" id="node16" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235" title="store photo&#39;s group details" alt="" coords="263,849,425,889"/>
+<area shape="rect" id="node17" href="$d2/d3c/groups__tests_8cpp.html#ae5ba4c6033035ab33b90129c07e657d3" title=" " alt="" coords="291,799,397,824"/>
+<area shape="rect" id="node18" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="309,698,379,723"/>
 </map>

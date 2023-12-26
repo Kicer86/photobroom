@@ -123,63 +123,63 @@
 <path fill="none" stroke="#63b8ff" d="M489.1,-54.54C512.01,-45.1 541.67,-32.88 563.94,-23.71"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="565.21,-26.97 573.13,-19.92 562.55,-20.5 565.21,-26.97"/>
 </g>
-<!-- Node41 -->
+<!-- Node37 -->
 <g id="node9" class="node">
-<title>Node41</title>
+<title>Node37</title>
 <g id="a_node9"><a xlink:href="../../da/d1a/photo__utils_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="811.5,-19 686.5,-19 686.5,0 811.5,0 811.5,-19"/>
 <text text-anchor="middle" x="749" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">database/photo_utils.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node41 -->
+<!-- Node1&#45;&gt;Node37 -->
 <g id="edge8" class="edge">
-<title>Node1&#45;&gt;Node41</title>
+<title>Node1&#45;&gt;Node37</title>
 <path fill="none" stroke="#63b8ff" d="M513.7,-57.16C565.98,-46.79 641.39,-31.84 692.65,-21.67"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="693.23,-25.13 702.36,-19.75 691.87,-18.26 693.23,-25.13"/>
 </g>
-<!-- Node47 -->
+<!-- Node48 -->
 <g id="node10" class="node">
-<title>Node47</title>
+<title>Node48</title>
 <g id="a_node10"><a xlink:href="../../de/de4/general__flags_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="964,-19 830,-19 830,0 964,0 964,-19"/>
 <text text-anchor="middle" x="897" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">database/general_flags.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node47 -->
+<!-- Node1&#45;&gt;Node48 -->
 <g id="edge9" class="edge">
-<title>Node1&#45;&gt;Node47</title>
+<title>Node1&#45;&gt;Node48</title>
 <path fill="none" stroke="#63b8ff" d="M513.74,-61.11C592.48,-50.71 731.18,-32.4 818.36,-20.88"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="818.57,-24.39 828.02,-19.61 817.65,-17.45 818.57,-24.39"/>
 </g>
-<!-- Node48 -->
+<!-- Node49 -->
 <g id="node11" class="node">
-<title>Node48</title>
+<title>Node49</title>
 <g id="a_node11"><a xlink:href="../../d8/ddc/collection__scanner_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="1098,-19 982,-19 982,0 1098,0 1098,-19"/>
 <text text-anchor="middle" x="1040" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">collection_scanner.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node48 -->
+<!-- Node1&#45;&gt;Node49 -->
 <g id="edge10" class="edge">
-<title>Node1&#45;&gt;Node48</title>
+<title>Node1&#45;&gt;Node49</title>
 <path fill="none" stroke="#63b8ff" d="M514,-63.81C608.63,-55.5 798.63,-38.28 970.27,-19.28"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="970.49,-22.77 980.04,-18.19 969.72,-15.82 970.49,-22.77"/>
 </g>
-<!-- Node65 -->
+<!-- Node66 -->
 <g id="node12" class="node">
-<title>Node65</title>
+<title>Node66</title>
 <g id="a_node12"><a xlink:href="../../d1/d8e/project_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="1235.5,-19 1116.5,-19 1116.5,0 1235.5,0 1235.5,-19"/>
 <text text-anchor="middle" x="1176" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">project_utils/project.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node65 -->
+<!-- Node1&#45;&gt;Node66 -->
 <g id="edge11" class="edge">
-<title>Node1&#45;&gt;Node65</title>
+<title>Node1&#45;&gt;Node66</title>
 <path fill="none" stroke="#63b8ff" d="M513.95,-65.34C627.14,-58.22 880.34,-41.34 1104.84,-19.17"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="1105.07,-22.66 1114.67,-18.19 1104.38,-15.7 1105.07,-22.66"/>
 </g>

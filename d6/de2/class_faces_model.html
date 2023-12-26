@@ -98,7 +98,7 @@ Collaboration diagram for FacesModel:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
 <tr class="memitem:a070dbb8e24f4d5805d7f014abc8c30fe"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#a070dbb8e24f4d5805d7f014abc8c30fe">Roles</a> { <a class="el" href="../../d6/de2/class_faces_model.html#a070dbb8e24f4d5805d7f014abc8c30fea34c191ad410f78b424c61c95f4074fcf">FaceRectRole</a> = Qt::UserRole + 1
-, <a class="el" href="../../d6/de2/class_faces_model.html#a070dbb8e24f4d5805d7f014abc8c30fea40b89282c911cd2c038bc04688d15abc">_lastRole</a>
+, <a class="el" href="../../d6/de2/class_faces_model.html#a070dbb8e24f4d5805d7f014abc8c30fea8bf60b2c3d3d4b9a401012d33fcf4c1d">UncertainRole</a>
  }</td></tr>
 <tr class="separator:a070dbb8e24f4d5805d7f014abc8c30fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -147,8 +147,8 @@ Properties</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
-<tr class="memitem:a29fa146567db7ce576ce48bfaf317b5a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#a29fa146567db7ce576ce48bfaf317b5a">updateFaceInformation</a> ()</td></tr>
-<tr class="separator:a29fa146567db7ce576ce48bfaf317b5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa421712aedc9880b30e0566eeec28496"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#aa421712aedc9880b30e0566eeec28496">updateFaceInformation</a> (std::shared_ptr&lt; std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d2/d1d/class_i_face.html">IFace</a> &gt; &gt; &gt;)</td></tr>
+<tr class="separator:aa421712aedc9880b30e0566eeec28496"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a397143db6743bbc319539a24817bba61"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61">initialSetup</a> ()</td></tr>
 <tr class="separator:a397143db6743bbc319539a24817bba61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab10f5720d7e1bee3f942aeb57ac866ef"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#ab10f5720d7e1bee3f942aeb57ac866ef">updateDetectionState</a> (int)</td></tr>
@@ -164,18 +164,14 @@ Private Attributes</h2></td></tr>
 <tr class="separator:ad953aa79bdcfc4bd308114c8ec57537c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a025382ea8511ae667a52328ba6a5dd85"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/da9/struct_i_core_factory_accessor.html">ICoreFactoryAccessor</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#a025382ea8511ae667a52328ba6a5dd85">m_core</a> = nullptr</td></tr>
 <tr class="separator:a025382ea8511ae667a52328ba6a5dd85"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aebe817d1ad9e9e8ff8135ff5dd9bf3e3"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d4/d0e/class_people_manipulator.html">PeopleManipulator</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#aebe817d1ad9e9e8ff8135ff5dd9bf3e3">m_peopleManipulator</a></td></tr>
-<tr class="separator:aebe817d1ad9e9e8ff8135ff5dd9bf3e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad282b42886c23d9dc58aebcd47b7d461"><td class="memItemLeft" align="right" valign="top">QVector&lt; QRect &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#ad282b42886c23d9dc58aebcd47b7d461">m_faces</a></td></tr>
-<tr class="separator:ad282b42886c23d9dc58aebcd47b7d461"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7f17369a725d4134eedb55af91f4dd97"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#a7f17369a725d4134eedb55af91f4dd97">m_photoPath</a></td></tr>
-<tr class="separator:a7f17369a725d4134eedb55af91f4dd97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d4268665f60ad7084f4f89ffef7b626"><td class="memItemLeft" align="right" valign="top">std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d2/d1d/class_i_face.html">IFace</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#a0d4268665f60ad7084f4f89ffef7b626">m_faces</a></td></tr>
+<tr class="separator:a0d4268665f60ad7084f4f89ffef7b626"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4c898ba4e30babf0bfd64434fb6b3de"><td class="memItemLeft" align="right" valign="top">std::vector&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#af4c898ba4e30babf0bfd64434fb6b3de">m_isUncertain</a></td></tr>
+<tr class="separator:af4c898ba4e30babf0bfd64434fb6b3de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ace615daeaf72bd9a1c8f032863f7625d"><td class="memItemLeft" align="right" valign="top">QSize&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#ace615daeaf72bd9a1c8f032863f7625d">m_photoSize</a></td></tr>
 <tr class="separator:ace615daeaf72bd9a1c8f032863f7625d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ed19d71c85a85b5a727e630a02670c8"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#a8ed19d71c85a85b5a727e630a02670c8">m_state</a> = 0</td></tr>
 <tr class="separator:a8ed19d71c85a85b5a727e630a02670c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a29e6c7511b089dadfe470cb5fa9e0e"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/de2/class_faces_model.html#a4a29e6c7511b089dadfe470cb5fa9e0e">m_facesCount</a> = 0</td></tr>
-<tr class="separator:a4a29e6c7511b089dadfe470cb5fa9e0e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Enumeration Documentation</h2>
 <a id="a070dbb8e24f4d5805d7f014abc8c30fe" name="a070dbb8e24f4d5805d7f014abc8c30fe"></a>
@@ -191,7 +187,7 @@ Private Attributes</h2></td></tr>
 </div><div class="memdoc">
 <table class="fieldtable">
 <tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="a070dbb8e24f4d5805d7f014abc8c30fea34c191ad410f78b424c61c95f4074fcf" name="a070dbb8e24f4d5805d7f014abc8c30fea34c191ad410f78b424c61c95f4074fcf"></a>FaceRectRole&#160;</td><td class="fielddoc"></td></tr>
-<tr><td class="fieldname"><a id="a070dbb8e24f4d5805d7f014abc8c30fea40b89282c911cd2c038bc04688d15abc" name="a070dbb8e24f4d5805d7f014abc8c30fea40b89282c911cd2c038bc04688d15abc"></a>_lastRole&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="a070dbb8e24f4d5805d7f014abc8c30fea8bf60b2c3d3d4b9a401012d33fcf4c1d" name="a070dbb8e24f4d5805d7f014abc8c30fea8bf60b2c3d3d4b9a401012d33fcf4c1d"></a>UncertainRole&#160;</td><td class="fielddoc"></td></tr>
 </table>
 
 </div>
@@ -409,7 +405,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/de2/class_faces_model_a397143db6743bbc319539a24817bba61_cgraph.svg" width="100%" height="389"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/de2/class_faces_model_a397143db6743bbc319539a24817bba61_cgraph.svg" width="415" height="216"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 <div class="dynheader">
@@ -619,14 +615,14 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d6/de2/class_faces_model_ab10f5720d7e1bee3f942aeb57ac866ef_icgraph.svg" width="100%" height="300"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/de2/class_faces_model_ab10f5720d7e1bee3f942aeb57ac866ef_icgraph.svg" width="484" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
 </div>
 </div>
-<a id="a29fa146567db7ce576ce48bfaf317b5a" name="a29fa146567db7ce576ce48bfaf317b5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29fa146567db7ce576ce48bfaf317b5a">&#9670;&#160;</a></span>updateFaceInformation()</h2>
+<a id="aa421712aedc9880b30e0566eeec28496" name="aa421712aedc9880b30e0566eeec28496"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa421712aedc9880b30e0566eeec28496">&#9670;&#160;</a></span>updateFaceInformation()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -637,7 +633,8 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void FacesModel::updateFaceInformation </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">std::shared_ptr&lt; std::vector&lt; std::unique_ptr&lt; <a class="el" href="../../d2/d1d/class_i_face.html">IFace</a> &gt; &gt; &gt;&#160;</td>
+          <td class="paramname"><em>faces</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -650,13 +647,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/de2/class_faces_model_a29fa146567db7ce576ce48bfaf317b5a_cgraph.svg" width="484" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/de2/class_faces_model_a29fa146567db7ce576ce48bfaf317b5a_icgraph.svg" width="454" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d6/de2/class_faces_model_aa421712aedc9880b30e0566eeec28496_cgraph.svg" width="484" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 
@@ -707,8 +698,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ad282b42886c23d9dc58aebcd47b7d461" name="ad282b42886c23d9dc58aebcd47b7d461"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad282b42886c23d9dc58aebcd47b7d461">&#9670;&#160;</a></span>m_faces</h2>
+<a id="a0d4268665f60ad7084f4f89ffef7b626" name="a0d4268665f60ad7084f4f89ffef7b626"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0d4268665f60ad7084f4f89ffef7b626">&#9670;&#160;</a></span>m_faces</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -717,29 +708,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">QVector&lt;QRect&gt; FacesModel::m_faces</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a4a29e6c7511b089dadfe470cb5fa9e0e" name="a4a29e6c7511b089dadfe470cb5fa9e0e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a29e6c7511b089dadfe470cb5fa9e0e">&#9670;&#160;</a></span>m_facesCount</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">int FacesModel::m_facesCount = 0</td>
+          <td class="memname">std::vector&lt;std::unique_ptr&lt;<a class="el" href="../../d2/d1d/class_i_face.html">IFace</a>&gt; &gt; FacesModel::m_faces</td>
         </tr>
       </table>
   </td>
@@ -773,8 +742,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aebe817d1ad9e9e8ff8135ff5dd9bf3e3" name="aebe817d1ad9e9e8ff8135ff5dd9bf3e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aebe817d1ad9e9e8ff8135ff5dd9bf3e3">&#9670;&#160;</a></span>m_peopleManipulator</h2>
+<a id="af4c898ba4e30babf0bfd64434fb6b3de" name="af4c898ba4e30babf0bfd64434fb6b3de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af4c898ba4e30babf0bfd64434fb6b3de">&#9670;&#160;</a></span>m_isUncertain</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -783,29 +752,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::unique_ptr&lt;<a class="el" href="../../d4/d0e/class_people_manipulator.html">PeopleManipulator</a>&gt; FacesModel::m_peopleManipulator</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a7f17369a725d4134eedb55af91f4dd97" name="a7f17369a725d4134eedb55af91f4dd97"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7f17369a725d4134eedb55af91f4dd97">&#9670;&#160;</a></span>m_photoPath</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">QString FacesModel::m_photoPath</td>
+          <td class="memname">std::vector&lt;bool&gt; FacesModel::m_isUncertain</td>
         </tr>
       </table>
   </td>

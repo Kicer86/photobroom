@@ -1,8 +1,9 @@
 <map id="ILoggerFactory::get" name="ILoggerFactory::get">
-<area shape="rect" id="node1" title=" " alt="" coords="253,119,387,145"/>
+<area shape="rect" id="node1" title=" " alt="" coords="253,157,387,182"/>
 <area shape="rect" id="node2" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="29,5,182,45"/>
 <area shape="rect" id="node3" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="72,70,139,95"/>
-<area shape="rect" id="node4" href="$d5/d0f/class_series_model.html#ae62432984c4a5ebd4394b3c6161efc15" title=" " alt="" coords="5,119,205,145"/>
-<area shape="rect" id="node5" href="$de/db3/class_context_menu_manager.html#a378b0d542be360a79ddeb05235ded1d9" title=" " alt="" coords="31,169,179,209"/>
-<area shape="rect" id="node6" href="$d3/d42/class_logger.html#a3c52871649f3a3e7aeab8d4ad2437b86" title=" " alt="" coords="41,234,170,259"/>
+<area shape="rect" id="node4" href="$dc/d96/class_batch_face_detector.html#afc9c0ac81bcce9e2d4aba88e84b4e330" title=" " alt="" coords="35,120,175,160"/>
+<area shape="rect" id="node5" href="$d5/d0f/class_series_model.html#ae62432984c4a5ebd4394b3c6161efc15" title=" " alt="" coords="5,185,205,210"/>
+<area shape="rect" id="node6" href="$de/db3/class_context_menu_manager.html#a378b0d542be360a79ddeb05235ded1d9" title=" " alt="" coords="31,235,179,275"/>
+<area shape="rect" id="node7" href="$d3/d42/class_logger.html#a3c52871649f3a3e7aeab8d4ad2437b86" title=" " alt="" coords="41,299,170,325"/>
 </map>

@@ -1,0 +1,6 @@
+<map id="PersonFullInfo" name="PersonFullInfo">
+<area shape="rect" id="node1" title="Container for all people related data (DB IDs + values)" alt="" coords="150,108,257,133"/>
+<area shape="rect" id="node2" href="$da/d2c/class_person_fingerprint.html" title=" " alt="" coords="5,13,129,38"/>
+<area shape="rect" id="node3" href="$db/de4/class_person_name.html" title=" " alt="" coords="154,13,253,38"/>
+<area shape="rect" id="node4" href="$db/dfb/class_id.html" title=" " alt="" coords="277,5,439,45"/>
+</map>

@@ -71,6 +71,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="../../d1/d79/struct_i_task_executor-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">ITaskExecutor Struct Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
@@ -87,8 +88,24 @@ Inheritance diagram for ITaskExecutor:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d3a/struct_i_task_executor_1_1_i_process_control.html">IProcessControl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d3d/struct_i_task_executor_1_1_i_process_supervisor.html">IProcessSupervisor</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d9b/struct_i_task_executor_1_1_i_task.html">ITask</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d3/d10/struct_i_task_executor_1_1_process_coroutine.html">ProcessCoroutine</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aba4e2fd09fd381e55b2cc58210089ce5"><td class="memItemLeft" align="right" valign="top">enum class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d45/struct_i_task_executor.html#aba4e2fd09fd381e55b2cc58210089ce5">ProcessState</a> { <a class="el" href="../../d5/d45/struct_i_task_executor.html#aba4e2fd09fd381e55b2cc58210089ce5a8bf906833cc7aea8084f552217ed9c1d">Suspended</a>
+, <a class="el" href="../../d5/d45/struct_i_task_executor.html#aba4e2fd09fd381e55b2cc58210089ce5a5bda814c4aedb126839228f1a3d92f09">Running</a>
+, <a class="el" href="../../d5/d45/struct_i_task_executor.html#aba4e2fd09fd381e55b2cc58210089ce5a8f3d10eb21bd36347c258679eba9e92b">Finished</a>
+ }</td></tr>
+<tr class="separator:aba4e2fd09fd381e55b2cc58210089ce5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a089b5728cdde5a6fa979ff68161fc1d3"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3">Process</a> = std::function&lt; <a class="el" href="../../d3/d10/struct_i_task_executor_1_1_process_coroutine.html">ProcessCoroutine</a>(<a class="el" href="../../dd/d3d/struct_i_task_executor_1_1_i_process_supervisor.html">IProcessSupervisor</a> *)&gt;</td></tr>
+<tr class="separator:a089b5728cdde5a6fa979ff68161fc1d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -96,11 +113,54 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a31803bfe5575e8f0953ffa19d958fee3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a52c27a801ca71679f9a8e3dc9c173734"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d45/struct_i_task_executor.html#a52c27a801ca71679f9a8e3dc9c173734">add</a> (std::unique_ptr&lt; <a class="el" href="../../dd/d9b/struct_i_task_executor_1_1_i_task.html">ITask</a> &gt; &amp;&amp;)=0</td></tr>
 <tr class="separator:a52c27a801ca71679f9a8e3dc9c173734"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a184d7ef518b31bcb213cea016cca9d3e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d45/struct_i_task_executor.html#a184d7ef518b31bcb213cea016cca9d3e">addLight</a> (std::unique_ptr&lt; <a class="el" href="../../dd/d9b/struct_i_task_executor_1_1_i_task.html">ITask</a> &gt; &amp;&amp;)=0</td></tr>
-<tr class="separator:a184d7ef518b31bcb213cea016cca9d3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0334d310c939fedcafe5e419c0f9e58"><td class="memItemLeft" align="right" valign="top">virtual std::shared_ptr&lt; <a class="el" href="../../d6/d3a/struct_i_task_executor_1_1_i_process_control.html">IProcessControl</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d45/struct_i_task_executor.html#ab0334d310c939fedcafe5e419c0f9e58">add</a> (<a class="el" href="../../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3">Process</a> &amp;&amp;)=0</td></tr>
+<tr class="separator:ab0334d310c939fedcafe5e419c0f9e58"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ebae2d6c2c03c61fa3cbc03632a7867"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d45/struct_i_task_executor.html#a4ebae2d6c2c03c61fa3cbc03632a7867">heavyWorkers</a> () const =0</td></tr>
 <tr class="separator:a4ebae2d6c2c03c61fa3cbc03632a7867"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a089b5728cdde5a6fa979ff68161fc1d3" name="a089b5728cdde5a6fa979ff68161fc1d3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a089b5728cdde5a6fa979ff68161fc1d3">&#9670;&#160;</a></span>Process</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3">ITaskExecutor::Process</a> =  std::function&lt;<a class="el" href="../../d3/d10/struct_i_task_executor_1_1_process_coroutine.html">ProcessCoroutine</a>(<a class="el" href="../../dd/d3d/struct_i_task_executor_1_1_i_process_supervisor.html">IProcessSupervisor</a> *)&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<h2 class="groupheader">Member Enumeration Documentation</h2>
+<a id="aba4e2fd09fd381e55b2cc58210089ce5" name="aba4e2fd09fd381e55b2cc58210089ce5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba4e2fd09fd381e55b2cc58210089ce5">&#9670;&#160;</a></span>ProcessState</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">enum class <a class="el" href="../../d5/d45/struct_i_task_executor.html#aba4e2fd09fd381e55b2cc58210089ce5">ITaskExecutor::ProcessState</a></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">strong</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<table class="fieldtable">
+<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aba4e2fd09fd381e55b2cc58210089ce5a8bf906833cc7aea8084f552217ed9c1d" name="aba4e2fd09fd381e55b2cc58210089ce5a8bf906833cc7aea8084f552217ed9c1d"></a>Suspended&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aba4e2fd09fd381e55b2cc58210089ce5a5bda814c4aedb126839228f1a3d92f09" name="aba4e2fd09fd381e55b2cc58210089ce5a5bda814c4aedb126839228f1a3d92f09"></a>Running&#160;</td><td class="fielddoc"></td></tr>
+<tr><td class="fieldname"><a id="aba4e2fd09fd381e55b2cc58210089ce5a8f3d10eb21bd36347c258679eba9e92b" name="aba4e2fd09fd381e55b2cc58210089ce5a8f3d10eb21bd36347c258679eba9e92b"></a>Finished&#160;</td><td class="fielddoc"></td></tr>
+</table>
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a31803bfe5575e8f0953ffa19d958fee3" name="a31803bfe5575e8f0953ffa19d958fee3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a31803bfe5575e8f0953ffa19d958fee3">&#9670;&#160;</a></span>~ITaskExecutor()</h2>
@@ -128,8 +188,36 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab0334d310c939fedcafe5e419c0f9e58" name="ab0334d310c939fedcafe5e419c0f9e58"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab0334d310c939fedcafe5e419c0f9e58">&#9670;&#160;</a></span>add() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::shared_ptr&lt; <a class="el" href="../../d6/d3a/struct_i_task_executor_1_1_i_process_control.html">IProcessControl</a> &gt; ITaskExecutor::add </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3">Process</a> &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="../../de/d64/struct_task_executor.html#a9b12cf25e7aa30230e2b90e9cb1ae14c">TaskExecutor</a>, <a class="el" href="../../d6/d2e/class_tasks_queue.html#a55ac85128a098c876496570450e59a08">TasksQueue</a>, and <a class="el" href="../../da/dd9/class_fake_task_executor.html#ad8b7cb22428d299584daa4b1ab642ef2">FakeTaskExecutor</a>.</p>
+
+</div>
+</div>
 <a id="a52c27a801ca71679f9a8e3dc9c173734" name="a52c27a801ca71679f9a8e3dc9c173734"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a52c27a801ca71679f9a8e3dc9c173734">&#9670;&#160;</a></span>add()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a52c27a801ca71679f9a8e3dc9c173734">&#9670;&#160;</a></span>add() <span class="overload">[2/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -156,41 +244,7 @@ Public Member Functions</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d45/struct_i_task_executor_a52c27a801ca71679f9a8e3dc9c173734_icgraph.svg" width="415" height="215"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
-</div>
-</div>
-
-</div>
-</div>
-<a id="a184d7ef518b31bcb213cea016cca9d3e" name="a184d7ef518b31bcb213cea016cca9d3e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a184d7ef518b31bcb213cea016cca9d3e">&#9670;&#160;</a></span>addLight()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual void ITaskExecutor::addLight </td>
-          <td>(</td>
-          <td class="paramtype">std::unique_ptr&lt; <a class="el" href="../../dd/d9b/struct_i_task_executor_1_1_i_task.html">ITask</a> &gt; &amp;&amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="../../de/d64/struct_task_executor.html#a612cc5d4b37e0a4b146517c124eb3397">TaskExecutor</a>, <a class="el" href="../../d6/d2e/class_tasks_queue.html#a27f48baa4705de34269a121321da2696">TasksQueue</a>, and <a class="el" href="../../da/dd9/class_fake_task_executor.html#a65a04b4ef3273076ca65c6d8d7b4f5aa">FakeTaskExecutor</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d45/struct_i_task_executor_a184d7ef518b31bcb213cea016cca9d3e_icgraph.svg" width="372" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d45/struct_i_task_executor_a52c27a801ca71679f9a8e3dc9c173734_icgraph.svg" width="415" height="279"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 

@@ -48,18 +48,18 @@
 <path fill="none" stroke="#63b8ff" d="M114,-54.54C114,-47.34 114,-38.53 114,-30.68"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="117.5,-30.69 114,-20.69 110.5,-30.69 117.5,-30.69"/>
 </g>
-<!-- Node9 -->
+<!-- Node8 -->
 <g id="node4" class="node">
-<title>Node9</title>
+<title>Node8</title>
 <g id="a_node4"><a xlink:href="../../d8/d0e/explicit__photo__delta_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="282,-19 162,-19 162,0 282,0 282,-19"/>
 <text text-anchor="middle" x="222" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">explicit_photo_delta.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node9 -->
+<!-- Node1&#45;&gt;Node8 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node9</title>
+<title>Node1&#45;&gt;Node8</title>
 <path fill="none" stroke="#63b8ff" d="M140.7,-54.54C157.56,-45.4 179.24,-33.66 195.98,-24.6"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="197.21,-27.91 204.34,-20.07 193.88,-21.75 197.21,-27.91"/>
 </g>

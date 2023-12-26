@@ -113,6 +113,8 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/df0/struct_database_1_1_executor.html">Executor</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/df6/struct_database_1_1_filter_face_analysis_status.html">FilterFaceAnalysisStatus</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d8b/struct_database_1_1_filter_not_matching_filter.html">FilterNotMatchingFilter</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d66/struct_database_1_1_filter_photos_matching_expression.html">FilterPhotosMatchingExpression</a></td></tr>
@@ -190,6 +192,10 @@ Classes</h2></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html">PhotoOperator</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d49/struct_database_1_1pi__id__tag.html">pi_id_tag</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d1e/struct_database_1_1pi__ph__id__tag.html">pi_ph_id_tag</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d52/struct_database_1_1_project_info.html">ProjectInfo</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d7f/class_database_1_1_sql_filter_query_generator.html">SqlFilterQueryGenerator</a></td></tr>
@@ -218,10 +224,12 @@ Concepts</h2></td></tr>
 Typedefs</h2></td></tr>
 <tr class="memitem:ae93ff7ad382ae688fd989e58927b075f"><td class="memItemLeft" align="right" valign="top">typedef std::variant&lt; <a class="el" href="../../da/da6/struct_database_1_1_actions_1_1_sort_by_tag.html">Actions::SortByTag</a>, <a class="el" href="../../dd/dd5/struct_database_1_1_actions_1_1_sort.html">Actions::Sort</a>, <a class="el" href="../../dc/d5f/struct_database_1_1_actions_1_1_group_action.html">Actions::GroupAction</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#ae93ff7ad382ae688fd989e58927b075f">Action</a></td></tr>
 <tr class="separator:ae93ff7ad382ae688fd989e58927b075f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2d21153b1fde845b60a0d7be343832f"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#ae2d21153b1fde845b60a0d7be343832f">PeopleContainer</a> = boost::multi_index_container&lt; <a class="el" href="../../dd/dc4/class_person_info.html">PersonInfo</a>, indexed_by&lt; ordered_unique&lt; tag&lt; <a class="el" href="../../d0/d49/struct_database_1_1pi__id__tag.html">pi_id_tag</a> &gt;, BOOST_MULTI_INDEX_MEMBER(<a class="el" href="../../dd/dc4/class_person_info.html">PersonInfo</a>, <a class="el" href="../../dd/dc4/class_person_info.html#aea8b90f97da1055008393ef1841f05ea">PersonInfo::Id</a>, id)&gt;, ordered_non_unique&lt; tag&lt; <a class="el" href="../../de/d1e/struct_database_1_1pi__ph__id__tag.html">pi_ph_id_tag</a> &gt;, BOOST_MULTI_INDEX_MEMBER(<a class="el" href="../../dd/dc4/class_person_info.html">PersonInfo</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, ph_id)&gt; &gt; &gt;</td></tr>
+<tr class="separator:ae2d21153b1fde845b60a0d7be343832f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f00c97643e7d6fcd7b5ce802964bdfb"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d0/de5/class_status.html">Status</a>&lt; <a class="el" href="../../d0/d76/namespace_database.html#a25b897a700669116efa4f786360831a7">StatusCodes</a>, <a class="el" href="../../d0/d76/namespace_database.html#a25b897a700669116efa4f786360831a7aa60852f204ed8028c1c58808b746d115">StatusCodes::Ok</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a2f00c97643e7d6fcd7b5ce802964bdfb">BackendStatus</a></td></tr>
 <tr class="separator:a2f00c97643e7d6fcd7b5ce802964bdfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b1b225b89fba2430c6daa9ae05ae49d"><td class="memItemLeft" align="right" valign="top">typedef std::variant&lt; <a class="el" href="../../d3/d0c/struct_database_1_1_empty_filter.html">EmptyFilter</a>, <a class="el" href="../../df/d31/struct_database_1_1_group_filter.html">GroupFilter</a>, <a class="el" href="../../db/da3/struct_database_1_1_filter_photos_with_tag.html">FilterPhotosWithTag</a>, <a class="el" href="../../db/deb/struct_database_1_1_filter_photos_with_flags.html">FilterPhotosWithFlags</a>, <a class="el" href="../../d5/d8b/struct_database_1_1_filter_not_matching_filter.html">FilterNotMatchingFilter</a>, <a class="el" href="../../db/df3/struct_database_1_1_filter_photos_with_id.html">FilterPhotosWithId</a>, <a class="el" href="../../d0/d66/struct_database_1_1_filter_photos_matching_expression.html">FilterPhotosMatchingExpression</a>, <a class="el" href="../../da/dbe/struct_database_1_1_filter_photos_with_path.html">FilterPhotosWithPath</a>, <a class="el" href="../../d5/dcd/struct_database_1_1_filter_photos_with_role.html">FilterPhotosWithRole</a>, <a class="el" href="../../d9/d4b/struct_database_1_1_filter_photos_with_person.html">FilterPhotosWithPerson</a>, <a class="el" href="../../d9/d10/struct_database_1_1_filter_photos_with_general_flag.html">FilterPhotosWithGeneralFlag</a>, <a class="el" href="../../d9/d81/struct_database_1_1_filter_photos_with_p_hash.html">FilterPhotosWithPHash</a>, <a class="el" href="../../d0/d36/struct_database_1_1_filter_similar_photos.html">FilterSimilarPhotos</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a9b1b225b89fba2430c6daa9ae05ae49d">Filter</a></td></tr>
-<tr class="separator:a9b1b225b89fba2430c6daa9ae05ae49d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83ac85e1ab7c263f60d6aa6b5bfe4a12"><td class="memItemLeft" align="right" valign="top">typedef std::variant&lt; <a class="el" href="../../d3/d0c/struct_database_1_1_empty_filter.html">EmptyFilter</a>, <a class="el" href="../../df/d31/struct_database_1_1_group_filter.html">GroupFilter</a>, <a class="el" href="../../db/da3/struct_database_1_1_filter_photos_with_tag.html">FilterPhotosWithTag</a>, <a class="el" href="../../db/deb/struct_database_1_1_filter_photos_with_flags.html">FilterPhotosWithFlags</a>, <a class="el" href="../../d5/d8b/struct_database_1_1_filter_not_matching_filter.html">FilterNotMatchingFilter</a>, <a class="el" href="../../db/df3/struct_database_1_1_filter_photos_with_id.html">FilterPhotosWithId</a>, <a class="el" href="../../d0/d66/struct_database_1_1_filter_photos_matching_expression.html">FilterPhotosMatchingExpression</a>, <a class="el" href="../../da/dbe/struct_database_1_1_filter_photos_with_path.html">FilterPhotosWithPath</a>, <a class="el" href="../../d5/dcd/struct_database_1_1_filter_photos_with_role.html">FilterPhotosWithRole</a>, <a class="el" href="../../d9/d4b/struct_database_1_1_filter_photos_with_person.html">FilterPhotosWithPerson</a>, <a class="el" href="../../d9/d10/struct_database_1_1_filter_photos_with_general_flag.html">FilterPhotosWithGeneralFlag</a>, <a class="el" href="../../d9/d81/struct_database_1_1_filter_photos_with_p_hash.html">FilterPhotosWithPHash</a>, <a class="el" href="../../d0/d36/struct_database_1_1_filter_similar_photos.html">FilterSimilarPhotos</a>, <a class="el" href="../../d0/df6/struct_database_1_1_filter_face_analysis_status.html">FilterFaceAnalysisStatus</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a></td></tr>
+<tr class="separator:a83ac85e1ab7c263f60d6aa6b5bfe4a12"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="enum-members" name="enum-members"></a>
 Enumerations</h2></td></tr>
@@ -259,6 +267,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a1ceaa5be1b158295b6b4f1f9ad393931"><td class="memTemplParams" colspan="2">template&lt;Photo::Field... fields&gt; </td></tr>
+<tr class="memitem:a1ceaa5be1b158295b6b4f1f9ad393931"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt; fields... &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a1ceaa5be1b158295b6b4f1f9ad393931">getPhotoDelta</a> (<a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a> &amp;backend, const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;filter={})</td></tr>
+<tr class="separator:a1ceaa5be1b158295b6b4f1f9ad393931"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afefdec1a6f100f2a8b794a8e264f04de"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:afefdec1a6f100f2a8b794a8e264f04de"><td class="memTemplItemLeft" align="right" valign="top">QString&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#afefdec1a6f100f2a8b794a8e264f04de">join</a> (T first, T last, const QString &amp;spl)</td></tr>
 <tr class="separator:afefdec1a6f100f2a8b794a8e264f04de"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -268,7 +279,7 @@ Functions</h2></td></tr>
 requires std::input_iterator&lt;T&gt; &amp;&amp; std::is_same_v&lt;typename T::value_type, <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>&gt;</td></tr>
 <tr class="memitem:a602ea90a84cc50ef96721e531a788d08"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a602ea90a84cc50ef96721e531a788d08">fetchPhotoData</a> (<a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a> &amp;backend, T first, T last)</td></tr>
 <tr class="separator:a602ea90a84cc50ef96721e531a788d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4ec02b4e9c6e42324e216f62f863a5c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d76/namespace_database.html#a9b1b225b89fba2430c6daa9ae05ae49d">Filter</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7">getValidPhotosFilter</a> ()</td></tr>
+<tr class="memitem:a4ec02b4e9c6e42324e216f62f863a5c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> DATABASE_EXPORT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7">getValidPhotosFilter</a> ()</td></tr>
 <tr class="memdesc:a4ec02b4e9c6e42324e216f62f863a5c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">return filter which will filter out broken photos (missing, broken, deleted etc)  <a href="../../d0/d76/namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7">More...</a><br /></td></tr>
 <tr class="separator:a4ec02b4e9c6e42324e216f62f863a5c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -338,14 +349,28 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a9b1b225b89fba2430c6daa9ae05ae49d" name="a9b1b225b89fba2430c6daa9ae05ae49d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9b1b225b89fba2430c6daa9ae05ae49d">&#9670;&#160;</a></span>Filter</h2>
+<a id="a83ac85e1ab7c263f60d6aa6b5bfe4a12" name="a83ac85e1ab7c263f60d6aa6b5bfe4a12"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a83ac85e1ab7c263f60d6aa6b5bfe4a12">&#9670;&#160;</a></span>Filter</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">typedef std::variant&lt;<a class="el" href="../../d3/d0c/struct_database_1_1_empty_filter.html">EmptyFilter</a>, <a class="el" href="../../df/d31/struct_database_1_1_group_filter.html">GroupFilter</a>, <a class="el" href="../../db/da3/struct_database_1_1_filter_photos_with_tag.html">FilterPhotosWithTag</a>, <a class="el" href="../../db/deb/struct_database_1_1_filter_photos_with_flags.html">FilterPhotosWithFlags</a>, <a class="el" href="../../d5/d8b/struct_database_1_1_filter_not_matching_filter.html">FilterNotMatchingFilter</a>, <a class="el" href="../../db/df3/struct_database_1_1_filter_photos_with_id.html">FilterPhotosWithId</a>, <a class="el" href="../../d0/d66/struct_database_1_1_filter_photos_matching_expression.html">FilterPhotosMatchingExpression</a>, <a class="el" href="../../da/dbe/struct_database_1_1_filter_photos_with_path.html">FilterPhotosWithPath</a>, <a class="el" href="../../d5/dcd/struct_database_1_1_filter_photos_with_role.html">FilterPhotosWithRole</a>, <a class="el" href="../../d9/d4b/struct_database_1_1_filter_photos_with_person.html">FilterPhotosWithPerson</a>, <a class="el" href="../../d9/d10/struct_database_1_1_filter_photos_with_general_flag.html">FilterPhotosWithGeneralFlag</a>, <a class="el" href="../../d9/d81/struct_database_1_1_filter_photos_with_p_hash.html">FilterPhotosWithPHash</a>, <a class="el" href="../../d0/d36/struct_database_1_1_filter_similar_photos.html">FilterSimilarPhotos</a> &gt; <a class="el" href="../../d0/d76/namespace_database.html#a9b1b225b89fba2430c6daa9ae05ae49d">Database::Filter</a></td>
+          <td class="memname">typedef std::variant&lt;<a class="el" href="../../d3/d0c/struct_database_1_1_empty_filter.html">EmptyFilter</a>, <a class="el" href="../../df/d31/struct_database_1_1_group_filter.html">GroupFilter</a>, <a class="el" href="../../db/da3/struct_database_1_1_filter_photos_with_tag.html">FilterPhotosWithTag</a>, <a class="el" href="../../db/deb/struct_database_1_1_filter_photos_with_flags.html">FilterPhotosWithFlags</a>, <a class="el" href="../../d5/d8b/struct_database_1_1_filter_not_matching_filter.html">FilterNotMatchingFilter</a>, <a class="el" href="../../db/df3/struct_database_1_1_filter_photos_with_id.html">FilterPhotosWithId</a>, <a class="el" href="../../d0/d66/struct_database_1_1_filter_photos_matching_expression.html">FilterPhotosMatchingExpression</a>, <a class="el" href="../../da/dbe/struct_database_1_1_filter_photos_with_path.html">FilterPhotosWithPath</a>, <a class="el" href="../../d5/dcd/struct_database_1_1_filter_photos_with_role.html">FilterPhotosWithRole</a>, <a class="el" href="../../d9/d4b/struct_database_1_1_filter_photos_with_person.html">FilterPhotosWithPerson</a>, <a class="el" href="../../d9/d10/struct_database_1_1_filter_photos_with_general_flag.html">FilterPhotosWithGeneralFlag</a>, <a class="el" href="../../d9/d81/struct_database_1_1_filter_photos_with_p_hash.html">FilterPhotosWithPHash</a>, <a class="el" href="../../d0/d36/struct_database_1_1_filter_similar_photos.html">FilterSimilarPhotos</a>, <a class="el" href="../../d0/df6/struct_database_1_1_filter_face_analysis_status.html">FilterFaceAnalysisStatus</a> &gt; <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Database::Filter</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ae2d21153b1fde845b60a0d7be343832f" name="ae2d21153b1fde845b60a0d7be343832f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae2d21153b1fde845b60a0d7be343832f">&#9670;&#160;</a></span>PeopleContainer</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../d0/d76/namespace_database.html#ae2d21153b1fde845b60a0d7be343832f">Database::PeopleContainer</a> = typedef boost::multi_index_container&lt; <a class="el" href="../../dd/dc4/class_person_info.html">PersonInfo</a>, indexed_by&lt; ordered_unique&lt;tag&lt;<a class="el" href="../../d0/d49/struct_database_1_1pi__id__tag.html">pi_id_tag</a>&gt;, BOOST_MULTI_INDEX_MEMBER(<a class="el" href="../../dd/dc4/class_person_info.html">PersonInfo</a>, <a class="el" href="../../dd/dc4/class_person_info.html#aea8b90f97da1055008393ef1841f05ea">PersonInfo::Id</a>, id)&gt;, ordered_non_unique&lt;tag&lt;<a class="el" href="../../de/d1e/struct_database_1_1pi__ph__id__tag.html">pi_ph_id_tag</a>&gt;, BOOST_MULTI_INDEX_MEMBER(<a class="el" href="../../dd/dc4/class_person_info.html">PersonInfo</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, ph_id)&gt; &gt; &gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -511,6 +536,42 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a1ceaa5be1b158295b6b4f1f9ad393931" name="a1ceaa5be1b158295b6b4f1f9ad393931"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ceaa5be1b158295b6b4f1f9ad393931">&#9670;&#160;</a></span>getPhotoDelta()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;Photo::Field... fields&gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt; fields... &gt; &gt; Database::getPhotoDelta </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a> &amp;&#160;</td>
+          <td class="paramname"><em>backend</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em> = <code>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_a1ceaa5be1b158295b6b4f1f9ad393931_icgraph.svg" width="363" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+</div>
+</div>
+
+</div>
+</div>
 <a id="a4ec02b4e9c6e42324e216f62f863a5c7" name="a4ec02b4e9c6e42324e216f62f863a5c7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a4ec02b4e9c6e42324e216f62f863a5c7">&#9670;&#160;</a></span>getValidPhotosFilter()</h2>
 
@@ -518,7 +579,7 @@ Here is the call graph for this function:</div>
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="../../d0/d76/namespace_database.html#a9b1b225b89fba2430c6daa9ae05ae49d">Filter</a> Database::getValidPhotosFilter </td>
+          <td class="memname"><a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> Database::getValidPhotosFilter </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -536,7 +597,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_a4ec02b4e9c6e42324e216f62f863a5c7_icgraph.svg" width="426" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_a4ec02b4e9c6e42324e216f62f863a5c7_icgraph.svg" width="426" height="151"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 

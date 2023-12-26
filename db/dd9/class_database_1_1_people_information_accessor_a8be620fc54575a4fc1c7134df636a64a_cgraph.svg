@@ -11,7 +11,7 @@
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
-<g id="a_node1"><a xlink:title=" ">
+<g id="a_node1"><a xlink:title="Store person&#39;s fingerprint in db.">
 <polygon fill="#999999" stroke="#666666" points="141,-188 0,-188 0,-158 141,-158 141,-188"/>
 <text text-anchor="start" x="8" y="-176" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="70.5" y="-165" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::store</text>

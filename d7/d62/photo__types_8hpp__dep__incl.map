@@ -1,11 +1,12 @@
 <map id="src/database/photo_types.hpp" name="src/database/photo_types.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="519,5,652,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="632,5,765,45"/>
 <area shape="rect" id="node2" href="$d9/d8f/igroup__operator_8hpp.html" title=" " alt="" coords="5,93,141,133"/>
 <area shape="rect" id="node3" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="165,93,301,133"/>
 <area shape="rect" id="node4" href="$d1/d31/notifications__accumulator_8hpp.html" title=" " alt="" coords="325,93,496,133"/>
-<area shape="rect" id="node5" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="519,181,652,221"/>
-<area shape="rect" id="node6" href="$d5/dab/photo__data__fields_8hpp.html" title=" " alt="" coords="571,93,704,133"/>
-<area shape="rect" id="node7" href="$d9/d3b/media__view__ctrl_8hpp.html" title=" " alt="" coords="729,93,911,133"/>
-<area shape="rect" id="node8" href="$d6/db9/ithumbnails__cache_8hpp.html" title=" " alt="" coords="935,93,1094,133"/>
-<area shape="rect" id="node9" href="$d5/d1e/people__manipulator_8hpp.html" title=" " alt="" coords="1119,93,1281,133"/>
+<area shape="rect" id="node5" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="521,93,661,133"/>
+<area shape="rect" id="node6" href="$d5/dab/photo__data__fields_8hpp.html" title=" " alt="" coords="579,181,712,221"/>
+<area shape="rect" id="node7" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="631,269,764,309"/>
+<area shape="rect" id="node8" href="$d9/d3b/media__view__ctrl_8hpp.html" title=" " alt="" coords="787,93,970,133"/>
+<area shape="rect" id="node9" href="$d6/db9/ithumbnails__cache_8hpp.html" title=" " alt="" coords="994,93,1153,133"/>
+<area shape="rect" id="node10" href="$d9/d19/people__editor_8hpp.html" title=" " alt="" coords="1177,93,1316,133"/>
 </map>

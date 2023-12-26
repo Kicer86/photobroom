@@ -1,8 +1,8 @@
 <map id="IExifReaderFactory::get" name="IExifReaderFactory::get">
-<area shape="rect" id="node1" title=" " alt="" coords="224,141,379,166"/>
+<area shape="rect" id="node1" title=" " alt="" coords="224,127,379,153"/>
 <area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#a5602e18dab61025c041f53bbe3e59254" title=" " alt="" coords="15,5,166,45"/>
-<area shape="rect" id="node3" href="$d4/d0e/class_people_manipulator.html#adb1261c6f429ca2846f4226b5bc82251" title=" " alt="" coords="23,69,158,109"/>
-<area shape="rect" id="node4" href="$de/d2a/class_image_media_information.html#ab59a804554c2edf243d753c2730fdf2c" title=" " alt="" coords="11,133,170,173"/>
-<area shape="rect" id="node5" href="$d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" title=" " alt="" coords="15,197,166,237"/>
-<area shape="rect" id="node6" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a32d1b87cb6dcd42a9d9a860d3fcae8f3" title=" " alt="" coords="5,261,176,301"/>
+<area shape="rect" id="node3" href="$dd/d0a/class_face_editor.html#adf8745e7dc160e0a546a6137a05f2878" title=" " alt="" coords="9,70,172,95"/>
+<area shape="rect" id="node4" href="$de/d2a/class_image_media_information.html#ab59a804554c2edf243d753c2730fdf2c" title=" " alt="" coords="11,120,170,160"/>
+<area shape="rect" id="node5" href="$d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" title=" " alt="" coords="15,184,166,224"/>
+<area shape="rect" id="node6" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a32d1b87cb6dcd42a9d9a860d3fcae8f3" title=" " alt="" coords="5,248,176,288"/>
 </map>

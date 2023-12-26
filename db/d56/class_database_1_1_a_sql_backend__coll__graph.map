@@ -1,8 +1,8 @@
 <map id="Database::ASqlBackend" name="Database::ASqlBackend">
-<area shape="rect" id="node1" title=" " alt="" coords="445,149,608,175"/>
+<area shape="rect" id="node1" title=" " alt="" coords="445,120,608,145"/>
 <area shape="rect" id="node2" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="50,5,189,31"/>
-<area shape="rect" id="node3" href="$da/db9/classlazy__ptr.html" title=" " alt="" coords="6,55,233,125"/>
-<area shape="rect" id="node4" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="5,149,233,175"/>
-<area shape="rect" id="node5" href="$df/db0/class_database_1_1_transaction_manager.html" title=" " alt="" coords="19,199,220,239"/>
-<area shape="rect" id="node6" href="$d3/d47/class_database_1_1_sql_query_executor.html" title=" " alt="" coords="26,264,213,289"/>
+<area shape="rect" id="node3" href="$da/db9/classlazy__ptr.html" title=" " alt="" coords="18,55,221,95"/>
+<area shape="rect" id="node4" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="5,120,233,145"/>
+<area shape="rect" id="node5" href="$df/db0/class_database_1_1_transaction_manager.html" title=" " alt="" coords="19,170,220,210"/>
+<area shape="rect" id="node6" href="$d3/d47/class_database_1_1_sql_query_executor.html" title=" " alt="" coords="26,235,213,260"/>
 </map>

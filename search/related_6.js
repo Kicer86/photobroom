@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['task_0',['Task',['../d5/d65/class_observable_task_executor.html#aaa7728226b6ce66782e8816b1658dd9a',1,'ObservableTaskExecutor::Task()'],['../d8/db5/class_observable_database.html#aaa7728226b6ce66782e8816b1658dd9a',1,'ObservableDatabase::Task()']]]
+  ['safe_5fcallback_0',['safe_callback',['../d2/d3a/classsafe__callback__ctrl.html#ad5e2d403c45aa276ea3232d3878660ce',1,'safe_callback_ctrl']]]
 ];

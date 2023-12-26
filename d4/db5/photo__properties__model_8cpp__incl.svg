@@ -33,63 +33,63 @@
 <path fill="none" stroke="#63b8ff" d="M203.75,-54.54C174.05,-44.83 135.32,-32.17 107.01,-22.92"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="108.36,-19.68 97.77,-19.9 106.19,-26.34 108.36,-19.68"/>
 </g>
-<!-- Node52 -->
+<!-- Node54 -->
 <g id="node3" class="node">
-<title>Node52</title>
+<title>Node54</title>
 <g id="a_node3"><a xlink:title=" ">
 <polygon fill="#e0e0e0" stroke="#999999" points="212,-19 156,-19 156,0 212,0 212,-19"/>
 <text text-anchor="middle" x="184" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">algorithm</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node52 -->
+<!-- Node1&#45;&gt;Node54 -->
 <g id="edge2" class="edge">
-<title>Node1&#45;&gt;Node52</title>
+<title>Node1&#45;&gt;Node54</title>
 <path fill="none" stroke="#63b8ff" d="M232.18,-54.54C222.98,-46.13 211.36,-35.51 201.83,-26.8"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="204.35,-24.36 194.61,-20.2 199.63,-29.53 204.35,-24.36"/>
 </g>
-<!-- Node53 -->
+<!-- Node55 -->
 <g id="node4" class="node">
-<title>Node53</title>
+<title>Node55</title>
 <g id="a_node4"><a xlink:title=" ">
 <polygon fill="#e0e0e0" stroke="#999999" points="266,-19 230,-19 230,0 266,0 266,-19"/>
 <text text-anchor="middle" x="248" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">QDir</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node53 -->
+<!-- Node1&#45;&gt;Node55 -->
 <g id="edge3" class="edge">
-<title>Node1&#45;&gt;Node53</title>
+<title>Node1&#45;&gt;Node55</title>
 <path fill="none" stroke="#63b8ff" d="M248,-54.54C248,-47.34 248,-38.53 248,-30.68"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="251.5,-30.69 248,-20.69 244.5,-30.69 251.5,-30.69"/>
 </g>
-<!-- Node54 -->
+<!-- Node56 -->
 <g id="node5" class="node">
-<title>Node54</title>
+<title>Node56</title>
 <g id="a_node5"><a xlink:title=" ">
 <polygon fill="#e0e0e0" stroke="#999999" points="340,-19 284,-19 284,0 340,0 340,-19"/>
 <text text-anchor="middle" x="312" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">QFileInfo</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node54 -->
+<!-- Node1&#45;&gt;Node56 -->
 <g id="edge4" class="edge">
-<title>Node1&#45;&gt;Node54</title>
+<title>Node1&#45;&gt;Node56</title>
 <path fill="none" stroke="#63b8ff" d="M263.82,-54.54C273.02,-46.13 284.64,-35.51 294.17,-26.8"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="296.37,-29.53 301.39,-20.2 291.65,-24.36 296.37,-29.53"/>
 </g>
-<!-- Node55 -->
+<!-- Node57 -->
 <g id="node6" class="node">
-<title>Node55</title>
+<title>Node57</title>
 <g id="a_node6"><a xlink:href="../../d1/d85/filesystem_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="471.5,-19 358.5,-19 358.5,0 471.5,0 471.5,-19"/>
 <text text-anchor="middle" x="415" y="-7" font-family="Helvetica,sans-Serif" font-size="10.00">system/filesystem.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node55 -->
+<!-- Node1&#45;&gt;Node57 -->
 <g id="edge5" class="edge">
-<title>Node1&#45;&gt;Node55</title>
+<title>Node1&#45;&gt;Node57</title>
 <path fill="none" stroke="#63b8ff" d="M289.28,-54.54C316.83,-44.89 352.71,-32.32 379.08,-23.08"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="380.04,-26.46 388.32,-19.85 377.72,-19.85 380.04,-26.46"/>
 </g>

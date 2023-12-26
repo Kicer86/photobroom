@@ -1,13 +1,13 @@
 <map id="Photo::DataDelta::getId" name="Photo::DataDelta::getId">
-<area shape="rect" id="node1" title=" " alt="" coords="485,245,640,271"/>
-<area shape="rect" id="node2" href="$d5/df1/struct_photo_1_1_data.html#a08fbe960d4ddc3a2c2c49dd6a82acf25" title=" " alt="" coords="279,5,404,31"/>
-<area shape="rect" id="node3" href="$d7/ddf/class_photo_data_qml.html#a0d12bcb6ffdad1cc29f4e9cea53ec47f" title="access to flags as a QML compatible map" alt="" coords="260,55,423,80"/>
+<area shape="rect" id="node1" title=" " alt="" coords="456,243,611,268"/>
+<area shape="rect" id="node2" href="$d5/df1/struct_photo_1_1_data.html#a08fbe960d4ddc3a2c2c49dd6a82acf25" title=" " alt="" coords="264,5,389,31"/>
+<area shape="rect" id="node3" href="$d7/ddf/class_photo_data_qml.html#a0d12bcb6ffdad1cc29f4e9cea53ec47f" title="access to flags as a QML compatible map" alt="" coords="245,55,408,80"/>
 <area shape="rect" id="node4" href="$d7/ddf/class_photo_data_qml.html#a5a6883aaeb5705e29c447b6d0bfa01fe" title=" " alt="" coords="5,105,197,131"/>
-<area shape="rect" id="node5" href="$db/d29/class_photo_1_1_explicit_delta.html#a17a99123198a14dfec77677700c8d2ad" title=" " alt="" coords="275,155,408,195"/>
-<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="20,303,183,343"/>
-<area shape="rect" id="node7" href="$d7/ddf/class_photo_data_qml.html#ab1034364057bf340170712083e0d2c83" title=" " alt="" coords="262,220,421,245"/>
-<area shape="rect" id="node8" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aeabaa61a16e3602392353c5ce5727b91" title="store photo data" alt="" coords="260,345,423,385"/>
-<area shape="rect" id="node9" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#aa0d3dcca2024cfd586edc78047f9f686" title=" " alt="" coords="245,409,437,449"/>
-<area shape="rect" id="node10" href="$d6/dc3/data__delta__tests_8cpp.html#a793b57922396be00a7fce4a7bfe87c06" title=" " alt="" coords="314,473,369,499"/>
-<area shape="rect" id="node11" href="$df/d93/general__flags__tests_8cpp.html#a90ac80feec382175e16a875784e2b106" title=" " alt="" coords="289,523,394,548"/>
+<area shape="rect" id="node5" href="$db/d29/class_photo_1_1_explicit_delta.html#a17a99123198a14dfec77677700c8d2ad" title=" " alt="" coords="260,206,393,246"/>
+<area shape="rect" id="node6" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" title=" " alt="" coords="5,241,197,281"/>
+<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="20,338,183,378"/>
+<area shape="rect" id="node8" href="$d7/ddf/class_photo_data_qml.html#ab1034364057bf340170712083e0d2c83" title=" " alt="" coords="247,156,406,181"/>
+<area shape="rect" id="node9" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aeabaa61a16e3602392353c5ce5727b91" title="store photo data" alt="" coords="245,395,408,435"/>
+<area shape="rect" id="node10" href="$d6/dc3/data__delta__tests_8cpp.html#a793b57922396be00a7fce4a7bfe87c06" title=" " alt="" coords="299,460,354,485"/>
+<area shape="rect" id="node11" href="$df/d93/general__flags__tests_8cpp.html#a90ac80feec382175e16a875784e2b106" title=" " alt="" coords="274,509,379,535"/>
 </map>

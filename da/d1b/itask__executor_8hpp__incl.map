@@ -1,6 +1,8 @@
 <map id="src/core/itask_executor.hpp" name="src/core/itask_executor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="34,5,215,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,73,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="97,79,152,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="177,79,275,104"/>
+<area shape="rect" id="node1" title=" " alt="" coords="151,5,332,31"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,79,80,104"/>
+<area shape="rect" id="node3" title=" " alt="" coords="105,79,183,104"/>
+<area shape="rect" id="node4" title=" " alt="" coords="207,79,275,104"/>
+<area shape="rect" id="node5" title=" " alt="" coords="299,79,354,104"/>
+<area shape="rect" id="node6" title=" " alt="" coords="379,79,477,104"/>
 </map>

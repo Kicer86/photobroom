@@ -1,4 +1,7 @@
 <map id="Photo::ExplicitDelta::get" name="Photo::ExplicitDelta::get">
-<area shape="rect" id="node1" title=" " alt="" coords="204,13,361,38"/>
-<area shape="rect" id="node2" href="$d2/dbb/class_photo_properties_model.html#ab8244b190ee20db111903aadb6c62183" title=" " alt="" coords="5,5,156,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="245,95,403,120"/>
+<area shape="rect" id="node2" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="28,5,175,31"/>
+<area shape="rect" id="node3" href="$d2/dbb/class_photo_properties_model.html#ab8244b190ee20db111903aadb6c62183" title=" " alt="" coords="26,55,177,95"/>
+<area shape="rect" id="node4" href="$da/dba/class_database_1_1_memory_backend.html#ab5f22fc2d7d4f85f6e133e5a88e82ef9" title=" " alt="" coords="11,119,191,159"/>
+<area shape="rect" id="node5" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" title=" " alt="" coords="5,183,197,223"/>
 </map>

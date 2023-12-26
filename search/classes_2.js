@@ -15,7 +15,9 @@ var searchData=
   ['constraints_12',['Constraints',['../d9/db9/struct_config_consts_1_1_constraints.html',1,'ConfigConsts']]],
   ['constructormock_13',['ConstructorMock',['../d9/d11/class_constructor_mock.html',1,'']]],
   ['contextmenumanager_14',['ContextMenuManager',['../de/db3/class_context_menu_manager.html',1,'']]],
-  ['copycreator_15',['CopyCreator',['../d2/d8a/structlazy__ptr_1_1_copy_creator.html',1,'lazy_ptr']]],
-  ['corefactoryaccessor_16',['CoreFactoryAccessor',['../d5/d24/class_core_factory_accessor.html',1,'']]],
-  ['crashcatcher_17',['CrashCatcher',['../df/d0d/class_crash_catcher.html',1,'']]]
+  ['corefactoryaccessor_15',['CoreFactoryAccessor',['../d5/d24/class_core_factory_accessor.html',1,'']]],
+  ['crashcatcher_16',['CrashCatcher',['../df/d0d/class_crash_catcher.html',1,'']]],
+  ['customtype_17',['CustomType',['../dd/df1/struct_j_son_1_1_custom_type.html',1,'JSon']]],
+  ['customtype_3c_20ijk_20_3e_18',['CustomType&lt; IJK &gt;',['../d4/d27/struct_j_son_1_1_custom_type_3_01_i_j_k_01_4.html',1,'JSon']]],
+  ['customtype_3c_20xyz_20_3e_19',['CustomType&lt; XYZ &gt;',['../dc/d43/struct_j_son_1_1_custom_type_3_01_x_y_z_01_4.html',1,'JSon']]]
 ];

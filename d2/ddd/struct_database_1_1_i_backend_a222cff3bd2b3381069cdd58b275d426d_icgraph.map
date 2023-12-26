@@ -1,9 +1,6 @@
 <map id="Database::IBackend::peopleInformationAccessor" name="Database::IBackend::peopleInformationAccessor">
-<area shape="rect" id="node1" title=" " alt="" coords="236,163,423,203"/>
-<area shape="rect" id="node2" href="$d4/d0e/class_people_manipulator.html#ad60edc5600e54d3f4960441a1d667a9f" title=" " alt="" coords="29,5,164,45"/>
-<area shape="rect" id="node3" href="$d4/d0e/class_people_manipulator.html#ad8804090e38b4949c31166ffd38574f9" title=" " alt="" coords="5,69,188,109"/>
-<area shape="rect" id="node4" href="$d4/d0e/class_people_manipulator.html#affe184d500175172ab8617f0af75981c" title=" " alt="" coords="29,133,164,173"/>
-<area shape="rect" id="node5" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="16,198,177,223"/>
-<area shape="rect" id="node6" href="$d4/d0e/class_people_manipulator.html#add0864334e050e3b8db558de4bb08904" title=" " alt="" coords="13,248,180,288"/>
-<area shape="rect" id="node7" href="$d4/d0e/class_people_manipulator.html#afa2cd7e6d0955a3b87020da440d28520" title=" " alt="" coords="29,312,164,352"/>
+<area shape="rect" id="node1" title=" " alt="" coords="237,63,424,103"/>
+<area shape="rect" id="node2" href="$d3/d26/class_recognizer.html#a755bf82a62c94ce972e8cc33ebc970f7" title=" " alt="" coords="5,5,189,45"/>
+<area shape="rect" id="node3" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="17,70,178,95"/>
+<area shape="rect" id="node4" href="$d0/d9c/struct_face.html#a9f9689a732c751ebdf860a10dd3b6fe3" title=" " alt="" coords="54,143,141,169"/>
 </map>

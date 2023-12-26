@@ -74,6 +74,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="../../df/d65/struct_database_1_1_i_photo_change_log_operator-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">Database::IPhotoChangeLogOperator Struct Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
@@ -88,12 +89,17 @@ Inheritance diagram for Database::IPhotoChangeLogOperator:</div>
 </div>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a75255aa1544d2d8c5c2df108c7a5cde0"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a75255aa1544d2d8c5c2df108c7a5cde0">DiffDelta</a> = <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aa189f63f277cd73395561651753563065">Photo::Field::Tags</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aa4d3bfeb18c6c32abc73837558e4b0be0">Photo::Field::GroupInfo</a> &gt;</td></tr>
+<tr class="separator:a75255aa1544d2d8c5c2df108c7a5cde0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a210692ec2862e58c31ca449416d5f74f"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a210692ec2862e58c31ca449416d5f74f">~IPhotoChangeLogOperator</a> ()=default</td></tr>
 <tr class="separator:a210692ec2862e58c31ca449416d5f74f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34fd0801e82803d4275346477663de8b"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a34fd0801e82803d4275346477663de8b">storeDifference</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#ae7beac179b7c2a7a82df40872e2ce108">Photo::FullDelta</a> &amp;, const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;)=0</td></tr>
-<tr class="separator:a34fd0801e82803d4275346477663de8b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abf5db667e34574a047f371438cb8885f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#abf5db667e34574a047f371438cb8885f">storeDifference</a> (const <a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a75255aa1544d2d8c5c2df108c7a5cde0">DiffDelta</a> &amp;, const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;)=0</td></tr>
+<tr class="separator:abf5db667e34574a047f371438cb8885f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5ba24474a492a785f27ef3b11941468e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a5ba24474a492a785f27ef3b11941468e">groupCreated</a> (const <a class="el" href="../../de/d4b/namespace_group.html#ab98b9fb1a6541e050598c8f496f3fe43">Group::Id</a> &amp;, const <a class="el" href="../../de/d4b/namespace_group.html#acdc7ef6661c356300b3384f3179f7878">Group::Type</a> &amp;, const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;representative)=0</td></tr>
 <tr class="separator:a5ba24474a492a785f27ef3b11941468e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5acd2fcc149eb79fd1ad353ea76958d8"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a5acd2fcc149eb79fd1ad353ea76958d8">groupDeleted</a> (const <a class="el" href="../../de/d4b/namespace_group.html#ab98b9fb1a6541e050598c8f496f3fe43">Group::Id</a> &amp;, const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;representative, const std::vector&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &gt; &amp;members)=0</td></tr>
@@ -101,6 +107,21 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aab400b9a4ee838f8d3c618bc474894bc"><td class="memItemLeft" align="right" valign="top">virtual QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#aab400b9a4ee838f8d3c618bc474894bc">dumpChangeLog</a> ()=0</td></tr>
 <tr class="separator:aab400b9a4ee838f8d3c618bc474894bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a75255aa1544d2d8c5c2df108c7a5cde0" name="a75255aa1544d2d8c5c2df108c7a5cde0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a75255aa1544d2d8c5c2df108c7a5cde0">&#9670;&#160;</a></span>DiffDelta</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a75255aa1544d2d8c5c2df108c7a5cde0">Database::IPhotoChangeLogOperator::DiffDelta</a> =  <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt;<a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aa189f63f277cd73395561651753563065">Photo::Field::Tags</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aa4d3bfeb18c6c32abc73837558e4b0be0">Photo::Field::GroupInfo</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a210692ec2862e58c31ca449416d5f74f" name="a210692ec2862e58c31ca449416d5f74f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a210692ec2862e58c31ca449416d5f74f">&#9670;&#160;</a></span>~IPhotoChangeLogOperator()</h2>
@@ -255,8 +276,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a34fd0801e82803d4275346477663de8b" name="a34fd0801e82803d4275346477663de8b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a34fd0801e82803d4275346477663de8b">&#9670;&#160;</a></span>storeDifference()</h2>
+<a id="abf5db667e34574a047f371438cb8885f" name="abf5db667e34574a047f371438cb8885f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abf5db667e34574a047f371438cb8885f">&#9670;&#160;</a></span>storeDifference()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -267,7 +288,7 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">virtual void Database::IPhotoChangeLogOperator::storeDifference </td>
           <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#ae7beac179b7c2a7a82df40872e2ce108">Photo::FullDelta</a> &amp;&#160;</td>
+          <td class="paramtype">const <a class="el" href="../../db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a75255aa1544d2d8c5c2df108c7a5cde0">DiffDelta</a> &amp;&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
@@ -289,11 +310,11 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#aa0d3dcca2024cfd586edc78047f9f686">Database::APhotoChangeLogOperator</a>.</p>
+<p>Implemented in <a class="el" href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef">Database::APhotoChangeLogOperator</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d6b/struct_database_1_1_i_photo_change_log_operator_a34fd0801e82803d4275346477663de8b_icgraph.svg" width="426" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d6b/struct_database_1_1_i_photo_change_log_operator_abf5db667e34574a047f371438cb8885f_icgraph.svg" width="426" height="51"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe>
 </div>
 </div>
 

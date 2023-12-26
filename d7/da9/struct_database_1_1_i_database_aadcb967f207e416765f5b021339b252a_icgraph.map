@@ -1,4 +1,6 @@
 <map id="Database::IDatabase::attach" name="Database::IDatabase::attach">
-<area shape="rect" id="node1" title="Attach to db as a client." alt="" coords="204,5,347,45"/>
-<area shape="rect" id="node2" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="5,13,156,38"/>
+<area shape="rect" id="node1" title="Attach to db as a client." alt="" coords="216,47,359,87"/>
+<area shape="rect" id="node2" href="$dd/d0a/class_face_editor.html#adf8745e7dc160e0a546a6137a05f2878" title=" " alt="" coords="5,5,168,31"/>
+<area shape="rect" id="node3" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="11,55,162,80"/>
+<area shape="rect" id="node4" href="$dc/d96/class_batch_face_detector.html#a124571fabcba2eeec5d93158e122e598" title=" " alt="" coords="17,105,157,145"/>
 </map>

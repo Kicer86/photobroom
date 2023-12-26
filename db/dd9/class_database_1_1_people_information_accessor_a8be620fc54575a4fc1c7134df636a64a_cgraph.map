@@ -1,5 +1,5 @@
 <map id="Database::PeopleInformationAccessor::store" name="Database::PeopleInformationAccessor::store">
-<area shape="rect" id="node1" title=" " alt="" coords="5,229,193,269"/>
+<area shape="rect" id="node1" title="Store person&#39;s fingerprint in db." alt="" coords="5,229,193,269"/>
 <area shape="rect" id="node2" href="$d4/df7/class_database_1_1_insert_query_data.html#a6f15c2c6539ec2fe81f63f067d79b92f" title=" " alt="" coords="248,5,425,45"/>
 <area shape="rect" id="node3" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="243,69,430,109"/>
 <area shape="rect" id="node4" href="$d4/df7/class_database_1_1_insert_query_data.html#a113cc84cda32008e4af3976f178c7f0f" title=" " alt="" coords="248,133,425,173"/>

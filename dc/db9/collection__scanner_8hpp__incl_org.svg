@@ -78,33 +78,33 @@
 <path fill="none" stroke="#63b8ff" d="M238.31,-109.54C247.8,-101.13 259.79,-90.51 269.61,-81.8"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="271.92,-84.43 277.08,-75.18 267.27,-79.19 271.92,-84.43"/>
 </g>
-<!-- Node46 -->
+<!-- Node47 -->
 <g id="node6" class="node">
-<title>Node46</title>
+<title>Node47</title>
 <g id="a_node6"><a xlink:href="../../d6/d50/photos__collector_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="492.5,-74 365.5,-74 365.5,-55 492.5,-55 492.5,-74"/>
 <text text-anchor="middle" x="429" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">utils/photos_collector.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node46 -->
+<!-- Node1&#45;&gt;Node47 -->
 <g id="edge6" class="edge">
-<title>Node1&#45;&gt;Node46</title>
+<title>Node1&#45;&gt;Node47</title>
 <path fill="none" stroke="#63b8ff" d="M273.17,-109.54C307.97,-99.7 353.5,-86.84 386.34,-77.56"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="387.27,-80.93 395.94,-74.84 385.36,-74.2 387.27,-80.93"/>
 </g>
-<!-- Node50 -->
+<!-- Node51 -->
 <g id="node7" class="node">
-<title>Node50</title>
+<title>Node51</title>
 <g id="a_node7"><a xlink:href="../../d7/d64/inotifications_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="599.5,-74 510.5,-74 510.5,-55 599.5,-55 599.5,-74"/>
 <text text-anchor="middle" x="555" y="-62" font-family="Helvetica,sans-Serif" font-size="10.00">inotifications.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node50 -->
+<!-- Node1&#45;&gt;Node51 -->
 <g id="edge7" class="edge">
-<title>Node1&#45;&gt;Node50</title>
+<title>Node1&#45;&gt;Node51</title>
 <path fill="none" stroke="#63b8ff" d="M281.92,-113.47C343.58,-102.64 438.88,-85.9 499.04,-75.33"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="499.49,-78.81 508.73,-73.63 498.27,-71.91 499.49,-78.81"/>
 </g>

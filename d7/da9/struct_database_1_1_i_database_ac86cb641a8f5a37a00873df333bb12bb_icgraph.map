@@ -1,26 +1,26 @@
 <map id="Database::IDatabase::exec" name="Database::IDatabase::exec">
-<area shape="rect" id="node1" title=" " alt="" coords="272,669,415,709"/>
+<area shape="rect" id="node1" title=" " alt="" coords="272,655,415,695"/>
 <area shape="rect" id="node2" href="$d4/dd6/class_photos_data_guesser.html#a6af361bc3eec4228a6c171e97126af1d" title=" " alt="" coords="42,5,187,45"/>
 <area shape="rect" id="node3" href="$d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html#a7dcc57585506ca5a142812a3ba16250c" title=" " alt="" coords="29,69,200,109"/>
 <area shape="rect" id="node4" href="$df/d55/class_id_to_data_converter.html#aa417b3a4822c66fef649e76b57ec8c27" title=" " alt="" coords="46,133,183,173"/>
 <area shape="rect" id="node5" href="$d1/da6/class_flat_model.html#a4a19431437655a63979f89d71253a931" title=" " alt="" coords="27,198,202,223"/>
-<area shape="rect" id="node6" href="$d0/d37/class_database_1_1_database_queue.html#a727922aa6057564410d837ace96f18a8" title=" " alt="" coords="27,248,203,288"/>
-<area shape="rect" id="node7" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="39,313,191,338"/>
-<area shape="rect" id="node8" href="$dc/dc0/class_database_1_1_async_database.html#a836d2e0ec99e3b7aba3084716033f58d" title=" " alt="" coords="27,363,202,403"/>
-<area shape="rect" id="node9" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="42,427,187,467"/>
-<area shape="rect" id="node10" href="$d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" title=" " alt="" coords="27,491,202,517"/>
-<area shape="rect" id="node11" href="$d2/d10/class_photos_model_controller_component.html#a67b32f8b713139eb8aac45654dba63c0" title=" " alt="" coords="5,541,224,581"/>
-<area shape="rect" id="node12" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="48,605,181,645"/>
-<area shape="rect" id="node13" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="43,669,186,709"/>
-<area shape="rect" id="node14" href="$d0/d37/class_database_1_1_database_queue.html#a986bb6cbf5feb18300106de60e39dc74" title=" " alt="" coords="27,733,203,773"/>
-<area shape="rect" id="node15" href="$d1/da6/class_flat_model.html#ad7e7b563526a60acc35ccbf1d2491ba3" title=" " alt="" coords="34,798,195,823"/>
-<area shape="rect" id="node16" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="34,847,195,873"/>
-<area shape="rect" id="node17" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="34,897,195,922"/>
-<area shape="rect" id="node18" href="$d3/d07/class_media_view_ctrl.html#a98d9275bf877422453e14e46d1bbaf09" title=" " alt="" coords="29,946,200,971"/>
-<area shape="rect" id="node19" href="$d8/d67/class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd" title=" " alt="" coords="41,995,188,1021"/>
-<area shape="rect" id="node20" href="$d4/d0e/class_people_manipulator.html#add0864334e050e3b8db558de4bb08904" title=" " alt="" coords="31,1045,198,1085"/>
-<area shape="rect" id="node21" href="$df/d40/namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c" title=" " alt="" coords="31,1110,198,1135"/>
-<area shape="rect" id="node22" href="$d1/da6/class_flat_model.html#ab787f239714891d0dbea80843b519bf2" title=" " alt="" coords="32,1159,197,1185"/>
-<area shape="rect" id="node23" href="$d2/d10/class_photos_model_controller_component.html#a95928dce8f42102f559369e1021598ad" title=" " alt="" coords="5,1209,224,1249"/>
-<area shape="rect" id="node24" href="$d6/d99/class_tag_info_collector.html#ac9a9d5cb67ed21da76ad389a5de0f565" title=" " alt="" coords="33,1273,196,1313"/>
+<area shape="rect" id="node6" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="41,247,188,273"/>
+<area shape="rect" id="node7" href="$d0/d37/class_database_1_1_database_queue.html#a727922aa6057564410d837ace96f18a8" title=" " alt="" coords="27,297,203,337"/>
+<area shape="rect" id="node8" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="39,362,191,387"/>
+<area shape="rect" id="node9" href="$dc/dc0/class_database_1_1_async_database.html#a836d2e0ec99e3b7aba3084716033f58d" title=" " alt="" coords="27,412,202,452"/>
+<area shape="rect" id="node10" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="42,476,187,516"/>
+<area shape="rect" id="node11" href="$d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" title=" " alt="" coords="27,541,202,566"/>
+<area shape="rect" id="node12" href="$d2/d10/class_photos_model_controller_component.html#a67b32f8b713139eb8aac45654dba63c0" title=" " alt="" coords="5,591,224,631"/>
+<area shape="rect" id="node13" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="48,655,181,695"/>
+<area shape="rect" id="node14" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="43,719,186,759"/>
+<area shape="rect" id="node15" href="$d0/d37/class_database_1_1_database_queue.html#a986bb6cbf5feb18300106de60e39dc74" title=" " alt="" coords="27,783,203,823"/>
+<area shape="rect" id="node16" href="$d1/da6/class_flat_model.html#ad7e7b563526a60acc35ccbf1d2491ba3" title=" " alt="" coords="34,847,195,873"/>
+<area shape="rect" id="node17" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="34,897,195,922"/>
+<area shape="rect" id="node18" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="34,946,195,971"/>
+<area shape="rect" id="node19" href="$d3/d07/class_media_view_ctrl.html#a98d9275bf877422453e14e46d1bbaf09" title=" " alt="" coords="29,995,200,1021"/>
+<area shape="rect" id="node20" href="$d8/d67/class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd" title=" " alt="" coords="41,1045,188,1070"/>
+<area shape="rect" id="node21" href="$df/d40/namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c" title=" " alt="" coords="31,1094,198,1119"/>
+<area shape="rect" id="node22" href="$d1/da6/class_flat_model.html#ab787f239714891d0dbea80843b519bf2" title=" " alt="" coords="32,1143,197,1169"/>
+<area shape="rect" id="node23" href="$d2/d10/class_photos_model_controller_component.html#a95928dce8f42102f559369e1021598ad" title=" " alt="" coords="5,1193,224,1233"/>
+<area shape="rect" id="node24" href="$d6/d99/class_tag_info_collector.html#ac9a9d5cb67ed21da76ad389a5de0f565" title=" " alt="" coords="33,1257,196,1297"/>
 </map>

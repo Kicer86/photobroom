@@ -2,7 +2,7 @@ var searchData=
 [
   ['data_0',['Data',['../d5/da4/struct_animation_generator_1_1_data.html',1,'AnimationGenerator::Data'],['../d8/db8/struct_database_1_1_insert_query_data_1_1_data.html',1,'Database::InsertQueryData::Data'],['../d2/daf/struct_database_1_1_my_sql_backend_1_1_data.html',1,'Database::MySqlBackend::Data'],['../d3/d94/struct_database_1_1_s_q_lite_backend_1_1_data.html',1,'Database::SQLiteBackend::Data']]],
   ['data_1',['data',['../d5/d5e/structdlib__api_1_1cnn__face__detection__model__v1_1_1data.html',1,'dlib_api::cnn_face_detection_model_v1::data'],['../d8/d85/structdlib__api_1_1face__recognition__model__v1_1_1data.html',1,'dlib_api::face_recognition_model_v1::data']]],
-  ['data_2',['Data',['../d8/dad/structdlib__api_1_1_face_encoder_1_1_data.html',1,'dlib_api::FaceEncoder::Data'],['../da/d22/structdlib__api_1_1_face_locator_1_1_data.html',1,'dlib_api::FaceLocator::Data'],['../d3/ddd/struct_face_recognition_1_1_data.html',1,'FaceRecognition::Data'],['../d5/da1/struct_generator_utils_1_1_a_i_s_output_analyzer_1_1_data.html',1,'GeneratorUtils::AISOutputAnalyzer::Data'],['../d0/d4b/struct_h_d_r_generator_1_1_data.html',1,'HDRGenerator::Data'],['../d5/df1/struct_photo_1_1_data.html',1,'Photo::Data'],['../db/d8e/struct_time_guardian_1_1_data.html',1,'TimeGuardian::Data']]],
+  ['data_2',['Data',['../d8/dad/structdlib__api_1_1_face_encoder_1_1_data.html',1,'dlib_api::FaceEncoder::Data'],['../da/d22/structdlib__api_1_1_face_locator_1_1_data.html',1,'dlib_api::FaceLocator::Data'],['../d5/da1/struct_generator_utils_1_1_a_i_s_output_analyzer_1_1_data.html',1,'GeneratorUtils::AISOutputAnalyzer::Data'],['../d0/d4b/struct_h_d_r_generator_1_1_data.html',1,'HDRGenerator::Data'],['../d5/df1/struct_photo_1_1_data.html',1,'Photo::Data'],['../db/d8e/struct_time_guardian_1_1_data.html',1,'TimeGuardian::Data']]],
   ['data_5fptr_3',['data_ptr',['../d1/da1/classol_1_1data__ptr.html',1,'ol']]],
   ['data_5fptr_3c_20database_3a_3ainsertquerydata_3a_3adata_20_3e_4',['data_ptr&lt; Database::InsertQueryData::Data &gt;',['../d1/da1/classol_1_1data__ptr.html',1,'ol']]],
   ['data_5fptr_3c_20filter_20_3e_5',['data_ptr&lt; Filter &gt;',['../d1/da1/classol_1_1data__ptr.html',1,'ol']]],
@@ -19,9 +19,10 @@ var searchData=
   ['deltatypes_3c_20field_3a_3ageometry_20_3e_16',['DeltaTypes&lt; Field::Geometry &gt;',['../dd/d1f/struct_photo_1_1_delta_types_3_01_field_1_1_geometry_01_4.html',1,'Photo']]],
   ['deltatypes_3c_20field_3a_3agroupinfo_20_3e_17',['DeltaTypes&lt; Field::GroupInfo &gt;',['../d7/d7e/struct_photo_1_1_delta_types_3_01_field_1_1_group_info_01_4.html',1,'Photo']]],
   ['deltatypes_3c_20field_3a_3apath_20_3e_18',['DeltaTypes&lt; Field::Path &gt;',['../d1/d26/struct_photo_1_1_delta_types_3_01_field_1_1_path_01_4.html',1,'Photo']]],
-  ['deltatypes_3c_20field_3a_3aphash_20_3e_19',['DeltaTypes&lt; Field::PHash &gt;',['../dd/dd2/struct_photo_1_1_delta_types_3_01_field_1_1_p_hash_01_4.html',1,'Photo']]],
-  ['deltatypes_3c_20field_3a_3atags_20_3e_20',['DeltaTypes&lt; Field::Tags &gt;',['../d5/d20/struct_photo_1_1_delta_types_3_01_field_1_1_tags_01_4.html',1,'Photo']]],
-  ['diskobserver_21',['DiskObserver',['../d7/db0/class_disk_observer.html',1,'']]],
-  ['dummycallback_22',['DummyCallback',['../d2/d92/struct_dummy_callback.html',1,'']]],
-  ['duplicatesmodel_23',['DuplicatesModel',['../d3/d94/class_duplicates_model.html',1,'']]]
+  ['deltatypes_3c_20field_3a_3apeople_20_3e_19',['DeltaTypes&lt; Field::People &gt;',['../da/de7/struct_photo_1_1_delta_types_3_01_field_1_1_people_01_4.html',1,'Photo']]],
+  ['deltatypes_3c_20field_3a_3aphash_20_3e_20',['DeltaTypes&lt; Field::PHash &gt;',['../dd/dd2/struct_photo_1_1_delta_types_3_01_field_1_1_p_hash_01_4.html',1,'Photo']]],
+  ['deltatypes_3c_20field_3a_3atags_20_3e_21',['DeltaTypes&lt; Field::Tags &gt;',['../d5/d20/struct_photo_1_1_delta_types_3_01_field_1_1_tags_01_4.html',1,'Photo']]],
+  ['diskobserver_22',['DiskObserver',['../d7/db0/class_disk_observer.html',1,'']]],
+  ['dummycallback_23',['DummyCallback',['../d2/d92/struct_dummy_callback.html',1,'']]],
+  ['duplicatesmodel_24',['DuplicatesModel',['../d3/d94/class_duplicates_model.html',1,'']]]
 ];

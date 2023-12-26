@@ -1,8 +1,10 @@
 <map id="ICoreFactoryAccessor::getTaskExecutor" name="ICoreFactoryAccessor::getTaskExecutor">
-<area shape="rect" id="node1" title=" " alt="" coords="216,105,367,145"/>
-<area shape="rect" id="node2" href="$d5/d0f/class_series_model.html#a2caeed0a8014c3f20679d4ea1ff45fef" title=" " alt="" coords="5,5,168,31"/>
-<area shape="rect" id="node3" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="11,55,162,80"/>
-<area shape="rect" id="node4" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="10,105,163,145"/>
-<area shape="rect" id="node5" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="53,169,120,195"/>
-<area shape="rect" id="node6" href="$d4/d0e/class_people_manipulator.html#aa07ba41060250e8cd2592eac946fcbe1" title=" " alt="" coords="19,219,154,259"/>
+<area shape="rect" id="node1" title=" " alt="" coords="404,154,555,194"/>
+<area shape="rect" id="node2" href="$d5/d0f/class_series_model.html#a2caeed0a8014c3f20679d4ea1ff45fef" title=" " alt="" coords="193,5,356,31"/>
+<area shape="rect" id="node3" href="$d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61" title=" " alt="" coords="193,55,356,80"/>
+<area shape="rect" id="node4" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="199,104,350,129"/>
+<area shape="rect" id="node5" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="198,154,351,194"/>
+<area shape="rect" id="node6" href="$dc/d96/class_batch_face_detector.html#aa2e68fd59715fbacac2435f1a1f21b28" title=" " alt="" coords="205,218,345,258"/>
+<area shape="rect" id="node7" href="$dc/d96/class_batch_face_detector.html#a124571fabcba2eeec5d93158e122e598" title=" " alt="" coords="5,247,145,287"/>
+<area shape="rect" id="node8" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="241,333,308,359"/>
 </map>

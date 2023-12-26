@@ -68,10 +68,10 @@
 <!-- Node7 -->
 <g id="node5" class="node">
 <title>Node7</title>
-<g id="a_node5"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a42a4220df0a0e8f90b93249e5dbb905d" target="_top" xlink:title="get particular photo">
+<g id="a_node5"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="266.5,-306 162.5,-306 162.5,-276 266.5,-276 266.5,-306"/>
 <text text-anchor="start" x="170.5" y="-294" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
-<text text-anchor="middle" x="214.5" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhoto</text>
+<text text-anchor="middle" x="214.5" y="-283" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhotoDelta</text>
 </a>
 </g>
 </g>

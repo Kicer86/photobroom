@@ -35,7 +35,7 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:href="../../d7/d1e/class_photo_1_1_data_delta.html" target="_top" xlink:title="Structure containing chosen of photo details.">
+<g id="a_node3"><a xlink:href="../../d7/d1e/class_photo_1_1_data_delta.html" target="_top" xlink:title="Structure containing chosen details of photo.">
 <polygon fill="#fff0f0" stroke="red" points="160,-85 71,-85 71,-66 160,-66 160,-85"/>
 <text text-anchor="middle" x="115.5" y="-73" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta</text>
 </a>

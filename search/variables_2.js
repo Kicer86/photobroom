@@ -21,7 +21,7 @@ var searchData=
   ['callbackalive_18',['callbackAlive',['../d5/d1d/structsafe__callback__data.html#aedb49806b386954ef7e89383eb715f0e',1,'safe_callback_data']]],
   ['checked_19',['checked',['../d3/d4b/namespace_images.html#a63e633a209b8dc4756e91e3134789585',1,'Images']]],
   ['clock_20',['clock',['../d3/d4b/namespace_images.html#a7fae342f31d7a16b81ba0f345c6bdb66',1,'Images']]],
-  ['cnn_5fface_5fdetector_21',['cnn_face_detector',['../da/d22/structdlib__api_1_1_face_locator_1_1_data.html#a8a288c28fa57fa5b8fd50b0dd17de00a',1,'dlib_api::FaceLocator::Data']]],
+  ['cnn_5fface_5fdetector_21',['cnn_face_detector',['../da/d22/structdlib__api_1_1_face_locator_1_1_data.html#a8d35a67e8efbc39675d2531c2299922b',1,'dlib_api::FaceLocator::Data']]],
   ['columns_22',['columns',['../da/dc1/struct_database_1_1_table_definition.html#a1ec178355b2830a61878cc449068489c',1,'Database::TableDefinition']]],
   ['common_23',['common',['../dc/dd7/struct_file_information.html#ac5e3a7ac4f31dcccbda5aeb56dfb3294',1,'FileInformation']]],
   ['comparison_24',['comparison',['../db/deb/struct_database_1_1_filter_photos_with_flags.html#a6696acb20a88a990235b1998ada783e1',1,'Database::FilterPhotosWithFlags']]],

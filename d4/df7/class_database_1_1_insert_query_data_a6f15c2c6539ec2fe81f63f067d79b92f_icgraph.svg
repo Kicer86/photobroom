@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" target="_top" xlink:title=" ">
+<g id="a_node2"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" target="_top" xlink:title="Store person&#39;s fingerprint in db.">
 <polygon fill="white" stroke="#666666" points="141,-78 0,-78 0,-48 141,-48 141,-78"/>
 <text text-anchor="start" x="8" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="70.5" y="-55" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::store</text>
