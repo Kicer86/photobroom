@@ -371,11 +371,6 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="93"/>
-        <source>&amp;Face detection...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="97"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>

@@ -90,7 +90,7 @@ ApplicationWindow {
             Action { text: qsTr("S&eries detector...");       onTriggered: { toolsStackView.currentIndex = 1; mainView.currentIndex = 1; } }
             Action { text: qsTr("Ph&oto data completion..."); onTriggered: { toolsStackView.currentIndex = 2; mainView.currentIndex = 1; } }
             Action { text: qsTr("Look for &duplicates");      onTriggered: { toolsStackView.currentIndex = 3; mainView.currentIndex = 1; } }
-            Action { text: qsTr("&Face detection...");        onTriggered: { toolsStackView.currentIndex = 4; mainView.currentIndex = 1; } }
+            //Action { text: qsTr("&Face detection...");        onTriggered: { toolsStackView.currentIndex = 4; mainView.currentIndex = 1; } }
         }
         Menu {
             id: settingsMenu

@@ -375,12 +375,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Wyszukaj &amp;duplikaty</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>&amp;Face detection...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>&amp;Settings</source>
         <translation>U&amp;stawienia</translation>
     </message>
