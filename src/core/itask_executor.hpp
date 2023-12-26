@@ -20,6 +20,8 @@
 #ifndef ITASKEXECUTOR_H
 #define ITASKEXECUTOR_H
 
+#include <coroutine>
+#include <functional>
 #include <memory>
 #include <string>
 
@@ -36,12 +38,61 @@ struct CORE_EXPORT ITaskExecutor
         virtual void perform() = 0;                         ///< @brief perform job
     };
 
+    enum class ProcessState
+    {
+        Suspended,
+        Running,
+        Finished,
+    };
+
+    struct ProcessCoroutine
+    {
+        struct promise_type;
+        using handle_type = std::coroutine_handle<promise_type>;
+
+        struct promise_type
+        {
+            ProcessState nextState = ProcessState::Running;
+
+            ProcessCoroutine get_return_object()
+            {
+                return ProcessCoroutine(handle_type::from_promise(*this));
+            }
+            std::suspend_always initial_suspend() noexcept { return {}; }
+            std::suspend_always final_suspend() noexcept { return {}; }
+            void return_void() { nextState = ProcessState::Finished; }
+            void unhandled_exception() {}
+            std::suspend_always yield_value(ProcessState sr) { nextState = sr; return {}; }
+        };
+
+        explicit ProcessCoroutine(handle_type h_): h(h_) {}
+
+        handle_type h = nullptr;
+        operator std::coroutine_handle<promise_type>() const { return h; }
+        operator std::coroutine_handle<>() const { return h; }
+    };
+
+    struct IProcessSupervisor
+    {
+        virtual bool keepWorking() = 0;
+        virtual void resume() = 0;
+    };
+
+    struct IProcessControl
+    {
+        virtual void terminate() = 0;
+        virtual void resume() = 0;
+        virtual ProcessState state() = 0;
+    };
+
+    using Process = std::function<ProcessCoroutine(IProcessSupervisor *)>;
+
     virtual ~ITaskExecutor() = default;
 
-    virtual void add(std::unique_ptr<ITask> &&) = 0;         // add short but heavy task (calculations)
-    virtual void addLight(std::unique_ptr<ITask> &&) = 0;    // add long but light task  (awaiting results from other threads etc)
+    virtual void add(std::unique_ptr<ITask> &&) = 0;                // add short but heavy task (calculations)
+    virtual std::shared_ptr<IProcessControl> add(Process &&) = 0;   // add task to be run in a ring with other Processes
 
-    virtual int heavyWorkers() const = 0;                    // return number of heavy task workers
+    virtual int heavyWorkers() const = 0;                           // return number of heavy task workers
 };
 
-#endif // TASKEXECUTOR_H
+#endif

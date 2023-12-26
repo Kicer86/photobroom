@@ -89,14 +89,15 @@ void GroupsManager::group(Database::IDatabase& database, QPromise<void>&& promis
             const Group::Type& type = group.type;
 
             // copy details of first member to representative
-            const Photo::Data firstPhoto = backend.getPhoto(photos[0]);
+            const auto firstPhoto = backend.getPhotoDelta<Photo::Field::Flags, Photo::Field::Tags>(photos[0]);
 
-            auto it = firstPhoto.flags.find(Photo::FlagsE::StagingArea);
-            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, it == firstPhoto.flags.end()? 0: it->second} };
+            const auto firstPhotoFlags = firstPhoto.get<Photo::Field::Flags>();
+            auto it = firstPhotoFlags.find(Photo::FlagsE::StagingArea);
+            const Photo::FlagValues flags = { {Photo::FlagsE::StagingArea, it == firstPhotoFlags.end()? 0: it->second} };
 
             Photo::DataDelta data;
             data.insert<Photo::Field::Path>(representativePath);
-            data.insert<Photo::Field::Tags>(firstPhoto.tags);
+            data.insert<Photo::Field::Tags>(firstPhoto.get<Photo::Field::Tags>());
             data.insert<Photo::Field::Flags>(flags);
 
             // store representative photo

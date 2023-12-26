@@ -147,8 +147,8 @@ Item {
 
         anchors.top: parent.top
         anchors.right: parent.right
+        anchors.bottom: toolsArea.top
         implicitWidth: contentWidth
-        height: contentHeight
 
         model: facesModel
 
@@ -157,13 +157,18 @@ Item {
         delegate: TextField {
             id: name
 
-            required property var display       // DisplayRole
             required property var index
+            required property var display       // DisplayRole
+            required property bool uncertain    // UncertainRole
 
             readOnly: true
             hoverEnabled: true
             text: display
             placeholderText: qsTr("unknown")
+
+            palette {
+                base: uncertain? "yellow" : systemPalette.base
+            }
 
             onPressed: {
                 name.readOnly = false;

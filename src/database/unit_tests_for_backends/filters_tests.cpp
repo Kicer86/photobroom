@@ -1,5 +1,7 @@
 
 #include "common.hpp"
+#include "database_tools/json_to_backend.hpp"
+#include "unit_tests_utils/photos_with_people.json.hpp"
 
 using testing::UnorderedElementsAreArray;
 using testing::ElementsAre;
@@ -50,4 +52,16 @@ TYPED_TEST(FiltersTest, generalFlagsFilterTests)
         auto value55Photos = this->m_backend->photoOperator().getPhotos({flagsFilter3});
         EXPECT_THAT(value55Photos, ElementsAre(ids.back()));
     }
+}
+
+
+TYPED_TEST(FiltersTest, faceAnalysisStatus)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(PeopleDB::db);
+
+    auto peopleFilter = Database::FilterFaceAnalysisStatus(Database::FilterFaceAnalysisStatus::Performed);
+    auto analyzedPhotos = this->m_backend->photoOperator().getPhotos({peopleFilter});
+
+    EXPECT_EQ(analyzedPhotos.size(), 3);
 }

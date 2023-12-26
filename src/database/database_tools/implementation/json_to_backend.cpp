@@ -1,4 +1,5 @@
 
+#include <ranges>
 #include <QDate>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -6,6 +7,10 @@
 #include <QStringList>
 #include <QVariant>
 
+#include "person_data_r++.hpp"
+
+#include <core/containers_utils.hpp>
+#include <core/json_serializer.hpp>
 #include "../json_to_backend.hpp"
 #include "database/ibackend.hpp"
 #include "database/igroup_operator.hpp"
@@ -101,6 +106,20 @@ namespace Database
             {
                 const Photo::PHashT phash(it.value().toString().toULongLong(&ok, 16));
                 delta.insert<Photo::Field::PHash>(phash);
+            }
+            else if (it.key() == "people")
+            {
+                std::vector<PersonFullInfo> people;
+                const auto array = it.value().toArray();
+
+                std::ranges::transform(array, std::back_inserter(people), [](const QJsonValue& value)
+                {
+                    const auto personData = JSon::deserialize<PersonData>(value);
+                    const PersonFullInfo personFullInfo(personData);
+                    return personFullInfo;
+                });
+
+                delta.insert<Photo::Field::People>(people);
             }
             else if (it.key() == "id")
                 id = it.value().toString();

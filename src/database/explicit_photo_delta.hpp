@@ -42,7 +42,7 @@ namespace Photo
         }
 
         template<Photo::Field... otherFields>
-        explicit ExplicitDelta(const ExplicitDelta<otherFields...>& other) noexcept
+        ExplicitDelta(const ExplicitDelta<otherFields...>& other) noexcept
         {
             static_assert( (... && ExplicitDelta<otherFields...>::template has<dataFields>()), "Other object needs to be superset of this");
 
@@ -77,7 +77,7 @@ namespace Photo
         {
             for(const Photo::Field field : magic_enum::enum_values<Photo::Field>())
                 if (other.has(field) && has(field) == false)
-                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " from DataDelta is part of this ExplicitDelta.");
+                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " from DataDelta is not part of this ExplicitDelta.");
 
             fill<dataFields...>();
             m_data |= other;
@@ -97,6 +97,14 @@ namespace Photo
 
         template<Field field>
         const typename DeltaTypes<field>::Storage& get() const
+        {
+            static_assert(has<field>(), "ExplicitDelta has no required Photo::Field");
+
+            return m_data.get<field>();
+        }
+
+        template<Field field>
+        typename DeltaTypes<field>::Storage& get()
         {
             static_assert(has<field>(), "ExplicitDelta has no required Photo::Field");
 
@@ -160,14 +168,14 @@ namespace Photo
     // based on: https://stackoverflow.com/questions/60434033/how-do-i-expand-a-compile-time-stdarray-into-a-parameter-pack
     namespace details
     {
-        template <auto arr, typename IS = decltype(std::make_index_sequence<arr.size()>())> struct Generator;
+        template<auto arr, typename IS = decltype(std::make_index_sequence<arr.size()>())> struct Generator;
 
-        template <auto arr, std::size_t... I>
+        template<auto arr, std::size_t... I>
         struct Generator<arr, std::index_sequence<I...>> {
             using type = ExplicitDelta<arr[I]...>;
         };
 
-        template <auto arr>
+        template<auto arr>
         using Generator_t = typename Generator<arr>::type;
     }
 

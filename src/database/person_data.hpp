@@ -24,15 +24,16 @@
 #include <QRect>
 
 #include <core/id.hpp>
+#include <core/qt_operators.hpp>
 
-#include "photo_data.hpp"
+#include "photo_types.hpp"
 #include "database_export.h"
 
 
 namespace Person
 {
     using Id = Id<int, struct person_tag>;
-    typedef std::vector<double> Fingerprint;
+    using Fingerprint = std::vector<double>;
 }
 
 
@@ -40,16 +41,13 @@ class DATABASE_EXPORT PersonName final
 {
     public:
         PersonName();
-        PersonName(const Person::Id &, const QString &);
-        PersonName(const QString &);
-        PersonName(const PersonName &);
+        explicit PersonName(const Person::Id &, const QString &);
+        explicit PersonName(const QString &);
+        PersonName(const PersonName &) = default;
         ~PersonName() = default;
 
         PersonName& operator=(const PersonName &) = default;
-        bool operator<(const PersonName& other) const
-        {
-            return std::tie(m_id, m_name) < std::tie(other.m_id, other.m_name);
-        }
+        auto operator<=>(const PersonName &) const = default;
 
         const Person::Id& id() const;
         const QString& name() const;
@@ -66,8 +64,10 @@ class DATABASE_EXPORT PersonFingerprint
         using Id = ::Id<int, struct fingerprint_tag>;
 
         PersonFingerprint() {}
-        PersonFingerprint(const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint) {}
-        PersonFingerprint(const Id& id, const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint), m_id(id) {}
+        explicit PersonFingerprint(const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint) {}
+        explicit PersonFingerprint(const Id& id, const Person::Fingerprint& fingerprint): m_fingerprint(fingerprint), m_id(id) {}
+
+        auto operator<=>(const PersonFingerprint &) const = default;
 
         const Id& id() const { return m_id; }
         const Person::Fingerprint& fingerprint() const { return m_fingerprint; }
@@ -77,7 +77,9 @@ class DATABASE_EXPORT PersonFingerprint
         Id m_id;
 };
 
-
+/**
+ * @brief Container for DB IDs of people related entries.
+ */
 class DATABASE_EXPORT PersonInfo
 {
     public:
@@ -110,17 +112,41 @@ class DATABASE_EXPORT PersonInfo
 
         PersonInfo(const PersonInfo &) = default;
         PersonInfo& operator=(const PersonInfo &) = default;
-
-        bool operator==(const PersonInfo& other) const
-        {
-            return id == other.id       &&
-                   p_id == other.p_id   &&
-                   ph_id == other.ph_id &&
-                   f_id == other.f_id   &&
-                   rect == other.rect;
-        }
+        auto operator<=>(const PersonInfo &) const = default;
 };
 
-Q_DECLARE_METATYPE( PersonName )
+/**
+ *  @brief Container for person data (without DB IDs)
+ */
+struct PersonData
+{
+    QRect rect;
+    Person::Fingerprint fingerprint;
+    QString name;
+};
 
-#endif // PERSONDATA_HPP
+/**
+ * @brief Container for all people related data (DB IDs + values)
+ */
+class PersonFullInfo
+{
+public:
+    PersonFullInfo() = default;
+    PersonFullInfo(const PersonData& data)
+        : position(data.rect)
+        , fingerprint(data.fingerprint)
+        , name(data.name)
+    {}
+
+    QRect position;
+    PersonFingerprint fingerprint;
+    PersonName name;
+    PersonInfo::Id pi_id;
+
+    auto operator<=>(const PersonFullInfo &) const = default;
+};
+
+
+Q_DECLARE_METATYPE(PersonName)
+
+#endif

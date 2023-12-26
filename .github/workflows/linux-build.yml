@@ -25,17 +25,14 @@ jobs:
         submodules: true
 
     - name: Load llvm keys
-      if: matrix.compiler.compiler == 'LLVM'
       run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
 
     - name: Update clang
-      if: matrix.compiler.compiler == 'LLVM'
       uses: myci-actions/add-deb-repo@10
       with:
         repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main
         repo-name: llvm-toolchain-focal-16
         update: false
-        install: clang-16
 
     - name: Install system dependencies
       run: |
@@ -47,6 +44,9 @@ jobs:
           qt6-multimedia-dev    \
           libqt6svg6-dev        \
           qt6-l10n-tools        \
+          clang-16              \
+          libboost-dev          \
+          libclang-16-dev       \
           libopencv-dev         \
           libdlib-dev           \
           libexiv2-dev          \
@@ -81,4 +81,4 @@ jobs:
         build-type: Release
         cc: ${{ matrix.compiler.CC }}
         cxx: ${{ matrix.compiler.CXX }}
-        configure-options: -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+        configure-options: -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DClang_DIR=/usr/lib/llvm-16/lib/cmake/clang

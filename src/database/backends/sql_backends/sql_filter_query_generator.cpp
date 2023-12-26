@@ -21,6 +21,7 @@
 
 #include <QStringList>
 
+#include <database/general_flags.hpp>
 #include "tables.hpp"
 
 
@@ -380,5 +381,40 @@ namespace Database
         const QString finalQuery = QString("SELECT ph.photo_id FROM phashes ph JOIN (%1) hashes ON ph.hash = hashes.hash").arg(duplicatesQuery);
 
         return finalQuery;
+    }
+
+    QString SqlFilterQueryGenerator::visit(const FilterFaceAnalysisStatus& analysisStatus) const
+    {
+        QString query;
+        switch (analysisStatus.status)
+        {
+            // find all photos which were analysed and no faces were found + all photos with found faces.
+            // See comment for FilterFaceAnalysisStatus flag
+            case FilterFaceAnalysisStatus::Performed:
+                query = QString("SELECT DISTINCT %1.id FROM %1 "
+                                "LEFT JOIN %2 ON (%2.photo_id = %1.id AND %2.name = \"%4\") "
+                                "LEFT JOIN %3 ON %3.photo_id = %1.id "
+                                "WHERE COALESCE(%2.value, 0) = %5 OR %3.id IS NOT NULL")
+                    .arg(TAB_PHOTOS)
+                    .arg(TAB_GENERAL_FLAGS)
+                    .arg(TAB_PEOPLE)
+                    .arg(CommonGeneralFlags::FacesAnalysisState)
+                    .arg(static_cast<int>(CommonGeneralFlags::FacesAnalysisType::AnalysedAndNotFound));
+                break;
+
+            case FilterFaceAnalysisStatus::NotPerformed:
+                query = QString("SELECT DISTINCT %1.id FROM %1 "
+                                "LEFT JOIN %2 ON (%2.photo_id = %1.id AND %2.name = \"%4\") "
+                                "LEFT JOIN %3 ON %3.photo_id = %1.id "
+                                "WHERE COALESCE(%2.value, 0) = %5 AND %3.id IS NULL")
+                    .arg(TAB_PHOTOS)
+                    .arg(TAB_GENERAL_FLAGS)
+                    .arg(TAB_PEOPLE)
+                    .arg(CommonGeneralFlags::FacesAnalysisState)
+                    .arg(static_cast<int>(CommonGeneralFlags::FacesAnalysisType::NotAnalysedOrAnalysedAndFound));
+                break;
+        }
+
+        return query;
     }
 }

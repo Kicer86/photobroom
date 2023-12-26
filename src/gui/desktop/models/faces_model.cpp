@@ -1,12 +1,13 @@
 
 #include <cassert>
 
-#include <core/down_cast.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
+#include <core/logger_factory.hpp>
 #include <core/model_compositor.hpp>
 #include <core/qmodel_utils.hpp>
+#include <core/task_executor_utils.hpp>
 #include <database/photo_data.hpp>
 #include <project_utils/project.hpp>
 
@@ -22,10 +23,7 @@ ENUM_ROLES_SETUP(FacesModel::Roles);
 
 
 FacesModel::FacesModel(QObject *parent):
-    QAbstractListModel(parent),
-    m_id(),
-    m_peopleManipulator(),
-    m_faces()
+    QAbstractListModel(parent)
 {
     QMetaObject::invokeMethod(this, &FacesModel::initialSetup, Qt::QueuedConnection);
 }
@@ -33,7 +31,8 @@ FacesModel::FacesModel(QObject *parent):
 
 FacesModel::~FacesModel()
 {
-    apply();
+    if (m_database)
+        apply();
 }
 
 
@@ -61,25 +60,26 @@ int FacesModel::state() const
 
 QList<QVariant> FacesModel::facesMask() const
 {
-    if (m_photoSize.isValid())
+    if (m_faces.empty())
+        return {};
+    else
     {
-        QRegion reg(0, 0, m_photoSize.width(), m_photoSize.height());
+        const QSize photoSize = m_faces.front()->image()->size();
+        QRegion reg(0, 0, photoSize.width(), photoSize.height());
 
-        for (const QRect& rect: m_faces)
-            reg-=QRegion(rect);
+        for (const auto& face: m_faces)
+            reg -= QRegion(face->rect());
 
         const QList<QVariant> qmlListOfRects(reg.begin(), reg.end());
 
         return qmlListOfRects;
     }
-    else
-        return {};
 }
 
 
 int FacesModel::rowCount(const QModelIndex& parent) const
 {
-    return parent.isValid() == false? static_cast<int>(m_facesCount): 0;
+    return parent.isValid() == false? static_cast<int>(m_faces.size()): 0;
 }
 
 
@@ -87,12 +87,14 @@ QVariant FacesModel::data(const QModelIndex& index, int role) const
 {
     const std::size_t row = static_cast<std::size_t>(index.row());
 
-    if (index.column() == 0 && row < m_peopleManipulator->facesCount())
+    if (index.column() == 0 && row < m_faces.size())
     {
         if (role == Qt::DisplayRole)
-            return m_peopleManipulator->name(row);
+            return m_faces[row]->name();
         else if (role == Roles::FaceRectRole)
-            return m_peopleManipulator->position(row);
+            return m_faces[row]->rect();
+        else if (role == Roles::UncertainRole)
+            return m_isUncertain[row];
     }
 
     return {};
@@ -107,31 +109,51 @@ QHash<int, QByteArray> FacesModel::roleNames() const
 
 bool FacesModel::setData(const QModelIndex& index, const QVariant& data, int role)
 {
-    if (role == Qt::EditRole && index.column() == 0 && index.row() < m_facesCount)
-        m_peopleManipulator->setName(index.row(), data.toString());
+    const std::size_t r = static_cast<std::size_t>(index.row());
+    if (role == Qt::EditRole && index.column() == 0 && r < m_faces.size())
+    {
+        m_faces[r]->setName(data.toString());
+
+        if (m_isUncertain[r])
+        {
+            m_isUncertain[r] = false;
+
+            emit dataChanged(index, index, {UncertainRole});
+        }
+    }
 
     return true;
 }
 
 
-void FacesModel::updateFaceInformation()
+void FacesModel::updateFaceInformation(std::shared_ptr<std::vector<std::unique_ptr<IFace>>> faces)
 {
-    const auto faces_count = m_peopleManipulator->facesCount();
+    const int faces_count = static_cast<int>(faces->size());
 
     updateDetectionState(faces_count == 0? 2: 1);
 
     m_faces.clear();
-    for(std::size_t i = 0; i < faces_count; i++)
-        m_faces.push_back(m_peopleManipulator->position(i));
 
     if (faces_count > 0)
     {
-        beginInsertRows(QModelIndex(), 0, static_cast<int>(faces_count - 1));
-        m_facesCount = static_cast<int>(m_peopleManipulator->facesCount());
+        beginInsertRows({}, 0, faces_count - 1);
+        m_faces = std::move(*faces);
+        m_isUncertain.resize(m_faces.size());
+
+        // perform recognition
+        for (unsigned int i = 0; i < m_faces.size(); i++)
+        {
+            const auto& person = m_faces[i]->person();
+
+            if (person.id().valid() == false)
+            {
+                m_isUncertain[i] = true;
+                m_faces[i]->recognize();
+            }
+        }
+
         endInsertRows();
     }
-
-    m_photoSize = m_peopleManipulator->photoSize();
 
     emit facesMaskChanged(facesMask());
 }
@@ -142,11 +164,16 @@ void FacesModel::initialSetup()
     assert(m_id.valid());
     assert(m_database);
     assert(m_core);
-    assert(m_peopleManipulator.get() == nullptr);
 
-    m_peopleManipulator = std::make_unique<PeopleManipulator>(m_id, *m_database, *m_core);
-    connect(m_peopleManipulator.get(), &PeopleManipulator::facesAnalyzed,
-            this, &FacesModel::updateFaceInformation);
+    runOn(m_core->getTaskExecutor(), [this]()
+    {
+        const auto logger = m_core->getLoggerFactory().get("FacesModel");
+        const auto faces = std::make_shared<std::vector<std::unique_ptr<IFace>>>(FaceEditor(
+            *m_database,
+            *m_core,
+            *logger).getFacesFor(m_id));
+        invokeMethod(this, &FacesModel::updateFaceInformation, faces);
+    });
 
     updateDetectionState(0);
 }
@@ -160,6 +187,9 @@ void FacesModel::updateDetectionState(int state)
 
 void FacesModel::apply()
 {
-    if (m_database)
-        m_peopleManipulator->store();
+    assert(m_faces.size() == m_isUncertain.size());
+
+    for(std::size_t i = 0; i < m_faces.size(); i++)
+        if (not m_isUncertain[i])
+            m_faces[i]->store();
 }

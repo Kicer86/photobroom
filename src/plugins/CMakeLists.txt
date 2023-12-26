@@ -18,7 +18,6 @@ set_target_properties(plugins PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(plugins
                             PRIVATE
-                                ${CMAKE_BINARY_DIR}/exports
                                 ${CMAKE_SOURCE_DIR}/src
                                 ${CMAKE_CURRENT_SOURCE_DIR}
                             PRIVATE

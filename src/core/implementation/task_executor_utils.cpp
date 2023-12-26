@@ -86,9 +86,12 @@ void TasksQueue::add(std::unique_ptr<ITask>&& task)
 }
 
 
-void TasksQueue::addLight(std::unique_ptr<ITask>&& task)
+std::shared_ptr<ITaskExecutor::IProcessControl> TasksQueue::add(Process &&)
 {
-    m_executor.addLight(std::move(task));
+    /// TODO: implement
+    assert(!"Not implemenbted yet");
+
+    return nullptr;
 }
 
 

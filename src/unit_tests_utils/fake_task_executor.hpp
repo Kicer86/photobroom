@@ -1,4 +1,7 @@
 
+#ifndef FAKE_TASK_EXECUTOR_HPP_INCLUDED
+#define FAKE_TASK_EXECUTOR_HPP_INCLUDED
+
 #include <core/itask_executor.hpp>
 
 class FakeTaskExecutor: public ITaskExecutor
@@ -9,9 +12,12 @@ class FakeTaskExecutor: public ITaskExecutor
             task->perform();
         }
 
-        void addLight(std::unique_ptr<ITask>&& task) override
+        std::shared_ptr<IProcessControl> add(Process &&) override
         {
-            task->perform();
+            /// TODO: implement
+            assert(!"Not implemented yet");
+
+            return nullptr;
         }
 
         int heavyWorkers() const override
@@ -19,3 +25,5 @@ class FakeTaskExecutor: public ITaskExecutor
             return 1;
         }
 };
+
+#endif

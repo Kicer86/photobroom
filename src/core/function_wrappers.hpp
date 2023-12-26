@@ -8,7 +8,9 @@
 #include <stop_token>
 
 #include <QPointer>
+#include <QPromise>
 #include <QThread>
+
 
 // Internal struct with data shared between safe_callback and safe_callback_ctrl
 struct safe_callback_data
@@ -129,10 +131,31 @@ class safe_callback_ctrl final
 template<typename Obj, typename F, typename... Args>
 void invokeMethod(Obj* object, const F& method, Args&&... args) requires std::is_base_of<QObject, Obj>::value
 {
-    QMetaObject::invokeMethod(object, [object, method, args...]()
+    QMetaObject::invokeMethod(object, [object, method, ...args = std::forward<Args>(args)]() mutable
     {
-        (object->*method)(args...);
+        (object->*method)(std::forward<Args>(args)...);
     });
+}
+
+
+// Works as extended invokeMethod but waits for results
+template<typename T, typename ObjT, typename F, typename... Args>
+requires std::is_base_of_v<QObject, ObjT>
+auto invoke_and_wait(QPointer<ObjT> object, const F& function, Args&&... args)
+{
+    QPromise<T> promise;
+    QFuture<T> future = promise.future();
+
+    call_from_object_thread(object, [&promise, &function, &args...]()
+    {
+        promise.start();
+        promise.addResult(function(args...));
+        promise.finish();
+    });
+
+    future.waitForFinished();
+
+    return future.result();
 }
 
 

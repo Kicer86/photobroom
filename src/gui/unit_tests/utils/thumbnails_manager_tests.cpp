@@ -21,6 +21,11 @@ using testing::NiceMock;
 using testing::Return;
 using testing::ReturnRef;
 
+namespace
+{
+    const QString ThumbnailBlob = "thumbnail";
+}
+
 struct NullCache: IThumbnailsCache
 {
     std::optional<QImage> find(const Photo::Id &, const IThumbnailsCache::ThumbnailParameters &) override
@@ -141,7 +146,7 @@ TEST_F(ThumbnailManagerTest, generatedThumbnailsIsBeingCached)
         .WillRepeatedly(Return(img));
 
     // database behavior (thumbnail storage)
-    EXPECT_CALL(backend, writeBlob(id, Database::IBackend::BlobType::Thumbnail, _)).Times(1);
+    EXPECT_CALL(backend, writeBlob(id, ThumbnailBlob, _)).Times(1);
 
     ThumbnailManager tm(executor, generator, cache, EmptyLogger{});
     tm.setDatabaseCache(&db);
@@ -161,7 +166,7 @@ TEST_F(ThumbnailManagerTest, doNotGenerateThumbnailFoundInCache)
     NiceMock<MockThumbnailsCache> cache;
     EXPECT_CALL(cache, find(id, IThumbnailsCache::ThumbnailParameters(QSize(height, height)))).Times(1).WillOnce(Return(img));
 
-    EXPECT_CALL(backend, writeBlob(id, Database::IBackend::BlobType::Thumbnail, _)).Times(0);
+    EXPECT_CALL(backend, writeBlob(id, ThumbnailBlob, _)).Times(0);
 
     MockThumbnailsGenerator generator;
 

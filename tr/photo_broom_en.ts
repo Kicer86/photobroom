@@ -58,6 +58,27 @@
     </message>
 </context>
 <context>
+    <name>BatchFaceDetection</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="32"/>
+        <source>Discovered faces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="129"/>
+        <source>Photos to be analyzed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BatchFaceDetector</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="67"/>
+        <source>Batch face detector</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CollectionScanner</name>
     <message>
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="57"/>
@@ -189,22 +210,22 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="166"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="167"/>
         <source>unknown</source>
         <translation>unknown</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="206"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="211"/>
         <source>Mark found faces</source>
         <translation>Mark found faces</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="219"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="224"/>
         <source>Detecting and analyzing faces</source>
         <translation>Detecting and analyzing faces</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="219"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="224"/>
         <source>Could not detect any face.</source>
         <translation>Could not detect any face.</translation>
     </message>
@@ -350,17 +371,17 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="96"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="97"/>
         <source>&amp;Settings</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="133"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="134"/>
         <source>Tasks</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="159"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="160"/>
         <source>Back to photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -385,7 +406,7 @@ Check paths in configuration window.</source>
         <translation>&amp;Refresh collection...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="97"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="98"/>
         <source>&amp;Configuration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -395,54 +416,54 @@ Check paths in configuration window.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="198"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="195"/>
         <source>New version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="199"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="196"/>
         <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="207"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="204"/>
         <source>Internet connection problem</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="208"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="205"/>
         <source>Could not check if there is new version of PhotoBroom.
 Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="328"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="325"/>
         <source>Open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="328"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="325"/>
         <source>Photo Broom files (*.bpj)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="366"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="363"/>
         <source>About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="372"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="369"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="401"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="411"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="398"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="408"/>
         <source>Unsupported photo collection version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="402"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="399"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -450,7 +471,7 @@ Please upgrade application to open this collection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="412"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="409"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your database is too old to open it.
 
@@ -458,12 +479,12 @@ It means your database is too old to open it.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="420"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="417"/>
         <source>Could not open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="421"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="418"/>
         <source>Photo collection could not be opened.
 It usually means that collection files are broken
 or you don&apos;t have rights to access them.
@@ -473,23 +494,23 @@ Please check collection files:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="431"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="428"/>
         <source>Collection locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="432"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="429"/>
         <source>Photo collection could not be opened.
 It is already opened by another Photo Broom instance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="440"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="437"/>
         <source>Unexpected error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="441"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="438"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
@@ -695,38 +716,38 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="147"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="271"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="146"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="270"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="147"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="146"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="271"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="270"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="320"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="319"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="355"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="354"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="356"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="355"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="357"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="356"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -742,17 +763,17 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="210"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="209"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="223"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="222"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="236"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="235"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>

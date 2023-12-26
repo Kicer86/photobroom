@@ -427,6 +427,13 @@ namespace Database
                 if (phash.has_value())
                     photoData.insert<Photo::Field::PHash>(*phash);
             }
+
+            if (fields.contains(Photo::Field::People))
+            {
+                auto& peopleAccessor = peopleInformationAccessor();
+                const auto people = peopleAccessor.listPeopleFull(id);
+                photoData.insert<Photo::Field::People>(people);
+            }
         }
 
         return photoData;
@@ -512,24 +519,24 @@ namespace Database
     }
 
 
-    void ASqlBackend::writeBlob(const Photo::Id& id, BlobType bt, const QByteArray& blob)
+    void ASqlBackend::writeBlob(const Photo::Id& id, const QString& bt, const QByteArray& blob)
     {
         UpdateQueryData data(TAB_BLOBS);
         data.addCondition("photo_id", QString::number(id.value()));
-        data.addCondition("type", QString::number(static_cast<int>(bt)));
+        data.addCondition("type", bt);
         data.setColumns("photo_id", "type", "data");
-        data.setValues(QString::number(id.value()), QString::number(static_cast<int>(bt)), blob);
+        data.setValues(QString::number(id.value()), bt, blob);
 
         updateOrInsert(data);
     }
 
 
-    QByteArray ASqlBackend::readBlob(const Photo::Id& id, BlobType bt)
+    QByteArray ASqlBackend::readBlob(const Photo::Id& id, const QString& bt)
     {
-        const QString blobQuery = QString("SELECT data FROM %1 WHERE photo_id=%2 AND type=%3")
+        const QString blobQuery = QString("SELECT data FROM %1 WHERE photo_id=%2 AND type='%3'")
             .arg(TAB_BLOBS)
             .arg(QString::number(id.value()))
-            .arg(QString::number(static_cast<int>(bt)));
+            .arg(bt);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -743,7 +750,7 @@ namespace Database
                     // move thumbnails to blob table
                     const QString copy_thumbnails =
                     QString("INSERT INTO blobs(photo_id, type, data) SELECT photo_id, %1 AS type, data FROM thumbnails")
-                            .arg(static_cast<int>(IBackend::BlobType::Thumbnail));
+                            .arg("thumbnail");
 
                     status = m_executor.exec(copy_thumbnails, &query);
                     if (status == false)
@@ -969,6 +976,15 @@ namespace Database
 
         if (status && data.has(Photo::Field::PHash))
             photoOperator().setPHash(data.getId(), data.get<Photo::Field::PHash>());
+
+        if (status && data.has(Photo::Field::People))
+        {
+            const auto& people = data.get<Photo::Field::People>();
+            auto& accessor = peopleInformationAccessor();
+
+            for(const PersonFullInfo& person: people)
+                accessor.store(data.getId(), person);
+        }
 
         photoChangeLogOperator().storeDifference(currentStateOfPhoto, data);
 

@@ -7,15 +7,16 @@
   "description": "Photo Broom is a tool for managing your photos.",
   "dependencies": [
     {
-        "name": "dlib",
-        "default-features": false,
-        "features": [ "fftw3" ]
+      "name": "dlib",
+      "default-features": false,
+      "features": [ "fftw3" ]
     },
     {
-        "name": "opencv4",
-        "default-features": false,
-        "features": [ "contrib" ]
+      "name": "opencv4",
+      "default-features": false,
+      "features": [ "contrib" ]
     },
+    "boost-multi-index",
     "exiv2",
     "jsoncpp",
     "libguarded",

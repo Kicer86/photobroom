@@ -4,6 +4,8 @@ add_subdirectory(animated_webp)
 find_package(Qt6 REQUIRED COMPONENTS Svg Quick QuickWidgets)
 find_package(OpenCV REQUIRED)
 
+include(${PROJECT_SOURCE_DIR}/tools/reflect++/Reflect++.cmake)
+
 set(UTILS_SOURCES
     grouppers/animation_generator.cpp
     grouppers/animation_generator.hpp
@@ -13,6 +15,8 @@ set(UTILS_SOURCES
     grouppers/generator_utils.hpp
     grouppers/hdr_generator.cpp
     grouppers/hdr_generator.hpp
+    batch_face_detector.cpp
+    batch_face_detector.hpp
     collection_scanner.cpp
     collection_scanner.hpp
     config_tools.cpp
@@ -29,10 +33,10 @@ set(UTILS_SOURCES
     model_index_utils.hpp
     painter_helpers.cpp
     painter_helpers.hpp
+    people_editor.cpp
+    people_editor.hpp
     people_list_model.cpp
     people_list_model.hpp
-    people_manipulator.cpp
-    people_manipulator.hpp
     photos_collector.cpp
     photos_collector.hpp
     qml_setup.cpp
@@ -53,7 +57,7 @@ set(UTILS_SOURCES
     variant_display.hpp
 )
 
-add_library(gui_utils OBJECT ${UTILS_SOURCES})
+add_library(gui_utils OBJECT ${UTILS_SOURCES} ${ReflectionFiles})
 set_target_properties(gui_utils PROPERTIES AUTOMOC TRUE)
 target_link_libraries(gui_utils
                         PRIVATE
@@ -75,5 +79,7 @@ target_include_directories(gui_utils
                             PRIVATE
                                 ${CMAKE_SOURCE_DIR}/src/gui/
                                 ${CMAKE_SOURCE_DIR}/src/gui/desktop
+                                ${CMAKE_CURRENT_BINARY_DIR}
 )
 
+target_sources(gui_utils PRIVATE ${ReflectionFiles})

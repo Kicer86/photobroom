@@ -24,7 +24,7 @@ TEST(LazyPtrTest, noConstructionWhenNotNeeded)
     ConstructorMock<int> constructor;
     EXPECT_CALL(constructor, build).Times(0);
 
-    make_lazy_ptr<int>(std::ref(constructor));
+    make_lazy_ptr<int>([&constructor]() {return constructor();} );
 }
 
 
@@ -33,7 +33,7 @@ TEST(LazyPtrTest, onlyOneConstructionWhenNeeded)
     ConstructorMock<int> constructor;
     EXPECT_CALL(constructor, build).Times(1).WillOnce(Return(new int));
 
-    lazy_ptr ptr = make_lazy_ptr<int>(std::ref(constructor));
+    lazy_ptr ptr = make_lazy_ptr<int>([&constructor]() {return constructor();} );
 
     *ptr = 0;
     *ptr = 5;
@@ -45,8 +45,21 @@ TEST(LazyPtrTest, onlyOneConstructionWhenNeededForComplexType)
     ConstructorMock<std::pair<int, double>> constructor;
     EXPECT_CALL(constructor, build).Times(1).WillOnce(Return(new std::pair<int, double>));
 
-    lazy_ptr ptr = make_lazy_ptr<std::pair<int, double>>(std::ref(constructor));
+    lazy_ptr ptr = make_lazy_ptr<std::pair<int, double>>([&constructor]() {return constructor();} );
 
     ptr->first = 0;
     ptr->second = 5.0;
+}
+
+
+TEST(LazyPtrTest, qtPropertiesConstructor)
+{
+    QObject obj;
+
+    using ObjectTakingQStringInContructor = QString;
+
+    auto lazy_ptr = make_lazy_ptr<ObjectTakingQStringInContructor, QString>(&obj, "objectName");
+    obj.setObjectName("hello");
+
+    EXPECT_EQ(*lazy_ptr, "hello");
 }

@@ -289,7 +289,6 @@ class Queue
 };
 
 
-
 /**
  * @brief A subqueue for ITaskExecutor.
  */
@@ -301,7 +300,7 @@ class CORE_EXPORT TasksQueue: public ITaskExecutor, public Queue<std::unique_ptr
 
         // ITaskExecutor overrides:
         void add(std::unique_ptr<ITask> &&) override;
-        void addLight(std::unique_ptr<ITask> &&) override;
+        std::shared_ptr<IProcessControl> add(Process &&) override;
         int heavyWorkers() const override;
 
     private:

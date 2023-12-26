@@ -135,8 +135,8 @@ namespace dlib_api
 
     struct FaceLocator::Data
     {
-        lazy_ptr<cnn_face_detection_model_v1, decltype(&construct_cnn_face_detector)> cnn_face_detector;
-        lazy_ptr<dlib::frontal_face_detector, decltype(&dlib::get_frontal_face_detector)> hog_face_detector;
+        lazy_ptr<cnn_face_detection_model_v1> cnn_face_detector;
+        lazy_ptr<dlib::frontal_face_detector> hog_face_detector;
         std::unique_ptr<ILogger> logger;
         const bool cuda_available;
 
@@ -322,14 +322,16 @@ namespace dlib_api
     {
         Data(ILogger* log)
             : face_encoder( modelPath<face_recognition_model>().toStdString() )
+            , predictor_5_point(ObjectDeserializer<dlib::shape_predictor, predictor_5_point_model>())
+            , predictor_68_point(ObjectDeserializer<dlib::shape_predictor, predictor_68_point_model>())
             , logger(log)
         {
         }
 
         face_recognition_model_v1 face_encoder;
 
-        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_5_point_model>> predictor_5_point;
-        lazy_ptr<dlib::shape_predictor, ObjectDeserializer<dlib::shape_predictor, predictor_68_point_model>> predictor_68_point;
+        lazy_ptr<dlib::shape_predictor> predictor_5_point;
+        lazy_ptr<dlib::shape_predictor> predictor_68_point;
 
         ILogger* logger;
     };
@@ -349,7 +351,7 @@ namespace dlib_api
 
     FaceEncodings FaceEncoder::face_encodings(const QImage& qimage, int num_jitters, EncodingsModel model)
     {
-        // here we assume, that given image is a face extraceted from image with help of face_locations()
+        // here we assume, that given image is a face extracted from image with help of face_locations()
         const QSize size = qimage.size();
 
         m_data->logger->debug(

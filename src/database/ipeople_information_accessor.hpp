@@ -18,6 +18,9 @@ namespace Database
             /// list people on photo
             virtual std::vector<PersonInfo>  listPeople(const Photo::Id &) = 0;
 
+            /// list full people data for photo
+            virtual std::vector<PersonFullInfo> listPeopleFull(const Photo::Id &) = 0;
+
             /**
             * \brief get person details
             * \arg id person id
@@ -46,7 +49,7 @@ namespace Database
             * \arg pi Details about person. It needs to refer to a valid photo id.  \n
             *         Also at least one of \a rect, \a person or \a id need to be valid
             *
-            * If \a pi has valid id and rect is invalid and person is is not valid, \n
+            * If \a pi has valid id and rect is invalid and person id is not valid, \n
             * then information about person is removed.                             \n
             * if \a pi has invalid id then database will be searched for exisiting  \n
             * rect or person matching information in \a pi. If found, id will be    \n
@@ -54,7 +57,18 @@ namespace Database
             */
             virtual PersonInfo::Id           store(const PersonInfo& pi) = 0;
 
-            virtual PersonFingerprint::Id    store(const PersonFingerprint &) = 0;
+            virtual PersonInfo::Id           store(const Photo::Id&, const PersonFullInfo& pfi) = 0;
+
+            /**
+             * @brief Store person's fingerprint in db
+             * @arg fp Person's fingerprint
+             * @return fingerprint id assigned by db
+             *
+             * If @a fp has valid id but empty fingerprint, it will be removed from db.             \n
+             * If @a fp has invalid id but valid fingerprint data, new entry will be added to db.   \n
+             * If @a fp has both entries valid, fingerpritn data for given id will be updated.
+             */
+            virtual PersonFingerprint::Id    store(const PersonFingerprint& fp) = 0;
     };
 }
 

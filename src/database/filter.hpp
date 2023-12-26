@@ -35,38 +35,6 @@
 
 namespace Database
 {
-    //filters
-
-    struct EmptyFilter;
-    struct GroupFilter;
-    struct FilterPhotosWithTag;
-    struct FilterPhotosWithFlags;
-    struct FilterNotMatchingFilter;
-    struct FilterPhotosWithId;
-    struct FilterPhotosMatchingExpression;
-    struct FilterPhotosWithPath;
-    struct FilterPhotosWithRole;
-    struct FilterPhotosWithPerson;
-    struct FilterPhotosWithGeneralFlag;
-    struct FilterPhotosWithPHash;
-    struct FilterSimilarPhotos;
-
-
-    typedef std::variant<EmptyFilter,
-                         GroupFilter,
-                         FilterPhotosWithTag,
-                         FilterPhotosWithFlags,
-                         FilterNotMatchingFilter,
-                         FilterPhotosWithId,
-                         FilterPhotosMatchingExpression,
-                         FilterPhotosWithPath,
-                         FilterPhotosWithRole,
-                         FilterPhotosWithPerson,
-                         FilterPhotosWithGeneralFlag,
-                         FilterPhotosWithPHash,
-                         FilterSimilarPhotos
-    > Filter;
-
     enum class ComparisonOp
     {
         Equal,
@@ -82,18 +50,14 @@ namespace Database
         Or,
     };
 
+    //filters
+
+    struct GroupFilter;
+    struct FilterNotMatchingFilter;
+
     struct DATABASE_EXPORT EmptyFilter
     {
 
-    };
-
-    struct DATABASE_EXPORT GroupFilter
-    {
-        GroupFilter(const std::vector<Filter> &);
-        GroupFilter(const std::initializer_list<Filter> &);
-
-        std::vector<Filter> filters;
-        LogicalOp mode = LogicalOp::And;
     };
 
     struct DATABASE_EXPORT FilterPhotosWithTag
@@ -179,6 +143,44 @@ namespace Database
 
     struct DATABASE_EXPORT FilterSimilarPhotos { };
 
+    struct DATABASE_EXPORT FilterFaceAnalysisStatus
+    {
+        enum Status
+        {
+            NotPerformed,
+            Performed,
+        } status;
+
+        FilterFaceAnalysisStatus(Status s): status(s) {};
+    };
+
+
+    typedef std::variant<EmptyFilter,
+                         GroupFilter,
+                         FilterPhotosWithTag,
+                         FilterPhotosWithFlags,
+                         FilterNotMatchingFilter,
+                         FilterPhotosWithId,
+                         FilterPhotosMatchingExpression,
+                         FilterPhotosWithPath,
+                         FilterPhotosWithRole,
+                         FilterPhotosWithPerson,
+                         FilterPhotosWithGeneralFlag,
+                         FilterPhotosWithPHash,
+                         FilterSimilarPhotos,
+                         FilterFaceAnalysisStatus
+    > Filter;
+
+
+    struct DATABASE_EXPORT GroupFilter
+    {
+        GroupFilter(const std::vector<Filter> &);
+        GroupFilter(const std::initializer_list<Filter> &);
+
+        std::vector<Filter> filters;
+        LogicalOp mode = LogicalOp::And;
+    };
+
     struct DATABASE_EXPORT FilterNotMatchingFilter
     {
         template<typename T>
@@ -190,12 +192,13 @@ namespace Database
         ol::data_ptr<Filter> filter;
     };
 
+
     // helpers
 
     /**
      * @brief return filter which will filter out broken photos (missing, broken, deleted etc)
      */
-    Filter getValidPhotosFilter();
+    Filter DATABASE_EXPORT getValidPhotosFilter();
 }
 
 #endif // FILTER_HPP

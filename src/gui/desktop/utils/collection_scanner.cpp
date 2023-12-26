@@ -86,13 +86,13 @@ void CollectionScanner::scan()
         photoDeltas.reserve(photos.size());
 
         for(const Photo::Id& id: photos)
-            photoDeltas.push_back(backend.getPhotoDelta(id, {Photo::Field::Path}));
+            photoDeltas.push_back(backend.getPhotoDelta<Photo::Field::Path>(id));
 
         std::vector<Photo::DataDelta> missingPhotoDeltas;
         missingPhotoDeltas.reserve(missingPhotos.size());
 
         for(const Photo::Id& id: missingPhotos)
-            missingPhotoDeltas.push_back(backend.getPhotoDelta(id, {Photo::Field::Path}));
+            missingPhotoDeltas.push_back(backend.getPhotoDelta<Photo::Field::Path>(id));
 
         db_callback(photoDeltas, missingPhotoDeltas);
     });

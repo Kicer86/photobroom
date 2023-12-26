@@ -59,6 +59,27 @@
     </message>
 </context>
 <context>
+    <name>BatchFaceDetection</name>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="+32"/>
+        <source>Discovered faces</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+97"/>
+        <source>Photos to be analyzed</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BatchFaceDetector</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="+67"/>
+        <source>Batch face detector</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CollectionScanner</name>
     <message>
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="+57"/>
@@ -196,12 +217,12 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+166"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+167"/>
         <source>unknown</source>
         <translation>nieznane</translation>
     </message>
     <message>
-        <location line="+40"/>
+        <location line="+44"/>
         <source>Mark found faces</source>
         <translation>Podświetl znalezione twarze</translation>
     </message>
@@ -354,7 +375,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Wyszukaj &amp;duplikaty</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>&amp;Settings</source>
         <translation>U&amp;stawienia</translation>
     </message>
@@ -369,7 +390,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>Powrót</translation>
     </message>
     <message>
-        <location line="-81"/>
+        <location line="-82"/>
         <source>P&amp;hotos</source>
         <translation>&amp;Zdjęcia</translation>
     </message>
@@ -394,17 +415,17 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Odśwież kolekcję...</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>&amp;Configuration</source>
         <translation>&amp;Ustawienia programu</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location line="-14"/>
         <source>T&amp;asks</source>
         <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+198"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+195"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -722,7 +743,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+147"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+146"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -774,7 +795,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+210"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+209"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
     </message>

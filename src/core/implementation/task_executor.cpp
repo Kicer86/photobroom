@@ -17,31 +17,101 @@
  *
  */
 
-#include "task_executor.hpp"
 #include <ilogger.hpp>
 
 #include <chrono>
 #include <iostream>
-#include <thread>
+#include <set>
 
 #include <QString>
 
+#include "task_executor.hpp"
 #include "thread_utils.hpp"
 
 
-TaskExecutor::TaskExecutor(ILogger& logger, int threadsToUse):
+TaskExecutor::ProcessInfo::ProcessInfo(TaskExecutor& executor, ProcessState s)
+    : m_state(s)
+    , m_executor(executor)
+{}
+
+
+TaskExecutor::ProcessInfo::~ProcessInfo()
+{
+    if (m_co_h.done() == false)
+        m_co_h.destroy();
+}
+
+
+void TaskExecutor::ProcessInfo::setCoroutine(const ProcessCoroutine& h)
+{
+    m_co_h = h;
+}
+
+void TaskExecutor::ProcessInfo::terminate()
+{
+    m_work = false;
+    m_executor.wakeUpScheduler();
+}
+
+
+void TaskExecutor::ProcessInfo::resume()
+{
+    setState(ITaskExecutor::ProcessState::Running);
+    m_executor.wakeUpScheduler();
+}
+
+
+ITaskExecutor::ProcessState TaskExecutor::ProcessInfo::state()
+{
+    return m_state;
+}
+
+
+bool TaskExecutor::ProcessInfo::keepWorking()
+{
+    return m_work;
+}
+
+
+void TaskExecutor::ProcessInfo::setState(ProcessState s)
+{
+    std::lock_guard _(m_stateMtx);
+    assert(m_state != ProcessState::Finished || s == ProcessState::Finished);          // no sense of changing state of finished process
+    m_state = s;
+}
+
+
+void TaskExecutor::ProcessInfo::run()
+{
+    // lock state and raturn lock to caller, so state is locked until re
+    std::lock_guard lk(m_stateMtx);
+
+    m_co_h();
+
+    m_state = m_co_h.promise().nextState;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+TaskExecutor::TaskExecutor(ILogger& logger, unsigned int threadsToUse):
     m_tasks(),
     m_taskEater(),
     m_logger(logger),
     m_threads(threadsToUse),
-    m_lightTasks(0),
     m_working(true)
 {
     m_logger.info(QString("Using %1 threads.").arg(m_threads));
 
-    m_taskEater = std::thread( [&]
+    m_taskEater = std::thread([&]
     {
         this->eat();
+    });
+
+    m_processRunner = std::thread([&]
+    {
+        this->runProcesses();
     });
 }
 
@@ -59,30 +129,16 @@ void TaskExecutor::add(std::unique_ptr<ITask>&& task)
 }
 
 
-void TaskExecutor::addLight(std::unique_ptr<ITask>&& task)
+std::shared_ptr<ITaskExecutor::IProcessControl> TaskExecutor::add(Process&& task)
 {
-    assert(m_working);
+    auto process = std::make_shared<ProcessInfo>(*this, ProcessState::Running);
+    ITaskExecutor::IProcessSupervisor* supervisor = process.get();
+    process->setCoroutine(task(supervisor));
 
-    // start a task and increase count of them
-    std::lock_guard<std::mutex> guard(m_lightTasksMutex);
-    ++m_lightTasks;
+    m_processes.push_back(process);
+    wakeUpScheduler();
 
-    auto light_task = std::thread( [this, lt = std::move(task)]
-    {
-        set_thread_name("TE::LightTask");
-
-        // do job
-        lt->perform();
-
-        // notify about finished task
-        std::unique_lock<std::mutex> lock(m_lightTasksMutex);
-        assert(m_lightTasks > 0);
-        --m_lightTasks;
-
-        std::notify_all_at_thread_exit(m_lightTaskFinished, std::move(lock));
-    });
-
-    light_task.detach();
+    return process;
 }
 
 
@@ -98,18 +154,17 @@ void TaskExecutor::stop()
     {
         m_working = false;
 
-        // wait for heavy tasks
+        // stop processes
+        wakeUpScheduler();
+        assert(m_processRunner.joinable());
+
+        // stop heavy tasks
         m_tasks.stop();
         assert(m_taskEater.joinable());
+
+        // wait for threads
+        m_processRunner.join();
         m_taskEater.join();
-
-        // wait for light tasks
-        std::unique_lock<std::mutex> lock(m_lightTasksMutex);
-
-        m_lightTaskFinished.wait(lock, [this]
-        {
-            return m_lightTasks == 0;
-        });
     }
 }
 
@@ -204,4 +259,76 @@ void TaskExecutor::eat()
 void TaskExecutor::execute(const std::shared_ptr<ITask>& task) const
 {
     task->perform();
+}
+
+
+void TaskExecutor::runProcesses()
+{
+    while(m_working)
+    {
+        bool has_running = false;
+
+        std::set<ProcessInfo*> toRemove;
+
+        for(auto& process: m_processes)
+        {
+            const auto state = process->state();
+
+            switch(state)
+            {
+                case ProcessState::Suspended:
+                    break;
+
+                case ProcessState::Running:
+                {
+                    const bool toBeStopped = !process->keepWorking();
+                    process->run();
+
+                    const auto newState = process->state();
+
+                    // if toBeStopped == true then process should have finished
+                    assert(newState == ProcessState::Finished || toBeStopped == false);
+
+                    switch(newState)
+                    {
+                        case ProcessState::Running:
+                            has_running = true;
+                            break;
+
+                        case ProcessState::Suspended:
+                            break;
+
+                        case ProcessState::Finished:
+                            toRemove.insert(process.get());
+                            break;
+                    }
+
+                    break;
+                }
+
+                case ProcessState::Finished:
+                    assert(!"Should not happend");
+                    break;
+            }
+        }
+
+        if (toRemove.empty() == false)
+            m_processes.erase(std::remove_if(
+                                m_processes.begin(),
+                                m_processes.end(),
+                                [&toRemove](const auto& process){ return toRemove.contains(process.get()); }),
+               m_processes.end());
+
+        if (has_running == false)
+        {
+            std::unique_lock lock(m_processesIdleMutex);
+            m_processesIdleCV.wait(lock);
+        }
+    };
+}
+
+
+void TaskExecutor::wakeUpScheduler()
+{
+    m_processesIdleCV.notify_one();
 }

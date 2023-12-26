@@ -12,6 +12,11 @@ namespace Database
     {
         public:
             PersonInfo::Id store(const PersonInfo& pi) override;
+            PersonInfo::Id store(const Photo::Id&, const PersonFullInfo& pi) override;
+
+            std::vector<PersonFullInfo> listPeopleFull(const Photo::Id &) override;
+
+            using IPeopleInformationAccessor::store;
 
         private:
             virtual void dropPersonInfo(const PersonInfo::Id &) = 0;

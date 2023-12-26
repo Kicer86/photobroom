@@ -27,8 +27,8 @@ struct MockBackend: public Database::IBackend
   MOCK_METHOD(std::optional<int>, get, (const Photo::Id &, const QString &), (override));
   MOCK_METHOD(void, setBits, (const Photo::Id& id, const QString& name, int bits), (override));
   MOCK_METHOD(void, clearBits, (const Photo::Id& id, const QString& name, int bits), (override));
-  MOCK_METHOD(void, writeBlob, (const Photo::Id &, BlobType, const QByteArray &), (override));
-  MOCK_METHOD(QByteArray, readBlob, (const Photo::Id &, BlobType), (override));
+  MOCK_METHOD(void, writeBlob, (const Photo::Id &, const QString& bt, const QByteArray &), (override));
+  MOCK_METHOD(QByteArray, readBlob, (const Photo::Id &, const QString& bt), (override));
   MOCK_METHOD(std::vector<Photo::Id>, markStagedAsReviewed, (), (override));
   MOCK_METHOD(Database::BackendStatus, init, (const Database::ProjectInfo &), (override));
   MOCK_METHOD(void, closeConnections, (), (override));

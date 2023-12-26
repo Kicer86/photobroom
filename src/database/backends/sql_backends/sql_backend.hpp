@@ -130,7 +130,7 @@ namespace Database
             std::unique_ptr<GroupOperator> m_groupOperator;
             std::unique_ptr<PhotoOperator> m_photoOperator;
             std::unique_ptr<PhotoChangeLogOperator> m_photoChangeLogOperator;
-            lazy_ptr<IPeopleInformationAccessor, std::function<IPeopleInformationAccessor*()>> m_peopleInfoAccessor;
+            lazy_ptr<IPeopleInformationAccessor> m_peopleInfoAccessor;
             NotificationsAccumulator m_notificationsAccumulator;
             mutable TransactionManager<SqlTransaction> m_tr_db;
             QString m_connectionName;
@@ -154,8 +154,8 @@ namespace Database
             void                     setBits(const Photo::Id& id, const QString& name, int bits) override final;
             void                     clearBits(const Photo::Id& id, const QString& name, int bits) override final;
 
-            void writeBlob(const Photo::Id &, BlobType, const QByteArray& blob) override;
-            QByteArray readBlob(const Photo::Id &, BlobType) override;
+            void writeBlob(const Photo::Id &, const QString& bt, const QByteArray& blob) override;
+            QByteArray readBlob(const Photo::Id &, const QString& bt) override;
 
             std::vector<Photo::Id> markStagedAsReviewed() override final;
             //

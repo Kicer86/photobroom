@@ -47,7 +47,7 @@ namespace Photo
         QString              path;
         QSize                geometry;
         GroupInfo            groupInfo;
-        Photo::PHashT         phash;
+        Photo::PHashT        phash;
 
         Data() = default;
         Data(const Data &) = default;
@@ -66,7 +66,7 @@ namespace Photo
 
 
     /**
-     * @brief Structure containing chosen of photo details
+     * @brief Structure containing chosen details of photo
      */
     class DATABASE_EXPORT DataDelta
     {
@@ -128,7 +128,8 @@ namespace Photo
                 DeltaTypes<Field::Path>::Storage,
                 DeltaTypes<Field::Geometry>::Storage,
                 DeltaTypes<Field::GroupInfo>::Storage,
-                DeltaTypes<Field::PHash>::Storage
+                DeltaTypes<Field::PHash>::Storage,
+                DeltaTypes<Field::People>::Storage
             > Storage;
 
             Photo::Id                m_id;

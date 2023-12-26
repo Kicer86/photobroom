@@ -63,22 +63,9 @@ namespace
 }
 
 
-struct FaceRecognition::Data
-{
-    explicit Data(ICoreFactoryAccessor* coreAccessor)
-        : m_logger(coreAccessor->getLoggerFactory().get("FaceRecognition"))
-        , m_exif(coreAccessor->getExifReaderFactory().get())
-    {
 
-    }
-
-    std::unique_ptr<ILogger> m_logger;
-    IExifReader& m_exif;
-};
-
-
-FaceRecognition::FaceRecognition(ICoreFactoryAccessor* coreAccessor):
-    m_data(std::make_unique<Data>(coreAccessor))
+FaceRecognition::FaceRecognition(const ILogger& logger)
+    : m_logger(logger.subLogger("FaceRecognition"))
 {
 
 }
@@ -96,15 +83,12 @@ bool FaceRecognition::checkSystem()
 }
 
 
-QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
+std::vector<QRect> FaceRecognition::fetchFaces(const OrientedImage& orientedPhoto) const
 {
-    OrientedImage orientedPhoto(m_data->m_exif, path);
-
     const int pixels = orientedPhoto->width() * orientedPhoto->height();
     const double mpixels = pixels / 1e6;
 
-    m_data->m_logger->debug(QString("Looking for faces in photo %1. Size: %2Mpx")
-        .arg(path)
+    m_logger->debug(QString("Looking for faces in photo of size: %2Mpx")
         .arg(mpixels, 0, 'f', 1)
     );
 
@@ -114,12 +98,12 @@ QVector<QRect> FaceRecognition::fetchFaces(const QString& path) const
     const auto faces = fetchFaces(orientedPhoto, 1);
     const auto elapsed = timer.elapsed();
 
-    m_data->m_logger->info(QString("Found %1 faces in time: %2ms")
+    m_logger->info(QString("Found %1 faces in time: %2ms")
         .arg(faces.size())
         .arg(elapsed)
     );
 
-    return faces;
+    return std::vector<QRect>(faces.begin(), faces.end());
 }
 
 
@@ -127,7 +111,7 @@ Person::Fingerprint FaceRecognition::getFingerprint(const OrientedImage& image, 
 {
     const QImage face = face_rect.isEmpty()? image.get(): image.get().copy(face_rect);
 
-    dlib_api::FaceEncoder faceEndoder(m_data->m_logger.get());
+    dlib_api::FaceEncoder faceEndoder(m_logger.get());
     const dlib_api::FaceEncodings face_encodings = faceEndoder.face_encodings(face);
 
     return face_encodings;
@@ -151,7 +135,7 @@ QVector<QRect> FaceRecognition::fetchFaces(const OrientedImage& orientedPhoto, d
     const QSize scaledSize = orientedPhoto.get().size() * scale;
     const QImage photo = orientedPhoto.get().scaled(scaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    result = dlib_api::FaceLocator(m_data->m_logger.get()).face_locations(photo, 0);
+    result = dlib_api::FaceLocator(m_logger.get()).face_locations(photo, 0);
 
     std::transform(result.begin(), result.end(), result.begin(), [scale](const QRect& face){
         return QRectF(face.topLeft().x() / scale, face.topLeft().y() / scale,

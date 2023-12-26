@@ -77,7 +77,7 @@ namespace
 namespace Database
 {
 
-    void APhotoChangeLogOperator::storeDifference(const Photo::FullDelta& currentContent, const Photo::DataDelta& newContent)
+    void APhotoChangeLogOperator::storeDifference(const DiffDelta& currentContent, const Photo::DataDelta& newContent)
     {
         assert(currentContent.getId() == newContent.getId());
         const Photo::Id& id = currentContent.getId();

@@ -41,14 +41,6 @@ PersonName::PersonName(const QString& name):
 }
 
 
-PersonName::PersonName (const PersonName& other):
-    m_id(other.m_id),
-    m_name(other.m_name)
-{
-
-}
-
-
 const Person::Id& PersonName::id() const
 {
     return m_id;
