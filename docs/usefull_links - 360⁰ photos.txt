@@ -5,3 +5,6 @@ https://github.com/lazarus-pkgs/panini
 https://github.com/paoletto/qphotosphere
 https://forum.shotcut.org/t/plugins-for-360-video/12396
 https://wiki.panotools.org/Panorama_Viewers
+https://legacy-www.math.harvard.edu/archive/21a_spring_06/exhibits/panoramas/index.html
+https://github.com/cazitouni/QgisGLViewer
+https://stackoverflow.com/questions/56293314/how-can-i-load-a-qpaintedtextureimage-into-a-qtexturematerial
