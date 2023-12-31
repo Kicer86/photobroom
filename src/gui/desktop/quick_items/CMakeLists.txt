@@ -1,6 +1,4 @@
 
-add_subdirectory(external)
-
 find_package(Qt6 6.2 REQUIRED COMPONENTS
     Multimedia
     Quick
@@ -52,8 +50,6 @@ qt6_add_qml_module(quick_items
 )
 
 target_link_libraries(quick_items
-    PRIVATE
-        qphotosphere
     PUBLIC
         core
         face_recognition

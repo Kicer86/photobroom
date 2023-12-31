@@ -23,7 +23,6 @@ void register_qml_types()
     qmlRegisterType<PhotoPropertiesModel>("photo_broom.models", 1, 0, "PhotoPropertiesModel");
     qmlRegisterType<DuplicatesModel>("photo_broom.models", 1, 0, "DuplicatesModel");
     qmlRegisterType<FacesModel>("photo_broom.models", 1, 0, "FacesModel");
-    qmlRegisterType<PhotoSphere>("photo_broom.qml", 1, 0, "PhotoSphere");
     qmlRegisterType<QMLFlatModel>("photo_broom.models", 1, 0, "QMLFlatModel");
     qmlRegisterType<SeriesModel>("photo_broom.models", 1, 0, "SeriesModel");
     qmlRegisterType<TagsModel>("photo_broom.models", 1, 0, "TagsModel");

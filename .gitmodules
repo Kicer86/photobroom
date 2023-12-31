@@ -10,9 +10,6 @@
 [submodule "src/gui/desktop/quick_items/external/qml-colorpicker"]
 	path = src/gui/desktop/quick_items/external/qml-colorpicker
 	url = https://github.com/rshest/qml-colorpicker.git
-[submodule "src/gui/desktop/quick_items/external/qphotosphere"]
-	path = src/gui/desktop/quick_items/external/qphotosphere
-	url = https://github.com/mymike00/photosphere2-ut.git
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg.git

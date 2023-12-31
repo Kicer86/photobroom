@@ -13,43 +13,11 @@ Item {
     Component {
         id: staticImage
 
-        PhotoSphere {
-            id: sphere
-            visible: true
+         ZoomableImage {
             anchors.fill: parent
-            image: ctrl.path
 
-            scale: 1
-            longitude: 0
-            latitude: 0.5
-
-            MouseArea {
-                id: ma
-                anchors.fill: parent
-                property var clickedPos;
-                property var clickedAzimuth;
-                property var clickedElevation;
-                property var clickedFoV;
-                onPressed: {
-                    clickedPos = Qt.point(mouseX, mouseY)
-                    clickedAzimuth = sphere.azimuth
-                    clickedElevation = sphere.elevation
-                }
-                onPositionChanged: {
-                    var curpos = Qt.point(mouseX, mouseY)
-                    var posDiff = Qt.point(curpos.x - ma.clickedPos.x, curpos.y - ma.clickedPos.y)
-
-                    sphere.azimuth = clickedAzimuth + posDiff.x / 6.0
-                    sphere.elevation = clickedElevation + posDiff.y / 6.0
-                    console.log(sphere.azimuth, sphere.elevation)
-                }
-                onWheel: {
-                    if (wheel.modifiers & Qt.ControlModifier) {
-                        sphere.fieldOfView +=  wheel.angleDelta.y / 120;
-                        console.log(sphere.fieldOfView)
-                    }
-                }
-            }
+            boundsBehavior: Flickable.StopAtBounds
+            source: ctrl.path
         }
     }
 
