@@ -18,6 +18,7 @@ pkgbase = photobroom-git
 	depends = qt6-multimedia
 	depends = qt6-declarative
 	depends = qt6-svg
+	depends = qt6-quick3d
 	depends = dlib
 	depends = opencv
 	depends = jsoncpp
