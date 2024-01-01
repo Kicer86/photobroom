@@ -7,12 +7,14 @@
 #include <QUrl>
 
 #include <core/function_wrappers.hpp>
+#include <core/icore_factory_accessor.hpp>
 #include <database/photo_types.hpp>
 
 
 class MediaViewCtrl: public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(ICoreFactoryAccessor* core MEMBER m_core REQUIRED)
     Q_PROPERTY(Photo::Id photoID WRITE setSource READ source NOTIFY sourceChanged)
     Q_PROPERTY(QString photoIDString READ photoIDString NOTIFY photoIDStringChanged)
     Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
@@ -30,6 +32,7 @@ public:
         Error,
         StaticImage,
         AnimatedImage,
+        EquirectangularProjectionImage,
         Video,
     };
 
@@ -50,6 +53,7 @@ private:
     safe_callback_ctrl m_callbackCtrl;
     QUrl m_path;
     Mode m_mode;
+    ICoreFactoryAccessor* m_core;
     Photo::Id m_id;
 
     void setPath(const QString &);
