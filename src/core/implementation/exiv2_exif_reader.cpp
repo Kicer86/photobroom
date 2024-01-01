@@ -7,7 +7,7 @@
 
 namespace
 {
-    const std::map<AExifReader::TagType, const char *> exif_name =
+    const std::map<AExifReader::TagType, std::string_view> exif_name =
     {
         { AExifReader::TagType::DateTimeOriginal, "Exif.Photo.DateTimeOriginal" },
         { AExifReader::TagType::Orientation,      "Exif.Image.Orientation" },
@@ -15,6 +15,7 @@ namespace
         { AExifReader::TagType::PixelXDimension,  "Exif.Photo.PixelXDimension" },
         { AExifReader::TagType::PixelYDimension,  "Exif.Photo.PixelYDimension" },
         { AExifReader::TagType::Exposure,         "Exif.Photo.ExposureBiasValue" },
+        { AExifReader::TagType::Projection,       "Xmp.GPano.ProjectionType" },
     };
 }
 
@@ -65,23 +66,36 @@ std::optional<std::string> Exiv2ExifReader::read(AExifReader::TagType type) cons
 
     if (m_exif_data.get() != nullptr)
     {
-        const Exiv2::ExifData &exifData = m_exif_data->exifData();
+        const Exiv2::ExifData& exifData = m_exif_data->exifData();
+        const Exiv2::XmpData& xmpData = m_exif_data->xmpData();
 
         if (exifData.empty() == false)
         {
-            Exiv2::ExifData::const_iterator tag_data = exifData.end();
             auto exif_name_it = exif_name.find(type);
 
             assert(exif_name_it != exif_name.end());
 
             if (exif_name_it != exif_name.end())
             {
-                const char* tag_name = exif_name_it->second;
-                tag_data = exifData.findKey(Exiv2::ExifKey(tag_name));
+                const auto tag_name = exif_name_it->second;
+                if (tag_name.starts_with("Exif."))
+                {
+                    auto tag_data = exifData.findKey(Exiv2::ExifKey(tag_name.data()));
+
+                    if (tag_data != exifData.end())
+                        result = tag_data->toString();
+                }
+                else if (tag_name.starts_with("Xmp."))
+                {
+                    auto tag_data = xmpData.findKey(Exiv2::XmpKey(tag_name.data()));
+
+                    if (tag_data != xmpData.end())
+                        result = tag_data->toString();
+                }
+                else
+                    assert(!"Unknow tag family");
             }
 
-            if (tag_data != exifData.end())
-                result = tag_data->toString();
         }
     }
 
