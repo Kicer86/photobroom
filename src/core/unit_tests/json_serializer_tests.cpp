@@ -1,8 +1,10 @@
 
 #include <gtest/gtest.h>
 
-#include "json_serializer_tests_r++.hpp"
+#include "rfl.hpp"
 #include "json_serializer.hpp"
+#include "json_serializer_tests.hpp"
+
 
 
 namespace
@@ -93,7 +95,6 @@ TEST(JsonSerializerTest, SerializationDeserialization)
 
 TEST(JsonSerializerTest, CustomSerializationDeserialization)
 {
-
     XYZ xyz;
     xyz.a = 77;
     xyz.b = -156;

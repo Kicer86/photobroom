@@ -92,23 +92,25 @@ qt6_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_libraries(core
-                        PUBLIC
-                            Qt::Core
-                            Qt::Gui
-                            Qt::Multimedia
-                        PRIVATE
-                            system
-                            ${CMAKE_THREAD_LIBS_INIT}
-                            CsLibGuarded::CsLibGuarded
-                            ${EXIV2_LIB}
-                            opencv_videoio
+    PUBLIC
+        Qt::Core
+        Qt::Gui
+        Qt::Multimedia
+    PRIVATE
+        system
+        ${CMAKE_THREAD_LIBS_INIT}
+        CsLibGuarded::CsLibGuarded
+        ${EXIV2_LIB}
+        opencv_videoio
 )
 
-target_include_directories(core PUBLIC
-                                    ${CMAKE_CURRENT_BINARY_DIR}
-                                    ${CMAKE_SOURCE_DIR}/src
-                                PRIVATE
-                                    ${CMAKE_CURRENT_SOURCE_DIR}
+target_include_directories(core
+    PUBLIC
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_SOURCE_DIR}/src
+        ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 set_target_properties(core PROPERTIES AUTOMOC TRUE)

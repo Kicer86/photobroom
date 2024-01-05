@@ -7,8 +7,9 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include "rfl.hpp"
+#include "rfl/to_view.hpp"
 #include "generic_concepts.hpp"
-
 
 namespace JSon
 {
@@ -90,11 +91,13 @@ namespace JSon
             {
                 QJsonObject jsonObj;
 
-                reflectpp::get_object_members(obj, [&jsonObj](auto member_info, const auto& member)
-                {
-                    const QString name = QString::fromStdString(std::string(member_info.name));
-                    jsonObj[name] = getSerialized(member);
-                });
+                const auto objView = rfl::to_view(obj);
+
+                const auto process = [&jsonObj]<class... F>(F... _field) {
+                    (( jsonObj[QString::fromStdString(typename F::Name().str())] = getSerialized(*_field.value()) ), ...);
+                };
+
+                std::apply(process, objView.fields());
 
                 return jsonObj;
             }
@@ -137,16 +140,14 @@ namespace JSon
             }
             else
             {
-                const QJsonObject object = convertTo<QJsonObject>(json);
+                const QJsonObject jsonObj = convertTo<QJsonObject>(json);
+                auto objView = rfl::to_view(r);
 
-                reflectpp::set_object_members(r, [&object](const auto member_info)
-                {
-                    using VT = decltype(member_info)::type;
-                    const QString name = QString::fromStdString(std::string(member_info.name));
-                    const auto value = object[name];
+                const auto process = [&jsonObj]<class... F>(F... _field) {
+                    (( *_field.value() = getDeserialized<std::remove_pointer_t<typename F::Type>>(jsonObj[QString::fromStdString(typename F::Name().str())]) ), ...);
+                };
 
-                    return getDeserialized<VT>(value);
-                });
+                std::apply(process, objView.fields());
             }
 
             return r;

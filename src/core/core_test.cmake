@@ -1,19 +1,9 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(GTest REQUIRED CONFIG)
+find_package(GTest   REQUIRED CONFIG)
 find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
-
-include(${PROJECT_SOURCE_DIR}/tools/reflect++/Reflect++.cmake)
-
-ReflectFiles(
-    ReflectionFiles
-    TARGET
-        core
-    SOURCES
-        unit_tests/json_serializer_tests.hpp
-)
 
 addTestTarget(core
                 SOURCES
@@ -41,8 +31,6 @@ addTestTarget(core
                     unit_tests/status_tests.cpp
                     unit_tests/tag_value_tests.cpp
 
-                    ${ReflectionFiles}
-
                 LIBRARIES
                     GTest::gtest
                     GTest::gmock
@@ -55,6 +43,7 @@ addTestTarget(core
                     ${CMAKE_SOURCE_DIR}/src
                     ${CMAKE_CURRENT_SOURCE_DIR}
                     ${CMAKE_CURRENT_BINARY_DIR}
+                    ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
 
                 DEFINITIONS
                     CORE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
