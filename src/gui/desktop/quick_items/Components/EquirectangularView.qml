@@ -33,8 +33,8 @@ View3D {
         camera: cameraNode
         xInvert: true
         yInvert: false
-        xSpeed: 0.5 * (viewport.width / viewport.height) * ySpeed         // a bit troublesome equation made up to keep horizonal moves as natural as possible
-        ySpeed: (1024 / viewport.height) / 10 * viewport._scaleF        // All parameters chosen empirically.
+        xSpeed: 0.5 * (viewport.width / viewport.height) * ySpeed         // equation made up to keep horizonal moves as natural as possible
+        ySpeed: (1024 / viewport.height) / 10 * viewport._scaleF          // All parameters chosen empirically.
     }
 
     MouseArea {
