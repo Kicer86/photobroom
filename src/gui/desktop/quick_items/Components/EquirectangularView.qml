@@ -8,6 +8,8 @@ View3D {
     anchors.fill: parent
 
     property alias source: sourceTexture.source
+    property double hfov: 360
+    property double vfov: 180
 
     property real _scaleF: 1.0
 
