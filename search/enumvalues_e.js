@@ -11,5 +11,6 @@ var searchData=
   ['pixelydimension_8',['PixelYDimension',['../d5/dd5/struct_i_exif_reader.html#a9cc3e1d2c3d9bd692ea65b3cace5be99a95f033af6887443db6db066a3ea3ce55',1,'IExifReader']]],
   ['place_9',['Place',['../da/dac/namespace_tag.html#aff207a07ada4bab29906bfbb4975a78ba78080c40d8869dcac6b7554dc78130c2',1,'Tag']]],
   ['privatemultimedia_10',['PrivateMultimedia',['../da/df4/struct_project_info.html#a3b20631e9c33ac91e22a2c624dad417ea33b86c261b5cfd4204c761ce5fd7bd56',1,'ProjectInfo']]],
-  ['projectlocked_11',['ProjectLocked',['../d0/d76/namespace_database.html#a25b897a700669116efa4f786360831a7ad8b1e0ebc4c935b386ad2dffa3820694',1,'Database']]]
+  ['projection_11',['Projection',['../d5/dd5/struct_i_exif_reader.html#a9cc3e1d2c3d9bd692ea65b3cace5be99a2121e8333850befac5412d69d52306f7',1,'IExifReader']]],
+  ['projectlocked_12',['ProjectLocked',['../d0/d76/namespace_database.html#a25b897a700669116efa4f786360831a7ad8b1e0ebc4c935b386ad2dffa3820694',1,'Database']]]
 ];

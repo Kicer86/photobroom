@@ -1,8 +1,9 @@
 <map id="src/gui/desktop/quick_items/media_view_ctrl.hpp" name="src/gui/desktop/quick_items/media_view_ctrl.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="152,5,335,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,100,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="124,93,195,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="219,93,268,119"/>
-<area shape="rect" id="node5" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="293,93,474,119"/>
-<area shape="rect" id="node6" href="$dc/d82/photo__types_8hpp.html" title=" " alt="" coords="498,93,671,119"/>
+<area shape="rect" id="node1" title=" " alt="" coords="221,5,404,45"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,101,100,126"/>
+<area shape="rect" id="node3" title=" " alt="" coords="124,101,195,126"/>
+<area shape="rect" id="node4" title=" " alt="" coords="219,101,268,126"/>
+<area shape="rect" id="node5" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="293,101,474,126"/>
+<area shape="rect" id="node6" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="498,93,623,133"/>
+<area shape="rect" id="node7" href="$dc/d82/photo__types_8hpp.html" title=" " alt="" coords="647,101,821,126"/>
 </map>

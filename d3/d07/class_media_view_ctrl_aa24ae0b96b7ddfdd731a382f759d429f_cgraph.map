@@ -1,7 +1,10 @@
 <map id="MediaViewCtrl::setPath" name="MediaViewCtrl::setPath">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,163,105"/>
-<area shape="rect" id="node2" href="$d6/ddb/namespace_media_types.html#a015a7e311585d2ec882493bcb1b5e025" title=" " alt="" coords="211,5,431,31"/>
-<area shape="rect" id="node3" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="238,55,403,80"/>
-<area shape="rect" id="node4" href="$d6/ddb/namespace_media_types.html#a641eac174131f628b1a2e3e357143540" title=" " alt="" coords="239,104,402,129"/>
-<area shape="rect" id="node5" href="$d3/d07/class_media_view_ctrl.html#a36e7e370b7c3cfe2c1ab43f33e961bc2" title=" " alt="" coords="239,153,402,179"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,169,163,195"/>
+<area shape="rect" id="node2" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="243,5,398,31"/>
+<area shape="rect" id="node3" href="$d5/dd5/struct_i_exif_reader.html#adb056ee84526c248059ae528b57c47d2" title=" " alt="" coords="265,55,377,80"/>
+<area shape="rect" id="node4" href="$d5/da9/struct_i_core_factory_accessor.html#ad612fe4d0ff4ea127117eda6865ecd60" title=" " alt="" coords="245,105,396,145"/>
+<area shape="rect" id="node5" href="$d6/ddb/namespace_media_types.html#a015a7e311585d2ec882493bcb1b5e025" title=" " alt="" coords="211,169,431,195"/>
+<area shape="rect" id="node6" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="238,219,403,244"/>
+<area shape="rect" id="node7" href="$d6/ddb/namespace_media_types.html#a641eac174131f628b1a2e3e357143540" title=" " alt="" coords="239,268,402,293"/>
+<area shape="rect" id="node8" href="$d3/d07/class_media_view_ctrl.html#a36e7e370b7c3cfe2c1ab43f33e961bc2" title=" " alt="" coords="239,317,402,343"/>
 </map>

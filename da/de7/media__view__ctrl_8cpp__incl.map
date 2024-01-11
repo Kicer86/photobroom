@@ -1,8 +1,9 @@
 <map id="src/gui/desktop/quick_items/media_view_ctrl.cpp" name="src/gui/desktop/quick_items/media_view_ctrl.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="138,5,321,45"/>
+<area shape="rect" id="node1" title=" " alt="" coords="218,5,401,45"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,93,80,119"/>
-<area shape="rect" id="node3" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="167,167,348,192"/>
-<area shape="rect" id="node4" href="$db/ddc/media__types_8hpp.html" title=" " alt="" coords="155,93,303,119"/>
-<area shape="rect" id="node5" href="$d9/d3b/media__view__ctrl_8hpp.html" title=" " alt="" coords="327,93,467,119"/>
-<area shape="rect" id="node6" href="$df/dab/objects__accessor_8hpp.html" title=" " alt="" coords="491,93,639,119"/>
+<area shape="rect" id="node3" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="249,167,431,192"/>
+<area shape="rect" id="node4" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="155,93,296,119"/>
+<area shape="rect" id="node5" href="$db/ddc/media__types_8hpp.html" title=" " alt="" coords="321,93,469,119"/>
+<area shape="rect" id="node6" href="$d9/d3b/media__view__ctrl_8hpp.html" title=" " alt="" coords="493,93,633,119"/>
+<area shape="rect" id="node7" href="$df/dab/objects__accessor_8hpp.html" title=" " alt="" coords="657,93,805,119"/>
 </map>
