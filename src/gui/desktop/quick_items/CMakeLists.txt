@@ -2,6 +2,7 @@
 find_package(Qt6 6.2 REQUIRED COMPONENTS
     Multimedia
     Quick
+    Quick3D
     QuickWidgets
 )
 
@@ -60,6 +61,7 @@ target_link_libraries(quick_items
         project_utils
 
         Qt::Quick
+        Qt::Quick3D
         Qt::Widgets                  # TODO: remove ASAP
 )
 

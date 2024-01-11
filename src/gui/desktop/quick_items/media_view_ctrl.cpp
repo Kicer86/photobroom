@@ -2,6 +2,7 @@
 #include <QFileInfo>
 
 #include <core/function_wrappers.hpp>
+#include <core/iexif_reader.hpp>
 #include <core/media_types.hpp>
 
 #include "media_view_ctrl.hpp"
@@ -75,7 +76,14 @@ void MediaViewCtrl::setPath(const QString& path)
     if (MediaTypes::isAnimatedImageFile(path))
         setMode(Mode::AnimatedImage);
     else if (MediaTypes::isImageFile(path))
-        setMode(Mode::StaticImage);
+    {
+        auto& exifReader = m_core->getExifReaderFactory().get();
+        const auto projection = exifReader.get(path, IExifReader::TagType::Projection);
+        if (projection && std::any_cast<std::string>(*projection) == "equirectangular")
+            setMode(Mode::EquirectangularProjectionImage);
+        else
+            setMode(Mode::StaticImage);
+    }
     else if (MediaTypes::isVideoFile(path))
         setMode(Mode::Video);
     else

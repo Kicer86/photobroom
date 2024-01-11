@@ -4,6 +4,8 @@ import QtMultimedia
 import QtQuick.Controls
 import quick_items
 
+import photo_broom.singletons
+
 
 Item {
     property alias photoID: ctrl.photoID        // set to make this Item work
@@ -11,6 +13,7 @@ Item {
 
     MediaViewCtrl {
         id: ctrl
+        core: PhotoBroomProject.coreFactory
     }
 
     BusyIndicator {

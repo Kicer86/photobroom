@@ -106,6 +106,10 @@ std::optional<std::any> AExifReader::get(const QString& path, const IExifReader:
         case TagType::Exposure:
             result = exiv_result(readRational(TagType::Exposure));
             break;
+
+        case TagType::Projection:
+            result = exiv_result(readString(TagType::Projection));
+            break;
     }
 
     return result;

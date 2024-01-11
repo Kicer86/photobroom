@@ -1,6 +1,7 @@
 
 import QtQuick
 import quick_items
+import photo_broom.singletons
 
 
 Item {
@@ -8,12 +9,13 @@ Item {
 
     MediaViewCtrl {
         id: ctrl
+        core: PhotoBroomProject.coreFactory
     }
 
     Component {
         id: staticImage
 
-        ZoomableImage {
+         ZoomableImage {
             anchors.fill: parent
 
             boundsBehavior: Flickable.StopAtBounds
@@ -45,15 +47,26 @@ Item {
         }
     }
 
+    Component {
+        id: equirectangularProjection
+
+        EquirectangularView {
+            anchors.fill: parent
+
+            source: ctrl.path
+        }
+    }
+
     Loader {
         anchors.fill: parent
 
         sourceComponent: {
             switch (ctrl.mode) {
-                case MediaViewCtrl.StaticImage:   return staticImage;
-                case MediaViewCtrl.Video:         return video;
-                case MediaViewCtrl.AnimatedImage: return animatedImage;
-                default:                          return undefined;
+                case MediaViewCtrl.StaticImage:                     return staticImage;
+                case MediaViewCtrl.Video:                           return video;
+                case MediaViewCtrl.AnimatedImage:                   return animatedImage;
+                case MediaViewCtrl.EquirectangularProjectionImage:  return equirectangularProjection;
+                default:                                            return undefined;
             }
         }
     }
