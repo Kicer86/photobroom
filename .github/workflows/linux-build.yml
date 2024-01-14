@@ -55,7 +55,8 @@ jobs:
           libgmock-dev                      \
           libgl1-mesa-dev                   \
           libglvnd-dev                      \
-          libwebp-dev
+          libwebp-dev                       \
+          libomp-dev
 
     # todo: this step will be redundant when github actions use ubuntu >= 23.10 by default
     - name: Install clang
