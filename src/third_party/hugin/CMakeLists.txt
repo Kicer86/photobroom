@@ -10,15 +10,16 @@ FetchContent_Declare(
 FetchContent_Populate(hugin)
 
 find_package(OpenMP REQUIRED)
+find_package(Qt6 REQUIRED COMPONENTS Core)
 
 add_custom_command(
-  OUTPUT align_image_stack.cpp
-  COMMAND ${CMAKE_COMMAND} -E copy ${hugin_SOURCE_DIR}/src/tools/align_image_stack.cpp align_image_stack.cpp
-  COMMAND ${CMAKE_COMMAND} -DSOURCE_FILE=${CMAKE_CURRENT_BINARY_DIR}/align_image_stack.cpp -P ${CMAKE_CURRENT_SOURCE_DIR}/patch_align_image_stack.cmake
+  OUTPUT align_image_stack.hpp
+  COMMAND ${CMAKE_COMMAND} -E copy ${hugin_SOURCE_DIR}/src/tools/align_image_stack.cpp align_image_stack.hpp
+  COMMAND ${CMAKE_COMMAND} -DSOURCE_FILE=${CMAKE_CURRENT_BINARY_DIR}/align_image_stack.hpp -P ${CMAKE_CURRENT_SOURCE_DIR}/patch_align_image_stack.cmake
 )
 
 add_custom_target(process_hugin_tools
-  DEPENDS align_image_stack.cpp
+  DEPENDS align_image_stack.hpp
 )
 
 add_library(align_image_stack_wrapper
@@ -40,6 +41,7 @@ target_include_directories(align_image_stack_wrapper
 target_link_libraries(align_image_stack_wrapper
   PRIVATE
     OpenMP::OpenMP_CXX
+    Qt6::Core
 )
 
 set_property(TARGET align_image_stack_wrapper PROPERTY CXX_STANDARD 17)  # limiting c++ standard to 17 due to required std::allocator::rebind
