@@ -56,7 +56,9 @@ jobs:
           libgl1-mesa-dev                   \
           libglvnd-dev                      \
           libwebp-dev                       \
-          libomp-dev
+          libomp-dev                        \
+          libvigraimpex-dev                 \
+          libpano13-dev
 
     # todo: this step will be redundant when github actions use ubuntu >= 23.10 by default
     - name: Install clang
