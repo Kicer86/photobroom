@@ -11,6 +11,8 @@ if(BUILD_UPDATER)
     add_subdirectory(updater)
 endif()
 
+add_subdirectory(third_party)
+
 add_subdirectory(core)
 add_subdirectory(crash_catcher)
 add_subdirectory(photos_crawler)

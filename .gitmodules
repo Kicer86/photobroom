@@ -5,7 +5,7 @@
 	path = src/face_recognition/dlib_wrapper/face_recognition_models
 	url = https://github.com/ageitgey/face_recognition_models.git
 [submodule "src/updater/github_api"]
-	path = src/updater/cpp_restapi
+	path = src/third_party/cpp_restapi
 	url = https://github.com/Kicer86/github_api.git
 [submodule "src/gui/desktop/quick_items/external/qml-colorpicker"]
 	path = src/gui/desktop/quick_items/external/qml-colorpicker
