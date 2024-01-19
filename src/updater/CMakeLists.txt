@@ -1,8 +1,4 @@
 
-set(CppRestAPI_QtBackend ON)
-set(CppRestAPI_UseQt6 TRUE)
-add_subdirectory(cpp_restapi)
-
 find_package(Qt6 REQUIRED COMPONENTS Network)
 
 include_directories(${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR})
@@ -38,9 +34,4 @@ hideSymbols(updater)
 if(BUILD_SHARED_LIBS)
     install(TARGETS updater RUNTIME DESTINATION ${PATH_LIBS}
                             LIBRARY DESTINATION ${PATH_LIBS})
-
-    install(TARGETS cpp_restapi RUNTIME DESTINATION ${PATH_LIBS}
-                                LIBRARY DESTINATION ${PATH_LIBS})
 endif()
-
-
