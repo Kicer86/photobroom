@@ -7,44 +7,81 @@
   },
   "configurePresets": [
     {
-      "name": "ninja_debug_vcpkg",
-      "displayName": "Ninja Debug Config",
-      "description": "Configure with vcpkg toolchain",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
+      "name": "ninja_base",
+      "hidden": true,
       "generator": "Ninja",
-      "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "installDir": "${sourceDir}/out/install/${presetName}"
+    },
+    {
+      "name": "vcpkg_base",
+      "hidden": true,
+      "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+    },
+    {
+      "name": "ninja_debug_vcpkg",
+      "inherits": [ "ninja_base", "vcpkg_base" ],
+      "displayName": "Ninja Debug Config",
+      "description": "Configure with vcpkg toolchain",      
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
       "name": "ninja_release_vcpkg",
+      "inherits": [ "ninja_base", "vcpkg_base" ],
       "displayName": "Ninja Release Config",
       "description": "Configure with vcpkg toolchain",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
-      "generator": "Ninja",
-      "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
       "cacheVariables": {
         "BUILD_TESTING": "OFF",
-        "CMAKE_BUILD_TYPE":  "Release"
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "ninja_debug_vcpkg_static",
+      "inherits": "ninja_debug_vcpkg",
+      "displayName": "Ninja Debug Config Static",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+      }
+    },
+    {
+      "name": "ninja_release_vcpkg_static",
+      "inherits": "ninja_release_vcpkg",
+      "displayName": "Ninja Release Config Static",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
+        "CMAKE_MSVC_RUNTIME_LIBRARY": "MultiThreaded"
       }
     }
   ],
   "buildPresets": [
     {
-      "name": "Ninja Debug",
+      "name": "ninja_debug",
       "configurePreset": "ninja_debug_vcpkg",
       "displayName": "Build Debug",
       "description": "Build Debug with Ninja",
       "configuration": "Debug"
     },
     {
-      "name": "Ninja Release",
+      "name": "ninja_release",
       "configurePreset": "ninja_release_vcpkg",
       "displayName": "Build Release",
       "description": "Build Release with Ninja",
+      "configuration": "Release"
+    },
+    {
+      "name": "ninja_static_debug",
+      "configurePreset": "ninja_debug_vcpkg_static",
+      "displayName": "Build Static Debug",
+      "description": "Build Static Debug with Ninja",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ninja_static_release",
+      "configurePreset": "ninja_release_vcpkg_static",
+      "displayName": "Build Static Release",
+      "description": "Build Static Release with Ninja",
       "configuration": "Release"
     }
   ]

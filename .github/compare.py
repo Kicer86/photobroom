@@ -1,7 +1,7 @@
 
 import sys
-
-expected = open('.github/expected_file_list','rt')
+expect_list_file = sys.argv[1]
+expected = open(expect_list_file,'rt')
 
 expected_files = set()
 for line in expected:
