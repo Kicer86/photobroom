@@ -48,6 +48,7 @@ jobs:
           ninja-build           \
           qt6-base-dev          \
           qt6-declarative-dev   \
+          qt6-declarative-dev-tools \
           qt6-multimedia-dev    \
           qt6-quick3d-dev       \
           qt6-quick3d-dev-tools \
