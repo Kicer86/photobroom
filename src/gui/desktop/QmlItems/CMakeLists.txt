@@ -24,7 +24,7 @@ if(${Qt6Quick_VERSION} EQUAL "6.3.0")
     list(APPEND EXTRA_QML_OPTIONS NO_CACHEGEN)              # disable qmlsc due to a bug https://bugreports.qt.io/browse/QTBUG-99042
 endif()
 
-if(${Qt6Quick_VERSION} VERSION_GREATER_EQUAL "6.4")
+if(${Qt6Quick_VERSION} VERSION_GREATER "6.4.2")             # // TODO: >= 6.4 should probably be enought, but there are issues with this on ubuntu on CI. Probably caused by some missing packages. To be figured out later
     list(APPEND EXTRA_QML_OPTIONS ENABLE_TYPE_COMPILER)     # compile qml files
 endif()
 
