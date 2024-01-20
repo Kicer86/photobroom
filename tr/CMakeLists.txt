@@ -18,6 +18,7 @@ if(LUPDATE AND LRELEASE)
     # collect all source files for translations
     file(GLOB_RECURSE source_files
          LIST_DIRECTORIES FALSE
+         CONFIGURE_DEPENDS
          ${CMAKE_SOURCE_DIR}/src/*.cpp
          ${CMAKE_SOURCE_DIR}/src/*.hpp
          ${CMAKE_SOURCE_DIR}/src/*.ui
