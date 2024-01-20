@@ -20,6 +20,7 @@ jobs:
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
 
     steps:
+    # switch to ubuntu 23.10
     - name: Update Repositories
       run: |
         sudo sed -i 's/jammy/mantic/g' /etc/apt/sources.list
