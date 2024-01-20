@@ -20,6 +20,10 @@ jobs:
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
 
     steps:
+    - name: Update Repositories
+      run: |
+        sudo sed -i 's/jammy/mantic/g' /etc/apt/sources.list
+
     - uses: actions/checkout@v4
       with:
         submodules: true
@@ -32,7 +36,7 @@ jobs:
       if: matrix.compiler.compiler == 'LLVM'
       uses: myci-actions/add-deb-repo@10
       with:
-        repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main
+        repo: deb http://apt.llvm.org/mantic/ llvm-toolchain-mantic-16 main
         repo-name: llvm-toolchain-focal-16
         update: false
         install: clang-16
