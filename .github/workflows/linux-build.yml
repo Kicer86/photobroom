@@ -20,22 +20,14 @@ jobs:
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
 
     steps:
+    # switch to ubuntu 23.10
+    - name: Update Repositories
+      run: |
+        sudo sed -i 's/jammy/mantic/g' /etc/apt/sources.list
+
     - uses: actions/checkout@v4
       with:
         submodules: true
-
-    - name: Load llvm keys
-      if: matrix.compiler.compiler == 'LLVM'
-      run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-
-    - name: Update clang
-      if: matrix.compiler.compiler == 'LLVM'
-      uses: myci-actions/add-deb-repo@10
-      with:
-        repo: deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-16 main
-        repo-name: llvm-toolchain-focal-16
-        update: false
-        install: clang-16
 
     - name: Install system dependencies
       run: |
@@ -44,6 +36,8 @@ jobs:
           ninja-build           \
           qt6-base-dev          \
           qt6-declarative-dev   \
+          qt6-declarative-dev-tools \
+          qt6-declarative-private-dev \
           qt6-multimedia-dev    \
           qt6-quick3d-dev       \
           qt6-quick3d-dev-tools \
@@ -59,6 +53,13 @@ jobs:
           libgl1-mesa-dev       \
           libglvnd-dev          \
           libwebp-dev
+
+    # todo: this step will be redundant when github actions use ubuntu >= 23.10 by default
+    - name: Install clang
+      if: matrix.compiler.compiler == 'LLVM'
+      run: |
+        sudo apt-get install    \
+          clang                 \
 
     - name: Install magic enum
       run: |

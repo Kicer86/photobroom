@@ -3,7 +3,11 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Test Quick)
 find_package(GTest REQUIRED CONFIG)
-find_program(QML_TEST_RUNNER NAMES qmltestrunner-qt5 qmltestrunner REQUIRED)
+find_program(QML_TEST_RUNNER
+             NAMES qmltestrunner-qt5 qmltestrunner
+             PATHS /usr/lib/qt6/bin
+             REQUIRED
+)
 
 include_directories(unit_tests)
 
