@@ -28,19 +28,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Load llvm keys
-      if: matrix.compiler.compiler == 'LLVM'
-      run: wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
-
-    - name: Update clang
-      if: matrix.compiler.compiler == 'LLVM'
-      uses: myci-actions/add-deb-repo@10
-      with:
-        repo: deb http://apt.llvm.org/mantic/ llvm-toolchain-mantic-16 main
-        repo-name: llvm-toolchain-focal-16
-        update: false
-        install: clang-16
-
     - name: Install system dependencies
       run: |
         sudo apt-get update &&  \
@@ -65,6 +52,13 @@ jobs:
           libgl1-mesa-dev       \
           libglvnd-dev          \
           libwebp-dev
+
+    # todo: this step will be redundant when github actions use ubuntu >= 23.10 by default
+    - name: Install clang
+      if: matrix.compiler.compiler == 'LLVM'
+      run: |
+        sudo apt-get install    \
+          clang                 \
 
     - name: Install magic enum
       run: |
