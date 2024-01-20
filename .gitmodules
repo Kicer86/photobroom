@@ -7,9 +7,6 @@
 [submodule "src/updater/github_api"]
 	path = src/third_party/cpp_restapi
 	url = https://github.com/Kicer86/github_api.git
-[submodule "src/gui/desktop/quick_items/external/qml-colorpicker"]
-	path = src/gui/desktop/quick_items/external/qml-colorpicker
-	url = https://github.com/rshest/qml-colorpicker.git
 [submodule "vcpkg"]
 	path = vcpkg
 	url = https://github.com/microsoft/vcpkg.git

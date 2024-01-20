@@ -892,14 +892,6 @@ Error code: %1</source>
     </message>
 </context>
 <context>
-    <name>TagValueEditor</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="112"/>
-        <source>Apply</source>
-        <translation>Apply</translation>
-    </message>
-</context>
-<context>
     <name>TagsModel</name>
     <message>
         <location filename="../src/gui/desktop/models/tags_model.cpp" line="236"/>
@@ -1040,11 +1032,6 @@ Error code: %1</source>
         <location filename="../src/main.cpp" line="111"/>
         <source>threads count</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/external/qml-colorpicker/test/main.qml" line="11"/>
-        <source>Hello Colorpicker</source>
-        <translation>Hello Colorpicker</translation>
     </message>
 </context>
 </TS>

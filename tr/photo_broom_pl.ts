@@ -924,14 +924,6 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
-    <name>TagValueEditor</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/TagValueEditor.qml" line="+112"/>
-        <source>Apply</source>
-        <translation>Zastosuj</translation>
-    </message>
-</context>
-<context>
     <name>TagsModel</name>
     <message>
         <location filename="../src/gui/desktop/models/tags_model.cpp" line="+236"/>
@@ -1072,11 +1064,6 @@ Kod błędu: %1</translation>
         <location line="+3"/>
         <source>threads count</source>
         <translation>liczba wątków</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/external/qml-colorpicker/test/main.qml" line="+11"/>
-        <source>Hello Colorpicker</source>
-        <translation>Hello Colorpicker</translation>
     </message>
 </context>
 </TS>

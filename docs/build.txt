@@ -10,7 +10,7 @@ git clone --recursive https://github.com/Kicer86/photobroom.git
 Required tools and libraries:
  - cmake - version 3.18 or later
  - python**
- - Qt6 - version 6.2 or higher*
+ - Qt6 - version 6.4 or higher*
  - exiv2*
  - dlib*
  - magic_enum*
