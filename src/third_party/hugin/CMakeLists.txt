@@ -11,6 +11,7 @@ FetchContent_Populate(hugin)
 
 find_package(OpenMP REQUIRED)
 find_package(Qt6 REQUIRED COMPONENTS Core)
+find_package(Vigra REQUIRED)
 
 add_custom_command(
   OUTPUT align_image_stack.hpp
@@ -42,6 +43,7 @@ target_link_libraries(align_image_stack_wrapper
   PRIVATE
     OpenMP::OpenMP_CXX
     Qt6::Core
+    vigraimpex
 )
 
 set_property(TARGET align_image_stack_wrapper PROPERTY CXX_STANDARD 17)  # limiting c++ standard to 17 due to required std::allocator::rebind
