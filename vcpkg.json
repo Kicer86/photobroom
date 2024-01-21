@@ -26,6 +26,7 @@
     "qtsvg",
     "qttools",
     "qtdeclarative",
-    "qtmultimedia"
+    "qtmultimedia",
+    "qtquick3d"
   ]
 }
