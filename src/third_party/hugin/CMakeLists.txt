@@ -37,13 +37,13 @@ target_include_directories(align_image_stack_wrapper
     ${CMAKE_CURRENT_BINARY_DIR}
     ${hugin_SOURCE_DIR}/src/hugin_base
     ${hugin_SOURCE_DIR}/src
+    ${Vigra_INCLUDE_DIRS}
 )
 
 target_link_libraries(align_image_stack_wrapper
   PRIVATE
     OpenMP::OpenMP_CXX
     Qt6::Core
-    vigraimpex
 )
 
 set_property(TARGET align_image_stack_wrapper PROPERTY CXX_STANDARD 17)  # limiting c++ standard to 17 due to required std::allocator::rebind
