@@ -37,7 +37,7 @@ jobs:
         modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
 
     - name: Cache external tools
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: out/build/ninja_release_vcpkg/tools
         key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
