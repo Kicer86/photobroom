@@ -45,6 +45,7 @@ set(CORE_SOURCES
     ilogger.hpp
     ilogger.hpp
     image_tools.hpp                                         implementation/image_tools.cpp
+                                                            implementation/image_aligner.cpp
     imedia_information.hpp
     imodel_compositor_data_source.hpp
     itask_executor.hpp
@@ -102,6 +103,7 @@ target_link_libraries(core
         CsLibGuarded::CsLibGuarded
         ${EXIV2_LIB}
         opencv_videoio
+        opencv_tracking
 )
 
 target_include_directories(core
