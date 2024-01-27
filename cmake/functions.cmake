@@ -134,6 +134,25 @@ function(stringify_file output_file input_file variable_with_type namespace)
 endfunction(stringify_file)
 
 
+function(convertSVG output_file input_file width height)
+    find_program(Magick magick)
+
+    if(Magick)
+        add_custom_command(OUTPUT ${output_file}
+            COMMAND ${Magick} convert ${input_file} -resize ${width}x${height} ${output_file}
+            DEPENDS ${input_file}
+        )
+    else()
+        find_program(Python python REQUIRED)
+
+        add_custom_command(OUTPUT ${output_file}
+            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${input_file} ${output_file} --width ${width} --height ${height}
+            DEPENDS ${input_file}
+        )
+    endif()
+endfunction()
+
+
 function(objdump_target target)
 
     if(ENABLE_OBJDUMPING)
