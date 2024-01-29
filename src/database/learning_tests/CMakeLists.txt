@@ -7,7 +7,7 @@ find_program(Python python REQUIRED)
 
 foreach(ext png jpeg)
     foreach(size 100 500 1000)
-        convertSVG(${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/img1_${size}.${ext} ${CMAKE_CURRENT_SOURCE_DIR}/img1.svg ${size} ${size})
+        convertSVG(${CMAKE_CURRENT_BINARY_DIR}/img1_${size}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/img1.svg ${size} ${size})
     endforeach()
 endforeach()
 
