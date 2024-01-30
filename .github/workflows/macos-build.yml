@@ -23,7 +23,6 @@ jobs:
     - name: Install system dependencies
       run: |
         brew install        \
-          llvm              \
           qt6               \
           exiv2             \
           magic_enum        \
@@ -46,7 +45,5 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
         configure-options: -DBUILD_TESTING=OFF
-        cc: /usr/local/opt/llvm/bin/clang
-        cxx: /usr/local/opt/llvm/bin/clang++
       env:
         VERBOSE: 1
