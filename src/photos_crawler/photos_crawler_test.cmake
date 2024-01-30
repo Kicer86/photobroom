@@ -5,7 +5,6 @@ find_package(GTest REQUIRED CONFIG)
 
 add_executable(photos_crawler_ut
     default_analyzers/file_analyzer.cpp
-    implementation/ifile_system_scanner.cpp
     implementation/photo_crawler.cpp
 
     unit_tests/analyzerTests.cpp
