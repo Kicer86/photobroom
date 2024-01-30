@@ -10,5 +10,3 @@ if(BUILD_UPDATER)
                                     LIBRARY DESTINATION ${PATH_LIBS})
     endif()
 endif()
-
-add_subdirectory(hugin)

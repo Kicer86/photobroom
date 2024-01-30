@@ -27,7 +27,6 @@
     "qttools",
     "qtdeclarative",
     "qtmultimedia",
-    "qtquick3d",
-    "vigra"
+    "qtquick3d"
   ]
 }

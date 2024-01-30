@@ -1,4 +1,0 @@
-
-file(READ ${SOURCE_FILE} FILE_CONTENT)
-string(REPLACE "int main(" "int main_entry(" FILE_CONTENT_MODIFIED "${FILE_CONTENT}")
-file(WRITE ${SOURCE_FILE} "${FILE_CONTENT_MODIFIED}")
