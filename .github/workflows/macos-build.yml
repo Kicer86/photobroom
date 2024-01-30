@@ -23,7 +23,6 @@ jobs:
     - name: Install system dependencies
       run: |
         brew install        \
-          python            \
           qt6               \
           exiv2             \
           magic_enum        \
