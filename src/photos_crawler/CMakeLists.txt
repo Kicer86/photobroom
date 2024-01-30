@@ -1,6 +1,5 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Core)
-find_package(Threads)
 
 include(GenerateExportHeader)
 
@@ -25,7 +24,6 @@ target_link_libraries(photos_crawler
                         PRIVATE
                             core
                             Qt::Core
-                            ${CMAKE_THREAD_LIBS_INIT}
 )
 
 target_include_directories(photos_crawler
