@@ -138,20 +138,36 @@ function(convertSVG output_file input_file width height)
     find_program(Magick magick)
 
     if(Magick)
+        if(${width} EQUAL -1 AND ${height} EQUAL -1)
+            set(resize "")
+        elseif(${width} EQUAL -1 OR ${height} EQUAL -1)
+            message(FATAL_ERROR "Not handled")
+        else()
+            set(resize -resize ${width}x${height})
+        endif()
+
         get_filename_component(output_file_ext ${output_file} EXT)
         if(${output_file_ext} STREQUAL "png")
             set(output_file "png32:${output_file}")
         endif()
 
         add_custom_command(OUTPUT ${output_file}
-            COMMAND ${Magick} convert ${input_file} -resize ${width}x${height} ${output_file}
+            COMMAND ${Magick} convert ${input_file} ${resize} ${output_file}
             DEPENDS ${input_file}
         )
     else()
         find_program(Python python REQUIRED)
 
+        if(${width} EQUAL -1 AND ${height} EQUAL -1)
+            set(resize "")
+        elseif(${width} EQUAL -1 OR ${height} EQUAL -1)
+            message(FATAL_ERROR "Not handled")
+        else()
+            set(resize --width ${width} --height ${height})
+        endif()
+
         add_custom_command(OUTPUT ${output_file}
-            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${input_file} ${output_file} --width ${width} --height ${height}
+            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${input_file} ${output_file} ${resize}
             DEPENDS ${input_file}
         )
     endif()
