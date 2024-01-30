@@ -1,5 +1,5 @@
 
-find_program(Python python REQUIRED)
+find_program(Python NAMES python python3 REQUIRED)
 
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
