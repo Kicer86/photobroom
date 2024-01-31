@@ -51,3 +51,4 @@ jobs:
         parallel: 1
       env:
         VERBOSE: 1
+        LDFLAGS: "-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
