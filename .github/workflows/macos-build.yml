@@ -45,5 +45,6 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
         configure-options: -DBUILD_TESTING=OFF
+        parallel: 1
       env:
         VERBOSE: 1
