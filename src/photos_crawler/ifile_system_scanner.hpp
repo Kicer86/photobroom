@@ -10,7 +10,7 @@
 
 struct PHOTOS_CRAWLER_EXPORT IFileNotifier
 {
-    virtual ~IFileNotifier();
+    virtual ~IFileNotifier() = default;
 
     virtual void found(const QString &) = 0;
     virtual void finished() = 0;
@@ -19,7 +19,7 @@ struct PHOTOS_CRAWLER_EXPORT IFileNotifier
 
 struct PHOTOS_CRAWLER_EXPORT IFileSystemScanner
 {
-    virtual ~IFileSystemScanner();
+    virtual ~IFileSystemScanner() = default;
 
     virtual void getFilesFor(const QStringList &, IFileNotifier *) = 0;
     virtual void stop() = 0;

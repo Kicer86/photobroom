@@ -1,13 +1,11 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Core)
-find_package(Threads)
 
 include(GenerateExportHeader)
 
 set(ANALYZER_SOURCES
     default_analyzers/file_analyzer.cpp
     default_filesystem_scanners/filesystemscanner.cpp
-    implementation/ifile_system_scanner.cpp
     implementation/photo_crawler.cpp
 )
 
@@ -26,7 +24,6 @@ target_link_libraries(photos_crawler
                         PRIVATE
                             core
                             Qt::Core
-                            ${CMAKE_THREAD_LIBS_INIT}
 )
 
 target_include_directories(photos_crawler
