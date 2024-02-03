@@ -2,7 +2,7 @@
 import argparse
 from io import BytesIO
 from PIL import Image
-from xml.etree import ElementTree as ET
+from defusedxml import ElementTree as ET
 
 import cairosvg
 
