@@ -44,10 +44,14 @@ msvcrt.dll
 ole32.dll
 oleaut32.dll
 openblas.dll
+opencv_calib3d4.dll
 opencv_core4.dll
+opencv_features2d4.dll
+opencv_flann4.dll
 opencv_imgcodecs4.dll
 opencv_img_hash4.dll
 opencv_imgproc4.dll
+opencv_video4.dll
 opencv_videoio4.dll
 opengl32sw.dll
 photo_broom.exe
