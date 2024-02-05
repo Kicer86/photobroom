@@ -1,6 +1,5 @@
 
 #include <QDir>
-#include <QRect>
 
 #include "image_aligner.hpp"
 
@@ -101,17 +100,22 @@ std::vector<cv::Mat> ImageAligner::calculateTransformations(const QStringList& p
 }
 
 
-void ImageAligner::applyTransformations(const QStringList& photos, const std::vector<cv::Mat>& transformations, const QString& outputDir)
+QRect ImageAligner::imagesCommonPart(const QStringList& photos, const std::vector<cv::Mat>& transformations)
 {
-    QDir().mkdir(outputDir);
-
     const auto& first = photos.front();
     const auto referenceImage = cv::imread(first.toStdString());
     QRect firstImageSize(0, 0, referenceImage.size().width, referenceImage.size().height);
 
     // calculate common part of all images
     const auto commonPartRect = commonPart(firstImageSize, transformations).toRect();
-    const auto cp = rect(commonPartRect);
+    return commonPartRect;
+}
+
+
+void ImageAligner::applyTransformations(const QStringList& photos, const std::vector<cv::Mat>& transformations, const QString& outputDir)
+{
+    QDir().mkdir(outputDir);
+    const auto cp = rect(imagesCommonPart(photos, transformations));
 
     // adjust images
     for (int i = 0; i < photos.size(); i++)
