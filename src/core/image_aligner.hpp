@@ -12,11 +12,16 @@
 class CORE_EXPORT ImageAligner
 {
 public:
-    bool align(const QString& outputDir, const QString& prefix, const QStringList& photos);
+    ImageAligner(const QStringList& photos);
 
-    std::vector<cv::Mat> calculateTransformations(const QStringList& photos);
-    QRect imagesCommonPart(const QStringList& photos, const std::vector<cv::Mat>& transformations);
-    void applyTransformations(const QStringList& photos, const std::vector<cv::Mat>& transformations, const QString& outputDir);
+    bool align(const QString& outputDir, const QString& prefix);
+
+    std::vector<cv::Mat> calculateTransformations();
+    QRect imagesCommonPart(const std::vector<cv::Mat>& transformations);
+    void applyTransformations(const std::vector<cv::Mat>& transformations, const QString& outputDir);
+
+private:
+    const QStringList m_photos;
 };
 
 #endif

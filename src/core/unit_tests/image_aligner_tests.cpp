@@ -36,9 +36,9 @@ TEST(ImageAlignerTest, mixOfImagesOfTheSameSize)
         "alterd_images/img1_rotated.png"
     };
 
-    ImageAligner aligner;
+    ImageAligner aligner(photos);
 
-    const auto transformations = aligner.calculateTransformations(photos);
+    const auto transformations = aligner.calculateTransformations();
 
     auto transformationV = range_to<std::vector<std::vector<long>>>(transformations | std::ranges::views::transform(transformationValues));
 
@@ -50,6 +50,6 @@ TEST(ImageAlignerTest, mixOfImagesOfTheSameSize)
         std::vector<long>{1, 0, -158, 0, 1, 189}
     ));
 
-    const auto commonPart = aligner.imagesCommonPart(photos, transformations);
+    const auto commonPart = aligner.imagesCommonPart(transformations);
     EXPECT_EQ(commonPart, QRect(158, 159, 1633, 1652));
 }

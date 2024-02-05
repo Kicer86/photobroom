@@ -47,26 +47,33 @@ namespace
 }
 
 
-bool ImageAligner::align(const QString& outputDir, const QString& prefix, const QStringList& photos)
+ImageAligner::ImageAligner(const QStringList& photos)
+    : m_photos(photos)
 {
-    const auto transformations = calculateTransformations(photos);
+
+}
+
+
+bool ImageAligner::align(const QString& outputDir, const QString& prefix)
+{
+    const auto transformations = calculateTransformations();
     if (transformations.empty())
         return false;
 
-    applyTransformations(photos, transformations, outputDir);
+    applyTransformations(transformations, outputDir);
 
     return true;
 }
 
 
-std::vector<cv::Mat> ImageAligner::calculateTransformations(const QStringList& photos)
+std::vector<cv::Mat> ImageAligner::calculateTransformations()
 {
-     if (photos.size() < 2)
+     if (m_photos.size() < 2)
         return {};
 
     const cv::TermCriteria termcrit(cv::TermCriteria::COUNT | cv::TermCriteria::EPS, 20, 0.03);
 
-    const auto& first = photos.front();
+    const auto& first = m_photos.front();
     const auto referenceImage = cv::imread(first.toStdString());
 
     cv::Mat referenceImageGray;
@@ -83,9 +90,9 @@ std::vector<cv::Mat> ImageAligner::calculateTransformations(const QStringList& p
         return mat;
     }());  // insert empty transformation matrix for first image
 
-    for (int i = 1; i < photos.size(); i++)
+    for (int i = 1; i < m_photos.size(); i++)
     {
-        const auto& next = photos[i];
+        const auto& next = m_photos[i];
         const auto image = cv::imread(next.toStdString());
 
         cv::Mat imageGray;
@@ -100,9 +107,9 @@ std::vector<cv::Mat> ImageAligner::calculateTransformations(const QStringList& p
 }
 
 
-QRect ImageAligner::imagesCommonPart(const QStringList& photos, const std::vector<cv::Mat>& transformations)
+QRect ImageAligner::imagesCommonPart(const std::vector<cv::Mat>& transformations)
 {
-    const auto& first = photos.front();
+    const auto& first = m_photos.front();
     const auto referenceImage = cv::imread(first.toStdString());
     QRect firstImageSize(0, 0, referenceImage.size().width, referenceImage.size().height);
 
@@ -112,16 +119,16 @@ QRect ImageAligner::imagesCommonPart(const QStringList& photos, const std::vecto
 }
 
 
-void ImageAligner::applyTransformations(const QStringList& photos, const std::vector<cv::Mat>& transformations, const QString& outputDir)
+void ImageAligner::applyTransformations(const std::vector<cv::Mat>& transformations, const QString& outputDir)
 {
     QDir().mkdir(outputDir);
-    const auto cp = rect(imagesCommonPart(photos, transformations));
+    const auto cp = rect(imagesCommonPart(transformations));
 
     // adjust images
-    for (int i = 0; i < photos.size(); i++)
+    for (int i = 0; i < m_photos.size(); i++)
     {
         // read image
-        const auto image = cv::imread(photos[i].toStdString());
+        const auto image = cv::imread(m_photos[i].toStdString());
 
         // align
         cv::Mat imageAligned;
