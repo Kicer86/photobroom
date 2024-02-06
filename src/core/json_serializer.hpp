@@ -113,7 +113,7 @@ namespace JSon
                 QByteArray d;
                 QDataStream s(&d, QIODeviceBase::WriteOnly);
                 s << obj;
-                return d.toBase64().data();
+                return QString(d.toBase64());
             }
             else
                 return serialize(obj);
