@@ -72,4 +72,4 @@ add_test(
 )
 
 set_tests_properties(QmlLogicTests PROPERTIES LABELS "UnitTest")
-
+set_tests_properties(QmlLogicTests PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")
