@@ -1,4 +1,9 @@
 <map id="QModelIndexSelector::listAllBetween" name="QModelIndexSelector::listAllBetween">
-<area shape="rect" id="node1" title=" " alt="" coords="124,5,271,45"/>
-<area shape="rect" id="node2" href="$dc/def/qmodelindex__selector__tests_8cpp.html#a18075206167b64cb8db6ac3414eba14a" title=" " alt="" coords="5,13,76,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="123,47,268,88"/>
+<area shape="rect" id="Node000002" href="$dc/def/qmodelindex__selector__tests_8cpp.html#afd1a2b6b84d2760115eee550608caf25" title=" " alt="" coords="5,5,75,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,44,74,32,76,26,116,39"/>
+<area shape="rect" id="Node000003" href="$dc/def/qmodelindex__selector__tests_8cpp.html#a18075206167b64cb8db6ac3414eba14a" title=" " alt="" coords="5,55,75,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,70,75,70,75,65,107,65"/>
+<area shape="rect" id="Node000004" href="$dc/def/qmodelindex__selector__tests_8cpp.html#a439fc118614f5cc02db180e046133c3d" title=" " alt="" coords="5,104,75,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="116,96,76,109,74,103,114,91"/>
 </map>

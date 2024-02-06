@@ -1,5 +1,7 @@
 <map id="FlatModel::erasePhotos" name="FlatModel::erasePhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="223,31,381,56"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#a592defb48c9e248c670c50350d8e663b" title=" " alt="" coords="5,5,175,31"/>
-<area shape="rect" id="node3" href="$d1/da6/class_flat_model.html#ab9fb6e274371e14fefea22b94235d657" title=" " alt="" coords="5,55,175,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="222,31,379,56"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a592defb48c9e248c670c50350d8e663b" title=" " alt="" coords="5,5,174,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,35,174,31,174,26,207,30"/>
+<area shape="rect" id="Node000020" href="$d1/da6/class_flat_model.html#ab9fb6e274371e14fefea22b94235d657" title=" " alt="" coords="5,55,174,80"/>
+<area shape="poly" id="edge2_Node000001_Node000020" title=" " alt="" coords="207,57,174,61,174,55,206,52"/>
 </map>

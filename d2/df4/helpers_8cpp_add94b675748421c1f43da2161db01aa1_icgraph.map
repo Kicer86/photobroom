@@ -1,8 +1,13 @@
 <map id="qimage_to_dlib_matrix" name="qimage_to_dlib_matrix">
-<area shape="rect" id="node1" title=" " alt="" coords="308,177,459,203"/>
-<area shape="rect" id="node2" href="$d5/dae/classdlib__api_1_1face__recognition__model__v1.html#ace66074c8c9609e17033890575f8818c" title=" " alt="" coords="43,5,223,60"/>
-<area shape="rect" id="node3" href="$d5/dae/classdlib__api_1_1face__recognition__model__v1.html#a483b4733076576e482aaadab915b3d9e" title=" " alt="" coords="5,84,260,139"/>
-<area shape="rect" id="node4" href="$d3/d3e/classdlib__api_1_1cnn__face__detection__model__v1.html#a749f53ab85e799fe1918ccf0eb01f282" title=" " alt="" coords="60,163,205,217"/>
-<area shape="rect" id="node5" href="$d6/d92/classdlib__api_1_1_face_encoder.html#af1632981b17255233c575e6580b64630" title=" " alt="" coords="59,242,207,282"/>
-<area shape="rect" id="node6" href="$d7/d20/classdlib__api_1_1_face_locator.html#a934b8b06be2245c9bf01490156088e85" title=" " alt="" coords="60,306,205,346"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="308,180,458,206"/>
+<area shape="rect" id="Node000002" href="$d5/dae/classdlib__api_1_1face__recognition__model__v1.html#ace66074c8c9609e17033890575f8818c" title=" " alt="" coords="43,5,222,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="360,170,316,122,289,97,258,75,222,58,224,53,261,71,292,93,320,118,364,166"/>
+<area shape="rect" id="Node000005" href="$d5/dae/classdlib__api_1_1face__recognition__model__v1.html#a483b4733076576e482aaadab915b3d9e" title=" " alt="" coords="5,85,260,141"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="326,177,259,156,223,144,224,139,260,151,327,172"/>
+<area shape="rect" id="Node000007" href="$d3/d3e/classdlib__api_1_1cnn__face__detection__model__v1.html#a749f53ab85e799fe1918ccf0eb01f282" title=" " alt="" coords="60,165,205,221"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="292,196,205,196,205,191,292,191"/>
+<area shape="rect" id="Node000008" href="$d6/d92/classdlib__api_1_1_face_encoder.html#af1632981b17255233c575e6580b64630" title=" " alt="" coords="59,245,206,286"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="329,214,260,236,207,250,206,245,259,231,328,209"/>
+<area shape="rect" id="Node000011" href="$d7/d20/classdlib__api_1_1_face_locator.html#a934b8b06be2245c9bf01490156088e85" title=" " alt="" coords="60,310,205,351"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="362,219,318,260,290,281,261,300,206,320,204,315,258,295,287,277,314,256,358,215"/>
 </map>

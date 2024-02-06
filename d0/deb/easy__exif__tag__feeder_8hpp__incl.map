@@ -1,8 +1,13 @@
 <map id="src/core/implementation/easy_exif_tag_feeder.hpp" name="src/core/implementation/easy_exif_tag_feeder.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="141,5,313,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,73,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="97,93,152,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="176,93,279,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="303,93,402,119"/>
-<area shape="rect" id="node6" href="$d9/d29/aexif__reader_8hpp.html" title=" " alt="" coords="427,93,543,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="139,5,310,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,73,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,49,82,90,80,85,177,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="96,94,150,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,49,152,86,149,82,198,44"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="173,94,276,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="227,46,227,78,222,78,222,46"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="299,94,398,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="256,44,318,83,315,88,254,49"/>
+<area shape="rect" id="Node000006" href="$d9/d29/aexif__reader_8hpp.html" title=" " alt="" coords="421,94,537,120"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="289,44,426,86,424,91,287,49"/>
 </map>

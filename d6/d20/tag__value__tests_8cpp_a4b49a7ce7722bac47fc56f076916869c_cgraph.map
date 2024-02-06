@@ -1,6 +1,9 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,60,80"/>
-<area shape="rect" id="node2" href="$df/d7c/class_tag_value.html#aab2bd7db55463e2d2c4962b17a1c7b7c" title=" " alt="" coords="126,5,227,31"/>
-<area shape="rect" id="node3" href="$df/d7c/class_tag_value.html#a7dbb46edc2d25d96165c308c152aea06" title=" " alt="" coords="108,55,245,80"/>
-<area shape="rect" id="node4" href="$df/d7c/class_tag_value.html#a552de8ae14f88b953752a3ee95572592" title=" " alt="" coords="123,104,230,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,60,80"/>
+<area shape="rect" id="Node000002" href="$df/d7c/class_tag_value.html#aab2bd7db55463e2d2c4962b17a1c7b7c" title=" " alt="" coords="126,5,226,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,56,121,34,123,39,61,61"/>
+<area shape="rect" id="Node000003" href="$df/d7c/class_tag_value.html#a7dbb46edc2d25d96165c308c152aea06" title=" " alt="" coords="108,55,244,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,65,92,65,92,70,60,70"/>
+<area shape="rect" id="Node000005" href="$df/d7c/class_tag_value.html#a552de8ae14f88b953752a3ee95572592" title=" " alt="" coords="123,104,229,130"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="61,74,123,96,121,101,59,79"/>
 </map>

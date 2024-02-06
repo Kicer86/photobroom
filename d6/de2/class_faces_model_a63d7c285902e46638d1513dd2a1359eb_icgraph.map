@@ -1,4 +1,5 @@
 <map id="FacesModel::facesMaskChanged" name="FacesModel::facesMaskChanged">
-<area shape="rect" id="node1" title=" " alt="" coords="285,5,500,31"/>
-<area shape="rect" id="node2" href="$d6/de2/class_faces_model.html#aa421712aedc9880b30e0566eeec28496" title=" " alt="" coords="5,5,237,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="285,5,498,31"/>
+<area shape="rect" id="Node000002" href="$d6/de2/class_faces_model.html#aa421712aedc9880b30e0566eeec28496" title=" " alt="" coords="5,5,237,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,21,237,21,237,16,269,16"/>
 </map>

@@ -1,4 +1,13 @@
 <map id="ModelCompositor::add" name="ModelCompositor::add">
-<area shape="rect" id="node1" title=" " alt="" coords="108,5,259,31"/>
-<area shape="rect" id="node2" href="$da/dd7/model__compositor__tests_8cpp.html#a81dd47a378b6cf546e233d48eadab026" title=" " alt="" coords="5,5,60,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="108,104,257,130"/>
+<area shape="rect" id="Node000002" href="$da/dd7/model__compositor__tests_8cpp.html#a311c921a5d4187fe24d8005be7a80aca" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,97,52,34,55,29,150,93"/>
+<area shape="rect" id="Node000003" href="$da/dd7/model__compositor__tests_8cpp.html#a861c521c573d5c7bf0af8a1fb6cd984d" title=" " alt="" coords="5,55,60,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,101,59,79,61,74,127,96"/>
+<area shape="rect" id="Node000004" href="$da/dd7/model__compositor__tests_8cpp.html#a81dd47a378b6cf546e233d48eadab026" title=" " alt="" coords="5,104,60,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="92,120,60,120,60,114,92,114"/>
+<area shape="rect" id="Node000005" href="$da/dd7/model__compositor__tests_8cpp.html#a235972b24529ffafd93ebd08340f9e1f" title=" " alt="" coords="5,153,60,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="127,138,61,160,59,155,126,133"/>
+<area shape="rect" id="Node000006" href="$da/dd7/model__compositor__tests_8cpp.html#a68a1be7686e074e05f13b4bb63ddbb30" title=" " alt="" coords="5,203,60,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="150,141,55,204,52,200,147,136"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="MockQAbstractItemModel::constructIndex" name="MockQAbstractItemModel::constructIndex">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,180,45"/>
-<area shape="rect" id="node2" href="$d3/d03/struct_mock_q_abstract_item_model.html#a1bb20cea4b9272a4ffd87b9108411444" title=" " alt="" coords="228,5,403,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,46"/>
+<area shape="rect" id="Node000002" href="$d3/d03/struct_mock_q_abstract_item_model.html#a1bb20cea4b9272a4ffd87b9108411444" title=" " alt="" coords="227,5,400,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,211,23,211,28,179,28"/>
 </map>

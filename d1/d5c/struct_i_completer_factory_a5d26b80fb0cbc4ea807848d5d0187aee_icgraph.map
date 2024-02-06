@@ -1,5 +1,7 @@
 <map id="ICompleterFactory::accessModel" name="ICompleterFactory::accessModel">
-<area shape="rect" id="node1" title="access model with values for given tag type" alt="" coords="272,37,407,77"/>
-<area shape="rect" id="node2" href="$d2/d10/class_photos_model_controller_component.html#a7643926c472369e60ca8805af447a3b4" title=" " alt="" coords="5,5,224,45"/>
-<area shape="rect" id="node3" href="$d2/d10/class_photos_model_controller_component.html#a8ba1a06258de0c6d4e4788e51bc1e130" title=" " alt="" coords="5,69,224,109"/>
+<area shape="rect" id="Node000001" title="access model with values for given tag type" alt="" coords="272,39,405,79"/>
+<area shape="rect" id="Node000002" href="$d2/d10/class_photos_model_controller_component.html#a7643926c472369e60ca8805af447a3b4" title=" " alt="" coords="5,5,224,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,49,224,45,224,39,257,44"/>
+<area shape="rect" id="Node000006" href="$d2/d10/class_photos_model_controller_component.html#a8ba1a06258de0c6d4e4788e51bc1e130" title=" " alt="" coords="5,71,224,111"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="257,73,224,78,224,73,256,68"/>
 </map>

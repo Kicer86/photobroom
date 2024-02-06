@@ -1,9 +1,16 @@
 <map id="Database::ASqlBackend::openTransaction" name="Database::ASqlBackend::openTransaction">
-<area shape="rect" id="node1" title="begin transaction" alt="" coords="451,131,613,171"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a2564c757e1cb2fa493a1905b0c4993be" title="Add photos to database." alt="" coords="5,39,168,79"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5" title="validate database consistency" alt="" coords="228,35,391,75"/>
-<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a1d64f8cd8f9f51280302d9d51f314138" title="insert set of photos to database" alt="" coords="228,99,391,139"/>
-<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e" title=" " alt="" coords="228,163,391,203"/>
-<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a" title="set flag for photo to given value" alt="" coords="216,228,403,253"/>
-<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a983b2800e084c638d48fcf6e07d280c2" title="update photos details" alt="" coords="228,278,391,318"/>
+<area shape="rect" id="Node000001" title="begin transaction" alt="" coords="448,134,609,175"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a2564c757e1cb2fa493a1905b0c4993be" title="Add photos to database." alt="" coords="5,39,167,80"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="504,123,460,70,432,45,399,26,366,15,331,10,261,12,195,24,139,41,137,36,193,19,260,6,332,5,367,10,401,21,435,40,464,66,508,119"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5" title="validate database consistency" alt="" coords="227,35,388,76"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="475,129,399,91,368,79,370,74,401,87,478,124"/>
+<area shape="rect" id="Node000005" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a1d64f8cd8f9f51280302d9d51f314138" title="insert set of photos to database" alt="" coords="227,101,388,141"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="432,143,388,136,389,131,433,137"/>
+<area shape="rect" id="Node000006" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e" title=" " alt="" coords="227,166,388,207"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="433,171,389,177,388,172,432,166"/>
+<area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a" title="set flag for photo to given value" alt="" coords="215,231,400,257"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="479,184,401,221,365,233,363,228,399,216,477,180"/>
+<area shape="rect" id="Node000011" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a983b2800e084c638d48fcf6e07d280c2" title="update photos details" alt="" coords="227,281,388,321"/>
+<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="501,188,456,231,401,271,379,282,377,278,399,267,453,227,497,184"/>
+<area shape="poly" id="edge4_Node000005_Node000002" title=" " alt="" coords="216,99,161,83,163,78,218,93"/>
 </map>

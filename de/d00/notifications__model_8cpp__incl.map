@@ -1,5 +1,7 @@
 <map id="src/gui/desktop/models/notifications_model.cpp" name="src/gui/desktop/models/notifications_model.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="87,5,248,45"/>
-<area shape="rect" id="node2" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="5,93,153,119"/>
-<area shape="rect" id="node3" href="$d2/d03/notifications__model_8hpp.html" title=" " alt="" coords="178,93,335,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="87,5,247,46"/>
+<area shape="rect" id="Node000002" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="5,94,153,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,48,106,85,102,81,143,44"/>
+<area shape="rect" id="Node000007" href="$d2/d03/notifications__model_8hpp.html" title=" " alt="" coords="177,94,333,120"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="191,44,232,81,228,85,187,48"/>
 </map>

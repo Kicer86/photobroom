@@ -1,5 +1,7 @@
 <map id="dlib_api::FaceLocator::face_locations" name="dlib_api::FaceLocator::face_locations">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,151,77"/>
-<area shape="rect" id="node2" href="$d7/d20/classdlib__api_1_1_face_locator.html#a8eedbb1e3053bc76fd14f0c6b23c940d" title=" " alt="" coords="199,5,345,45"/>
-<area shape="rect" id="node3" href="$d7/d20/classdlib__api_1_1_face_locator.html#a1a4ea18a8f18f03775f1314f2be642cc" title=" " alt="" coords="199,69,345,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,150,79"/>
+<area shape="rect" id="Node000002" href="$d7/d20/classdlib__api_1_1_face_locator.html#a8eedbb1e3053bc76fd14f0c6b23c940d" title=" " alt="" coords="198,5,344,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,44,182,38,183,44,150,49"/>
+<area shape="rect" id="Node000004" href="$d7/d20/classdlib__api_1_1_face_locator.html#a1a4ea18a8f18f03775f1314f2be642cc" title=" " alt="" coords="198,71,344,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="150,68,183,74,182,79,149,74"/>
 </map>

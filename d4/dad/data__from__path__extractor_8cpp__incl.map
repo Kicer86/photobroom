@@ -1,6 +1,10 @@
 <map id="src/core/implementation/data_from_path_extractor.cpp" name="src/core/implementation/data_from_path_extractor.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,203,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="8,93,67,119"/>
-<area shape="rect" id="node3" href="$d1/d74/tag_8hpp.html" title=" " alt="" coords="124,167,217,192"/>
-<area shape="rect" id="node4" href="$d8/dbb/data__from__path__extractor_8hpp.html" title=" " alt="" coords="142,93,335,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,202,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="8,94,66,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,48,59,83,55,80,85,45"/>
+<area shape="rect" id="Node000003" href="$d1/d74/tag_8hpp.html" title=" " alt="" coords="124,168,216,193"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="109,46,118,81,131,119,153,154,149,157,126,121,112,82,104,47"/>
+<area shape="rect" id="Node000013" href="$d8/dbb/data__from__path__extractor_8hpp.html" title=" " alt="" coords="141,94,333,120"/>
+<area shape="poly" id="edge3_Node000001_Node000013" title=" " alt="" coords="138,44,205,83,202,88,135,49"/>
+<area shape="poly" id="edge4_Node000013_Node000003" title=" " alt="" coords="228,122,194,158,190,154,224,118"/>
 </map>

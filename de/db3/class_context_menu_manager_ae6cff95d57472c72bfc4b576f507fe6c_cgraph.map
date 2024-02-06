@@ -1,12 +1,21 @@
 <map id="ContextMenuManager::updateModel" name="ContextMenuManager::updateModel">
-<area shape="rect" id="node1" title=" " alt="" coords="5,219,153,259"/>
-<area shape="rect" id="node2" href="$d4/d3d/class_actions_model.html#a740ef6a5c96e0d750d7cde3aaa913f1c" title=" " alt="" coords="201,5,373,31"/>
-<area shape="rect" id="node3" href="$d4/d3d/class_actions_model.html#a38ee9f3f6d2673b19d9e9eca6e04914d" title=" " alt="" coords="220,55,355,80"/>
-<area shape="rect" id="node4" href="$de/db3/class_context_menu_manager.html#a6a6f76d373ce643b42383be49721c9d9" title=" " alt="" coords="213,105,361,145"/>
-<area shape="rect" id="node5" href="$d7/d1e/class_photo_1_1_data_delta.html#adb6e34500f00515020150df2f9fd0ab7" title=" " alt="" coords="216,169,359,195"/>
-<area shape="rect" id="node6" href="$de/db3/class_context_menu_manager.html#aff00d39bef03fe6d1651dc2f950b0299" title=" " alt="" coords="213,219,361,259"/>
-<area shape="rect" id="node7" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="205,284,370,309"/>
-<area shape="rect" id="node8" href="$de/db3/class_context_menu_manager.html#aaf4a94f22264585ff880fb6dac2f1bbb" title=" " alt="" coords="213,334,361,374"/>
-<area shape="rect" id="node9" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="211,398,364,438"/>
-<area shape="rect" id="node10" href="$de/db3/class_context_menu_manager.html#a4835e77f44a34c21704a45272bc53a63" title=" " alt="" coords="213,462,361,502"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,219,153,260"/>
+<area shape="rect" id="Node000002" href="$d4/d3d/class_actions_model.html#a740ef6a5c96e0d750d7cde3aaa913f1c" title=" " alt="" coords="201,5,372,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,218,100,180,124,132,157,82,199,40,205,36,208,41,202,44,161,86,128,134,105,182,90,220"/>
+<area shape="rect" id="Node000003" href="$d4/d3d/class_actions_model.html#a38ee9f3f6d2673b19d9e9eca6e04914d" title=" " alt="" coords="219,55,354,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="90,217,132,155,163,120,199,91,209,85,212,89,202,95,167,124,137,158,94,220"/>
+<area shape="rect" id="Node000004" href="$de/db3/class_context_menu_manager.html#a6a6f76d373ce643b42383be49721c9d9" title=" " alt="" coords="213,105,360,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="105,216,148,185,199,154,210,149,212,154,202,159,151,190,108,221"/>
+<area shape="rect" id="Node000006" href="$d7/d1e/class_photo_1_1_data_delta.html#adb6e34500f00515020150df2f9fd0ab7" title=" " alt="" coords="215,169,358,195"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="152,217,221,197,223,202,154,222"/>
+<area shape="rect" id="Node000007" href="$de/db3/class_context_menu_manager.html#aff00d39bef03fe6d1651dc2f950b0299" title=" " alt="" coords="213,219,360,260"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="153,237,197,237,197,242,153,242"/>
+<area shape="rect" id="Node000010" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="204,284,369,310"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="154,257,223,277,221,282,152,262"/>
+<area shape="rect" id="Node000011" href="$de/db3/class_context_menu_manager.html#aaf4a94f22264585ff880fb6dac2f1bbb" title=" " alt="" coords="213,334,360,375"/>
+<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="108,258,151,289,202,320,212,325,210,330,199,325,148,294,105,263"/>
+<area shape="rect" id="Node000013" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="210,399,363,440"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="95,259,138,320,168,354,202,384,210,389,207,394,199,388,164,358,134,323,90,262"/>
+<area shape="rect" id="Node000035" href="$de/db3/class_context_menu_manager.html#a4835e77f44a34c21704a45272bc53a63" title=" " alt="" coords="213,465,360,505"/>
+<area shape="poly" id="edge9_Node000001_Node000035" title=" " alt="" coords="89,259,104,299,128,350,161,403,202,450,208,454,204,458,199,453,156,406,123,352,99,301,84,261"/>
 </map>

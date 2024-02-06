@@ -1,6 +1,9 @@
 <map id="IConfiguration" name="IConfiguration">
-<area shape="rect" id="node1" title=" " alt="" coords="143,5,245,31"/>
-<area shape="rect" id="node2" href="$db/d54/class_configuration.html" title=" " alt="" coords="5,79,103,104"/>
-<area shape="rect" id="node3" href="$d7/de5/class_i_configuration_mock.html" title=" " alt="" coords="127,79,261,104"/>
-<area shape="rect" id="node4" href="$de/d96/struct_mock_configuration.html" title=" " alt="" coords="285,79,415,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="142,5,242,31"/>
+<area shape="rect" id="Node000002" href="$db/d54/class_configuration.html" title=" " alt="" coords="5,79,102,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,41,78,81,76,76,154,36"/>
+<area shape="rect" id="Node000003" href="$d7/de5/class_i_configuration_mock.html" title=" " alt="" coords="126,79,258,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="195,46,195,79,190,79,190,46"/>
+<area shape="rect" id="Node000004" href="$de/d96/struct_mock_configuration.html" title=" " alt="" coords="283,79,411,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="233,35,322,76,319,81,231,40"/>
 </map>

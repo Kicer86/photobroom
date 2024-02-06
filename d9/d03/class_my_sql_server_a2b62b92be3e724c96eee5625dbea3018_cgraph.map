@@ -1,5 +1,7 @@
 <map id="MySqlServer::run_server" name="MySqlServer::run_server">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,168,56"/>
-<area shape="rect" id="node2" href="$d9/d03/class_my_sql_server.html#a78c509c67fe9febe29d735d9a5115e03" title=" " alt="" coords="216,5,411,31"/>
-<area shape="rect" id="node3" href="$d9/d03/class_my_sql_server.html#afb0b8bfb0be38b2fdb3d5dd1bcaccfa6" title=" " alt="" coords="225,55,401,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,168,56"/>
+<area shape="rect" id="Node000002" href="$d9/d03/class_my_sql_server.html#a78c509c67fe9febe29d735d9a5115e03" title=" " alt="" coords="216,5,410,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,32,200,28,200,33,168,37"/>
+<area shape="rect" id="Node000005" href="$d9/d03/class_my_sql_server.html#afb0b8bfb0be38b2fdb3d5dd1bcaccfa6" title=" " alt="" coords="225,55,401,80"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="168,49,210,54,209,59,168,55"/>
 </map>

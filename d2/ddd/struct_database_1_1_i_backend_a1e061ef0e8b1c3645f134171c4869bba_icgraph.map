@@ -1,4 +1,5 @@
 <map id="Database::IBackend::set" name="Database::IBackend::set">
-<area shape="rect" id="node1" title="set flag for photo to given value" alt="" coords="200,5,363,31"/>
-<area shape="rect" id="node2" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="5,5,152,31"/>
+<area shape="rect" id="Node000001" title="set flag for photo to given value" alt="" coords="199,5,360,31"/>
+<area shape="rect" id="Node000002" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="5,5,151,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,21,151,21,151,16,183,16"/>
 </map>

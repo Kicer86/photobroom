@@ -1,4 +1,5 @@
 <map id="FeaturesManager::addFeature" name="FeaturesManager::addFeature">
-<area shape="rect" id="node1" title=" " alt="" coords="229,5,424,31"/>
-<area shape="rect" id="node2" href="$d6/deb/class_features_manager.html#a60a7800ad3da2ad31b40756fc58d9d16" title=" " alt="" coords="5,5,181,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="229,5,422,31"/>
+<area shape="rect" id="Node000002" href="$d6/deb/class_features_manager.html#a60a7800ad3da2ad31b40756fc58d9d16" title=" " alt="" coords="5,5,181,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,21,181,21,181,16,213,16"/>
 </map>

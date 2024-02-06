@@ -1,4 +1,5 @@
 <map id="PhotosCollector::stop" name="PhotosCollector::stop">
-<area shape="rect" id="node1" title=" " alt="" coords="212,5,357,31"/>
-<area shape="rect" id="node2" href="$d3/d3d/class_photos_collector.html#aa402bcaf9beb1d5eb6b9f0e380c33363" title=" " alt="" coords="5,5,164,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="211,5,355,31"/>
+<area shape="rect" id="Node000002" href="$d3/d3d/class_photos_collector.html#aa402bcaf9beb1d5eb6b9f0e380c33363" title=" " alt="" coords="5,5,163,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,21,163,21,163,16,195,16"/>
 </map>

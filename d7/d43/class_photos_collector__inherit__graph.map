@@ -1,5 +1,7 @@
 <map id="PhotosCollector" name="PhotosCollector">
-<area shape="rect" id="node1" title=" " alt="" coords="45,79,159,104"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,76,31"/>
-<area shape="rect" id="node3" href="$d2/d3e/struct_i_media_notification.html" title=" " alt="" coords="100,5,227,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="43,79,157,105"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,75,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="62,41,92,77,88,80,58,44"/>
+<area shape="rect" id="Node000003" href="$d2/d3e/struct_i_media_notification.html" title=" " alt="" coords="99,5,224,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,44,112,80,108,77,139,41"/>
 </map>

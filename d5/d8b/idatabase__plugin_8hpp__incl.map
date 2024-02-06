@@ -1,7 +1,14 @@
 <map id="src/database/idatabase_plugin.hpp" name="src/database/idatabase_plugin.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="107,5,265,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,167,73,192"/>
-<area shape="rect" id="node3" title=" " alt="" coords="107,167,174,192"/>
-<area shape="rect" id="node4" href="$d4/d5e/idatabase__builder_8hpp.html" title=" " alt="" coords="58,93,205,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="219,167,345,192"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="105,5,261,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,168,73,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,49,73,68,45,96,39,109,36,123,36,153,31,153,31,123,34,107,41,92,69,64,105,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="106,168,172,193"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,45,218,80,221,101,216,121,200,144,178,161,175,157,196,140,211,119,215,101,212,82,196,48"/>
+<area shape="rect" id="Node000004" href="$d4/d5e/idatabase__builder_8hpp.html" title=" " alt="" coords="55,94,202,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="172,48,148,83,143,79,167,45"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="216,168,342,193"/>
+<area shape="poly" id="edge7_Node000001_Node000006" title=" " alt="" coords="201,45,236,93,269,153,265,155,231,95,197,48"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="115,122,68,160,64,156,112,118"/>
+<area shape="poly" id="edge5_Node000004_Node000003" title=" " alt="" coords="133,119,138,152,132,153,127,120"/>
+<area shape="poly" id="edge6_Node000004_Node000006" title=" " alt="" coords="155,118,241,158,238,163,153,123"/>
 </map>

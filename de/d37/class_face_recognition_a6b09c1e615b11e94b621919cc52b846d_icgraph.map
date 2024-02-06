@@ -1,4 +1,5 @@
 <map id="FaceRecognition::recognize" name="FaceRecognition::recognize">
-<area shape="rect" id="node1" title=" " alt="" coords="200,5,380,31"/>
-<area shape="rect" id="node2" href="$d3/d26/class_recognizer.html#a1a2b710f9d3e7d3c95c2e71c0a3eb828" title=" " alt="" coords="5,5,152,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="200,5,379,31"/>
+<area shape="rect" id="Node000002" href="$d3/d26/class_recognizer.html#a1a2b710f9d3e7d3c95c2e71c0a3eb828" title=" " alt="" coords="5,5,152,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,21,152,21,152,16,184,16"/>
 </map>

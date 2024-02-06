@@ -1,4 +1,5 @@
 <map id="FlatModel::fetchedPhotoProperties" name="FlatModel::fetchedPhotoProperties">
-<area shape="rect" id="node1" title=" " alt="" coords="260,5,481,31"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#a7b363b60e1ec6b187585a70b748b30f5" title=" " alt="" coords="5,5,212,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="260,5,480,31"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a7b363b60e1ec6b187585a70b748b30f5" title=" " alt="" coords="5,5,212,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,21,212,21,212,16,244,16"/>
 </map>

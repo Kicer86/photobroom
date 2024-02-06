@@ -1,9 +1,17 @@
 <map id="src/database/backends/sql_backends/mysql_backend/backend.hpp" name="src/database/backends/sql_backends/mysql_backend/backend.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="302,5,502,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="74,211,142,236"/>
-<area shape="rect" id="node3" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="28,123,187,148"/>
-<area shape="rect" id="node4" href="$df/df4/sql__backend_8hpp.html" title=" " alt="" coords="212,115,398,155"/>
-<area shape="rect" id="node5" href="$d1/d77/generic__sql__query__constructor_8hpp.html" title=" " alt="" coords="423,108,579,163"/>
-<area shape="rect" id="node6" href="$d4/d34/ibackend__qt__interface_8hpp.html" title=" " alt="" coords="603,115,780,155"/>
-<area shape="rect" id="node7" title=" " alt="" coords="804,115,976,155"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="300,5,500,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="73,213,140,238"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="300,42,218,51,134,64,62,84,36,96,18,111,10,124,8,136,18,163,37,186,62,203,59,207,33,190,14,166,3,136,5,122,14,107,33,92,60,79,133,59,217,45,300,37"/>
+<area shape="rect" id="Node000003" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="27,124,186,150"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="322,64,157,121,155,116,320,59"/>
+<area shape="rect" id="Node000045" href="$df/df4/sql__backend_8hpp.html" title=" " alt="" coords="210,117,395,157"/>
+<area shape="poly" id="edge4_Node000001_Node000045" title=" " alt="" coords="376,63,334,107,330,104,372,60"/>
+<area shape="rect" id="Node000070" href="$d1/d77/generic__sql__query__constructor_8hpp.html" title=" " alt="" coords="420,109,575,165"/>
+<area shape="poly" id="edge6_Node000001_Node000070" title=" " alt="" coords="428,60,462,95,459,99,424,63"/>
+<area shape="rect" id="Node000071" href="$d4/d34/ibackend__qt__interface_8hpp.html" title=" " alt="" coords="598,117,775,157"/>
+<area shape="poly" id="edge7_Node000001_Node000071" title=" " alt="" coords="478,59,617,108,616,113,476,64"/>
+<area shape="rect" id="Node000075" title=" " alt="" coords="798,117,970,157"/>
+<area shape="poly" id="edge8_Node000001_Node000075" title=" " alt="" coords="501,49,637,75,787,106,801,110,799,115,786,112,636,80,500,54"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="109,150,109,197,104,197,104,150"/>
+<area shape="poly" id="edge5_Node000045_Node000002" title=" " alt="" coords="259,160,149,209,147,204,257,155"/>
 </map>

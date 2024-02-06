@@ -1,7 +1,11 @@
 <map id="BatchFaceDetector" name="BatchFaceDetector">
-<area shape="rect" id="node1" title=" " alt="" coords="258,93,393,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,144,31"/>
-<area shape="rect" id="node3" href="$da/db9/classlazy__ptr.html" title=" " alt="" coords="169,5,319,31"/>
-<area shape="rect" id="node4" href="$de/de3/class_a_photo_data_model.html" title=" " alt="" coords="343,5,470,31"/>
-<area shape="rect" id="node5" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="494,5,645,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="255,94,389,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,143,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,34,288,91,286,96,122,39"/>
+<area shape="rect" id="Node000003" href="$da/db9/classlazy__ptr.html" title=" " alt="" coords="167,5,317,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="265,41,313,92,309,95,261,44"/>
+<area shape="rect" id="Node000004" href="$de/de3/class_a_photo_data_model.html" title=" " alt="" coords="340,5,467,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="391,46,372,72,343,95,340,91,368,68,387,43"/>
+<area shape="rect" id="Node000006" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="491,5,641,31"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="538,42,482,72,435,87,390,98,388,93,434,82,480,68,535,38"/>
 </map>

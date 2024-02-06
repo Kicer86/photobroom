@@ -1,5 +1,7 @@
 <map id="Database::MemoryBackend::setBits" name="Database::MemoryBackend::setBits">
-<area shape="rect" id="node1" title="set bits for provided flag" alt="" coords="5,23,185,63"/>
-<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#a87db0727f9bbc52e5462317c5ca24218" title="get flag value" alt="" coords="233,5,437,31"/>
-<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#a8faea221710cc284da5eb0810aa1ed9e" title="set flag for photo to given value" alt="" coords="233,55,437,80"/>
+<area shape="rect" id="Node000001" title="set bits for provided flag" alt="" coords="5,23,185,64"/>
+<area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#a87db0727f9bbc52e5462317c5ca24218" title="get flag value" alt="" coords="233,5,436,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,31,217,28,217,33,185,37"/>
+<area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html#a8faea221710cc284da5eb0810aa1ed9e" title="set flag for photo to given value" alt="" coords="233,55,436,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,50,217,53,217,58,185,55"/>
 </map>

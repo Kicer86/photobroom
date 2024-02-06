@@ -1,6 +1,9 @@
 <map id="TaskExecutor::ProcessInfo" name="TaskExecutor::ProcessInfo">
-<area shape="rect" id="node1" title=" " alt="" coords="257,93,435,119"/>
-<area shape="rect" id="node2" href="$d6/d3a/struct_i_task_executor_1_1_i_process_control.html" title=" " alt="" coords="5,5,209,31"/>
-<area shape="rect" id="node3" href="$dd/d3d/struct_i_task_executor_1_1_i_process_supervisor.html" title=" " alt="" coords="233,5,459,31"/>
-<area shape="rect" id="node4" href="$de/d64/struct_task_executor.html" title=" " alt="" coords="483,5,585,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="256,94,433,120"/>
+<area shape="rect" id="Node000002" href="$d6/d3a/struct_i_task_executor_1_1_i_process_control.html" title=" " alt="" coords="5,5,209,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,34,312,91,310,96,154,39"/>
+<area shape="rect" id="Node000003" href="$dd/d3d/struct_i_task_executor_1_1_i_process_supervisor.html" title=" " alt="" coords="232,5,457,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="347,47,347,94,342,94,342,47"/>
+<area shape="rect" id="Node000004" href="$de/d64/struct_task_executor.html" title=" " alt="" coords="481,5,581,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="492,40,372,96,369,91,490,35"/>
 </map>

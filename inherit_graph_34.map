@@ -1,6 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$de/d42/struct_database_1_1_i_database_1_1_i_task.html" title=" " alt="" coords="5,55,148,95"/>
-<area shape="rect" id="node2" href="$d4/d35/struct_database_1_1_db_close_task.html" title=" " alt="" coords="196,5,357,31"/>
-<area shape="rect" id="node3" href="$dd/d3e/struct_database_1_1_i_database_1_1_task.html" title=" " alt="" coords="205,55,348,95"/>
-<area shape="rect" id="node4" href="$d0/dd8/class_observable_database_1_1_task.html" title=" " alt="" coords="205,119,348,159"/>
+<area shape="rect" id="Node000000" href="$de/d42/struct_database_1_1_i_database_1_1_i_task.html" title=" " alt="" coords="5,55,147,96"/>
+<area shape="rect" id="Node000001" href="$d4/d35/struct_database_1_1_db_close_task.html" title=" " alt="" coords="195,5,355,31"/>
+<area shape="poly" id="edge6_Node000000_Node000001" title=" " alt="" coords="161,48,227,29,228,34,162,53"/>
+<area shape="rect" id="Node000002" href="$dd/d3e/struct_database_1_1_i_database_1_1_task.html" title=" " alt="" coords="204,55,346,96"/>
+<area shape="poly" id="edge7_Node000000_Node000002" title=" " alt="" coords="162,73,204,73,204,78,162,78"/>
+<area shape="rect" id="Node000003" href="$d0/dd8/class_observable_database_1_1_task.html" title=" " alt="" coords="204,121,346,161"/>
+<area shape="poly" id="edge8_Node000000_Node000003" title=" " alt="" coords="155,98,211,117,210,122,153,104"/>
 </map>

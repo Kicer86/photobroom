@@ -1,4 +1,5 @@
 <map id="Recognizer::Recognizer" name="Recognizer::Recognizer">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,161,38"/>
-<area shape="rect" id="node2" href="$d3/d26/class_recognizer.html#a755bf82a62c94ce972e8cc33ebc970f7" title=" " alt="" coords="209,5,393,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,161,39"/>
+<area shape="rect" id="Node000002" href="$d3/d26/class_recognizer.html#a755bf82a62c94ce972e8cc33ebc970f7" title=" " alt="" coords="209,5,392,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,23,193,23,193,28,161,28"/>
 </map>

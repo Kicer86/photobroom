@@ -1,9 +1,16 @@
 <map id="FlatModel::fetchMatchingPhotos" name="FlatModel::fetchMatchingPhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="5,125,172,165"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#a592defb48c9e248c670c50350d8e663b" title=" " alt="" coords="221,5,390,31"/>
-<area shape="rect" id="node3" href="$d1/da6/class_flat_model.html#a482a5497cd4f1b0fdd7a93bee016b9e8" title=" " alt="" coords="439,31,563,56"/>
-<area shape="rect" id="node4" href="$d1/da6/class_flat_model.html#a6fb60b12f93306d3d81e1547a7ade2e6" title=" " alt="" coords="247,107,363,132"/>
-<area shape="rect" id="node5" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="254,156,357,181"/>
-<area shape="rect" id="node6" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#a38d3b053b7cd2404e7cf9420338e7c6a" title=" " alt="" coords="220,206,391,246"/>
-<area shape="rect" id="node7" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="236,270,375,310"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,125,172,165"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a592defb48c9e248c670c50350d8e663b" title=" " alt="" coords="221,5,389,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,122,160,85,218,48,247,35,249,39,221,53,163,89,116,126"/>
+<area shape="rect" id="Node000005" href="$d1/da6/class_flat_model.html#a482a5497cd4f1b0fdd7a93bee016b9e8" title=" " alt="" coords="438,31,561,56"/>
+<area shape="poly" id="edge7_Node000001_Node000005" title=" " alt="" coords="136,122,219,92,325,67,422,51,423,56,326,72,220,97,137,127"/>
+<area shape="rect" id="Node000006" href="$d1/da6/class_flat_model.html#a6fb60b12f93306d3d81e1547a7ade2e6" title=" " alt="" coords="247,107,363,132"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="172,132,231,125,232,131,172,138"/>
+<area shape="rect" id="Node000007" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="254,156,356,182"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="172,151,239,159,238,164,172,157"/>
+<area shape="rect" id="Node000008" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#a38d3b053b7cd2404e7cf9420338e7c6a" title=" " alt="" coords="220,206,390,247"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="146,163,235,197,233,202,144,168"/>
+<area shape="rect" id="Node000009" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="236,271,374,312"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="111,164,159,209,221,256,231,262,229,266,218,260,155,213,107,168"/>
+<area shape="poly" id="edge2_Node000002_Node000005" title=" " alt="" coords="390,26,423,31,422,36,389,32"/>
 </map>

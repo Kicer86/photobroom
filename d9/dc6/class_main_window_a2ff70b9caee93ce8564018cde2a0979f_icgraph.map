@@ -1,5 +1,7 @@
 <map id="MainWindow::on_actionScan_collection_triggered" name="MainWindow::on_actionScan_collection_triggered">
-<area shape="rect" id="node1" title=" " alt="" coords="240,23,428,63"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#a2c2d7e1cdd309b698173f750f3d98738" title=" " alt="" coords="5,5,192,31"/>
-<area shape="rect" id="node3" href="$d9/dc6/class_main_window.html#abdb7e953826f7dcf308d32ddc75c3109" title=" " alt="" coords="5,55,192,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="240,23,427,64"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#a2c2d7e1cdd309b698173f750f3d98738" title=" " alt="" coords="6,5,191,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,34,191,31,192,26,224,29"/>
+<area shape="rect" id="Node000005" href="$d9/dc6/class_main_window.html#abdb7e953826f7dcf308d32ddc75c3109" title=" " alt="" coords="5,55,192,80"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="224,57,192,61,192,55,224,52"/>
 </map>

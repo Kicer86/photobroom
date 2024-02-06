@@ -1,7 +1,12 @@
 <map id="GeneratorUtils::BreakableTask" name="GeneratorUtils::BreakableTask">
-<area shape="rect" id="node1" title=" " alt="" coords="212,168,411,193"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,76,31"/>
-<area shape="rect" id="node4" href="$dd/da4/class_generator_utils_1_1_process_runner.html" title=" " alt="" coords="63,80,264,105"/>
-<area shape="rect" id="node3" href="$dd/d9b/struct_i_task_executor_1_1_i_task.html" title=" " alt="" coords="289,80,433,105"/>
-<area shape="rect" id="node5" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="457,80,587,105"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="209,169,407,195"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,75,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="38,46,39,76,44,91,51,104,84,133,124,154,166,167,209,175,208,180,165,173,122,159,81,138,47,108,39,93,34,77,33,46"/>
+<area shape="rect" id="Node000004" href="$dd/da4/class_generator_utils_1_1_process_runner.html" title=" " alt="" coords="61,80,262,106"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="74,37,143,78,140,82,71,41"/>
+<area shape="rect" id="Node000003" href="$dd/d9b/struct_i_task_executor_1_1_i_task.html" title=" " alt="" coords="286,80,429,106"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="345,121,317,170,312,167,341,118"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="196,112,289,166,286,171,193,116"/>
+<area shape="rect" id="Node000005" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="454,80,584,106"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="476,115,339,171,337,166,474,110"/>
 </map>

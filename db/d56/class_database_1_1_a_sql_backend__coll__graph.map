@@ -1,8 +1,13 @@
 <map id="Database::ASqlBackend" name="Database::ASqlBackend">
-<area shape="rect" id="node1" title=" " alt="" coords="445,120,608,145"/>
-<area shape="rect" id="node2" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="50,5,189,31"/>
-<area shape="rect" id="node3" href="$da/db9/classlazy__ptr.html" title=" " alt="" coords="18,55,221,95"/>
-<area shape="rect" id="node4" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="5,120,233,145"/>
-<area shape="rect" id="node5" href="$df/db0/class_database_1_1_transaction_manager.html" title=" " alt="" coords="19,170,220,210"/>
-<area shape="rect" id="node6" href="$d3/d47/class_database_1_1_sql_query_executor.html" title=" " alt="" coords="26,235,213,260"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="444,120,605,146"/>
+<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="50,5,188,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,22,308,38,365,52,421,69,468,92,506,117,504,122,466,97,419,74,364,57,307,44,203,28"/>
+<area shape="rect" id="Node000004" href="$da/db9/classlazy__ptr.html" title=" " alt="" coords="18,55,220,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="236,85,420,110,457,117,457,122,419,115,235,91"/>
+<area shape="rect" id="Node000005" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="5,120,233,146"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="248,130,444,130,444,136,248,136"/>
+<area shape="rect" id="Node000006" href="$df/db0/class_database_1_1_transaction_manager.html" title=" " alt="" coords="19,170,219,211"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="234,175,419,151,458,144,459,149,420,156,235,181"/>
+<area shape="rect" id="Node000007" href="$d3/d47/class_database_1_1_sql_query_executor.html" title=" " alt="" coords="26,235,212,260"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="227,236,322,221,371,209,419,193,466,170,504,144,507,148,469,174,421,198,372,214,323,226,227,242"/>
 </map>

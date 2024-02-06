@@ -1,5 +1,7 @@
 <map id="FileAnalyzer::isMediaFile" name="FileAnalyzer::isMediaFile">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,169,56"/>
-<area shape="rect" id="node2" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="217,5,383,31"/>
-<area shape="rect" id="node3" href="$d6/ddb/namespace_media_types.html#a641eac174131f628b1a2e3e357143540" title=" " alt="" coords="219,55,381,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,169,56"/>
+<area shape="rect" id="Node000002" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="217,5,381,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,31,201,27,201,32,170,36"/>
+<area shape="rect" id="Node000003" href="$d6/ddb/namespace_media_types.html#a641eac174131f628b1a2e3e357143540" title=" " alt="" coords="218,55,380,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,50,203,54,202,59,169,55"/>
 </map>

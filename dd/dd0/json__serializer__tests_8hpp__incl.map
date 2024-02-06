@@ -1,7 +1,11 @@
 <map id="src/core/unit_tests/json_serializer_tests.hpp" name="src/core/unit_tests/json_serializer_tests.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="70,5,238,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,63,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="87,93,141,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="166,93,225,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="249,93,307,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="69,5,236,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,62,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,49,66,87,63,83,121,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="86,94,139,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,48,128,81,123,79,140,45"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="164,94,221,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,45,182,79,177,81,160,48"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="244,94,303,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="184,44,244,83,241,88,181,49"/>
 </map>

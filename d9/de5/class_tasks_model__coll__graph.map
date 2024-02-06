@@ -1,5 +1,7 @@
 <map id="TasksModel" name="TasksModel">
-<area shape="rect" id="node1" title=" " alt="" coords="102,79,195,104"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,151,31"/>
-<area shape="rect" id="node3" href="$d6/d44/struct_i_tasks_view.html" title=" " alt="" coords="175,5,266,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="102,79,194,105"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,150,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,40,138,77,134,80,98,44"/>
+<area shape="rect" id="Node000003" href="$d6/d44/struct_i_tasks_view.html" title=" " alt="" coords="174,5,264,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="198,44,162,80,158,77,195,40"/>
 </map>

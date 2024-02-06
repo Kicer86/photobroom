@@ -1,9 +1,15 @@
 <map id="ProjectCreator::create" name="ProjectCreator::create">
-<area shape="rect" id="node1" title=" " alt="" coords="5,170,152,195"/>
-<area shape="rect" id="node2" href="$db/dd2/class_project_creator_dialog.html#a7f9abd44b26d818b53226d125723cc81" title=" " alt="" coords="213,5,355,45"/>
-<area shape="rect" id="node3" href="$db/dd2/class_project_creator_dialog.html#a3e0dfca79dd4a3000acd0ad7af217c5a" title=" " alt="" coords="213,69,355,109"/>
-<area shape="rect" id="node4" href="$db/dd2/class_project_creator_dialog.html#a35eebc5b92a8a77cc346e3d88e9edf0b" title=" " alt="" coords="213,133,355,173"/>
-<area shape="rect" id="node5" href="$da/df4/struct_project_info.html#ab773ce26983e2e9a1478a6e22d5a596a" title=" " alt="" coords="219,198,349,223"/>
-<area shape="rect" id="node6" href="$d7/dc8/class_i_project_manager.html#a5e9df5405e140f0ffbeec2ac8e3a2e6b" title=" " alt="" coords="200,247,368,273"/>
-<area shape="rect" id="node7" href="$db/dd2/class_project_creator_dialog.html#a70970b5f92426c77c5364f7e3cad2f50" title=" " alt="" coords="201,297,367,322"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,173,152,199"/>
+<area shape="rect" id="Node000002" href="$db/dd2/class_project_creator_dialog.html#a7f9abd44b26d818b53226d125723cc81" title=" " alt="" coords="213,5,354,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,171,131,117,163,85,198,57,207,51,210,56,201,61,166,89,135,120,91,174"/>
+<area shape="rect" id="Node000004" href="$db/dd2/class_project_creator_dialog.html#a3e0dfca79dd4a3000acd0ad7af217c5a" title=" " alt="" coords="213,71,354,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="103,170,199,122,214,115,216,120,201,127,106,175"/>
+<area shape="rect" id="Node000007" href="$db/dd2/class_project_creator_dialog.html#a35eebc5b92a8a77cc346e3d88e9edf0b" title=" " alt="" coords="213,136,354,177"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="152,173,197,166,198,171,153,178"/>
+<area shape="rect" id="Node000008" href="$da/df4/struct_project_info.html#ab773ce26983e2e9a1478a6e22d5a596a" title=" " alt="" coords="219,201,348,227"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="153,193,203,200,203,205,152,198"/>
+<area shape="rect" id="Node000009" href="$d7/dc8/class_i_project_manager.html#a5e9df5405e140f0ffbeec2ac8e3a2e6b" title=" " alt="" coords="200,250,367,276"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="108,197,201,237,219,243,217,248,199,241,106,201"/>
+<area shape="rect" id="Node000010" href="$db/dd2/class_project_creator_dialog.html#a70970b5f92426c77c5364f7e3cad2f50" title=" " alt="" coords="201,300,366,325"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="94,197,138,241,168,265,201,286,211,291,209,296,198,291,165,269,135,245,90,201"/>
 </map>

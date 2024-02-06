@@ -1,10 +1,17 @@
 <map id="src/unit_tests_utils/printers.hpp" name="src/unit_tests_utils/printers.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="644,5,776,45"/>
-<area shape="rect" id="node2" href="$d2/d40/exiftool__video__details__reader__tests_8cpp.html" title=" " alt="" coords="5,93,156,148"/>
-<area shape="rect" id="node3" href="$da/dd7/model__compositor__tests_8cpp.html" title=" " alt="" coords="181,101,373,141"/>
-<area shape="rect" id="node4" href="$dc/d71/generic__sql__query__constructor__tests_8cpp.html" title=" " alt="" coords="397,93,599,148"/>
-<area shape="rect" id="node5" href="$dd/d3c/sql__filter__query__generator__tests_8cpp.html" title=" " alt="" coords="623,93,797,148"/>
-<area shape="rect" id="node6" href="$d0/d51/model__index__utils__tests_8cpp.html" title=" " alt="" coords="821,93,978,148"/>
-<area shape="rect" id="node7" href="$d5/d72/thumbnails__manager__tests_8cpp.html" title=" " alt="" coords="1003,93,1177,148"/>
-<area shape="rect" id="node8" href="$de/d5c/common__path_8cpp.html" title=" " alt="" coords="1202,101,1349,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="640,5,771,46"/>
+<area shape="rect" id="Node000002" href="$d2/d40/exiftool__video__details__reader__tests_8cpp.html" title=" " alt="" coords="5,94,155,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="624,35,416,56,291,74,167,97,156,99,154,94,166,91,290,69,415,51,624,30"/>
+<area shape="rect" id="Node000003" href="$da/dd7/model__compositor__tests_8cpp.html" title=" " alt="" coords="179,102,370,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="625,45,382,97,353,103,351,98,381,91,624,40"/>
+<area shape="rect" id="Node000004" href="$dc/d71/generic__sql__query__constructor__tests_8cpp.html" title=" " alt="" coords="394,94,595,150"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="648,55,557,96,554,91,646,50"/>
+<area shape="rect" id="Node000005" href="$dd/d3c/sql__filter__query__generator__tests_8cpp.html" title=" " alt="" coords="619,94,792,150"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="708,61,708,93,703,93,703,61"/>
+<area shape="rect" id="Node000006" href="$d0/d51/model__index__utils__tests_8cpp.html" title=" " alt="" coords="815,94,972,150"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="759,51,840,91,838,96,757,56"/>
+<area shape="rect" id="Node000007" href="$d5/d72/thumbnails__manager__tests_8cpp.html" title=" " alt="" coords="996,94,1169,150"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="787,43,985,91,996,94,995,100,983,97,785,48"/>
+<area shape="rect" id="Node000008" href="$de/d5c/common__path_8cpp.html" title=" " alt="" coords="1194,102,1340,142"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="786,32,968,54,1076,70,1182,91,1208,98,1207,103,1181,97,1075,76,968,59,786,37"/>
 </map>

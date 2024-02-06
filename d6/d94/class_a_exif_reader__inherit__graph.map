@@ -1,6 +1,9 @@
 <map id="AExifReader" name="AExifReader">
-<area shape="rect" id="node1" title=" " alt="" coords="99,79,192,104"/>
-<area shape="rect" id="node3" href="$df/d97/class_easy_exif_tag_feeder.html" title=" " alt="" coords="5,152,139,177"/>
-<area shape="rect" id="node4" href="$d5/d00/class_exiv2_exif_reader.html" title=" " alt="" coords="163,152,277,177"/>
-<area shape="rect" id="node2" href="$d5/dd5/struct_i_exif_reader.html" title=" " alt="" coords="101,5,189,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="99,79,191,105"/>
+<area shape="rect" id="Node000003" href="$df/d97/class_easy_exif_tag_feeder.html" title=" " alt="" coords="5,153,138,178"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,117,86,154,82,150,120,114"/>
+<area shape="rect" id="Node000004" href="$d5/d00/class_exiv2_exif_reader.html" title=" " alt="" coords="162,153,277,178"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="170,114,209,150,205,154,167,117"/>
+<area shape="rect" id="Node000002" href="$d5/dd5/struct_i_exif_reader.html" title=" " alt="" coords="101,5,189,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,46,148,79,142,79,142,46"/>
 </map>

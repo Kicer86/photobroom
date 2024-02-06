@@ -1,6 +1,9 @@
 <map id="src/crash_catcher/crash_catcher.cpp" name="src/crash_catcher/crash_catcher.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="112,5,275,45"/>
-<area shape="rect" id="node2" href="$dd/d9a/crash__catcher_8hpp.html" title=" " alt="" coords="5,93,133,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="157,93,229,119"/>
-<area shape="rect" id="node4" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="254,93,367,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="112,5,274,46"/>
+<area shape="rect" id="Node000002" href="$dd/d9a/crash__catcher_8hpp.html" title=" " alt="" coords="5,94,133,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,49,102,88,99,83,161,44"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="157,94,229,120"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="196,46,196,78,190,78,190,46"/>
+<area shape="rect" id="Node000006" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="253,94,365,120"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="223,44,280,83,277,87,220,49"/>
 </map>

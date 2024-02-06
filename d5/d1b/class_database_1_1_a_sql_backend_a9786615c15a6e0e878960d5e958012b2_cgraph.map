@@ -1,6 +1,11 @@
 <map id="Database::ASqlBackend::hasCurrentVersionTable" name="Database::ASqlBackend::hasCurrentVersionTable">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,172,95"/>
-<area shape="rect" id="node2" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="244,5,359,31"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6" title="Make sure given table exists in database." alt="" coords="220,55,383,95"/>
-<area shape="rect" id="node4" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="431,85,617,125"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,172,96"/>
+<area shape="rect" id="Node000002" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="244,5,357,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,52,235,33,236,38,167,57"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6" title="Make sure given table exists in database." alt="" coords="220,55,381,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,73,204,73,204,78,172,78"/>
+<area shape="rect" id="Node000005" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="429,85,614,125"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="162,94,220,105,319,111,413,110,413,115,319,116,219,110,161,99"/>
+<area shape="poly" id="edge3_Node000003_Node000005" title=" " alt="" coords="382,84,414,88,413,93,381,89"/>
+<area shape="poly" id="edge4_Node000005_Node000005" title=" " alt="" coords="480,84,478,75,485,65,499,60,522,58,546,60,560,66,558,71,544,65,522,63,501,65,488,70,483,76,485,83"/>
 </map>

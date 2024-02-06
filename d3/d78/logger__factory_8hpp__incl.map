@@ -1,8 +1,15 @@
 <map id="src/core/logger_factory.hpp" name="src/core/logger_factory.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="155,5,333,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,72,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="97,79,154,104"/>
-<area shape="rect" id="node4" href="$d4/d57/ilogger__factory_8hpp.html" title=" " alt="" coords="179,79,309,104"/>
-<area shape="rect" id="node5" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="275,152,359,177"/>
-<area shape="rect" id="node6" title=" " alt="" coords="308,225,407,251"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="152,5,329,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,71,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,34,87,76,85,71,205,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="95,79,152,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="222,34,157,73,155,68,219,29"/>
+<area shape="rect" id="Node000004" href="$d4/d57/ilogger__factory_8hpp.html" title=" " alt="" coords="176,79,305,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="243,31,243,63,238,63,238,31"/>
+<area shape="rect" id="Node000008" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="274,153,357,178"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="268,29,296,49,319,78,326,108,324,138,319,137,321,109,314,80,292,53,265,34"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="305,226,403,252"/>
+<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="272,29,308,49,341,77,360,102,370,124,373,148,371,179,365,212,359,210,366,178,368,149,365,125,355,104,337,81,305,53,270,34"/>
+<area shape="poly" id="edge4_Node000004_Node000008" title=" " alt="" coords="255,103,294,140,290,144,251,107"/>
+<area shape="poly" id="edge5_Node000008_Node000011" title=" " alt="" coords="324,177,343,211,338,214,319,180"/>
 </map>

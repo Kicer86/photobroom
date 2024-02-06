@@ -1,4 +1,5 @@
 <map id="PeopleListModel::fill" name="PeopleListModel::fill">
-<area shape="rect" id="node1" title=" " alt="" coords="215,5,352,31"/>
-<area shape="rect" id="node2" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="5,5,167,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="214,5,350,31"/>
+<area shape="rect" id="Node000002" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="5,5,166,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,21,166,21,166,16,198,16"/>
 </map>

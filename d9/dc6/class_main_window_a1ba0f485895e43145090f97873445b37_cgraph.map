@@ -1,5 +1,7 @@
 <map id="MainWindow::checkVersion" name="MainWindow::checkVersion">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,187,56"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#abfb6056aa085805e2546d823e828e1ef" title=" " alt="" coords="235,5,421,31"/>
-<area shape="rect" id="node3" href="$df/dcf/struct_i_updater.html#ae6a31c846b0a9367710d084ca95a8d6c" title=" " alt="" coords="261,55,395,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,186,56"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#abfb6056aa085805e2546d823e828e1ef" title=" " alt="" coords="234,5,419,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,31,218,27,218,33,186,36"/>
+<area shape="rect" id="Node000003" href="$df/dcf/struct_i_updater.html#ae6a31c846b0a9367710d084ca95a8d6c" title=" " alt="" coords="260,55,393,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,50,245,56,244,62,185,55"/>
 </map>

@@ -1,10 +1,17 @@
 <map id="PhotosModelControllerComponent::updateModelFilters" name="PhotosModelControllerComponent::updateModelFilters">
-<area shape="rect" id="node1" title=" " alt="" coords="279,197,497,237"/>
-<area shape="rect" id="node2" href="$d2/d10/class_photos_model_controller_component.html#aa27d6c4f3ce129b777554aeadcc122b2" title=" " alt="" coords="9,5,227,45"/>
-<area shape="rect" id="node3" href="$d2/d10/class_photos_model_controller_component.html#a052b444533a1b1f82edcaf68d3aba69e" title=" " alt="" coords="5,69,231,109"/>
-<area shape="rect" id="node4" href="$d2/d10/class_photos_model_controller_component.html#a066f0ae57b78c028f0dd53aed1cd519f" title=" " alt="" coords="9,133,227,173"/>
-<area shape="rect" id="node5" href="$d2/d10/class_photos_model_controller_component.html#ad63ebe94a263a26c800bd70cc167d3f8" title=" " alt="" coords="9,197,227,237"/>
-<area shape="rect" id="node6" href="$d2/d10/class_photos_model_controller_component.html#afe131f2b99e7fbd76cb325b616d2fdbc" title=" " alt="" coords="9,261,227,301"/>
-<area shape="rect" id="node7" href="$d2/d10/class_photos_model_controller_component.html#adfc8e17ca190278b3d9307e8b1ac35fb" title=" " alt="" coords="9,325,227,365"/>
-<area shape="rect" id="node8" href="$d2/d10/class_photos_model_controller_component.html#af5a6cb9198e789dd1cf8e93f511d4e95" title=" " alt="" coords="9,389,227,429"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="278,201,496,242"/>
+<area shape="rect" id="Node000002" href="$d2/d10/class_photos_model_controller_component.html#aa27d6c4f3ce129b777554aeadcc122b2" title=" " alt="" coords="8,5,227,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="360,191,305,125,268,91,228,61,204,49,206,44,231,57,272,86,309,121,364,187"/>
+<area shape="rect" id="Node000004" href="$d2/d10/class_photos_model_controller_component.html#a052b444533a1b1f82edcaf68d3aba69e" title=" " alt="" coords="5,71,230,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="344,195,290,160,229,127,197,114,199,109,231,122,293,155,347,190"/>
+<area shape="rect" id="Node000005" href="$d2/d10/class_photos_model_controller_component.html#a066f0ae57b78c028f0dd53aed1cd519f" title=" " alt="" coords="8,136,227,177"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="285,200,204,180,205,175,286,195"/>
+<area shape="rect" id="Node000006" href="$d2/d10/class_photos_model_controller_component.html#ad63ebe94a263a26c800bd70cc167d3f8" title=" " alt="" coords="8,201,227,242"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="262,224,227,224,227,219,262,219"/>
+<area shape="rect" id="Node000007" href="$d2/d10/class_photos_model_controller_component.html#afe131f2b99e7fbd76cb325b616d2fdbc" title=" " alt="" coords="8,267,227,307"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="286,249,205,269,204,263,285,244"/>
+<area shape="rect" id="Node000008" href="$d2/d10/class_photos_model_controller_component.html#adfc8e17ca190278b3d9307e8b1ac35fb" title=" " alt="" coords="8,332,227,373"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="347,253,293,288,231,321,199,334,197,329,229,317,290,284,344,249"/>
+<area shape="rect" id="Node000009" href="$d2/d10/class_photos_model_controller_component.html#af5a6cb9198e789dd1cf8e93f511d4e95" title=" " alt="" coords="8,397,227,438"/>
+<area shape="poly" id="edge7_Node000001_Node000009" title=" " alt="" coords="364,256,309,322,272,357,231,387,206,399,204,394,228,382,268,353,305,319,360,253"/>
 </map>

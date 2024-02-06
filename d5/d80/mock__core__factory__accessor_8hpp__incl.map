@@ -1,5 +1,7 @@
 <map id="src/unit_tests_utils/mock_core_factory_accessor.hpp" name="src/unit_tests_utils/mock_core_factory_accessor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="25,5,245,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,120,126"/>
-<area shape="rect" id="node3" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="144,93,269,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="23,5,242,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,119,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,48,83,91,79,88,115,45"/>
+<area shape="rect" id="Node000003" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="143,94,267,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,45,181,80,177,84,147,48"/>
 </map>

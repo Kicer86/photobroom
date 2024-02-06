@@ -1,5 +1,7 @@
 <map id="Database::SqlQueryExecutor" name="Database::SqlQueryExecutor">
-<area shape="rect" id="node1" title=" " alt="" coords="83,93,270,119"/>
-<area shape="rect" id="node2" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html" title=" " alt="" coords="5,5,196,31"/>
-<area shape="rect" id="node3" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="221,5,287,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="83,94,269,120"/>
+<area shape="rect" id="Node000002" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html" title=" " alt="" coords="5,5,195,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,41,168,92,164,95,119,45"/>
+<area shape="rect" id="Node000003" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="219,5,285,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,45,188,95,184,92,229,41"/>
 </map>

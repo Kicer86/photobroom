@@ -1,5 +1,10 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,42,60,67"/>
-<area shape="rect" id="node2" href="$d2/de4/class_selection_manager_component.html#a925c547e294e52b14d4075aa60101c78" title=" " alt="" coords="108,5,300,45"/>
-<area shape="rect" id="node3" href="$d2/de4/class_selection_manager_component.html#a848f97d82d9afcbe730ea3613f0c5d2d" title=" " alt="" coords="348,35,540,75"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,78,60,104"/>
+<area shape="rect" id="Node000002" href="$d2/de4/class_selection_manager_component.html#a34d7dd6f58463fb9556988af6cfe6d5c" title=" " alt="" coords="108,5,299,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,77,107,57,126,49,128,54,109,61,61,81"/>
+<area shape="rect" id="Node000003" href="$d2/de4/class_selection_manager_component.html#a925c547e294e52b14d4075aa60101c78" title=" " alt="" coords="108,71,299,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,88,92,88,92,94,60,94"/>
+<area shape="rect" id="Node000006" href="$d2/de4/class_selection_manager_component.html#a848f97d82d9afcbe730ea3613f0c5d2d" title=" " alt="" coords="347,100,538,141"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="59,102,82,113,108,120,165,129,223,133,331,130,332,135,222,138,164,134,107,126,81,118,57,107"/>
+<area shape="poly" id="edge3_Node000003_Node000006" title=" " alt="" coords="300,100,332,104,331,109,299,105"/>
 </map>

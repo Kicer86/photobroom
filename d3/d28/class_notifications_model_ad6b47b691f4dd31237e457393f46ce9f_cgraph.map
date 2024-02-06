@@ -1,4 +1,7 @@
 <map id="NotificationsModel::removeRow" name="NotificationsModel::removeRow">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,135,45"/>
-<area shape="rect" id="node2" href="$d3/d28/class_notifications_model.html#a6ffb6550d9ca7812fa81eb6e77bda561" title=" " alt="" coords="183,5,312,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,134,79"/>
+<area shape="rect" id="Node000002" href="$d3/d28/class_notifications_model.html#a19e0562d8c9d25c866b9dd65c65286f6" title=" " alt="" coords="182,5,310,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,44,166,38,167,43,135,49"/>
+<area shape="rect" id="Node000003" href="$d3/d28/class_notifications_model.html#a6ffb6550d9ca7812fa81eb6e77bda561" title=" " alt="" coords="182,71,310,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="135,68,167,74,166,79,134,73"/>
 </map>

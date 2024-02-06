@@ -1,5 +1,7 @@
 <map id="src/photos_crawler/photo_crawler.hpp" name="src/photos_crawler/photo_crawler.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="35,5,167,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,73,119"/>
-<area shape="rect" id="node3" href="$d8/dd1/iphoto__crawler_8hpp.html" title=" " alt="" coords="98,93,229,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="35,5,166,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,73,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="87,48,60,83,56,80,83,45"/>
+<area shape="rect" id="Node000003" href="$d8/dd1/iphoto__crawler_8hpp.html" title=" " alt="" coords="97,94,226,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="118,45,145,80,141,83,113,48"/>
 </map>

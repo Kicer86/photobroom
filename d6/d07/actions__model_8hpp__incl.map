@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/models/actions_model.hpp" name="src/gui/desktop/models/actions_model.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="124,5,281,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,144,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="168,93,237,119"/>
-<area shape="rect" id="node4" href="$dd/d55/roles__expansion_8hpp.html" title=" " alt="" coords="261,93,400,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="123,5,279,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,143,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,49,108,88,105,83,168,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="167,94,235,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="203,46,203,78,198,78,198,46"/>
+<area shape="rect" id="Node000004" href="$dd/d55/roles__expansion_8hpp.html" title=" " alt="" coords="260,94,398,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="234,44,298,83,295,88,231,49"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="src/gui/unit_tests/utils/selection_manager_component_tests.cpp" name="src/gui/unit_tests/utils/selection_manager_component_tests.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="108,5,271,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,115,120,141"/>
-<area shape="rect" id="node3" title=" " alt="" coords="144,115,235,141"/>
-<area shape="rect" id="node4" href="$d3/dde/selection__manager__component_8hpp.html" title=" " alt="" coords="259,108,490,148"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="106,5,269,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,117,119,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,64,92,109,88,105,149,59"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="143,117,232,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,62,190,101,185,101,185,62"/>
+<area shape="rect" id="Node000004" href="$d3/dde/selection__manager__component_8hpp.html" title=" " alt="" coords="257,109,486,150"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="242,59,321,99,318,104,239,64"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,42,60,67"/>
-<area shape="rect" id="node2" href="$d6/db9/class_database_1_1_json_to_backend.html#ab744bf1c43927230180e91b5f7ab599d" title=" " alt="" coords="108,5,285,45"/>
-<area shape="rect" id="node3" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="118,70,275,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,60,68"/>
+<area shape="rect" id="Node000002" href="$d6/db9/class_database_1_1_json_to_backend.html#ab744bf1c43927230180e91b5f7ab599d" title=" " alt="" coords="108,5,284,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,48,92,42,93,47,60,53"/>
+<area shape="rect" id="Node000004" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="118,70,274,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="60,57,103,64,102,70,60,62"/>
 </map>

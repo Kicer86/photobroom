@@ -1,4 +1,5 @@
 <map id="IFace" name="IFace">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,60,31"/>
-<area shape="rect" id="node2" href="$d0/d9c/struct_face.html" title=" " alt="" coords="7,79,58,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,60,31"/>
+<area shape="rect" id="Node000002" href="$d0/d9c/struct_face.html" title=" " alt="" coords="7,79,58,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="35,46,35,79,30,79,30,46"/>
 </map>

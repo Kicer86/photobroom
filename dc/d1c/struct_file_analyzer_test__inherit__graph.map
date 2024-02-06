@@ -1,4 +1,5 @@
 <map id="FileAnalyzerTest" name="FileAnalyzerTest">
-<area shape="rect" id="node1" title=" " alt="" coords="29,93,148,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,172,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="30,94,147,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,172,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,62,91,93,86,93,86,62"/>
 </map>

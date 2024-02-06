@@ -1,10 +1,19 @@
 <map id="src/gui/desktop/ui_utils/completer_factory.cpp" name="src/gui/desktop/ui_utils/completer_factory.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="233,5,417,45"/>
-<area shape="rect" id="node2" href="$de/d29/completer__factory_8hpp.html" title=" " alt="" coords="5,93,155,119"/>
-<area shape="rect" id="node3" href="$df/d46/tag__info__collector_8hpp.html" title=" " alt="" coords="38,167,205,207"/>
-<area shape="rect" id="node4" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="125,255,238,280"/>
-<area shape="rect" id="node5" title=" " alt="" coords="280,93,371,119"/>
-<area shape="rect" id="node6" title=" " alt="" coords="395,93,517,119"/>
-<area shape="rect" id="node7" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="541,93,723,119"/>
-<area shape="rect" id="node8" href="$da/d9f/tag__value__model_8hpp.html" title=" " alt="" coords="747,93,919,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="233,5,417,46"/>
+<area shape="rect" id="Node000002" href="$de/d29/completer__factory_8hpp.html" title=" " alt="" coords="5,94,154,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="264,49,133,91,131,86,263,44"/>
+<area shape="rect" id="Node000014" href="$df/d46/tag__info__collector_8hpp.html" title=" " alt="" coords="39,168,205,208"/>
+<area shape="poly" id="edge8_Node000001_Node000014" title=" " alt="" coords="294,49,225,96,154,159,150,155,222,92,291,44"/>
+<area shape="rect" id="Node000016" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="126,256,238,282"/>
+<area shape="poly" id="edge6_Node000001_Node000016" title=" " alt="" coords="308,48,270,95,253,126,243,151,219,209,200,244,195,242,214,207,238,149,248,124,265,93,304,45"/>
+<area shape="rect" id="Node000029" title=" " alt="" coords="280,94,370,120"/>
+<area shape="poly" id="edge4_Node000001_Node000029" title=" " alt="" coords="328,46,328,78,322,78,322,46"/>
+<area shape="rect" id="Node000030" title=" " alt="" coords="394,94,517,120"/>
+<area shape="poly" id="edge5_Node000001_Node000030" title=" " alt="" coords="359,44,424,83,421,88,356,49"/>
+<area shape="rect" id="Node000031" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="541,94,722,120"/>
+<area shape="poly" id="edge7_Node000001_Node000031" title=" " alt="" coords="402,44,570,87,569,92,401,49"/>
+<area shape="rect" id="Node000033" href="$da/d9f/tag__value__model_8hpp.html" title=" " alt="" coords="746,94,917,120"/>
+<area shape="poly" id="edge9_Node000001_Node000033" title=" " alt="" coords="417,39,739,88,738,94,416,44"/>
+<area shape="poly" id="edge2_Node000002_Node000014" title=" " alt="" coords="88,119,107,153,102,155,84,121"/>
+<area shape="poly" id="edge3_Node000014_Node000016" title=" " alt="" coords="139,207,166,242,162,245,135,210"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="TagsModel::getTags" name="TagsModel::getTags">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,144,31"/>
-<area shape="rect" id="node2" href="$d8/d67/class_tags_operator.html#ae9000e168deff5584784e21f45952453" title=" " alt="" coords="192,5,347,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,144,31"/>
+<area shape="rect" id="Node000002" href="$d8/d67/class_tags_operator.html#ae9000e168deff5584784e21f45952453" title=" " alt="" coords="192,5,345,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,16,176,16,176,21,144,21"/>
 </map>

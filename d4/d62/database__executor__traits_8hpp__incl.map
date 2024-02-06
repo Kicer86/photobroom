@@ -1,5 +1,7 @@
 <map id="src/database/database_executor_traits.hpp" name="src/database/database_executor_traits.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="78,5,233,45"/>
-<area shape="rect" id="node2" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="5,93,137,133"/>
-<area shape="rect" id="node3" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="161,101,320,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="78,5,232,46"/>
+<area shape="rect" id="Node000002" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="5,94,137,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,48,103,84,99,81,134,45"/>
+<area shape="rect" id="Node000016" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="161,102,320,127"/>
+<area shape="poly" id="edge2_Node000001_Node000016" title=" " alt="" coords="176,45,220,88,216,92,172,48"/>
 </map>

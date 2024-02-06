@@ -1,7 +1,11 @@
 <map id="src/gui/desktop/ui_utils/iconfig_dialog_manager.hpp" name="src/gui/desktop/ui_utils/iconfig_dialog_manager.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="274,5,409,60"/>
-<area shape="rect" id="node2" href="$db/da7/a__config__tab_8hpp.html" title=" " alt="" coords="5,115,160,155"/>
-<area shape="rect" id="node3" href="$d1/dcc/main__tab_8hpp.html" title=" " alt="" coords="184,115,333,155"/>
-<area shape="rect" id="node4" href="$d7/d12/config__dialog__manager_8hpp.html" title=" " alt="" coords="358,108,490,163"/>
-<area shape="rect" id="node5" href="$d6/da3/iconfig__dialog__manager_8cpp.html" title=" " alt="" coords="514,108,649,163"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="273,5,407,61"/>
+<area shape="rect" id="Node000002" href="$db/da7/a__config__tab_8hpp.html" title=" " alt="" coords="5,117,160,157"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="259,69,134,118,132,113,257,64"/>
+<area shape="rect" id="Node000006" href="$d1/dcc/main__tab_8hpp.html" title=" " alt="" coords="184,117,333,157"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="311,75,276,118,272,115,306,72"/>
+<area shape="rect" id="Node000008" href="$d7/d12/config__dialog__manager_8hpp.html" title=" " alt="" coords="357,109,488,165"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="374,72,402,107,398,110,370,75"/>
+<area shape="rect" id="Node000010" href="$d6/da3/iconfig__dialog__manager_8cpp.html" title=" " alt="" coords="513,109,647,165"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="419,65,516,106,514,111,417,70"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="CrashCatcher::init" name="CrashCatcher::init">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,129,56"/>
-<area shape="rect" id="node2" href="$df/d0d/class_crash_catcher.html#a0e8be72f42853401405c772c087977dc" title=" " alt="" coords="177,5,351,31"/>
-<area shape="rect" id="node3" href="$df/d0d/class_crash_catcher.html#a80b7cf9e3bb5aaf98f8a095181d8789a" title=" " alt="" coords="195,55,333,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,129,56"/>
+<area shape="rect" id="Node000002" href="$df/d0d/class_crash_catcher.html#a0e8be72f42853401405c772c087977dc" title=" " alt="" coords="177,5,349,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="129,33,161,29,161,34,129,38"/>
+<area shape="rect" id="Node000003" href="$df/d0d/class_crash_catcher.html#a80b7cf9e3bb5aaf98f8a095181d8789a" title=" " alt="" coords="194,55,332,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="129,48,178,54,178,60,129,54"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="IFeaturesManager" name="IFeaturesManager">
-<area shape="rect" id="node1" title=" " alt="" coords="93,79,219,104"/>
-<area shape="rect" id="node3" href="$d6/deb/class_features_manager.html" title=" " alt="" coords="5,152,128,177"/>
-<area shape="rect" id="node4" href="$da/dd5/class_features_manager_compositor.html" title=" " alt="" coords="152,152,341,177"/>
-<area shape="rect" id="node2" title=" " alt="" coords="121,5,191,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="93,79,219,105"/>
+<area shape="rect" id="Node000003" href="$d6/deb/class_features_manager.html" title=" " alt="" coords="5,153,128,178"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="131,116,83,154,80,150,127,112"/>
+<area shape="rect" id="Node000004" href="$da/dd5/class_features_manager_compositor.html" title=" " alt="" coords="152,153,341,178"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="185,112,233,150,230,154,181,117"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="121,5,191,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,46,159,79,153,79,153,46"/>
 </map>

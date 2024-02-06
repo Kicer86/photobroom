@@ -1,11 +1,19 @@
 <map id="Database::PeopleInformationAccessor::store" name="Database::PeopleInformationAccessor::store">
-<area shape="rect" id="node1" title="Store person&#39;s fingerprint in db." alt="" coords="5,229,193,269"/>
-<area shape="rect" id="node2" href="$d4/df7/class_database_1_1_insert_query_data.html#a6f15c2c6539ec2fe81f63f067d79b92f" title=" " alt="" coords="248,5,425,45"/>
-<area shape="rect" id="node3" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="243,69,430,109"/>
-<area shape="rect" id="node4" href="$d4/df7/class_database_1_1_insert_query_data.html#a113cc84cda32008e4af3976f178c7f0f" title=" " alt="" coords="248,133,425,173"/>
-<area shape="rect" id="node5" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="241,197,432,237"/>
-<area shape="rect" id="node6" href="$da/d2c/class_person_fingerprint.html#ac43a7e13307c7744e92bfd94bdb470f8" title=" " alt="" coords="271,261,402,301"/>
-<area shape="rect" id="node7" href="$da/d2c/class_person_fingerprint.html#a3800b84c27b724528ea93e679ea4a33d" title=" " alt="" coords="267,326,407,351"/>
-<area shape="rect" id="node8" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="244,376,429,416"/>
-<area shape="rect" id="node9" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ab424cc45b1af347392472432c2a97e5f" title=" " alt="" coords="244,440,429,480"/>
+<area shape="rect" id="Node000001" title="Store person&#39;s fingerprint in db." alt="" coords="5,235,193,275"/>
+<area shape="rect" id="Node000002" href="$d4/df7/class_database_1_1_insert_query_data.html#a6f15c2c6539ec2fe81f63f067d79b92f" title=" " alt="" coords="247,5,424,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,233,127,195,156,148,194,99,239,57,247,52,250,56,242,61,198,103,161,151,132,198,112,235"/>
+<area shape="rect" id="Node000003" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="243,71,428,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="116,232,168,178,202,148,239,122,250,116,253,121,242,127,205,153,171,182,120,236"/>
+<area shape="rect" id="Node000004" href="$d4/df7/class_database_1_1_insert_query_data.html#a113cc84cda32008e4af3976f178c7f0f" title=" " alt="" coords="247,136,424,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="141,232,240,187,258,180,260,185,242,192,143,237"/>
+<area shape="rect" id="Node000005" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="241,201,430,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="193,239,225,235,226,240,193,244"/>
+<area shape="rect" id="Node000006" href="$da/d2c/class_person_fingerprint.html#ac43a7e13307c7744e92bfd94bdb470f8" title=" " alt="" coords="271,267,400,307"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="193,265,256,274,255,279,193,270"/>
+<area shape="rect" id="Node000007" href="$da/d2c/class_person_fingerprint.html#a3800b84c27b724528ea93e679ea4a33d" title=" " alt="" coords="266,332,405,357"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="142,273,242,317,265,324,264,329,240,321,140,278"/>
+<area shape="rect" id="Node000008" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="243,381,428,422"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="123,274,175,320,207,345,242,367,251,372,249,377,239,372,204,350,171,324,119,278"/>
+<area shape="rect" id="Node000009" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ab424cc45b1af347392472432c2a97e5f" title=" " alt="" coords="243,447,428,487"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="114,274,163,351,200,394,242,432,250,437,248,441,239,436,196,398,159,354,109,277"/>
 </map>

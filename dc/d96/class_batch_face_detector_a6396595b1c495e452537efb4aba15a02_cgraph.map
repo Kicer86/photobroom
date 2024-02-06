@@ -1,6 +1,9 @@
 <map id="BatchFaceDetector::loadFacesFromPhoto" name="BatchFaceDetector::loadFacesFromPhoto">
-<area shape="rect" id="node1" title=" " alt="" coords="5,63,152,103"/>
-<area shape="rect" id="node2" href="$dc/d96/class_batch_face_detector.html#a1022382653679c0abe6fee1ce87cc99b" title=" " alt="" coords="211,5,351,45"/>
-<area shape="rect" id="node3" href="$dd/d0a/class_face_editor.html#adf8745e7dc160e0a546a6137a05f2878" title=" " alt="" coords="200,70,363,95"/>
-<area shape="rect" id="node4" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="230,119,333,145"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,151,103"/>
+<area shape="rect" id="Node000002" href="$dc/d96/class_batch_face_detector.html#a1022382653679c0abe6fee1ce87cc99b" title=" " alt="" coords="210,5,350,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,60,195,47,196,52,152,65"/>
+<area shape="rect" id="Node000003" href="$dd/d0a/class_face_editor.html#adf8745e7dc160e0a546a6137a05f2878" title=" " alt="" coords="199,70,361,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="151,80,183,80,183,86,151,86"/>
+<area shape="rect" id="Node000019" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="229,120,331,145"/>
+<area shape="poly" id="edge3_Node000001_Node000019" title=" " alt="" coords="152,98,214,114,213,119,151,103"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="SignalBlocker::unlock" name="SignalBlocker::unlock">
-<area shape="rect" id="node1" title=" " alt="" coords="241,5,388,31"/>
-<area shape="rect" id="node2" href="$d8/da6/class_signal_blocker.html#ab0c4e273b55a98bde505aefa8934e9bd" title=" " alt="" coords="5,5,193,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,5,386,31"/>
+<area shape="rect" id="Node000002" href="$d8/da6/class_signal_blocker.html#ab0c4e273b55a98bde505aefa8934e9bd" title=" " alt="" coords="5,5,193,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,21,193,21,193,16,225,16"/>
 </map>

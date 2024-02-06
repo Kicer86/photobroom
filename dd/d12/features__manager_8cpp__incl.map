@@ -1,9 +1,15 @@
 <map id="src/gui/desktop/utils/features_manager.cpp" name="src/gui/desktop/utils/features_manager.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="260,5,415,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,80,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="104,93,213,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="238,93,311,119"/>
-<area shape="rect" id="node5" href="$d3/dad/constants_8hpp.html" title=" " alt="" coords="335,93,467,119"/>
-<area shape="rect" id="node6" href="$d9/dae/features__manager_8hpp.html" title=" " alt="" coords="491,93,642,119"/>
-<area shape="rect" id="node7" href="$d7/dca/gui_2features_8hpp.html" title=" " alt="" coords="667,93,781,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="259,5,413,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,80,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,49,95,94,94,89,262,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="104,94,213,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="293,49,201,90,199,85,290,44"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="237,94,309,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="322,48,294,83,290,80,318,45"/>
+<area shape="rect" id="Node000005" href="$d3/dad/constants_8hpp.html" title=" " alt="" coords="333,94,464,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="353,45,382,80,377,83,349,48"/>
+<area shape="rect" id="Node000009" href="$d9/dae/features__manager_8hpp.html" title=" " alt="" coords="488,94,637,120"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="393,44,514,86,512,91,392,49"/>
+<area shape="rect" id="Node000020" href="$d7/dca/gui_2features_8hpp.html" title=" " alt="" coords="662,94,775,120"/>
+<area shape="poly" id="edge6_Node000001_Node000020" title=" " alt="" coords="413,40,647,88,646,93,412,45"/>
 </map>

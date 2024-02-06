@@ -1,5 +1,8 @@
 <map id="Database::ASqlBackend::getPhotosCount" name="Database::ASqlBackend::getPhotosCount">
-<area shape="rect" id="node1" title="Count photos matching filter." alt="" coords="5,61,168,101"/>
-<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="216,29,403,69"/>
-<area shape="rect" id="node3" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#a41b86be1876d22b283d495106b9bcf0c" title=" " alt="" coords="227,93,392,133"/>
+<area shape="rect" id="Node000001" title="Count photos matching filter." alt="" coords="5,63,167,103"/>
+<area shape="rect" id="Node000002" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="215,29,400,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,68,199,63,200,69,167,74"/>
+<area shape="rect" id="Node000003" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#a41b86be1876d22b283d495106b9bcf0c" title=" " alt="" coords="225,95,390,135"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="167,92,210,98,209,104,167,97"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="266,29,263,19,270,10,285,5,307,3,331,5,346,11,343,16,330,10,307,8,286,10,273,15,269,21,271,28"/>
 </map>

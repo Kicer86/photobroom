@@ -1,5 +1,7 @@
 <map id="ProjectInfo::isValid" name="ProjectInfo::isValid">
-<area shape="rect" id="node1" title=" " alt="" coords="224,31,355,56"/>
-<area shape="rect" id="node2" href="$d3/d16/class_project_creator.html#ac44110bce200c391b2e2c70d6c2ad177" title=" " alt="" coords="17,5,164,31"/>
-<area shape="rect" id="node3" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="5,55,176,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="224,31,353,56"/>
+<area shape="rect" id="Node000002" href="$d3/d16/class_project_creator.html#ac44110bce200c391b2e2c70d6c2ad177" title=" " alt="" coords="17,5,164,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,36,164,30,164,25,208,31"/>
+<area shape="rect" id="Node000006" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="5,55,176,80"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="208,56,176,60,176,54,208,51"/>
 </map>

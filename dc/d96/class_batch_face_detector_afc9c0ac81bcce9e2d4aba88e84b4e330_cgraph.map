@@ -1,5 +1,7 @@
 <map id="BatchFaceDetector::setCore" name="BatchFaceDetector::setCore">
-<area shape="rect" id="node1" title=" " alt="" coords="5,27,145,67"/>
-<area shape="rect" id="node2" href="$d1/d78/struct_i_logger_factory.html#aca982aa12ae7cad04f1a90a5e48caa63" title=" " alt="" coords="202,5,335,31"/>
-<area shape="rect" id="node3" href="$d5/da9/struct_i_core_factory_accessor.html#abe33f0c94959dd4dd79b775df7c0c82d" title=" " alt="" coords="193,55,344,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,145,68"/>
+<area shape="rect" id="Node000002" href="$d1/d78/struct_i_logger_factory.html#aca982aa12ae7cad04f1a90a5e48caa63" title=" " alt="" coords="202,5,334,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,34,186,28,186,33,145,40"/>
+<area shape="rect" id="Node000003" href="$d5/da9/struct_i_core_factory_accessor.html#abe33f0c94959dd4dd79b775df7c0c82d" title=" " alt="" coords="193,55,343,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,55,177,60,177,65,145,60"/>
 </map>

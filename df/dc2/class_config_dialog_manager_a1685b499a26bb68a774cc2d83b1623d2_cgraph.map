@@ -1,4 +1,5 @@
 <map id="ConfigDialogManager::unregisterTab" name="ConfigDialogManager::unregisterTab">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,149,45"/>
-<area shape="rect" id="node2" href="$da/df3/struct_i_config_tab.html#a4ed7d5a6808a5980990e943467983761" title=" " alt="" coords="197,13,316,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,149,46"/>
+<area shape="rect" id="Node000002" href="$da/df3/struct_i_config_tab.html#a4ed7d5a6808a5980990e943467983761" title=" " alt="" coords="197,13,315,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,23,181,23,181,28,149,28"/>
 </map>

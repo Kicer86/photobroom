@@ -1,4 +1,5 @@
 <map id="ITaskExecutor::heavyWorkers" name="ITaskExecutor::heavyWorkers">
-<area shape="rect" id="node1" title=" " alt="" coords="237,5,431,31"/>
-<area shape="rect" id="node2" href="$d6/d2e/class_tasks_queue.html#a4dbad3c3222240e4d0916cf9e0f3e57b" title=" " alt="" coords="5,5,189,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="237,5,429,31"/>
+<area shape="rect" id="Node000002" href="$d6/d2e/class_tasks_queue.html#a4dbad3c3222240e4d0916cf9e0f3e57b" title=" " alt="" coords="5,5,189,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,21,189,21,189,16,221,16"/>
 </map>

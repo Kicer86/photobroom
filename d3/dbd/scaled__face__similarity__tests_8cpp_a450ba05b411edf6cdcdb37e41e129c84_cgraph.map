@@ -1,4 +1,5 @@
 <map id="TEST_F" name="TEST_F">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,76,38"/>
-<area shape="rect" id="node2" href="$d7/d20/classdlib__api_1_1_face_locator.html#a934b8b06be2245c9bf01490156088e85" title=" " alt="" coords="124,5,269,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,75,39"/>
+<area shape="rect" id="Node000002" href="$d7/d20/classdlib__api_1_1_face_locator.html#a934b8b06be2245c9bf01490156088e85" title=" " alt="" coords="123,5,267,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,23,107,23,107,28,75,28"/>
 </map>

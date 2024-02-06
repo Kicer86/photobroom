@@ -10,6 +10,6 @@ var searchData=
   ['stabilize_7',['stabilize',['../d5/da4/struct_animation_generator_1_1_data.html#a49039a5365549962f41eee9253c8a414',1,'AnimationGenerator::Data']]],
   ['stagingareaset_8',['StagingAreaSet',['../db/d93/namespace_photos_analyzer_consts.html#af041cf34d06fe932c4e7da2839c1c773',1,'PhotosAnalyzerConsts']]],
   ['state_9',['state',['../d5/da1/struct_generator_utils_1_1_a_i_s_output_analyzer_1_1_data.html#a36ff810cc292b309e0e131597414dea8',1,'GeneratorUtils::AISOutputAnalyzer::Data']]],
-  ['status_10',['status',['../d0/df6/struct_database_1_1_filter_face_analysis_status.html#a69a045fc82951aba0e5480724aa63865',1,'Database::FilterFaceAnalysisStatus::status()'],['../d8/dc4/struct_i_updater_1_1_online_version.html#adbb4ac4230549797b6f9c7bf66e92e40',1,'IUpdater::OnlineVersion::status()']]],
-  ['storage_11',['storage',['../d5/da4/struct_animation_generator_1_1_data.html#a2f57ced70630c0c3205ee9768912b216',1,'AnimationGenerator::Data::storage()'],['../d0/d4b/struct_h_d_r_generator_1_1_data.html#a5c426db5a7201e18d8363a87d0977fbc',1,'HDRGenerator::Data::storage()']]]
+  ['status_10',['status',['../d0/df6/struct_database_1_1_filter_face_analysis_status.html#a69a045fc82951aba0e5480724aa63865',1,'Database::FilterFaceAnalysisStatus::status'],['../d8/dc4/struct_i_updater_1_1_online_version.html#adbb4ac4230549797b6f9c7bf66e92e40',1,'IUpdater::OnlineVersion::status']]],
+  ['storage_11',['storage',['../d5/da4/struct_animation_generator_1_1_data.html#a2f57ced70630c0c3205ee9768912b216',1,'AnimationGenerator::Data::storage'],['../d0/d4b/struct_h_d_r_generator_1_1_data.html#a5c426db5a7201e18d8363a87d0977fbc',1,'HDRGenerator::Data::storage']]]
 ];

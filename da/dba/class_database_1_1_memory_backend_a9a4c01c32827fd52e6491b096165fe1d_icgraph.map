@@ -1,6 +1,9 @@
 <map id="Database::MemoryBackend::openTransaction" name="Database::MemoryBackend::openTransaction">
-<area shape="rect" id="node1" title="begin transaction" alt="" coords="257,63,437,103"/>
-<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#a9d9d28d5c6ca50aec66b845a364124a2" title="Add photos to database." alt="" coords="17,5,197,45"/>
-<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#a8faea221710cc284da5eb0810aa1ed9e" title="set flag for photo to given value" alt="" coords="5,70,209,95"/>
-<area shape="rect" id="node4" href="$da/dba/class_database_1_1_memory_backend.html#a4776d93a9968f87bc793e6fad9e96a89" title="update photos details" alt="" coords="17,120,197,160"/>
+<area shape="rect" id="Node000001" title="begin transaction" alt="" coords="257,63,436,103"/>
+<area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#a9d9d28d5c6ca50aec66b845a364124a2" title="Add photos to database." alt="" coords="17,5,197,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,61,194,49,196,44,244,56"/>
+<area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html#a8faea221710cc284da5eb0810aa1ed9e" title="set flag for photo to given value" alt="" coords="5,70,209,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,86,209,86,209,80,241,80"/>
+<area shape="rect" id="Node000006" href="$da/dba/class_database_1_1_memory_backend.html#a4776d93a9968f87bc793e6fad9e96a89" title="update photos details" alt="" coords="17,120,197,161"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="244,110,196,122,194,117,243,105"/>
 </map>

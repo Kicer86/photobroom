@@ -1,5 +1,7 @@
 <map id="TagInfoCollector::updateAllTags" name="TagInfoCollector::updateAllTags">
-<area shape="rect" id="node1" title=" " alt="" coords="5,27,168,67"/>
-<area shape="rect" id="node2" href="$de/dd4/class_base_tags.html#a3ce04bcde2b5c25532fe7ba17717e48e" title="get list of all possible tag types" alt="" coords="237,5,357,31"/>
-<area shape="rect" id="node3" href="$d6/d99/class_tag_info_collector.html#ac9a9d5cb67ed21da76ad389a5de0f565" title=" " alt="" coords="216,55,379,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,167,68"/>
+<area shape="rect" id="Node000002" href="$de/dd4/class_base_tags.html#a3ce04bcde2b5c25532fe7ba17717e48e" title="get list of all possible tag types" alt="" coords="236,5,355,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,34,220,26,221,31,168,39"/>
+<area shape="rect" id="Node000003" href="$d6/d99/class_tag_info_collector.html#ac9a9d5cb67ed21da76ad389a5de0f565" title=" " alt="" coords="215,55,376,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="168,56,200,60,199,65,167,61"/>
 </map>

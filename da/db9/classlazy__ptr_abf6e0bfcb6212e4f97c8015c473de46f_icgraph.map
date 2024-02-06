@@ -1,5 +1,7 @@
 <map id="lazy_ptr::get" name="lazy_ptr::get">
-<area shape="rect" id="node1" title=" " alt="" coords="184,31,275,56"/>
-<area shape="rect" id="node2" href="$da/db9/classlazy__ptr.html#abf14db0348735cb4edbe6c8b158393d8" title=" " alt="" coords="9,5,133,31"/>
-<area shape="rect" id="node3" href="$da/db9/classlazy__ptr.html#af4c48e7a9ddfca64f492b6619de3d9ac" title=" " alt="" coords="5,55,136,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="184,31,273,56"/>
+<area shape="rect" id="Node000002" href="$da/db9/classlazy__ptr.html#abf14db0348735cb4edbe6c8b158393d8" title=" " alt="" coords="9,5,132,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="168,37,132,31,133,25,169,31"/>
+<area shape="rect" id="Node000003" href="$da/db9/classlazy__ptr.html#af4c48e7a9ddfca64f492b6619de3d9ac" title=" " alt="" coords="5,55,136,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,55,136,60,136,55,168,50"/>
 </map>

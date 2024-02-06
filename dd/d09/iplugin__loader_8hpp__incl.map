@@ -1,5 +1,7 @@
 <map id="src/plugins/iplugin_loader.hpp" name="src/plugins/iplugin_loader.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="20,5,147,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,73,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="98,93,157,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="19,5,144,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,73,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="73,48,55,81,51,79,69,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="97,94,154,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="95,45,114,79,109,82,90,48"/>
 </map>

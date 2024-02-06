@@ -1,4 +1,5 @@
 <map id="CollectionScanner::addNotification" name="CollectionScanner::addNotification">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,139,45"/>
-<area shape="rect" id="node2" href="$d2/d43/class_i_notifications.html#aee1f215ea853adec5646504bf5674f05" title=" " alt="" coords="187,13,323,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,138,46"/>
+<area shape="rect" id="Node000002" href="$d2/d43/class_i_notifications.html#aee1f215ea853adec5646504bf5674f05" title=" " alt="" coords="186,13,321,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,23,170,23,170,28,138,28"/>
 </map>

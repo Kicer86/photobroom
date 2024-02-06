@@ -1,5 +1,7 @@
 <map id="SelectionManagerComponent::toggleIndexSelection" name="SelectionManagerComponent::toggleIndexSelection">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,197,77"/>
-<area shape="rect" id="node2" href="$d2/de4/class_selection_manager_component.html#a54c8a69bcf0166c3597afcb82adbf692" title=" " alt="" coords="245,5,437,45"/>
-<area shape="rect" id="node3" href="$d2/de4/class_selection_manager_component.html#a38832ff1aa0f836191fa3faa39f78491" title=" " alt="" coords="245,69,437,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,197,79"/>
+<area shape="rect" id="Node000002" href="$d2/de4/class_selection_manager_component.html#a54c8a69bcf0166c3597afcb82adbf692" title=" " alt="" coords="245,5,436,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,43,229,39,229,44,198,48"/>
+<area shape="rect" id="Node000005" href="$d2/de4/class_selection_manager_component.html#a38832ff1aa0f836191fa3faa39f78491" title=" " alt="" coords="245,71,436,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="198,69,229,74,229,79,197,74"/>
 </map>

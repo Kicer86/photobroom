@@ -1,6 +1,9 @@
 <map id="ProjectCreatorDialog" name="ProjectCreatorDialog">
-<area shape="rect" id="node1" title=" " alt="" coords="86,93,227,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,73,31"/>
-<area shape="rect" id="node3" href="$dc/df3/class_qt_ext_choose_file.html" title=" " alt="" coords="97,5,216,31"/>
-<area shape="rect" id="node4" href="$d5/d64/struct_i_plugin_loader.html" title=" " alt="" coords="240,5,343,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="86,94,227,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,73,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,38,141,91,138,96,66,43"/>
+<area shape="rect" id="Node000003" href="$dc/df3/class_qt_ext_choose_file.html" title=" " alt="" coords="97,5,216,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="159,47,159,94,154,94,154,47"/>
+<area shape="rect" id="Node000005" href="$d5/d64/struct_i_plugin_loader.html" title=" " alt="" coords="239,5,340,31"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="268,43,230,72,186,96,183,91,227,68,264,39"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="IFeaturesManager::has" name="IFeaturesManager::has">
-<area shape="rect" id="node1" title=" " alt="" coords="269,42,424,67"/>
-<area shape="rect" id="node2" href="$dd/dde/class_features_observer.html#a0fe8050b941c7df4daf1bfd5c0c1df69" title=" " alt="" coords="22,5,205,45"/>
-<area shape="rect" id="node3" href="$da/dd5/class_features_manager_compositor.html#a4fd2ada388425771dd116b39fc9bbe38" title=" " alt="" coords="5,70,221,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="269,42,422,68"/>
+<area shape="rect" id="Node000002" href="$dd/dde/class_features_observer.html#a0fe8050b941c7df4daf1bfd5c0c1df69" title=" " alt="" coords="22,5,204,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="253,46,204,40,205,35,253,41"/>
+<area shape="rect" id="Node000003" href="$da/dd5/class_features_manager_compositor.html#a4fd2ada388425771dd116b39fc9bbe38" title=" " alt="" coords="5,70,221,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,69,222,73,221,67,253,63"/>
 </map>

@@ -1,4 +1,6 @@
 <map id="ConfigStorage::writeTo" name="ConfigStorage::writeTo">
-<area shape="rect" id="node1" title=" " alt="" coords="191,29,343,55"/>
-<area shape="rect" id="node2" href="$d9/d02/class_config_storage.html#ad70256758feb1309ebba84ca08b926a9" title="Save configuration." alt="" coords="5,29,143,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="190,29,341,55"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="298,17,287,10,265,8,245,10,234,15,232,20,238,27,233,30,227,21,231,11,244,5,265,3,289,5,301,12"/>
+<area shape="rect" id="Node000002" href="$d9/d02/class_config_storage.html#ad70256758feb1309ebba84ca08b926a9" title="Save configuration." alt="" coords="5,29,142,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,45,142,45,142,40,174,40"/>
 </map>

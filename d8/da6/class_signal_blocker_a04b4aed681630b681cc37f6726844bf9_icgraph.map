@@ -1,5 +1,8 @@
 <map id="SignalBlocker::notify" name="SignalBlocker::notify">
-<area shape="rect" id="node1" title=" " alt="" coords="363,31,501,56"/>
-<area shape="rect" id="node2" href="$dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184" title="blocks slot invocation until previous invocation is complete." alt="" coords="195,5,315,31"/>
-<area shape="rect" id="node3" href="$d6/d99/class_tag_info_collector.html#aec9fe80391af5e8f10a25bb4f7bc3f4b" title=" " alt="" coords="5,31,147,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="361,31,499,56"/>
+<area shape="rect" id="Node000002" href="$dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184" title="blocks slot invocation until previous invocation is complete." alt="" coords="194,5,313,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="345,34,313,29,314,24,346,29"/>
+<area shape="rect" id="Node000003" href="$d6/d99/class_tag_info_collector.html#aec9fe80391af5e8f10a25bb4f7bc3f4b" title=" " alt="" coords="5,31,146,56"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="346,46,146,46,146,41,346,41"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="179,31,146,36,146,31,178,26"/>
 </map>

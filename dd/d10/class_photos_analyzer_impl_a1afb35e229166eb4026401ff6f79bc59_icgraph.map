@@ -1,5 +1,7 @@
 <map id="PhotosAnalyzerImpl::finishProgressBar" name="PhotosAnalyzerImpl::finishProgressBar">
-<area shape="rect" id="node1" title=" " alt="" coords="204,37,341,77"/>
-<area shape="rect" id="node2" href="$dd/d10/class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b" title=" " alt="" coords="12,5,149,45"/>
-<area shape="rect" id="node3" href="$dd/d10/class_photos_analyzer_impl.html#a08ff5c2a4ddb259b23e2d053d2995665" title=" " alt="" coords="5,69,156,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="203,39,339,79"/>
+<area shape="rect" id="Node000002" href="$dd/d10/class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b" title=" " alt="" coords="12,5,148,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,47,148,40,149,35,188,42"/>
+<area shape="rect" id="Node000004" href="$dd/d10/class_photos_analyzer_impl.html#a08ff5c2a4ddb259b23e2d053d2995665" title=" " alt="" coords="5,71,155,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="188,76,156,81,155,76,187,70"/>
 </map>

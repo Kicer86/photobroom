@@ -1,5 +1,7 @@
 <map id="Database::IDatabaseRoot" name="Database::IDatabaseRoot">
-<area shape="rect" id="node1" title="Database interface for main client." alt="" coords="8,79,177,104"/>
-<area shape="rect" id="node3" href="$dc/dc0/class_database_1_1_async_database.html" title=" " alt="" coords="5,152,180,177"/>
-<area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="21,5,164,31"/>
+<area shape="rect" id="Node000001" title="Database interface for main client." alt="" coords="8,79,176,105"/>
+<area shape="rect" id="Node000003" href="$dc/dc0/class_database_1_1_async_database.html" title=" " alt="" coords="5,153,179,178"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="95,120,95,152,89,152,89,120"/>
+<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="21,5,163,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,46,95,79,89,79,89,46"/>
 </map>

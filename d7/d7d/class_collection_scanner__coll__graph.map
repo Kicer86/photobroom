@@ -1,10 +1,20 @@
 <map id="CollectionScanner" name="CollectionScanner">
-<area shape="rect" id="node1" title=" " alt="" coords="519,195,645,220"/>
-<area shape="rect" id="node2" title=" " alt="" coords="15,22,86,47"/>
-<area shape="rect" id="node3" href="$d3/d3d/class_photos_collector.html" title=" " alt="" coords="241,64,355,90"/>
-<area shape="rect" id="node4" href="$d6/d44/struct_i_tasks_view.html" title=" " alt="" coords="5,102,96,127"/>
-<area shape="rect" id="node5" href="$d9/d6e/class_project.html" title=" " alt="" coords="19,166,82,191"/>
-<area shape="rect" id="node6" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="227,256,369,282"/>
-<area shape="rect" id="node7" href="$da/d69/struct_i_view_task.html" title=" " alt="" coords="256,306,340,331"/>
-<area shape="rect" id="node8" href="$d2/d43/class_i_notifications.html" title=" " alt="" coords="249,355,347,380"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="515,194,641,220"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="16,21,85,47"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,20,180,8,282,4,337,7,391,17,444,34,493,58,526,89,550,127,567,164,576,193,571,195,562,166,545,129,522,92,489,63,442,39,390,22,336,13,282,9,181,13,101,25"/>
+<area shape="rect" id="Node000003" href="$d3/d3d/class_photos_collector.html" title=" " alt="" coords="240,64,353,89"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="101,40,240,64,239,69,100,45"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="369,75,431,85,463,94,492,108,519,127,541,150,571,192,567,196,537,153,515,131,490,112,461,99,430,90,368,80"/>
+<area shape="rect" id="Node000005" href="$d6/d44/struct_i_tasks_view.html" title=" " alt="" coords="5,101,96,127"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="111,118,283,141,387,158,492,179,536,191,535,196,490,185,386,164,282,146,110,123"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="110,102,239,83,240,88,111,108"/>
+<area shape="rect" id="Node000006" href="$d9/d6e/class_project.html" title=" " alt="" coords="19,165,82,191"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="98,178,515,201,514,206,97,183"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="95,162,147,144,200,121,224,106,263,88,265,92,227,111,203,126,148,149,97,167"/>
+<area shape="rect" id="Node000009" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="226,256,367,281"/>
+<area shape="poly" id="edge7_Node000001_Node000009" title=" " alt="" coords="382,258,436,250,490,238,547,218,549,223,492,244,437,255,383,263"/>
+<area shape="rect" id="Node000010" href="$da/d69/struct_i_view_task.html" title=" " alt="" coords="255,305,338,331"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="353,312,420,302,456,292,490,279,532,249,564,219,567,222,536,254,492,283,458,297,422,307,354,318"/>
+<area shape="rect" id="Node000011" href="$d2/d43/class_i_notifications.html" title=" " alt="" coords="248,354,345,380"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="360,364,426,354,459,344,490,328,518,303,541,273,569,219,574,222,545,276,522,307,492,332,461,349,427,360,361,370"/>
 </map>

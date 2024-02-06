@@ -1,5 +1,7 @@
 <map id="ThumbnailGenerator::scaleImage" name="ThumbnailGenerator::scaleImage">
-<area shape="rect" id="node1" title=" " alt="" coords="192,37,331,77"/>
-<area shape="rect" id="node2" href="$d7/d27/class_thumbnail_generator.html#a68ab4be0483963dd100ef7b74b02f857" title=" " alt="" coords="5,5,144,45"/>
-<area shape="rect" id="node3" href="$d7/d27/class_thumbnail_generator.html#a4a0efa68c4b50af06a7db26478747686" title=" " alt="" coords="5,69,144,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="192,39,330,79"/>
+<area shape="rect" id="Node000002" href="$d7/d27/class_thumbnail_generator.html#a68ab4be0483963dd100ef7b74b02f857" title=" " alt="" coords="5,5,144,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,47,144,41,145,35,177,41"/>
+<area shape="rect" id="Node000003" href="$d7/d27/class_thumbnail_generator.html#a4a0efa68c4b50af06a7db26478747686" title=" " alt="" coords="5,71,144,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,76,145,82,144,76,176,71"/>
 </map>

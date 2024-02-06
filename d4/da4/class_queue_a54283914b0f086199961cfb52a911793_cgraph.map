@@ -1,5 +1,7 @@
 <map id="Queue::~Queue" name="Queue::~Queue">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,116,56"/>
-<area shape="rect" id="node2" href="$d4/da4/class_queue.html#adf320f8708bb91ce96cf14afd7eefdf0" title="Remove queued items." alt="" coords="213,5,307,31"/>
-<area shape="rect" id="node3" href="$d4/da4/class_queue.html#af775d4a141d4bc06c5c9faf00bb56663" title="Wait for tasks being executed." alt="" coords="164,55,356,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,116,56"/>
+<area shape="rect" id="Node000002" href="$d4/da4/class_queue.html#adf320f8708bb91ce96cf14afd7eefdf0" title="Remove queued items." alt="" coords="213,5,306,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,34,197,23,197,29,116,39"/>
+<area shape="rect" id="Node000003" href="$d4/da4/class_queue.html#af775d4a141d4bc06c5c9faf00bb56663" title="Wait for tasks being executed." alt="" coords="164,55,355,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="116,47,148,51,148,57,116,53"/>
 </map>

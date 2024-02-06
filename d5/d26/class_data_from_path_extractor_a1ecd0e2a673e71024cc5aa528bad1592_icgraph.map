@@ -1,5 +1,13 @@
 <map id="DataFromPathExtractor::extract" name="DataFromPathExtractor::extract">
-<area shape="rect" id="node1" title=" " alt="" coords="199,35,356,75"/>
-<area shape="rect" id="node2" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="5,5,151,45"/>
-<area shape="rect" id="node3" href="$d9/d0a/data__from__path__extractor__tests_8cpp.html#a6ac489c9d639796379f3f272cf4dbf59" title=" " alt="" coords="51,70,105,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="198,112,354,153"/>
+<area shape="rect" id="Node000002" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="5,5,150,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,106,148,60,126,49,128,44,151,55,231,102"/>
+<area shape="rect" id="Node000003" href="$d9/d0a/data__from__path__extractor__tests_8cpp.html#ae2641a3dfa31703b559b4fab0c412cc1" title=" " alt="" coords="50,70,105,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,112,104,92,106,87,183,107"/>
+<area shape="rect" id="Node000004" href="$d9/d0a/data__from__path__extractor__tests_8cpp.html#a6ac489c9d639796379f3f272cf4dbf59" title=" " alt="" coords="50,120,105,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,135,105,135,105,130,182,130"/>
+<area shape="rect" id="Node000005" href="$d9/d0a/data__from__path__extractor__tests_8cpp.html#a21f21c386aeb7c668c431d69431cdf6f" title=" " alt="" coords="50,169,105,195"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="183,158,106,178,104,172,182,153"/>
+<area shape="rect" id="Node000006" href="$d9/d0a/data__from__path__extractor__tests_8cpp.html#a811576ffb8f46e9cd8629e671300f552" title=" " alt="" coords="50,218,105,244"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="233,164,151,209,106,226,104,221,149,205,230,159"/>
 </map>

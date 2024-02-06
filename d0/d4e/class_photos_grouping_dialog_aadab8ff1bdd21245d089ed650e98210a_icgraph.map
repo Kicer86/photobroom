@@ -1,7 +1,14 @@
 <map id="PhotosGroupingDialog::generationDone" name="PhotosGroupingDialog::generationDone">
-<area shape="rect" id="node1" title=" " alt="" coords="403,92,553,132"/>
-<area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#ad037f450d58e8a287a8a73e22482254a" title=" " alt="" coords="204,5,355,45"/>
-<area shape="rect" id="node3" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="5,63,156,103"/>
-<area shape="rect" id="node4" href="$d0/d4e/class_photos_grouping_dialog.html#ab537e3929d675260043bfe111c4afdda" title=" " alt="" coords="204,120,355,160"/>
-<area shape="rect" id="node5" href="$d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" title=" " alt="" coords="5,152,156,192"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="402,92,552,133"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#ad037f450d58e8a287a8a73e22482254a" title=" " alt="" coords="204,5,354,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="414,88,326,49,329,44,416,83"/>
+<area shape="rect" id="Node000003" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="5,63,156,103"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="386,108,156,91,156,86,387,103"/>
+<area shape="rect" id="Node000008" href="$d0/d4e/class_photos_grouping_dialog.html#ab537e3929d675260043bfe111c4afdda" title=" " alt="" coords="204,120,354,161"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="387,128,355,132,354,127,386,122"/>
+<area shape="rect" id="Node000009" href="$d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" title=" " alt="" coords="5,152,156,193"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="432,143,395,161,355,175,304,183,251,187,156,184,156,179,251,182,303,178,353,170,393,156,430,138"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="193,53,154,65,153,59,191,48"/>
+<area shape="poly" id="edge5_Node000008_Node000003" title=" " alt="" coords="191,118,153,107,154,101,193,113"/>
+<area shape="poly" id="edge4_Node000008_Node000009" title=" " alt="" coords="189,157,156,163,155,158,188,152"/>
 </map>

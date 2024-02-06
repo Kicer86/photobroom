@@ -1,5 +1,7 @@
 <map id="Database::APhotoChangeLogOperator::dataToStr" name="Database::APhotoChangeLogOperator::dataToStr">
-<area shape="rect" id="node1" title=" " alt="" coords="5,23,197,63"/>
-<area shape="rect" id="node2" href="$de/dd4/class_base_tags.html#a7b65c7bd0c368919cce09effdcdf83b6" title="Get raw text for tag." alt="" coords="245,5,385,31"/>
-<area shape="rect" id="node3" href="$df/d7c/class_tag_value.html#a7dbb46edc2d25d96165c308c152aea06" title=" " alt="" coords="247,55,384,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,197,64"/>
+<area shape="rect" id="Node000002" href="$de/dd4/class_base_tags.html#a7b65c7bd0c368919cce09effdcdf83b6" title="Get raw text for tag." alt="" coords="245,5,384,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,29,229,26,230,31,198,35"/>
+<area shape="rect" id="Node000003" href="$df/d7c/class_tag_value.html#a7dbb46edc2d25d96165c308c152aea06" title=" " alt="" coords="246,55,383,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,52,231,55,230,61,197,57"/>
 </map>

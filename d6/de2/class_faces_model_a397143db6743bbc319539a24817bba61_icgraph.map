@@ -1,4 +1,5 @@
 <map id="FacesModel::initialSetup" name="FacesModel::initialSetup">
-<area shape="rect" id="node1" title=" " alt="" coords="224,5,387,31"/>
-<area shape="rect" id="node2" href="$d6/de2/class_faces_model.html#ade2659609aa57a001733a7ed662ed074" title=" " alt="" coords="5,5,176,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,5,385,31"/>
+<area shape="rect" id="Node000002" href="$d6/de2/class_faces_model.html#ade2659609aa57a001733a7ed662ed074" title=" " alt="" coords="5,5,175,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,21,175,21,175,16,207,16"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="src/core/core_factory_accessor.hpp" name="src/core/core_factory_accessor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="208,5,352,45"/>
-<area shape="rect" id="node2" href="$d2/d11/core__factory__accessor_8cpp.html" title=" " alt="" coords="5,93,187,133"/>
-<area shape="rect" id="node3" href="$d9/d19/people__editor_8hpp.html" title=" " alt="" coords="211,93,349,133"/>
-<area shape="rect" id="node4" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="373,101,469,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,5,351,46"/>
+<area shape="rect" id="Node000002" href="$d2/d11/core__factory__accessor_8cpp.html" title=" " alt="" coords="5,94,186,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,55,138,96,136,91,223,50"/>
+<area shape="rect" id="Node000003" href="$d9/d19/people__editor_8hpp.html" title=" " alt="" coords="210,94,349,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="282,62,282,94,277,94,277,62"/>
+<area shape="rect" id="Node000011" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="373,102,469,127"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="326,52,402,99,400,103,323,57"/>
 </map>

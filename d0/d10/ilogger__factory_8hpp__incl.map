@@ -1,7 +1,12 @@
 <map id="src/core/ilogger_factory.hpp" name="src/core/ilogger_factory.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="9,5,190,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="88,152,156,177"/>
-<area shape="rect" id="node3" title=" " alt="" coords="22,79,81,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="105,79,193,104"/>
-<area shape="rect" id="node5" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="217,79,301,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="9,5,189,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="87,153,154,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,34,45,47,22,64,9,83,8,93,12,103,24,118,39,131,74,149,71,153,36,135,20,122,8,106,3,94,4,81,18,60,42,43,68,29"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="23,79,80,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="94,33,70,67,66,64,89,30"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="104,79,191,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="109,30,133,64,128,67,105,33"/>
+<area shape="rect" id="Node000005" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="215,79,298,105"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="127,29,217,70,215,75,125,34"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="235,108,158,147,156,143,232,103"/>
 </map>

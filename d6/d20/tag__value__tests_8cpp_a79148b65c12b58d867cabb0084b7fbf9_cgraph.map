@@ -1,5 +1,8 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,60,56"/>
-<area shape="rect" id="node2" href="$df/d7c/class_tag_value.html#aa97dabc4424d27970dbf07bbecb725da" title=" " alt="" coords="108,5,268,31"/>
-<area shape="rect" id="node3" href="$df/d7c/class_tag_value.html#a552de8ae14f88b953752a3ee95572592" title=" " alt="" coords="316,31,423,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$df/d7c/class_tag_value.html#aa97dabc4424d27970dbf07bbecb725da" title=" " alt="" coords="108,5,267,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,37,92,31,93,36,60,42"/>
+<area shape="rect" id="Node000004" href="$df/d7c/class_tag_value.html#a552de8ae14f88b953752a3ee95572592" title=" " alt="" coords="315,31,421,56"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="60,41,299,41,299,46,60,46"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="268,27,300,31,299,37,267,32"/>
 </map>

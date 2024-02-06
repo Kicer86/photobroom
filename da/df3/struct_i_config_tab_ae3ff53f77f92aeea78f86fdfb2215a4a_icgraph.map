@@ -1,4 +1,5 @@
 <map id="IConfigTab::tabName" name="IConfigTab::tabName">
-<area shape="rect" id="node1" title=" " alt="" coords="221,5,364,31"/>
-<area shape="rect" id="node2" href="$df/dc2/class_config_dialog_manager.html#a3a202c651eadb036bb3e5bbdaaa84eb1" title=" " alt="" coords="5,5,173,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="221,5,363,31"/>
+<area shape="rect" id="Node000002" href="$df/dc2/class_config_dialog_manager.html#a3a202c651eadb036bb3e5bbdaaa84eb1" title=" " alt="" coords="5,5,173,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,21,173,21,173,16,205,16"/>
 </map>

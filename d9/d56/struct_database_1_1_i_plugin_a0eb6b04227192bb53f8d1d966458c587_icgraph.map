@@ -1,4 +1,5 @@
 <map id="Database::IPlugin::constructBackend" name="Database::IPlugin::constructBackend">
-<area shape="rect" id="node1" title=" " alt="" coords="200,5,329,45"/>
-<area shape="rect" id="node2" href="$dd/dc1/struct_database_1_1_builder.html#ae21fa2aefe889584249a81bf88a256c0" title=" " alt="" coords="5,13,152,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="200,5,328,46"/>
+<area shape="rect" id="Node000002" href="$dd/dc1/struct_database_1_1_builder.html#ae21fa2aefe889584249a81bf88a256c0" title=" " alt="" coords="5,13,152,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,28,152,28,152,23,184,23"/>
 </map>

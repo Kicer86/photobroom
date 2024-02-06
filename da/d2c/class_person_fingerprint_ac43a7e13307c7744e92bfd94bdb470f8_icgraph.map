@@ -1,5 +1,7 @@
 <map id="PersonFingerprint::fingerprint" name="PersonFingerprint::fingerprint">
-<area shape="rect" id="node1" title=" " alt="" coords="241,27,372,67"/>
-<area shape="rect" id="node2" href="$d3/d26/class_recognizer.html#a1a2b710f9d3e7d3c95c2e71c0a3eb828" title=" " alt="" coords="26,5,173,31"/>
-<area shape="rect" id="node3" href="$db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" title="Store person&#39;s fingerprint in db." alt="" coords="5,55,193,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,27,370,68"/>
+<area shape="rect" id="Node000002" href="$d3/d26/class_recognizer.html#a1a2b710f9d3e7d3c95c2e71c0a3eb828" title=" " alt="" coords="26,5,172,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,39,172,31,173,26,226,34"/>
+<area shape="rect" id="Node000003" href="$db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" title="Store person&#39;s fingerprint in db." alt="" coords="5,55,193,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,61,193,65,193,60,225,56"/>
 </map>

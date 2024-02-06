@@ -1,5 +1,7 @@
 <map id="ILogger::trace" name="ILogger::trace">
-<area shape="rect" id="node1" title=" " alt="" coords="240,45,341,70"/>
-<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a3d635296aa8be0bcda001381473c426f" title=" " alt="" coords="5,5,192,45"/>
-<area shape="rect" id="node3" href="$d7/d27/class_thumbnail_generator.html#a2b3ef9191a1a9b06f39b5207125dc4de" title=" " alt="" coords="22,69,175,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="239,46,339,72"/>
+<area shape="rect" id="Node000002" href="$d3/d47/class_database_1_1_sql_query_executor.html#a3d635296aa8be0bcda001381473c426f" title=" " alt="" coords="5,5,191,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,50,191,45,192,39,224,45"/>
+<area shape="rect" id="Node000003" href="$d7/d27/class_thumbnail_generator.html#a2b3ef9191a1a9b06f39b5207125dc4de" title=" " alt="" coords="22,71,174,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="223,73,175,81,174,76,223,67"/>
 </map>

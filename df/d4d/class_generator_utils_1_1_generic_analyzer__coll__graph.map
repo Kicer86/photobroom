@@ -1,5 +1,7 @@
 <map id="GeneratorUtils::GenericAnalyzer" name="GeneratorUtils::GenericAnalyzer">
-<area shape="rect" id="node1" title=" " alt="" coords="5,93,212,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="27,5,97,31"/>
-<area shape="rect" id="node3" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="122,5,189,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,94,211,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="28,5,97,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,44,104,92,99,95,74,46"/>
+<area shape="rect" id="Node000003" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="122,5,187,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="143,46,117,95,112,92,139,44"/>
 </map>

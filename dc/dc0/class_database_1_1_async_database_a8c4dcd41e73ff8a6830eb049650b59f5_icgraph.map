@@ -1,4 +1,5 @@
 <map id="Database::AsyncDatabase::addTask" name="Database::AsyncDatabase::addTask">
-<area shape="rect" id="node1" title=" " alt="" coords="228,5,403,45"/>
-<area shape="rect" id="node2" href="$dc/dc0/class_database_1_1_async_database.html#a6c926838205b5b0ca862e24cf8aa9093" title=" " alt="" coords="5,5,180,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="227,5,400,46"/>
+<area shape="rect" id="Node000002" href="$dc/dc0/class_database_1_1_async_database.html#a6c926838205b5b0ca862e24cf8aa9093" title=" " alt="" coords="5,5,179,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,28,179,28,179,23,211,23"/>
 </map>

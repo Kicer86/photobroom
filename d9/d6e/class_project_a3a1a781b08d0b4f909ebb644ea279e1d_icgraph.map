@@ -1,5 +1,7 @@
 <map id="Project::getProjectInfo" name="Project::getProjectInfo">
-<area shape="rect" id="node1" title=" " alt="" coords="284,35,435,60"/>
-<area shape="rect" id="node2" href="$d3/d3d/class_photos_collector.html#aa402bcaf9beb1d5eb6b9f0e380c33363" title=" " alt="" coords="41,5,200,31"/>
-<area shape="rect" id="node3" href="$df/d40/namespace_groups_manager.html#a3baf5bab2dabe71a339b37cff24b88ac" title=" " alt="" coords="5,55,236,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="284,35,433,60"/>
+<area shape="rect" id="Node000002" href="$d3/d3d/class_photos_collector.html#aa402bcaf9beb1d5eb6b9f0e380c33363" title=" " alt="" coords="42,5,199,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,39,199,31,200,25,269,34"/>
+<area shape="rect" id="Node000004" href="$df/d40/namespace_groups_manager.html#a3baf5bab2dabe71a339b37cff24b88ac" title=" " alt="" coords="5,55,236,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="269,61,237,65,236,59,268,55"/>
 </map>

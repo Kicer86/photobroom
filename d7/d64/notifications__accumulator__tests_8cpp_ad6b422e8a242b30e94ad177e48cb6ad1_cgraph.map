@@ -1,8 +1,22 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,141,60,166"/>
-<area shape="rect" id="node2" href="$d2/deb/class_database_1_1_notifications_accumulator.html#add8fa9f57c069ec1f5710088b72d4b12" title=" " alt="" coords="108,5,336,45"/>
-<area shape="rect" id="node3" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a6eedbcbd41032d33d263814165278db7" title=" " alt="" coords="108,69,336,109"/>
-<area shape="rect" id="node4" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a550481b59f09818160110559abc98f54" title=" " alt="" coords="108,133,336,173"/>
-<area shape="rect" id="node5" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="108,197,336,237"/>
-<area shape="rect" id="node6" href="$d2/deb/class_database_1_1_notifications_accumulator.html#aedbc7205c18d44ac9a1e3b3e987c5c4e" title=" " alt="" coords="108,261,336,301"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,212,60,237"/>
+<area shape="rect" id="Node000002" href="$d2/deb/class_database_1_1_notifications_accumulator.html#add8fa9f57c069ec1f5710088b72d4b12" title=" " alt="" coords="108,67,335,108"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="38,210,64,168,83,144,106,124,125,112,128,117,109,128,87,148,68,171,43,213"/>
+<area shape="rect" id="Node000004" href="$d2/deb/class_database_1_1_notifications_accumulator.html#ad13f58da0195a09d0938f2f3ea72030a" title=" " alt="" coords="383,15,610,56"/>
+<area shape="poly" id="edge7_Node000001_Node000004" title=" " alt="" coords="32,211,38,178,50,134,72,90,87,70,106,53,138,35,173,21,209,11,246,6,319,4,387,10,387,15,319,9,246,11,210,17,174,26,141,39,109,57,91,73,76,92,55,136,43,179,38,212"/>
+<area shape="rect" id="Node000005" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a55561e43e3c8323f02e80c103119a8aa" title=" " alt="" coords="383,84,610,125"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="54,209,107,184,172,163,240,145,367,120,368,125,241,150,174,168,109,188,56,214"/>
+<area shape="rect" id="Node000006" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a9f0c9f7b072db02a513b804870580298" title=" " alt="" coords="383,158,610,198"/>
+<area shape="poly" id="edge11_Node000001_Node000006" title=" " alt="" coords="60,219,368,188,368,194,61,225"/>
+<area shape="rect" id="Node000008" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a6eedbcbd41032d33d263814165278db7" title=" " alt="" coords="108,232,335,273"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="61,226,93,231,92,236,60,231"/>
+<area shape="rect" id="Node000009" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a550481b59f09818160110559abc98f54" title=" " alt="" coords="108,298,335,338"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="49,236,75,260,109,282,123,289,121,294,106,287,72,264,45,240"/>
+<area shape="rect" id="Node000010" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="108,363,335,404"/>
+<area shape="poly" id="edge8_Node000001_Node000010" title=" " alt="" coords="40,237,64,291,84,322,109,348,116,353,113,357,106,352,80,325,59,293,35,239"/>
+<area shape="rect" id="Node000011" href="$d2/deb/class_database_1_1_notifications_accumulator.html#aedbc7205c18d44ac9a1e3b3e987c5c4e" title=" " alt="" coords="108,428,335,469"/>
+<area shape="poly" id="edge10_Node000001_Node000011" title=" " alt="" coords="38,238,43,273,55,320,77,370,91,393,110,413,114,418,111,422,106,417,87,397,72,373,50,322,38,274,32,238"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="332,64,370,57,371,62,333,69"/>
+<area shape="poly" id="edge3_Node000002_Node000005" title=" " alt="" coords="336,92,368,94,367,99,335,97"/>
+<area shape="poly" id="edge4_Node000002_Node000006" title=" " alt="" coords="286,106,419,150,417,155,285,111"/>
 </map>

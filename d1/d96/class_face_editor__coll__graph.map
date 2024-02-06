@@ -1,5 +1,7 @@
 <map id="FaceEditor" name="FaceEditor">
-<area shape="rect" id="node1" title=" " alt="" coords="120,93,204,119"/>
-<area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="5,5,148,31"/>
-<area shape="rect" id="node3" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="172,5,323,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="118,94,202,120"/>
+<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="5,5,147,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,41,150,92,147,96,96,44"/>
+<area shape="rect" id="Node000003" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="170,5,321,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,44,174,96,170,92,221,40"/>
 </map>

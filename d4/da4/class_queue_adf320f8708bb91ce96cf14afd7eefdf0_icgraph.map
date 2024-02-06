@@ -1,5 +1,7 @@
 <map id="Queue::clear" name="Queue::clear">
-<area shape="rect" id="node1" title="Remove queued items." alt="" coords="191,42,285,67"/>
-<area shape="rect" id="node2" href="$dd/d10/class_photos_analyzer_impl.html#aed1eb8912b058a9583e124b14e53dfe9" title=" " alt="" coords="5,5,143,45"/>
-<area shape="rect" id="node3" href="$d4/da4/class_queue.html#a54283914b0f086199961cfb52a911793" title=" " alt="" coords="19,70,129,95"/>
+<area shape="rect" id="Node000001" title="Remove queued items." alt="" coords="190,42,283,68"/>
+<area shape="rect" id="Node000002" href="$dd/d10/class_photos_analyzer_impl.html#aed1eb8912b058a9583e124b14e53dfe9" title=" " alt="" coords="5,5,142,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,46,142,41,143,35,175,41"/>
+<area shape="rect" id="Node000004" href="$d4/da4/class_queue.html#a54283914b0f086199961cfb52a911793" title=" " alt="" coords="18,70,129,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="175,68,130,76,129,71,174,63"/>
 </map>

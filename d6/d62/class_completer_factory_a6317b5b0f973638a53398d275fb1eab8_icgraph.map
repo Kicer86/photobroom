@@ -1,5 +1,7 @@
 <map id="CompleterFactory::getModelFor" name="CompleterFactory::getModelFor">
-<area shape="rect" id="node1" title=" " alt="" coords="225,45,428,70"/>
-<area shape="rect" id="node2" href="$d6/d62/class_completer_factory.html#a9489e38e33d6bbdc184f86d49c4003a0" title="access model with values for given tag type" alt="" coords="5,5,177,45"/>
-<area shape="rect" id="node3" href="$d6/d62/class_completer_factory.html#ad8f684eebf006375ceac5e82f863595d" title="create QCompleter for given set of types" alt="" coords="8,69,175,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="225,46,426,72"/>
+<area shape="rect" id="Node000002" href="$d6/d62/class_completer_factory.html#a9489e38e33d6bbdc184f86d49c4003a0" title="access model with values for given tag type" alt="" coords="5,5,177,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,46,177,41,178,35,216,41"/>
+<area shape="rect" id="Node000003" href="$d6/d62/class_completer_factory.html#ad8f684eebf006375ceac5e82f863595d" title="create QCompleter for given set of types" alt="" coords="8,71,174,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,77,174,82,174,77,211,72"/>
 </map>

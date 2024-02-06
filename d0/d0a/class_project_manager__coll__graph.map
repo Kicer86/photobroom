@@ -1,5 +1,7 @@
 <map id="ProjectManager" name="ProjectManager">
-<area shape="rect" id="node1" title=" " alt="" coords="81,93,194,119"/>
-<area shape="rect" id="node2" href="$d7/dc8/class_i_project_manager.html" title=" " alt="" coords="5,5,123,31"/>
-<area shape="rect" id="node3" href="$dc/d82/struct_database_1_1_i_builder.html" title=" " alt="" coords="147,5,274,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="79,94,192,120"/>
+<area shape="rect" id="Node000002" href="$d7/dc8/class_i_project_manager.html" title=" " alt="" coords="5,5,122,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,41,128,92,124,95,81,45"/>
+<area shape="rect" id="Node000003" href="$dc/d82/struct_database_1_1_i_builder.html" title=" " alt="" coords="146,5,272,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="191,45,148,95,144,92,187,41"/>
 </map>

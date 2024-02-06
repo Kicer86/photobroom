@@ -1,7 +1,11 @@
 <map id="src/database/photo_utils.hpp" name="src/database/photo_utils.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="155,5,288,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,72,126"/>
-<area shape="rect" id="node3" href="$d8/d43/core_2utils_8hpp.html" title=" " alt="" coords="96,101,195,126"/>
-<area shape="rect" id="node4" href="$d8/d0e/explicit__photo__delta_8hpp.html" title=" " alt="" coords="219,93,378,133"/>
-<area shape="rect" id="node5" title=" " alt="" coords="402,101,529,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="153,5,286,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,71,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,49,78,97,76,92,177,44"/>
+<area shape="rect" id="Node000003" href="$d8/d43/core_2utils_8hpp.html" title=" " alt="" coords="94,102,193,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,48,166,92,162,88,200,45"/>
+<area shape="rect" id="Node000004" href="$d8/d0e/explicit__photo__delta_8hpp.html" title=" " alt="" coords="217,94,374,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="239,45,270,80,266,84,235,48"/>
+<area shape="rect" id="Node000021" title=" " alt="" coords="398,102,524,127"/>
+<area shape="poly" id="edge4_Node000001_Node000021" title=" " alt="" coords="275,44,413,93,411,98,273,49"/>
 </map>

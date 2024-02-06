@@ -1,5 +1,7 @@
 <map id="QtExtChooseFile::text" name="QtExtChooseFile::text">
-<area shape="rect" id="node1" title=" " alt="" coords="195,45,341,70"/>
-<area shape="rect" id="node2" href="$db/dd2/class_project_creator_dialog.html#a3e0dfca79dd4a3000acd0ad7af217c5a" title=" " alt="" coords="5,5,147,45"/>
-<area shape="rect" id="node3" href="$db/dd2/class_project_creator_dialog.html#ac87e95f43d33394acb30f146a9214913" title=" " alt="" coords="5,69,147,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="194,46,339,72"/>
+<area shape="rect" id="Node000002" href="$db/dd2/class_project_creator_dialog.html#a3e0dfca79dd4a3000acd0ad7af217c5a" title=" " alt="" coords="5,5,146,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,46,145,41,146,35,179,41"/>
+<area shape="rect" id="Node000007" href="$db/dd2/class_project_creator_dialog.html#ac87e95f43d33394acb30f146a9214913" title=" " alt="" coords="5,71,146,111"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="179,76,146,82,145,77,178,71"/>
 </map>

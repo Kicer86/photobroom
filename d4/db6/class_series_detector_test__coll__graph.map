@@ -1,7 +1,11 @@
 <map id="SeriesDetectorTest" name="SeriesDetectorTest">
-<area shape="rect" id="node1" title=" " alt="" coords="258,93,393,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,99,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="123,5,314,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="339,5,525,31"/>
-<area shape="rect" id="node5" href="$d3/ddb/class_empty_logger.html" title=" " alt="" coords="549,5,648,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="256,94,389,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,98,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,34,285,91,283,96,103,39"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="122,5,312,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="245,39,309,91,306,95,241,43"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="336,5,522,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="404,43,339,95,336,91,401,39"/>
+<area shape="rect" id="Node000005" href="$d3/ddb/class_empty_logger.html" title=" " alt="" coords="546,5,643,31"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="544,39,440,73,364,96,362,91,439,67,543,34"/>
 </map>

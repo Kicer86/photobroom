@@ -1,10 +1,20 @@
 <map id="src/face_recognition/learning_tests/scaled_face_similarity_tests.cpp" name="src/face_recognition/learning_tests/scaled_face_similarity_tests.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="225,5,397,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,123,80,148"/>
-<area shape="rect" id="node3" title=" " alt="" coords="105,123,199,148"/>
-<area shape="rect" id="node4" title=" " alt="" coords="611,211,679,236"/>
-<area shape="rect" id="node5" title=" " alt="" coords="241,211,308,236"/>
-<area shape="rect" id="node6" href="$d9/d0f/empty__logger_8hpp.html" title=" " alt="" coords="371,115,520,155"/>
-<area shape="rect" id="node7" href="$df/dc1/dlib__face__recognition__api_8hpp.html" title=" " alt="" coords="545,108,746,163"/>
-<area shape="rect" id="node8" href="$d2/d99/face__recognition_2learning__tests_2utils_8hpp.html" title=" " alt="" coords="275,123,346,148"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="221,5,392,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,124,80,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,63,93,111,78,119,76,114,91,107,220,58"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="104,124,197,150"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="266,64,184,117,181,113,263,59"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="605,213,672,238"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="393,34,491,39,599,52,649,61,693,73,728,89,752,107,762,122,764,136,761,151,753,166,740,182,724,196,688,214,686,209,721,191,736,179,748,163,756,149,759,136,757,124,749,111,726,93,691,78,647,66,598,57,491,45,392,39"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="238,213,303,238"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="287,63,273,85,262,110,259,132,259,155,265,197,260,198,253,156,253,132,257,108,268,83,282,60"/>
+<area shape="rect" id="Node000006" href="$d9/d0f/empty__logger_8hpp.html" title=" " alt="" coords="366,117,514,157"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="344,59,404,105,401,109,341,64"/>
+<area shape="rect" id="Node000011" href="$df/dc1/dlib__face__recognition__api_8hpp.html" title=" " alt="" coords="538,109,739,165"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="393,58,536,101,534,107,392,63"/>
+<area shape="rect" id="Node000016" href="$d2/d99/face__recognition_2learning__tests_2utils_8hpp.html" title=" " alt="" coords="272,124,341,150"/>
+<area shape="poly" id="edge8_Node000001_Node000016" title=" " alt="" coords="309,62,309,108,304,108,304,62"/>
+<area shape="poly" id="edge7_Node000011_Node000004" title=" " alt="" coords="641,165,641,197,636,197,636,165"/>
+<area shape="poly" id="edge9_Node000016_Node000004" title=" " alt="" coords="326,148,354,162,416,182,480,198,590,216,589,221,479,203,415,187,352,167,323,152"/>
+<area shape="poly" id="edge10_Node000016_Node000005" title=" " alt="" coords="304,151,284,200,279,197,299,149"/>
 </map>

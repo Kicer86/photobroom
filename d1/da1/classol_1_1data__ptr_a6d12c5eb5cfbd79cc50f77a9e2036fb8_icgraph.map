@@ -1,6 +1,9 @@
 <map id="ol::data_ptr::del" name="ol::data_ptr::del">
-<area shape="rect" id="node1" title=" " alt="" coords="200,55,308,80"/>
-<area shape="rect" id="node2" href="$d1/da1/classol_1_1data__ptr.html#a71af1c57659bb34b403056f28336eafd" title=" " alt="" coords="19,5,138,31"/>
-<area shape="rect" id="node3" href="$d1/da1/classol_1_1data__ptr.html#a8ba70e26a50ce2cdf3b43dc4ebea351e" title=" " alt="" coords="5,55,152,80"/>
-<area shape="rect" id="node4" href="$d1/da1/classol_1_1data__ptr.html#a92c60411854856038abf5f9e66e7c563" title=" " alt="" coords="6,104,151,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="199,55,306,80"/>
+<area shape="rect" id="Node000002" href="$d1/da1/classol_1_1data__ptr.html#a71af1c57659bb34b403056f28336eafd" title=" " alt="" coords="19,5,137,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,52,125,34,127,29,190,47"/>
+<area shape="rect" id="Node000003" href="$d1/da1/classol_1_1data__ptr.html#a8ba70e26a50ce2cdf3b43dc4ebea351e" title=" " alt="" coords="5,55,151,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="183,70,151,70,151,65,183,65"/>
+<area shape="rect" id="Node000004" href="$d1/da1/classol_1_1data__ptr.html#a92c60411854856038abf5f9e66e7c563" title=" " alt="" coords="6,104,150,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="190,88,127,106,125,101,189,83"/>
 </map>

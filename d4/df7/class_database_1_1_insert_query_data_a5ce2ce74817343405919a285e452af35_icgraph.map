@@ -1,8 +1,17 @@
 <map id="Database::InsertQueryData::getColumns" name="Database::InsertQueryData::getColumns">
-<area shape="rect" id="node1" title=" " alt="" coords="759,84,936,124"/>
-<area shape="rect" id="node2" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2eb8a5456904b61ce57ed019d09ae754" title=" " alt="" coords="5,5,187,45"/>
-<area shape="rect" id="node3" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#ac1d513f9a2812a65d663355999d1893a" title=" " alt="" coords="239,33,445,73"/>
-<area shape="rect" id="node4" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2298963eda40bc9908a5f12196744901" title=" " alt="" coords="497,84,711,124"/>
-<area shape="rect" id="node5" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2421c6d44273a5e274f0fa3df2fe5b43" title=" " alt="" coords="235,135,449,175"/>
-<area shape="rect" id="node6" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#aa079f18cb94e3d6cf76c4bd2cc95de81" title=" " alt="" coords="5,163,187,203"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="755,84,932,125"/>
+<area shape="rect" id="Node000002" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2eb8a5456904b61ce57ed019d09ae754" title=" " alt="" coords="5,5,186,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="788,79,749,62,707,48,638,33,566,23,424,13,293,13,186,19,186,14,293,8,424,8,567,18,639,28,708,43,751,57,791,74"/>
+<area shape="rect" id="Node000003" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#ac1d513f9a2812a65d663355999d1893a" title=" " alt="" coords="238,33,443,74"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="749,83,707,75,569,62,443,57,443,51,570,56,708,70,750,77"/>
+<area shape="rect" id="Node000006" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2298963eda40bc9908a5f12196744901" title=" " alt="" coords="495,84,707,125"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="740,107,708,107,708,102,740,102"/>
+<area shape="rect" id="Node000007" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2421c6d44273a5e274f0fa3df2fe5b43" title=" " alt="" coords="234,135,447,175"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="750,131,708,139,572,152,447,157,447,152,572,147,707,134,749,126"/>
+<area shape="rect" id="Node000009" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#aa079f18cb94e3d6cf76c4bd2cc95de81" title=" " alt="" coords="5,163,186,203"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="787,134,708,162,638,176,567,187,424,198,293,198,186,193,186,188,293,193,424,192,566,182,637,171,707,156,785,129"/>
+<area shape="poly" id="edge3_Node000003_Node000002" title=" " alt="" coords="222,43,186,39,186,33,223,38"/>
+<area shape="poly" id="edge5_Node000006_Node000003" title=" " alt="" coords="479,83,442,76,443,71,480,78"/>
+<area shape="poly" id="edge6_Node000006_Node000007" title=" " alt="" coords="480,131,448,137,447,132,479,125"/>
+<area shape="poly" id="edge7_Node000007_Node000009" title=" " alt="" coords="218,172,187,175,186,170,218,166"/>
 </map>

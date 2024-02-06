@@ -1,5 +1,7 @@
 <map id="Database::DatabaseQueue::flushQueue" name="Database::DatabaseQueue::flushQueue">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,181,77"/>
-<area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="229,5,372,45"/>
-<area shape="rect" id="node3" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="231,69,370,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,181,79"/>
+<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="229,5,370,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,42,213,37,214,42,182,47"/>
+<area shape="rect" id="Node000005" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="231,71,368,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="182,70,216,75,215,81,181,75"/>
 </map>

@@ -1,9 +1,15 @@
 <map id="Database::CommonGeneralFlags::State" name="Database::CommonGeneralFlags::State">
-<area shape="rect" id="node1" title=" " alt="" coords="272,165,484,205"/>
-<area shape="rect" id="node2" href="$d2/d10/class_photos_model_controller_component.html#af3274daced5a79ff926ed999e93cd1f6" title=" " alt="" coords="5,5,224,45"/>
-<area shape="rect" id="node3" href="$d0/d76/namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7" title="return filter which will filter out broken photos (missing, broken, deleted etc)" alt="" coords="29,69,200,109"/>
-<area shape="rect" id="node4" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="48,133,181,173"/>
-<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e" title=" " alt="" coords="33,197,196,237"/>
-<area shape="rect" id="node6" href="$da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" title=" " alt="" coords="31,261,198,301"/>
-<area shape="rect" id="node7" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="34,326,195,351"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="272,169,483,210"/>
+<area shape="rect" id="Node000002" href="$d2/d10/class_photos_model_controller_component.html#af3274daced5a79ff926ed999e93cd1f6" title=" " alt="" coords="5,5,224,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="345,160,291,109,258,84,222,61,195,49,197,44,225,57,261,79,294,105,349,156"/>
+<area shape="rect" id="Node000012" href="$d0/d76/namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7" title="return filter which will filter out broken photos (missing, broken, deleted etc)" alt="" coords="29,71,200,111"/>
+<area shape="poly" id="edge2_Node000001_Node000012" title=" " alt="" coords="316,165,223,127,186,114,188,109,225,122,318,160"/>
+<area shape="rect" id="Node000023" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="48,136,181,177"/>
+<area shape="poly" id="edge3_Node000001_Node000023" title=" " alt="" coords="256,177,181,167,181,162,257,172"/>
+<area shape="rect" id="Node000029" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e" title=" " alt="" coords="34,201,195,242"/>
+<area shape="poly" id="edge4_Node000001_Node000029" title=" " alt="" coords="257,207,196,215,195,209,256,202"/>
+<area shape="rect" id="Node000031" href="$da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" title=" " alt="" coords="31,267,198,307"/>
+<area shape="poly" id="edge5_Node000001_Node000031" title=" " alt="" coords="317,219,225,256,188,269,186,264,223,251,315,214"/>
+<area shape="rect" id="Node000028" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="34,332,195,357"/>
+<area shape="poly" id="edge6_Node000001_Node000028" title=" " alt="" coords="349,224,295,274,261,300,225,321,194,333,192,329,222,317,258,295,291,270,345,220"/>
 </map>

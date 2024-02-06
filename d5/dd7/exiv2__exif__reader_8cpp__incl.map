@@ -1,6 +1,9 @@
 <map id="src/core/implementation/exiv2_exif_reader.cpp" name="src/core/implementation/exiv2_exif_reader.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="130,5,291,45"/>
-<area shape="rect" id="node2" href="$d5/d4b/exiv2__exif__reader_8hpp.html" title=" " alt="" coords="5,93,152,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="177,93,245,119"/>
-<area shape="rect" id="node4" href="$d9/d1e/base__tags_8hpp.html" title=" " alt="" coords="269,93,376,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="129,5,289,46"/>
+<area shape="rect" id="Node000002" href="$d5/d4b/exiv2__exif__reader_8hpp.html" title=" " alt="" coords="5,94,151,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,49,112,88,109,83,175,44"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="175,94,242,120"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="211,46,211,78,206,78,206,46"/>
+<area shape="rect" id="Node000020" href="$d9/d1e/base__tags_8hpp.html" title=" " alt="" coords="267,94,372,120"/>
+<area shape="poly" id="edge3_Node000001_Node000020" title=" " alt="" coords="238,44,291,82,288,87,234,49"/>
 </map>

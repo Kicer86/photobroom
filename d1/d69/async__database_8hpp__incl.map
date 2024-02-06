@@ -1,8 +1,16 @@
 <map id="src/database/implementation/async_database.hpp" name="src/database/implementation/async_database.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="158,5,347,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,132,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="157,93,215,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="293,240,351,265"/>
-<area shape="rect" id="node5" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="291,93,393,119"/>
-<area shape="rect" id="node6" href="$da/d2a/ibackend_8hpp.html" title=" " alt="" coords="359,167,458,192"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="157,5,345,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,131,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="206,49,111,90,109,85,204,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="155,94,213,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="236,48,206,83,202,80,232,45"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="291,241,349,267"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="258,46,279,119,313,226,308,227,273,120,253,47"/>
+<area shape="rect" id="Node000005" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="288,94,389,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="274,44,315,81,312,85,271,48"/>
+<area shape="rect" id="Node000035" href="$da/d2a/ibackend_8hpp.html" title=" " alt="" coords="358,168,455,193"/>
+<area shape="poly" id="edge8_Node000001_Node000035" title=" " alt="" coords="337,44,374,63,403,92,411,107,414,123,414,153,409,153,409,123,406,109,399,96,371,68,334,49"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="340,120,326,226,321,226,334,120"/>
+<area shape="poly" id="edge6_Node000005_Node000035" title=" " alt="" coords="352,118,387,155,383,158,348,122"/>
+<area shape="poly" id="edge7_Node000035_Node000004" title=" " alt="" coords="394,196,348,233,344,229,390,192"/>
 </map>

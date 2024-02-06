@@ -1,4 +1,6 @@
 <map id="Database::MemoryBackend::onPhotos" name="Database::MemoryBackend::onPhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="5,29,185,69"/>
-<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#a4a3aeb0f7e651ee11267449d7bb511e6" title=" " alt="" coords="233,29,413,69"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,185,70"/>
+<area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#a4a3aeb0f7e651ee11267449d7bb511e6" title=" " alt="" coords="233,29,412,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,47,217,47,217,52,185,52"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="279,29,277,19,284,10,300,5,322,3,347,5,362,11,359,16,346,10,322,8,301,10,288,15,283,21,285,28"/>
 </map>

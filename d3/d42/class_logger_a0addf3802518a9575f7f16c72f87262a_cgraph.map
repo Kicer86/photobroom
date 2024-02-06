@@ -1,6 +1,9 @@
 <map id="Logger::log" name="Logger::log">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,91,80"/>
-<area shape="rect" id="node2" href="$d3/d42/class_logger.html#ac081f8418a867effa33c9270d5a2bf9a" title=" " alt="" coords="140,5,275,31"/>
-<area shape="rect" id="node3" href="$d3/d42/class_logger.html#aef8a5056cd0825cb3415656546cf59a9" title=" " alt="" coords="139,55,276,80"/>
-<area shape="rect" id="node4" href="$d3/d42/class_logger.html#a48a9dffeb9b376df414ea5021af387c2" title=" " alt="" coords="151,104,264,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,90,80"/>
+<area shape="rect" id="Node000002" href="$d3/d42/class_logger.html#ac081f8418a867effa33c9270d5a2bf9a" title=" " alt="" coords="139,5,273,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,52,147,34,149,39,91,57"/>
+<area shape="rect" id="Node000003" href="$d3/d42/class_logger.html#aef8a5056cd0825cb3415656546cf59a9" title=" " alt="" coords="138,55,274,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="90,65,122,65,122,70,90,70"/>
+<area shape="rect" id="Node000004" href="$d3/d42/class_logger.html#a48a9dffeb9b376df414ea5021af387c2" title=" " alt="" coords="150,104,262,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="91,78,149,96,147,101,89,83"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="LoggerFactory::LoggerFactory" name="LoggerFactory::LoggerFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,200,31"/>
-<area shape="rect" id="node2" href="$db/d0a/class_log_file_rotator.html#a98b19d1e24f1259b8e971299ab7d1415" title=" " alt="" coords="248,5,395,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,199,31"/>
+<area shape="rect" id="Node000002" href="$db/d0a/class_log_file_rotator.html#a98b19d1e24f1259b8e971299ab7d1415" title=" " alt="" coords="247,5,392,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,16,231,16,231,21,199,21"/>
 </map>

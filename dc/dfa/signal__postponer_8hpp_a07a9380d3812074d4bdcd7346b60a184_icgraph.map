@@ -1,4 +1,5 @@
 <map id="blocked_connect" name="blocked_connect">
-<area shape="rect" id="node1" title="blocks slot invocation until previous invocation is complete." alt="" coords="195,5,315,31"/>
-<area shape="rect" id="node2" href="$d6/d99/class_tag_info_collector.html#aec9fe80391af5e8f10a25bb4f7bc3f4b" title=" " alt="" coords="5,5,147,31"/>
+<area shape="rect" id="Node000001" title="blocks slot invocation until previous invocation is complete." alt="" coords="194,5,313,31"/>
+<area shape="rect" id="Node000002" href="$d6/d99/class_tag_info_collector.html#aec9fe80391af5e8f10a25bb4f7bc3f4b" title=" " alt="" coords="5,5,146,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,21,146,21,146,16,178,16"/>
 </map>

@@ -1,0 +1,11 @@
+<map id="Database::MemoryBackend::MemoryBackend" name="Database::MemoryBackend::MemoryBackend">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,104,185,145"/>
+<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92" title="emited after new photos were added to database" alt="" coords="278,5,415,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,101,232,57,262,46,264,51,234,61,137,106"/>
+<area shape="rect" id="Node000003" href="$d2/deb/class_database_1_1_notifications_accumulator.html#ad13f58da0195a09d0938f2f3ea72030a" title=" " alt="" coords="233,71,460,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,110,217,105,218,111,185,115"/>
+<area shape="rect" id="Node000004" href="$d2/ddd/struct_database_1_1_i_backend.html#a5d5cd941849fe3dcc48b738414b14190" title="emited after photos removal" alt="" coords="278,136,415,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="185,133,262,143,262,148,185,138"/>
+<area shape="rect" id="Node000005" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a55561e43e3c8323f02e80c103119a8aa" title=" " alt="" coords="233,201,460,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="138,143,234,186,255,194,254,199,232,191,136,148"/>
+</map>

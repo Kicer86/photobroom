@@ -1,5 +1,7 @@
 <map id="AHeavyListModel::clear" name="AHeavyListModel::clear">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,164,56"/>
-<area shape="rect" id="node2" href="$de/d3a/class_a_heavy_list_model.html#ab7aee988f0813763f9d75498a5076c07" title=" " alt="" coords="212,5,399,31"/>
-<area shape="rect" id="node3" href="$de/d3a/class_a_heavy_list_model.html#a3f74439b0a0c0be1c78be4a2c14c0f5d" title=" " alt="" coords="215,55,395,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,164,56"/>
+<area shape="rect" id="Node000002" href="$de/d3a/class_a_heavy_list_model.html#ab7aee988f0813763f9d75498a5076c07" title=" " alt="" coords="212,5,397,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,32,196,28,196,33,165,37"/>
+<area shape="rect" id="Node000003" href="$de/d3a/class_a_heavy_list_model.html#a3f74439b0a0c0be1c78be4a2c14c0f5d" title=" " alt="" coords="215,55,394,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,50,199,53,199,59,164,55"/>
 </map>

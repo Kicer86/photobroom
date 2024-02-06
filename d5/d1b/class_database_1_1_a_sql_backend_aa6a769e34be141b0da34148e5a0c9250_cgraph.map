@@ -1,5 +1,7 @@
 <map id="Database::ASqlBackend::setBits" name="Database::ASqlBackend::setBits">
-<area shape="rect" id="node1" title="set bits for provided flag" alt="" coords="5,23,168,63"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a41e84695cdf694bf0cba52495164997c" title="get flag value" alt="" coords="216,5,403,31"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a" title="set flag for photo to given value" alt="" coords="216,55,403,80"/>
+<area shape="rect" id="Node000001" title="set bits for provided flag" alt="" coords="5,23,167,64"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a41e84695cdf694bf0cba52495164997c" title="get flag value" alt="" coords="215,5,400,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,32,199,28,199,33,167,37"/>
+<area shape="rect" id="Node000004" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a" title="set flag for photo to given value" alt="" coords="215,55,400,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="167,50,199,53,199,58,167,55"/>
 </map>

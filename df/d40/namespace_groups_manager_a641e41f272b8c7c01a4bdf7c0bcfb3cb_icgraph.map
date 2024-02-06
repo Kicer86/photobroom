@@ -1,5 +1,7 @@
 <map id="GroupsManager::groupIntoUnified" name="GroupsManager::groupIntoUnified">
-<area shape="rect" id="node1" title=" " alt="" coords="216,27,391,67"/>
-<area shape="rect" id="node2" href="$d5/d0f/class_series_model.html#a2caeed0a8014c3f20679d4ea1ff45fef" title=" " alt="" coords="5,5,168,31"/>
-<area shape="rect" id="node3" href="$de/db3/class_context_menu_manager.html#aff00d39bef03fe6d1651dc2f950b0299" title=" " alt="" coords="13,55,161,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="216,27,389,68"/>
+<area shape="rect" id="Node000002" href="$d5/d0f/class_series_model.html#a2caeed0a8014c3f20679d4ea1ff45fef" title=" " alt="" coords="5,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,36,168,32,169,27,201,31"/>
+<area shape="rect" id="Node000003" href="$de/db3/class_context_menu_manager.html#aff00d39bef03fe6d1651dc2f950b0299" title=" " alt="" coords="13,55,160,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,63,161,69,160,63,200,58"/>
 </map>

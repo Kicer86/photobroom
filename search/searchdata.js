@@ -12,7 +12,7 @@ var indexSectionsWithContent =
   9: "abcdefgimnprstv",
   10: "aceiopst",
   11: "_cdefiprst",
-  12: "t",
+  12: "lt",
   13: "cdijs"
 };
 

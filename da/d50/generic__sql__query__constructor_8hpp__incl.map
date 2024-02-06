@@ -1,5 +1,8 @@
 <map id="src/database/backends/sql_backends/generic_sql_query_constructor.hpp" name="src/database/backends/sql_backends/generic_sql_query_constructor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="66,5,246,60"/>
-<area shape="rect" id="node2" href="$dc/d48/isql__query__constructor_8hpp.html" title=" " alt="" coords="5,108,181,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="65,181,247,207"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="66,5,245,61"/>
+<area shape="rect" id="Node000002" href="$dc/d48/isql__query__constructor_8hpp.html" title=" " alt="" coords="5,109,181,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,63,113,98,108,95,134,60"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="65,183,246,208"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="178,60,194,95,198,115,196,135,177,172,173,169,190,134,192,115,189,97,173,62"/>
+<area shape="poly" id="edge2_Node000002_Node000006" title=" " alt="" coords="105,133,137,169,133,172,101,137"/>
 </map>

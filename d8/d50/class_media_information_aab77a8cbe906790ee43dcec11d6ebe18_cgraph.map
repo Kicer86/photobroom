@@ -1,5 +1,7 @@
 <map id="MediaInformation::getInformation" name="MediaInformation::getInformation">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,216,56"/>
-<area shape="rect" id="node2" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="264,5,429,31"/>
-<area shape="rect" id="node3" href="$d6/ddb/namespace_media_types.html#a641eac174131f628b1a2e3e357143540" title=" " alt="" coords="265,55,428,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,216,56"/>
+<area shape="rect" id="Node000002" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="264,5,428,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,29,248,26,248,31,217,35"/>
+<area shape="rect" id="Node000003" href="$d6/ddb/namespace_media_types.html#a641eac174131f628b1a2e3e357143540" title=" " alt="" coords="265,55,427,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,52,250,55,250,60,216,57"/>
 </map>

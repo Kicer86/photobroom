@@ -1,5 +1,9 @@
 <map id="TagsModel::set" name="TagsModel::set">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,116,56"/>
-<area shape="rect" id="node2" href="$d0/d5d/class_tags_model.html#a005b3a8e153bcc5222505a189bcf95b5" title=" " alt="" coords="164,5,321,31"/>
-<area shape="rect" id="node3" href="$d8/d67/class_tags_operator.html#a4ffcdc60d3bebdbf3ce882e94042ab16" title=" " alt="" coords="172,55,313,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,115,88"/>
+<area shape="rect" id="Node000002" href="$d0/d5d/class_tags_model.html#a005b3a8e153bcc5222505a189bcf95b5" title=" " alt="" coords="163,5,320,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,60,183,34,185,39,104,65"/>
+<area shape="rect" id="Node000019" href="$df/d55/class_id_to_data_converter.html#a0de72e2d9423853d2c6277055f7b6ffa" title=" " alt="" coords="163,55,320,96"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="115,73,147,73,147,78,115,78"/>
+<area shape="rect" id="Node000020" href="$d8/d67/class_tags_operator.html#a4ffcdc60d3bebdbf3ce882e94042ab16" title=" " alt="" coords="171,120,312,146"/>
+<area shape="poly" id="edge3_Node000001_Node000020" title=" " alt="" coords="104,86,185,112,183,117,102,91"/>
 </map>

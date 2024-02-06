@@ -1,6 +1,9 @@
 <map id="src/core/configuration.hpp" name="src/core/configuration.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="177,5,348,31"/>
-<area shape="rect" id="node2" href="$df/db0/config__storage_8hpp.html" title=" " alt="" coords="5,86,157,111"/>
-<area shape="rect" id="node3" href="$df/d22/configuration_8cpp.html" title=" " alt="" coords="182,79,343,119"/>
-<area shape="rect" id="node4" href="$d3/d90/photos__grouping__dialog_8cpp.html" title=" " alt="" coords="368,79,555,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="176,5,346,31"/>
+<area shape="rect" id="Node000002" href="$df/db0/config__storage_8hpp.html" title=" " alt="" coords="5,87,157,112"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,40,110,88,107,84,218,35"/>
+<area shape="rect" id="Node000005" href="$df/d22/configuration_8cpp.html" title=" " alt="" coords="181,79,341,120"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="264,46,264,79,258,79,258,46"/>
+<area shape="rect" id="Node000006" href="$d3/d90/photos__grouping__dialog_8cpp.html" title=" " alt="" coords="366,79,551,120"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="307,35,410,76,408,81,305,40"/>
 </map>

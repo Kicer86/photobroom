@@ -1,5 +1,7 @@
 <map id="PhotosGroupingDialog::refreshDialogButtons" name="PhotosGroupingDialog::refreshDialogButtons">
-<area shape="rect" id="node1" title=" " alt="" coords="260,37,411,77"/>
-<area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#a5f2052c462d393f01e2358dde9a23add" title=" " alt="" coords="30,5,187,45"/>
-<area shape="rect" id="node3" href="$d0/d4e/class_photos_grouping_dialog.html#a4697e96057f2fb7ad4b3e2a2a257a7b2" title=" " alt="" coords="5,69,212,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="259,39,409,79"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#a5f2052c462d393f01e2358dde9a23add" title=" " alt="" coords="30,5,186,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,48,186,40,187,35,244,43"/>
+<area shape="rect" id="Node000005" href="$d0/d4e/class_photos_grouping_dialog.html#a4697e96057f2fb7ad4b3e2a2a257a7b2" title=" " alt="" coords="5,71,211,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="243,74,212,79,211,74,243,69"/>
 </map>

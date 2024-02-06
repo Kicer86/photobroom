@@ -1,6 +1,9 @@
 <map id="PhotoPropertiesModel::refreshValues" name="PhotoPropertiesModel::refreshValues">
-<area shape="rect" id="node1" title=" " alt="" coords="5,47,156,87"/>
-<area shape="rect" id="node2" href="$de/d1b/struct_file_system.html#a121db5aa57d069af178652043b08c2bd" title=" " alt="" coords="204,5,375,31"/>
-<area shape="rect" id="node3" href="$db/d29/class_photo_1_1_explicit_delta.html#aa17dc0e526caaa840d26a44e3b0d9b40" title=" " alt="" coords="211,55,368,80"/>
-<area shape="rect" id="node4" href="$d2/dbb/class_photo_properties_model.html#a8a85b582d7f6b1a045034058b657eada" title=" " alt="" coords="214,105,365,145"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,47,155,88"/>
+<area shape="rect" id="Node000002" href="$de/d1b/struct_file_system.html#a121db5aa57d069af178652043b08c2bd" title=" " alt="" coords="203,5,372,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,47,215,33,216,38,156,52"/>
+<area shape="rect" id="Node000003" href="$db/d29/class_photo_1_1_explicit_delta.html#aa17dc0e526caaa840d26a44e3b0d9b40" title=" " alt="" coords="209,55,366,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,65,194,65,194,70,155,70"/>
+<area shape="rect" id="Node000005" href="$d2/dbb/class_photo_properties_model.html#a8a85b582d7f6b1a045034058b657eada" title=" " alt="" coords="213,105,362,145"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="156,86,198,98,197,103,155,91"/>
 </map>

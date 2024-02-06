@@ -1,5 +1,7 @@
 <map id="ConfigurationPrivate::saveData" name="ConfigurationPrivate::saveData">
-<area shape="rect" id="node1" title=" " alt="" coords="204,37,343,77"/>
-<area shape="rect" id="node2" href="$d6/d43/class_configuration_private.html#a0ca4e07e477b799ed56fad66246d776a" title=" " alt="" coords="9,5,153,45"/>
-<area shape="rect" id="node3" href="$d6/d43/class_configuration_private.html#af6553be86675ce9c8b039935cd47deec" title=" " alt="" coords="5,69,156,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="204,39,341,79"/>
+<area shape="rect" id="Node000002" href="$d6/d43/class_configuration_private.html#a0ca4e07e477b799ed56fad66246d776a" title=" " alt="" coords="9,5,152,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,47,152,41,153,35,189,42"/>
+<area shape="rect" id="Node000003" href="$d6/d43/class_configuration_private.html#af6553be86675ce9c8b039935cd47deec" title=" " alt="" coords="5,71,156,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,76,157,81,156,76,188,70"/>
 </map>

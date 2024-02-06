@@ -1,4 +1,5 @@
 <map id="src/gui/desktop/utils/config_tools.hpp" name="src/gui/desktop/utils/config_tools.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,144,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="43,93,106,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,144,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="44,94,105,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,46,77,78,72,78,72,46"/>
 </map>

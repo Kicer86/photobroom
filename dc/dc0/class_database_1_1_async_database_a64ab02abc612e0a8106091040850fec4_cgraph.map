@@ -1,4 +1,5 @@
 <map id="Database::AsyncDatabase::AsyncDatabase" name="Database::AsyncDatabase::AsyncDatabase">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,180,45"/>
-<area shape="rect" id="node2" href="$d1/df0/struct_database_1_1_executor.html#a711389944acaefb0d0196d2f5242a339" title=" " alt="" coords="228,5,361,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,179,46"/>
+<area shape="rect" id="Node000002" href="$d1/df0/struct_database_1_1_executor.html#a711389944acaefb0d0196d2f5242a339" title=" " alt="" coords="227,5,359,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,23,211,23,211,28,179,28"/>
 </map>

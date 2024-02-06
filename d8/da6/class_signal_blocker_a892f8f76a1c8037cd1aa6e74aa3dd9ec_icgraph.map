@@ -1,5 +1,7 @@
 <map id="SignalBlocker::fire" name="SignalBlocker::fire">
-<area shape="rect" id="node1" title=" " alt="" coords="197,31,323,56"/>
-<area shape="rect" id="node2" href="$dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184" title="blocks slot invocation until previous invocation is complete." alt="" coords="17,5,137,31"/>
-<area shape="rect" id="node3" href="$d8/da6/class_signal_blocker.html#a149c4c2b1cd03f119f75b9e46dda77b1" title=" " alt="" coords="5,55,149,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="197,31,321,56"/>
+<area shape="rect" id="Node000002" href="$dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184" title="blocks slot invocation until previous invocation is complete." alt="" coords="17,5,137,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,35,136,29,137,24,182,30"/>
+<area shape="rect" id="Node000008" href="$d8/da6/class_signal_blocker.html#a149c4c2b1cd03f119f75b9e46dda77b1" title=" " alt="" coords="5,55,149,80"/>
+<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="182,56,149,61,149,55,181,51"/>
 </map>

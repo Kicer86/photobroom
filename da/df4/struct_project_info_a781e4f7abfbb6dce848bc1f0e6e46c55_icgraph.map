@@ -1,6 +1,10 @@
 <map id="ProjectInfo::getPath" name="ProjectInfo::getPath">
-<area shape="rect" id="node1" title=" " alt="" coords="457,24,593,49"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#a71f34c62abc6178a05f5b0fd9965e7e0" title=" " alt="" coords="5,16,191,56"/>
-<area shape="rect" id="node3" href="$d7/d93/class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc" title=" " alt="" coords="251,24,397,49"/>
-<area shape="rect" id="node4" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="239,73,409,98"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="456,24,591,49"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#a71f34c62abc6178a05f5b0fd9965e7e0" title=" " alt="" coords="5,16,190,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="458,22,408,14,323,8,238,14,190,20,190,15,237,9,323,3,408,9,459,17"/>
+<area shape="rect" id="Node000005" href="$d7/d93/class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc" title=" " alt="" coords="250,24,396,49"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="441,39,397,39,397,34,441,34"/>
+<area shape="rect" id="Node000007" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="238,73,408,99"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="454,56,379,75,378,70,453,51"/>
+<area shape="poly" id="edge4_Node000007_Node000002" title=" " alt="" coords="245,72,190,59,191,54,247,66"/>
 </map>

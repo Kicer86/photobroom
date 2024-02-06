@@ -1,4 +1,6 @@
 <map id="ConfigStorage::load" name="ConfigStorage::load">
-<area shape="rect" id="node1" title="Load configuration." alt="" coords="5,29,139,55"/>
-<area shape="rect" id="node2" href="$d9/d02/class_config_storage.html#a5e6685bd40a1968f9e6dd66166b54605" title=" " alt="" coords="187,29,352,55"/>
+<area shape="rect" id="Node000001" title="Load configuration." alt="" coords="5,29,138,55"/>
+<area shape="rect" id="Node000002" href="$d9/d02/class_config_storage.html#a5e6685bd40a1968f9e6dd66166b54605" title=" " alt="" coords="186,29,350,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,40,170,40,170,45,138,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="235,30,228,21,232,11,246,5,268,3,292,5,304,12,302,17,290,10,268,8,247,10,236,15,234,20,239,27"/>
 </map>

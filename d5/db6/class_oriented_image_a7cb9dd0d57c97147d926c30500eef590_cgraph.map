@@ -1,4 +1,5 @@
 <map id="OrientedImage::OrientedImage" name="OrientedImage::OrientedImage">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,204,31"/>
-<area shape="rect" id="node2" href="$d5/dd5/struct_i_exif_reader.html#adb056ee84526c248059ae528b57c47d2" title=" " alt="" coords="252,5,364,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,203,31"/>
+<area shape="rect" id="Node000002" href="$d5/dd5/struct_i_exif_reader.html#adb056ee84526c248059ae528b57c47d2" title=" " alt="" coords="251,5,362,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,16,235,16,235,21,203,21"/>
 </map>

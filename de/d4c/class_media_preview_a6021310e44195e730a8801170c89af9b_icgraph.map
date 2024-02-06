@@ -1,4 +1,5 @@
 <map id="MediaPreview::scale" name="MediaPreview::scale">
-<area shape="rect" id="node1" title=" " alt="" coords="204,13,345,38"/>
-<area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#ab7e1db7fe4e3ea6211b59044e362c900" title=" " alt="" coords="5,5,156,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="204,13,344,39"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#ab7e1db7fe4e3ea6211b59044e362c900" title=" " alt="" coords="5,5,156,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,28,156,28,156,23,188,23"/>
 </map>

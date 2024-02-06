@@ -1,4 +1,5 @@
 <map id="MainWindow::checkVersion" name="MainWindow::checkVersion">
-<area shape="rect" id="node1" title=" " alt="" coords="173,5,355,31"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#a324bf4dc935b55a376a182ea06f2e16d" title=" " alt="" coords="5,5,125,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="173,5,353,31"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#a324bf4dc935b55a376a182ea06f2e16d" title=" " alt="" coords="5,5,125,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,21,125,21,125,16,157,16"/>
 </map>

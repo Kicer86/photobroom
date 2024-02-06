@@ -1,4 +1,5 @@
 <map id="LogFileRotator::rotate" name="LogFileRotator::rotate">
-<area shape="rect" id="node1" title=" " alt="" coords="248,5,395,31"/>
-<area shape="rect" id="node2" href="$d8/d06/class_logger_factory.html#acfe3f0435c19ab6075605a56e306d683" title=" " alt="" coords="5,5,200,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="247,5,392,31"/>
+<area shape="rect" id="Node000002" href="$d8/d06/class_logger_factory.html#acfe3f0435c19ab6075605a56e306d683" title=" " alt="" coords="5,5,199,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,21,199,21,199,16,231,16"/>
 </map>

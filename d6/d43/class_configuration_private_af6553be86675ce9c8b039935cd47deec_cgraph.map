@@ -1,4 +1,5 @@
 <map id="ConfigurationPrivate::~ConfigurationPrivate" name="ConfigurationPrivate::~ConfigurationPrivate">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,156,45"/>
-<area shape="rect" id="node2" href="$d6/d43/class_configuration_private.html#a2aa2e83a245716589fadb447131d44eb" title=" " alt="" coords="204,5,343,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,156,46"/>
+<area shape="rect" id="Node000002" href="$d6/d43/class_configuration_private.html#a2aa2e83a245716589fadb447131d44eb" title=" " alt="" coords="204,5,341,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,23,188,23,188,28,156,28"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="ICoreFactoryAccessor" name="ICoreFactoryAccessor">
-<area shape="rect" id="node1" title=" " alt="" coords="98,5,249,31"/>
-<area shape="rect" id="node2" href="$d5/d24/class_core_factory_accessor.html" title=" " alt="" coords="5,79,152,104"/>
-<area shape="rect" id="node3" href="$d8/df8/class_i_core_factory_accessor_mock.html" title=" " alt="" coords="177,79,359,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="97,5,247,31"/>
+<area shape="rect" id="Node000002" href="$d5/d24/class_core_factory_accessor.html" title=" " alt="" coords="5,79,152,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,43,96,81,92,77,142,39"/>
+<area shape="rect" id="Node000003" href="$d8/df8/class_i_core_factory_accessor_mock.html" title=" " alt="" coords="175,79,358,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,39,252,77,249,81,199,43"/>
 </map>

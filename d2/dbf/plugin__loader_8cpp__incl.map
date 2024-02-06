@@ -1,12 +1,23 @@
 <map id="src/plugins/implementation/plugin_loader.cpp" name="src/plugins/implementation/plugin_loader.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="398,5,575,45"/>
-<area shape="rect" id="node2" href="$d1/d2f/plugin__loader_8hpp.html" title=" " alt="" coords="5,101,128,126"/>
-<area shape="rect" id="node3" title=" " alt="" coords="300,181,359,207"/>
-<area shape="rect" id="node4" title=" " alt="" coords="203,101,251,126"/>
-<area shape="rect" id="node5" title=" " alt="" coords="275,101,383,126"/>
-<area shape="rect" id="node6" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="489,181,602,207"/>
-<area shape="rect" id="node7" href="$d4/d57/ilogger__factory_8hpp.html" title=" " alt="" coords="407,101,566,126"/>
-<area shape="rect" id="node8" href="$dd/d59/cast_8hpp.html" title=" " alt="" coords="642,101,742,126"/>
-<area shape="rect" id="node9" href="$d1/d85/filesystem_8hpp.html" title=" " alt="" coords="766,101,917,126"/>
-<area shape="rect" id="node10" href="$da/d21/idatabase__plugin_8hpp.html" title=" " alt="" coords="941,93,1075,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="397,5,573,46"/>
+<area shape="rect" id="Node000002" href="$d1/d2f/plugin__loader_8hpp.html" title=" " alt="" coords="5,102,127,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="397,46,147,97,131,100,130,95,145,91,396,41"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="299,183,356,208"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="396,38,335,46,274,59,223,75,204,85,192,96,185,114,192,133,211,153,234,168,284,185,283,191,231,173,207,157,188,136,179,114,188,92,201,80,221,70,273,53,334,41,395,32"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="202,102,250,127"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="407,49,336,70,263,96,262,97,260,92,261,92,335,65,405,44"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="274,102,381,127"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="450,49,364,96,361,91,448,44"/>
+<area shape="rect" id="Node000008" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="486,183,598,208"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="528,44,556,65,578,93,583,113,580,135,563,172,558,169,575,133,578,114,573,95,552,69,525,49"/>
+<area shape="rect" id="Node000012" href="$d4/d57/ilogger__factory_8hpp.html" title=" " alt="" coords="406,102,564,127"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="487,47,487,86,482,86,482,47"/>
+<area shape="rect" id="Node000014" href="$dd/d59/cast_8hpp.html" title=" " alt="" coords="638,102,737,127"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="532,44,646,93,644,98,530,49"/>
+<area shape="rect" id="Node000017" href="$d1/d85/filesystem_8hpp.html" title=" " alt="" coords="761,102,910,127"/>
+<area shape="poly" id="edge10_Node000001_Node000017" title=" " alt="" coords="565,44,772,95,770,100,564,49"/>
+<area shape="rect" id="Node000019" href="$da/d21/idatabase__plugin_8hpp.html" title=" " alt="" coords="934,94,1068,135"/>
+<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="574,36,731,58,918,91,917,96,730,64,573,41"/>
+<area shape="poly" id="edge7_Node000012_Node000005" title=" " alt="" coords="462,130,366,178,364,173,459,125"/>
+<area shape="poly" id="edge8_Node000012_Node000008" title=" " alt="" coords="496,126,526,168,522,171,491,129"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="src/core/implementation/time_guardian.cpp" name="src/core/implementation/time_guardian.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="107,5,268,45"/>
-<area shape="rect" id="node2" href="$da/dcd/time__guardian_8hpp.html" title=" " alt="" coords="5,93,132,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="157,93,218,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="242,93,314,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="106,5,266,46"/>
+<area shape="rect" id="Node000002" href="$da/dcd/time__guardian_8hpp.html" title=" " alt="" coords="5,94,132,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="158,49,101,87,98,83,155,44"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="156,94,216,120"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="189,46,189,78,183,78,183,46"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="240,94,311,120"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="210,44,252,82,248,86,206,48"/>
 </map>

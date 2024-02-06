@@ -1,6 +1,9 @@
 <map id="SelectionManagerComponent::clearAndToggleIndexSelection" name="SelectionManagerComponent::clearAndToggleIndexSelection">
-<area shape="rect" id="node1" title=" " alt="" coords="5,69,208,109"/>
-<area shape="rect" id="node2" href="$d2/de4/class_selection_manager_component.html#a54c8a69bcf0166c3597afcb82adbf692" title=" " alt="" coords="256,5,448,45"/>
-<area shape="rect" id="node3" href="$d2/de4/class_selection_manager_component.html#aa492c4e3b2b676292943210b5c60fe9f" title=" " alt="" coords="256,69,448,109"/>
-<area shape="rect" id="node4" href="$d2/de4/class_selection_manager_component.html#a38832ff1aa0f836191fa3faa39f78491" title=" " alt="" coords="256,133,448,173"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,208,111"/>
+<area shape="rect" id="Node000002" href="$d2/de4/class_selection_manager_component.html#a54c8a69bcf0166c3597afcb82adbf692" title=" " alt="" coords="256,5,447,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,67,257,48,258,53,186,73"/>
+<area shape="rect" id="Node000005" href="$d2/de4/class_selection_manager_component.html#aa492c4e3b2b676292943210b5c60fe9f" title=" " alt="" coords="256,71,447,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="208,88,240,88,240,94,208,94"/>
+<area shape="rect" id="Node000006" href="$d2/de4/class_selection_manager_component.html#a38832ff1aa0f836191fa3faa39f78491" title=" " alt="" coords="256,136,447,177"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="186,109,258,129,257,134,185,115"/>
 </map>

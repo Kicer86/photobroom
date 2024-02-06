@@ -1,5 +1,7 @@
 <map id="src/gui/desktop/utils/grouppers/hdr_generator.hpp" name="src/gui/desktop/utils/grouppers/hdr_generator.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="110,5,301,45"/>
-<area shape="rect" id="node2" href="$d3/d90/photos__grouping__dialog_8cpp.html" title=" " alt="" coords="5,93,192,133"/>
-<area shape="rect" id="node3" href="$d0/d56/hdr__generator_8cpp.html" title=" " alt="" coords="217,93,407,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="109,5,298,46"/>
+<area shape="rect" id="Node000002" href="$d3/d90/photos__grouping__dialog_8cpp.html" title=" " alt="" coords="5,94,191,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,58,123,96,120,91,166,54"/>
+<area shape="rect" id="Node000003" href="$d0/d56/hdr__generator_8cpp.html" title=" " alt="" coords="215,94,405,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,54,288,91,284,96,238,58"/>
 </map>

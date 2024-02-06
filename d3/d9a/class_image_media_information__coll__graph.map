@@ -1,5 +1,7 @@
 <map id="ImageMediaInformation" name="ImageMediaInformation">
-<area shape="rect" id="node1" title=" " alt="" coords="53,93,211,119"/>
-<area shape="rect" id="node2" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="5,5,136,31"/>
-<area shape="rect" id="node3" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="160,5,227,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="52,94,209,120"/>
+<area shape="rect" id="Node000002" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="5,5,136,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,42,124,92,120,95,85,45"/>
+<area shape="rect" id="Node000003" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="159,5,225,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="177,45,141,95,137,92,172,42"/>
 </map>

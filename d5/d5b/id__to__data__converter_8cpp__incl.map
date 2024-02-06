@@ -1,6 +1,10 @@
 <map id="src/database/database_tools/implementation/id_to_data_converter.cpp" name="src/database/database_tools/implementation/id_to_data_converter.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="135,5,306,60"/>
-<area shape="rect" id="node2" href="$dc/d99/id__to__data__converter_8hpp.html" title=" " alt="" coords="5,108,183,133"/>
-<area shape="rect" id="node3" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="73,181,240,207"/>
-<area shape="rect" id="node4" title=" " alt="" coords="258,108,405,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="134,5,304,61"/>
+<area shape="rect" id="Node000002" href="$dc/d99/id__to__data__converter_8hpp.html" title=" " alt="" coords="5,109,182,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,64,125,102,122,98,178,59"/>
+<area shape="rect" id="Node000012" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="73,183,239,208"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="217,62,209,98,196,136,176,171,172,168,191,134,204,96,212,61"/>
+<area shape="rect" id="Node000052" title=" " alt="" coords="256,109,403,135"/>
+<area shape="poly" id="edge3_Node000001_Node000052" title=" " alt="" coords="255,59,304,97,300,101,252,63"/>
+<area shape="poly" id="edge2_Node000002_Node000012" title=" " alt="" coords="106,133,137,169,133,172,102,137"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Database::IBackend::photoChangeLogOperator" name="Database::IBackend::photoChangeLogOperator">
-<area shape="rect" id="node1" title="get changelog operator" alt="" coords="221,37,397,77"/>
-<area shape="rect" id="node2" href="$d5/d6b/class_database_1_1_group_operator.html#abac9cd6ec0bf898cc604e5fd5d219d67" title=" " alt="" coords="5,5,173,45"/>
-<area shape="rect" id="node3" href="$d5/d6b/class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315" title=" " alt="" coords="5,69,173,109"/>
+<area shape="rect" id="Node000001" title="get changelog operator" alt="" coords="221,39,396,79"/>
+<area shape="rect" id="Node000002" href="$d5/d6b/class_database_1_1_group_operator.html#abac9cd6ec0bf898cc604e5fd5d219d67" title=" " alt="" coords="5,5,173,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="205,46,173,41,173,36,205,41"/>
+<area shape="rect" id="Node000003" href="$d5/d6b/class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315" title=" " alt="" coords="5,71,173,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="205,77,173,81,173,76,205,71"/>
 </map>

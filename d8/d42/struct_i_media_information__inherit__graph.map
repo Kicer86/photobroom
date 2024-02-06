@@ -1,5 +1,7 @@
 <map id="IMediaInformation" name="IMediaInformation">
-<area shape="rect" id="node1" title=" " alt="" coords="85,5,211,31"/>
-<area shape="rect" id="node2" href="$d8/d50/class_media_information.html" title=" " alt="" coords="5,79,128,104"/>
-<area shape="rect" id="node3" href="$de/d37/class_media_information_mock.html" title=" " alt="" coords="152,79,307,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="83,5,209,31"/>
+<area shape="rect" id="Node000002" href="$d8/d50/class_media_information.html" title=" " alt="" coords="5,79,127,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,43,81,81,78,77,119,39"/>
+<area shape="rect" id="Node000003" href="$de/d37/class_media_information_mock.html" title=" " alt="" coords="151,79,304,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,39,215,77,212,81,169,43"/>
 </map>

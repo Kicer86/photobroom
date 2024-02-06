@@ -1,6 +1,9 @@
 <map id="src/database/database_tools/series_detector.hpp" name="src/database/database_tools/series_detector.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="185,5,359,45"/>
-<area shape="rect" id="node2" href="$de/d46/series__detector_8cpp.html" title=" " alt="" coords="5,93,160,148"/>
-<area shape="rect" id="node3" href="$dc/d1a/series__detector__tests_8cpp.html" title=" " alt="" coords="185,101,359,141"/>
-<area shape="rect" id="node4" href="$dd/d30/series__model_8cpp.html" title=" " alt="" coords="384,101,541,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="183,5,357,46"/>
+<area shape="rect" id="Node000002" href="$de/d46/series__detector_8cpp.html" title=" " alt="" coords="5,94,159,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,56,138,96,135,91,216,51"/>
+<area shape="rect" id="Node000003" href="$dc/d1a/series__detector__tests_8cpp.html" title=" " alt="" coords="183,102,357,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="273,62,273,101,267,101,267,62"/>
+<area shape="rect" id="Node000004" href="$dd/d30/series__model_8cpp.html" title=" " alt="" coords="381,102,538,142"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="324,51,421,99,419,103,322,56"/>
 </map>

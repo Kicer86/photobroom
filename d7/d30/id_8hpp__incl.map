@@ -1,5 +1,7 @@
 <map id="src/core/id.hpp" name="src/core/id.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="31,5,138,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,71,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="95,79,168,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="30,5,136,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,70,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,33,55,67,51,64,73,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="93,79,166,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="93,30,116,64,111,67,88,33"/>
 </map>

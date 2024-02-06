@@ -1,6 +1,9 @@
 <map id="src/photos_crawler/ifile_system_scanner.hpp" name="src/photos_crawler/ifile_system_scanner.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="47,5,217,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,64,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="88,93,176,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="200,93,363,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="45,5,215,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,63,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,48,62,86,59,82,105,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="86,94,174,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="133,46,133,78,127,78,127,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="197,94,359,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="168,44,243,84,241,89,166,49"/>
 </map>

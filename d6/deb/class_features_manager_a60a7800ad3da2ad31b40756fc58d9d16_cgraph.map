@@ -1,5 +1,7 @@
 <map id="FeaturesManager::testTool" name="FeaturesManager::testTool">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,181,56"/>
-<area shape="rect" id="node2" href="$d6/deb/class_features_manager.html#aecdfbd46e64242df19c2e81e92d55420" title=" " alt="" coords="240,5,435,31"/>
-<area shape="rect" id="node3" href="$d6/deb/class_features_manager.html#ad4f07b5356db85965e4a63ffcca1d40e" title=" " alt="" coords="229,55,445,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,181,56"/>
+<area shape="rect" id="Node000002" href="$d6/deb/class_features_manager.html#aecdfbd46e64242df19c2e81e92d55420" title=" " alt="" coords="240,5,433,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,32,224,27,225,32,181,37"/>
+<area shape="rect" id="Node000004" href="$d6/deb/class_features_manager.html#ad4f07b5356db85965e4a63ffcca1d40e" title=" " alt="" coords="229,55,444,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="181,50,213,53,213,58,181,55"/>
 </map>

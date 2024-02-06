@@ -1,5 +1,7 @@
 <map id="src/gui/inotifications.hpp" name="src/gui/inotifications.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="7,5,169,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,72,104"/>
-<area shape="rect" id="node3" href="$db/db3/id_8hpp.html" title=" " alt="" coords="96,79,181,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="7,5,168,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,71,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,33,57,68,53,65,77,30"/>
+<area shape="rect" id="Node000003" href="$db/db3/id_8hpp.html" title=" " alt="" coords="95,79,179,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="98,30,122,65,118,68,93,33"/>
 </map>

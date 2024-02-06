@@ -1,8 +1,14 @@
 <map id="src/core/id.hpp" name="src/core/id.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="383,5,490,31"/>
-<area shape="rect" id="node2" href="$dd/dbe/query__structs_8hpp.html" title=" " alt="" coords="5,79,217,119"/>
-<area shape="rect" id="node3" href="$d8/d3d/group_8hpp.html" title=" " alt="" coords="242,86,399,111"/>
-<area shape="rect" id="node4" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="419,167,559,207"/>
-<area shape="rect" id="node5" href="$dc/d82/photo__types_8hpp.html" title=" " alt="" coords="474,79,607,119"/>
-<area shape="rect" id="node6" href="$d7/d64/inotifications_8hpp.html" title=" " alt="" coords="632,86,793,111"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="382,5,488,31"/>
+<area shape="rect" id="Node000002" href="$dd/dbe/query__structs_8hpp.html" title=" " alt="" coords="5,79,217,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="371,38,192,81,191,76,370,33"/>
+<area shape="rect" id="Node000013" href="$d8/d3d/group_8hpp.html" title=" " alt="" coords="241,87,397,112"/>
+<area shape="poly" id="edge2_Node000001_Node000013" title=" " alt="" coords="406,42,338,88,335,84,403,38"/>
+<area shape="rect" id="Node000147" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="417,168,557,208"/>
+<area shape="poly" id="edge3_Node000001_Node000147" title=" " alt="" coords="443,46,463,119,481,167,476,169,458,120,438,47"/>
+<area shape="rect" id="Node000163" href="$dc/d82/photo__types_8hpp.html" title=" " alt="" coords="473,79,605,120"/>
+<area shape="poly" id="edge4_Node000001_Node000163" title=" " alt="" coords="465,38,515,76,512,81,461,43"/>
+<area shape="rect" id="Node000175" href="$d7/d64/inotifications_8hpp.html" title=" " alt="" coords="630,87,790,112"/>
+<area shape="poly" id="edge6_Node000001_Node000175" title=" " alt="" coords="493,33,668,83,667,88,491,38"/>
+<area shape="poly" id="edge5_Node000163_Node000147" title=" " alt="" coords="522,134,501,169,496,166,517,132"/>
 </map>

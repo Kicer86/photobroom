@@ -1,5 +1,9 @@
 <map id="TagInfoCollector::set" name="TagInfoCollector::set">
-<area shape="rect" id="node1" title=" " alt="" coords="201,31,343,56"/>
-<area shape="rect" id="node2" href="$d6/d62/class_completer_factory.html#a962747354de1050a4ebb445a4dec48f7" title=" " alt="" coords="5,5,153,31"/>
-<area shape="rect" id="node3" href="$dd/d27/tag__info__collector__tests_8cpp.html#a80a90220878f53f675b55e243b627546" title=" " alt="" coords="44,55,115,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="201,55,341,80"/>
+<area shape="rect" id="Node000002" href="$d6/d62/class_completer_factory.html#a962747354de1050a4ebb445a4dec48f7" title=" " alt="" coords="5,5,153,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,53,131,34,133,29,204,48"/>
+<area shape="rect" id="Node000004" href="$dd/d27/tag__info__collector__tests_8cpp.html#a5f9a1f764a8b427e23ac1ccf48071abb" title=" " alt="" coords="44,55,114,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="185,70,114,70,114,65,185,65"/>
+<area shape="rect" id="Node000005" href="$dd/d27/tag__info__collector__tests_8cpp.html#a80a90220878f53f675b55e243b627546" title=" " alt="" coords="44,104,114,130"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="204,87,115,111,113,105,202,82"/>
 </map>

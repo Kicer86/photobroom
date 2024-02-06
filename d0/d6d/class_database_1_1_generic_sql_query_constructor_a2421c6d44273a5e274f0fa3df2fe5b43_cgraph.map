@@ -1,7 +1,12 @@
 <map id="Database::GenericSqlQueryConstructor::prepareUpdateQuery" name="Database::GenericSqlQueryConstructor::prepareUpdateQuery">
-<area shape="rect" id="node1" title=" " alt="" coords="5,65,220,105"/>
-<area shape="rect" id="node2" href="$d4/df7/class_database_1_1_insert_query_data.html#a5ce2ce74817343405919a285e452af35" title=" " alt="" coords="529,69,707,109"/>
-<area shape="rect" id="node3" href="$d7/dee/class_database_1_1_update_query_data.html#ac9511faf3860d5cc5124f73e6fab1341" title=" " alt="" coords="281,33,468,73"/>
-<area shape="rect" id="node4" href="$d4/df7/class_database_1_1_insert_query_data.html#a188a061eb08f73b16c23daeaffac182c" title=" " alt="" coords="286,97,463,137"/>
-<area shape="rect" id="node5" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2298963eda40bc9908a5f12196744901" title=" " alt="" coords="268,161,481,201"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,66,219,107"/>
+<area shape="rect" id="Node000002" href="$d4/df7/class_database_1_1_insert_query_data.html#a5ce2ce74817343405919a285e452af35" title=" " alt="" coords="527,70,703,111"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,63,203,38,266,18,326,7,373,3,420,6,480,18,529,36,572,59,570,64,527,41,478,24,420,12,373,8,326,13,267,24,205,43,152,68"/>
+<area shape="rect" id="Node000003" href="$d7/dee/class_database_1_1_update_query_data.html#ac9511faf3860d5cc5124f73e6fab1341" title=" " alt="" coords="280,33,466,73"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,70,264,64,265,69,219,75"/>
+<area shape="rect" id="Node000004" href="$d4/df7/class_database_1_1_insert_query_data.html#a188a061eb08f73b16c23daeaffac182c" title=" " alt="" coords="285,98,461,139"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="219,97,269,103,269,108,219,102"/>
+<area shape="rect" id="Node000005" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2298963eda40bc9908a5f12196744901" title=" " alt="" coords="267,163,479,204"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="162,105,268,148,290,155,288,161,266,153,160,110"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="443,160,478,148,555,115,557,120,480,153,445,165"/>
 </map>

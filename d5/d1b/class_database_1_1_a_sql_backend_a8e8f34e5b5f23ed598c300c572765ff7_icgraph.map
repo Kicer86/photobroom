@@ -1,5 +1,8 @@
 <map id="Database::ASqlBackend::getPhotoDelta" name="Database::ASqlBackend::getPhotoDelta">
-<area shape="rect" id="node1" title=" " alt="" coords="216,49,379,89"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93d6664d9c92ca8a176d01c941ea149a" title="get particular photo" alt="" coords="5,5,168,45"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aeabaa61a16e3602392353c5ce5727b91" title="store photo data" alt="" coords="5,93,168,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="215,51,376,91"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93d6664d9c92ca8a176d01c941ea149a" title="get particular photo" alt="" coords="5,5,167,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,53,166,46,168,41,200,48"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aeabaa61a16e3602392353c5ce5727b91" title="store photo data" alt="" coords="5,95,167,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,94,168,101,166,95,199,89"/>
+<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="120,81,107,76,86,73,66,75,54,80,50,86,52,93,46,95,44,85,51,76,65,70,86,68,109,70,122,77"/>
 </map>

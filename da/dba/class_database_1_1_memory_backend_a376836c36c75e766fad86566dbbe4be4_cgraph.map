@@ -1,4 +1,5 @@
 <map id="Database::MemoryBackend::getIdFor" name="Database::MemoryBackend::getIdFor">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,185,45"/>
-<area shape="rect" id="node2" href="$db/d29/class_photo_1_1_explicit_delta.html#a17a99123198a14dfec77677700c8d2ad" title=" " alt="" coords="233,5,367,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,185,46"/>
+<area shape="rect" id="Node000002" href="$db/d29/class_photo_1_1_explicit_delta.html#a17a99123198a14dfec77677700c8d2ad" title=" " alt="" coords="233,5,365,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,23,217,23,217,28,185,28"/>
 </map>

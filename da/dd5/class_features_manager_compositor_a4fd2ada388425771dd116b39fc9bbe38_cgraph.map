@@ -1,4 +1,5 @@
 <map id="FeaturesManagerCompositor::has" name="FeaturesManagerCompositor::has">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,221,31"/>
-<area shape="rect" id="node2" href="$d1/db4/class_i_features_manager.html#a6b66b9464dd1b265404b6b5f34c3ce2a" title=" " alt="" coords="269,5,424,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,221,31"/>
+<area shape="rect" id="Node000002" href="$d1/db4/class_i_features_manager.html#a6b66b9464dd1b265404b6b5f34c3ce2a" title=" " alt="" coords="269,5,422,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,16,253,16,253,21,221,21"/>
 </map>

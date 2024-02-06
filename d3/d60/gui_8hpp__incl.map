@@ -1,5 +1,7 @@
 <map id="src/gui/gui.hpp" name="src/gui/gui.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="38,5,145,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,73,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="98,79,189,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="37,5,142,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,73,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,33,58,68,54,65,79,30"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="97,79,187,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="100,30,126,65,122,68,96,33"/>
 </map>

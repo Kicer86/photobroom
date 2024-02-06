@@ -1,5 +1,7 @@
 <map id="FeaturesManager::refreshTools" name="FeaturesManager::refreshTools">
-<area shape="rect" id="node1" title=" " alt="" coords="5,23,175,63"/>
-<area shape="rect" id="node2" href="$d7/db4/struct_i_configuration.html#a56f21aac17f8a84e7c708081b922f595" title=" " alt="" coords="233,5,388,31"/>
-<area shape="rect" id="node3" href="$d6/deb/class_features_manager.html#a60a7800ad3da2ad31b40756fc58d9d16" title=" " alt="" coords="223,55,399,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,174,64"/>
+<area shape="rect" id="Node000002" href="$d7/db4/struct_i_configuration.html#a56f21aac17f8a84e7c708081b922f595" title=" " alt="" coords="233,5,386,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,31,217,26,217,31,174,36"/>
+<area shape="rect" id="Node000003" href="$d6/deb/class_features_manager.html#a60a7800ad3da2ad31b40756fc58d9d16" title=" " alt="" coords="222,55,397,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,50,207,54,206,59,174,55"/>
 </map>

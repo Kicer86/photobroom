@@ -1,4 +1,5 @@
 <map id="TagValueModel" name="TagValueModel">
-<area shape="rect" id="node1" title=" " alt="" coords="47,79,159,104"/>
-<area shape="rect" id="node2" href="$d2/d8b/class_i_model_compositor_data_source.html" title=" " alt="" coords="5,5,200,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="47,79,158,105"/>
+<area shape="rect" id="Node000002" href="$d2/d8b/class_i_model_compositor_data_source.html" title=" " alt="" coords="5,5,200,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,46,105,79,100,79,100,46"/>
 </map>

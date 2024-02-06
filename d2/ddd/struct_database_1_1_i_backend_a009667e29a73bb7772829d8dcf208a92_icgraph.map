@@ -1,8 +1,20 @@
 <map id="Database::IBackend::photosAdded" name="Database::IBackend::photosAdded">
-<area shape="rect" id="node1" title="emited after new photos were added to database" alt="" coords="500,127,639,167"/>
-<area shape="rect" id="node2" href="$da/dba/class_database_1_1_memory_backend.html#af94d56d23f94d5532ab285cf6aec18a5" title=" " alt="" coords="272,5,452,45"/>
-<area shape="rect" id="node3" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="291,69,433,109"/>
-<area shape="rect" id="node4" href="$d1/da6/class_flat_model.html#a2737a8ce4698c5aa45a9b9c50b799aea" title=" " alt="" coords="283,134,441,159"/>
-<area shape="rect" id="node5" href="$d2/d10/class_photos_model_controller_component.html#a42e1fbf8b1e05e08767d92e8266f29c8" title=" " alt="" coords="5,152,224,192"/>
-<area shape="rect" id="node6" href="$d3/d9d/photos__tests_8cpp.html#a82c1ed4e904b25dcae621dd0ff5168f7" title=" " alt="" coords="309,235,415,261"/>
+<area shape="rect" id="Node000001" title="emited after new photos were added to database" alt="" coords="499,204,636,245"/>
+<area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#af94d56d23f94d5532ab285cf6aec18a5" title=" " alt="" coords="272,5,451,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="548,191,508,125,481,91,449,61,430,49,432,44,453,57,485,87,513,122,553,189"/>
+<area shape="rect" id="Node000003" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="290,71,433,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="535,195,496,159,450,125,428,114,430,110,452,121,499,155,539,191"/>
+<area shape="rect" id="Node000004" href="$d1/da6/class_flat_model.html#a2737a8ce4698c5aa45a9b9c50b799aea" title=" " alt="" coords="283,136,440,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="498,201,450,183,399,164,401,159,452,178,499,196"/>
+<area shape="rect" id="Node000005" href="$d2/d10/class_photos_model_controller_component.html#a42e1fbf8b1e05e08767d92e8266f29c8" title=" " alt="" coords="5,153,224,194"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="483,218,224,189,225,183,484,212"/>
+<area shape="rect" id="Node000006" href="$d3/d9d/photos__tests_8cpp.html#a82c1ed4e904b25dcae621dd0ff5168f7" title=" " alt="" coords="309,237,414,263"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="484,237,414,246,414,241,483,232"/>
+<area shape="rect" id="Node000007" href="$dd/d49/transaction__accumulations__tests_8cpp.html#a4c03046bfc27fc90b889c1b08d16952e" title=" " alt="" coords="309,286,414,312"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="511,254,452,278,415,289,413,284,450,272,509,249"/>
+<area shape="rect" id="Node000008" href="$dd/d49/transaction__accumulations__tests_8cpp.html#ab765901c9f0b39be4652aef735526cd4" title=" " alt="" coords="309,336,414,361"/>
+<area shape="poly" id="edge8_Node000001_Node000008" title=" " alt="" coords="539,258,500,294,452,327,415,341,413,336,450,322,497,290,536,254"/>
+<area shape="rect" id="Node000009" href="$dd/d49/transaction__accumulations__tests_8cpp.html#ae6f5f676a018a2aa00badca6941b845e" title=" " alt="" coords="309,385,414,411"/>
+<area shape="poly" id="edge9_Node000001_Node000009" title=" " alt="" coords="551,260,511,319,484,350,452,376,415,392,413,387,450,371,480,346,507,316,547,257"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="267,161,224,165,224,160,267,155"/>
 </map>

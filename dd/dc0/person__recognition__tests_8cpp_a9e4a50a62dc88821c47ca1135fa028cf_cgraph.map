@@ -1,5 +1,7 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,60,56"/>
-<area shape="rect" id="node2" href="$d7/d68/namespacedlib__api.html#a5f63fa8f69d1f2d188c34eb83a5fcc21" title=" " alt="" coords="108,5,261,31"/>
-<area shape="rect" id="node3" href="$d6/d84/namespaceutils.html#a123e5ef499e2d18adee0a1e6afc85ab8" title=" " alt="" coords="119,55,250,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$d7/d68/namespacedlib__api.html#a5f63fa8f69d1f2d188c34eb83a5fcc21" title=" " alt="" coords="108,5,260,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,36,92,31,93,36,61,42"/>
+<area shape="rect" id="Node000003" href="$d6/d84/namespaceutils.html#a123e5ef499e2d18adee0a1e6afc85ab8" title=" " alt="" coords="119,55,249,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,45,104,52,103,57,60,50"/>
 </map>

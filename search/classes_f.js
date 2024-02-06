@@ -35,7 +35,7 @@ var searchData=
   ['project_32',['Project',['../d9/d6e/class_project.html',1,'']]],
   ['projectcreator_33',['ProjectCreator',['../d3/d16/class_project_creator.html',1,'']]],
   ['projectcreatordialog_34',['ProjectCreatorDialog',['../db/dd2/class_project_creator_dialog.html',1,'']]],
-  ['projectinfo_35',['ProjectInfo',['../dd/d52/struct_database_1_1_project_info.html',1,'Database::ProjectInfo'],['../da/df4/struct_project_info.html',1,'ProjectInfo']]],
+  ['projectinfo_35',['projectinfo',['../dd/d52/struct_database_1_1_project_info.html',1,'Database::ProjectInfo'],['../da/df4/struct_project_info.html',1,'ProjectInfo']]],
   ['projectmanager_36',['ProjectManager',['../d7/d93/class_project_manager.html',1,'']]],
   ['promise_5ftype_37',['promise_type',['../d9/d1e/struct_i_task_executor_1_1_process_coroutine_1_1promise__type.html',1,'ITaskExecutor::ProcessCoroutine']]]
 ];

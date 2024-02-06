@@ -1,5 +1,7 @@
 <map id="DatabaseTest&lt; T &gt;" name="DatabaseTest&lt; T &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="45,93,179,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,99,31"/>
-<area shape="rect" id="node3" href="$d3/ddb/class_empty_logger.html" title=" " alt="" coords="123,5,221,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="44,94,176,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,98,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,42,104,92,100,95,66,45"/>
+<area shape="rect" id="Node000003" href="$d3/ddb/class_empty_logger.html" title=" " alt="" coords="122,5,219,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,45,121,95,116,92,151,42"/>
 </map>

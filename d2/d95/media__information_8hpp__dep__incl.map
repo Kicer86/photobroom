@@ -1,5 +1,7 @@
 <map id="src/core/media_information.hpp" name="src/core/media_information.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="77,5,279,31"/>
-<area shape="rect" id="node2" href="$d2/d6f/media__information_8cpp.html" title=" " alt="" coords="5,86,167,126"/>
-<area shape="rect" id="node3" href="$d2/d25/photos__analyzer__p_8hpp.html" title=" " alt="" coords="191,79,349,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="75,5,277,31"/>
+<area shape="rect" id="Node000002" href="$d2/d6f/media__information_8cpp.html" title=" " alt="" coords="5,87,166,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,44,108,88,104,84,151,40"/>
+<area shape="rect" id="Node000003" href="$d2/d25/photos__analyzer__p_8hpp.html" title=" " alt="" coords="190,79,346,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,40,241,76,237,80,198,44"/>
 </map>

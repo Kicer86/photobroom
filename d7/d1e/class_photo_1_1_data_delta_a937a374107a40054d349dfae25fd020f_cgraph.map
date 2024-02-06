@@ -1,5 +1,7 @@
 <map id="Photo::DataDelta::operator|=" name="Photo::DataDelta::operator|=">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,188,56"/>
-<area shape="rect" id="node2" href="$d7/d1e/class_photo_1_1_data_delta.html#a526b9c664ac0f9be3661a67ff2343401" title=" " alt="" coords="236,5,383,31"/>
-<area shape="rect" id="node3" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="276,55,343,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,188,56"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a526b9c664ac0f9be3661a67ff2343401" title=" " alt="" coords="236,5,381,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,30,220,26,221,31,188,35"/>
+<area shape="rect" id="Node000003" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="276,55,341,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,51,261,60,260,65,187,56"/>
 </map>

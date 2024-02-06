@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/utils/tag_value_model.hpp" name="src/gui/desktop/utils/tag_value_model.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="141,5,289,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,144,126"/>
-<area shape="rect" id="node3" href="$d1/d74/tag_8hpp.html" title=" " alt="" coords="168,101,261,126"/>
-<area shape="rect" id="node4" href="$da/d01/imodel__compositor__data__source_8hpp.html" title=" " alt="" coords="285,93,445,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="139,5,286,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,143,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="183,49,108,95,105,91,180,44"/>
+<area shape="rect" id="Node000003" href="$d1/d74/tag_8hpp.html" title=" " alt="" coords="167,102,259,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,47,215,86,210,86,210,47"/>
+<area shape="rect" id="Node000013" href="$da/d01/imodel__compositor__data__source_8hpp.html" title=" " alt="" coords="282,94,442,135"/>
+<area shape="poly" id="edge3_Node000001_Node000013" title=" " alt="" coords="248,44,316,84,314,88,245,49"/>
 </map>

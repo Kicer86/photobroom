@@ -1,7 +1,12 @@
 <map id="Database::ASqlBackend::updateOrInsert" name="Database::ASqlBackend::updateOrInsert">
-<area shape="rect" id="node1" title="insert data to database or upgrade existing entries." alt="" coords="5,125,168,165"/>
-<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="216,29,403,69"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93ae3e2c2134298784344e2fadd09b6e" title="IGenericSqlQueryGenerator accessor." alt="" coords="218,93,401,133"/>
-<area shape="rect" id="node4" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="217,157,402,197"/>
-<area shape="rect" id="node5" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ab424cc45b1af347392472432c2a97e5f" title=" " alt="" coords="217,221,402,261"/>
+<area shape="rect" id="Node000001" title="insert data to database or upgrade existing entries." alt="" coords="5,128,167,169"/>
+<area shape="rect" id="Node000002" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="215,29,400,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,125,214,81,230,74,232,78,216,85,126,130"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93ae3e2c2134298784344e2fadd09b6e" title="IGenericSqlQueryGenerator accessor." alt="" coords="217,95,398,135"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="166,134,201,128,201,134,167,139"/>
+<area shape="rect" id="Node000004" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="215,160,400,201"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="167,157,200,162,199,167,167,163"/>
+<area shape="rect" id="Node000005" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ab424cc45b1af347392472432c2a97e5f" title=" " alt="" coords="215,225,400,266"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="127,167,216,210,232,217,230,222,214,215,125,172"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="266,29,263,19,270,10,285,5,307,3,331,5,346,11,343,16,330,10,307,8,286,10,273,15,269,21,271,28"/>
 </map>

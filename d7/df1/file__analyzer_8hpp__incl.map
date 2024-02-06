@@ -1,5 +1,8 @@
 <map id="src/photos_crawler/default_analyzers/file_analyzer.hpp" name="src/photos_crawler/default_analyzers/file_analyzer.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="91,5,238,60"/>
-<area shape="rect" id="node2" href="$da/d7c/ianalyzer_8hpp.html" title=" " alt="" coords="5,108,193,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="83,181,246,207"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="92,5,237,61"/>
+<area shape="rect" id="Node000002" href="$da/d7c/ianalyzer_8hpp.html" title=" " alt="" coords="5,109,193,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,63,119,98,115,95,142,60"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="84,183,245,208"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="188,60,205,95,209,115,207,135,188,171,183,169,202,134,204,115,200,97,183,62"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="112,133,145,169,141,173,108,137"/>
 </map>

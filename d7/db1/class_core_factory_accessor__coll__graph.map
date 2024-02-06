@@ -1,8 +1,13 @@
 <map id="CoreFactoryAccessor" name="CoreFactoryAccessor">
-<area shape="rect" id="node1" title=" " alt="" coords="299,93,446,119"/>
-<area shape="rect" id="node2" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="5,5,156,31"/>
-<area shape="rect" id="node3" href="$d1/d78/struct_i_logger_factory.html" title=" " alt="" coords="181,5,290,31"/>
-<area shape="rect" id="node4" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="314,5,445,31"/>
-<area shape="rect" id="node5" href="$d7/db4/struct_i_configuration.html" title=" " alt="" coords="478,5,579,31"/>
-<area shape="rect" id="node6" href="$d5/d45/struct_i_task_executor.html" title=" " alt="" coords="604,5,709,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="297,94,443,120"/>
+<area shape="rect" id="Node000002" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="5,5,156,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,34,247,67,327,91,326,96,245,73,133,39"/>
+<area shape="rect" id="Node000003" href="$d1/d78/struct_i_logger_factory.html" title=" " alt="" coords="180,5,288,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,43,267,68,289,81,313,91,311,96,286,86,264,72,243,46"/>
+<area shape="rect" id="Node000004" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="313,5,443,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="375,47,374,55,372,94,367,93,369,55,370,46"/>
+<area shape="rect" id="Node000005" href="$d7/db4/struct_i_configuration.html" title=" " alt="" coords="476,5,576,31"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="518,46,510,60,498,72,472,87,444,98,442,93,470,83,495,68,506,57,514,43"/>
+<area shape="rect" id="Node000006" href="$d5/d45/struct_i_task_executor.html" title=" " alt="" coords="600,5,705,31"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="639,45,626,60,610,72,580,83,538,91,444,103,443,97,537,86,579,78,607,68,622,56,635,42"/>
 </map>

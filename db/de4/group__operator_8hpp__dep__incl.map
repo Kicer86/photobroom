@@ -1,5 +1,7 @@
 <map id="src/database/backends/sql_backends/group_operator.hpp" name="src/database/backends/sql_backends/group_operator.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="124,5,344,45"/>
-<area shape="rect" id="node2" href="$d9/d0a/group__operator_8cpp.html" title=" " alt="" coords="5,93,225,133"/>
-<area shape="rect" id="node3" href="$df/df4/sql__backend_8hpp.html" title=" " alt="" coords="249,93,456,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="124,5,343,46"/>
+<area shape="rect" id="Node000002" href="$d9/d0a/group__operator_8cpp.html" title=" " alt="" coords="5,94,225,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,57,143,96,140,91,193,53"/>
+<area shape="rect" id="Node000003" href="$df/df4/sql__backend_8hpp.html" title=" " alt="" coords="249,94,456,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="274,53,327,91,324,96,271,57"/>
 </map>

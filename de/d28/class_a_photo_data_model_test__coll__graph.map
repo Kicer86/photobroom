@@ -1,6 +1,9 @@
 <map id="APhotoDataModelTest&lt; T &gt;" name="APhotoDataModelTest&lt; T &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="122,93,305,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,99,31"/>
-<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="123,5,303,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="327,5,518,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="120,94,303,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,98,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,36,190,91,188,96,86,41"/>
+<area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="122,5,301,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,47,214,94,209,94,209,47"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="325,5,514,31"/>
+<area shape="poly" id="edge3_Node000001_Node000012" title=" " alt="" coords="377,40,242,96,240,91,375,35"/>
 </map>

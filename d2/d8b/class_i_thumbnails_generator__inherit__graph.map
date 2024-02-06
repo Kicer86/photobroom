@@ -1,5 +1,7 @@
 <map id="IThumbnailsGenerator" name="IThumbnailsGenerator">
-<area shape="rect" id="node1" title=" " alt="" coords="110,5,261,31"/>
-<area shape="rect" id="node2" href="$d3/d80/struct_mock_thumbnails_generator.html" title=" " alt="" coords="5,79,184,104"/>
-<area shape="rect" id="node3" href="$d7/d27/class_thumbnail_generator.html" title=" " alt="" coords="208,79,347,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="110,5,259,31"/>
+<area shape="rect" id="Node000002" href="$d3/d80/struct_mock_thumbnails_generator.html" title=" " alt="" coords="5,79,183,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,43,111,81,108,77,156,39"/>
+<area shape="rect" id="Node000003" href="$d7/d27/class_thumbnail_generator.html" title=" " alt="" coords="206,79,345,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,39,262,77,259,81,210,43"/>
 </map>

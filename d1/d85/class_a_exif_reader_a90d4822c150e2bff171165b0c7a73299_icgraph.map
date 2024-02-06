@@ -1,5 +1,7 @@
 <map id="AExifReader::collect" name="AExifReader::collect">
-<area shape="rect" id="node1" title=" " alt="" coords="219,31,356,56"/>
-<area shape="rect" id="node2" href="$d1/d85/class_a_exif_reader.html#a97ad78baf771eb511919ec5f2c73bf7d" title=" " alt="" coords="29,5,147,31"/>
-<area shape="rect" id="node3" href="$d1/d85/class_a_exif_reader.html#aa1cca01f1d02380375ccd6ec4773d7ec" title=" " alt="" coords="5,55,171,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="218,31,354,56"/>
+<area shape="rect" id="Node000002" href="$d1/d85/class_a_exif_reader.html#a97ad78baf771eb511919ec5f2c73bf7d" title=" " alt="" coords="29,5,146,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,35,146,28,146,23,203,30"/>
+<area shape="rect" id="Node000003" href="$d1/d85/class_a_exif_reader.html#aa1cca01f1d02380375ccd6ec4773d7ec" title=" " alt="" coords="5,55,170,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="202,56,170,60,170,55,202,51"/>
 </map>

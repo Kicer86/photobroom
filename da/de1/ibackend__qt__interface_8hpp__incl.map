@@ -1,5 +1,7 @@
 <map id="src/database/implementation/ibackend_qt_interface.hpp" name="src/database/implementation/ibackend_qt_interface.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="15,5,204,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,77,119"/>
-<area shape="rect" id="node3" href="$da/d21/idatabase__plugin_8hpp.html" title=" " alt="" coords="102,93,255,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="15,5,203,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,77,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="94,48,63,84,59,80,90,45"/>
+<area shape="rect" id="Node000003" href="$da/d21/idatabase__plugin_8hpp.html" title=" " alt="" coords="101,94,253,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="128,45,159,80,155,84,124,48"/>
 </map>

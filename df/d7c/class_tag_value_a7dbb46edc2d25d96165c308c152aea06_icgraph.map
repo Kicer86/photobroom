@@ -1,8 +1,23 @@
 <map id="TagValue::rawValue" name="TagValue::rawValue">
-<area shape="rect" id="node1" title=" " alt="" coords="245,134,383,159"/>
-<area shape="rect" id="node2" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a7a556c87a2bcccdc6923ab73bc943516" title=" " alt="" coords="5,5,197,45"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="20,69,183,109"/>
-<area shape="rect" id="node4" href="$d6/d20/tag__value__tests_8cpp.html#a9b445ea8e91ff02c21fabce30beaa587" title=" " alt="" coords="74,134,129,159"/>
-<area shape="rect" id="node5" href="$d6/d20/tag__value__tests_8cpp.html#ac8d3bbe646f874b92387cb698b813369" title=" " alt="" coords="66,183,137,209"/>
-<area shape="rect" id="node6" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#a2b5439ac65bf6011b132f8f4200aecd9" title=" " alt="" coords="19,233,184,273"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="245,260,381,285"/>
+<area shape="rect" id="Node000002" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a7a556c87a2bcccdc6923ab73bc943516" title=" " alt="" coords="5,5,197,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="301,246,287,205,265,155,234,105,195,61,177,49,180,44,198,57,239,102,270,153,292,203,306,244"/>
+<area shape="rect" id="Node000006" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="20,71,182,111"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="296,247,255,186,227,153,195,125,176,114,179,110,198,121,231,150,260,183,300,245"/>
+<area shape="rect" id="Node000009" href="$d6/d20/tag__value__tests_8cpp.html#a0932e3aa26e047a5776bf521f6b98e1a" title=" " alt="" coords="74,136,128,161"/>
+<area shape="poly" id="edge3_Node000001_Node000009" title=" " alt="" coords="288,250,248,211,195,175,161,162,128,154,129,149,163,156,198,170,251,207,292,246"/>
+<area shape="rect" id="Node000010" href="$d6/d20/tag__value__tests_8cpp.html#a28b7c31ccee367472bac659f939ddfbe" title=" " alt="" coords="74,185,128,211"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="270,255,196,224,128,206,129,201,198,219,272,250"/>
+<area shape="rect" id="Node000011" href="$d6/d20/tag__value__tests_8cpp.html#a9b445ea8e91ff02c21fabce30beaa587" title=" " alt="" coords="74,234,128,260"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="229,265,128,253,129,248,229,260"/>
+<area shape="rect" id="Node000012" href="$d6/d20/tag__value__tests_8cpp.html#a4b49a7ce7722bac47fc56f076916869c" title=" " alt="" coords="74,284,128,309"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="229,284,129,296,128,291,229,279"/>
+<area shape="rect" id="Node000013" href="$d6/d20/tag__value__tests_8cpp.html#a890c2bcc74dd82029d64f6329e4ca62d" title=" " alt="" coords="74,333,128,359"/>
+<area shape="poly" id="edge7_Node000001_Node000013" title=" " alt="" coords="271,295,198,324,129,343,128,338,196,319,269,290"/>
+<area shape="rect" id="Node000014" href="$d6/d20/tag__value__tests_8cpp.html#adb5dc1dac824d444b6682c79348b9417" title=" " alt="" coords="74,382,128,408"/>
+<area shape="poly" id="edge8_Node000001_Node000014" title=" " alt="" coords="292,298,251,337,198,373,163,387,129,394,128,389,161,382,195,369,247,333,288,294"/>
+<area shape="rect" id="Node000015" href="$d6/d20/tag__value__tests_8cpp.html#ac8d3bbe646f874b92387cb698b813369" title=" " alt="" coords="66,432,136,457"/>
+<area shape="poly" id="edge9_Node000001_Node000015" title=" " alt="" coords="300,300,260,362,232,395,198,423,168,436,137,444,136,438,166,431,195,418,228,391,256,359,296,298"/>
+<area shape="rect" id="Node000016" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#a2b5439ac65bf6011b132f8f4200aecd9" title=" " alt="" coords="19,481,183,522"/>
+<area shape="poly" id="edge10_Node000001_Node000016" title=" " alt="" coords="305,301,290,339,267,385,237,431,198,472,181,483,178,479,195,468,233,428,263,382,285,337,300,299"/>
 </map>

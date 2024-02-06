@@ -1,10 +1,18 @@
 <map id="src/gui/desktop/quick_items/context_menu_manager.hpp" name="src/gui/desktop/quick_items/context_menu_manager.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="342,5,568,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="188,181,258,207"/>
-<area shape="rect" id="node3" title=" " alt="" coords="29,101,196,126"/>
-<area shape="rect" id="node4" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="220,93,346,133"/>
-<area shape="rect" id="node5" href="$dc/d99/id__to__data__converter_8hpp.html" title=" " alt="" coords="370,93,540,133"/>
-<area shape="rect" id="node6" href="$d8/d0e/explicit__photo__delta_8hpp.html" title=" " alt="" coords="564,101,724,126"/>
-<area shape="rect" id="node7" href="$d1/d8e/project_8hpp.html" title=" " alt="" coords="749,101,908,126"/>
-<area shape="rect" id="node8" href="$dc/db5/actions__model_8hpp.html" title=" " alt="" coords="932,101,1108,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="339,5,566,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="187,183,256,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="339,31,246,36,150,47,69,67,39,80,18,96,9,114,12,129,26,143,49,155,109,174,172,185,171,191,108,179,47,160,23,147,8,132,4,113,14,92,36,75,67,62,149,42,245,31,339,26"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="28,102,194,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="375,49,175,100,173,95,374,44"/>
+<area shape="rect" id="Node000004" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="218,94,343,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="415,49,334,89,331,84,412,44"/>
+<area shape="rect" id="Node000005" href="$dc/d99/id__to__data__converter_8hpp.html" title=" " alt="" coords="367,94,538,135"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="455,47,455,78,450,78,450,47"/>
+<area shape="rect" id="Node000049" href="$d8/d0e/explicit__photo__delta_8hpp.html" title=" " alt="" coords="562,102,721,127"/>
+<area shape="poly" id="edge6_Node000001_Node000049" title=" " alt="" coords="496,44,603,92,600,97,494,49"/>
+<area shape="rect" id="Node000054" href="$d1/d8e/project_8hpp.html" title=" " alt="" coords="745,102,904,127"/>
+<area shape="poly" id="edge7_Node000001_Node000054" title=" " alt="" coords="538,44,758,95,757,100,537,49"/>
+<area shape="rect" id="Node000058" href="$dc/db5/actions__model_8hpp.html" title=" " alt="" coords="927,102,1103,127"/>
+<area shape="poly" id="edge8_Node000001_Node000058" title=" " alt="" coords="567,39,915,91,940,96,939,101,915,97,566,45"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="396,138,272,180,270,175,394,133"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="FlatModel::photoData" name="FlatModel::photoData">
-<area shape="rect" id="node1" title=" " alt="" coords="217,31,361,56"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#ac4a1ff4ff16b5950efb7bf2b2f7dbd35" title=" " alt="" coords="5,5,169,31"/>
-<area shape="rect" id="node3" href="$d1/da6/class_flat_model.html#a14ac44a426e0bb34556272a1e2538c09" title=" " alt="" coords="5,55,169,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="217,31,360,56"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#ac4a1ff4ff16b5950efb7bf2b2f7dbd35" title=" " alt="" coords="5,5,169,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,35,169,31,170,26,202,30"/>
+<area shape="rect" id="Node000004" href="$d1/da6/class_flat_model.html#a14ac44a426e0bb34556272a1e2538c09" title=" " alt="" coords="5,55,169,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="202,56,170,60,169,55,201,51"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="ToolsTab::exiftoolPath" name="ToolsTab::exiftoolPath">
-<area shape="rect" id="node1" title=" " alt="" coords="187,45,337,70"/>
-<area shape="rect" id="node2" href="$da/d3d/class_tools_tab_controller.html#a5cec9e3d8f40487380000943d5d91616" title=" " alt="" coords="5,5,139,45"/>
-<area shape="rect" id="node3" href="$da/d3d/class_tools_tab_controller.html#aa90a1d3f904f431ca4d6840e65831975" title=" " alt="" coords="7,69,137,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="186,46,335,72"/>
+<area shape="rect" id="Node000002" href="$da/d3d/class_tools_tab_controller.html#a5cec9e3d8f40487380000943d5d91616" title=" " alt="" coords="5,5,138,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,46,138,40,139,35,171,41"/>
+<area shape="rect" id="Node000003" href="$da/d3d/class_tools_tab_controller.html#aa90a1d3f904f431ca4d6840e65831975" title=" " alt="" coords="6,71,137,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,77,137,83,136,77,170,72"/>
 </map>

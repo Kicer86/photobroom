@@ -1,5 +1,7 @@
 <map id="CollectionScanner::gotDiskPhoto" name="CollectionScanner::gotDiskPhoto">
-<area shape="rect" id="node1" title=" " alt="" coords="5,23,139,63"/>
-<area shape="rect" id="node2" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="195,5,353,31"/>
-<area shape="rect" id="node3" href="$d9/d6e/class_project.html#aebd58bf011ee6412677d72d5d0b6a88a" title=" " alt="" coords="187,55,361,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,138,64"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="195,5,351,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,33,179,27,180,33,138,38"/>
+<area shape="rect" id="Node000003" href="$d9/d6e/class_project.html#aebd58bf011ee6412677d72d5d0b6a88a" title=" " alt="" coords="186,55,360,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="138,49,171,53,170,58,138,54"/>
 </map>

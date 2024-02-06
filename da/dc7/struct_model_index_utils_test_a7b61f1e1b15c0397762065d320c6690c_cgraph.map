@@ -1,5 +1,9 @@
 <map id="ModelIndexUtilsTest::ModelIndexUtilsTest" name="ModelIndexUtilsTest::ModelIndexUtilsTest">
-<area shape="rect" id="node1" title=" " alt="" coords="5,73,152,113"/>
-<area shape="rect" id="node2" href="$da/dc7/struct_model_index_utils_test.html#a3433ec01745b8262f8d928d9241332f3" title=" " alt="" coords="200,29,341,69"/>
-<area shape="rect" id="node3" href="$da/dc7/struct_model_index_utils_test.html#a0fe53dba823e3aab64dfd76a869a7b14" title=" " alt="" coords="200,117,341,157"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,75,152,115"/>
+<area shape="rect" id="Node000002" href="$da/dc7/struct_model_index_utils_test.html#a3433ec01745b8262f8d928d9241332f3" title=" " alt="" coords="200,29,340,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,75,184,67,185,73,153,80"/>
+<area shape="rect" id="Node000003" href="$da/dc7/struct_model_index_utils_test.html#a0fe53dba823e3aab64dfd76a869a7b14" title=" " alt="" coords="200,119,340,159"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="153,109,185,117,184,122,152,114"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="233,29,232,19,238,10,250,5,270,3,291,5,303,11,301,16,289,10,270,8,252,10,241,15,237,20,239,28"/>
+<area shape="poly" id="edge4_Node000003_Node000003" title=" " alt="" coords="233,119,232,109,238,100,250,94,270,92,291,94,303,101,301,105,289,100,270,97,252,99,241,104,237,110,239,117"/>
 </map>

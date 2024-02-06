@@ -1,8 +1,13 @@
 <map id="Logger::log" name="Logger::log">
-<area shape="rect" id="node1" title=" " alt="" coords="167,104,252,129"/>
-<area shape="rect" id="node2" href="$d3/d42/class_logger.html#a8e7575a4ac7369ec27e9414cbeef3a0d" title=" " alt="" coords="11,5,113,31"/>
-<area shape="rect" id="node3" href="$d3/d42/class_logger.html#a764b377063a592536f7fdd3f6e736352" title=" " alt="" coords="15,55,109,80"/>
-<area shape="rect" id="node4" href="$d3/d42/class_logger.html#a482e4c5040fbf6d32443827a80749c9a" title=" " alt="" coords="17,104,107,129"/>
-<area shape="rect" id="node5" href="$d3/d42/class_logger.html#a5dbf05c7029b9a0342d9449a39237fd0" title=" " alt="" coords="13,153,111,179"/>
-<area shape="rect" id="node6" href="$d3/d42/class_logger.html#a623c6d00965281a66c5983139238d852" title=" " alt="" coords="5,203,119,228"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="166,104,250,130"/>
+<area shape="rect" id="Node000002" href="$d3/d42/class_logger.html#a8e7575a4ac7369ec27e9414cbeef3a0d" title=" " alt="" coords="10,5,113,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,95,151,69,116,44,96,34,98,29,119,40,154,65,184,91"/>
+<area shape="rect" id="Node000003" href="$d3/d42/class_logger.html#a764b377063a592536f7fdd3f6e736352" title=" " alt="" coords="15,55,108,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,101,101,83,103,78,154,96"/>
+<area shape="rect" id="Node000004" href="$d3/d42/class_logger.html#a482e4c5040fbf6d32443827a80749c9a" title=" " alt="" coords="17,104,106,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="150,120,106,120,106,114,150,114"/>
+<area shape="rect" id="Node000005" href="$d3/d42/class_logger.html#a5dbf05c7029b9a0342d9449a39237fd0" title=" " alt="" coords="13,153,110,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="154,138,103,155,101,150,152,133"/>
+<area shape="rect" id="Node000006" href="$d3/d42/class_logger.html#a623c6d00965281a66c5983139238d852" title=" " alt="" coords="5,203,118,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="184,142,154,168,119,194,98,205,96,200,116,189,151,164,181,138"/>
 </map>

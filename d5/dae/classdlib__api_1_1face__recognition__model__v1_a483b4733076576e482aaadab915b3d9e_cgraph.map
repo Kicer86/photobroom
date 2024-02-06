@@ -1,5 +1,7 @@
 <map id="dlib_api::face_recognition_model_v1::batch_compute_face_descriptors_from_aligned_images" name="dlib_api::face_recognition_model_v1::batch_compute_face_descriptors_from_aligned_images">
-<area shape="rect" id="node1" title=" " alt="" coords="5,27,260,82"/>
-<area shape="rect" id="node2" href="$d5/dae/classdlib__api_1_1face__recognition__model__v1.html#af4eeb686d4acd78e42bb0e563e3e689f" title=" " alt="" coords="308,5,475,45"/>
-<area shape="rect" id="node3" href="$d2/df4/helpers_8cpp.html#add94b675748421c1f43da2161db01aa1" title=" " alt="" coords="316,70,467,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,260,83"/>
+<area shape="rect" id="Node000002" href="$d5/dae/classdlib__api_1_1face__recognition__model__v1.html#af4eeb686d4acd78e42bb0e563e3e689f" title=" " alt="" coords="308,5,474,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="260,38,292,34,292,39,260,43"/>
+<area shape="rect" id="Node000003" href="$d2/df4/helpers_8cpp.html#add94b675748421c1f43da2161db01aa1" title=" " alt="" coords="316,70,466,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="260,66,301,71,300,76,260,71"/>
 </map>

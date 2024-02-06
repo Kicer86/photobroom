@@ -1,5 +1,7 @@
 <map id="DataFromPathExtractor::extract" name="DataFromPathExtractor::extract">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,163,77"/>
-<area shape="rect" id="node2" href="$d5/d26/class_data_from_path_extractor.html#abd813b7eeed1d84852072896ef1e0da8" title=" " alt="" coords="211,5,368,45"/>
-<area shape="rect" id="node3" href="$d5/d26/class_data_from_path_extractor.html#ae82a0e15ef1edf792d7b51441d8183f9" title=" " alt="" coords="211,69,368,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,162,79"/>
+<area shape="rect" id="Node000002" href="$d5/d26/class_data_from_path_extractor.html#abd813b7eeed1d84852072896ef1e0da8" title=" " alt="" coords="210,5,366,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,44,194,38,195,43,163,49"/>
+<area shape="rect" id="Node000003" href="$d5/d26/class_data_from_path_extractor.html#ae82a0e15ef1edf792d7b51441d8183f9" title=" " alt="" coords="210,71,366,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,69,195,74,194,79,162,74"/>
 </map>

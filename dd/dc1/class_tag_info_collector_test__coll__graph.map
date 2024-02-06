@@ -1,6 +1,9 @@
 <map id="TagInfoCollectorTest" name="TagInfoCollectorTest">
-<area shape="rect" id="node1" title=" " alt="" coords="145,93,287,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,99,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="123,5,309,31"/>
-<area shape="rect" id="node4" title=" " alt="" coords="334,5,525,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="143,94,285,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,98,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,36,193,91,190,96,87,41"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="122,5,307,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,47,217,94,212,94,212,47"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="332,5,521,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="383,40,245,96,243,91,381,35"/>
 </map>

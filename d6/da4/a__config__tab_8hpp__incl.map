@@ -1,5 +1,7 @@
 <map id="src/gui/desktop/config_tabs/a_config_tab.hpp" name="src/gui/desktop/config_tabs/a_config_tab.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="25,5,179,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,71,126"/>
-<area shape="rect" id="node3" href="$da/d93/iconfig__dialog__manager_8hpp.html" title=" " alt="" coords="95,93,240,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="24,5,179,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,70,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,48,57,91,53,88,85,45"/>
+<area shape="rect" id="Node000003" href="$da/d93/iconfig__dialog__manager_8hpp.html" title=" " alt="" coords="93,94,238,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="118,45,144,80,140,83,114,48"/>
 </map>

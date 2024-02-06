@@ -1,4 +1,5 @@
 <map id="SeriesDetector::removeSingles" name="SeriesDetector::removeSingles">
-<area shape="rect" id="node1" title=" " alt="" coords="252,5,452,31"/>
-<area shape="rect" id="node2" href="$d3/df6/class_series_detector.html#a6e234a1e8721233612cf4db84bf9dad5" title=" " alt="" coords="5,5,204,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,5,450,31"/>
+<area shape="rect" id="Node000002" href="$d3/df6/class_series_detector.html#a6e234a1e8721233612cf4db84bf9dad5" title=" " alt="" coords="5,5,203,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,21,203,21,203,16,235,16"/>
 </map>

@@ -1,7 +1,11 @@
 <map id="Database::MemoryBackend::update" name="Database::MemoryBackend::update">
-<area shape="rect" id="node1" title="update photos details" alt="" coords="5,101,185,141"/>
-<area shape="rect" id="node2" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title=" " alt="" coords="257,5,396,45"/>
-<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html#a9a4c01c32827fd52e6491b096165fe1d" title="begin transaction" alt="" coords="237,69,417,109"/>
-<area shape="rect" id="node4" href="$da/dba/class_database_1_1_memory_backend.html#a5a825645f88f62d48ab33a6523fedc74" title="get changelog operator" alt="" coords="237,133,417,173"/>
-<area shape="rect" id="node5" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html#abf5db667e34574a047f371438cb8885f" title=" " alt="" coords="233,197,420,237"/>
+<area shape="rect" id="Node000001" title="update photos details" alt="" coords="5,104,185,145"/>
+<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title=" " alt="" coords="257,5,395,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,101,232,57,249,49,251,54,234,61,138,106"/>
+<area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html#a9a4c01c32827fd52e6491b096165fe1d" title="begin transaction" alt="" coords="236,71,416,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,109,221,103,221,109,186,114"/>
+<area shape="rect" id="Node000004" href="$da/dba/class_database_1_1_memory_backend.html#a5a825645f88f62d48ab33a6523fedc74" title="get changelog operator" alt="" coords="236,136,416,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="186,134,221,139,221,144,185,139"/>
+<area shape="rect" id="Node000005" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html#abf5db667e34574a047f371438cb8885f" title=" " alt="" coords="233,201,419,242"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="139,143,234,186,251,193,249,198,232,191,137,148"/>
 </map>

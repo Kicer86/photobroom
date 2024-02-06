@@ -1,4 +1,6 @@
 <map id="Database::PhotoOperator::processAction" name="Database::PhotoOperator::processAction">
-<area shape="rect" id="node1" title=" " alt="" coords="220,29,387,69"/>
-<area shape="rect" id="node2" href="$da/dd9/class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8" title=" " alt="" coords="5,29,172,69"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="220,29,386,70"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="338,16,325,10,303,8,282,10,270,15,265,20,267,28,262,29,260,19,267,10,281,5,303,3,326,5,340,11"/>
+<area shape="rect" id="Node000002" href="$da/dd9/class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8" title=" " alt="" coords="5,29,172,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,52,172,52,172,47,204,47"/>
 </map>

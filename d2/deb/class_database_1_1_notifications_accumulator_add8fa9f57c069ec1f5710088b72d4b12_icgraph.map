@@ -1,5 +1,17 @@
 <map id="Database::NotificationsAccumulator::fireChanges" name="Database::NotificationsAccumulator::fireChanges">
-<area shape="rect" id="node1" title=" " alt="" coords="212,23,440,63"/>
-<area shape="rect" id="node2" href="$dc/d83/class_sql_transaction.html#a277b010bf1b57bc10ec0e4faf50b43d2" title=" " alt="" coords="5,5,164,31"/>
-<area shape="rect" id="node3" href="$d7/d64/notifications__accumulator__tests_8cpp.html#ad6b422e8a242b30e94ad177e48cb6ad1" title=" " alt="" coords="57,55,112,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="211,146,438,187"/>
+<area shape="rect" id="Node000002" href="$dc/d83/class_sql_transaction.html#a277b010bf1b57bc10ec0e4faf50b43d2" title=" " alt="" coords="5,5,163,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="288,137,231,90,161,45,136,34,139,29,164,40,235,85,292,133"/>
+<area shape="rect" id="Node000003" href="$d7/d64/notifications__accumulator__tests_8cpp.html#a02ed24c72b3cb6ac497c2c01c5dcafe3" title=" " alt="" coords="57,55,111,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="268,141,162,94,111,77,113,72,164,89,270,136"/>
+<area shape="rect" id="Node000004" href="$d7/d64/notifications__accumulator__tests_8cpp.html#a08f763b018eac5d9330011721d9c84aa" title=" " alt="" coords="57,104,111,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="207,145,111,125,112,120,208,139"/>
+<area shape="rect" id="Node000005" href="$d7/d64/notifications__accumulator__tests_8cpp.html#ad6b422e8a242b30e94ad177e48cb6ad1" title=" " alt="" coords="57,153,111,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="195,169,111,169,111,164,195,164"/>
+<area shape="rect" id="Node000006" href="$d7/d64/notifications__accumulator__tests_8cpp.html#ad936146d1d6106f75538ab90266d56a0" title=" " alt="" coords="57,203,111,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="208,193,112,213,111,207,207,188"/>
+<area shape="rect" id="Node000007" href="$d7/d64/notifications__accumulator__tests_8cpp.html#a74c45ae6028e08979ae17c0beef7133a" title=" " alt="" coords="57,252,111,278"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="270,196,164,243,113,260,111,255,162,238,268,191"/>
+<area shape="rect" id="Node000008" href="$d7/d64/notifications__accumulator__tests_8cpp.html#ae2f03bc9419ec9b63543923b5a21c4e0" title=" " alt="" coords="57,301,111,327"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="292,199,235,247,164,293,113,311,111,306,161,288,231,243,288,195"/>
 </map>

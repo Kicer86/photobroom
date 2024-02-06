@@ -1,6 +1,9 @@
 <map id="src/face_recognition/dlib_wrapper/cnn_face_detector.hpp" name="src/face_recognition/dlib_wrapper/cnn_face_detector.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="36,5,192,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,115,60,141"/>
-<area shape="rect" id="node3" title=" " alt="" coords="85,115,143,141"/>
-<area shape="rect" id="node4" title=" " alt="" coords="167,108,322,148"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="34,5,190,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,117,59,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,63,54,107,50,103,87,60"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="83,117,141,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="115,62,115,101,109,101,109,62"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="164,109,319,150"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="151,59,204,97,201,102,148,64"/>
 </map>

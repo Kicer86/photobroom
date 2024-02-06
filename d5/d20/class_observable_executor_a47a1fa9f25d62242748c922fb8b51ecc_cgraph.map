@@ -1,6 +1,9 @@
 <map id="ObservableExecutor::ObservableExecutor" name="ObservableExecutor::ObservableExecutor">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,149,95"/>
-<area shape="rect" id="node2" href="$de/d60/class_observables_registry.html#a83278e3a050e96cb57bb8a7a3a38e52f" title=" " alt="" coords="197,5,367,31"/>
-<area shape="rect" id="node3" href="$de/d60/class_observables_registry.html#acfb967f2868cb5d40475756aeb3be6ae" title=" " alt="" coords="211,55,353,95"/>
-<area shape="rect" id="node4" href="$d5/d20/class_observable_executor.html#a84d6a28cf0b5e3e60cbc12a108bd7d6b" title=" " alt="" coords="202,119,362,159"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,149,96"/>
+<area shape="rect" id="Node000002" href="$de/d60/class_observables_registry.html#a83278e3a050e96cb57bb8a7a3a38e52f" title=" " alt="" coords="197,5,365,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,53,217,33,219,38,150,58"/>
+<area shape="rect" id="Node000004" href="$de/d60/class_observables_registry.html#acfb967f2868cb5d40475756aeb3be6ae" title=" " alt="" coords="210,55,352,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="149,73,195,73,195,78,149,78"/>
+<area shape="rect" id="Node000005" href="$d5/d20/class_observable_executor.html#a84d6a28cf0b5e3e60cbc12a108bd7d6b" title=" " alt="" coords="201,121,361,161"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="143,94,201,113,200,118,142,99"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="ToolsTabController" name="ToolsTabController">
-<area shape="rect" id="node1" title=" " alt="" coords="46,79,177,104"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,76,31"/>
-<area shape="rect" id="node3" href="$d9/d9d/class_a_config_tab.html" title=" " alt="" coords="101,5,266,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="46,79,176,105"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,75,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,40,101,77,97,80,60,44"/>
+<area shape="rect" id="Node000003" href="$d9/d9d/class_a_config_tab.html" title=" " alt="" coords="99,5,264,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,44,124,80,121,77,157,40"/>
 </map>

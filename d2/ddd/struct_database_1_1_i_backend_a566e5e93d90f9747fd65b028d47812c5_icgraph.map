@@ -1,5 +1,7 @@
 <map id="Database::IBackend::listTagValues" name="Database::IBackend::listTagValues">
-<area shape="rect" id="node1" title="list all values of tag for photos matching provided filter" alt="" coords="272,37,411,77"/>
-<area shape="rect" id="node2" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,5,224,45"/>
-<area shape="rect" id="node3" href="$d6/d99/class_tag_info_collector.html#ac9a9d5cb67ed21da76ad389a5de0f565" title=" " alt="" coords="33,69,196,109"/>
+<area shape="rect" id="Node000001" title="list all values of tag for photos matching provided filter" alt="" coords="272,39,409,79"/>
+<area shape="rect" id="Node000002" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,5,224,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,49,224,44,224,39,257,44"/>
+<area shape="rect" id="Node000005" href="$d6/d99/class_tag_info_collector.html#ac9a9d5cb67ed21da76ad389a5de0f565" title=" " alt="" coords="34,71,195,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="257,73,196,82,195,77,256,68"/>
 </map>

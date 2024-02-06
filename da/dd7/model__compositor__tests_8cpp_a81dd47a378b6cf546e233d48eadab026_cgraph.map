@@ -1,5 +1,8 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,60,56"/>
-<area shape="rect" id="node2" href="$d5/d2c/class_model_compositor.html#a563d500e24068110c21f75c807930b61" title=" " alt="" coords="108,5,259,31"/>
-<area shape="rect" id="node3" href="$d5/d2c/class_model_compositor.html#a8c9a51c31495c4fdbec1fa72744efcbd" title=" " alt="" coords="307,31,491,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$d5/d2c/class_model_compositor.html#a563d500e24068110c21f75c807930b61" title=" " alt="" coords="108,5,257,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,36,92,31,93,36,61,42"/>
+<area shape="rect" id="Node000006" href="$d5/d2c/class_model_compositor.html#a8c9a51c31495c4fdbec1fa72744efcbd" title=" " alt="" coords="305,31,488,56"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="60,41,289,41,289,46,60,46"/>
+<area shape="poly" id="edge2_Node000002_Node000006" title=" " alt="" coords="257,24,290,28,289,33,257,30"/>
 </map>

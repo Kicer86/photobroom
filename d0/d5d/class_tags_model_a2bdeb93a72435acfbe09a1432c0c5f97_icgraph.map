@@ -1,5 +1,7 @@
 <map id="TagsModel::setDataInternal" name="TagsModel::setDataInternal">
-<area shape="rect" id="node1" title=" " alt="" coords="211,31,391,56"/>
-<area shape="rect" id="node2" href="$d0/d5d/class_tags_model.html#a005b3a8e153bcc5222505a189bcf95b5" title=" " alt="" coords="5,5,163,31"/>
-<area shape="rect" id="node3" href="$d0/d5d/class_tags_model.html#a77d02ed6d4923a65d20ef8bb3411e487" title=" " alt="" coords="15,55,153,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="210,31,389,56"/>
+<area shape="rect" id="Node000002" href="$d0/d5d/class_tags_model.html#a005b3a8e153bcc5222505a189bcf95b5" title=" " alt="" coords="5,5,162,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,34,162,30,163,25,195,29"/>
+<area shape="rect" id="Node000004" href="$d0/d5d/class_tags_model.html#a77d02ed6d4923a65d20ef8bb3411e487" title=" " alt="" coords="15,55,152,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="195,58,152,63,152,57,194,53"/>
 </map>

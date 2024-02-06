@@ -1,7 +1,11 @@
 <map id="src/plugins/iplugin_loader.hpp" name="src/plugins/iplugin_loader.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="302,5,429,45"/>
-<area shape="rect" id="node2" href="$d0/df0/project__creator__dialog_8cpp.html" title=" " alt="" coords="5,93,165,148"/>
-<area shape="rect" id="node3" href="$df/d11/iplugin__loader_8cpp.html" title=" " alt="" coords="190,101,367,141"/>
-<area shape="rect" id="node4" href="$d1/d2f/plugin__loader_8hpp.html" title=" " alt="" coords="392,101,515,141"/>
-<area shape="rect" id="node5" href="$db/d98/project__manager_8cpp.html" title=" " alt="" coords="539,101,746,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="301,5,426,46"/>
+<area shape="rect" id="Node000002" href="$d0/df0/project__creator__dialog_8cpp.html" title=" " alt="" coords="5,94,165,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="292,54,166,96,164,91,290,49"/>
+<area shape="rect" id="Node000003" href="$df/d11/iplugin__loader_8cpp.html" title=" " alt="" coords="189,102,365,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="338,59,297,103,293,99,334,55"/>
+<area shape="rect" id="Node000004" href="$d1/d2f/plugin__loader_8hpp.html" title=" " alt="" coords="389,102,512,142"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="394,55,434,99,430,103,390,59"/>
+<area shape="rect" id="Node000008" href="$db/d98/project__manager_8cpp.html" title=" " alt="" coords="536,102,741,142"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="436,49,582,98,580,103,435,54"/>
 </map>

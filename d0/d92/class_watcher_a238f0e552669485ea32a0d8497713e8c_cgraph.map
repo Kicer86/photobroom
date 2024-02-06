@@ -1,5 +1,7 @@
 <map id="Watcher::run" name="Watcher::run">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,100,56"/>
-<area shape="rect" id="node2" href="$d0/d92/class_watcher.html#afcdf661c9796f008115592ad373a5cf5" title=" " alt="" coords="148,5,289,31"/>
-<area shape="rect" id="node3" href="$d0/d92/class_watcher.html#a252be35f491e9d1f342205e71bc3f2d1" title=" " alt="" coords="159,55,278,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,99,56"/>
+<area shape="rect" id="Node000002" href="$d0/d92/class_watcher.html#afcdf661c9796f008115592ad373a5cf5" title=" " alt="" coords="147,5,287,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,34,131,29,131,34,99,39"/>
+<area shape="rect" id="Node000003" href="$d0/d92/class_watcher.html#a252be35f491e9d1f342205e71bc3f2d1" title=" " alt="" coords="158,55,276,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="99,48,143,54,142,59,99,53"/>
 </map>

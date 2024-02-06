@@ -1,4 +1,6 @@
 <map id="ol::data_ptr::data_ptr" name="ol::data_ptr::data_ptr">
-<area shape="rect" id="node1" title="Copy constructor." alt="" coords="5,29,144,55"/>
-<area shape="rect" id="node2" href="$d1/da1/classol_1_1data__ptr.html#a63823ed63077e7c35a4089c7ac936287" title=" " alt="" coords="192,29,311,55"/>
+<area shape="rect" id="Node000001" title="Copy constructor." alt="" coords="5,29,143,55"/>
+<area shape="rect" id="Node000002" href="$d1/da1/classol_1_1data__ptr.html#a63823ed63077e7c35a4089c7ac936287" title=" " alt="" coords="191,29,308,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,40,175,40,175,45,143,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="220,30,214,21,217,11,230,5,249,3,271,5,282,12,279,16,269,10,249,8,231,10,221,15,219,20,224,28"/>
 </map>

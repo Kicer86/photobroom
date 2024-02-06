@@ -1,6 +1,9 @@
 <map id="Database::PeopleInformationAccessor" name="Database::PeopleInformationAccessor">
-<area shape="rect" id="node1" title=" " alt="" coords="364,63,552,103"/>
-<area shape="rect" id="node2" href="$db/d61/class_database_1_1_a_people_information_accessor.html" title=" " alt="" coords="5,5,203,45"/>
-<area shape="rect" id="node3" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html" title=" " alt="" coords="9,70,199,95"/>
-<area shape="rect" id="node4" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html" title=" " alt="" coords="11,120,197,160"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="363,63,550,103"/>
+<area shape="rect" id="Node000002" href="$db/d61/class_database_1_1_a_people_information_accessor.html" title=" " alt="" coords="5,5,202,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,41,339,60,363,64,362,70,338,66,217,46"/>
+<area shape="rect" id="Node000004" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html" title=" " alt="" coords="9,70,198,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="214,80,362,80,362,86,214,86"/>
+<area shape="rect" id="Node000005" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html" title=" " alt="" coords="11,120,196,161"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="211,121,338,101,362,97,363,102,339,106,211,127"/>
 </map>

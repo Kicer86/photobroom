@@ -1,4 +1,7 @@
 <map id="FacesModel::updateFaceInformation" name="FacesModel::updateFaceInformation">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,237,38"/>
-<area shape="rect" id="node2" href="$d6/de2/class_faces_model.html#ab10f5720d7e1bee3f942aeb57ac866ef" title=" " alt="" coords="285,5,479,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,237,60"/>
+<area shape="rect" id="Node000002" href="$d6/de2/class_faces_model.html#a63d7c285902e46638d1513dd2a1359eb" title=" " alt="" coords="285,5,498,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,32,269,29,269,34,237,38"/>
+<area shape="rect" id="Node000003" href="$d6/de2/class_faces_model.html#ab10f5720d7e1bee3f942aeb57ac866ef" title=" " alt="" coords="295,55,488,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="237,57,280,61,279,67,237,62"/>
 </map>

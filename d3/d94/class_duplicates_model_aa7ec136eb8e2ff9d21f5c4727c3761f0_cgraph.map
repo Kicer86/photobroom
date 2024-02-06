@@ -1,4 +1,5 @@
 <map id="DuplicatesModel::data" name="DuplicatesModel::data">
-<area shape="rect" id="node1" title=" " alt="" coords="5,20,155,45"/>
-<area shape="rect" id="node2" href="$de/d3a/class_a_heavy_list_model.html#ae349dd2d37ecf62351edb275c39065d3" title=" " alt="" coords="203,5,375,60"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,20,154,46"/>
+<area shape="rect" id="Node000002" href="$de/d3a/class_a_heavy_list_model.html#ae349dd2d37ecf62351edb275c39065d3" title=" " alt="" coords="202,5,373,61"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,31,186,31,186,36,154,36"/>
 </map>

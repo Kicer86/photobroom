@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/utils/grouppers/collage_generator.cpp" name="src/gui/desktop/utils/grouppers/collage_generator.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="78,5,291,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,79,119"/>
-<area shape="rect" id="node3" href="$de/d3b/oriented__image_8hpp.html" title=" " alt="" coords="103,93,266,119"/>
-<area shape="rect" id="node4" href="$d9/de7/collage__generator_8hpp.html" title=" " alt="" coords="291,93,439,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="77,5,289,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,78,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,49,78,88,75,84,146,44"/>
+<area shape="rect" id="Node000003" href="$de/d3b/oriented__image_8hpp.html" title=" " alt="" coords="102,94,264,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="186,46,186,78,180,78,180,46"/>
+<area shape="rect" id="Node000006" href="$d9/de7/collage__generator_8hpp.html" title=" " alt="" coords="288,94,435,120"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="229,44,321,85,319,90,226,49"/>
 </map>

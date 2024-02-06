@@ -1,5 +1,7 @@
 <map id="ICoreFactoryAccessor::getConfiguration" name="ICoreFactoryAccessor::getConfiguration">
-<area shape="rect" id="node1" title=" " alt="" coords="207,35,357,75"/>
-<area shape="rect" id="node2" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="5,5,159,45"/>
-<area shape="rect" id="node3" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="49,70,115,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="206,35,356,75"/>
+<area shape="rect" id="Node000002" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="5,5,158,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,44,158,40,158,34,190,39"/>
+<area shape="rect" id="Node000005" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="49,70,114,96"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="191,70,115,81,114,76,190,65"/>
 </map>

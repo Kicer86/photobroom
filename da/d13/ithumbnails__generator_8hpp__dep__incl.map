@@ -1,6 +1,9 @@
 <map id="src/core/ithumbnails_generator.hpp" name="src/core/ithumbnails_generator.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="171,5,310,45"/>
-<area shape="rect" id="node2" href="$de/d75/thumbnail__generator_8hpp.html" title=" " alt="" coords="5,93,135,133"/>
-<area shape="rect" id="node3" href="$dc/d5f/thumbnail__manager_8hpp.html" title=" " alt="" coords="159,93,322,133"/>
-<area shape="rect" id="node4" href="$d3/dc3/mock__thumbnails__generator_8hpp.html" title=" " alt="" coords="346,93,559,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="170,5,308,46"/>
+<area shape="rect" id="Node000002" href="$de/d75/thumbnail__generator_8hpp.html" title=" " alt="" coords="5,94,134,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,56,109,96,107,91,186,51"/>
+<area shape="rect" id="Node000005" href="$dc/d5f/thumbnail__manager_8hpp.html" title=" " alt="" coords="158,94,320,135"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="242,62,242,94,236,94,236,62"/>
+<area shape="rect" id="Node000008" href="$d3/dc3/mock__thumbnails__generator_8hpp.html" title=" " alt="" coords="345,94,557,135"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="302,50,404,91,402,96,300,55"/>
 </map>

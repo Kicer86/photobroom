@@ -1,4 +1,5 @@
 <map id="ObjectsAccessor::projectChanged" name="ObjectsAccessor::projectChanged">
-<area shape="rect" id="node1" title=" " alt="" coords="240,5,407,45"/>
-<area shape="rect" id="node2" href="$df/db2/class_objects_accessor.html#a887c236ace3f47fcdd493c2513ebf318" title=" " alt="" coords="5,13,192,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="240,5,406,46"/>
+<area shape="rect" id="Node000002" href="$df/db2/class_objects_accessor.html#a887c236ace3f47fcdd493c2513ebf318" title=" " alt="" coords="5,13,192,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,28,192,28,192,23,225,23"/>
 </map>

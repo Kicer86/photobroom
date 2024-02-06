@@ -1,7 +1,13 @@
 <map id="src/gui/desktop/models/tags_model.hpp" name="src/gui/desktop/models/tags_model.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="169,5,326,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,148,126"/>
-<area shape="rect" id="node3" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="229,181,388,207"/>
-<area shape="rect" id="node4" href="$dc/d99/id__to__data__converter_8hpp.html" title=" " alt="" coords="223,93,394,133"/>
-<area shape="rect" id="node5" href="$d3/dc3/tags__operator_8hpp.html" title=" " alt="" coords="418,101,543,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="167,5,324,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,147,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,49,114,97,112,92,206,44"/>
+<area shape="rect" id="Node000003" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="228,183,386,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="232,48,220,67,210,89,206,112,212,133,232,157,258,173,255,178,228,161,207,136,201,112,205,87,215,64,227,45"/>
+<area shape="rect" id="Node000046" href="$dc/d99/id__to__data__converter_8hpp.html" title=" " alt="" coords="222,94,392,135"/>
+<area shape="poly" id="edge3_Node000001_Node000046" title=" " alt="" coords="261,45,286,80,282,83,257,48"/>
+<area shape="rect" id="Node000053" href="$d3/dc3/tags__operator_8hpp.html" title=" " alt="" coords="417,102,541,127"/>
+<area shape="poly" id="edge5_Node000001_Node000053" title=" " alt="" coords="299,44,433,93,431,98,297,49"/>
+<area shape="poly" id="edge4_Node000046_Node000003" title=" " alt="" coords="309,135,309,167,304,167,304,135"/>
+<area shape="poly" id="edge6_Node000053_Node000003" title=" " alt="" coords="453,130,348,178,346,173,451,125"/>
 </map>

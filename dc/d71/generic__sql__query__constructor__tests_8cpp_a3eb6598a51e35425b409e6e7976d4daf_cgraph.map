@@ -1,7 +1,11 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,109,60,134"/>
-<area shape="rect" id="node2" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="122,5,309,45"/>
-<area shape="rect" id="node3" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2421c6d44273a5e274f0fa3df2fe5b43" title=" " alt="" coords="108,69,323,109"/>
-<area shape="rect" id="node4" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="127,133,304,173"/>
-<area shape="rect" id="node5" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="127,197,304,237"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,112,60,137"/>
+<area shape="rect" id="Node000002" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="122,5,307,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="44,109,71,83,106,57,119,50,121,55,109,61,74,87,47,113"/>
+<area shape="rect" id="Node000003" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html#a2421c6d44273a5e274f0fa3df2fe5b43" title=" " alt="" coords="108,71,321,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,117,92,111,93,116,61,122"/>
+<area shape="rect" id="Node000010" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="126,136,303,177"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="61,126,111,135,110,141,60,132"/>
+<area shape="rect" id="Node000011" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="126,201,303,242"/>
+<area shape="poly" id="edge4_Node000001_Node000011" title=" " alt="" coords="48,135,74,161,109,186,121,192,119,197,106,191,71,165,44,139"/>
 </map>

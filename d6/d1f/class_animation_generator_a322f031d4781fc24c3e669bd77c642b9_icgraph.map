@@ -1,4 +1,5 @@
 <map id="AnimationGenerator::generateAnimation" name="AnimationGenerator::generateAnimation">
-<area shape="rect" id="node1" title=" " alt="" coords="215,5,352,45"/>
-<area shape="rect" id="node2" href="$d6/d1f/class_animation_generator.html#a4e178172e1714a2e201deb2076085ba3" title=" " alt="" coords="5,13,167,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="214,5,350,46"/>
+<area shape="rect" id="Node000002" href="$d6/d1f/class_animation_generator.html#a4e178172e1714a2e201deb2076085ba3" title=" " alt="" coords="5,13,166,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,28,166,28,166,23,198,23"/>
 </map>

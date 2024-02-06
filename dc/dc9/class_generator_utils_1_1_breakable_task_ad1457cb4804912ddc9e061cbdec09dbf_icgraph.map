@@ -1,4 +1,5 @@
 <map id="GeneratorUtils::BreakableTask::cancel" name="GeneratorUtils::BreakableTask::cancel">
-<area shape="rect" id="node1" title=" " alt="" coords="204,5,375,45"/>
-<area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="5,5,156,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="204,5,373,46"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="5,5,156,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,28,156,28,156,23,188,23"/>
 </map>

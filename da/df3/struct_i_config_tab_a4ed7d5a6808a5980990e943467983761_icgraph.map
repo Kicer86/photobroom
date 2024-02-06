@@ -1,5 +1,7 @@
 <map id="IConfigTab::tabId" name="IConfigTab::tabId">
-<area shape="rect" id="node1" title=" " alt="" coords="197,45,316,70"/>
-<area shape="rect" id="node2" href="$df/dc2/class_config_dialog_manager.html#a52ae58ef288550f4e50975d26ce55058" title=" " alt="" coords="5,5,149,45"/>
-<area shape="rect" id="node3" href="$df/dc2/class_config_dialog_manager.html#a1685b499a26bb68a774cc2d83b1623d2" title=" " alt="" coords="5,69,149,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="197,46,315,72"/>
+<area shape="rect" id="Node000002" href="$df/dc2/class_config_dialog_manager.html#a52ae58ef288550f4e50975d26ce55058" title=" " alt="" coords="5,5,149,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,48,148,42,149,36,182,43"/>
+<area shape="rect" id="Node000003" href="$df/dc2/class_config_dialog_manager.html#a1685b499a26bb68a774cc2d83b1623d2" title=" " alt="" coords="5,71,149,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="182,75,149,81,148,76,181,70"/>
 </map>

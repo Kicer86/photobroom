@@ -1,6 +1,9 @@
 <map id="ILogger::subLogger" name="ILogger::subLogger">
-<area shape="rect" id="node1" title=" " alt="" coords="252,55,385,80"/>
-<area shape="rect" id="node2" href="$d3/df6/class_series_detector.html#a6e234a1e8721233612cf4db84bf9dad5" title=" " alt="" coords="5,5,204,31"/>
-<area shape="rect" id="node3" href="$de/d64/struct_task_executor.html#af4d3c0895333064d125202402bfe924e" title=" " alt="" coords="42,55,167,80"/>
-<area shape="rect" id="node4" href="$d9/d03/class_my_sql_server.html#afd07a3c9e8d190b39e90683fdda85e34" title=" " alt="" coords="45,104,165,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,55,383,80"/>
+<area shape="rect" id="Node000002" href="$d3/df6/class_series_detector.html#a6e234a1e8721233612cf4db84bf9dad5" title=" " alt="" coords="5,5,203,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,53,162,34,163,29,244,48"/>
+<area shape="rect" id="Node000011" href="$de/d64/struct_task_executor.html#af4d3c0895333064d125202402bfe924e" title=" " alt="" coords="42,55,166,80"/>
+<area shape="poly" id="edge2_Node000001_Node000011" title=" " alt="" coords="235,70,167,70,167,65,235,65"/>
+<area shape="rect" id="Node000013" href="$d9/d03/class_my_sql_server.html#afd07a3c9e8d190b39e90683fdda85e34" title=" " alt="" coords="44,104,164,130"/>
+<area shape="poly" id="edge3_Node000001_Node000013" title=" " alt="" coords="244,87,163,106,162,101,243,82"/>
 </map>

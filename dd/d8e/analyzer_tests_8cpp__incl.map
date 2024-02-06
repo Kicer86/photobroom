@@ -1,6 +1,9 @@
 <map id="src/photos_crawler/unit_tests/analyzerTests.cpp" name="src/photos_crawler/unit_tests/analyzerTests.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="124,5,315,45"/>
-<area shape="rect" id="node2" href="$d3/d5c/file__analyzer_8hpp.html" title=" " alt="" coords="5,93,148,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="172,101,267,126"/>
-<area shape="rect" id="node4" title=" " alt="" coords="291,101,358,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="122,5,313,46"/>
+<area shape="rect" id="Node000002" href="$d3/d5c/file__analyzer_8hpp.html" title=" " alt="" coords="5,94,147,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,49,122,88,119,84,184,44"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="171,102,264,127"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="220,47,220,86,215,86,215,47"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="289,102,354,127"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="243,44,297,90,294,94,239,49"/>
 </map>

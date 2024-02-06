@@ -1,4 +1,7 @@
 <map id="TYPED_TEST" name="TYPED_TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,111,31"/>
-<area shape="rect" id="node2" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="159,5,316,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,110,60"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="158,5,314,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,36,142,31,143,36,111,42"/>
+<area shape="rect" id="Node000003" href="$d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92" title="emited after new photos were added to database" alt="" coords="167,55,305,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="111,53,153,60,152,65,110,58"/>
 </map>

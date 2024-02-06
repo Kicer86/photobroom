@@ -1,5 +1,7 @@
 <map id="TaskExecutor::wakeUpScheduler" name="TaskExecutor::wakeUpScheduler">
-<area shape="rect" id="node1" title=" " alt="" coords="185,31,399,56"/>
-<area shape="rect" id="node2" href="$de/d64/struct_task_executor.html#a9b12cf25e7aa30230e2b90e9cb1ae14c" title=" " alt="" coords="7,5,135,31"/>
-<area shape="rect" id="node3" href="$de/d64/struct_task_executor.html#a7fee90630e8837841fc5db4921a3bbc5" title=" " alt="" coords="5,55,137,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="185,31,397,56"/>
+<area shape="rect" id="Node000002" href="$de/d64/struct_task_executor.html#a9b12cf25e7aa30230e2b90e9cb1ae14c" title=" " alt="" coords="7,5,135,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,32,135,28,135,23,169,27"/>
+<area shape="rect" id="Node000003" href="$de/d64/struct_task_executor.html#a7fee90630e8837841fc5db4921a3bbc5" title=" " alt="" coords="5,55,137,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,59,138,63,137,58,169,54"/>
 </map>

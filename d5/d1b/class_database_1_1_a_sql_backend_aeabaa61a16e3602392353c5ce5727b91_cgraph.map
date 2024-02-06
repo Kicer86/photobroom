@@ -1,5 +1,8 @@
 <map id="Database::ASqlBackend::storeData" name="Database::ASqlBackend::storeData">
-<area shape="rect" id="node1" title="store photo data" alt="" coords="5,29,168,69"/>
-<area shape="rect" id="node2" href="$d7/d1e/class_photo_1_1_data_delta.html#a8dbb1d880f0c0b37a9629fae8d098413" title=" " alt="" coords="220,7,375,33"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title=" " alt="" coords="216,57,379,97"/>
+<area shape="rect" id="Node000001" title="store photo data" alt="" coords="5,29,167,70"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="46,29,44,19,51,10,65,5,86,3,109,5,122,11,120,16,107,10,86,8,66,10,54,15,50,20,52,28"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a8dbb1d880f0c0b37a9629fae8d098413" title=" " alt="" coords="219,8,372,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,36,203,31,203,36,168,41"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title=" " alt="" coords="215,57,376,98"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="168,58,200,62,199,67,167,63"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="Database::NotificationsAccumulator::ignoreChanges" name="Database::NotificationsAccumulator::ignoreChanges">
-<area shape="rect" id="node1" title=" " alt="" coords="213,23,441,63"/>
-<area shape="rect" id="node2" href="$dc/d83/class_sql_transaction.html#a20c7af66a9384636244b02a8b28b4d7e" title=" " alt="" coords="5,5,165,31"/>
-<area shape="rect" id="node3" href="$d7/d64/notifications__accumulator__tests_8cpp.html#ad6b422e8a242b30e94ad177e48cb6ad1" title=" " alt="" coords="58,55,113,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="213,23,440,64"/>
+<area shape="rect" id="Node000002" href="$dc/d83/class_sql_transaction.html#a20c7af66a9384636244b02a8b28b4d7e" title=" " alt="" coords="5,5,165,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,33,165,29,165,24,198,27"/>
+<area shape="rect" id="Node000003" href="$d7/d64/notifications__accumulator__tests_8cpp.html#ad6b422e8a242b30e94ad177e48cb6ad1" title=" " alt="" coords="58,55,112,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,59,113,68,112,62,197,54"/>
 </map>

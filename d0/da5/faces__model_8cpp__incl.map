@@ -1,17 +1,32 @@
 <map id="src/gui/desktop/models/faces_model.cpp" name="src/gui/desktop/models/faces_model.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="854,5,1011,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,71,126"/>
-<area shape="rect" id="node3" title=" " alt="" coords="95,101,157,126"/>
-<area shape="rect" id="node4" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="1069,181,1194,221"/>
-<area shape="rect" id="node5" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="231,101,373,126"/>
-<area shape="rect" id="node6" href="$d9/dfc/image__tools_8hpp.html" title=" " alt="" coords="397,101,543,126"/>
-<area shape="rect" id="node7" href="$d5/df1/logger__factory_8hpp.html" title=" " alt="" coords="567,101,723,126"/>
-<area shape="rect" id="node8" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="747,101,929,126"/>
-<area shape="rect" id="node9" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="953,101,1101,126"/>
-<area shape="rect" id="node10" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="1125,93,1257,133"/>
-<area shape="rect" id="node11" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="1281,101,1448,126"/>
-<area shape="rect" id="node12" href="$d1/d8e/project_8hpp.html" title=" " alt="" coords="1472,101,1631,126"/>
-<area shape="rect" id="node13" href="$d9/da8/people__list__model_8hpp.html" title=" " alt="" coords="1655,101,1834,126"/>
-<area shape="rect" id="node14" href="$d0/d41/qml__utils_8hpp.html" title=" " alt="" coords="1859,101,1985,126"/>
-<area shape="rect" id="node15" href="$da/db1/faces__model_8hpp.html" title=" " alt="" coords="2010,101,2130,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="847,5,1004,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,70,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="847,33,451,54,237,73,149,84,82,97,77,98,75,93,81,91,148,79,236,67,450,49,847,27"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="94,102,154,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="847,30,717,33,549,43,361,63,266,78,174,97,167,99,165,93,173,91,265,72,361,57,549,37,717,27,847,24"/>
+<area shape="rect" id="Node000004" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="1063,183,1188,223"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="847,31,681,37,483,48,309,68,250,81,231,88,219,96,213,105,211,114,213,124,219,133,235,143,261,152,342,168,450,180,575,188,838,197,1048,199,1048,205,837,202,575,193,449,185,341,173,260,157,233,148,216,137,208,126,206,114,208,103,216,92,228,83,249,76,308,62,482,43,681,32,847,26"/>
+<area shape="rect" id="Node000005" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="230,102,370,127"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="847,37,637,60,383,97,364,100,363,95,382,91,636,54,847,31"/>
+<area shape="rect" id="Node000017" href="$d9/dfc/image__tools_8hpp.html" title=" " alt="" coords="395,102,539,127"/>
+<area shape="poly" id="edge5_Node000001_Node000017" title=" " alt="" coords="847,43,551,97,534,100,533,95,550,91,846,37"/>
+<area shape="rect" id="Node000020" href="$d5/df1/logger__factory_8hpp.html" title=" " alt="" coords="563,102,718,127"/>
+<area shape="poly" id="edge6_Node000001_Node000020" title=" " alt="" coords="861,49,696,99,694,94,860,44"/>
+<area shape="rect" id="Node000027" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="742,102,922,127"/>
+<area shape="poly" id="edge7_Node000001_Node000027" title=" " alt="" coords="906,48,858,93,854,89,903,45"/>
+<area shape="rect" id="Node000031" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="947,102,1094,127"/>
+<area shape="poly" id="edge8_Node000001_Node000031" title=" " alt="" coords="949,45,998,89,994,93,945,48"/>
+<area shape="rect" id="Node000036" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="1119,94,1250,135"/>
+<area shape="poly" id="edge9_Node000001_Node000036" title=" " alt="" coords="985,44,1112,86,1110,91,983,49"/>
+<area shape="rect" id="Node000046" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="1274,102,1441,127"/>
+<area shape="poly" id="edge10_Node000001_Node000046" title=" " alt="" coords="1005,40,1282,95,1281,101,1004,45"/>
+<area shape="rect" id="Node000059" href="$d1/d8e/project_8hpp.html" title=" " alt="" coords="1465,102,1623,127"/>
+<area shape="poly" id="edge11_Node000001_Node000059" title=" " alt="" coords="1005,32,1208,56,1453,91,1474,95,1473,101,1452,97,1207,61,1004,38"/>
+<area shape="rect" id="Node000075" href="$d9/da8/people__list__model_8hpp.html" title=" " alt="" coords="1648,102,1825,127"/>
+<area shape="poly" id="edge12_Node000001_Node000075" title=" " alt="" coords="1004,29,1283,52,1459,69,1635,91,1662,96,1661,101,1634,97,1458,75,1283,57,1004,35"/>
+<area shape="rect" id="Node000076" href="$d0/d41/qml__utils_8hpp.html" title=" " alt="" coords="1850,102,1975,127"/>
+<area shape="poly" id="edge13_Node000001_Node000076" title=" " alt="" coords="1004,25,1158,30,1366,41,1601,61,1838,91,1856,95,1855,100,1837,97,1600,66,1366,46,1158,35,1004,31"/>
+<area shape="rect" id="Node000079" href="$da/db1/faces__model_8hpp.html" title=" " alt="" coords="1999,102,2119,127"/>
+<area shape="poly" id="edge14_Node000001_Node000079" title=" " alt="" coords="1004,24,1181,27,1425,36,1705,56,1848,72,1987,91,2004,95,2003,100,1986,97,1847,77,1704,61,1425,41,1181,32,1004,29"/>
+<area shape="poly" id="edge15_Node000079_Node000004" title=" " alt="" coords="2019,130,1987,137,1765,168,1545,187,1349,198,1203,203,1203,198,1349,193,1544,182,1765,162,1986,132,2017,125"/>
 </map>

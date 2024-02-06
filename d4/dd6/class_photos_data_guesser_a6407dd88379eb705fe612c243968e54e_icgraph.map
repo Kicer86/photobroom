@@ -1,4 +1,5 @@
 <map id="PhotosDataGuesser::data" name="PhotosDataGuesser::data">
-<area shape="rect" id="node1" title=" " alt="" coords="199,13,369,38"/>
-<area shape="rect" id="node2" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="5,5,151,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="198,13,367,39"/>
+<area shape="rect" id="Node000002" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="5,5,150,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,28,150,28,150,23,182,23"/>
 </map>

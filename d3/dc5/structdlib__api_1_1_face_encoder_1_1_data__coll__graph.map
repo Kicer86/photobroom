@@ -1,6 +1,9 @@
 <map id="dlib_api::FaceEncoder::Data" name="dlib_api::FaceEncoder::Data">
-<area shape="rect" id="node1" title=" " alt="" coords="192,123,340,163"/>
-<area shape="rect" id="node2" href="$d5/dae/classdlib__api_1_1face__recognition__model__v1.html" title="tool for face recognition based on: https://github.com/davisking/dlib/blob/f7f6f6761817f2e6e5cf10ae42..." alt="" coords="5,5,172,45"/>
-<area shape="rect" id="node3" href="$da/db9/classlazy__ptr.html" title=" " alt="" coords="197,5,335,45"/>
-<area shape="rect" id="node4" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="370,13,437,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="191,124,338,165"/>
+<area shape="rect" id="Node000002" href="$d5/dae/classdlib__api_1_1face__recognition__model__v1.html" title="tool for face recognition based on: https://github.com/davisking/dlib/blob/f7f6f6761817f2e6e5cf10ae42..." alt="" coords="5,5,172,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,54,180,98,222,121,219,126,177,102,119,58"/>
+<area shape="rect" id="Node000003" href="$da/db9/classlazy__ptr.html" title=" " alt="" coords="196,5,333,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,61,267,123,262,123,262,61"/>
+<area shape="rect" id="Node000004" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="369,13,435,39"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="399,55,390,79,374,102,358,115,339,126,336,121,355,111,371,98,385,77,394,53"/>
 </map>

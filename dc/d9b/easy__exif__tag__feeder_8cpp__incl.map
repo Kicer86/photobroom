@@ -1,6 +1,9 @@
 <map id="src/core/implementation/easy_exif_tag_feeder.cpp" name="src/core/implementation/easy_exif_tag_feeder.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="146,5,318,45"/>
-<area shape="rect" id="node2" href="$da/de9/easy__exif__tag__feeder_8hpp.html" title=" " alt="" coords="5,93,173,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="198,93,266,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="291,93,379,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="145,5,316,46"/>
+<area shape="rect" id="Node000002" href="$da/de9/easy__exif__tag__feeder_8hpp.html" title=" " alt="" coords="5,94,173,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="196,49,125,88,123,84,194,44"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="197,94,264,120"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="233,46,233,78,228,78,228,46"/>
+<area shape="rect" id="Node000020" title=" " alt="" coords="288,94,375,120"/>
+<area shape="poly" id="edge3_Node000001_Node000020" title=" " alt="" coords="257,44,306,82,303,86,254,49"/>
 </map>

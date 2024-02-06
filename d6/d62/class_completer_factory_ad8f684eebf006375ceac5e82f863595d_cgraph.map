@@ -1,4 +1,5 @@
 <map id="CompleterFactory::createCompleter" name="CompleterFactory::createCompleter">
-<area shape="rect" id="node1" title="create QCompleter for given set of types" alt="" coords="5,5,172,45"/>
-<area shape="rect" id="node2" href="$d6/d62/class_completer_factory.html#a6317b5b0f973638a53398d275fb1eab8" title=" " alt="" coords="220,13,423,38"/>
+<area shape="rect" id="Node000001" title="create QCompleter for given set of types" alt="" coords="5,5,171,46"/>
+<area shape="rect" id="Node000002" href="$d6/d62/class_completer_factory.html#a6317b5b0f973638a53398d275fb1eab8" title=" " alt="" coords="219,13,420,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,23,203,23,203,28,171,28"/>
 </map>

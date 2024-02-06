@@ -1,8 +1,13 @@
 <map id="PhotosAnalyzerImpl::addPhotos" name="PhotosAnalyzerImpl::addPhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="5,105,143,145"/>
-<area shape="rect" id="node2" href="$d6/d44/struct_i_tasks_view.html#a09dce12593c58f1e725e3384494a8215" title=" " alt="" coords="229,5,347,31"/>
-<area shape="rect" id="node3" href="$d5/d65/class_observable_task_executor.html#a45ae8c431e00a9e2b245ba2db9845d01" title=" " alt="" coords="191,55,385,80"/>
-<area shape="rect" id="node4" href="$dd/d10/class_photos_analyzer_impl.html#a1afb35e229166eb4026401ff6f79bc59" title=" " alt="" coords="219,105,357,145"/>
-<area shape="rect" id="node5" href="$da/d69/struct_i_view_task.html#a7a56a96028b15bab0e8989119da65ad5" title=" " alt="" coords="198,169,378,195"/>
-<area shape="rect" id="node6" href="$de/d2f/struct_i_progress_bar.html#ac4bcac50b4da4c963588d33615e84708" title=" " alt="" coords="199,219,377,244"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,105,142,145"/>
+<area shape="rect" id="Node000002" href="$d6/d44/struct_i_tasks_view.html#a09dce12593c58f1e725e3384494a8215" title=" " alt="" coords="228,5,345,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,102,138,70,189,40,212,31,214,36,191,45,141,74,100,106"/>
+<area shape="rect" id="Node000003" href="$d5/d65/class_observable_task_executor.html#a45ae8c431e00a9e2b245ba2db9845d01" title=" " alt="" coords="190,55,383,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="141,103,189,90,219,82,220,87,190,95,143,108"/>
+<area shape="rect" id="Node000004" href="$dd/d10/class_photos_analyzer_impl.html#a1afb35e229166eb4026401ff6f79bc59" title=" " alt="" coords="218,105,355,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="142,122,203,122,203,128,142,128"/>
+<area shape="rect" id="Node000006" href="$da/d69/struct_i_view_task.html#a7a56a96028b15bab0e8989119da65ad5" title=" " alt="" coords="197,169,376,195"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="143,141,190,154,220,162,219,167,189,159,141,146"/>
+<area shape="rect" id="Node000007" href="$de/d2f/struct_i_progress_bar.html#ac4bcac50b4da4c963588d33615e84708" title=" " alt="" coords="198,219,375,244"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="100,144,141,175,191,205,205,211,203,216,188,210,138,180,97,148"/>
 </map>

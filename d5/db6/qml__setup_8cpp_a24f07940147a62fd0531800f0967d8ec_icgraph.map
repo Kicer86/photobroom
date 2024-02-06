@@ -1,4 +1,5 @@
 <map id="register_qml_types" name="register_qml_types">
-<area shape="rect" id="node1" title=" " alt="" coords="121,5,252,31"/>
-<area shape="rect" id="node2" href="$d6/dd6/struct_gui.html#a081e29e8e0411580fff4aba85760efc7" title=" " alt="" coords="5,5,73,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="121,5,251,31"/>
+<area shape="rect" id="Node000002" href="$d6/dd6/struct_gui.html#a081e29e8e0411580fff4aba85760efc7" title=" " alt="" coords="5,5,73,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,21,73,21,73,16,105,16"/>
 </map>

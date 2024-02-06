@@ -1,5 +1,7 @@
 <map id="ILoggerFactory" name="ILoggerFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="95,5,204,31"/>
-<area shape="rect" id="node2" href="$d6/d74/class_i_logger_factory_mock.html" title=" " alt="" coords="5,79,147,104"/>
-<area shape="rect" id="node3" href="$d8/d06/class_logger_factory.html" title=" " alt="" coords="171,79,277,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="95,5,203,31"/>
+<area shape="rect" id="Node000002" href="$d6/d74/class_i_logger_factory_mock.html" title=" " alt="" coords="5,79,146,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,44,90,80,86,77,124,40"/>
+<area shape="rect" id="Node000003" href="$d8/d06/class_logger_factory.html" title=" " alt="" coords="170,79,274,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,40,212,77,208,80,170,44"/>
 </map>

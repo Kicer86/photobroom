@@ -1,6 +1,9 @@
 <map id="PhotosGroupingDialog::makeAnimation" name="PhotosGroupingDialog::makeAnimation">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,156,95"/>
-<area shape="rect" id="node2" href="$d7/db4/struct_i_configuration.html#a56f21aac17f8a84e7c708081b922f595" title=" " alt="" coords="204,5,359,31"/>
-<area shape="rect" id="node3" href="$d0/d4e/class_photos_grouping_dialog.html#aa8e8193829d9490df1fcd4aec2273ab5" title=" " alt="" coords="206,55,357,95"/>
-<area shape="rect" id="node4" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="206,119,357,159"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,156,96"/>
+<area shape="rect" id="Node000002" href="$d7/db4/struct_i_configuration.html#a56f21aac17f8a84e7c708081b922f595" title=" " alt="" coords="204,5,357,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,52,218,33,219,38,154,57"/>
+<area shape="rect" id="Node000003" href="$d0/d4e/class_photos_grouping_dialog.html#aa8e8193829d9490df1fcd4aec2273ab5" title=" " alt="" coords="205,55,356,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,73,189,73,189,78,156,78"/>
+<area shape="rect" id="Node000004" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="205,121,356,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="146,94,202,113,201,118,144,99"/>
 </map>

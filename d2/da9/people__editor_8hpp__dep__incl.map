@@ -1,7 +1,12 @@
 <map id="src/gui/desktop/utils/people_editor.hpp" name="src/gui/desktop/utils/people_editor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="295,5,433,45"/>
-<area shape="rect" id="node2" href="$da/db1/faces__model_8hpp.html" title=" " alt="" coords="5,101,163,141"/>
-<area shape="rect" id="node3" href="$de/d11/batch__face__detector_8hpp.html" title=" " alt="" coords="187,101,355,141"/>
-<area shape="rect" id="node4" href="$de/d13/people__editor__impl_8hpp.html" title=" " alt="" coords="379,93,535,148"/>
-<area shape="rect" id="node5" href="$d1/d2f/people__editor_8cpp.html" title=" " alt="" coords="445,196,584,236"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="292,5,430,46"/>
+<area shape="rect" id="Node000002" href="$da/db1/faces__model_8hpp.html" title=" " alt="" coords="5,102,162,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,54,142,103,141,98,287,49"/>
+<area shape="rect" id="Node000005" href="$de/d11/batch__face__detector_8hpp.html" title=" " alt="" coords="185,102,353,142"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="333,59,290,103,286,99,329,55"/>
+<area shape="rect" id="Node000007" href="$de/d13/people__editor__impl_8hpp.html" title=" " alt="" coords="377,94,532,150"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="393,55,429,91,425,95,389,59"/>
+<area shape="rect" id="Node000008" href="$d1/d2f/people__editor_8cpp.html" title=" " alt="" coords="442,198,581,238"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="446,34,474,42,501,54,526,71,546,93,555,120,552,148,541,176,528,198,523,196,536,173,547,147,550,120,541,95,522,75,498,59,472,47,444,39"/>
+<area shape="poly" id="edge4_Node000007_Node000008" title=" " alt="" coords="481,162,502,196,497,199,476,165"/>
 </map>

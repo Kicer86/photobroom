@@ -1,8 +1,11 @@
 <map id="Database::IBackend::update" name="Database::IBackend::update">
-<area shape="rect" id="node1" title="update photos details" alt="" coords="231,112,369,152"/>
-<area shape="rect" id="node2" href="$d4/dd6/class_photos_data_guesser.html#a6af361bc3eec4228a6c171e97126af1d" title=" " alt="" coords="21,5,167,45"/>
-<area shape="rect" id="node3" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="21,70,167,95"/>
-<area shape="rect" id="node4" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="18,119,170,145"/>
-<area shape="rect" id="node5" href="$d6/db9/class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86" title=" " alt="" coords="5,169,183,209"/>
-<area shape="rect" id="node6" href="$d8/d67/class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd" title=" " alt="" coords="21,234,167,259"/>
+<area shape="rect" id="Node000001" title="update photos details" alt="" coords="230,77,367,117"/>
+<area shape="rect" id="Node000002" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="21,5,166,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,72,181,45,148,34,150,29,183,40,245,67"/>
+<area shape="rect" id="Node000005" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="18,55,169,80"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="214,87,169,81,170,76,214,82"/>
+<area shape="rect" id="Node000006" href="$d6/db9/class_database_1_1_json_to_backend.html#a75985a468b427340d7ee01267c32fe86" title=" " alt="" coords="5,105,182,145"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="214,111,183,115,182,110,214,106"/>
+<area shape="rect" id="Node000008" href="$d8/d67/class_tags_operator.html#aa6ec7f69096cee8febd2182a882f5bbd" title=" " alt="" coords="20,169,167,195"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="249,127,183,159,148,171,146,166,181,154,247,123"/>
 </map>

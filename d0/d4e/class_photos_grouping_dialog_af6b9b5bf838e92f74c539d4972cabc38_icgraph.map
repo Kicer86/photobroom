@@ -1,4 +1,5 @@
 <map id="PhotosGroupingDialog::makeCollage" name="PhotosGroupingDialog::makeCollage">
-<area shape="rect" id="node1" title=" " alt="" coords="204,5,355,45"/>
-<area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#a4fe16c0e98343d75ed8386a35e2f1471" title=" " alt="" coords="5,5,156,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="204,5,354,46"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#a4fe16c0e98343d75ed8386a35e2f1471" title=" " alt="" coords="5,5,156,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,28,156,28,156,23,188,23"/>
 </map>

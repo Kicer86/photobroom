@@ -1,8 +1,14 @@
 <map id="IExifReader::get" name="IExifReader::get">
-<area shape="rect" id="node1" title=" " alt="" coords="252,134,364,159"/>
-<area shape="rect" id="node2" href="$de/d2a/class_image_media_information.html#af34ec756e2754554b1692b713a432b19" title=" " alt="" coords="25,5,184,45"/>
-<area shape="rect" id="node3" href="$d0/d4e/class_photos_grouping_dialog.html#a5602e18dab61025c041f53bbe3e59254" title=" " alt="" coords="29,69,180,109"/>
-<area shape="rect" id="node4" href="$d5/db6/class_oriented_image.html#a7cb9dd0d57c97147d926c30500eef590" title=" " alt="" coords="5,134,204,159"/>
-<area shape="rect" id="node5" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="26,183,183,209"/>
-<area shape="rect" id="node6" href="$de/d2a/class_image_media_information.html#ae1f3ce6893b7b33d7c30449e0c481301" title=" " alt="" coords="25,257,184,297"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,136,362,161"/>
+<area shape="rect" id="Node000002" href="$de/d2a/class_image_media_information.html#af34ec756e2754554b1692b713a432b19" title=" " alt="" coords="25,5,183,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="281,126,245,93,201,61,176,49,178,44,204,57,249,89,285,122"/>
+<area shape="rect" id="Node000004" href="$d0/d4e/class_photos_grouping_dialog.html#a5602e18dab61025c041f53bbe3e59254" title=" " alt="" coords="29,71,179,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="243,133,178,115,179,109,244,128"/>
+<area shape="rect" id="Node000006" href="$d5/db6/class_oriented_image.html#a7cb9dd0d57c97147d926c30500eef590" title=" " alt="" coords="5,136,203,161"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="235,151,203,151,203,146,235,146"/>
+<area shape="rect" id="Node000007" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="26,185,182,211"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="237,168,203,176,161,187,159,182,202,171,236,163"/>
+<area shape="rect" id="Node000009" href="$de/d2a/class_image_media_information.html#ae1f3ce6893b7b33d7c30449e0c481301" title=" " alt="" coords="25,259,183,299"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="278,173,204,225,145,260,142,256,201,221,274,169"/>
+<area shape="poly" id="edge6_Node000009_Node000009" title=" " alt="" coords="137,245,125,240,104,237,85,239,73,244,69,250,71,257,66,259,64,249,70,240,84,234,104,232,126,234,139,241"/>
 </map>

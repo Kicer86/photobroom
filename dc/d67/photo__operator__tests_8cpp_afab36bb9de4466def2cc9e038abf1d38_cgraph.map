@@ -1,5 +1,7 @@
 <map id="TYPED_TEST" name="TYPED_TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,111,56"/>
-<area shape="rect" id="node2" href="$d7/d1e/class_photo_1_1_data_delta.html#adb6e34500f00515020150df2f9fd0ab7" title=" " alt="" coords="166,5,309,31"/>
-<area shape="rect" id="node3" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="159,55,316,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,110,56"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#adb6e34500f00515020150df2f9fd0ab7" title=" " alt="" coords="165,5,307,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,33,149,28,150,33,110,39"/>
+<area shape="rect" id="Node000003" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="158,55,314,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="110,48,143,52,142,58,110,53"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="FlatModel::parent" name="FlatModel::parent">
-<area shape="rect" id="node1" title=" " alt="" coords="215,31,336,56"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#a9bfa27c0da4c51942e8600aa04411925" title=" " alt="" coords="5,5,167,31"/>
-<area shape="rect" id="node3" href="$d1/da6/class_flat_model.html#abeb2d563300749d664eaf2d817d5a545" title=" " alt="" coords="16,55,156,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="214,31,334,56"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a9bfa27c0da4c51942e8600aa04411925" title=" " alt="" coords="5,5,166,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,36,166,32,167,26,199,31"/>
+<area shape="rect" id="Node000003" href="$d1/da6/class_flat_model.html#abeb2d563300749d664eaf2d817d5a545" title=" " alt="" coords="16,55,155,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,56,156,61,155,56,198,50"/>
 </map>

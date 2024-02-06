@@ -1,19 +1,28 @@
 <map id="src/face_recognition" name="src/face_recognition">
-<area shape="rect" id="node1" href="dir_7650dacaa557a89ea1c633e1722b48a3.html" title="unit_tests_utils" alt="" coords="27,136,138,161"/>
-<area shape="rect" id="node2" href="dir_803ee67260c130b45d29089798491ab2.html" title="database" alt="" coords="163,136,237,161"/>
-<area shape="rect" id="node3" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html" title="core" alt="" coords="318,209,365,235"/>
-<area shape="rect" id="node4" href="dir_d501334aeb1b78ad67cd3c72c37b1e87.html" title="system" alt="" coords="423,209,487,235"/>
-<area shape="rect" id="edge2-headlabel" href="dir_000011_000050.html" title="4" alt="" coords="154,134,162,149"/>
-<area shape="rect" id="edge3-headlabel" href="dir_000011_000005.html" title="4" alt="" coords="254,132,262,147"/>
-<area shape="rect" id="edge4-headlabel" href="dir_000011_000003.html" title="8" alt="" coords="338,182,346,197"/>
-<area shape="rect" id="edge5-headlabel" href="dir_000011_000040.html" title="3" alt="" coords="462,184,470,199"/>
-<area shape="rect" id="node6" href="dir_0750a411ff79567b31244e4f1cffe06d.html" title="dlib_wrapper" alt="" coords="351,136,446,161"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000011_000010.html" title="4" alt="" coords="419,118,427,133"/>
-<area shape="rect" id="edge6-headlabel" href="dir_000010_000003.html" title="2" alt="" coords="365,193,373,207"/>
-<area shape="rect" id="edge7-headlabel" href="dir_000010_000040.html" title="1" alt="" coords="437,182,445,197"/>
-<area shape="rect" id="node7" href="dir_7162f29db8f0349467d1883b396b0cfd.html" title="learning_tests" alt="" coords="259,63,362,88"/>
-<area shape="rect" id="edge9-headlabel" href="dir_000026_000050.html" title="3" alt="" coords="137,131,145,145"/>
-<area shape="rect" id="edge8-headlabel" href="dir_000026_000010.html" title="3" alt="" coords="371,110,379,125"/>
-<area shape="rect" id="clust2" href="dir_3b56e0b998da7a2f208daeb459f27765.html" alt="" coords="248,52,515,172"/>
-<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,525,245"/>
+<area shape="rect" id="node1" href="dir_7650dacaa557a89ea1c633e1722b48a3.html" title="unit_tests_utils" alt="" coords="27,137,136,162"/>
+<area shape="rect" id="node2" href="dir_803ee67260c130b45d29089798491ab2.html" title="database" alt="" coords="160,137,235,162"/>
+<area shape="rect" id="node3" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html" title="core" alt="" coords="316,210,362,236"/>
+<area shape="rect" id="node4" href="dir_d501334aeb1b78ad67cd3c72c37b1e87.html" title="system" alt="" coords="418,210,481,236"/>
+<area shape="poly" id="edge2" href="dir_000011_000050.html" alt="" coords="382,91,152,137,150,132,381,86"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000011_000050.html" title="4" alt="" coords="152,135,159,150"/>
+<area shape="poly" id="edge3" href="dir_000011_000005.html" alt="" coords="402,91,250,135,249,130,400,86"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000011_000005.html" title="4" alt="" coords="251,133,258,148"/>
+<area shape="poly" id="edge4" href="dir_000011_000003.html" alt="" coords="402,91,366,109,351,122,338,138,333,151,331,166,334,195,328,196,326,166,328,150,334,135,347,118,363,105,399,86"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000011_000003.html" title="8" alt="" coords="335,183,342,198"/>
+<area shape="poly" id="edge5" href="dir_000011_000040.html" alt="" coords="446,88,456,136,456,173,455,195,449,195,451,173,451,137,441,89"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000011_000040.html" title="3" alt="" coords="457,185,464,200"/>
+<area shape="rect" id="node6" href="dir_0750a411ff79567b31244e4f1cffe06d.html" title="dlib_wrapper" alt="" coords="348,137,442,162"/>
+<area shape="poly" id="edge1" href="dir_000011_000010.html" alt="" coords="435,90,413,125,408,122,431,87"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000011_000010.html" title="4" alt="" coords="416,118,423,133"/>
+<area shape="poly" id="edge6" href="dir_000010_000003.html" alt="" coords="388,164,360,200,355,196,383,161"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000010_000003.html" title="2" alt="" coords="362,193,369,208"/>
+<area shape="poly" id="edge7" href="dir_000010_000040.html" alt="" coords="406,161,433,196,429,200,402,164"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000010_000040.html" title="1" alt="" coords="432,183,439,198"/>
+<area shape="rect" id="node7" href="dir_7162f29db8f0349467d1883b396b0cfd.html" title="learning_tests" alt="" coords="256,63,358,89"/>
+<area shape="poly" id="edge9" href="dir_000026_000050.html" alt="" coords="269,92,135,134,133,129,268,87"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000026_000050.html" title="3" alt="" coords="136,131,143,146"/>
+<area shape="poly" id="edge8" href="dir_000026_000010.html" alt="" coords="323,87,370,125,366,129,320,91"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000026_000010.html" title="3" alt="" coords="368,111,375,126"/>
+<area shape="rect" id="clust2" href="dir_3b56e0b998da7a2f208daeb459f27765.html" alt="" coords="245,52,509,173"/>
+<area shape="rect" id="clust1" href="dir_68267d1309a1af8e8297ef4c3efbcdba.html" title="src" alt="" coords="16,16,520,247"/>
 </map>

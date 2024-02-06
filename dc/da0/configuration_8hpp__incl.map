@@ -1,6 +1,10 @@
 <map id="src/core/configuration.hpp" name="src/core/configuration.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="80,5,251,31"/>
-<area shape="rect" id="node2" href="$df/dfe/iconfiguration_8hpp.html" title=" " alt="" coords="5,79,128,104"/>
-<area shape="rect" id="node3" title=" " alt="" coords="67,152,165,177"/>
-<area shape="rect" id="node4" title=" " alt="" coords="203,79,250,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="80,5,249,31"/>
+<area shape="rect" id="Node000002" href="$df/dfe/iconfiguration_8hpp.html" title=" " alt="" coords="5,79,127,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,34,96,72,93,68,146,29"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="66,153,165,178"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="164,32,142,106,129,139,124,137,137,104,159,30"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="202,79,248,105"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="177,30,207,65,203,69,173,33"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="76,103,101,138,96,141,72,106"/>
 </map>

@@ -1,4 +1,6 @@
 <map id="Database::GroupOperator::type" name="Database::GroupOperator::type">
-<area shape="rect" id="node1" title=" " alt="" coords="5,29,173,69"/>
-<area shape="rect" id="node2" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="221,29,412,69"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,173,70"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="46,29,44,19,51,10,66,5,89,3,113,5,128,11,126,16,112,10,89,8,67,10,54,15,49,21,51,28"/>
+<area shape="rect" id="Node000002" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="221,29,410,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,47,205,47,205,52,173,52"/>
 </map>

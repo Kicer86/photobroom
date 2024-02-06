@@ -1,7 +1,11 @@
 <map id="Queue::fire" name="Queue::fire">
-<area shape="rect" id="node1" title=" " alt="" coords="5,80,88,105"/>
-<area shape="rect" id="node2" href="$d4/da4/class_queue.html#aa584326f16e9e881e19d55d17aa894d6" title=" " alt="" coords="136,5,324,31"/>
-<area shape="rect" id="node3" href="$de/d87/containers__utils_8hpp.html#afca1b9ed616c9f3e12aae29f379f565c" title=" " alt="" coords="189,55,271,80"/>
-<area shape="rect" id="node4" href="$de/d87/containers__utils_8hpp.html#a5dac4e19c39a3637602e9a0054b8fe06" title=" " alt="" coords="190,104,270,129"/>
-<area shape="rect" id="node5" href="$d4/da4/class_queue.html#afdebd67db84bdce1ba3ef05d914e183c" title=" " alt="" coords="159,154,301,194"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,88,106"/>
+<area shape="rect" id="Node000002" href="$d4/da4/class_queue.html#aa584326f16e9e881e19d55d17aa894d6" title=" " alt="" coords="136,5,323,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,77,98,58,135,40,151,34,153,39,137,45,100,63,69,82"/>
+<area shape="rect" id="Node000003" href="$de/d87/containers__utils_8hpp.html#afca1b9ed616c9f3e12aae29f379f565c" title=" " alt="" coords="189,55,270,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="88,85,173,73,174,78,89,90"/>
+<area shape="rect" id="Node000004" href="$de/d87/containers__utils_8hpp.html#a5dac4e19c39a3637602e9a0054b8fe06" title=" " alt="" coords="190,104,269,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="89,96,175,107,174,112,88,101"/>
+<area shape="rect" id="Node000005" href="$d4/da4/class_queue.html#afdebd67db84bdce1ba3ef05d914e183c" title=" " alt="" coords="159,154,300,195"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="71,104,137,140,150,145,148,150,135,145,68,109"/>
 </map>

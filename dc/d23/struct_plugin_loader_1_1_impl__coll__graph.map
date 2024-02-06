@@ -1,4 +1,5 @@
 <map id="PluginLoader::Impl" name="PluginLoader::Impl">
-<area shape="rect" id="node1" title=" " alt="" coords="11,93,140,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,145,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="11,94,139,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,145,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="78,47,78,94,72,94,72,47"/>
 </map>

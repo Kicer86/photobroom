@@ -1,4 +1,5 @@
 <map id="Database::ASqlBackend::createKey" name="Database::ASqlBackend::createKey">
-<area shape="rect" id="node1" title="prepare sql statement for KEY creation" alt="" coords="216,5,379,45"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6" title="Make sure given table exists in database." alt="" coords="5,5,168,45"/>
+<area shape="rect" id="Node000001" title="prepare sql statement for KEY creation" alt="" coords="215,5,376,46"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6" title="Make sure given table exists in database." alt="" coords="5,5,167,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,28,167,28,167,23,199,23"/>
 </map>

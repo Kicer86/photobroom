@@ -1,4 +1,9 @@
 <map id="MainWindow::closeProject" name="MainWindow::closeProject">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,180,31"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#a15918b5da6cc172b4d4beefdd0f6e4bc" title=" " alt="" coords="228,5,389,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,78,179,104"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#ab3226c9a1d7a78182e0d3c3d37c388bf" title=" " alt="" coords="227,5,423,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,75,234,48,236,53,141,80"/>
+<area shape="rect" id="Node000003" href="$d9/dc6/class_main_window.html#a5b763cb1c840150346684186b33add74" title=" " alt="" coords="234,71,416,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="179,88,218,88,218,94,179,94"/>
+<area shape="rect" id="Node000004" href="$d9/dc6/class_main_window.html#a15918b5da6cc172b4d4beefdd0f6e4bc" title=" " alt="" coords="245,136,405,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="148,102,255,129,254,134,147,107"/>
 </map>

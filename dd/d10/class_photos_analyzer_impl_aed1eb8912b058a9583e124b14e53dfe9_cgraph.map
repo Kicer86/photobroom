@@ -1,5 +1,7 @@
 <map id="PhotosAnalyzerImpl::stop" name="PhotosAnalyzerImpl::stop">
-<area shape="rect" id="node1" title=" " alt="" coords="5,23,143,63"/>
-<area shape="rect" id="node2" href="$d4/da4/class_queue.html#adf320f8708bb91ce96cf14afd7eefdf0" title="Remove queued items." alt="" coords="239,5,334,31"/>
-<area shape="rect" id="node3" href="$d4/da4/class_queue.html#af775d4a141d4bc06c5c9faf00bb56663" title="Wait for tasks being executed." alt="" coords="191,55,383,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,142,64"/>
+<area shape="rect" id="Node000002" href="$d4/da4/class_queue.html#adf320f8708bb91ce96cf14afd7eefdf0" title="Remove queued items." alt="" coords="239,5,332,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="142,33,223,23,224,28,142,38"/>
+<area shape="rect" id="Node000003" href="$d4/da4/class_queue.html#af775d4a141d4bc06c5c9faf00bb56663" title="Wait for tasks being executed." alt="" coords="190,55,381,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,49,175,52,174,58,142,54"/>
 </map>

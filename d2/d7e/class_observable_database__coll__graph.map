@@ -1,5 +1,7 @@
 <map id="ObservableDatabase&lt; T &gt;" name="ObservableDatabase&lt; T &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="44,79,217,104"/>
-<area shape="rect" id="node2" href="$d5/d20/class_observable_executor.html" title=" " alt="" coords="5,5,144,31"/>
-<area shape="rect" id="node3" title=" " alt="" coords="169,5,207,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="44,79,216,105"/>
+<area shape="rect" id="Node000002" href="$d5/d20/class_observable_executor.html" title=" " alt="" coords="5,5,143,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="95,41,123,77,118,80,90,45"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="167,5,205,31"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="170,45,142,80,137,77,165,41"/>
 </map>

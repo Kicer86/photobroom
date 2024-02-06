@@ -1,5 +1,7 @@
 <map id="src/database/implementation/async_database.hpp" name="src/database/implementation/async_database.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="112,5,301,45"/>
-<area shape="rect" id="node2" href="$de/d97/async__database_8cpp.html" title=" " alt="" coords="5,93,195,133"/>
-<area shape="rect" id="node3" href="$d6/da5/database__builder_8cpp.html" title=" " alt="" coords="219,93,408,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="111,5,299,46"/>
+<area shape="rect" id="Node000002" href="$de/d97/async__database_8cpp.html" title=" " alt="" coords="5,94,194,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,58,125,96,122,91,168,54"/>
+<area shape="rect" id="Node000003" href="$d6/da5/database__builder_8cpp.html" title=" " alt="" coords="217,94,406,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="242,54,289,91,286,96,239,58"/>
 </map>

@@ -1,7 +1,13 @@
 <map id="src/gui/desktop/utils/people_list_model.cpp" name="src/gui/desktop/utils/people_list_model.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="258,5,413,45"/>
-<area shape="rect" id="node2" href="$d9/da8/people__list__model_8hpp.html" title=" " alt="" coords="5,93,156,119"/>
-<area shape="rect" id="node3" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="181,93,362,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="360,167,439,192"/>
-<area shape="rect" id="node5" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="437,93,596,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="257,5,410,46"/>
+<area shape="rect" id="Node000002" href="$d9/da8/people__list__model_8hpp.html" title=" " alt="" coords="5,94,155,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="271,49,135,91,133,86,269,44"/>
+<area shape="rect" id="Node000006" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="179,94,360,120"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="320,48,291,83,287,80,315,45"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="359,168,436,193"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="348,45,374,93,394,152,389,154,370,95,344,48"/>
+<area shape="rect" id="Node000014" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="434,94,593,120"/>
+<area shape="poly" id="edge4_Node000001_Node000014" title=" " alt="" coords="379,44,473,85,471,90,377,49"/>
+<area shape="poly" id="edge3_Node000006_Node000007" title=" " alt="" coords="292,118,364,157,361,162,290,123"/>
+<area shape="poly" id="edge5_Node000014_Node000007" title=" " alt="" coords="495,122,431,162,428,157,492,118"/>
 </map>

@@ -1,6 +1,11 @@
 <map id="Database::ASqlBackend::storeTags" name="Database::ASqlBackend::storeTags">
-<area shape="rect" id="node1" title="store photo&#39;s tags in database" alt="" coords="5,57,168,97"/>
-<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="427,29,613,69"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="216,57,379,97"/>
-<area shape="rect" id="node4" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="262,122,333,147"/>
+<area shape="rect" id="Node000001" title="store photo&#39;s tags in database" alt="" coords="5,57,167,98"/>
+<area shape="rect" id="Node000002" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="424,29,609,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,54,214,43,314,37,409,39,408,44,314,42,215,48,158,59"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="215,57,376,98"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="167,75,199,75,199,80,167,80"/>
+<area shape="rect" id="Node000013" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="261,122,330,148"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="163,96,246,119,245,124,162,101"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="475,29,473,19,480,10,494,5,517,3,541,5,555,11,553,16,539,10,517,8,496,10,483,15,478,21,480,28"/>
+<area shape="poly" id="edge4_Node000003_Node000002" title=" " alt="" coords="376,65,408,61,409,66,377,70"/>
 </map>

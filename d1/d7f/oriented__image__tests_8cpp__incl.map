@@ -1,7 +1,13 @@
 <map id="src/core/unit_tests/oriented_image_tests.cpp" name="src/core/unit_tests/oriented_image_tests.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="64,5,238,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="10,181,124,207"/>
-<area shape="rect" id="node3" title=" " alt="" coords="201,181,269,207"/>
-<area shape="rect" id="node4" href="$da/d9a/mock__exif__reader_8hpp.html" title=" " alt="" coords="23,93,170,133"/>
-<area shape="rect" id="node5" href="$de/d3b/oriented__image_8hpp.html" title=" " alt="" coords="245,101,380,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="65,5,238,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="11,183,124,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,49,41,68,14,95,8,114,14,134,26,154,42,171,38,174,22,157,9,136,3,114,10,93,37,64,72,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="202,183,269,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,45,225,168,221,170,159,47"/>
+<area shape="rect" id="Node000004" href="$da/d9a/mock__exif__reader_8hpp.html" title=" " alt="" coords="24,94,170,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="142,48,120,82,115,79,137,45"/>
+<area shape="rect" id="Node000019" href="$de/d3b/oriented__image_8hpp.html" title=" " alt="" coords="245,102,378,127"/>
+<area shape="poly" id="edge5_Node000001_Node000019" title=" " alt="" coords="189,44,277,91,275,96,187,49"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="92,136,80,169,75,167,87,134"/>
+<area shape="poly" id="edge6_Node000019_Node000003" title=" " alt="" coords="302,129,260,173,256,169,298,126"/>
 </map>

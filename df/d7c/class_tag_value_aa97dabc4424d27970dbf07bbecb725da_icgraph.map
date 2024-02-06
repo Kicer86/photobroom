@@ -1,6 +1,13 @@
 <map id="TagValue::fromQVariant" name="TagValue::fromQVariant">
-<area shape="rect" id="node1" title=" " alt="" coords="200,55,360,80"/>
-<area shape="rect" id="node2" href="$d0/d5d/class_tags_model.html#a0ca870d04bfdedfd7020398264dedeeb" title=" " alt="" coords="5,5,152,31"/>
-<area shape="rect" id="node3" href="$d6/d20/tag__value__tests_8cpp.html#a4ab958c95ddbeb90e9a2843d3a9739f5" title=" " alt="" coords="51,55,106,80"/>
-<area shape="rect" id="node4" href="$d6/d20/tag__value__tests_8cpp.html#aacc4ac7ddef6453d6629edd24cfb48bd" title=" " alt="" coords="43,104,114,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="199,104,358,130"/>
+<area shape="rect" id="Node000002" href="$d0/d5d/class_tags_model.html#a0ca870d04bfdedfd7020398264dedeeb" title=" " alt="" coords="5,5,151,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="244,98,200,71,150,45,123,34,125,29,152,40,202,66,246,93"/>
+<area shape="rect" id="Node000004" href="$d6/d20/tag__value__tests_8cpp.html#ac0a84ef7a3f3b6cf430933746616440d" title=" " alt="" coords="51,55,105,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="208,102,105,77,106,71,209,97"/>
+<area shape="rect" id="Node000005" href="$d6/d20/tag__value__tests_8cpp.html#a4ab958c95ddbeb90e9a2843d3a9739f5" title=" " alt="" coords="51,104,105,130"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="183,120,106,120,106,114,183,114"/>
+<area shape="rect" id="Node000006" href="$d6/d20/tag__value__tests_8cpp.html#a79148b65c12b58d867cabb0084b7fbf9" title=" " alt="" coords="51,153,105,179"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="209,137,106,162,105,157,208,131"/>
+<area shape="rect" id="Node000007" href="$d6/d20/tag__value__tests_8cpp.html#aacc4ac7ddef6453d6629edd24cfb48bd" title=" " alt="" coords="43,203,113,228"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="246,141,202,168,152,194,115,208,113,203,150,189,200,163,244,136"/>
 </map>

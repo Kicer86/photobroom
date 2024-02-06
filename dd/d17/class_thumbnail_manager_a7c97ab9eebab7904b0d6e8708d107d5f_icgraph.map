@@ -1,4 +1,5 @@
 <map id="ThumbnailManager::find" name="ThumbnailManager::find">
-<area shape="rect" id="node1" title=" " alt="" coords="220,5,379,31"/>
-<area shape="rect" id="node2" href="$dd/d17/class_thumbnail_manager.html#a23c27b8332708a2e59a6a5ac0c3962fd" title=" " alt="" coords="5,5,172,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="220,5,377,31"/>
+<area shape="rect" id="Node000002" href="$dd/d17/class_thumbnail_manager.html#a23c27b8332708a2e59a6a5ac0c3962fd" title=" " alt="" coords="5,5,172,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,21,172,21,172,16,204,16"/>
 </map>

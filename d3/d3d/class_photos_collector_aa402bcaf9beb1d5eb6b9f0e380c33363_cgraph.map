@@ -1,6 +1,9 @@
 <map id="PhotosCollector::collect" name="PhotosCollector::collect">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,164,80"/>
-<area shape="rect" id="node2" href="$da/df4/struct_project_info.html#a71068380a217d3811d085c1ab1aadf59" title=" " alt="" coords="212,5,367,31"/>
-<area shape="rect" id="node3" href="$d9/d6e/class_project.html#a3a1a781b08d0b4f909ebb644ea279e1d" title=" " alt="" coords="214,55,365,80"/>
-<area shape="rect" id="node4" href="$d3/d3d/class_photos_collector.html#aeeebfea24f45c9d20ea2e5736f75f573" title=" " alt="" coords="217,104,362,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,163,80"/>
+<area shape="rect" id="Node000002" href="$da/df4/struct_project_info.html#a71068380a217d3811d085c1ab1aadf59" title=" " alt="" coords="211,5,365,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,51,216,33,217,38,141,57"/>
+<area shape="rect" id="Node000003" href="$d9/d6e/class_project.html#a3a1a781b08d0b4f909ebb644ea279e1d" title=" " alt="" coords="213,55,363,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,65,198,65,198,70,163,70"/>
+<area shape="rect" id="Node000004" href="$d3/d3d/class_photos_collector.html#aeeebfea24f45c9d20ea2e5736f75f573" title=" " alt="" coords="216,104,360,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="141,78,217,97,216,102,140,84"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="CollectionScanner::scanFinished" name="CollectionScanner::scanFinished">
-<area shape="rect" id="node1" title=" " alt="" coords="241,37,375,77"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#a2ff70b9caee93ce8564018cde2a0979f" title=" " alt="" coords="5,5,193,45"/>
-<area shape="rect" id="node3" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="33,69,166,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,39,373,79"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#a2ff70b9caee93ce8564018cde2a0979f" title=" " alt="" coords="5,5,193,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="225,49,193,43,194,38,225,43"/>
+<area shape="rect" id="Node000009" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="33,71,165,111"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="226,74,166,83,165,78,225,69"/>
 </map>

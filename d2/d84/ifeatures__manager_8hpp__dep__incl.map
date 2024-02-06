@@ -1,9 +1,17 @@
 <map id="src/core/ifeatures_manager.hpp" name="src/core/ifeatures_manager.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="267,5,390,45"/>
-<area shape="rect" id="node2" href="$dd/db7/features__manager__compositor_8hpp.html" title=" " alt="" coords="5,93,183,133"/>
-<area shape="rect" id="node3" href="$d8/dd9/mainwindow_8cpp.html" title=" " alt="" coords="207,269,333,309"/>
-<area shape="rect" id="node4" href="$df/d50/mainwindow_8hpp.html" title=" " alt="" coords="258,181,383,221"/>
-<area shape="rect" id="node5" href="$d9/dae/features__manager_8hpp.html" title=" " alt="" coords="309,93,463,133"/>
-<area shape="rect" id="node6" href="$da/d16/features__observer_8hpp.html" title=" " alt="" coords="487,93,642,133"/>
-<area shape="rect" id="node7" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="666,101,762,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="266,5,388,46"/>
+<area shape="rect" id="Node000002" href="$dd/db7/features__manager__compositor_8hpp.html" title=" " alt="" coords="5,94,182,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="260,54,148,96,146,91,259,49"/>
+<area shape="rect" id="Node000005" href="$d8/dd9/mainwindow_8cpp.html" title=" " alt="" coords="206,271,330,312"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="306,60,273,116,258,149,247,183,245,206,248,230,261,270,256,272,242,231,239,206,242,182,253,147,268,114,301,58"/>
+<area shape="rect" id="Node000006" href="$df/d50/mainwindow_8hpp.html" title=" " alt="" coords="257,183,381,223"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="311,60,299,95,297,118,300,141,312,181,307,183,294,142,292,118,294,93,306,59"/>
+<area shape="rect" id="Node000007" href="$d9/dae/features__manager_8hpp.html" title=" " alt="" coords="308,94,461,135"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="350,57,373,92,369,95,346,60"/>
+<area shape="rect" id="Node000009" href="$da/d16/features__observer_8hpp.html" title=" " alt="" coords="485,94,638,135"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="395,49,509,91,507,96,393,54"/>
+<area shape="rect" id="Node000011" href="$df/d0a/main_8cpp.html" title=" " alt="" coords="662,102,757,127"/>
+<area shape="poly" id="edge8_Node000001_Node000011" title=" " alt="" coords="404,38,521,61,652,91,675,98,674,103,650,97,520,66,403,43"/>
+<area shape="poly" id="edge4_Node000006_Node000005" title=" " alt="" coords="302,238,282,272,277,270,297,236"/>
+<area shape="poly" id="edge7_Node000009_Node000006" title=" " alt="" coords="493,143,375,185,373,180,491,138"/>
 </map>

@@ -1,3 +1,6 @@
 <map id="qHash" name="qHash">
-<area shape="rect" id="node1" title=" " alt="" coords="5,29,65,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="113,29,172,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="160,16,154,10,142,8,132,10,126,14,125,20,128,28,123,30,120,21,122,11,130,5,142,3,156,5,163,12"/>
+<area shape="rect" id="Node000002" href="$d6/d92/thumbnails__cache_8cpp.html#ad0da8a78971b5ead24354232592bfff1" title=" " alt="" coords="5,29,65,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="97,45,65,45,65,40,97,40"/>
 </map>

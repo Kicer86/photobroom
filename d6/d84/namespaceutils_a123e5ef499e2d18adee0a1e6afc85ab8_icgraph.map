@@ -1,4 +1,7 @@
 <map id="utils::photoSetPath" name="utils::photoSetPath">
-<area shape="rect" id="node1" title=" " alt="" coords="108,5,239,31"/>
-<area shape="rect" id="node2" href="$dd/dea/face__locations__tests_8cpp.html#a32df4812dfd1136f59bfda9993dae934" title=" " alt="" coords="5,5,60,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="108,31,238,56"/>
+<area shape="rect" id="Node000002" href="$dd/dea/face__locations__tests_8cpp.html#a32df4812dfd1136f59bfda9993dae934" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,32,60,26,60,20,93,26"/>
+<area shape="rect" id="Node000003" href="$dd/dc0/person__recognition__tests_8cpp.html#a9e4a50a62dc88821c47ca1135fa028cf" title=" " alt="" coords="5,55,60,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="93,60,60,66,60,60,92,55"/>
 </map>

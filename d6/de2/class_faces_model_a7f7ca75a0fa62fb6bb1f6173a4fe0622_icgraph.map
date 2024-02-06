@@ -1,4 +1,5 @@
 <map id="FacesModel::stateChanged" name="FacesModel::stateChanged">
-<area shape="rect" id="node1" title=" " alt="" coords="247,13,425,38"/>
-<area shape="rect" id="node2" href="$d6/de2/class_faces_model.html#ab10f5720d7e1bee3f942aeb57ac866ef" title=" " alt="" coords="5,5,199,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="246,13,424,39"/>
+<area shape="rect" id="Node000002" href="$d6/de2/class_faces_model.html#ab10f5720d7e1bee3f942aeb57ac866ef" title=" " alt="" coords="5,5,198,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="231,28,198,28,198,23,231,23"/>
 </map>

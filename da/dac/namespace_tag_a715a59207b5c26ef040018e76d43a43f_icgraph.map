@@ -1,5 +1,8 @@
 <map id="Tag::timestamp" name="Tag::timestamp">
-<area shape="rect" id="node1" title=" " alt="" coords="253,42,364,67"/>
-<area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#aea8f68ac5b06f0a246ae6cc04d80e82e" title=" " alt="" coords="30,5,181,45"/>
-<area shape="rect" id="node3" href="$d3/df6/class_series_detector.html#af571b628d1f9df8742bc7747af817cd6" title=" " alt="" coords="5,70,205,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="253,42,363,68"/>
+<area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="343,30,331,23,308,21,286,23,275,28,273,33,278,40,274,43,267,34,271,24,285,18,308,16,333,18,345,25"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#aea8f68ac5b06f0a246ae6cc04d80e82e" title=" " alt="" coords="30,5,180,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,48,180,39,181,34,238,42"/>
+<area shape="rect" id="Node000004" href="$d3/df6/class_series_detector.html#af571b628d1f9df8742bc7747af817cd6" title=" " alt="" coords="5,70,205,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="238,67,203,72,202,67,237,62"/>
 </map>

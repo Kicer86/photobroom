@@ -1,6 +1,9 @@
 <map id="src/core/media_information.hpp" name="src/core/media_information.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="74,5,277,31"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,79,73,104"/>
-<area shape="rect" id="node3" href="$da/d58/imedia__information_8hpp.html" title=" " alt="" coords="98,79,253,104"/>
-<area shape="rect" id="node4" title=" " alt="" coords="277,79,375,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="73,5,275,31"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,79,73,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,34,76,74,74,69,150,29"/>
+<area shape="rect" id="Node000003" href="$da/d58/imedia__information_8hpp.html" title=" " alt="" coords="97,79,251,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,31,176,63,171,63,171,31"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="275,79,374,105"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="200,29,286,70,284,74,198,34"/>
 </map>

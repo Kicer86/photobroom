@@ -1,4 +1,5 @@
 <map id="MySqlServer::getDaemonPath" name="MySqlServer::getDaemonPath">
-<area shape="rect" id="node1" title=" " alt="" coords="216,5,411,31"/>
-<area shape="rect" id="node2" href="$d9/d03/class_my_sql_server.html#a2b62b92be3e724c96eee5625dbea3018" title=" " alt="" coords="5,5,168,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="216,5,410,31"/>
+<area shape="rect" id="Node000002" href="$d9/d03/class_my_sql_server.html#a2b62b92be3e724c96eee5625dbea3018" title=" " alt="" coords="5,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,21,168,21,168,16,200,16"/>
 </map>

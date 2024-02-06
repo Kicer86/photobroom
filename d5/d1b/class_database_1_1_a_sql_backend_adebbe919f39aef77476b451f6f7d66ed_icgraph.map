@@ -1,6 +1,9 @@
 <map id="Database::ASqlBackend::getConnectionName" name="Database::ASqlBackend::getConnectionName">
-<area shape="rect" id="node1" title="Get connection name." alt="" coords="228,69,391,109"/>
-<area shape="rect" id="node2" href="$d6/dd8/class_database_1_1_s_q_lite_backend.html#ac321e2104cac7c71cc63803f9eb3a4d1" title="called when DB was opened." alt="" coords="5,5,180,45"/>
-<area shape="rect" id="node3" href="$d3/d94/struct_database_1_1_s_q_lite_backend_1_1_data.html#a4e9819a82870874aac6de30a06d2adb4" title=" " alt="" coords="5,69,180,109"/>
-<area shape="rect" id="node4" href="$de/db1/class_database_1_1_my_sql_backend.html#a80a5cdebf15d65513edcbb80b3cbdb54" title="database preparation" alt="" coords="7,133,178,173"/>
+<area shape="rect" id="Node000001" title="Get connection name." alt="" coords="228,71,389,111"/>
+<area shape="rect" id="Node000002" href="$d6/dd8/class_database_1_1_s_q_lite_backend.html#ac321e2104cac7c71cc63803f9eb3a4d1" title="called when DB was opened." alt="" coords="5,5,180,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,68,162,49,163,44,225,63"/>
+<area shape="rect" id="Node000003" href="$d3/d94/struct_database_1_1_s_q_lite_backend_1_1_data.html#a4e9819a82870874aac6de30a06d2adb4" title=" " alt="" coords="5,71,180,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,94,180,94,180,88,212,88"/>
+<area shape="rect" id="Node000004" href="$de/db1/class_database_1_1_my_sql_backend.html#a80a5cdebf15d65513edcbb80b3cbdb54" title="database preparation" alt="" coords="8,136,177,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="225,119,163,138,162,133,224,114"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="NotificationsModel" name="NotificationsModel">
-<area shape="rect" id="node1" title=" " alt="" coords="153,93,282,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,144,31"/>
-<area shape="rect" id="node3" href="$d2/d43/class_i_notifications.html" title=" " alt="" coords="168,5,267,31"/>
-<area shape="rect" id="node4" href="$db/dfb/class_id.html" title=" " alt="" coords="291,5,383,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="151,94,280,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,143,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,37,197,91,194,96,105,42"/>
+<area shape="rect" id="Node000003" href="$d2/d43/class_i_notifications.html" title=" " alt="" coords="167,5,264,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,47,218,94,213,94,213,47"/>
+<area shape="rect" id="Node000004" href="$db/dfb/class_id.html" title=" " alt="" coords="288,5,380,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="307,43,234,96,231,91,304,38"/>
 </map>

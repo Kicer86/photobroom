@@ -1,9 +1,16 @@
 <map id="src/gui/desktop/ui_utils/completer_factory.hpp" name="src/gui/desktop/ui_utils/completer_factory.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="183,5,367,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,76,126"/>
-<area shape="rect" id="node3" title=" " alt="" coords="132,181,179,207"/>
-<area shape="rect" id="node4" href="$d1/d74/tag_8hpp.html" title=" " alt="" coords="151,101,245,126"/>
-<area shape="rect" id="node5" href="$df/d46/tag__info__collector_8hpp.html" title=" " alt="" coords="269,93,436,133"/>
-<area shape="rect" id="node6" href="$da/dc6/icompleter__factory_8hpp.html" title=" " alt="" coords="461,101,613,126"/>
-<area shape="rect" id="node7" href="$d9/da8/people__list__model_8hpp.html" title=" " alt="" coords="637,101,815,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="180,5,364,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,75,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,49,88,98,86,93,218,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="130,183,177,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,49,166,68,140,95,133,113,133,131,143,168,138,169,128,132,128,112,135,93,162,64,197,44"/>
+<area shape="rect" id="Node000004" href="$d1/d74/tag_8hpp.html" title=" " alt="" coords="150,102,242,127"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="257,48,218,92,214,88,253,45"/>
+<area shape="rect" id="Node000013" href="$df/d46/tag__info__collector_8hpp.html" title=" " alt="" coords="266,94,433,135"/>
+<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="292,45,324,80,320,84,288,48"/>
+<area shape="rect" id="Node000025" href="$da/dc6/icompleter__factory_8hpp.html" title=" " alt="" coords="456,102,608,127"/>
+<area shape="poly" id="edge6_Node000001_Node000025" title=" " alt="" coords="332,44,482,94,480,99,330,49"/>
+<area shape="rect" id="Node000026" href="$d9/da8/people__list__model_8hpp.html" title=" " alt="" coords="631,102,809,127"/>
+<area shape="poly" id="edge7_Node000001_Node000026" title=" " alt="" coords="365,42,642,95,641,101,364,47"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="192,129,169,170,165,168,187,126"/>
 </map>

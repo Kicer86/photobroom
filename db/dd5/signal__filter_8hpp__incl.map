@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/utils/signal_filter.hpp" name="src/gui/desktop/utils/signal_filter.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="61,5,200,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,67,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="91,93,170,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="194,93,265,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="60,5,198,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,66,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,48,63,86,60,82,104,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="90,94,168,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,46,132,78,126,78,126,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="192,94,261,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="155,44,201,82,198,86,151,48"/>
 </map>

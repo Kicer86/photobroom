@@ -1,14 +1,25 @@
 <map id="ThumbnailManager::fetch" name="ThumbnailManager::fetch">
-<area shape="rect" id="node1" title=" " alt="" coords="5,260,172,285"/>
-<area shape="rect" id="node2" href="$d5/d65/class_observable_task_executor.html#a45ae8c431e00a9e2b245ba2db9845d01" title=" " alt="" coords="239,5,434,31"/>
-<area shape="rect" id="node3" href="$dd/d17/class_thumbnail_manager.html#a48248deb9928c5aa44e271f177e5f2d4" title=" " alt="" coords="250,55,423,80"/>
-<area shape="rect" id="node4" href="$d1/d1c/namespace_parameters.html#a2972f2483cb9fecdd3c2b201e15c4a30" title=" " alt="" coords="220,104,453,129"/>
-<area shape="rect" id="node5" href="$d4/d20/task__executor__utils_8hpp.html#ab600807ae28e81f2270dbd0213fd64bd" title=" " alt="" coords="301,153,372,179"/>
-<area shape="rect" id="node6" href="$dd/d17/class_thumbnail_manager.html#a7c97ab9eebab7904b0d6e8708d107d5f" title=" " alt="" coords="257,203,416,228"/>
-<area shape="rect" id="node7" href="$df/d64/class_i_thumbnails_generator.html#a9cb5f9d451440a1d5edbe228f01b0595" title=" " alt="" coords="261,253,412,293"/>
-<area shape="rect" id="node8" href="$df/d64/class_i_thumbnails_generator.html#a7d4be3063adc1034883d8b48b53ca4c4" title=" " alt="" coords="261,317,412,357"/>
-<area shape="rect" id="node9" href="$da/d88/task__executor__utils_8cpp.html#a81de700536a9ac466b67431bbdf99ea7" title=" " alt="" coords="296,381,377,407"/>
-<area shape="rect" id="node10" href="$d2/d3a/classsafe__callback__ctrl.html#a2782272aba3be1150a5740914ba63f5f" title=" " alt="" coords="263,431,410,471"/>
-<area shape="rect" id="node11" href="$d2/ddd/struct_database_1_1_i_backend.html#a727dd5575e1ae8565377b4be2df76524" title="Read blob of type bt associated with photo id." alt="" coords="267,495,406,535"/>
-<area shape="rect" id="node12" href="$d2/ddd/struct_database_1_1_i_backend.html#aefdb3497be40914b407537004a76f1d3" title="Write blob of type bt." alt="" coords="267,559,406,599"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,260,172,286"/>
+<area shape="rect" id="Node000002" href="$d5/d65/class_observable_task_executor.html#a45ae8c431e00a9e2b245ba2db9845d01" title=" " alt="" coords="239,5,433,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,259,104,216,128,157,166,93,190,65,218,40,224,36,227,41,221,44,194,68,170,96,133,159,109,218,96,261"/>
+<area shape="rect" id="Node000003" href="$dd/d17/class_thumbnail_manager.html#a48248deb9928c5aa44e271f177e5f2d4" title=" " alt="" coords="250,55,422,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="93,259,109,224,136,178,172,130,194,108,218,89,234,81,237,85,221,94,197,112,176,133,140,181,114,227,98,261"/>
+<area shape="rect" id="Node000005" href="$d1/d1c/namespace_parameters.html#a2972f2483cb9fecdd3c2b201e15c4a30" title=" " alt="" coords="220,104,452,130"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="97,258,144,200,178,166,218,139,229,133,231,138,221,143,182,170,148,203,101,261"/>
+<area shape="rect" id="Node000006" href="$d4/d20/task__executor__utils_8hpp.html#ab600807ae28e81f2270dbd0213fd64bd" title=" " alt="" coords="301,153,371,179"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="105,257,154,222,219,188,252,177,285,170,286,175,253,182,221,193,157,227,108,262"/>
+<area shape="rect" id="Node000008" href="$dd/d17/class_thumbnail_manager.html#a7c97ab9eebab7904b0d6e8708d107d5f" title=" " alt="" coords="257,203,415,228"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="142,257,219,238,257,230,258,235,220,243,143,262"/>
+<area shape="rect" id="Node000010" href="$df/d64/class_i_thumbnails_generator.html#a9cb5f9d451440a1d5edbe228f01b0595" title=" " alt="" coords="261,253,411,293"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="172,270,246,270,246,276,172,276"/>
+<area shape="rect" id="Node000011" href="$df/d64/class_i_thumbnails_generator.html#a7d4be3063adc1034883d8b48b53ca4c4" title=" " alt="" coords="261,318,411,359"/>
+<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="141,284,247,312,246,317,139,289"/>
+<area shape="rect" id="Node000012" href="$da/d88/task__executor__utils_8cpp.html#a81de700536a9ac466b67431bbdf99ea7" title=" " alt="" coords="296,383,376,408"/>
+<area shape="poly" id="edge8_Node000001_Node000012" title=" " alt="" coords="105,284,154,326,186,349,221,368,251,379,281,386,280,391,249,384,219,373,183,353,150,330,102,288"/>
+<area shape="rect" id="Node000013" href="$d2/d3a/classsafe__callback__ctrl.html#a2782272aba3be1150a5740914ba63f5f" title=" " alt="" coords="263,433,409,473"/>
+<area shape="poly" id="edge9_Node000001_Node000013" title=" " alt="" coords="100,285,146,349,181,387,221,419,249,432,247,437,218,423,177,391,142,353,96,288"/>
+<area shape="rect" id="Node000014" href="$d2/ddd/struct_database_1_1_i_backend.html#a727dd5575e1ae8565377b4be2df76524" title="Read blob of type bt associated with photo id." alt="" coords="267,498,405,539"/>
+<area shape="poly" id="edge10_Node000001_Node000014" title=" " alt="" coords="97,285,111,324,137,378,174,434,196,460,221,483,254,500,251,505,218,487,192,464,169,438,132,380,107,326,92,287"/>
+<area shape="rect" id="Node000015" href="$d2/ddd/struct_database_1_1_i_backend.html#aefdb3497be40914b407537004a76f1d3" title="Write blob of type bt." alt="" coords="267,563,405,604"/>
+<area shape="poly" id="edge11_Node000001_Node000015" title=" " alt="" coords="95,286,106,335,129,406,146,445,167,482,192,518,221,548,253,567,251,571,218,552,188,521,162,485,141,447,124,408,101,336,89,287"/>
 </map>

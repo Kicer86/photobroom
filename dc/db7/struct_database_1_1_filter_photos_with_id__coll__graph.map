@@ -1,4 +1,5 @@
 <map id="Database::FilterPhotosWithId" name="Database::FilterPhotosWithId">
-<area shape="rect" id="node1" title=" " alt="" coords="5,108,196,133"/>
-<area shape="rect" id="node2" href="$db/dfb/class_id.html" title=" " alt="" coords="34,5,167,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,109,195,135"/>
+<area shape="rect" id="Node000002" href="$db/dfb/class_id.html" title=" " alt="" coords="34,5,166,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,61,103,109,97,109,97,61"/>
 </map>

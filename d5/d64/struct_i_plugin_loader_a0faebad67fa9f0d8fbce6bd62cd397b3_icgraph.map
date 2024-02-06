@@ -1,4 +1,5 @@
 <map id="IPluginLoader::getDBPlugins" name="IPluginLoader::getDBPlugins">
-<area shape="rect" id="node1" title=" " alt="" coords="195,13,381,38"/>
-<area shape="rect" id="node2" href="$db/dd2/class_project_creator_dialog.html#a2d6f7647235d4b3eaf65c82da0d77fd5" title=" " alt="" coords="5,5,147,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="194,13,380,39"/>
+<area shape="rect" id="Node000002" href="$db/dd2/class_project_creator_dialog.html#a2d6f7647235d4b3eaf65c82da0d77fd5" title=" " alt="" coords="5,5,146,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,28,146,28,146,23,178,23"/>
 </map>

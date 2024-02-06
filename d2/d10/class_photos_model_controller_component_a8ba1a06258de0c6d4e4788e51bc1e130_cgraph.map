@@ -1,4 +1,9 @@
 <map id="PhotosModelControllerComponent::setCompleterFactory" name="PhotosModelControllerComponent::setCompleterFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,224,45"/>
-<area shape="rect" id="node2" href="$d1/d5c/struct_i_completer_factory.html#a5d26b80fb0cbc4ea807848d5d0187aee" title="access model with values for given tag type" alt="" coords="272,5,407,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,224,111"/>
+<area shape="rect" id="Node000002" href="$d1/d5c/struct_i_completer_factory.html#a5d26b80fb0cbc4ea807848d5d0187aee" title="access model with values for given tag type" alt="" coords="314,5,448,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,67,299,43,300,48,201,73"/>
+<area shape="rect" id="Node000003" href="$d2/d10/class_photos_model_controller_component.html#a855e5281b6bb3f3479a79fe4cd03a5db" title=" " alt="" coords="272,71,490,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,88,256,88,256,94,224,94"/>
+<area shape="rect" id="Node000004" href="$d2/d8b/class_i_model_compositor_data_source.html#ac7d90db5d1482f72fddf69a43ce3cc09" title=" " alt="" coords="284,136,478,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,109,281,129,280,134,200,115"/>
 </map>

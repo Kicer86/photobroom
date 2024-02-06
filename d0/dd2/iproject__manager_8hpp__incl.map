@@ -1,6 +1,10 @@
 <map id="src/project_utils/iproject_manager.hpp" name="src/project_utils/iproject_manager.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,165,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="78,181,146,207"/>
-<area shape="rect" id="node3" title=" " alt="" coords="56,101,115,126"/>
-<area shape="rect" id="node4" href="$da/d21/idatabase__plugin_8hpp.html" title=" " alt="" coords="139,93,274,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,165,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="78,183,145,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="70,48,58,66,47,88,42,111,46,134,60,155,80,172,76,176,56,158,41,136,37,111,42,86,53,64,66,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="56,102,114,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="88,47,88,86,82,86,82,47"/>
+<area shape="rect" id="Node000004" href="$da/d21/idatabase__plugin_8hpp.html" title=" " alt="" coords="138,94,272,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="114,44,167,83,164,87,111,49"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="184,137,139,174,136,170,180,133"/>
 </map>

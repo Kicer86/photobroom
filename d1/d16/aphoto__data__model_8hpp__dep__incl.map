@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/models/aphoto_data_model.hpp" name="src/gui/desktop/models/aphoto_data_model.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="189,5,352,45"/>
-<area shape="rect" id="node2" href="$dc/d7d/aphoto__data__model_8cpp.html" title=" " alt="" coords="5,93,168,133"/>
-<area shape="rect" id="node3" href="$de/d3d/flat__model_8hpp.html" title=" " alt="" coords="192,93,349,133"/>
-<area shape="rect" id="node4" href="$de/d11/batch__face__detector_8hpp.html" title=" " alt="" coords="373,93,541,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="189,5,352,46"/>
+<area shape="rect" id="Node000002" href="$dc/d7d/aphoto__data__model_8cpp.html" title=" " alt="" coords="5,94,168,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,55,129,96,127,91,214,50"/>
+<area shape="rect" id="Node000003" href="$de/d3d/flat__model_8hpp.html" title=" " alt="" coords="192,94,349,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="273,62,273,94,268,94,268,62"/>
+<area shape="rect" id="Node000013" href="$de/d11/batch__face__detector_8hpp.html" title=" " alt="" coords="372,94,540,135"/>
+<area shape="poly" id="edge3_Node000001_Node000013" title=" " alt="" coords="327,50,415,91,413,96,325,55"/>
 </map>

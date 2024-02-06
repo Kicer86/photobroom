@@ -1,7 +1,13 @@
 <map id="src/photos_crawler/default_filesystem_scanners/filesystemscanner.hpp" name="src/photos_crawler/default_filesystem_scanners/filesystemscanner.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="79,5,294,60"/>
-<area shape="rect" id="node2" href="$d6/db6/ifile__system__scanner_8hpp.html" title=" " alt="" coords="35,108,213,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,181,93,207"/>
-<area shape="rect" id="node4" title=" " alt="" coords="143,181,305,207"/>
-<area shape="rect" id="node5" title=" " alt="" coords="288,108,349,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="80,5,293,61"/>
+<area shape="rect" id="Node000002" href="$d6/db6/ifile__system__scanner_8hpp.html" title=" " alt="" coords="36,109,212,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,63,143,98,139,95,165,60"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,183,93,208"/>
+<area shape="poly" id="edge5_Node000001_Node000004" title=" " alt="" coords="83,64,51,84,26,110,21,124,22,139,34,169,29,171,17,140,16,123,21,108,47,79,80,59"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="142,183,303,208"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="206,60,218,83,226,108,230,139,229,168,223,167,225,139,221,110,213,85,201,63"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="287,109,347,135"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="229,59,288,98,285,103,226,64"/>
+<area shape="poly" id="edge2_Node000002_Node000004" title=" " alt="" coords="113,137,74,174,70,170,109,133"/>
+<area shape="poly" id="edge3_Node000002_Node000005" title=" " alt="" coords="142,133,195,171,192,176,139,137"/>
 </map>

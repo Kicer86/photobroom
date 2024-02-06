@@ -1,5 +1,8 @@
 <map id="SelectionManagerComponent::selectTo" name="SelectionManagerComponent::selectTo">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,197,45"/>
-<area shape="rect" id="node2" href="$d2/de4/class_selection_manager_component.html#a54c8a69bcf0166c3597afcb82adbf692" title=" " alt="" coords="485,5,677,45"/>
-<area shape="rect" id="node3" href="$d2/de4/class_selection_manager_component.html#a848f97d82d9afcbe730ea3613f0c5d2d" title=" " alt="" coords="245,33,437,73"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,197,46"/>
+<area shape="rect" id="Node000002" href="$d2/de4/class_selection_manager_component.html#a54c8a69bcf0166c3597afcb82adbf692" title=" " alt="" coords="484,5,675,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,20,245,19,436,19,468,20,468,25,436,24,245,24,197,25"/>
+<area shape="rect" id="Node000005" href="$d2/de4/class_selection_manager_component.html#a848f97d82d9afcbe730ea3613f0c5d2d" title=" " alt="" coords="245,33,436,74"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="198,34,229,38,229,43,197,40"/>
+<area shape="poly" id="edge3_Node000005_Node000002" title=" " alt="" coords="436,40,468,36,469,41,437,45"/>
 </map>

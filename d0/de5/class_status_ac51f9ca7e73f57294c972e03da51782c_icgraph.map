@@ -1,6 +1,9 @@
 <map id="Status::get" name="Status::get">
-<area shape="rect" id="node1" title=" " alt="" coords="240,55,324,80"/>
-<area shape="rect" id="node2" href="$d7/d93/class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc" title=" " alt="" coords="25,5,172,31"/>
-<area shape="rect" id="node3" href="$d9/dc6/class_main_window.html#a2c2d7e1cdd309b698173f750f3d98738" title=" " alt="" coords="5,55,192,80"/>
-<area shape="rect" id="node4" href="$d3/d40/status__tests_8cpp.html#a604f70e6ed2143514f49670b99c7675c" title=" " alt="" coords="71,104,126,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="239,55,322,80"/>
+<area shape="rect" id="Node000002" href="$d7/d93/class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc" title=" " alt="" coords="25,5,171,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,54,190,45,150,34,152,29,191,40,224,49"/>
+<area shape="rect" id="Node000004" href="$d9/dc6/class_main_window.html#a2c2d7e1cdd309b698173f750f3d98738" title=" " alt="" coords="5,55,191,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="223,70,191,70,191,65,223,65"/>
+<area shape="rect" id="Node000010" href="$d3/d40/status__tests_8cpp.html#a604f70e6ed2143514f49670b99c7675c" title=" " alt="" coords="71,104,125,130"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="224,86,191,95,126,113,125,107,190,90,223,81"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="IConfiguration::setDefaultValue" name="IConfiguration::setDefaultValue">
-<area shape="rect" id="node1" title=" " alt="" coords="224,23,391,63"/>
-<area shape="rect" id="node2" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="57,5,124,31"/>
-<area shape="rect" id="node3" href="$d9/dc6/class_main_window.html#a656a2e3b8f29394d7776c1fa26673c7d" title=" " alt="" coords="5,55,176,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="223,23,388,64"/>
+<area shape="rect" id="Node000002" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="57,5,123,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="207,35,123,25,123,19,207,29"/>
+<area shape="rect" id="Node000004" href="$d9/dc6/class_main_window.html#a656a2e3b8f29394d7776c1fa26673c7d" title=" " alt="" coords="5,55,175,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="208,57,175,61,175,55,207,52"/>
 </map>

@@ -1,11 +1,21 @@
 <map id="Database::IGenericSqlQueryGenerator::insert" name="Database::IGenericSqlQueryGenerator::insert">
-<area shape="rect" id="node1" title=" " alt="" coords="241,229,427,269"/>
-<area shape="rect" id="node2" href="$d5/d6b/class_database_1_1_group_operator.html#abac9cd6ec0bf898cc604e5fd5d219d67" title=" " alt="" coords="15,5,183,45"/>
-<area shape="rect" id="node3" href="$d7/dfc/class_database_1_1_photo_change_log_operator.html#a159940cd5cfab82ab1a0e4a5fb8d5799" title=" " alt="" coords="8,69,191,109"/>
-<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="18,133,181,173"/>
-<area shape="rect" id="node5" href="$da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" title=" " alt="" coords="16,197,183,237"/>
-<area shape="rect" id="node6" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,261,193,301"/>
-<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="18,325,181,365"/>
-<area shape="rect" id="node8" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="5,389,193,429"/>
-<area shape="rect" id="node9" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="18,453,181,493"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,267,425,307"/>
+<area shape="rect" id="Node000002" href="$d5/d6b/class_database_1_1_group_operator.html#abac9cd6ec0bf898cc604e5fd5d219d67" title=" " alt="" coords="15,5,183,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="317,253,298,210,270,158,235,106,191,61,172,49,175,44,194,57,239,103,275,155,302,207,321,251"/>
+<area shape="rect" id="Node000003" href="$d7/dfc/class_database_1_1_photo_change_log_operator.html#a159940cd5cfab82ab1a0e4a5fb8d5799" title=" " alt="" coords="8,71,190,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="309,255,260,190,227,156,191,127,169,114,172,109,194,122,231,152,264,187,313,252"/>
+<area shape="rect" id="Node000004" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="18,136,180,177"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="293,259,246,225,191,192,164,180,166,175,194,187,249,220,296,255"/>
+<area shape="rect" id="Node000007" href="$da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" title=" " alt="" coords="16,201,182,242"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="242,265,174,245,175,240,244,259"/>
+<area shape="rect" id="Node000009" href="$db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" title="Store person&#39;s fingerprint in db." alt="" coords="5,267,193,307"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="225,290,193,290,193,284,225,284"/>
+<area shape="rect" id="Node000010" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,332,193,373"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="244,315,175,334,174,329,242,309"/>
+<area shape="rect" id="Node000011" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="18,397,180,438"/>
+<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="296,319,249,354,194,387,166,399,164,394,191,382,246,349,293,315"/>
+<area shape="rect" id="Node000013" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="5,463,193,503"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="313,322,264,387,231,422,194,452,172,465,169,460,191,447,227,418,260,384,309,319"/>
+<area shape="rect" id="Node000014" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="18,528,180,569"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="321,323,302,367,275,419,239,471,194,517,175,530,172,525,191,513,235,468,270,416,298,364,317,321"/>
 </map>

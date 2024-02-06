@@ -1,4 +1,5 @@
 <map id="IFileNotifier::finished" name="IFileNotifier::finished">
-<area shape="rect" id="node1" title=" " alt="" coords="195,13,333,38"/>
-<area shape="rect" id="node2" href="$d0/d70/class_file_system_scanner.html#a18a257ec15ec3830de7c39f4a30efb26" title=" " alt="" coords="5,5,147,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="194,13,331,39"/>
+<area shape="rect" id="Node000002" href="$d0/d70/class_file_system_scanner.html#a18a257ec15ec3830de7c39f4a30efb26" title=" " alt="" coords="5,5,146,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,28,146,28,146,23,178,23"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="PeopleListModel::setDB" name="PeopleListModel::setDB">
-<area shape="rect" id="node1" title=" " alt="" coords="201,5,363,31"/>
-<area shape="rect" id="node2" href="$d6/d62/class_completer_factory.html#a962747354de1050a4ebb445a4dec48f7" title=" " alt="" coords="5,5,153,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="201,5,361,31"/>
+<area shape="rect" id="Node000002" href="$d6/d62/class_completer_factory.html#a962747354de1050a4ebb445a4dec48f7" title=" " alt="" coords="5,5,153,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,21,153,21,153,16,185,16"/>
 </map>

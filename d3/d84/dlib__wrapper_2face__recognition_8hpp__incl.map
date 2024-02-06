@@ -1,6 +1,9 @@
 <map id="src/face_recognition/dlib_wrapper/face_recognition.hpp" name="src/face_recognition/dlib_wrapper/face_recognition.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="51,5,273,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,60,126"/>
-<area shape="rect" id="node3" title=" " alt="" coords="85,93,239,133"/>
-<area shape="rect" id="node4" title=" " alt="" coords="263,101,354,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="49,5,271,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,59,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,49,64,95,61,90,129,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="83,94,237,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,47,163,78,157,78,157,47"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="262,102,352,127"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="195,44,274,91,272,96,192,49"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="IExifReaderFactory" name="IExifReaderFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="86,5,217,31"/>
-<area shape="rect" id="node2" href="$d4/d93/class_exif_reader_factory.html" title=" " alt="" coords="5,79,132,104"/>
-<area shape="rect" id="node3" href="$de/d3c/class_exif_reader_factory_mock.html" title=" " alt="" coords="156,79,315,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="86,5,216,31"/>
+<area shape="rect" id="Node000002" href="$d4/d93/class_exif_reader_factory.html" title=" " alt="" coords="5,79,132,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,44,84,81,81,77,124,39"/>
+<area shape="rect" id="Node000003" href="$de/d3c/class_exif_reader_factory_mock.html" title=" " alt="" coords="156,79,314,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,39,223,77,219,81,175,43"/>
 </map>

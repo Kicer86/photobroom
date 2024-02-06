@@ -1,9 +1,18 @@
 <map id="src/core/implementation/exif_reader_factory.cpp" name="src/core/implementation/exif_reader_factory.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="170,5,331,45"/>
-<area shape="rect" id="node2" href="$d2/d0c/exif__reader__factory_8hpp.html" title=" " alt="" coords="33,93,188,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,167,64,192"/>
-<area shape="rect" id="node4" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="127,167,239,192"/>
-<area shape="rect" id="node5" href="$d1/d74/tag_8hpp.html" title=" " alt="" coords="197,240,261,265"/>
-<area shape="rect" id="node6" title=" " alt="" coords="314,93,371,119"/>
-<area shape="rect" id="node7" href="$d5/d4b/exiv2__exif__reader_8hpp.html" title=" " alt="" coords="396,93,543,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="169,5,329,46"/>
+<area shape="rect" id="Node000002" href="$d2/d0c/exif__reader__factory_8hpp.html" title=" " alt="" coords="32,94,186,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,49,145,88,142,84,212,44"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,168,63,193"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="169,43,79,65,43,79,21,96,16,109,15,123,23,153,18,154,9,124,10,107,17,92,41,75,78,60,167,37"/>
+<area shape="rect" id="Node000006" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="125,168,236,193"/>
+<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="242,47,195,154,190,152,238,45"/>
+<area shape="rect" id="Node000010" href="$d1/d74/tag_8hpp.html" title=" " alt="" coords="196,241,259,267"/>
+<area shape="poly" id="edge8_Node000001_Node000010" title=" " alt="" coords="253,47,257,112,256,153,251,194,241,228,236,226,246,193,251,153,252,112,248,47"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="311,94,368,120"/>
+<area shape="poly" id="edge5_Node000001_Node000017" title=" " alt="" coords="273,44,316,82,312,86,269,48"/>
+<area shape="rect" id="Node000018" href="$d5/d4b/exiv2__exif__reader_8hpp.html" title=" " alt="" coords="392,94,537,120"/>
+<area shape="poly" id="edge7_Node000001_Node000018" title=" " alt="" coords="304,44,418,86,416,91,302,49"/>
+<area shape="poly" id="edge2_Node000002_Node000005" title=" " alt="" coords="98,122,59,159,55,155,94,118"/>
+<area shape="poly" id="edge3_Node000002_Node000006" title=" " alt="" coords="122,118,160,155,156,158,119,122"/>
+<area shape="poly" id="edge4_Node000006_Node000010" title=" " alt="" coords="191,192,213,227,209,230,186,195"/>
 </map>

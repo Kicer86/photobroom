@@ -1,4 +1,5 @@
 <map id="Logger::error" name="Logger::error">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,100,31"/>
-<area shape="rect" id="node2" href="$d3/d42/class_logger.html#a0addf3802518a9575f7f16c72f87262a" title=" " alt="" coords="148,5,233,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,99,31"/>
+<area shape="rect" id="Node000002" href="$d3/d42/class_logger.html#a0addf3802518a9575f7f16c72f87262a" title=" " alt="" coords="147,5,231,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,16,131,16,131,21,99,21"/>
 </map>

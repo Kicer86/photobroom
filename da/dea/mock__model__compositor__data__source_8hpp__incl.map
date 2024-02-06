@@ -1,5 +1,7 @@
 <map id="src/unit_tests_utils/mock_model_compositor_data_source.hpp" name="src/unit_tests_utils/mock_model_compositor_data_source.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="57,5,228,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,115,120,141"/>
-<area shape="rect" id="node3" href="$da/d01/imodel__compositor__data__source_8hpp.html" title=" " alt="" coords="144,108,304,148"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="57,5,227,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,117,119,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,63,84,107,80,103,117,60"/>
+<area shape="rect" id="Node000003" href="$da/d01/imodel__compositor__data__source_8hpp.html" title=" " alt="" coords="142,109,302,150"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="167,60,198,96,194,99,163,63"/>
 </map>

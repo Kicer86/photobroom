@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/models/tasks_model.cpp" name="src/gui/desktop/models/tasks_model.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="140,5,297,45"/>
-<area shape="rect" id="node2" href="$da/d3c/tasks__model_8hpp.html" title=" " alt="" coords="5,93,125,119"/>
-<area shape="rect" id="node3" href="$d3/d1f/iview__task_8hpp.html" title=" " alt="" coords="150,93,287,119"/>
-<area shape="rect" id="node4" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="311,93,459,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="139,5,295,46"/>
+<area shape="rect" id="Node000002" href="$da/d3c/tasks__model_8hpp.html" title=" " alt="" coords="5,94,125,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,49,103,89,101,84,178,44"/>
+<area shape="rect" id="Node000006" href="$d3/d1f/iview__task_8hpp.html" title=" " alt="" coords="149,94,285,120"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="220,46,220,78,214,78,214,46"/>
+<area shape="rect" id="Node000007" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="309,94,456,120"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="259,44,344,85,342,89,257,49"/>
 </map>

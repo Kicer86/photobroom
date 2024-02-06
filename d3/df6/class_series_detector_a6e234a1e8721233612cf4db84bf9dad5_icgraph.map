@@ -1,4 +1,5 @@
 <map id="SeriesDetector::analyzePhotos" name="SeriesDetector::analyzePhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="249,5,448,31"/>
-<area shape="rect" id="node2" href="$d3/df6/class_series_detector.html#a7fb133fe47e82c32db512738a9e02742" title=" " alt="" coords="5,5,201,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="249,5,446,31"/>
+<area shape="rect" id="Node000002" href="$d3/df6/class_series_detector.html#a7fb133fe47e82c32db512738a9e02742" title=" " alt="" coords="5,5,201,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,21,201,21,201,16,233,16"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="ICoreFactoryAccessor::getExifReaderFactory" name="ICoreFactoryAccessor::getExifReaderFactory">
-<area shape="rect" id="node1" title=" " alt="" coords="216,55,367,95"/>
-<area shape="rect" id="node2" href="$dd/d0a/class_face_editor.html#adf8745e7dc160e0a546a6137a05f2878" title=" " alt="" coords="5,5,168,31"/>
-<area shape="rect" id="node3" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="10,55,163,95"/>
-<area shape="rect" id="node4" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="8,120,165,145"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="216,55,366,96"/>
+<area shape="rect" id="Node000002" href="$dd/d0a/class_face_editor.html#adf8745e7dc160e0a546a6137a05f2878" title=" " alt="" coords="5,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,53,134,34,136,29,203,48"/>
+<area shape="rect" id="Node000004" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="10,55,163,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="201,78,163,78,163,73,201,73"/>
+<area shape="rect" id="Node000007" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="8,120,165,146"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="203,103,136,122,134,117,201,98"/>
 </map>

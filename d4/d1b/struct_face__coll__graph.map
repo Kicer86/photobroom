@@ -1,6 +1,9 @@
 <map id="Face" name="Face">
-<area shape="rect" id="node1" title=" " alt="" coords="113,108,163,133"/>
-<area shape="rect" id="node2" href="$d2/d1d/class_i_face.html" title=" " alt="" coords="5,13,60,38"/>
-<area shape="rect" id="node3" href="$da/dbb/class_person_full_info.html" title="Container for all people related data (DB IDs + values)" alt="" coords="85,13,191,38"/>
-<area shape="rect" id="node4" href="$db/dfb/class_id.html" title=" " alt="" coords="215,5,349,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="111,109,162,135"/>
+<area shape="rect" id="Node000002" href="$d2/d1d/class_i_face.html" title=" " alt="" coords="5,13,60,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,47,125,106,121,110,55,51"/>
+<area shape="rect" id="Node000003" href="$da/dbb/class_person_full_info.html" title="Container for all people related data (DB IDs + values)" alt="" coords="84,13,189,39"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="139,54,139,108,134,108,134,54"/>
+<area shape="rect" id="Node000008" href="$db/dfb/class_id.html" title=" " alt="" coords="213,5,345,46"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="249,58,211,87,163,112,161,108,208,83,246,54"/>
 </map>

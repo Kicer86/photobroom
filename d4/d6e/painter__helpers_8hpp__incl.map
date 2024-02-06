@@ -1,5 +1,7 @@
 <map id="src/gui/desktop/utils/painter_helpers.hpp" name="src/gui/desktop/utils/painter_helpers.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="17,5,155,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,79,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="103,93,157,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="16,5,155,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,78,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="77,48,58,82,53,79,72,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="102,94,157,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="99,45,118,79,113,82,94,48"/>
 </map>

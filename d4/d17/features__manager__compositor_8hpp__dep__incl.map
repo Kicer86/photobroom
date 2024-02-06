@@ -1,5 +1,7 @@
 <map id="src/core/features_manager_compositor.hpp" name="src/core/features_manager_compositor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="136,5,313,45"/>
-<area shape="rect" id="node2" href="$dd/d4a/features__manager__compositor_8cpp.html" title=" " alt="" coords="5,93,231,133"/>
-<area shape="rect" id="node3" href="$d4/d46/gui_8cpp.html" title=" " alt="" coords="255,101,411,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="136,5,312,46"/>
+<area shape="rect" id="Node000002" href="$dd/d4a/features__manager__compositor_8cpp.html" title=" " alt="" coords="5,94,230,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,58,143,96,140,91,187,54"/>
+<area shape="rect" id="Node000003" href="$d4/d46/gui_8cpp.html" title=" " alt="" coords="253,102,409,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="261,54,318,99,315,103,258,58"/>
 </map>

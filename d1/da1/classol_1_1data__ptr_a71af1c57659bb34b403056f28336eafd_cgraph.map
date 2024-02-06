@@ -1,5 +1,7 @@
 <map id="ol::data_ptr::copy" name="ol::data_ptr::copy">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,124,56"/>
-<area shape="rect" id="node2" href="$d1/da1/classol_1_1data__ptr.html#a6d12c5eb5cfbd79cc50f77a9e2036fb8" title=" " alt="" coords="191,5,299,31"/>
-<area shape="rect" id="node3" href="$d1/da1/classol_1_1data__ptr.html#a2347e22934a335cc6b04e86e7641ce5a" title=" " alt="" coords="172,55,319,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,123,56"/>
+<area shape="rect" id="Node000002" href="$d1/da1/classol_1_1data__ptr.html#a6d12c5eb5cfbd79cc50f77a9e2036fb8" title=" " alt="" coords="190,5,297,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,33,174,25,175,31,124,38"/>
+<area shape="rect" id="Node000004" href="$d1/da1/classol_1_1data__ptr.html#a2347e22934a335cc6b04e86e7641ce5a" title=" " alt="" coords="171,55,316,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="124,49,156,53,155,58,123,54"/>
 </map>

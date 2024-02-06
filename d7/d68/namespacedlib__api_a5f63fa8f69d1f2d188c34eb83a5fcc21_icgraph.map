@@ -1,7 +1,11 @@
 <map id="dlib_api::face_distance" name="dlib_api::face_distance">
-<area shape="rect" id="node1" title=" " alt="" coords="233,80,387,105"/>
-<area shape="rect" id="node2" href="$d7/d68/namespacedlib__api.html#ac0f0c401c58a7a922eb6c3414e64e1b8" title=" " alt="" coords="15,5,176,31"/>
-<area shape="rect" id="node3" href="$de/d37/class_face_recognition.html#a6b09c1e615b11e94b621919cc52b846d" title=" " alt="" coords="5,55,185,80"/>
-<area shape="rect" id="node4" href="$dd/dc0/person__recognition__tests_8cpp.html#a9e4a50a62dc88821c47ca1135fa028cf" title=" " alt="" coords="68,104,123,129"/>
-<area shape="rect" id="node5" href="$d3/dbd/scaled__face__similarity__tests_8cpp.html#a4b20c3bbe8d8aeabc96e6eec881fda73" title=" " alt="" coords="60,153,131,179"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="233,80,385,106"/>
+<area shape="rect" id="Node000002" href="$d7/d68/namespacedlib__api.html#ac0f0c401c58a7a922eb6c3414e64e1b8" title=" " alt="" coords="15,5,175,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,76,184,45,149,34,151,29,186,40,265,71"/>
+<area shape="rect" id="Node000003" href="$de/d37/class_face_recognition.html#a6b09c1e615b11e94b621919cc52b846d" title=" " alt="" coords="5,55,185,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="217,85,185,81,186,76,218,79"/>
+<area shape="rect" id="Node000005" href="$dd/dc0/person__recognition__tests_8cpp.html#a9e4a50a62dc88821c47ca1135fa028cf" title=" " alt="" coords="68,104,122,130"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="218,106,123,117,122,111,217,100"/>
+<area shape="rect" id="Node000006" href="$d3/dbd/scaled__face__similarity__tests_8cpp.html#a4b20c3bbe8d8aeabc96e6eec881fda73" title=" " alt="" coords="60,153,130,179"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="264,114,186,145,131,161,129,155,184,140,263,109"/>
 </map>

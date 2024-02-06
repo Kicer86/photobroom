@@ -1,4 +1,6 @@
 <map id="FileSystemScanner::scan" name="FileSystemScanner::scan">
-<area shape="rect" id="node1" title=" " alt="" coords="5,29,175,55"/>
-<area shape="rect" id="node2" href="$d2/db5/struct_i_file_notifier.html#a4f40ee1f479a28e7dd1df37f8e6de95b" title=" " alt="" coords="223,29,349,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,174,55"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="57,30,50,21,54,11,68,5,90,3,114,5,126,12,123,17,112,10,89,8,69,10,58,15,56,20,61,27"/>
+<area shape="rect" id="Node000002" href="$d2/db5/struct_i_file_notifier.html#a4f40ee1f479a28e7dd1df37f8e6de95b" title=" " alt="" coords="222,29,347,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="174,40,206,40,206,45,174,45"/>
 </map>

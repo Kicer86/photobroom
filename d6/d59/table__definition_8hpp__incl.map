@@ -1,6 +1,9 @@
 <map id="src/database/backends/sql_backends/table_definition.hpp" name="src/database/backends/sql_backends/table_definition.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="11,5,231,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,64,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="88,93,155,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="179,93,362,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="10,5,229,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,63,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,48,60,85,56,81,96,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="87,94,152,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="122,46,122,78,117,78,117,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="177,94,358,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="158,44,233,84,230,89,155,49"/>
 </map>

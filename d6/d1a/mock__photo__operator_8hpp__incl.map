@@ -1,6 +1,10 @@
 <map id="src/unit_tests_utils/mock_photo_operator.hpp" name="src/unit_tests_utils/mock_photo_operator.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="153,5,327,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,120,119"/>
-<area shape="rect" id="node3" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="144,93,336,119"/>
-<area shape="rect" id="node4" href="$d1/dd2/filter_8hpp.html" title=" " alt="" coords="271,167,342,192"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="151,5,325,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,119,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,49,104,90,102,85,193,44"/>
+<area shape="rect" id="Node000003" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="142,94,334,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,46,241,78,235,78,235,46"/>
+<area shape="rect" id="Node000025" href="$d1/dd2/filter_8hpp.html" title=" " alt="" coords="270,168,339,193"/>
+<area shape="poly" id="edge4_Node000001_Node000025" title=" " alt="" coords="293,44,324,64,348,93,353,110,349,128,330,158,326,155,344,126,347,110,344,95,320,68,290,49"/>
+<area shape="poly" id="edge3_Node000003_Node000025" title=" " alt="" coords="251,118,285,154,281,158,247,122"/>
 </map>

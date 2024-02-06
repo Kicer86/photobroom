@@ -1,10 +1,20 @@
 <map id="Database::ASqlBackend::init" name="Database::ASqlBackend::init">
-<area shape="rect" id="node1" title="initialize database connection" alt="" coords="5,157,168,197"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5" title="validate database consistency" alt="" coords="240,99,403,139"/>
-<area shape="rect" id="node3" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="483,5,597,31"/>
-<area shape="rect" id="node4" href="$d5/dcf/class_database_1_1db__error.html#a01059edea5c37cbd55061b53744f4c65" title=" " alt="" coords="475,61,605,101"/>
-<area shape="rect" id="node5" href="$d5/dcf/class_database_1_1db__error.html#aaf317da7aa6d7286bba22edbdecd747a" title=" " alt="" coords="475,135,605,175"/>
-<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a74b8c5afc2f2d002f98cb47a6b5c183c" title="called when DB was opened." alt="" coords="240,214,403,254"/>
-<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#afb2eae3bcae50730d7505d0dc44abec5" title="database preparation" alt="" coords="240,278,403,318"/>
-<area shape="rect" id="node8" href="$d3/d47/class_database_1_1_sql_query_executor.html#a6f273a223d8ada6b8ccb9ea37825aced" title=" " alt="" coords="216,343,427,368"/>
+<area shape="rect" id="Node000001" title="initialize database connection" alt="" coords="5,158,167,199"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad00a7bed2c2268620552f6c1a64616f5" title="validate database consistency" alt="" coords="239,101,400,141"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,156,223,142,224,147,167,161"/>
+<area shape="rect" id="Node000010" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="480,5,593,31"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="101,155,147,105,178,78,214,57,277,34,344,21,408,14,465,12,465,18,409,19,345,26,279,39,216,62,181,83,151,108,105,159"/>
+<area shape="rect" id="Node000014" href="$d5/dcf/class_database_1_1db__error.html#a01059edea5c37cbd55061b53744f4c65" title=" " alt="" coords="472,61,601,101"/>
+<area shape="poly" id="edge9_Node000001_Node000014" title=" " alt="" coords="107,155,153,118,182,100,214,86,276,71,340,65,402,64,457,68,456,73,402,70,341,70,277,77,216,91,185,105,156,122,110,159"/>
+<area shape="rect" id="Node000015" href="$d5/dcf/class_database_1_1db__error.html#aaf317da7aa6d7286bba22edbdecd747a" title=" " alt="" coords="472,137,601,177"/>
+<area shape="poly" id="edge10_Node000001_Node000015" title=" " alt="" coords="167,172,456,158,456,163,167,177"/>
+<area shape="rect" id="Node000016" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a74b8c5afc2f2d002f98cb47a6b5c183c" title="called when DB was opened." alt="" coords="239,215,400,256"/>
+<area shape="poly" id="edge6_Node000001_Node000016" title=" " alt="" coords="167,195,224,209,223,215,166,200"/>
+<area shape="rect" id="Node000017" href="$d5/d1b/class_database_1_1_a_sql_backend.html#afb2eae3bcae50730d7505d0dc44abec5" title="database preparation" alt="" coords="239,281,400,321"/>
+<area shape="poly" id="edge7_Node000001_Node000017" title=" " alt="" coords="114,197,160,231,216,265,231,272,229,277,213,270,157,236,111,201"/>
+<area shape="rect" id="Node000018" href="$d3/d47/class_database_1_1_sql_query_executor.html#a6f273a223d8ada6b8ccb9ea37825aced" title=" " alt="" coords="215,345,424,371"/>
+<area shape="poly" id="edge8_Node000001_Node000018" title=" " alt="" coords="101,197,145,264,178,300,216,331,227,336,224,341,213,335,174,304,141,267,96,200"/>
+<area shape="poly" id="edge2_Node000002_Node000010" title=" " alt="" coords="363,98,493,35,495,40,365,102"/>
+<area shape="poly" id="edge3_Node000002_Node000014" title=" " alt="" coords="400,103,456,93,457,98,401,109"/>
+<area shape="poly" id="edge4_Node000002_Node000015" title=" " alt="" coords="401,132,457,141,456,146,400,137"/>
 </map>

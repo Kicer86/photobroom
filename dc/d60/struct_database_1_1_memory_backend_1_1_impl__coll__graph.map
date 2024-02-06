@@ -1,5 +1,7 @@
 <map id="Database::MemoryBackend::Impl" name="Database::MemoryBackend::Impl">
-<area shape="rect" id="node1" title=" " alt="" coords="148,108,328,148"/>
-<area shape="rect" id="node2" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="5,13,233,38"/>
-<area shape="rect" id="node3" href="$df/db0/class_database_1_1_transaction_manager.html" title=" " alt="" coords="257,5,459,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="148,109,327,150"/>
+<area shape="rect" id="Node000002" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="5,13,233,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,46,216,106,213,110,143,51"/>
+<area shape="rect" id="Node000004" href="$df/db0/class_database_1_1_transaction_manager.html" title=" " alt="" coords="256,5,457,46"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="324,58,262,111,259,107,320,54"/>
 </map>

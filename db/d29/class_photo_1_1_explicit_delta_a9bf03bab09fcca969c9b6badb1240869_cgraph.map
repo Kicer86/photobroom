@@ -1,4 +1,6 @@
 <map id="Photo::ExplicitDelta::fill" name="Photo::ExplicitDelta::fill">
-<area shape="rect" id="node1" title=" " alt="" coords="5,29,139,69"/>
-<area shape="rect" id="node2" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="187,37,344,62"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,138,70"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="35,29,33,19,39,10,52,5,72,3,93,5,105,11,103,16,91,10,71,8,53,10,42,15,38,20,40,28"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="186,37,342,63"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="138,47,170,47,170,52,138,52"/>
 </map>

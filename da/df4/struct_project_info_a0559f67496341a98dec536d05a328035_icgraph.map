@@ -1,6 +1,10 @@
 <map id="ProjectInfo::getInternalLocation" name="ProjectInfo::getInternalLocation">
-<area shape="rect" id="node1" title=" " alt="" coords="477,49,629,89"/>
-<area shape="rect" id="node2" href="$d7/d93/class_project_manager.html#aea9b42030084afc5ff2582a006e936ad" title=" " alt="" coords="217,5,429,31"/>
-<area shape="rect" id="node3" href="$d7/d93/class_project_manager.html#a1b1d9f731deac51d3d9dbb7ef892131a" title=" " alt="" coords="5,31,169,56"/>
-<area shape="rect" id="node4" href="$d9/d6e/class_project.html#a5be4ce232325efd851b856a99053e7cd" title=" " alt="" coords="268,107,379,132"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="476,49,627,89"/>
+<area shape="rect" id="Node000002" href="$d7/d93/class_project_manager.html#aea9b42030084afc5ff2582a006e936ad" title=" " alt="" coords="217,5,428,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="460,51,383,34,384,29,461,46"/>
+<area shape="rect" id="Node000003" href="$d7/d93/class_project_manager.html#a1b1d9f731deac51d3d9dbb7ef892131a" title=" " alt="" coords="5,31,169,56"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="460,67,169,51,169,45,460,61"/>
+<area shape="rect" id="Node000006" href="$d9/d6e/class_project.html#a5be4ce232325efd851b856a99053e7cd" title=" " alt="" coords="268,107,377,132"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="461,91,378,110,377,105,460,86"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="201,34,169,37,169,32,201,29"/>
 </map>

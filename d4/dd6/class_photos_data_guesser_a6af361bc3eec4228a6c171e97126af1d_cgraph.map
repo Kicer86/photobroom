@@ -1,7 +1,7 @@
 <map id="PhotosDataGuesser::applyRows" name="PhotosDataGuesser::applyRows">
-<area shape="rect" id="node1" title=" " alt="" coords="5,101,151,141"/>
-<area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="223,5,365,45"/>
-<area shape="rect" id="node3" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title=" " alt="" coords="225,69,363,109"/>
-<area shape="rect" id="node4" href="$de/d3a/class_a_heavy_list_model.html#ae349dd2d37ecf62351edb275c39065d3" title=" " alt="" coords="199,133,389,173"/>
-<area shape="rect" id="node5" href="$d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" title="update photos details" alt="" coords="225,197,363,237"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,150,79"/>
+<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="222,5,363,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="150,45,206,36,207,42,150,50"/>
+<area shape="rect" id="Node000005" href="$de/d3a/class_a_heavy_list_model.html#ae349dd2d37ecf62351edb275c39065d3" title=" " alt="" coords="198,71,387,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="150,67,183,72,182,77,150,72"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="ObservablesRegistry::enabledChanged" name="ObservablesRegistry::enabledChanged">
-<area shape="rect" id="node1" title=" " alt="" coords="196,5,339,45"/>
-<area shape="rect" id="node2" href="$de/d60/class_observables_registry.html#a84f31b01181a9828b7d7c5c010be4449" title=" " alt="" coords="5,5,148,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="195,5,336,46"/>
+<area shape="rect" id="Node000002" href="$de/d60/class_observables_registry.html#a84f31b01181a9828b7d7c5c010be4449" title=" " alt="" coords="5,5,147,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,28,147,28,147,23,179,23"/>
 </map>

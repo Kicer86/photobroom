@@ -1,5 +1,7 @@
 <map id="MediaInformation::Impl" name="MediaInformation::Impl">
-<area shape="rect" id="node1" title=" " alt="" coords="99,93,252,119"/>
-<area shape="rect" id="node2" href="$de/d2a/class_image_media_information.html" title=" " alt="" coords="5,5,164,31"/>
-<area shape="rect" id="node3" href="$d8/de9/class_video_media_information.html" title=" " alt="" coords="189,5,343,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="97,94,250,120"/>
+<area shape="rect" id="Node000002" href="$de/d2a/class_image_media_information.html" title=" " alt="" coords="5,5,163,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,40,163,92,159,96,105,44"/>
+<area shape="rect" id="Node000005" href="$d8/de9/class_video_media_information.html" title=" " alt="" coords="187,5,341,31"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="249,45,226,72,195,96,191,91,222,68,245,42"/>
 </map>

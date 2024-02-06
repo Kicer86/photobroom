@@ -1,7 +1,11 @@
 <map id="GroupsManager::ungroup" name="GroupsManager::ungroup">
-<area shape="rect" id="node1" title=" " alt="" coords="5,109,172,134"/>
-<area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="220,5,363,45"/>
-<area shape="rect" id="node3" href="$d2/ddd/struct_database_1_1_i_backend.html#a2ccfb5b341b8063562b4c28d48ed94e5" title="get group operator" alt="" coords="222,69,361,109"/>
-<area shape="rect" id="node4" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="222,133,361,173"/>
-<area shape="rect" id="node5" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="222,197,361,237"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,112,171,137"/>
+<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="219,5,360,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,109,217,57,229,51,232,56,220,61,117,113"/>
+<area shape="rect" id="Node000005" href="$d2/ddd/struct_database_1_1_i_backend.html#a2ccfb5b341b8063562b4c28d48ed94e5" title="get group operator" alt="" coords="221,71,358,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="169,108,205,102,206,107,170,114"/>
+<area shape="rect" id="Node000006" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="221,136,358,177"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="172,135,206,140,205,146,171,140"/>
+<area shape="rect" id="Node000007" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="221,201,358,242"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="117,135,220,186,232,192,229,197,217,191,115,140"/>
 </map>

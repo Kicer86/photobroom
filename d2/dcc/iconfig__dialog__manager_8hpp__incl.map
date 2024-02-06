@@ -1,4 +1,5 @@
 <map id="src/gui/desktop/ui_utils/iconfig_dialog_manager.hpp" name="src/gui/desktop/ui_utils/iconfig_dialog_manager.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,140,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="37,108,108,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,140,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="38,109,107,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,61,75,93,70,93,70,61"/>
 </map>

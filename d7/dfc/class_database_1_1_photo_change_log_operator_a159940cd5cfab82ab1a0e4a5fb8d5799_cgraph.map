@@ -1,8 +1,13 @@
 <map id="Database::PhotoChangeLogOperator::append" name="Database::PhotoChangeLogOperator::append">
-<area shape="rect" id="node1" title=" " alt="" coords="5,119,188,159"/>
-<area shape="rect" id="node2" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="274,5,389,31"/>
-<area shape="rect" id="node3" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="236,55,427,95"/>
-<area shape="rect" id="node4" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="239,119,424,159"/>
-<area shape="rect" id="node5" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="243,183,420,223"/>
-<area shape="rect" id="node6" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="243,247,420,287"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,121,188,161"/>
+<area shape="rect" id="Node000002" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="274,5,387,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,118,171,79,234,41,258,32,260,37,237,46,174,83,123,122"/>
+<area shape="rect" id="Node000003" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="236,55,425,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,117,239,98,241,103,172,123"/>
+<area shape="rect" id="Node000004" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="238,121,423,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="188,138,223,138,223,144,188,144"/>
+<area shape="rect" id="Node000005" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="242,186,419,227"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="172,159,241,178,239,184,171,164"/>
+<area shape="rect" id="Node000006" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="242,251,419,292"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="125,160,175,198,237,236,250,242,248,247,234,241,172,202,121,164"/>
 </map>

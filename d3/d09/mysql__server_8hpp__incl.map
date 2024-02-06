@@ -1,6 +1,9 @@
 <map id="src/database/backends/sql_backends/mysql_backend/mysql_server.hpp" name="src/database/backends/sql_backends/mysql_backend/mysql_server.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="31,5,231,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,108,73,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="98,108,165,133"/>
-<area shape="rect" id="node4" title=" " alt="" coords="189,108,260,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="30,5,229,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,109,73,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,63,64,100,61,96,100,59"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="97,109,162,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="132,61,132,93,127,93,127,61"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="187,109,256,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="160,59,200,96,196,100,156,63"/>
 </map>

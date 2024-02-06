@@ -1,7 +1,18 @@
 <map id="MainWindow::projectOpened" name="MainWindow::projectOpened">
-<area shape="rect" id="node1" title=" " alt="" coords="5,81,192,107"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#a76ab638b4eb18b2624b882474d90f905" title=" " alt="" coords="247,5,421,31"/>
-<area shape="rect" id="node3" href="$d9/dc6/class_main_window.html#a15918b5da6cc172b4d4beefdd0f6e4bc" title=" " alt="" coords="476,31,637,56"/>
-<area shape="rect" id="node4" href="$d0/de5/class_status.html#ac51f9ca7e73f57294c972e03da51782c" title=" " alt="" coords="292,107,376,132"/>
-<area shape="rect" id="node5" href="$d9/dc6/class_main_window.html#a2ff70b9caee93ce8564018cde2a0979f" title=" " alt="" coords="240,157,428,197"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,136,191,161"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#a76ab638b4eb18b2624b882474d90f905" title=" " alt="" coords="246,60,419,85"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,132,275,88,277,93,141,137"/>
+<area shape="rect" id="Node000003" href="$d9/dc6/class_main_window.html#ab3226c9a1d7a78182e0d3c3d37c388bf" title=" " alt="" coords="474,5,670,46"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="110,133,162,88,198,63,238,45,293,29,350,20,458,15,459,20,350,25,294,34,240,49,201,68,166,92,114,137"/>
+<area shape="rect" id="Node000004" href="$d9/dc6/class_main_window.html#a5b763cb1c840150346684186b33add74" title=" " alt="" coords="481,75,663,115"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="191,135,465,104,466,110,191,141"/>
+<area shape="rect" id="Node000005" href="$d9/dc6/class_main_window.html#a15918b5da6cc172b4d4beefdd0f6e4bc" title=" " alt="" coords="492,146,652,172"/>
+<area shape="poly" id="edge9_Node000001_Node000005" title=" " alt="" coords="191,148,476,154,476,160,191,153"/>
+<area shape="rect" id="Node000010" href="$d0/de5/class_status.html#ac51f9ca7e73f57294c972e03da51782c" title=" " alt="" coords="291,212,374,237"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="141,159,277,204,275,209,139,164"/>
+<area shape="rect" id="Node000011" href="$d9/dc6/class_main_window.html#a2ff70b9caee93ce8564018cde2a0979f" title=" " alt="" coords="239,261,426,302"/>
+<area shape="poly" id="edge8_Node000001_Node000011" title=" " alt="" coords="116,160,169,202,240,247,250,252,248,257,237,252,166,206,113,164"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="402,56,458,45,460,50,403,61"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="420,78,466,82,465,88,419,83"/>
+<area shape="poly" id="edge4_Node000002_Node000005" title=" " alt="" coords="367,83,475,124,515,138,513,143,473,130,365,88"/>
 </map>

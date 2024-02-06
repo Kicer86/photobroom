@@ -1,5 +1,7 @@
 <map id="PhotosModelControllerComponent::setAvailableDates" name="PhotosModelControllerComponent::setAvailableDates">
-<area shape="rect" id="node1" title=" " alt="" coords="272,37,491,77"/>
-<area shape="rect" id="node2" href="$d2/d10/class_photos_model_controller_component.html#a2f7a33db1f18fe0b97ea11af01da3db6" title=" " alt="" coords="5,5,224,45"/>
-<area shape="rect" id="node3" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,69,224,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="272,39,490,79"/>
+<area shape="rect" id="Node000002" href="$d2/d10/class_photos_model_controller_component.html#a2f7a33db1f18fe0b97ea11af01da3db6" title=" " alt="" coords="5,5,224,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,46,224,42,225,37,256,41"/>
+<area shape="rect" id="Node000004" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,71,224,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="256,77,225,80,224,75,256,71"/>
 </map>

@@ -1,6 +1,9 @@
 <map id="Database::GenericSqlQueryConstructor::preparePlaceholders" name="Database::GenericSqlQueryConstructor::preparePlaceholders">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,219,95"/>
-<area shape="rect" id="node2" href="$d0/d76/namespace_database.html#a704f892ae2492e80827433911d9fd9bb" title=" " alt="" coords="292,5,419,31"/>
-<area shape="rect" id="node3" href="$d4/df7/class_database_1_1_insert_query_data.html#a5ce2ce74817343405919a285e452af35" title=" " alt="" coords="267,55,444,95"/>
-<area shape="rect" id="node4" href="$d4/df7/class_database_1_1_insert_query_data.html#a806a9039a26b2b39e58ecac52b25a7e2" title=" " alt="" coords="267,119,444,159"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,218,96"/>
+<area shape="rect" id="Node000002" href="$d0/d76/namespace_database.html#a704f892ae2492e80827433911d9fd9bb" title=" " alt="" coords="291,5,417,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,52,281,33,282,38,201,57"/>
+<area shape="rect" id="Node000003" href="$d4/df7/class_database_1_1_insert_query_data.html#a5ce2ce74817343405919a285e452af35" title=" " alt="" coords="266,55,442,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,73,250,73,250,78,218,78"/>
+<area shape="rect" id="Node000004" href="$d4/df7/class_database_1_1_insert_query_data.html#a806a9039a26b2b39e58ecac52b25a7e2" title=" " alt="" coords="266,121,442,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="190,94,262,113,260,118,189,99"/>
 </map>

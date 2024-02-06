@@ -1,4 +1,5 @@
 <map id="ObjectsAccessor::setProject" name="ObjectsAccessor::setProject">
-<area shape="rect" id="node1" title=" " alt="" coords="229,5,416,31"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#afa9f16857aa0b6b19921e98c835fbe11" title=" " alt="" coords="5,5,181,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="229,5,415,31"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#afa9f16857aa0b6b19921e98c835fbe11" title=" " alt="" coords="5,5,181,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="213,21,181,21,181,16,213,16"/>
 </map>

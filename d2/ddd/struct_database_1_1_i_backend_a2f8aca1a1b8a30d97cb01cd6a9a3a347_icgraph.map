@@ -1,6 +1,9 @@
 <map id="Database::IBackend::addPhotos" name="Database::IBackend::addPhotos">
-<area shape="rect" id="node1" title="Add photos to database." alt="" coords="231,55,369,95"/>
-<area shape="rect" id="node2" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="18,5,170,31"/>
-<area shape="rect" id="node3" href="$d6/db9/class_database_1_1_json_to_backend.html#aaa18798710c31c7704539a4b27b33540" title=" " alt="" coords="5,55,183,95"/>
-<area shape="rect" id="node4" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="27,119,161,159"/>
+<area shape="rect" id="Node000001" title="Add photos to database." alt="" coords="230,55,367,96"/>
+<area shape="rect" id="Node000002" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="18,5,169,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,55,142,34,143,29,215,50"/>
+<area shape="rect" id="Node000003" href="$d6/db9/class_database_1_1_json_to_backend.html#aaa18798710c31c7704539a4b27b33540" title=" " alt="" coords="5,55,182,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="214,78,182,78,182,73,214,73"/>
+<area shape="rect" id="Node000005" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="27,121,160,161"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="219,104,161,122,159,117,217,98"/>
 </map>

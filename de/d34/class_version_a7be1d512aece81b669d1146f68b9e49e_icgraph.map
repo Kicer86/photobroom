@@ -1,5 +1,7 @@
 <map id="Version::build" name="Version::build">
-<area shape="rect" id="node1" title=" " alt="" coords="208,31,307,56"/>
-<area shape="rect" id="node2" href="$de/d34/class_version.html#ab6fd1cf756f1379ed5e791ec4e29d261" title=" " alt="" coords="17,5,149,31"/>
-<area shape="rect" id="node3" href="$de/d34/class_version.html#acaa566a12459bc72c5f0755ff1b7fc01" title=" " alt="" coords="5,55,160,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,31,306,56"/>
+<area shape="rect" id="Node000002" href="$de/d34/class_version.html#ab6fd1cf756f1379ed5e791ec4e29d261" title=" " alt="" coords="17,5,148,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,37,148,30,149,25,193,32"/>
+<area shape="rect" id="Node000004" href="$de/d34/class_version.html#acaa566a12459bc72c5f0755ff1b7fc01" title=" " alt="" coords="5,55,160,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="193,55,160,59,160,54,192,50"/>
 </map>

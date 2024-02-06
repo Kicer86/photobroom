@@ -1,4 +1,5 @@
 <map id="Watcher::dirChanged" name="Watcher::dirChanged">
-<area shape="rect" id="node1" title=" " alt="" coords="148,5,289,31"/>
-<area shape="rect" id="node2" href="$d0/d92/class_watcher.html#a238f0e552669485ea32a0d8497713e8c" title=" " alt="" coords="5,5,100,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="147,5,287,31"/>
+<area shape="rect" id="Node000002" href="$d0/d92/class_watcher.html#a238f0e552669485ea32a0d8497713e8c" title=" " alt="" coords="5,5,99,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,21,99,21,99,16,131,16"/>
 </map>

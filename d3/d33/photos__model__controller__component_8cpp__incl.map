@@ -1,11 +1,20 @@
 <map id="src/gui/desktop/quick_items/photos_model_controller_component.cpp" name="src/gui/desktop/quick_items/photos_model_controller_component.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="570,5,777,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,115,67,141"/>
-<area shape="rect" id="node3" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="91,115,272,141"/>
-<area shape="rect" id="node4" href="$da/d01/imodel__compositor__data__source_8hpp.html" title=" " alt="" coords="296,108,456,148"/>
-<area shape="rect" id="node5" href="$de/de4/general__flags_8hpp.html" title=" " alt="" coords="480,115,659,141"/>
-<area shape="rect" id="node6" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="683,115,875,141"/>
-<area shape="rect" id="node7" href="$de/d3d/flat__model_8hpp.html" title=" " alt="" coords="895,196,1046,221"/>
-<area shape="rect" id="node8" href="$d8/d4e/photos__model__controller__component_8hpp.html" title=" " alt="" coords="949,108,1112,148"/>
-<area shape="rect" id="node9" href="$da/dc6/icompleter__factory_8hpp.html" title=" " alt="" coords="1137,108,1263,148"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="568,5,773,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,117,66,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="567,41,464,48,340,60,208,81,78,112,74,113,72,108,76,106,207,76,339,55,463,42,567,35"/>
+<area shape="rect" id="Node000003" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="89,117,270,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="568,57,259,116,258,110,567,51"/>
+<area shape="rect" id="Node000011" href="$da/d01/imodel__compositor__data__source_8hpp.html" title=" " alt="" coords="293,109,453,150"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="585,64,450,107,448,101,583,59"/>
+<area shape="rect" id="Node000014" href="$de/de4/general__flags_8hpp.html" title=" " alt="" coords="477,117,655,142"/>
+<area shape="poly" id="edge4_Node000001_Node000014" title=" " alt="" coords="642,64,592,108,589,104,638,60"/>
+<area shape="rect" id="Node000016" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="680,117,871,142"/>
+<area shape="poly" id="edge5_Node000001_Node000016" title=" " alt="" coords="702,60,753,104,749,108,699,64"/>
+<area shape="rect" id="Node000042" href="$de/d3d/flat__model_8hpp.html" title=" " alt="" coords="892,198,1043,223"/>
+<area shape="poly" id="edge6_Node000001_Node000042" title=" " alt="" coords="774,56,831,77,885,107,926,144,955,183,951,187,922,148,882,111,829,82,772,61"/>
+<area shape="rect" id="Node000056" href="$d8/d4e/photos__model__controller__component_8hpp.html" title=" " alt="" coords="946,109,1109,150"/>
+<area shape="poly" id="edge7_Node000001_Node000056" title=" " alt="" coords="774,59,939,102,937,107,772,64"/>
+<area shape="rect" id="Node000067" href="$da/dc6/icompleter__factory_8hpp.html" title=" " alt="" coords="1132,109,1259,150"/>
+<area shape="poly" id="edge9_Node000001_Node000067" title=" " alt="" coords="774,46,932,71,1118,106,1117,111,931,76,773,52"/>
+<area shape="poly" id="edge8_Node000056_Node000042" title=" " alt="" coords="1015,152,988,187,984,183,1011,148"/>
 </map>

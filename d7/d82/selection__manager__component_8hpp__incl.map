@@ -1,7 +1,11 @@
 <map id="src/gui/desktop/quick_items/selection_manager_component.hpp" name="src/gui/desktop/quick_items/selection_manager_component.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="115,5,289,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,108,100,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="124,108,195,133"/>
-<area shape="rect" id="node4" title=" " alt="" coords="219,108,273,133"/>
-<area shape="rect" id="node5" title=" " alt="" coords="298,108,338,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="114,5,287,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,109,100,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,64,87,103,85,99,153,59"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="123,109,193,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="190,62,173,96,168,94,185,60"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="217,109,270,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="216,60,233,94,228,96,211,62"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="294,109,334,135"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="237,59,287,97,284,101,234,63"/>
 </map>

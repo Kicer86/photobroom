@@ -1,8 +1,15 @@
 <map id="src/database/database_tools/tag_info_collector.hpp" name="src/database/database_tools/tag_info_collector.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="156,5,342,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="90,167,147,192"/>
-<area shape="rect" id="node3" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="24,93,138,119"/>
-<area shape="rect" id="node4" href="$dc/dfa/signal__postponer_8hpp.html" title=" " alt="" coords="162,93,336,119"/>
-<area shape="rect" id="node5" href="$d9/db3/itag__info__collector_8hpp.html" title=" " alt="" coords="360,93,511,119"/>
-<area shape="rect" id="node6" title=" " alt="" coords="428,167,555,192"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="153,5,339,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="89,168,145,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,45,68,66,34,80,14,96,9,106,9,115,22,133,46,149,75,163,73,167,44,154,18,137,4,117,4,105,9,92,32,75,66,61,152,39"/>
+<area shape="rect" id="Node000003" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="23,94,136,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="206,49,120,89,118,85,203,44"/>
+<area shape="rect" id="Node000008" href="$dc/dfa/signal__postponer_8hpp.html" title=" " alt="" coords="160,94,332,120"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="249,46,249,78,244,78,244,46"/>
+<area shape="rect" id="Node000014" href="$d9/db3/itag__info__collector_8hpp.html" title=" " alt="" coords="356,94,507,120"/>
+<area shape="poly" id="edge5_Node000001_Node000014" title=" " alt="" coords="294,44,390,85,388,90,291,49"/>
+<area shape="rect" id="Node000023" title=" " alt="" coords="424,168,551,193"/>
+<area shape="poly" id="edge7_Node000001_Node000023" title=" " alt="" coords="340,35,448,57,492,72,520,92,527,108,526,125,510,157,505,154,520,124,522,109,516,96,490,77,446,62,339,40"/>
+<area shape="poly" id="edge4_Node000008_Node000002" title=" " alt="" coords="226,123,154,162,151,157,223,118"/>
+<area shape="poly" id="edge6_Node000014_Node000023" title=" " alt="" coords="443,118,471,154,467,157,439,122"/>
 </map>

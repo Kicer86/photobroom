@@ -1,5 +1,7 @@
 <map id="FacesModel::updateDetectionState" name="FacesModel::updateDetectionState">
-<area shape="rect" id="node1" title=" " alt="" coords="285,23,479,63"/>
-<area shape="rect" id="node2" href="$d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61" title=" " alt="" coords="40,5,203,31"/>
-<area shape="rect" id="node3" href="$d6/de2/class_faces_model.html#aa421712aedc9880b30e0566eeec28496" title=" " alt="" coords="5,55,237,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="285,23,477,64"/>
+<area shape="rect" id="Node000002" href="$d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61" title=" " alt="" coords="40,5,202,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,35,203,29,203,23,269,30"/>
+<area shape="rect" id="Node000004" href="$d6/de2/class_faces_model.html#aa421712aedc9880b30e0566eeec28496" title=" " alt="" coords="5,55,237,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="269,56,237,59,237,54,269,51"/>
 </map>

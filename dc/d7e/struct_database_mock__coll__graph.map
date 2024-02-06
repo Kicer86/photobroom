@@ -1,4 +1,5 @@
 <map id="DatabaseMock" name="DatabaseMock">
-<area shape="rect" id="node1" title=" " alt="" coords="22,79,131,104"/>
-<area shape="rect" id="node2" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="5,5,148,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="22,79,130,105"/>
+<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="5,5,147,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,46,79,79,73,79,73,46"/>
 </map>

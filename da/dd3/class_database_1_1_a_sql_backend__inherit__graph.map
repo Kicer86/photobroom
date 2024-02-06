@@ -1,6 +1,9 @@
 <map id="Database::ASqlBackend" name="Database::ASqlBackend">
-<area shape="rect" id="node1" title=" " alt="" coords="108,79,271,104"/>
-<area shape="rect" id="node3" href="$de/db1/class_database_1_1_my_sql_backend.html" title=" " alt="" coords="5,152,176,177"/>
-<area shape="rect" id="node4" href="$d6/dd8/class_database_1_1_s_q_lite_backend.html" title=" " alt="" coords="201,152,375,177"/>
-<area shape="rect" id="node2" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="120,5,259,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="107,79,268,105"/>
+<area shape="rect" id="Node000004" href="$de/db1/class_database_1_1_my_sql_backend.html" title=" " alt="" coords="5,153,175,178"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="160,116,108,154,105,150,157,112"/>
+<area shape="rect" id="Node000005" href="$d6/dd8/class_database_1_1_s_q_lite_backend.html" title=" " alt="" coords="199,153,373,178"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="218,112,271,150,268,154,215,116"/>
+<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="119,5,256,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,46,190,79,185,79,185,46"/>
 </map>

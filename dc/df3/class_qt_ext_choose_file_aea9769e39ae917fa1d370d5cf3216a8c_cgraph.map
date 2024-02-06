@@ -1,7 +1,13 @@
 <map id="QtExtChooseFile::setup" name="QtExtChooseFile::setup">
-<area shape="rect" id="node1" title=" " alt="" coords="5,95,163,120"/>
-<area shape="rect" id="node2" href="$dc/df3/class_qt_ext_choose_file.html#ac13cdc356e83a0770d1e74318c1e7eec" title=" " alt="" coords="211,5,415,31"/>
-<area shape="rect" id="node3" href="$dc/df3/class_qt_ext_choose_file.html#aaf1d7a11384b197cffbd520fdf050bdd" title=" " alt="" coords="219,55,406,95"/>
-<area shape="rect" id="node4" href="$dc/df3/class_qt_ext_choose_file.html#a41e59fa236428308e192ba0f95167e9e" title=" " alt="" coords="219,119,406,159"/>
-<area shape="rect" id="node5" href="$dc/df3/class_qt_ext_choose_file.html#ac227e64bdf182ed2eb508cb3b2dc10ed" title=" " alt="" coords="225,184,400,209"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,128,162,154"/>
+<area shape="rect" id="Node000002" href="$dc/df3/class_qt_ext_choose_file.html#ac13cdc356e83a0770d1e74318c1e7eec" title=" " alt="" coords="211,5,415,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="96,126,143,84,174,61,208,41,226,34,228,39,211,46,177,65,146,88,100,130"/>
+<area shape="rect" id="Node000004" href="$dc/df3/class_qt_ext_choose_file.html#aaf1d7a11384b197cffbd520fdf050bdd" title=" " alt="" coords="220,55,406,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="131,125,224,98,225,103,132,130"/>
+<area shape="rect" id="Node000005" href="$dc/df3/class_qt_ext_choose_file.html#a41e59fa236428308e192ba0f95167e9e" title=" " alt="" coords="220,121,406,161"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="162,138,204,138,204,144,162,144"/>
+<area shape="rect" id="Node000006" href="$dc/df3/class_qt_ext_choose_file.html#ac227e64bdf182ed2eb508cb3b2dc10ed" title=" " alt="" coords="226,185,400,211"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="138,152,210,170,243,178,242,184,209,175,136,157"/>
+<area shape="rect" id="Node000007" href="$dc/df3/class_qt_ext_choose_file.html#adc1a92f48f06c97c50374ac76a98ca52" title=" " alt="" coords="210,235,416,260"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="102,152,149,187,211,221,227,227,225,232,209,226,146,191,99,156"/>
 </map>

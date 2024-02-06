@@ -1,5 +1,7 @@
 <map id="src/gui/desktop/models/tags_operator.cpp" name="src/gui/desktop/models/tags_operator.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="51,5,208,45"/>
-<area shape="rect" id="node2" href="$d3/dc3/tags__operator_8hpp.html" title=" " alt="" coords="5,93,131,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="155,93,226,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="49,5,206,46"/>
+<area shape="rect" id="Node000002" href="$d3/dc3/tags__operator_8hpp.html" title=" " alt="" coords="5,94,130,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,48,88,83,84,80,111,45"/>
+<area shape="rect" id="Node000010" title=" " alt="" coords="154,94,224,120"/>
+<area shape="poly" id="edge2_Node000001_Node000010" title=" " alt="" coords="145,45,172,80,168,83,141,48"/>
 </map>

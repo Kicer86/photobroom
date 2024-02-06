@@ -1,5 +1,7 @@
 <map id="Logger" name="Logger">
-<area shape="rect" id="node1" title=" " alt="" coords="63,93,126,119"/>
-<area shape="rect" id="node2" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="5,5,72,31"/>
-<area shape="rect" id="node3" href="$d1/d78/struct_i_logger_factory.html" title=" " alt="" coords="96,5,205,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="62,94,123,120"/>
+<area shape="rect" id="Node000002" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="5,5,71,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="56,43,87,92,83,95,52,46"/>
+<area shape="rect" id="Node000003" href="$d1/d78/struct_i_logger_factory.html" title=" " alt="" coords="95,5,203,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="135,46,103,95,98,92,130,43"/>
 </map>

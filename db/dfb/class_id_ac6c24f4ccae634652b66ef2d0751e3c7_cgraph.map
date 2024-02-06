@@ -1,4 +1,5 @@
 <map id="Id::invalidate" name="Id::invalidate">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,100,31"/>
-<area shape="rect" id="node2" href="$db/dfb/class_id.html#aa4447c185339b2d67dd7bd40c321b3f7" title=" " alt="" coords="148,5,219,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,99,31"/>
+<area shape="rect" id="Node000002" href="$db/dfb/class_id.html#aa4447c185339b2d67dd7bd40c321b3f7" title=" " alt="" coords="147,5,216,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="99,16,131,16,131,21,99,21"/>
 </map>

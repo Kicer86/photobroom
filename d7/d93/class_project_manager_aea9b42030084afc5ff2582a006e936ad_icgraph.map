@@ -1,5 +1,7 @@
 <map id="ProjectManager::createIgnoreFile" name="ProjectManager::createIgnoreFile">
-<area shape="rect" id="node1" title=" " alt="" coords="217,31,429,56"/>
-<area shape="rect" id="node2" href="$d7/d93/class_project_manager.html#a1b1d9f731deac51d3d9dbb7ef892131a" title=" " alt="" coords="5,5,169,31"/>
-<area shape="rect" id="node3" href="$d7/d93/class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc" title=" " alt="" coords="14,55,161,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="217,31,428,56"/>
+<area shape="rect" id="Node000002" href="$d7/d93/class_project_manager.html#a1b1d9f731deac51d3d9dbb7ef892131a" title=" " alt="" coords="5,5,169,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,33,169,30,169,24,201,28"/>
+<area shape="rect" id="Node000003" href="$d7/d93/class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc" title=" " alt="" coords="14,55,160,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,59,161,63,160,57,201,53"/>
 </map>

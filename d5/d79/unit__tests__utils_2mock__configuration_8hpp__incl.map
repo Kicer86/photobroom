@@ -1,5 +1,7 @@
 <map id="src/unit_tests_utils/mock_configuration.hpp" name="src/unit_tests_utils/mock_configuration.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="60,5,223,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,120,119"/>
-<area shape="rect" id="node3" href="$df/dfe/iconfiguration_8hpp.html" title=" " alt="" coords="145,93,295,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="59,5,220,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,119,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,48,87,84,83,81,118,45"/>
+<area shape="rect" id="Node000003" href="$df/dfe/iconfiguration_8hpp.html" title=" " alt="" coords="143,94,293,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,45,197,81,193,85,157,48"/>
 </map>

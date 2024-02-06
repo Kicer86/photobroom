@@ -18,7 +18,7 @@ var searchData=
   ['tagvaluetraits_3c_20qstring_20_3e_15',['TagValueTraits&lt; QString &gt;',['../d5/d94/struct_tag_value_traits_3_01_q_string_01_4.html',1,'']]],
   ['tagvaluetraits_3c_20qtime_20_3e_16',['TagValueTraits&lt; QTime &gt;',['../df/d74/struct_tag_value_traits_3_01_q_time_01_4.html',1,'']]],
   ['tagvaluevariantsettertest_17',['TagValueVariantSetterTest',['../d4/d06/struct_tag_value_variant_setter_test.html',1,'']]],
-  ['task_18',['Task',['../dd/d3e/struct_database_1_1_i_database_1_1_task.html',1,'Database::IDatabase::Task&lt; Callable &gt;'],['../d0/dd8/class_observable_database_1_1_task.html',1,'ObservableDatabase&lt; T &gt;::Task'],['../d0/d1f/class_observable_task_executor_1_1_task.html',1,'ObservableTaskExecutor&lt; T &gt;::Task']]],
+  ['task_18',['task',['../d0/d1f/class_observable_task_executor_1_1_task.html',1,'ObservableTaskExecutor&lt; T &gt;::Task'],['../dd/d3e/struct_database_1_1_i_database_1_1_task.html',1,'Database::IDatabase::Task&lt; Callable &gt;'],['../d0/dd8/class_observable_database_1_1_task.html',1,'ObservableDatabase&lt; T &gt;::Task']]],
   ['taskexecutor_19',['TaskExecutor',['../de/d64/struct_task_executor.html',1,'']]],
   ['tasksmodel_20',['TasksModel',['../da/dbc/class_tasks_model.html',1,'']]],
   ['tasksqueue_21',['TasksQueue',['../d6/d2e/class_tasks_queue.html',1,'']]],

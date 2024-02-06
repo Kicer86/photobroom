@@ -1,5 +1,7 @@
 <map id="FeaturesManager" name="FeaturesManager">
-<area shape="rect" id="node1" title=" " alt="" coords="77,93,199,119"/>
-<area shape="rect" id="node2" href="$d1/db4/class_i_features_manager.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="node3" href="$d7/db4/struct_i_configuration.html" title=" " alt="" coords="157,5,258,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="75,94,198,120"/>
+<area shape="rect" id="Node000002" href="$d1/db4/class_i_features_manager.html" title=" " alt="" coords="5,5,132,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="89,42,129,92,125,95,85,45"/>
+<area shape="rect" id="Node000004" href="$d7/db4/struct_i_configuration.html" title=" " alt="" coords="156,5,256,31"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="189,45,148,95,144,92,185,42"/>
 </map>

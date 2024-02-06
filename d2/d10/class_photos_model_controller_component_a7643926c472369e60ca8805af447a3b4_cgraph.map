@@ -1,5 +1,7 @@
 <map id="PhotosModelControllerComponent::rawCategories" name="PhotosModelControllerComponent::rawCategories">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,224,77"/>
-<area shape="rect" id="node2" href="$d1/d5c/struct_i_completer_factory.html#a5d26b80fb0cbc4ea807848d5d0187aee" title="access model with values for given tag type" alt="" coords="302,5,437,45"/>
-<area shape="rect" id="node3" href="$d2/d8b/class_i_model_compositor_data_source.html#ac85cda2130837156bfacfcee4922d8a6" title=" " alt="" coords="272,69,467,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,224,79"/>
+<area shape="rect" id="Node000002" href="$d1/d5c/struct_i_completer_factory.html#a5d26b80fb0cbc4ea807848d5d0187aee" title="access model with values for given tag type" alt="" coords="302,5,436,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,42,286,34,287,39,224,47"/>
+<area shape="rect" id="Node000003" href="$d2/d8b/class_i_model_compositor_data_source.html#ac85cda2130837156bfacfcee4922d8a6" title=" " alt="" coords="272,71,466,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,70,257,74,256,80,224,75"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="TagValue::getTime" name="TagValue::getTime">
-<area shape="rect" id="node1" title=" " alt="" coords="108,5,239,31"/>
-<area shape="rect" id="node2" href="$d6/d20/tag__value__tests_8cpp.html#adb5dc1dac824d444b6682c79348b9417" title=" " alt="" coords="5,5,60,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="108,5,237,31"/>
+<area shape="rect" id="Node000002" href="$d6/d20/tag__value__tests_8cpp.html#adb5dc1dac824d444b6682c79348b9417" title=" " alt="" coords="5,5,60,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,21,60,21,60,16,92,16"/>
 </map>

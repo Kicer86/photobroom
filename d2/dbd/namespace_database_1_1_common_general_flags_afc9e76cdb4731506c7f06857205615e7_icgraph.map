@@ -1,5 +1,7 @@
 <map id="Database::CommonGeneralFlags::FacesAnalysisState" name="Database::CommonGeneralFlags::FacesAnalysisState">
-<area shape="rect" id="node1" title=" " alt="" coords="219,27,431,67"/>
-<area shape="rect" id="node2" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="15,5,161,31"/>
-<area shape="rect" id="node3" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#abf689e3ee66677ea77dc4b3e00e0f440" title=" " alt="" coords="5,55,171,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="218,27,429,68"/>
+<area shape="rect" id="Node000002" href="$dd/d0a/class_face_editor.html#acd98f4936f0f9f4672c64a49c101442d" title=" " alt="" coords="15,5,160,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,35,160,30,161,25,203,30"/>
+<area shape="rect" id="Node000005" href="$d6/d7f/class_database_1_1_sql_filter_query_generator.html#abf689e3ee66677ea77dc4b3e00e0f440" title=" " alt="" coords="5,55,170,96"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="202,65,170,68,170,63,202,59"/>
 </map>

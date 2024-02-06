@@ -1,8 +1,13 @@
 <map id="SeriesDetector::analyzePhotos" name="SeriesDetector::analyzePhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="5,104,204,129"/>
-<area shape="rect" id="node2" href="$df/ddd/struct_i_logger.html#a72f523de0593fdab9bdd79302a51880e" title=" " alt="" coords="299,5,405,31"/>
-<area shape="rect" id="node3" href="$d4/d50/namespace_photo.html#ac4904ce3f8b7ddbe6bf54e26ad366521" title=" " alt="" coords="299,55,405,80"/>
-<area shape="rect" id="node4" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="269,104,435,129"/>
-<area shape="rect" id="node5" href="$d3/df6/class_series_detector.html#af571b628d1f9df8742bc7747af817cd6" title=" " alt="" coords="252,153,452,179"/>
-<area shape="rect" id="node6" href="$df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643" title=" " alt="" coords="285,203,419,228"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,104,203,130"/>
+<area shape="rect" id="Node000002" href="$df/ddd/struct_i_logger.html#a72f523de0593fdab9bdd79302a51880e" title=" " alt="" coords="297,5,404,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,101,181,71,250,40,281,30,283,35,252,45,183,75,129,106"/>
+<area shape="rect" id="Node000003" href="$d4/d50/namespace_photo.html#ac4904ce3f8b7ddbe6bf54e26ad366521" title=" " alt="" coords="297,55,404,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="171,101,282,78,283,84,172,106"/>
+<area shape="rect" id="Node000004" href="$d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" title=" " alt="" coords="268,104,433,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="203,114,252,114,252,120,203,120"/>
+<area shape="rect" id="Node000005" href="$d3/df6/class_series_detector.html#af571b628d1f9df8742bc7747af817cd6" title=" " alt="" coords="251,153,450,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="172,128,268,147,267,152,171,133"/>
+<area shape="rect" id="Node000007" href="$df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643" title=" " alt="" coords="284,203,417,228"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="129,128,183,158,252,189,271,195,269,200,250,194,181,163,126,133"/>
 </map>

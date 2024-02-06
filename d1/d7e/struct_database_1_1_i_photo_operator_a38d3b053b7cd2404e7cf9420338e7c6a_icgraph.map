@@ -1,4 +1,5 @@
 <map id="Database::IPhotoOperator::onPhotos" name="Database::IPhotoOperator::onPhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="220,5,391,45"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" title=" " alt="" coords="5,5,172,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="220,5,390,46"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" title=" " alt="" coords="5,5,172,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,28,172,28,172,23,204,23"/>
 </map>

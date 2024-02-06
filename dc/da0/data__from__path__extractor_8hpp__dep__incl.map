@@ -1,6 +1,9 @@
 <map id="src/core/data_from_path_extractor.hpp" name="src/core/data_from_path_extractor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="246,5,381,45"/>
-<area shape="rect" id="node2" href="$dc/db1/data__from__path__extractor_8cpp.html" title=" " alt="" coords="5,101,203,141"/>
-<area shape="rect" id="node3" href="$d9/d0a/data__from__path__extractor__tests_8cpp.html" title=" " alt="" coords="227,93,400,148"/>
-<area shape="rect" id="node4" href="$dc/d26/photos__data__guesser_8cpp.html" title=" " alt="" coords="425,101,599,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="244,5,379,46"/>
+<area shape="rect" id="Node000002" href="$dc/db1/data__from__path__extractor_8cpp.html" title=" " alt="" coords="5,102,202,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="255,55,148,103,146,98,253,50"/>
+<area shape="rect" id="Node000003" href="$d9/d0a/data__from__path__extractor__tests_8cpp.html" title=" " alt="" coords="225,94,398,150"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="314,61,314,93,309,93,309,61"/>
+<area shape="rect" id="Node000004" href="$dc/d26/photos__data__guesser_8cpp.html" title=" " alt="" coords="422,102,596,142"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="368,51,469,99,466,103,365,55"/>
 </map>

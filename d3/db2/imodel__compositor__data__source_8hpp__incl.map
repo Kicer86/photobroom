@@ -1,5 +1,7 @@
 <map id="src/core/imodel_compositor_data_source.hpp" name="src/core/imodel_compositor_data_source.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,188,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="7,93,77,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="102,93,201,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,187,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="8,94,77,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,48,62,83,57,80,81,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="102,94,200,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="112,45,136,79,131,83,107,48"/>
 </map>

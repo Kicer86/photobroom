@@ -1,5 +1,7 @@
 <map id="ThumbnailImageProvider" name="ThumbnailImageProvider">
-<area shape="rect" id="node1" title=" " alt="" coords="110,93,277,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,192,31"/>
-<area shape="rect" id="node3" href="$dd/dfb/struct_i_thumbnails_manager.html" title=" " alt="" coords="217,5,359,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="109,94,274,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,191,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="124,39,180,92,177,96,120,43"/>
+<area shape="rect" id="Node000003" href="$dd/dfb/struct_i_thumbnails_manager.html" title=" " alt="" coords="215,5,357,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="264,43,206,96,203,92,260,39"/>
 </map>

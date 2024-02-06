@@ -1,8 +1,14 @@
 <map id="src/core/unit_tests/model_compositor_tests.cpp" name="src/core/unit_tests/model_compositor_tests.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="123,5,315,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="139,196,253,221"/>
-<area shape="rect" id="node3" title=" " alt="" coords="28,108,119,133"/>
-<area shape="rect" id="node4" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="143,108,295,133"/>
-<area shape="rect" id="node5" href="$db/d8e/mock__model__compositor__data__source_8hpp.html" title=" " alt="" coords="319,93,486,148"/>
-<area shape="rect" id="node6" href="$d2/d08/printers_8hpp.html" title=" " alt="" coords="511,108,692,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="122,5,313,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="138,198,252,223"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,37,93,45,64,57,39,74,18,96,11,109,8,122,11,134,18,148,39,169,65,185,94,196,123,202,122,207,93,201,63,190,36,174,14,151,6,136,3,122,6,107,14,92,36,70,62,53,91,40,121,32"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="29,109,118,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,49,107,102,104,98,186,44"/>
+<area shape="rect" id="Node000004" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="142,109,293,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="220,46,220,94,215,94,215,46"/>
+<area shape="rect" id="Node000009" href="$db/d8e/mock__model__compositor__data__source_8hpp.html" title=" " alt="" coords="317,94,483,150"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="257,44,335,84,333,89,255,49"/>
+<area shape="rect" id="Node000010" href="$d2/d08/printers_8hpp.html" title=" " alt="" coords="507,109,688,135"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="301,44,495,91,537,102,536,107,494,97,299,49"/>
+<area shape="poly" id="edge5_Node000009_Node000002" title=" " alt="" coords="337,153,239,194,236,189,335,148"/>
 </map>

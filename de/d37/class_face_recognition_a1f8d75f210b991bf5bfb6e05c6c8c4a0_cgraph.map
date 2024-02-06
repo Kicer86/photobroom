@@ -1,5 +1,7 @@
 <map id="FaceRecognition::getFingerprint" name="FaceRecognition::getFingerprint">
-<area shape="rect" id="node1" title=" " alt="" coords="5,42,209,67"/>
-<area shape="rect" id="node2" href="$d6/d92/classdlib__api_1_1_face_encoder.html#af1632981b17255233c575e6580b64630" title=" " alt="" coords="257,5,405,45"/>
-<area shape="rect" id="node3" href="$d5/db6/class_oriented_image.html#a1b407afa9fabdcd03a5964a54ccfa6b5" title=" " alt="" coords="266,70,397,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,209,68"/>
+<area shape="rect" id="Node000002" href="$d6/d92/classdlib__api_1_1_face_encoder.html#af1632981b17255233c575e6580b64630" title=" " alt="" coords="257,5,404,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,39,241,35,241,40,209,44"/>
+<area shape="rect" id="Node000004" href="$d5/db6/class_oriented_image.html#a1b407afa9fabdcd03a5964a54ccfa6b5" title=" " alt="" coords="265,70,396,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="209,65,250,70,250,76,209,70"/>
 </map>

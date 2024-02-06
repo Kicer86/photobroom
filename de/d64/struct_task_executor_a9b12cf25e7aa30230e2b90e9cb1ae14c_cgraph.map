@@ -1,4 +1,5 @@
 <map id="TaskExecutor::add" name="TaskExecutor::add">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,133,31"/>
-<area shape="rect" id="node2" href="$de/d64/struct_task_executor.html#ac6200f7cc9d99e7a6f3475a80b54fdca" title=" " alt="" coords="181,5,395,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,133,31"/>
+<area shape="rect" id="Node000002" href="$de/d64/struct_task_executor.html#ac6200f7cc9d99e7a6f3475a80b54fdca" title=" " alt="" coords="181,5,393,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,16,165,16,165,21,133,21"/>
 </map>

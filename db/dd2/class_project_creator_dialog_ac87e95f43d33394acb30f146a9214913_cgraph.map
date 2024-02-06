@@ -1,4 +1,5 @@
 <map id="ProjectCreatorDialog::updateButtons" name="ProjectCreatorDialog::updateButtons">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,147,45"/>
-<area shape="rect" id="node2" href="$dc/df3/class_qt_ext_choose_file.html#a25a2ec5cc7b9e996e8dc9739e7bd3a0f" title=" " alt="" coords="195,13,341,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,146,46"/>
+<area shape="rect" id="Node000002" href="$dc/df3/class_qt_ext_choose_file.html#a25a2ec5cc7b9e996e8dc9739e7bd3a0f" title=" " alt="" coords="194,13,339,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,23,178,23,178,28,146,28"/>
 </map>

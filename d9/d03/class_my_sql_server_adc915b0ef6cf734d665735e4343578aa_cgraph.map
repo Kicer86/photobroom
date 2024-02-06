@@ -1,4 +1,5 @@
 <map id="MySqlServer::waitForServerToStart" name="MySqlServer::waitForServerToStart">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,188,45"/>
-<area shape="rect" id="node2" href="$d7/db0/class_disk_observer.html#a613f1c8cd3e34a11e698414233b3982f" title=" " alt="" coords="236,5,407,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,188,46"/>
+<area shape="rect" id="Node000002" href="$d7/db0/class_disk_observer.html#a613f1c8cd3e34a11e698414233b3982f" title=" " alt="" coords="236,5,406,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,23,220,23,220,28,188,28"/>
 </map>

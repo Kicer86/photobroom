@@ -1,5 +1,7 @@
 <map id="INotifications::insert" name="INotifications::insert">
-<area shape="rect" id="node1" title=" " alt="" coords="225,45,361,70"/>
-<area shape="rect" id="node2" href="$db/d6e/class_collection_scanner.html#a3558b9d54b1298bdce201f33a1ef4acc" title=" " alt="" coords="25,5,158,45"/>
-<area shape="rect" id="node3" href="$dd/dde/class_features_observer.html#a0841ddd352c3a51c09c83f44d60d0c0c" title=" " alt="" coords="5,69,177,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="225,46,360,72"/>
+<area shape="rect" id="Node000002" href="$db/d6e/class_collection_scanner.html#a3558b9d54b1298bdce201f33a1ef4acc" title=" " alt="" coords="25,5,157,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,48,157,39,158,34,210,43"/>
+<area shape="rect" id="Node000009" href="$dd/dde/class_features_observer.html#a0841ddd352c3a51c09c83f44d60d0c0c" title=" " alt="" coords="5,71,177,111"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="210,75,178,80,177,75,209,69"/>
 </map>

@@ -1,6 +1,12 @@
 <map id="FlatModel::getPhotoData" name="FlatModel::getPhotoData">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,169,80"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#a2fc0d267fad3b42f6696fed5e392d443" title=" " alt="" coords="234,29,345,55"/>
-<area shape="rect" id="node3" href="$d1/da6/class_flat_model.html#a058935a0be53ef7083acac2fc7e1efbc" title=" " alt="" coords="409,55,524,80"/>
-<area shape="rect" id="node4" href="$d1/da6/class_flat_model.html#a4fc6cdcc57bfa8297d806d6bc694d92c" title=" " alt="" coords="217,131,361,156"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,169,80"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a2fc0d267fad3b42f6696fed5e392d443" title=" " alt="" coords="234,29,343,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="169,63,227,56,227,61,169,69"/>
+<area shape="rect" id="Node000003" href="$d1/da6/class_flat_model.html#a058935a0be53ef7083acac2fc7e1efbc" title=" " alt="" coords="408,55,522,80"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="169,65,393,65,393,70,169,70"/>
+<area shape="rect" id="Node000005" href="$d1/da6/class_flat_model.html#a4fc6cdcc57bfa8297d806d6bc694d92c" title=" " alt="" coords="217,131,360,156"/>
+<area shape="poly" id="edge6_Node000001_Node000005" title=" " alt="" coords="124,78,239,122,237,127,122,83"/>
+<area shape="poly" id="edge3_Node000002_Node000001" title=" " alt="" coords="234,44,149,54,148,49,233,38"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="258,30,253,21,256,11,268,5,288,3,310,5,321,12,318,16,308,10,288,8,270,10,260,15,258,20,263,28"/>
+<area shape="poly" id="edge4_Node000002_Node000003" title=" " alt="" coords="344,47,393,55,392,60,343,53"/>
 </map>

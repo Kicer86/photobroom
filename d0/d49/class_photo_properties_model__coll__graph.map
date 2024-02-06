@@ -1,5 +1,7 @@
 <map id="PhotoPropertiesModel" name="PhotoPropertiesModel">
-<area shape="rect" id="node1" title=" " alt="" coords="87,93,237,119"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,5,151,31"/>
-<area shape="rect" id="node3" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="175,5,317,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="86,94,235,120"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,150,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,41,151,92,147,95,98,44"/>
+<area shape="rect" id="Node000003" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="174,5,315,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,44,174,96,170,92,220,41"/>
 </map>

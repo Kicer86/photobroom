@@ -1,13 +1,24 @@
 <map id="Database::PeopleInformationAccessor::store" name="Database::PeopleInformationAccessor::store">
-<area shape="rect" id="node1" title="Store or update person." alt="" coords="5,257,193,297"/>
-<area shape="rect" id="node2" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="242,5,429,45"/>
-<area shape="rect" id="node3" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="477,175,668,215"/>
-<area shape="rect" id="node4" href="$db/de4/class_person_name.html#a979b86cf90481f8e272512c14fa01e35" title=" " alt="" coords="278,121,393,146"/>
-<area shape="rect" id="node5" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="243,171,428,211"/>
-<area shape="rect" id="node6" href="$db/de4/class_person_name.html#aee0d4971d8f4ed356107c4b635830e6d" title=" " alt="" coords="267,235,403,261"/>
-<area shape="rect" id="node7" href="$db/dd9/class_database_1_1_people_information_accessor.html#a68e4ff266d1c8a9b2ada19811c972ea7" title="get person name for given person id" alt="" coords="241,285,429,325"/>
-<area shape="rect" id="node8" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="247,349,424,389"/>
-<area shape="rect" id="node9" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="247,413,424,453"/>
-<area shape="rect" id="node10" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ab424cc45b1af347392472432c2a97e5f" title=" " alt="" coords="243,477,428,517"/>
-<area shape="rect" id="node11" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="302,542,369,567"/>
+<area shape="rect" id="Node000001" title="Store or update person." alt="" coords="5,257,193,298"/>
+<area shape="rect" id="Node000002" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="242,5,427,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,256,125,216,154,164,192,110,239,62,254,52,257,56,242,66,196,114,159,167,130,218,111,258"/>
+<area shape="rect" id="Node000003" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="476,175,665,215"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="107,256,127,221,155,179,193,137,215,120,240,106,290,88,333,84,376,91,429,106,458,116,486,131,534,163,531,167,484,135,456,121,427,111,375,96,332,89,291,93,242,111,218,124,197,141,159,182,131,224,112,258"/>
+<area shape="rect" id="Node000004" href="$db/de4/class_person_name.html#a979b86cf90481f8e272512c14fa01e35" title=" " alt="" coords="278,121,391,147"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="117,255,169,206,203,179,239,157,262,147,264,152,242,161,206,184,173,210,121,259"/>
+<area shape="rect" id="Node000005" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="242,171,427,211"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="152,254,240,221,257,214,258,219,242,225,154,259"/>
+<area shape="rect" id="Node000006" href="$db/de4/class_person_name.html#aee0d4971d8f4ed356107c4b635830e6d" title=" " alt="" coords="267,236,402,261"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="193,263,251,256,252,261,194,269"/>
+<area shape="rect" id="Node000007" href="$db/dd9/class_database_1_1_people_information_accessor.html#a68e4ff266d1c8a9b2ada19811c972ea7" title="get person name for given person id" alt="" coords="241,285,428,326"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="194,286,226,290,225,295,193,292"/>
+<area shape="rect" id="Node000010" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="246,351,423,391"/>
+<area shape="poly" id="edge8_Node000001_Node000010" title=" " alt="" coords="149,296,242,335,261,342,259,347,240,340,146,301"/>
+<area shape="rect" id="Node000011" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="246,416,423,457"/>
+<area shape="poly" id="edge9_Node000001_Node000011" title=" " alt="" coords="121,297,173,348,206,376,242,401,253,407,250,411,239,405,203,380,169,352,117,300"/>
+<area shape="rect" id="Node000012" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#ab424cc45b1af347392472432c2a97e5f" title=" " alt="" coords="242,481,427,522"/>
+<area shape="poly" id="edge10_Node000001_Node000012" title=" " alt="" coords="113,297,132,334,161,379,198,426,242,466,250,472,247,476,239,470,194,429,157,382,128,336,108,300"/>
+<area shape="rect" id="Node000009" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="302,546,367,572"/>
+<area shape="poly" id="edge11_Node000001_Node000009" title=" " alt="" coords="108,298,124,346,151,409,190,476,214,506,242,532,264,544,287,551,286,556,261,549,239,536,210,509,185,479,146,412,119,348,103,299"/>
+<area shape="poly" id="edge7_Node000007_Node000003" title=" " alt="" coords="400,282,427,271,522,221,524,226,429,276,402,287"/>
 </map>

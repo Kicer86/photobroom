@@ -1,9 +1,15 @@
 <map id="Database::PeopleInformationAccessor::store" name="Database::PeopleInformationAccessor::store">
-<area shape="rect" id="node1" title=" " alt="" coords="5,152,193,192"/>
-<area shape="rect" id="node2" href="$db/d61/class_database_1_1_a_people_information_accessor.html#a12693b70ac464f912024e6fe24073f0e" title=" " alt="" coords="241,5,439,45"/>
-<area shape="rect" id="node3" href="$db/de4/class_person_name.html#a979b86cf90481f8e272512c14fa01e35" title=" " alt="" coords="283,70,397,95"/>
-<area shape="rect" id="node4" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#aeb14220779523b736ed934ba9d0e7f29" title="list all people names" alt="" coords="244,120,436,160"/>
-<area shape="rect" id="node5" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#a32037bc7577e537d8e2cbaae9ef83bf8" title="get person details" alt="" coords="244,184,436,224"/>
-<area shape="rect" id="node6" href="$db/d61/class_database_1_1_a_people_information_accessor.html#a0030d71a09a8ad1e94ad61ad785e1a49" title=" " alt="" coords="241,248,439,288"/>
-<area shape="rect" id="node7" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="307,313,373,338"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,153,193,194"/>
+<area shape="rect" id="Node000002" href="$db/d61/class_database_1_1_a_people_information_accessor.html#a12693b70ac464f912024e6fe24073f0e" title=" " alt="" coords="241,5,437,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,151,171,103,204,78,239,55,249,50,252,55,242,60,207,82,174,108,122,155"/>
+<area shape="rect" id="Node000003" href="$db/de4/class_person_name.html#a979b86cf90481f8e272512c14fa01e35" title=" " alt="" coords="282,70,396,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="139,150,240,106,267,97,268,102,242,111,141,155"/>
+<area shape="rect" id="Node000004" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#aeb14220779523b736ed934ba9d0e7f29" title="list all people names" alt="" coords="243,120,435,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="193,158,227,153,228,158,193,163"/>
+<area shape="rect" id="Node000005" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#a32037bc7577e537d8e2cbaae9ef83bf8" title="get person details" alt="" coords="243,185,435,226"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="193,184,228,188,227,193,193,189"/>
+<area shape="rect" id="Node000006" href="$db/d61/class_database_1_1_a_people_information_accessor.html#a0030d71a09a8ad1e94ad61ad785e1a49" title=" " alt="" coords="241,251,437,291"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="145,192,242,235,261,243,259,248,240,240,142,197"/>
+<area shape="rect" id="Node000007" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="306,316,372,341"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="119,193,170,247,205,276,242,301,266,311,292,318,290,324,264,316,239,305,201,280,167,251,115,196"/>
 </map>

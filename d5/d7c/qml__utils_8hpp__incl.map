@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/utils/qml_utils.hpp" name="src/gui/desktop/utils/qml_utils.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="64,5,203,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,72,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="97,93,170,119"/>
-<area shape="rect" id="node4" href="$df/d56/ithumbnails__manager_8hpp.html" title=" " alt="" coords="195,93,392,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="62,5,201,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,71,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,48,66,86,62,82,107,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="95,94,168,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="134,46,134,78,129,78,129,46"/>
+<area shape="rect" id="Node000004" href="$df/d56/ithumbnails__manager_8hpp.html" title=" " alt="" coords="192,94,388,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="172,44,253,84,251,89,170,49"/>
 </map>

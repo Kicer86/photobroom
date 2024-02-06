@@ -1,10 +1,17 @@
 <map id="Database::IBackend::openTransaction" name="Database::IBackend::openTransaction">
-<area shape="rect" id="node1" title="begin transaction" alt="" coords="229,184,368,224"/>
-<area shape="rect" id="node2" href="$d5/d6b/class_database_1_1_group_operator.html#abac9cd6ec0bf898cc604e5fd5d219d67" title=" " alt="" coords="9,5,177,45"/>
-<area shape="rect" id="node3" href="$d0/d37/class_database_1_1_database_queue.html#a727922aa6057564410d837ace96f18a8" title=" " alt="" coords="5,69,181,109"/>
-<area shape="rect" id="node4" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="17,134,169,159"/>
-<area shape="rect" id="node5" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="27,184,160,224"/>
-<area shape="rect" id="node6" href="$d5/d6b/class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315" title=" " alt="" coords="9,248,177,288"/>
-<area shape="rect" id="node7" href="$da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" title=" " alt="" coords="10,312,177,352"/>
-<area shape="rect" id="node8" href="$df/d40/namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c" title=" " alt="" coords="10,377,177,402"/>
+<area shape="rect" id="Node000001" title="begin transaction" alt="" coords="229,185,366,226"/>
+<area shape="rect" id="Node000002" href="$d5/d6b/class_database_1_1_group_operator.html#abac9cd6ec0bf898cc604e5fd5d219d67" title=" " alt="" coords="9,5,177,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="275,173,235,116,208,87,179,61,159,49,161,44,182,57,212,83,239,113,279,170"/>
+<area shape="rect" id="Node000003" href="$d0/d37/class_database_1_1_database_queue.html#a727922aa6057564410d837ace96f18a8" title=" " alt="" coords="5,71,181,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="258,178,221,151,179,125,156,114,158,110,182,121,224,146,261,173"/>
+<area shape="rect" id="Node000004" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="17,136,169,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="213,185,141,164,143,159,214,180"/>
+<area shape="rect" id="Node000005" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="27,185,159,226"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="213,208,160,208,160,203,213,203"/>
+<area shape="rect" id="Node000011" href="$d5/d6b/class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315" title=" " alt="" coords="9,251,177,291"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="218,234,160,253,158,247,216,229"/>
+<area shape="rect" id="Node000012" href="$da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" title=" " alt="" coords="10,316,176,357"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="267,239,228,273,182,305,157,318,155,313,179,301,225,269,263,235"/>
+<area shape="rect" id="Node000014" href="$df/d40/namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c" title=" " alt="" coords="10,381,176,407"/>
+<area shape="poly" id="edge7_Node000001_Node000014" title=" " alt="" coords="283,241,243,307,215,341,182,371,160,383,157,378,179,366,211,338,239,304,278,239"/>
 </map>

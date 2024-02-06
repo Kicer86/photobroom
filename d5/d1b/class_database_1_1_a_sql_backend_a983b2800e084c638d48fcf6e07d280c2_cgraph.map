@@ -1,7 +1,12 @@
 <map id="Database::ASqlBackend::update" name="Database::ASqlBackend::update">
-<area shape="rect" id="node1" title="update photos details" alt="" coords="5,87,168,127"/>
-<area shape="rect" id="node2" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="273,5,387,31"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="249,55,411,95"/>
-<area shape="rect" id="node4" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="216,119,444,159"/>
-<area shape="rect" id="node5" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aeabaa61a16e3602392353c5ce5727b91" title="store photo data" alt="" coords="249,207,411,247"/>
+<area shape="rect" id="Node000001" title="update photos details" alt="" coords="5,89,167,129"/>
+<area shape="rect" id="Node000002" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="272,5,385,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,86,164,62,214,41,256,29,257,34,216,46,167,67,123,90"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="248,55,409,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="167,95,232,86,233,91,168,100"/>
+<area shape="rect" id="Node000005" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="215,121,442,161"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="167,117,200,121,199,126,167,122"/>
+<area shape="rect" id="Node000006" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aeabaa61a16e3602392353c5ce5727b91" title="store photo data" alt="" coords="248,210,409,251"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="130,127,273,200,271,205,127,132"/>
+<area shape="poly" id="edge5_Node000006_Node000006" title=" " alt="" coords="283,210,281,200,288,191,304,185,328,183,354,186,370,192,368,197,353,191,328,188,305,190,291,195,286,201,288,209"/>
 </map>

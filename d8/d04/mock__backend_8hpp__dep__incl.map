@@ -1,8 +1,13 @@
 <map id="src/unit_tests_utils/mock_backend.hpp" name="src/unit_tests_utils/mock_backend.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="437,5,576,45"/>
-<area shape="rect" id="node2" href="$d7/de6/json__to__backend__tests_8cpp.html" title=" " alt="" coords="5,101,189,141"/>
-<area shape="rect" id="node3" href="$dc/d1a/series__detector__tests_8cpp.html" title=" " alt="" coords="214,101,389,141"/>
-<area shape="rect" id="node4" href="$dd/d27/tag__info__collector__tests_8cpp.html" title=" " alt="" coords="413,101,601,141"/>
-<area shape="rect" id="node5" href="$d1/dc2/flat__model__tests_8cpp.html" title=" " alt="" coords="625,101,809,141"/>
-<area shape="rect" id="node6" href="$d5/d72/thumbnails__manager__tests_8cpp.html" title=" " alt="" coords="834,93,1009,148"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="436,5,574,46"/>
+<area shape="rect" id="Node000002" href="$d7/de6/json__to__backend__tests_8cpp.html" title=" " alt="" coords="5,102,189,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="422,47,202,97,173,104,172,98,200,91,421,42"/>
+<area shape="rect" id="Node000003" href="$dc/d1a/series__detector__tests_8cpp.html" title=" " alt="" coords="213,102,387,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="449,55,344,103,342,98,447,50"/>
+<area shape="rect" id="Node000004" href="$dd/d27/tag__info__collector__tests_8cpp.html" title=" " alt="" coords="411,102,599,142"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="508,62,508,101,502,101,502,62"/>
+<area shape="rect" id="Node000005" href="$d1/dc2/flat__model__tests_8cpp.html" title=" " alt="" coords="623,102,806,142"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="564,50,672,98,669,103,561,55"/>
+<area shape="rect" id="Node000006" href="$d5/d72/thumbnails__manager__tests_8cpp.html" title=" " alt="" coords="830,94,1004,150"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="590,41,819,91,831,94,829,99,818,97,588,46"/>
 </map>

@@ -1,11 +1,26 @@
 <map id="Database::ASqlBackend::checkStructure" name="Database::ASqlBackend::checkStructure">
-<area shape="rect" id="node1" title="validate database consistency" alt="" coords="5,203,168,243"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aa1069ca198133cd660ca6a76c5861b81" title="check current db version and upgrade structures if required" alt="" coords="218,5,381,45"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6" title="Make sure given table exists in database." alt="" coords="431,63,593,103"/>
-<area shape="rect" id="node4" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="641,92,828,132"/>
-<area shape="rect" id="node5" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="455,181,569,206"/>
-<area shape="rect" id="node6" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a9786615c15a6e0e878960d5e958012b2" title=" " alt="" coords="216,120,383,160"/>
-<area shape="rect" id="node7" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="218,285,381,325"/>
-<area shape="rect" id="node8" href="$d5/dcf/class_database_1_1db__error.html#a01059edea5c37cbd55061b53744f4c65" title=" " alt="" coords="234,349,365,389"/>
-<area shape="rect" id="node9" href="$d5/dcf/class_database_1_1db__error.html#aaf317da7aa6d7286bba22edbdecd747a" title=" " alt="" coords="234,413,365,453"/>
+<area shape="rect" id="Node000001" title="validate database consistency" alt="" coords="5,203,167,243"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#aa1069ca198133cd660ca6a76c5861b81" title="check current db version and upgrade structures if required" alt="" coords="217,5,379,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,201,143,135,176,97,213,62,229,51,232,56,216,66,180,100,148,138,102,204"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6b163257b1e7f0027236542016baf8a6" title="Make sure given table exists in database." alt="" coords="429,63,590,103"/>
+<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="101,200,147,151,179,126,214,106,263,89,315,79,366,74,413,73,413,79,366,80,315,84,264,94,216,111,182,130,151,155,105,204"/>
+<area shape="rect" id="Node000005" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="638,92,824,133"/>
+<area shape="poly" id="edge8_Node000001_Node000005" title=" " alt="" coords="167,235,256,245,363,250,478,242,535,232,589,216,621,202,650,183,699,142,702,146,653,188,623,207,591,222,536,237,479,247,363,255,256,251,167,240"/>
+<area shape="rect" id="Node000009" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="453,181,566,207"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="167,215,437,196,437,201,167,220"/>
+<area shape="rect" id="Node000010" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a9786615c15a6e0e878960d5e958012b2" title=" " alt="" coords="215,120,381,161"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="139,200,228,164,230,169,141,205"/>
+<area shape="rect" id="Node000011" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="217,285,379,326"/>
+<area shape="poly" id="edge13_Node000001_Node000011" title=" " alt="" coords="141,241,230,277,228,282,139,246"/>
+<area shape="rect" id="Node000013" href="$d5/dcf/class_database_1_1db__error.html#a01059edea5c37cbd55061b53744f4c65" title=" " alt="" coords="233,351,363,391"/>
+<area shape="poly" id="edge14_Node000001_Node000013" title=" " alt="" coords="108,242,155,288,216,335,226,341,223,346,213,340,151,292,104,245"/>
+<area shape="rect" id="Node000014" href="$d5/dcf/class_database_1_1db__error.html#aaf317da7aa6d7286bba22edbdecd747a" title=" " alt="" coords="233,416,363,457"/>
+<area shape="poly" id="edge15_Node000001_Node000014" title=" " alt="" coords="99,242,143,319,177,362,216,401,223,405,219,410,213,405,173,366,139,322,95,245"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="376,44,418,56,417,61,375,49"/>
+<area shape="poly" id="edge5_Node000002_Node000005" title=" " alt="" coords="379,23,481,30,537,37,591,48,637,64,679,82,677,87,635,69,590,54,536,42,480,35,379,28"/>
+<area shape="poly" id="edge3_Node000003_Node000005" title=" " alt="" coords="591,91,623,95,623,101,590,96"/>
+<area shape="poly" id="edge4_Node000005_Node000005" title=" " alt="" coords="689,92,687,82,694,73,709,67,731,65,755,68,769,74,767,79,754,73,731,71,710,73,697,77,692,83,694,91"/>
+<area shape="poly" id="edge11_Node000010_Node000003" title=" " alt="" coords="375,117,417,105,418,110,376,122"/>
+<area shape="poly" id="edge12_Node000010_Node000005" title=" " alt="" coords="381,132,623,117,623,122,382,138"/>
+<area shape="poly" id="edge10_Node000010_Node000009" title=" " alt="" coords="382,159,441,174,440,179,381,164"/>
 </map>

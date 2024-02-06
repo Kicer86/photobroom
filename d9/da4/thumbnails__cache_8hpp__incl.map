@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/utils/thumbnails_cache.hpp" name="src/gui/desktop/utils/thumbnails_cache.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="100,5,255,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,75,126"/>
-<area shape="rect" id="node3" title=" " alt="" coords="99,93,256,133"/>
-<area shape="rect" id="node4" href="$d6/db9/ithumbnails__cache_8hpp.html" title=" " alt="" coords="280,101,435,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="98,5,253,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,74,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="146,49,73,95,70,91,143,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="97,94,254,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="178,47,178,78,173,78,173,47"/>
+<area shape="rect" id="Node000004" href="$d6/db9/ithumbnails__cache_8hpp.html" title=" " alt="" coords="278,102,431,127"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="217,44,317,92,315,97,215,49"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="TagValue::set" name="TagValue::set">
-<area shape="rect" id="node1" title=" " alt="" coords="196,5,297,31"/>
-<area shape="rect" id="node2" href="$df/d7c/class_tag_value.html#a989549d8434452524c96bd618ac4b069" title=" " alt="" coords="5,5,148,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="196,5,296,31"/>
+<area shape="rect" id="Node000002" href="$df/d7c/class_tag_value.html#a989549d8434452524c96bd618ac4b069" title=" " alt="" coords="5,5,148,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,21,148,21,148,16,180,16"/>
 </map>

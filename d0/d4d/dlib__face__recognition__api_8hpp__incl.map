@@ -1,9 +1,15 @@
 <map id="src/face_recognition/dlib_wrapper/dlib_face_recognition_api.hpp" name="src/face_recognition/dlib_wrapper/dlib_face_recognition_api.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="186,5,341,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,108,73,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="98,108,157,133"/>
-<area shape="rect" id="node4" title=" " alt="" coords="181,108,252,133"/>
-<area shape="rect" id="node5" title=" " alt="" coords="276,108,344,133"/>
-<area shape="rect" id="node6" title=" " alt="" coords="369,108,435,133"/>
-<area shape="rect" id="node7" title=" " alt="" coords="459,108,606,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="182,5,336,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,109,73,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,64,85,105,83,100,189,59"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="97,109,155,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,64,158,103,156,98,216,59"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="179,109,248,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="247,62,230,96,225,94,243,60"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="272,109,339,135"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="276,60,294,94,290,97,271,63"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="363,109,430,135"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="303,59,366,98,363,103,301,64"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="454,109,600,135"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="337,57,476,101,474,106,336,62"/>
 </map>

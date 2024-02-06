@@ -1,5 +1,7 @@
 <map id="src/core/observable_executor.hpp" name="src/core/observable_executor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="23,5,159,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,71,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="95,93,194,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="22,5,157,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,70,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,48,56,82,52,79,74,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="94,94,192,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="105,45,128,80,124,83,100,48"/>
 </map>

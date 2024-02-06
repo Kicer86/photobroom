@@ -1,6 +1,10 @@
 <map id="Database::IBackend::peopleInformationAccessor" name="Database::IBackend::peopleInformationAccessor">
-<area shape="rect" id="node1" title=" " alt="" coords="237,63,424,103"/>
-<area shape="rect" id="node2" href="$d3/d26/class_recognizer.html#a755bf82a62c94ce972e8cc33ebc970f7" title=" " alt="" coords="5,5,189,45"/>
-<area shape="rect" id="node3" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="17,70,178,95"/>
-<area shape="rect" id="node4" href="$d0/d9c/struct_face.html#a9f9689a732c751ebdf860a10dd3b6fe3" title=" " alt="" coords="54,143,141,169"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="237,63,422,103"/>
+<area shape="rect" id="Node000002" href="$d3/d26/class_recognizer.html#a755bf82a62c94ce972e8cc33ebc970f7" title=" " alt="" coords="5,5,189,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,61,182,49,183,44,231,56"/>
+<area shape="rect" id="Node000004" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="17,70,177,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="221,86,178,86,178,80,221,80"/>
+<area shape="rect" id="Node000007" href="$d0/d9c/struct_face.html#a9f9689a732c751ebdf860a10dd3b6fe3" title=" " alt="" coords="54,144,140,169"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="249,111,141,146,139,140,248,106"/>
+<area shape="poly" id="edge4_Node000007_Node000007" title=" " alt="" coords="138,131,124,125,97,122,72,124,59,129,56,134,63,141,59,145,51,135,55,125,71,119,97,117,125,120,140,126"/>
 </map>

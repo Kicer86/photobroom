@@ -1,5 +1,9 @@
 <map id="TYPED_TEST" name="TYPED_TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,111,56"/>
-<area shape="rect" id="node2" href="$d7/d1e/class_photo_1_1_data_delta.html#a8dbb1d880f0c0b37a9629fae8d098413" title=" " alt="" coords="160,5,315,31"/>
-<area shape="rect" id="node3" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="159,55,316,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,110,80"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a8dbb1d880f0c0b37a9629fae8d098413" title=" " alt="" coords="159,5,313,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,51,171,33,173,38,108,57"/>
+<area shape="rect" id="Node000003" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="158,55,314,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="110,65,142,65,142,70,110,70"/>
+<area shape="rect" id="Node000004" href="$d2/ddd/struct_database_1_1_i_backend.html#a5d5cd941849fe3dcc48b738414b14190" title="emited after photos removal" alt="" coords="167,105,305,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="101,78,157,97,155,102,99,83"/>
 </map>

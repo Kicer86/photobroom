@@ -1,9 +1,15 @@
 <map id="ToolsTabController::constructTab" name="ToolsTabController::constructTab">
-<area shape="rect" id="node1" title=" " alt="" coords="5,138,136,178"/>
-<area shape="rect" id="node2" href="$d7/dff/class_tools_tab.html#afc379b999f619f3a234098d25c85a0b2" title=" " alt="" coords="209,5,335,31"/>
-<area shape="rect" id="node3" href="$d9/d9d/class_a_config_tab.html#ae795471316dfe5bad284fa6bcbca4f50" title=" " alt="" coords="195,55,349,95"/>
-<area shape="rect" id="node4" href="$d7/dff/class_tools_tab.html#acc6fa771066983b32278da4f5cdf9e35" title=" " alt="" coords="197,120,347,145"/>
-<area shape="rect" id="node5" href="$d7/db4/struct_i_configuration.html#a56f21aac17f8a84e7c708081b922f595" title=" " alt="" coords="195,169,349,195"/>
-<area shape="rect" id="node6" href="$d9/d9d/class_a_config_tab.html#aa9a63490b9a9dfe5a4f549326724f680" title=" " alt="" coords="195,219,349,259"/>
-<area shape="rect" id="node7" href="$dc/df3/class_qt_ext_choose_file.html#a8b5a3d61db18285e3b733d904127a708" title=" " alt="" coords="184,284,360,309"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,138,136,179"/>
+<area shape="rect" id="Node000002" href="$d7/dff/class_tools_tab.html#afc379b999f619f3a234098d25c85a0b2" title=" " alt="" coords="209,5,334,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="85,135,125,88,152,63,182,41,194,35,197,40,185,46,156,67,129,92,89,139"/>
+<area shape="rect" id="Node000003" href="$d9/d9d/class_a_config_tab.html#ae795471316dfe5bad284fa6bcbca4f50" title=" " alt="" coords="195,55,348,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="115,135,183,105,197,99,199,104,185,110,117,140"/>
+<area shape="rect" id="Node000004" href="$d7/dff/class_tools_tab.html#acc6fa771066983b32278da4f5cdf9e35" title=" " alt="" coords="197,120,346,146"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="136,147,181,142,181,147,137,153"/>
+<area shape="rect" id="Node000005" href="$d7/db4/struct_i_configuration.html#a56f21aac17f8a84e7c708081b922f595" title=" " alt="" coords="195,169,348,195"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="136,163,180,169,179,174,136,169"/>
+<area shape="rect" id="Node000006" href="$d9/d9d/class_a_config_tab.html#aa9a63490b9a9dfe5a4f549326724f680" title=" " alt="" coords="195,219,348,260"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="118,177,185,205,199,211,197,216,183,210,116,181"/>
+<area shape="rect" id="Node000007" href="$dc/df3/class_qt_ext_choose_file.html#a8b5a3d61db18285e3b733d904127a708" title=" " alt="" coords="184,284,359,310"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="89,177,129,224,156,248,185,269,197,276,195,280,182,274,152,252,125,227,85,181"/>
 </map>

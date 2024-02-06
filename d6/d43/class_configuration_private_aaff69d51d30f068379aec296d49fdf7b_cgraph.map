@@ -1,4 +1,5 @@
 <map id="ConfigurationPrivate::loadData" name="ConfigurationPrivate::loadData">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,144,45"/>
-<area shape="rect" id="node2" href="$de/dfa/struct_i_config_storage.html#ac649a5048786ac424fc8cfdf97991617" title="Load configuration." alt="" coords="192,13,329,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,143,46"/>
+<area shape="rect" id="Node000002" href="$de/dfa/struct_i_config_storage.html#ac649a5048786ac424fc8cfdf97991617" title="Load configuration." alt="" coords="191,13,327,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,23,175,23,175,28,143,28"/>
 </map>

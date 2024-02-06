@@ -1,7 +1,11 @@
 <map id="PhotosGroupingDialog::previewPressed" name="PhotosGroupingDialog::previewPressed">
-<area shape="rect" id="node1" title=" " alt="" coords="5,101,156,141"/>
-<area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#aa5e0f110c4ecd0223531c8f8e447281e" title=" " alt="" coords="207,5,358,45"/>
-<area shape="rect" id="node3" href="$d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" title=" " alt="" coords="207,69,358,109"/>
-<area shape="rect" id="node4" href="$d0/d4e/class_photos_grouping_dialog.html#a666247f1bcbc7b0653544e88af649703" title=" " alt="" coords="207,133,358,173"/>
-<area shape="rect" id="node5" href="$d0/d4e/class_photos_grouping_dialog.html#a5f2052c462d393f01e2358dde9a23add" title=" " alt="" coords="204,197,361,237"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,104,156,145"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#aa5e0f110c4ecd0223531c8f8e447281e" title=" " alt="" coords="207,5,357,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="118,101,202,57,216,50,218,55,205,61,120,106"/>
+<area shape="rect" id="Node000026" href="$d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" title=" " alt="" coords="207,71,357,111"/>
+<area shape="poly" id="edge2_Node000001_Node000026" title=" " alt="" coords="155,109,191,103,192,109,156,115"/>
+<area shape="rect" id="Node000031" href="$d0/d4e/class_photos_grouping_dialog.html#a666247f1bcbc7b0653544e88af649703" title=" " alt="" coords="207,136,357,177"/>
+<area shape="poly" id="edge3_Node000001_Node000031" title=" " alt="" coords="156,134,192,139,191,145,155,139"/>
+<area shape="rect" id="Node000032" href="$d0/d4e/class_photos_grouping_dialog.html#a5f2052c462d393f01e2358dde9a23add" title=" " alt="" coords="204,201,360,242"/>
+<area shape="poly" id="edge4_Node000001_Node000032" title=" " alt="" coords="121,143,205,186,218,192,216,197,202,191,119,148"/>
 </map>

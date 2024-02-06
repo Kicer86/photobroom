@@ -1,5 +1,7 @@
 <map id="src/updater/implementation/updater_impl.hpp" name="src/updater/implementation/updater_impl.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="101,5,280,45"/>
-<area shape="rect" id="node2" href="$d9/d42/updater__impl_8cpp.html" title=" " alt="" coords="5,93,184,133"/>
-<area shape="rect" id="node3" href="$d4/dfa/updater_8cpp.html" title=" " alt="" coords="209,101,367,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="101,5,280,46"/>
+<area shape="rect" id="Node000002" href="$d9/d42/updater__impl_8cpp.html" title=" " alt="" coords="5,94,184,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,59,118,96,114,92,156,55"/>
+<area shape="rect" id="Node000003" href="$d4/dfa/updater_8cpp.html" title=" " alt="" coords="208,102,365,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="225,55,275,99,272,103,222,59"/>
 </map>

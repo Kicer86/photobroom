@@ -1,4 +1,5 @@
 <map id="ol::data_ptr::data_ptr" name="ol::data_ptr::data_ptr">
-<area shape="rect" id="node1" title="Move constructor." alt="" coords="5,5,144,31"/>
-<area shape="rect" id="node2" href="$d1/da1/classol_1_1data__ptr.html#ac745182135bce7be53649312c15f75ca" title=" " alt="" coords="192,5,315,31"/>
+<area shape="rect" id="Node000001" title="Move constructor." alt="" coords="5,5,143,31"/>
+<area shape="rect" id="Node000002" href="$d1/da1/classol_1_1data__ptr.html#ac745182135bce7be53649312c15f75ca" title=" " alt="" coords="191,5,313,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,16,175,16,175,21,143,21"/>
 </map>

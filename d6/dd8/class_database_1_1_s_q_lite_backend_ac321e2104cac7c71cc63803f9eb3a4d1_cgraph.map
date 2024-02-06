@@ -1,5 +1,7 @@
 <map id="Database::SQLiteBackend::dbOpened" name="Database::SQLiteBackend::dbOpened">
-<area shape="rect" id="node1" title="called when DB was opened." alt="" coords="5,37,180,77"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a74b8c5afc2f2d002f98cb47a6b5c183c" title="called when DB was opened." alt="" coords="228,5,391,45"/>
-<area shape="rect" id="node3" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adebbe919f39aef77476b451f6f7d66ed" title="Get connection name." alt="" coords="228,69,391,109"/>
+<area shape="rect" id="Node000001" title="called when DB was opened." alt="" coords="5,39,180,79"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a74b8c5afc2f2d002f98cb47a6b5c183c" title="called when DB was opened." alt="" coords="228,5,389,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,43,212,38,213,43,180,48"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adebbe919f39aef77476b451f6f7d66ed" title="Get connection name." alt="" coords="228,71,389,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="180,69,213,74,212,79,180,75"/>
 </map>

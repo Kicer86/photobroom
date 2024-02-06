@@ -1,5 +1,7 @@
 <map id="PhotosAnalyzerImpl::~PhotosAnalyzerImpl" name="PhotosAnalyzerImpl::~PhotosAnalyzerImpl">
-<area shape="rect" id="node1" title=" " alt="" coords="5,37,156,77"/>
-<area shape="rect" id="node2" href="$dd/d10/class_photos_analyzer_impl.html#a1afb35e229166eb4026401ff6f79bc59" title=" " alt="" coords="204,5,341,45"/>
-<area shape="rect" id="node3" href="$dd/d10/class_photos_analyzer_impl.html#aed1eb8912b058a9583e124b14e53dfe9" title=" " alt="" coords="204,69,341,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,155,79"/>
+<area shape="rect" id="Node000002" href="$dd/d10/class_photos_analyzer_impl.html#a1afb35e229166eb4026401ff6f79bc59" title=" " alt="" coords="203,5,339,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,43,187,38,188,43,156,49"/>
+<area shape="rect" id="Node000004" href="$dd/d10/class_photos_analyzer_impl.html#aed1eb8912b058a9583e124b14e53dfe9" title=" " alt="" coords="203,71,339,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="156,69,188,74,187,80,155,74"/>
 </map>

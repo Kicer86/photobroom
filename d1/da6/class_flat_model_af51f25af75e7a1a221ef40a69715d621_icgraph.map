@@ -1,5 +1,7 @@
 <map id="FlatModel::setFilter" name="FlatModel::setFilter">
-<area shape="rect" id="node1" title=" " alt="" coords="272,35,404,60"/>
-<area shape="rect" id="node2" href="$d5/d40/class_q_m_l_flat_model.html#ae78f682c929dd3a633ed772fa9e0a36e" title=" " alt="" coords="18,5,211,31"/>
-<area shape="rect" id="node3" href="$d2/d10/class_photos_model_controller_component.html#a94d710b210a425a062186efe0bf04238" title=" " alt="" coords="5,55,224,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="272,35,403,60"/>
+<area shape="rect" id="Node000002" href="$d5/d40/class_q_m_l_flat_model.html#ae78f682c929dd3a633ed772fa9e0a36e" title=" " alt="" coords="18,5,211,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,40,211,34,212,28,257,34"/>
+<area shape="rect" id="Node000003" href="$d2/d10/class_photos_model_controller_component.html#a94d710b210a425a062186efe0bf04238" title=" " alt="" coords="5,55,224,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="256,60,224,64,224,59,256,55"/>
 </map>

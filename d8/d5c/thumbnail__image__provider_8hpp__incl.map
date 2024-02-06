@@ -1,5 +1,7 @@
 <map id="src/gui/desktop/quick_items/thumbnail_image_provider.hpp" name="src/gui/desktop/quick_items/thumbnail_image_provider.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="125,5,288,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,108,192,133"/>
-<area shape="rect" id="node3" href="$df/d56/ithumbnails__manager_8hpp.html" title=" " alt="" coords="216,108,413,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="124,5,286,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,109,191,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="173,63,127,101,123,97,170,59"/>
+<area shape="rect" id="Node000003" href="$df/d56/ithumbnails__manager_8hpp.html" title=" " alt="" coords="215,109,411,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="240,59,288,97,284,101,237,63"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="src/gui/desktop/utils/grouppers/animation_generator.hpp" name="src/gui/desktop/utils/grouppers/animation_generator.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="21,5,164,60"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,108,63,133"/>
-<area shape="rect" id="node3" href="$de/da5/generator__utils_8hpp.html" title=" " alt="" coords="87,108,218,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="21,5,163,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,109,62,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,63,52,97,48,94,72,60"/>
+<area shape="rect" id="Node000003" href="$de/da5/generator__utils_8hpp.html" title=" " alt="" coords="86,109,216,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="113,60,136,94,132,97,108,63"/>
 </map>

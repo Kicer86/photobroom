@@ -1,7 +1,13 @@
 <map id="src/core/implementation/image_media_information.hpp" name="src/core/implementation/image_media_information.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="113,5,311,45"/>
-<area shape="rect" id="node2" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="5,93,117,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="105,167,204,192"/>
-<area shape="rect" id="node4" href="$da/d58/imedia__information_8hpp.html" title=" " alt="" coords="192,93,347,119"/>
-<area shape="rect" id="node5" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="371,93,455,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="113,5,310,46"/>
+<area shape="rect" id="Node000002" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="5,94,117,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,49,99,89,96,84,173,44"/>
+<area shape="rect" id="Node000014" title=" " alt="" coords="105,168,204,193"/>
+<area shape="poly" id="edge6_Node000001_Node000014" title=" " alt="" coords="204,48,182,95,164,154,158,152,177,93,199,45"/>
+<area shape="rect" id="Node000015" href="$da/d58/imedia__information_8hpp.html" title=" " alt="" coords="192,94,346,120"/>
+<area shape="poly" id="edge3_Node000001_Node000015" title=" " alt="" coords="228,45,253,79,249,83,224,48"/>
+<area shape="rect" id="Node000019" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="370,94,453,120"/>
+<area shape="poly" id="edge4_Node000001_Node000019" title=" " alt="" coords="263,44,368,85,366,90,261,49"/>
+<area shape="poly" id="edge2_Node000002_Node000014" title=" " alt="" coords="78,118,128,156,125,160,75,122"/>
+<area shape="poly" id="edge5_Node000019_Node000014" title=" " alt="" coords="370,122,213,166,212,161,369,117"/>
 </map>

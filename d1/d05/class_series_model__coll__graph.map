@@ -1,6 +1,9 @@
 <map id="SeriesModel" name="SeriesModel">
-<area shape="rect" id="node1" title=" " alt="" coords="254,93,349,119"/>
-<area shape="rect" id="node2" href="$de/d3a/class_a_heavy_list_model.html" title=" " alt="" coords="5,5,245,31"/>
-<area shape="rect" id="node3" href="$d9/d6e/class_project.html" title=" " alt="" coords="270,5,333,31"/>
-<area shape="rect" id="node4" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="357,5,507,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="253,94,346,120"/>
+<area shape="rect" id="Node000002" href="$de/d3a/class_a_heavy_list_model.html" title=" " alt="" coords="5,5,245,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,36,276,91,274,96,162,41"/>
+<area shape="rect" id="Node000005" href="$d9/d6e/class_project.html" title=" " alt="" coords="269,5,331,31"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="302,47,302,94,297,94,297,47"/>
+<area shape="rect" id="Node000008" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="355,5,506,31"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="406,43,366,72,325,96,322,91,364,68,403,39"/>
 </map>

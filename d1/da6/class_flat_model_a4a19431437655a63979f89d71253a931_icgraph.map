@@ -1,4 +1,5 @@
 <map id="FlatModel::fetchPhotoData" name="FlatModel::fetchPhotoData">
-<area shape="rect" id="node1" title=" " alt="" coords="197,5,372,31"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#a4fc6cdcc57bfa8297d806d6bc694d92c" title=" " alt="" coords="5,5,149,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="197,5,371,31"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a4fc6cdcc57bfa8297d806d6bc694d92c" title=" " alt="" coords="5,5,149,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,21,149,21,149,16,181,16"/>
 </map>

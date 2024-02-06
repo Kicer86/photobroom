@@ -1,5 +1,7 @@
 <map id="ObjectsAccessor::setRecentProjects" name="ObjectsAccessor::setRecentProjects">
-<area shape="rect" id="node1" title=" " alt="" coords="284,23,471,63"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#a78c10e6e8b4303c3bacd5b0761495e86" title=" " alt="" coords="5,5,236,31"/>
-<area shape="rect" id="node3" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="35,55,206,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="284,23,470,64"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#a78c10e6e8b4303c3bacd5b0761495e86" title=" " alt="" coords="5,5,236,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,35,236,32,236,27,268,30"/>
+<area shape="rect" id="Node000005" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="35,55,206,80"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="268,56,206,62,206,57,268,51"/>
 </map>

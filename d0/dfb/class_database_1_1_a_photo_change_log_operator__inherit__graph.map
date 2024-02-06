@@ -1,6 +1,9 @@
 <map id="Database::APhotoChangeLogOperator" name="Database::APhotoChangeLogOperator">
-<area shape="rect" id="node1" title=" " alt="" coords="102,93,294,133"/>
-<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="5,189,185,214"/>
-<area shape="rect" id="node4" href="$d7/dfc/class_database_1_1_photo_change_log_operator.html" title=" " alt="" coords="209,181,392,221"/>
-<area shape="rect" id="node2" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html" title=" " alt="" coords="105,5,291,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="102,94,293,135"/>
+<area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="5,190,185,216"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,147,111,192,107,188,161,143"/>
+<area shape="rect" id="Node000004" href="$d7/dfc/class_database_1_1_photo_change_log_operator.html" title=" " alt="" coords="209,183,392,223"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="234,143,279,180,275,184,231,147"/>
+<area shape="rect" id="Node000002" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html" title=" " alt="" coords="105,5,291,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,62,200,94,195,94,195,62"/>
 </map>

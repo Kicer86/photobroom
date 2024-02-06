@@ -1,5 +1,7 @@
 <map id="IThumbnailsCache::find" name="IThumbnailsCache::find">
-<area shape="rect" id="node1" title=" " alt="" coords="220,31,376,56"/>
-<area shape="rect" id="node2" href="$dd/d17/class_thumbnail_manager.html#a0ad9ffe8c600717f87552748eaa6cbf4" title=" " alt="" coords="5,5,172,31"/>
-<area shape="rect" id="node3" href="$dd/d17/class_thumbnail_manager.html#a7c97ab9eebab7904b0d6e8708d107d5f" title=" " alt="" coords="9,55,168,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="220,31,375,56"/>
+<area shape="rect" id="Node000002" href="$dd/d17/class_thumbnail_manager.html#a0ad9ffe8c600717f87552748eaa6cbf4" title=" " alt="" coords="5,5,172,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,35,172,31,173,26,205,30"/>
+<area shape="rect" id="Node000003" href="$dd/d17/class_thumbnail_manager.html#a7c97ab9eebab7904b0d6e8708d107d5f" title=" " alt="" coords="10,55,167,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="204,57,168,61,167,56,204,52"/>
 </map>

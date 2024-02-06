@@ -1,7 +1,11 @@
 <map id="runOn" name="runOn">
-<area shape="rect" id="node1" title=" " alt="" coords="216,80,273,105"/>
-<area shape="rect" id="node2" href="$d5/d0f/class_series_model.html#a2caeed0a8014c3f20679d4ea1ff45fef" title=" " alt="" coords="5,5,168,31"/>
-<area shape="rect" id="node3" href="$d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61" title=" " alt="" coords="5,55,168,80"/>
-<area shape="rect" id="node4" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="11,104,162,129"/>
-<area shape="rect" id="node5" href="$dc/d96/class_batch_face_detector.html#aa2e68fd59715fbacac2435f1a1f21b28" title=" " alt="" coords="17,154,157,194"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="216,80,272,106"/>
+<area shape="rect" id="Node000002" href="$d5/d0f/class_series_model.html#a2caeed0a8014c3f20679d4ea1ff45fef" title=" " alt="" coords="5,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,73,166,45,140,34,142,29,169,40,215,68"/>
+<area shape="rect" id="Node000003" href="$d6/de2/class_faces_model.html#a397143db6743bbc319539a24817bba61" title=" " alt="" coords="5,55,168,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,89,168,83,168,78,201,83"/>
+<area shape="rect" id="Node000005" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="11,104,162,130"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="200,102,162,108,162,103,200,97"/>
+<area shape="rect" id="Node000006" href="$dc/d96/class_batch_face_detector.html#aa2e68fd59715fbacac2435f1a1f21b28" title=" " alt="" coords="17,154,156,195"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="214,117,169,145,145,156,143,151,166,140,211,112"/>
 </map>

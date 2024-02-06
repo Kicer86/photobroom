@@ -1,5 +1,7 @@
 <map id="CompleterFactory::set" name="CompleterFactory::set">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,153,56"/>
-<area shape="rect" id="node2" href="$d6/d99/class_tag_info_collector.html#aec9fe80391af5e8f10a25bb4f7bc3f4b" title=" " alt="" coords="211,5,353,31"/>
-<area shape="rect" id="node3" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="201,55,363,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,153,56"/>
+<area shape="rect" id="Node000002" href="$d6/d99/class_tag_info_collector.html#aec9fe80391af5e8f10a25bb4f7bc3f4b" title=" " alt="" coords="211,5,351,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,32,195,26,195,32,153,37"/>
+<area shape="rect" id="Node000019" href="$de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" title=" " alt="" coords="201,55,361,80"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="153,50,185,53,185,59,152,55"/>
 </map>

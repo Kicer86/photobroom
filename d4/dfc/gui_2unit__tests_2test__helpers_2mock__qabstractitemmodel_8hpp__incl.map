@@ -1,5 +1,7 @@
 <map id="src/gui/unit_tests/test_helpers/mock_qabstractitemmodel.hpp" name="src/gui/unit_tests/test_helpers/mock_qabstractitemmodel.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,284,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="11,93,126,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="151,93,293,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,283,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="11,94,125,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="127,48,92,84,88,81,123,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="149,94,291,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="165,45,200,81,196,84,161,48"/>
 </map>

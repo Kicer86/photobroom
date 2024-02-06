@@ -1,6 +1,9 @@
 <map id="src/unit_tests_utils/general.hpp" name="src/unit_tests_utils/general.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="39,5,171,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,48,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="72,93,139,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="163,93,277,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="38,5,169,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,47,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="86,48,51,84,47,81,82,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="70,94,137,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="106,46,106,78,101,78,101,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="160,94,273,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="133,44,189,83,186,87,130,49"/>
 </map>

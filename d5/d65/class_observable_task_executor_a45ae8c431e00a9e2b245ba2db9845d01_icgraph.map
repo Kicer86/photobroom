@@ -1,5 +1,7 @@
 <map id="ObservableTaskExecutor::add" name="ObservableTaskExecutor::add">
-<area shape="rect" id="node1" title=" " alt="" coords="220,42,415,67"/>
-<area shape="rect" id="node2" href="$dd/d10/class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b" title=" " alt="" coords="20,5,157,45"/>
-<area shape="rect" id="node3" href="$dd/d17/class_thumbnail_manager.html#a23c27b8332708a2e59a6a5ac0c3962fd" title=" " alt="" coords="5,70,172,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="220,42,413,68"/>
+<area shape="rect" id="Node000002" href="$dd/d10/class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b" title=" " alt="" coords="20,5,157,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,43,157,37,157,32,205,38"/>
+<area shape="rect" id="Node000004" href="$dd/d17/class_thumbnail_manager.html#a23c27b8332708a2e59a6a5ac0c3962fd" title=" " alt="" coords="5,70,172,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="205,71,173,75,172,70,204,66"/>
 </map>

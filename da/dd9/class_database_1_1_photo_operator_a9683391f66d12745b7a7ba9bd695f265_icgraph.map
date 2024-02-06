@@ -1,5 +1,7 @@
 <map id="Database::PhotoOperator::fetch" name="Database::PhotoOperator::fetch">
-<area shape="rect" id="node1" title="collect photo ids SELECTed by SQL query" alt="" coords="220,37,387,77"/>
-<area shape="rect" id="node2" href="$da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0" title="find all photos matching filters" alt="" coords="5,5,172,45"/>
-<area shape="rect" id="node3" href="$da/dd9/class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8" title=" " alt="" coords="5,69,172,109"/>
+<area shape="rect" id="Node000001" title="collect photo ids SELECTed by SQL query" alt="" coords="220,39,386,79"/>
+<area shape="rect" id="Node000002" href="$da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0" title="find all photos matching filters" alt="" coords="5,5,172,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="204,46,172,41,172,36,204,41"/>
+<area shape="rect" id="Node000004" href="$da/dd9/class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8" title=" " alt="" coords="5,71,172,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="204,76,172,81,172,76,204,71"/>
 </map>

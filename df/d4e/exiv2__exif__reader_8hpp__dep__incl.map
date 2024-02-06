@@ -1,5 +1,7 @@
 <map id="src/core/implementation/exiv2_exif_reader.hpp" name="src/core/implementation/exiv2_exif_reader.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="97,5,259,45"/>
-<area shape="rect" id="node2" href="$df/d87/exif__reader__factory_8cpp.html" title=" " alt="" coords="5,93,167,133"/>
-<area shape="rect" id="node3" href="$d1/df4/exiv2__exif__reader_8cpp.html" title=" " alt="" coords="191,93,352,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="97,5,258,46"/>
+<area shape="rect" id="Node000002" href="$df/d87/exif__reader__factory_8cpp.html" title=" " alt="" coords="5,94,166,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,59,108,96,104,92,144,55"/>
+<area shape="rect" id="Node000003" href="$d1/df4/exiv2__exif__reader_8cpp.html" title=" " alt="" coords="189,94,350,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="211,55,251,92,247,96,207,59"/>
 </map>

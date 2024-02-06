@@ -1,6 +1,9 @@
 <map id="MainWindow::~MainWindow" name="MainWindow::~MainWindow">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,188,80"/>
-<area shape="rect" id="node2" href="$d9/dc6/class_main_window.html#a76ab638b4eb18b2624b882474d90f905" title=" " alt="" coords="237,5,412,31"/>
-<area shape="rect" id="node3" href="$df/db2/class_objects_accessor.html#adcde9d95f2bbdd55714d9bd9bb3efce4" title=" " alt="" coords="236,55,413,80"/>
-<area shape="rect" id="node4" href="$d7/db4/struct_i_configuration.html#a3f387c30272b219a1be93b6f12610435" title=" " alt="" coords="247,104,402,129"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,188,80"/>
+<area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#a76ab638b4eb18b2624b882474d90f905" title=" " alt="" coords="237,5,411,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,51,246,32,247,38,160,57"/>
+<area shape="rect" id="Node000010" href="$df/db2/class_objects_accessor.html#adcde9d95f2bbdd55714d9bd9bb3efce4" title=" " alt="" coords="236,55,412,80"/>
+<area shape="poly" id="edge2_Node000001_Node000010" title=" " alt="" coords="188,65,220,65,220,70,188,70"/>
+<area shape="rect" id="Node000011" href="$d7/db4/struct_i_configuration.html#a3f387c30272b219a1be93b6f12610435" title=" " alt="" coords="247,104,401,130"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="160,78,247,97,246,103,159,84"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="PhotoCrawler::Impl::releaseThread" name="PhotoCrawler::Impl::releaseThread">
-<area shape="rect" id="node1" title=" " alt="" coords="208,27,339,67"/>
-<area shape="rect" id="node2" href="$d0/d73/struct_photo_crawler_1_1_impl.html#ac84a471ab402e52548601d4f2871c7e9" title=" " alt="" coords="5,5,160,31"/>
-<area shape="rect" id="node3" href="$d0/d73/struct_photo_crawler_1_1_impl.html#a634ea2d1f0afa6ac766ba566f26bf74c" title=" " alt="" coords="17,55,148,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="208,27,338,68"/>
+<area shape="rect" id="Node000002" href="$d0/d73/struct_photo_crawler_1_1_impl.html#ac84a471ab402e52548601d4f2871c7e9" title=" " alt="" coords="5,5,160,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="192,38,159,33,160,27,193,33"/>
+<area shape="rect" id="Node000003" href="$d0/d73/struct_photo_crawler_1_1_impl.html#a634ea2d1f0afa6ac766ba566f26bf74c" title=" " alt="" coords="17,55,148,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,62,149,69,148,63,192,57"/>
 </map>

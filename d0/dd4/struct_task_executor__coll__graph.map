@@ -1,6 +1,9 @@
 <map id="TaskExecutor" name="TaskExecutor">
-<area shape="rect" id="node1" title=" " alt="" coords="158,108,259,133"/>
-<area shape="rect" id="node2" href="$d5/d45/struct_i_task_executor.html" title=" " alt="" coords="5,13,111,38"/>
-<area shape="rect" id="node3" href="$d2/d36/classol_1_1_t_s___queue.html" title=" " alt="" coords="135,5,283,45"/>
-<area shape="rect" id="node4" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="307,13,374,38"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="157,109,257,135"/>
+<area shape="rect" id="Node000002" href="$d5/d45/struct_i_task_executor.html" title=" " alt="" coords="5,13,110,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,45,189,106,186,111,88,49"/>
+<area shape="rect" id="Node000003" href="$d2/d36/classol_1_1_t_s___queue.html" title=" " alt="" coords="133,5,281,46"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="210,61,210,109,204,109,204,61"/>
+<area shape="rect" id="Node000004" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="305,13,370,39"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="314,51,267,87,230,111,227,106,264,83,310,47"/>
 </map>

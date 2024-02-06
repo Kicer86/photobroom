@@ -1,5 +1,7 @@
 <map id="src/database/apeople_information_accessor.hpp" name="src/database/apeople_information_accessor.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="61,5,239,45"/>
-<area shape="rect" id="node2" href="$de/d47/ipeople__information__accessor_8hpp.html" title=" " alt="" coords="5,93,140,133"/>
-<area shape="rect" id="node3" title=" " alt="" coords="164,101,291,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="60,5,236,46"/>
+<area shape="rect" id="Node000002" href="$de/d47/ipeople__information__accessor_8hpp.html" title=" " alt="" coords="5,94,139,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,48,101,84,97,80,129,45"/>
+<area shape="rect" id="Node000017" title=" " alt="" coords="162,102,289,127"/>
+<area shape="poly" id="edge2_Node000001_Node000017" title=" " alt="" coords="168,45,207,88,203,92,164,48"/>
 </map>

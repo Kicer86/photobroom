@@ -1,3 +1,6 @@
 <map id="set_thread_priority" name="set_thread_priority">
-<area shape="rect" id="node1" title=" " alt="" coords="5,29,133,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="181,29,308,55"/>
+<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="274,16,264,10,244,8,226,10,216,15,214,20,219,28,215,30,209,21,212,11,225,5,244,3,266,5,277,12"/>
+<area shape="rect" id="Node000002" href="$da/d01/thread__utils__pthreads_8cpp.html#a8a26630087ebf54047f0e03598ae6ef0" title=" " alt="" coords="5,29,133,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,45,133,45,133,40,165,40"/>
 </map>

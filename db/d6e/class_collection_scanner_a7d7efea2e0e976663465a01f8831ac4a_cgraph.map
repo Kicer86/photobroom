@@ -1,12 +1,21 @@
 <map id="CollectionScanner::scan" name="CollectionScanner::scan">
-<area shape="rect" id="node1" title=" " alt="" coords="5,240,167,265"/>
-<area shape="rect" id="node2" href="$d6/d44/struct_i_tasks_view.html#a09dce12593c58f1e725e3384494a8215" title=" " alt="" coords="261,5,380,31"/>
-<area shape="rect" id="node3" href="$d3/d3d/class_photos_collector.html#aa402bcaf9beb1d5eb6b9f0e380c33363" title=" " alt="" coords="241,55,400,80"/>
-<area shape="rect" id="node4" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="249,105,392,145"/>
-<area shape="rect" id="node5" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title=" " alt="" coords="251,169,390,209"/>
-<area shape="rect" id="node6" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#af4cadc51c5fb475fc6acf0a78b23193a" title="find all photos matching filters" alt="" coords="235,233,406,273"/>
-<area shape="rect" id="node7" href="$db/d6e/class_collection_scanner.html#aec1d0106854a73c237d39ae58ff85ec1" title=" " alt="" coords="254,297,387,337"/>
-<area shape="rect" id="node8" href="$db/d6e/class_collection_scanner.html#ab0b44dadf7d37b2eab5472d9813297c9" title=" " alt="" coords="254,361,387,401"/>
-<area shape="rect" id="node9" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="251,425,390,465"/>
-<area shape="rect" id="node10" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#a3cd5ed198bec62318f5505339f7c2c30" title=" " alt="" coords="215,489,427,529"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,243,166,268"/>
+<area shape="rect" id="Node000002" href="$d6/d44/struct_i_tasks_view.html#a09dce12593c58f1e725e3384494a8215" title=" " alt="" coords="261,5,378,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,242,102,202,127,147,163,89,186,63,212,40,245,24,247,29,215,44,190,66,167,92,131,149,107,204,93,243"/>
+<area shape="rect" id="Node000003" href="$d3/d3d/class_photos_collector.html#aa402bcaf9beb1d5eb6b9f0e380c33363" title=" " alt="" coords="241,55,398,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="91,241,108,210,134,169,170,126,212,91,225,83,228,88,215,95,173,130,139,172,112,212,96,243"/>
+<area shape="rect" id="Node000007" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="249,105,390,145"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="99,240,147,199,212,156,233,146,235,151,215,160,150,203,103,244"/>
+<area shape="rect" id="Node000010" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title=" " alt="" coords="251,170,388,211"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="133,240,235,211,236,216,135,245"/>
+<area shape="rect" id="Node000011" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#af4cadc51c5fb475fc6acf0a78b23193a" title="find all photos matching filters" alt="" coords="234,235,405,276"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="166,253,218,253,218,258,166,258"/>
+<area shape="rect" id="Node000012" href="$db/d6e/class_collection_scanner.html#aec1d0106854a73c237d39ae58ff85ec1" title=" " alt="" coords="253,301,386,341"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="135,266,239,296,238,301,133,271"/>
+<area shape="rect" id="Node000024" href="$db/d6e/class_collection_scanner.html#ab0b44dadf7d37b2eab5472d9813297c9" title=" " alt="" coords="253,366,386,407"/>
+<area shape="poly" id="edge7_Node000001_Node000024" title=" " alt="" coords="103,267,150,308,215,350,239,361,237,366,212,355,147,312,99,271"/>
+<area shape="rect" id="Node000027" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="251,431,388,472"/>
+<area shape="poly" id="edge8_Node000001_Node000027" title=" " alt="" coords="96,267,140,338,174,380,215,416,238,429,235,433,212,420,170,384,135,341,91,270"/>
+<area shape="rect" id="Node000023" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#a3cd5ed198bec62318f5505339f7c2c30" title=" " alt="" coords="214,497,425,537"/>
+<area shape="poly" id="edge9_Node000001_Node000023" title=" " alt="" coords="93,268,106,309,131,367,167,428,190,457,215,481,222,486,218,490,212,486,186,460,163,431,126,369,101,311,88,269"/>
 </map>

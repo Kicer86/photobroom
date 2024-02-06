@@ -1,5 +1,7 @@
 <map id="Database::IGroupOperator" name="Database::IGroupOperator">
-<area shape="rect" id="node1" title=" " alt="" coords="102,5,274,31"/>
-<area shape="rect" id="node2" href="$d5/d6b/class_database_1_1_group_operator.html" title=" " alt="" coords="5,79,173,104"/>
-<area shape="rect" id="node3" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="198,79,378,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="102,5,273,31"/>
+<area shape="rect" id="Node000002" href="$d5/d6b/class_database_1_1_group_operator.html" title=" " alt="" coords="5,79,173,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,43,107,81,104,76,157,38"/>
+<area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="197,79,376,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,38,271,76,268,81,215,43"/>
 </map>

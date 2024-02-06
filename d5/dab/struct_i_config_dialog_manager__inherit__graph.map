@@ -1,4 +1,5 @@
 <map id="IConfigDialogManager" name="IConfigDialogManager">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,153,31"/>
-<area shape="rect" id="node2" href="$df/dc2/class_config_dialog_manager.html" title=" " alt="" coords="7,79,151,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,153,31"/>
+<area shape="rect" id="Node000002" href="$df/dc2/class_config_dialog_manager.html" title=" " alt="" coords="7,79,151,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="82,46,82,79,76,79,76,46"/>
 </map>

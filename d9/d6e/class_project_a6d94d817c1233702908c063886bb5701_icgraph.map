@@ -1,8 +1,14 @@
 <map id="Project::getDatabase" name="Project::getDatabase">
-<area shape="rect" id="node1" title=" " alt="" coords="436,105,579,131"/>
-<area shape="rect" id="node2" href="$df/db2/class_objects_accessor.html#a4b983b925085a2cb58c60627f1e595b2" title=" " alt="" coords="207,5,388,31"/>
-<area shape="rect" id="node3" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="222,55,373,80"/>
-<area shape="rect" id="node4" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="5,127,159,167"/>
-<area shape="rect" id="node5" href="$de/db3/class_context_menu_manager.html#a5db0c9d95a29a7a3b0d387a0227f8d1d" title=" " alt="" coords="223,155,371,195"/>
-<area shape="rect" id="node6" href="$de/db3/class_context_menu_manager.html#afee82226d8b74d2bd56c575f7c6f10a4" title=" " alt="" coords="223,219,371,259"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="434,105,575,131"/>
+<area shape="rect" id="Node000002" href="$df/db2/class_objects_accessor.html#a4b983b925085a2cb58c60627f1e595b2" title=" " alt="" coords="206,5,386,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="473,98,432,70,385,45,356,34,358,29,387,40,435,66,476,93"/>
+<area shape="rect" id="Node000003" href="$d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001" title=" " alt="" coords="221,55,371,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="433,104,351,84,352,78,434,98"/>
+<area shape="rect" id="Node000004" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="5,127,158,168"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="418,127,158,145,158,140,418,121"/>
+<area shape="rect" id="Node000007" href="$de/db3/class_context_menu_manager.html#a5db0c9d95a29a7a3b0d387a0227f8d1d" title=" " alt="" coords="222,155,370,196"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="441,138,371,158,369,153,440,133"/>
+<area shape="rect" id="Node000006" href="$de/db3/class_context_menu_manager.html#afee82226d8b74d2bd56c575f7c6f10a4" title=" " alt="" coords="222,221,370,261"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="479,144,437,177,387,210,361,222,359,218,385,205,434,173,476,139"/>
+<area shape="poly" id="edge5_Node000007_Node000004" title=" " alt="" coords="206,167,158,160,159,155,207,161"/>
 </map>

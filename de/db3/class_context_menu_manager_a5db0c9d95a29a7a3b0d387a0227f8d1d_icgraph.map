@@ -1,5 +1,7 @@
 <map id="ContextMenuManager::removeGroupOf" name="ContextMenuManager::removeGroupOf">
-<area shape="rect" id="node1" title=" " alt="" coords="207,37,355,77"/>
-<area shape="rect" id="node2" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="5,5,159,45"/>
-<area shape="rect" id="node3" href="$de/db3/class_context_menu_manager.html#a4835e77f44a34c21704a45272bc53a63" title=" " alt="" coords="8,69,156,109"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="206,39,353,79"/>
+<area shape="rect" id="Node000002" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="5,5,158,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="190,47,158,41,159,36,191,41"/>
+<area shape="rect" id="Node000005" href="$de/db3/class_context_menu_manager.html#a4835e77f44a34c21704a45272bc53a63" title=" " alt="" coords="8,71,155,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="191,76,156,82,155,76,190,71"/>
 </map>

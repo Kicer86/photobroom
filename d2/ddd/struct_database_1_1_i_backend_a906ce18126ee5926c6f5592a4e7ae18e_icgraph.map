@@ -1,4 +1,5 @@
 <map id="Database::IBackend::closeConnections" name="Database::IBackend::closeConnections">
-<area shape="rect" id="node1" title="close database connection" alt="" coords="239,5,377,45"/>
-<area shape="rect" id="node2" href="$d4/d35/struct_database_1_1_db_close_task.html#a1d890cf44de6be3f3f155d113832f363" title=" " alt="" coords="5,13,191,38"/>
+<area shape="rect" id="Node000001" title="close database connection" alt="" coords="238,5,375,46"/>
+<area shape="rect" id="Node000002" href="$d4/d35/struct_database_1_1_db_close_task.html#a1d890cf44de6be3f3f155d113832f363" title=" " alt="" coords="5,13,190,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,28,190,28,190,23,222,23"/>
 </map>

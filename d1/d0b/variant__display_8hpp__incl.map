@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/utils/variant_display.hpp" name="src/gui/desktop/utils/variant_display.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="65,5,203,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,76,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="101,93,167,119"/>
-<area shape="rect" id="node4" href="$df/d0c/tags__utils_8hpp.html" title=" " alt="" coords="191,93,322,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="63,5,202,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,76,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,48,68,86,64,82,108,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="100,94,165,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="135,46,135,78,130,78,130,46"/>
+<area shape="rect" id="Node000004" href="$df/d0c/tags__utils_8hpp.html" title=" " alt="" coords="189,94,319,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="164,44,224,83,221,88,161,49"/>
 </map>

@@ -1,12 +1,23 @@
 <map id="Database::GroupOperator::addGroup" name="Database::GroupOperator::addGroup">
-<area shape="rect" id="node1" title=" " alt="" coords="5,247,173,287"/>
-<area shape="rect" id="node2" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="497,263,688,303"/>
-<area shape="rect" id="node3" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a5ba24474a492a785f27ef3b11941468e" title=" " alt="" coords="242,55,429,95"/>
-<area shape="rect" id="node4" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="243,119,428,159"/>
-<area shape="rect" id="node5" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="266,183,405,223"/>
-<area shape="rect" id="node6" href="$d2/ddd/struct_database_1_1_i_backend.html#aada9ba958324e71ec6e8547e7c87e456" title="get changelog operator" alt="" coords="247,247,423,287"/>
-<area shape="rect" id="node7" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="221,311,449,351"/>
-<area shape="rect" id="node8" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="247,375,424,415"/>
-<area shape="rect" id="node9" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="247,439,424,479"/>
-<area shape="rect" id="node10" href="$d5/d6b/class_database_1_1_group_operator.html#a2055bf7c5525db5b31eef31573816f16" title=" " alt="" coords="251,527,419,567"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,251,173,292"/>
+<area shape="rect" id="Node000002" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="496,267,685,308"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="92,250,106,204,130,145,147,115,167,87,191,61,219,41,280,12,307,5,334,3,361,5,389,12,449,41,477,61,502,85,540,142,567,201,583,251,578,253,562,203,536,145,498,89,474,65,447,46,387,17,360,10,334,8,308,10,282,17,222,46,195,65,171,90,151,118,135,148,111,206,97,251"/>
+<area shape="rect" id="Node000003" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html#a5ba24474a492a785f27ef3b11941468e" title=" " alt="" coords="241,55,428,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="99,249,145,179,179,140,219,106,229,101,231,105,222,111,183,144,149,182,104,252"/>
+<area shape="rect" id="Node000004" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html#a30ba93170abc64272718a5fc335b4d7a" title=" " alt="" coords="242,120,427,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="111,249,159,210,219,172,235,165,237,169,222,176,162,214,114,253"/>
+<area shape="rect" id="Node000005" href="$d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" title="begin transaction" alt="" coords="266,186,403,226"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="167,248,250,226,251,231,169,253"/>
+<area shape="rect" id="Node000006" href="$d2/ddd/struct_database_1_1_i_backend.html#aada9ba958324e71ec6e8547e7c87e456" title="get changelog operator" alt="" coords="247,251,422,292"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="173,269,231,269,231,274,173,274"/>
+<area shape="rect" id="Node000007" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="221,316,448,357"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="169,290,241,309,240,314,167,295"/>
+<area shape="rect" id="Node000008" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="246,382,423,422"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="114,290,162,328,222,366,237,373,235,378,219,371,159,333,111,294"/>
+<area shape="rect" id="Node000009" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="246,447,423,488"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="104,291,149,360,183,399,222,432,233,438,231,443,219,436,179,403,145,363,99,294"/>
+<area shape="rect" id="Node000010" href="$d5/d6b/class_database_1_1_group_operator.html#a2055bf7c5525db5b31eef31573816f16" title=" " alt="" coords="251,536,418,577"/>
+<area shape="poly" id="edge9_Node000001_Node000010" title=" " alt="" coords="100,291,117,333,143,388,178,445,222,497,265,527,262,531,219,501,174,448,138,390,112,335,95,293"/>
+<area shape="poly" id="edge10_Node000010_Node000002" title=" " alt="" coords="389,533,419,517,446,497,487,454,522,406,571,320,576,323,526,409,491,458,450,501,421,522,391,538"/>
+<area shape="poly" id="edge11_Node000010_Node000010" title=" " alt="" coords="288,536,286,526,294,517,310,512,334,510,361,512,376,518,374,523,360,517,334,515,311,517,297,522,291,527,293,535"/>
 </map>

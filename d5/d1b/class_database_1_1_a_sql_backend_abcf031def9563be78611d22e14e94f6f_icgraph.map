@@ -1,4 +1,5 @@
 <map id="Database::ASqlBackend::getFlagsFor" name="Database::ASqlBackend::getFlagsFor">
-<area shape="rect" id="node1" title="read flags for photo" alt="" coords="216,5,379,45"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title=" " alt="" coords="5,5,168,45"/>
+<area shape="rect" id="Node000001" title="read flags for photo" alt="" coords="215,5,376,46"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title=" " alt="" coords="5,5,167,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,28,167,28,167,23,199,23"/>
 </map>

@@ -1,4 +1,5 @@
 <map id="EmptyLogger" name="EmptyLogger">
-<area shape="rect" id="node1" title=" " alt="" coords="5,79,104,104"/>
-<area shape="rect" id="node2" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="21,5,88,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,103,105"/>
+<area shape="rect" id="Node000002" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="21,5,87,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="57,46,57,79,51,79,51,46"/>
 </map>

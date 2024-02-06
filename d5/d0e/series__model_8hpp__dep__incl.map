@@ -1,6 +1,9 @@
 <map id="src/gui/desktop/models/series_model.hpp" name="src/gui/desktop/models/series_model.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="171,5,328,45"/>
-<area shape="rect" id="node2" href="$dd/d30/series__model_8cpp.html" title=" " alt="" coords="5,93,163,133"/>
-<area shape="rect" id="node3" href="$df/d50/mainwindow_8hpp.html" title=" " alt="" coords="187,93,312,133"/>
-<area shape="rect" id="node4" href="$d5/db6/qml__setup_8cpp.html" title=" " alt="" coords="336,93,475,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="169,5,326,46"/>
+<area shape="rect" id="Node000002" href="$dd/d30/series__model_8cpp.html" title=" " alt="" coords="5,94,162,135"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,56,122,96,119,91,196,51"/>
+<area shape="rect" id="Node000003" href="$df/d50/mainwindow_8hpp.html" title=" " alt="" coords="185,94,310,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="250,62,250,94,245,94,245,62"/>
+<area shape="rect" id="Node000006" href="$d5/db6/qml__setup_8cpp.html" title=" " alt="" coords="334,94,473,135"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="297,51,370,91,367,96,295,56"/>
 </map>

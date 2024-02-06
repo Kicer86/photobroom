@@ -1,5 +1,7 @@
 <map id="GeneratorUtils::BreakableTask::preparePhotos" name="GeneratorUtils::BreakableTask::preparePhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="215,23,385,63"/>
-<area shape="rect" id="node2" href="$d6/d1f/class_animation_generator.html#a4e178172e1714a2e201deb2076085ba3" title=" " alt="" coords="5,5,167,31"/>
-<area shape="rect" id="node3" href="$de/def/class_h_d_r_generator.html#a9e42f118789e311753bf6e3d4ce66682" title=" " alt="" coords="21,55,151,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="214,23,383,64"/>
+<area shape="rect" id="Node000002" href="$d6/d1f/class_animation_generator.html#a4e178172e1714a2e201deb2076085ba3" title=" " alt="" coords="5,5,166,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,34,166,30,166,25,199,29"/>
+<area shape="rect" id="Node000003" href="$de/def/class_h_d_r_generator.html#a9e42f118789e311753bf6e3d4ce66682" title=" " alt="" coords="20,55,151,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="199,57,151,63,150,58,198,52"/>
 </map>

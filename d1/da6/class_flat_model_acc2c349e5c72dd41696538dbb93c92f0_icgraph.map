@@ -1,5 +1,7 @@
 <map id="FlatModel::fetchMatchingPhotos" name="FlatModel::fetchMatchingPhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="219,23,385,63"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#ad7e7b563526a60acc35ccbf1d2491ba3" title=" " alt="" coords="7,5,169,31"/>
-<area shape="rect" id="node3" href="$d1/da6/class_flat_model.html#ab787f239714891d0dbea80843b519bf2" title=" " alt="" coords="5,55,171,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="218,23,384,64"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#ad7e7b563526a60acc35ccbf1d2491ba3" title=" " alt="" coords="7,5,168,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="202,34,168,30,169,25,203,29"/>
+<area shape="rect" id="Node000005" href="$d1/da6/class_flat_model.html#ab787f239714891d0dbea80843b519bf2" title=" " alt="" coords="5,55,170,80"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="203,57,171,61,170,56,202,52"/>
 </map>

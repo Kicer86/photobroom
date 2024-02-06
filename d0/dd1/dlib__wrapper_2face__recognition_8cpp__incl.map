@@ -1,9 +1,17 @@
 <map id="src/face_recognition/dlib_wrapper/face_recognition.cpp" name="src/face_recognition/dlib_wrapper/face_recognition.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="219,5,442,45"/>
-<area shape="rect" id="node2" href="$dd/d21/dlib__wrapper_2face__recognition_8hpp.html" title=" " alt="" coords="5,93,147,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="139,167,229,192"/>
-<area shape="rect" id="node4" title=" " alt="" coords="221,93,299,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="323,93,483,119"/>
-<area shape="rect" id="node6" title=" " alt="" coords="507,93,575,119"/>
-<area shape="rect" id="node7" href="$da/df3/helpers_8hpp.html" title=" " alt="" coords="600,93,688,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="220,5,441,46"/>
+<area shape="rect" id="Node000002" href="$dd/d21/dlib__wrapper_2face__recognition_8hpp.html" title=" " alt="" coords="5,94,146,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="267,49,130,91,129,86,266,44"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="138,168,229,193"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="276,49,241,69,211,96,196,124,189,153,184,152,191,122,207,92,238,64,274,44"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="221,94,298,120"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="315,48,283,84,279,80,311,45"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="321,94,481,120"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="350,45,382,80,378,84,346,48"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="505,94,572,120"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="383,44,493,86,491,91,381,49"/>
+<area shape="rect" id="Node000009" href="$da/df3/helpers_8hpp.html" title=" " alt="" coords="596,94,683,120"/>
+<area shape="poly" id="edge7_Node000001_Node000009" title=" " alt="" coords="408,44,581,88,580,93,407,49"/>
+<area shape="poly" id="edge2_Node000002_Node000005" title=" " alt="" coords="95,118,154,156,151,161,92,122"/>
+<area shape="poly" id="edge8_Node000009_Node000005" title=" " alt="" coords="596,120,584,122,399,152,244,174,244,169,398,147,583,117,595,115"/>
 </map>

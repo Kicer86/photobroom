@@ -1,5 +1,7 @@
 <map id="src/gui/desktop/ui_utils/icompleter_factory.hpp" name="src/gui/desktop/ui_utils/icompleter_factory.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="125,5,311,45"/>
-<area shape="rect" id="node2" href="$da/d07/photos__model__controller__component_8cpp.html" title=" " alt="" coords="5,93,212,148"/>
-<area shape="rect" id="node3" href="$de/d29/completer__factory_8hpp.html" title=" " alt="" coords="237,101,421,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="124,5,311,46"/>
+<area shape="rect" id="Node000002" href="$da/d07/photos__model__controller__component_8cpp.html" title=" " alt="" coords="5,94,211,150"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,58,141,95,138,91,181,54"/>
+<area shape="rect" id="Node000003" href="$de/d29/completer__factory_8hpp.html" title=" " alt="" coords="235,102,418,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="253,54,306,99,302,103,250,58"/>
 </map>

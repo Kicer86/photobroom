@@ -1,6 +1,12 @@
 <map id="Database::ASqlBackend::markStagedAsReviewed" name="Database::ASqlBackend::markStagedAsReviewed">
-<area shape="rect" id="node1" title="mark all staged photos as reviewed." alt="" coords="5,93,176,133"/>
-<area shape="rect" id="node2" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="224,29,411,69"/>
-<area shape="rect" id="node3" href="$da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0" title="find all photos matching filters" alt="" coords="234,93,401,133"/>
-<area shape="rect" id="node4" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af282cb886405d379b78d19b3af177d03" title="get photo operator" alt="" coords="236,157,399,197"/>
+<area shape="rect" id="Node000001" title="mark all staged photos as reviewed." alt="" coords="5,128,176,169"/>
+<area shape="rect" id="Node000002" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="224,29,409,70"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="130,125,223,81,239,74,241,79,225,85,132,130"/>
+<area shape="rect" id="Node000003" href="$da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0" title="find all photos matching filters" alt="" coords="233,95,400,135"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="176,133,217,127,218,132,177,138"/>
+<area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af282cb886405d379b78d19b3af177d03" title="get photo operator" alt="" coords="236,160,397,201"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="177,158,221,164,220,169,176,163"/>
+<area shape="rect" id="Node000010" href="$d2/ddd/struct_database_1_1_i_backend.html#a7aa7c1522d821b1bd38fcfc68147b7e9" title=" " alt="" coords="225,225,408,266"/>
+<area shape="poly" id="edge5_Node000001_Node000010" title=" " alt="" coords="133,167,225,210,242,217,240,222,223,215,131,172"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="274,29,272,19,279,10,294,5,316,3,341,5,355,11,353,16,339,10,316,8,295,10,282,15,277,21,279,28"/>
 </map>

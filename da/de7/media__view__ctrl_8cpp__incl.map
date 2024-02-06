@@ -1,9 +1,16 @@
 <map id="src/gui/desktop/quick_items/media_view_ctrl.cpp" name="src/gui/desktop/quick_items/media_view_ctrl.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="218,5,401,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,80,119"/>
-<area shape="rect" id="node3" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="249,167,431,192"/>
-<area shape="rect" id="node4" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="155,93,296,119"/>
-<area shape="rect" id="node5" href="$db/ddc/media__types_8hpp.html" title=" " alt="" coords="321,93,469,119"/>
-<area shape="rect" id="node6" href="$d9/d3b/media__view__ctrl_8hpp.html" title=" " alt="" coords="493,93,633,119"/>
-<area shape="rect" id="node7" href="$df/dab/objects__accessor_8hpp.html" title=" " alt="" coords="657,93,805,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="218,5,400,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,80,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="243,49,96,93,94,87,242,44"/>
+<area shape="rect" id="Node000003" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="248,168,429,193"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,47,181,60,152,76,143,85,138,95,138,106,145,118,163,137,184,151,234,169,232,174,182,156,159,141,140,121,133,107,133,94,138,82,149,72,179,55,217,42"/>
+<area shape="rect" id="Node000011" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="155,94,295,120"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="290,48,251,85,247,81,287,44"/>
+<area shape="rect" id="Node000023" href="$db/ddc/media__types_8hpp.html" title=" " alt="" coords="320,94,467,120"/>
+<area shape="poly" id="edge4_Node000001_Node000023" title=" " alt="" coords="332,44,371,81,367,85,328,48"/>
+<area shape="rect" id="Node000024" href="$d9/d3b/media__view__ctrl_8hpp.html" title=" " alt="" coords="492,94,631,120"/>
+<area shape="poly" id="edge5_Node000001_Node000024" title=" " alt="" coords="373,44,509,86,507,91,371,49"/>
+<area shape="rect" id="Node000034" href="$df/dab/objects__accessor_8hpp.html" title=" " alt="" coords="656,94,803,120"/>
+<area shape="poly" id="edge7_Node000001_Node000034" title=" " alt="" coords="401,42,650,88,649,93,400,47"/>
+<area shape="poly" id="edge6_Node000024_Node000003" title=" " alt="" coords="524,123,392,165,390,160,523,118"/>
 </map>

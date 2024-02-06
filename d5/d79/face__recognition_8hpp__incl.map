@@ -1,7 +1,11 @@
 <map id="src/face_recognition/face_recognition.hpp" name="src/face_recognition/face_recognition.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="133,5,279,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,76,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="100,93,168,119"/>
-<area shape="rect" id="node4" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="192,93,367,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="391,93,560,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="132,5,276,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,75,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,49,80,89,78,85,162,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="98,94,166,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,48,155,84,151,80,184,45"/>
+<area shape="rect" id="Node000004" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="189,94,363,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="224,45,257,80,253,84,220,48"/>
+<area shape="rect" id="Node000019" title=" " alt="" coords="387,94,555,120"/>
+<area shape="poly" id="edge4_Node000001_Node000019" title=" " alt="" coords="271,44,415,86,414,92,270,49"/>
 </map>

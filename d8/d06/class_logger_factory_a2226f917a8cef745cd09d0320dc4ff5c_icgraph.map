@@ -1,4 +1,6 @@
 <map id="LoggerFactory::get" name="LoggerFactory::get">
-<area shape="rect" id="node1" title=" " alt="" coords="104,29,233,55"/>
-<area shape="rect" id="node2" href="$df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title=" " alt="" coords="5,29,56,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="103,29,231,55"/>
+<area shape="poly" id="edge1_Node000001_Node000001" title=" " alt="" coords="190,16,182,10,167,8,153,10,146,14,144,20,148,28,143,30,139,21,141,11,151,5,167,3,184,5,193,12"/>
+<area shape="rect" id="Node000002" href="$df/d0a/main_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title=" " alt="" coords="5,29,55,55"/>
+<area shape="poly" id="edge2_Node000001_Node000002" title=" " alt="" coords="87,45,55,45,55,40,87,40"/>
 </map>

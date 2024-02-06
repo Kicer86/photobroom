@@ -1,6 +1,9 @@
 <map id="Database::AsyncDatabase::init" name="Database::AsyncDatabase::init">
-<area shape="rect" id="node1" title=" " alt="" coords="5,69,180,109"/>
-<area shape="rect" id="node2" href="$dc/dc0/class_database_1_1_async_database.html#a6df600dff90daad131f27763f0ff21d7" title=" " alt="" coords="228,5,403,45"/>
-<area shape="rect" id="node3" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="244,69,387,109"/>
-<area shape="rect" id="node4" href="$d2/ddd/struct_database_1_1_i_backend.html#a13efb3e12e45bb91857edc7db3328466" title="init backend &#45; connect to database or create new one" alt="" coords="246,133,385,173"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,179,111"/>
+<area shape="rect" id="Node000002" href="$dc/dc0/class_database_1_1_async_database.html#a6df600dff90daad131f27763f0ff21d7" title=" " alt="" coords="227,5,400,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="162,68,227,48,228,54,164,73"/>
+<area shape="rect" id="Node000004" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="243,71,384,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="179,88,227,88,227,94,179,94"/>
+<area shape="rect" id="Node000007" href="$d2/ddd/struct_database_1_1_i_backend.html#a13efb3e12e45bb91857edc7db3328466" title="init backend &#45; connect to database or create new one" alt="" coords="245,136,382,177"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="164,109,231,129,229,134,162,114"/>
 </map>

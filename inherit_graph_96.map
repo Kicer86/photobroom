@@ -1,5 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="5,31,136,56"/>
-<area shape="rect" id="node2" href="$d4/d93/class_exif_reader_factory.html" title=" " alt="" coords="200,5,327,31"/>
-<area shape="rect" id="node3" href="$de/d3c/class_exif_reader_factory_mock.html" title=" " alt="" coords="184,55,343,80"/>
+<area shape="rect" id="Node000000" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="5,31,136,56"/>
+<area shape="rect" id="Node000001" href="$d4/d93/class_exif_reader_factory.html" title=" " alt="" coords="200,5,326,31"/>
+<area shape="poly" id="edge117_Node000000_Node000001" title=" " alt="" coords="151,30,199,24,200,29,152,36"/>
+<area shape="rect" id="Node000002" href="$de/d3c/class_exif_reader_factory_mock.html" title=" " alt="" coords="184,55,342,80"/>
+<area shape="poly" id="edge118_Node000000_Node000002" title=" " alt="" coords="151,51,184,55,183,60,151,56"/>
 </map>

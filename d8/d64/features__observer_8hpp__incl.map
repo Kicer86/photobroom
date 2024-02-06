@@ -1,6 +1,10 @@
 <map id="src/gui/desktop/utils/features_observer.hpp" name="src/gui/desktop/utils/features_observer.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,160,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="86,167,157,192"/>
-<area shape="rect" id="node3" href="$d7/d64/inotifications_8hpp.html" title=" " alt="" coords="23,93,142,119"/>
-<area shape="rect" id="node4" href="$db/dc1/ifeatures__manager_8hpp.html" title=" " alt="" coords="166,93,349,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,159,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="86,168,155,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="51,49,33,64,17,81,10,100,14,119,25,133,39,145,73,163,70,168,36,150,21,137,9,121,4,99,13,79,29,60,48,45"/>
+<area shape="rect" id="Node000003" href="$d7/d64/inotifications_8hpp.html" title=" " alt="" coords="23,94,141,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="85,46,85,78,79,78,79,46"/>
+<area shape="rect" id="Node000008" href="$db/dc1/ifeatures__manager_8hpp.html" title=" " alt="" coords="165,94,346,120"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="126,44,216,85,214,90,124,49"/>
+<area shape="poly" id="edge4_Node000008_Node000002" title=" " alt="" coords="234,123,158,162,156,158,231,118"/>
 </map>

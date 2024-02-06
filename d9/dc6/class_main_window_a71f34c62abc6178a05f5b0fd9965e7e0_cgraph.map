@@ -1,7 +1,12 @@
 <map id="MainWindow::on_actionNew_collection_triggered" name="MainWindow::on_actionNew_collection_triggered">
-<area shape="rect" id="node1" title=" " alt="" coords="5,74,191,114"/>
-<area shape="rect" id="node2" href="$d3/d16/class_project_creator.html#ac44110bce200c391b2e2c70d6c2ad177" title=" " alt="" coords="251,5,397,31"/>
-<area shape="rect" id="node3" href="$da/df4/struct_project_info.html#a781e4f7abfbb6dce848bc1f0e6e46c55" title=" " alt="" coords="457,81,593,107"/>
-<area shape="rect" id="node4" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="239,107,409,132"/>
-<area shape="rect" id="node5" href="$d3/d16/class_project_creator.html#a1c7830727a6ec1e3687f68bd9fcd2c21" title=" " alt="" coords="249,156,399,181"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,74,190,115"/>
+<area shape="rect" id="Node000002" href="$d3/d16/class_project_creator.html#ac44110bce200c391b2e2c70d6c2ad177" title=" " alt="" coords="250,5,396,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,71,267,34,269,39,161,76"/>
+<area shape="rect" id="Node000014" href="$da/df4/struct_project_info.html#a781e4f7abfbb6dce848bc1f0e6e46c55" title=" " alt="" coords="456,81,591,107"/>
+<area shape="poly" id="edge2_Node000001_Node000014" title=" " alt="" coords="190,92,440,92,440,97,190,97"/>
+<area shape="rect" id="Node000015" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="238,107,408,132"/>
+<area shape="poly" id="edge3_Node000001_Node000015" title=" " alt="" coords="190,102,223,106,222,111,190,107"/>
+<area shape="rect" id="Node000033" href="$d3/d16/class_project_creator.html#a1c7830727a6ec1e3687f68bd9fcd2c21" title=" " alt="" coords="248,156,398,182"/>
+<area shape="poly" id="edge5_Node000001_Node000033" title=" " alt="" coords="154,113,239,142,259,149,258,154,237,147,152,118"/>
+<area shape="poly" id="edge4_Node000015_Node000014" title=" " alt="" coords="408,106,440,102,441,107,409,111"/>
 </map>

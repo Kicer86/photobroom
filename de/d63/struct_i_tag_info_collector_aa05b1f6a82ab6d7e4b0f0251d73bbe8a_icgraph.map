@@ -1,5 +1,7 @@
 <map id="ITagInfoCollector::setOfValuesChanged" name="ITagInfoCollector::setOfValuesChanged">
-<area shape="rect" id="node1" title=" " alt="" coords="261,35,407,75"/>
-<area shape="rect" id="node2" href="$d6/d99/class_tag_info_collector.html#abf40d1de87194feee9c0b1a23172ff12" title=" " alt="" coords="28,5,191,45"/>
-<area shape="rect" id="node3" href="$df/da1/class_tag_value_model.html#a811947ec1fcd6edd962f6fd581fe72b4" title=" " alt="" coords="5,70,213,95"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="261,35,405,75"/>
+<area shape="rect" id="Node000002" href="$d6/d99/class_tag_info_collector.html#abf40d1de87194feee9c0b1a23172ff12" title=" " alt="" coords="28,5,190,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,46,190,39,191,34,246,41"/>
+<area shape="rect" id="Node000010" href="$df/da1/class_tag_value_model.html#a811947ec1fcd6edd962f6fd581fe72b4" title=" " alt="" coords="5,70,213,96"/>
+<area shape="poly" id="edge2_Node000001_Node000010" title=" " alt="" coords="246,69,214,73,213,67,245,63"/>
 </map>

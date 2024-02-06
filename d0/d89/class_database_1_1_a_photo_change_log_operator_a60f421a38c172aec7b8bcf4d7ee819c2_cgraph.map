@@ -1,6 +1,10 @@
 <map id="Database::APhotoChangeLogOperator::process" name="Database::APhotoChangeLogOperator::process">
-<area shape="rect" id="node1" title=" " alt="" coords="5,63,197,103"/>
-<area shape="rect" id="node2" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#abd4975ccf4d15c57222cd371eb33a0e3" title=" " alt="" coords="245,5,437,45"/>
-<area shape="rect" id="node3" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="485,95,552,121"/>
-<area shape="rect" id="node4" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="306,121,377,146"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,197,103"/>
+<area shape="rect" id="Node000002" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#abd4975ccf4d15c57222cd371eb33a0e3" title=" " alt="" coords="245,5,436,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,59,237,48,238,53,189,65"/>
+<area shape="rect" id="Node000003" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="484,96,549,121"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,86,469,103,468,108,197,91"/>
+<area shape="rect" id="Node000004" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="306,121,375,147"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="198,101,291,121,290,126,197,106"/>
+<area shape="poly" id="edge4_Node000004_Node000003" title=" " alt="" coords="375,126,469,112,469,118,376,131"/>
 </map>

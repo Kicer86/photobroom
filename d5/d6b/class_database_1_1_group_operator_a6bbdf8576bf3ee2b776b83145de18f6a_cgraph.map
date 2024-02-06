@@ -1,6 +1,9 @@
 <map id="Database::GroupOperator::membersOf" name="Database::GroupOperator::membersOf">
-<area shape="rect" id="node1" title=" " alt="" coords="5,55,173,95"/>
-<area shape="rect" id="node2" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="259,5,374,31"/>
-<area shape="rect" id="node3" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="221,55,412,95"/>
-<area shape="rect" id="node4" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="281,120,352,145"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,173,96"/>
+<area shape="rect" id="Node000002" href="$da/d2a/ibackend_8hpp.html#ac6fb985b87586bc7d7e15bfbef46f893" title=" " alt="" coords="259,5,372,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="171,52,246,33,248,38,172,57"/>
+<area shape="rect" id="Node000003" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="221,55,410,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="173,73,205,73,205,78,173,78"/>
+<area shape="rect" id="Node000004" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="281,120,350,146"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="172,94,266,118,265,123,171,99"/>
 </map>

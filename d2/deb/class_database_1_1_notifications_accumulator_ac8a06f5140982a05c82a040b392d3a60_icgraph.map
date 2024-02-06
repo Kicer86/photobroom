@@ -1,4 +1,5 @@
 <map id="Database::NotificationsAccumulator::raiseDeletion" name="Database::NotificationsAccumulator::raiseDeletion">
-<area shape="rect" id="node1" title=" " alt="" coords="281,5,509,45"/>
-<area shape="rect" id="node2" href="$d2/deb/class_database_1_1_notifications_accumulator.html#add8fa9f57c069ec1f5710088b72d4b12" title=" " alt="" coords="5,5,233,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="281,5,508,46"/>
+<area shape="rect" id="Node000002" href="$d2/deb/class_database_1_1_notifications_accumulator.html#add8fa9f57c069ec1f5710088b72d4b12" title=" " alt="" coords="5,5,233,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="265,28,233,28,233,23,265,23"/>
 </map>

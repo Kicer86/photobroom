@@ -1,5 +1,7 @@
 <map id="FacesModel::apply" name="FacesModel::apply">
-<area shape="rect" id="node1" title=" " alt="" coords="231,31,360,56"/>
-<area shape="rect" id="node2" href="$d6/de2/class_faces_model.html#ada2f30998287e7fa2cc79d4c79dd2d7a" title=" " alt="" coords="8,5,180,31"/>
-<area shape="rect" id="node3" href="$d6/de2/class_faces_model.html#a2e3f38979a755e135e3357defc231d28" title=" " alt="" coords="5,55,183,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="230,31,358,56"/>
+<area shape="rect" id="Node000002" href="$d6/de2/class_faces_model.html#ada2f30998287e7fa2cc79d4c79dd2d7a" title=" " alt="" coords="8,5,179,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,36,179,32,180,26,215,31"/>
+<area shape="rect" id="Node000003" href="$d6/de2/class_faces_model.html#a2e3f38979a755e135e3357defc231d28" title=" " alt="" coords="5,55,182,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,56,183,60,182,54,214,50"/>
 </map>

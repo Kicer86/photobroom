@@ -1,7 +1,11 @@
 <map id="src/core/implementation/thread_utils_pthreads.cpp" name="src/core/implementation/thread_utils_pthreads.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="135,5,309,45"/>
-<area shape="rect" id="node2" href="$d6/d94/thread__utils_8hpp.html" title=" " alt="" coords="5,93,119,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="143,93,208,119"/>
-<area shape="rect" id="node4" title=" " alt="" coords="233,93,307,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="331,93,438,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="134,5,307,46"/>
+<area shape="rect" id="Node000002" href="$d6/d94/thread__utils_8hpp.html" title=" " alt="" coords="5,94,118,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,49,100,89,98,84,179,44"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="141,94,206,120"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="211,48,191,82,186,79,206,45"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="230,94,304,120"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="234,45,254,79,250,82,229,48"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="328,94,433,120"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="261,44,343,84,341,89,259,49"/>
 </map>

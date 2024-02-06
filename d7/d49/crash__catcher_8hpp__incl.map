@@ -1,5 +1,7 @@
 <map id="src/crash_catcher/crash_catcher.hpp" name="src/crash_catcher/crash_catcher.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="27,5,189,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,75,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="99,93,255,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="27,5,188,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,74,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="93,48,62,84,58,80,89,45"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="98,94,253,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="126,45,157,80,153,84,122,48"/>
 </map>

@@ -1,7 +1,12 @@
 <map id="src/database/notifications_accumulator.hpp" name="src/database/notifications_accumulator.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="79,5,249,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,93,45,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="70,93,141,119"/>
-<area shape="rect" id="node4" href="$dc/d82/photo__types_8hpp.html" title=" " alt="" coords="165,93,281,119"/>
-<area shape="rect" id="node5" title=" " alt="" coords="207,167,334,192"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="76,5,246,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,45,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,49,59,89,56,84,126,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="69,94,138,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,48,124,83,119,79,145,45"/>
+<area shape="rect" id="Node000004" href="$dc/d82/photo__types_8hpp.html" title=" " alt="" coords="162,94,277,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="178,45,204,80,200,83,173,48"/>
+<area shape="rect" id="Node000011" title=" " alt="" coords="203,168,330,193"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="231,44,265,64,291,93,297,108,296,125,285,156,280,154,291,124,291,109,287,95,261,68,228,49"/>
+<area shape="poly" id="edge4_Node000004_Node000011" title=" " alt="" coords="230,118,252,153,248,156,225,121"/>
 </map>

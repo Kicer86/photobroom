@@ -1,5 +1,10 @@
 <map id="TagValueModel::TagValueModel" name="TagValueModel::TagValueModel">
-<area shape="rect" id="node1" title=" " alt="" coords="5,42,213,67"/>
-<area shape="rect" id="node2" href="$df/da1/class_tag_value_model.html#a4aba96b9b5852a2ae1dff1f6e401686f" title=" " alt="" coords="261,5,428,45"/>
-<area shape="rect" id="node3" href="$df/da1/class_tag_value_model.html#ac9383f3a6cd789be57bd1abf0895f696" title=" " alt="" coords="476,42,660,67"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,70,213,96"/>
+<area shape="rect" id="Node000002" href="$df/da1/class_tag_value_model.html#a4aba96b9b5852a2ae1dff1f6e401686f" title=" " alt="" coords="261,5,427,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="164,67,245,47,246,52,165,72"/>
+<area shape="rect" id="Node000003" href="$df/da1/class_tag_value_model.html#ac9383f3a6cd789be57bd1abf0895f696" title=" " alt="" coords="475,42,658,68"/>
+<area shape="poly" id="edge4_Node000001_Node000003" title=" " alt="" coords="213,74,459,59,460,64,213,79"/>
+<area shape="rect" id="Node000007" href="$de/d63/struct_i_tag_info_collector.html#aa05b1f6a82ab6d7e4b0f0251d73bbe8a" title=" " alt="" coords="272,120,416,161"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="165,94,257,116,256,122,164,99"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="428,34,460,38,459,44,427,39"/>
 </map>

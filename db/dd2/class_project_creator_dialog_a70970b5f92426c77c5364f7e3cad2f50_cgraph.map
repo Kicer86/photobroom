@@ -1,4 +1,5 @@
 <map id="ProjectCreatorDialog::set" name="ProjectCreatorDialog::set">
-<area shape="rect" id="node1" title=" " alt="" coords="5,13,171,38"/>
-<area shape="rect" id="node2" href="$db/dd2/class_project_creator_dialog.html#a2d6f7647235d4b3eaf65c82da0d77fd5" title=" " alt="" coords="219,5,360,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,170,39"/>
+<area shape="rect" id="Node000002" href="$db/dd2/class_project_creator_dialog.html#a2d6f7647235d4b3eaf65c82da0d77fd5" title=" " alt="" coords="218,5,358,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,23,202,23,202,28,170,28"/>
 </map>

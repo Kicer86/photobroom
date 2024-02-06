@@ -1,5 +1,7 @@
 <map id="BaseTags::getName" name="BaseTags::getName">
-<area shape="rect" id="node1" title="Get raw text for tag." alt="" coords="245,42,385,67"/>
-<area shape="rect" id="node2" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a7a556c87a2bcccdc6923ab73bc943516" title=" " alt="" coords="5,5,197,45"/>
-<area shape="rect" id="node3" href="$df/da1/class_tag_value_model.html#ac9383f3a6cd789be57bd1abf0895f696" title=" " alt="" coords="9,70,193,95"/>
+<area shape="rect" id="Node000001" title="Get raw text for tag." alt="" coords="245,42,384,68"/>
+<area shape="rect" id="Node000002" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a7a556c87a2bcccdc6923ab73bc943516" title=" " alt="" coords="5,5,197,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,46,197,42,197,36,229,41"/>
+<area shape="rect" id="Node000006" href="$df/da1/class_tag_value_model.html#ac9383f3a6cd789be57bd1abf0895f696" title=" " alt="" coords="9,70,193,96"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="229,69,194,74,193,68,229,64"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="src/face_recognition/learning_tests/utils.cpp" name="src/face_recognition/learning_tests/utils.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,164,45"/>
-<area shape="rect" id="node2" href="$d2/d99/face__recognition_2learning__tests_2utils_8hpp.html" title=" " alt="" coords="5,93,76,119"/>
-<area shape="rect" id="node3" title=" " alt="" coords="101,93,159,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,164,46"/>
+<area shape="rect" id="Node000002" href="$d2/d99/face__recognition_2learning__tests_2utils_8hpp.html" title=" " alt="" coords="6,94,75,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,48,57,82,52,79,71,45"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="100,94,157,120"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="98,45,117,79,112,82,93,48"/>
 </map>

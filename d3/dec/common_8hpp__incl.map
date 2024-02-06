@@ -1,10 +1,17 @@
 <map id="src/database/unit_tests_for_backends/common.hpp" name="src/database/unit_tests_for_backends/common.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="401,5,586,45"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,101,115,126"/>
-<area shape="rect" id="node3" title=" " alt="" coords="139,101,234,126"/>
-<area shape="rect" id="node4" title=" " alt="" coords="259,101,373,126"/>
-<area shape="rect" id="node5" href="$da/d0e/sqlite__backend_2backend_8hpp.html" title=" " alt="" coords="398,93,589,133"/>
-<area shape="rect" id="node6" href="$d7/d86/memory__backend_8hpp.html" title=" " alt="" coords="613,93,797,133"/>
-<area shape="rect" id="node7" href="$d3/d41/project__info_8hpp.html" title=" " alt="" coords="822,101,935,126"/>
-<area shape="rect" id="node8" href="$d9/d0f/empty__logger_8hpp.html" title=" " alt="" coords="960,93,1109,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="397,5,581,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,114,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="397,44,268,67,127,97,115,100,113,94,126,91,267,62,396,39"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="138,102,232,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="414,49,244,97,237,99,235,94,243,91,413,44"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="256,102,370,127"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="450,49,352,97,350,92,448,44"/>
+<area shape="rect" id="Node000005" href="$da/d0e/sqlite__backend_2backend_8hpp.html" title=" " alt="" coords="394,94,584,135"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="492,47,492,78,486,78,486,47"/>
+<area shape="rect" id="Node000080" href="$d7/d86/memory__backend_8hpp.html" title=" " alt="" coords="608,94,791,135"/>
+<area shape="poly" id="edge5_Node000001_Node000080" title=" " alt="" coords="538,44,639,85,637,90,536,49"/>
+<area shape="rect" id="Node000082" href="$d3/d41/project__info_8hpp.html" title=" " alt="" coords="815,102,928,127"/>
+<area shape="poly" id="edge6_Node000001_Node000082" title=" " alt="" coords="582,43,804,91,816,94,815,100,803,97,581,48"/>
+<area shape="rect" id="Node000083" href="$d9/d0f/empty__logger_8hpp.html" title=" " alt="" coords="952,94,1100,135"/>
+<area shape="poly" id="edge7_Node000001_Node000083" title=" " alt="" coords="582,36,743,59,937,91,936,96,742,64,581,42"/>
 </map>

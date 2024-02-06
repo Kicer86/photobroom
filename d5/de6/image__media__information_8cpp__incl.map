@@ -1,7 +1,13 @@
 <map id="src/core/implementation/image_media_information.cpp" name="src/core/implementation/image_media_information.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="163,5,362,45"/>
-<area shape="rect" id="node2" href="$df/df0/image__media__information_8hpp.html" title=" " alt="" coords="5,93,200,119"/>
-<area shape="rect" id="node3" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="139,167,251,192"/>
-<area shape="rect" id="node4" title=" " alt="" coords="220,240,263,265"/>
-<area shape="rect" id="node5" title=" " alt="" coords="325,93,435,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="163,5,361,46"/>
+<area shape="rect" id="Node000002" href="$df/df0/image__media__information_8hpp.html" title=" " alt="" coords="5,94,199,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,49,141,89,139,84,221,44"/>
+<area shape="rect" id="Node000003" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="138,168,250,193"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="256,47,208,154,203,152,251,45"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="220,241,261,267"/>
+<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="267,47,270,112,269,153,265,194,255,228,250,226,259,193,264,153,265,112,261,47"/>
+<area shape="rect" id="Node000022" title=" " alt="" coords="325,94,434,120"/>
+<area shape="poly" id="edge5_Node000001_Node000022" title=" " alt="" coords="292,44,350,83,347,87,290,49"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="119,118,168,156,165,160,116,122"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="204,192,227,227,222,230,199,195"/>
 </map>

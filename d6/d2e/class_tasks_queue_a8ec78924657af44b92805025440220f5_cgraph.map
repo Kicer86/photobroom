@@ -1,4 +1,5 @@
 <map id="TasksQueue::passTaskToExecutor" name="TasksQueue::passTaskToExecutor">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,229,31"/>
-<area shape="rect" id="node2" href="$d5/d45/struct_i_task_executor.html#a52c27a801ca71679f9a8e3dc9c173734" title=" " alt="" coords="277,5,409,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,229,31"/>
+<area shape="rect" id="Node000002" href="$d5/d45/struct_i_task_executor.html#a52c27a801ca71679f9a8e3dc9c173734" title=" " alt="" coords="277,5,408,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,16,261,16,261,21,229,21"/>
 </map>

@@ -1,5 +1,7 @@
 <map id="MainTabController::applyConfiguration" name="MainTabController::applyConfiguration">
-<area shape="rect" id="node1" title=" " alt="" coords="5,23,139,63"/>
-<area shape="rect" id="node2" href="$d7/db4/struct_i_configuration.html#a3f387c30272b219a1be93b6f12610435" title=" " alt="" coords="197,5,352,31"/>
-<area shape="rect" id="node3" href="$d1/d85/class_main_tab.html#a376c67a14ccf9b2db1559b6986a31662" title=" " alt="" coords="187,55,363,80"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,138,64"/>
+<area shape="rect" id="Node000002" href="$d7/db4/struct_i_configuration.html#a3f387c30272b219a1be93b6f12610435" title=" " alt="" coords="197,5,350,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,33,181,27,182,32,138,38"/>
+<area shape="rect" id="Node000003" href="$d1/d85/class_main_tab.html#a376c67a14ccf9b2db1559b6986a31662" title=" " alt="" coords="186,55,361,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="138,49,171,53,170,58,138,54"/>
 </map>

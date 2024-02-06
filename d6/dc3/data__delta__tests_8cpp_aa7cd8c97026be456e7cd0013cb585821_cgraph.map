@@ -1,4 +1,5 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="node1" title=" " alt="" coords="5,5,60,31"/>
-<area shape="rect" id="node2" href="$d5/df1/struct_photo_1_1_data.html#a08fbe960d4ddc3a2c2c49dd6a82acf25" title=" " alt="" coords="108,5,233,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,60,31"/>
+<area shape="rect" id="Node000002" href="$d5/df1/struct_photo_1_1_data.html#a08fbe960d4ddc3a2c2c49dd6a82acf25" title=" " alt="" coords="108,5,232,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,16,92,16,92,21,60,21"/>
 </map>

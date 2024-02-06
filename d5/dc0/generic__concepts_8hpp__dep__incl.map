@@ -1,6 +1,9 @@
 <map id="src/core/generic_concepts.hpp" name="src/core/generic_concepts.hpp">
-<area shape="rect" id="node1" title=" " alt="" coords="153,5,351,31"/>
-<area shape="rect" id="node2" href="$de/d87/containers__utils_8hpp.html" title=" " alt="" coords="5,79,139,119"/>
-<area shape="rect" id="node3" href="$d2/dc1/json__serializer_8hpp.html" title=" " alt="" coords="163,86,341,111"/>
-<area shape="rect" id="node4" href="$d8/d0e/explicit__photo__delta_8hpp.html" title=" " alt="" coords="365,79,507,119"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="152,5,351,31"/>
+<area shape="rect" id="Node000002" href="$de/d87/containers__utils_8hpp.html" title=" " alt="" coords="5,79,138,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="211,40,117,81,115,76,209,35"/>
+<area shape="rect" id="Node000010" href="$d2/dc1/json__serializer_8hpp.html" title=" " alt="" coords="162,87,341,112"/>
+<area shape="poly" id="edge2_Node000001_Node000010" title=" " alt="" coords="254,47,254,86,249,86,249,47"/>
+<area shape="rect" id="Node000012" href="$d8/d0e/explicit__photo__delta_8hpp.html" title=" " alt="" coords="365,79,506,120"/>
+<area shape="poly" id="edge3_Node000001_Node000012" title=" " alt="" coords="295,35,391,76,389,81,293,40"/>
 </map>

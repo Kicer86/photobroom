@@ -1,4 +1,5 @@
 <map id="FlatModel::reloadPhotos" name="FlatModel::reloadPhotos">
-<area shape="rect" id="node1" title=" " alt="" coords="212,5,373,31"/>
-<area shape="rect" id="node2" href="$d1/da6/class_flat_model.html#a2737a8ce4698c5aa45a9b9c50b799aea" title=" " alt="" coords="5,5,164,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="211,5,371,31"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a2737a8ce4698c5aa45a9b9c50b799aea" title=" " alt="" coords="5,5,163,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,21,163,21,163,16,195,16"/>
 </map>

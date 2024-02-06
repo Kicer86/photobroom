@@ -1,5 +1,7 @@
 <map id="Database::SQLiteBackend" name="Database::SQLiteBackend">
-<area shape="rect" id="node1" title=" " alt="" coords="97,93,271,119"/>
-<area shape="rect" id="node2" href="$d5/d1b/class_database_1_1_a_sql_backend.html" title=" " alt="" coords="5,13,168,38"/>
-<area shape="rect" id="node3" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html" title=" " alt="" coords="192,5,373,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="96,94,271,120"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html" title=" " alt="" coords="5,13,167,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,46,170,91,167,96,111,50"/>
+<area shape="rect" id="Node000011" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html" title=" " alt="" coords="191,5,371,46"/>
+<area shape="poly" id="edge2_Node000001_Node000011" title=" " alt="" coords="247,58,200,95,197,91,243,54"/>
 </map>

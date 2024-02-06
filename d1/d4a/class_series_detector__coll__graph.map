@@ -1,6 +1,9 @@
 <map id="SeriesDetector" name="SeriesDetector">
-<area shape="rect" id="node1" title=" " alt="" coords="114,93,222,119"/>
-<area shape="rect" id="node2" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="5,5,72,31"/>
-<area shape="rect" id="node3" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="97,5,239,31"/>
-<area shape="rect" id="node4" href="$d5/dd5/struct_i_exif_reader.html" title=" " alt="" coords="264,5,352,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="112,94,220,120"/>
+<area shape="rect" id="Node000002" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="5,5,71,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="66,38,106,68,145,91,143,96,103,72,63,43"/>
+<area shape="rect" id="Node000003" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="95,5,237,31"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="169,47,169,94,163,94,163,47"/>
+<area shape="rect" id="Node000004" href="$d5/dd5/struct_i_exif_reader.html" title=" " alt="" coords="261,5,348,31"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="274,42,187,96,184,91,271,37"/>
 </map>

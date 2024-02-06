@@ -1,6 +1,10 @@
 <map id="ILogger::warning" name="ILogger::warning">
-<area shape="rect" id="node1" title=" " alt="" coords="212,77,329,102"/>
-<area shape="rect" id="node2" href="$de/d2a/class_image_media_information.html#af34ec756e2754554b1692b713a432b19" title=" " alt="" coords="5,5,164,45"/>
-<area shape="rect" id="node3" href="$d7/d27/class_thumbnail_generator.html#a2b3ef9191a1a9b06f39b5207125dc4de" title=" " alt="" coords="8,69,161,109"/>
-<area shape="rect" id="node4" href="$de/d2a/class_image_media_information.html#ae1f3ce6893b7b33d7c30449e0c481301" title=" " alt="" coords="5,157,164,197"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="211,78,327,104"/>
+<area shape="rect" id="Node000002" href="$de/d2a/class_image_media_information.html#af34ec756e2754554b1692b713a432b19" title=" " alt="" coords="5,5,163,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,75,143,49,145,44,217,70"/>
+<area shape="rect" id="Node000004" href="$d7/d27/class_thumbnail_generator.html#a2b3ef9191a1a9b06f39b5207125dc4de" title=" " alt="" coords="8,71,160,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="195,94,160,94,160,88,195,88"/>
+<area shape="rect" id="Node000007" href="$de/d2a/class_image_media_information.html#ae1f3ce6893b7b33d7c30449e0c481301" title=" " alt="" coords="5,160,163,201"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="228,113,129,162,127,157,226,109"/>
+<area shape="poly" id="edge4_Node000007_Node000007" title=" " alt="" coords="114,147,103,141,84,139,67,141,56,145,52,151,54,159,49,160,47,150,53,141,65,135,84,133,104,136,116,142"/>
 </map>

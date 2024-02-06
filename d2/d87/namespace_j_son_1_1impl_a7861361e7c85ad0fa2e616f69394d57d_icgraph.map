@@ -1,4 +1,6 @@
 <map id="JSon::impl::getSerialized" name="JSon::impl::getSerialized">
-<area shape="rect" id="node1" title=" " alt="" coords="188,5,351,31"/>
-<area shape="rect" id="node2" href="$d2/d87/namespace_j_son_1_1impl.html#afbfb9076e87c950ad49d81dbe5e02680" title=" " alt="" coords="5,5,140,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="188,5,349,31"/>
+<area shape="rect" id="Node000002" href="$d2/d87/namespace_j_son_1_1impl.html#afbfb9076e87c950ad49d81dbe5e02680" title=" " alt="" coords="5,5,140,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,30,140,29,140,24,172,24"/>
+<area shape="poly" id="edge2_Node000002_Node000001" title=" " alt="" coords="155,7,187,7,187,12,155,12"/>
 </map>

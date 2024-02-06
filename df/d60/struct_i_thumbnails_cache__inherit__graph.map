@@ -1,6 +1,9 @@
 <map id="IThumbnailsCache" name="IThumbnailsCache">
-<area shape="rect" id="node1" title=" " alt="" coords="165,5,295,31"/>
-<area shape="rect" id="node2" href="$da/d15/struct_mock_thumbnails_cache.html" title=" " alt="" coords="5,79,164,104"/>
-<area shape="rect" id="node3" href="$d5/dec/struct_null_cache.html" title=" " alt="" coords="189,79,271,104"/>
-<area shape="rect" id="node4" href="$de/d89/class_thumbnails_cache.html" title=" " alt="" coords="296,79,423,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="163,5,293,31"/>
+<area shape="rect" id="Node000002" href="$da/d15/struct_mock_thumbnails_cache.html" title=" " alt="" coords="5,79,163,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="191,41,110,81,107,76,189,36"/>
+<area shape="rect" id="Node000003" href="$d5/dec/struct_null_cache.html" title=" " alt="" coords="187,79,269,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="231,46,231,79,225,79,225,46"/>
+<area shape="rect" id="Node000004" href="$de/d89/class_thumbnails_cache.html" title=" " alt="" coords="293,79,419,105"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="264,37,335,76,333,81,262,41"/>
 </map>

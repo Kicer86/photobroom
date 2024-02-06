@@ -1,4 +1,5 @@
 <map id="ConfigStorage" name="ConfigStorage">
-<area shape="rect" id="node1" title=" " alt="" coords="7,79,110,104"/>
-<area shape="rect" id="node2" href="$de/dfa/struct_i_config_storage.html" title="Configuration load/save." alt="" coords="5,5,112,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="7,79,110,105"/>
+<area shape="rect" id="Node000002" href="$de/dfa/struct_i_config_storage.html" title="Configuration load/save." alt="" coords="5,5,112,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="61,46,61,79,56,79,56,46"/>
 </map>

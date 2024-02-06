@@ -1,8 +1,13 @@
 <map id="Database::MemoryBackend" name="Database::MemoryBackend">
-<area shape="rect" id="node1" title="memory based backend" alt="" coords="251,127,431,152"/>
-<area shape="rect" id="node2" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="35,5,173,31"/>
-<area shape="rect" id="node3" href="$db/d61/class_database_1_1_a_people_information_accessor.html" title=" " alt="" coords="5,55,203,95"/>
-<area shape="rect" id="node4" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html" title=" " alt="" coords="8,119,200,159"/>
-<area shape="rect" id="node5" href="$d8/d5e/struct_database_1_1_i_group_operator.html" title=" " alt="" coords="18,184,190,209"/>
-<area shape="rect" id="node6" href="$d1/d7e/struct_database_1_1_i_photo_operator.html" title=" " alt="" coords="19,233,189,259"/>
+<area shape="rect" id="Node000001" title="memory based backend" alt="" coords="250,128,429,154"/>
+<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="35,5,172,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,34,203,41,239,61,273,84,325,125,322,130,270,88,236,66,201,46,183,39"/>
+<area shape="rect" id="Node000004" href="$db/d61/class_database_1_1_a_people_information_accessor.html" title=" " alt="" coords="5,55,202,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="195,98,291,125,289,130,193,103"/>
+<area shape="rect" id="Node000006" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html" title=" " alt="" coords="8,121,199,161"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="215,138,249,138,249,144,215,144"/>
+<area shape="rect" id="Node000008" href="$d8/d5e/struct_database_1_1_i_group_operator.html" title=" " alt="" coords="18,185,189,211"/>
+<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="173,179,283,152,284,157,175,184"/>
+<area shape="rect" id="Node000009" href="$d1/d7e/struct_database_1_1_i_photo_operator.html" title=" " alt="" coords="18,235,189,260"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="184,227,201,221,267,186,319,152,321,156,270,191,203,226,186,232"/>
 </map>

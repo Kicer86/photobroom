@@ -1,6 +1,9 @@
 <map id="PhotosGroupingDialog::cancel" name="PhotosGroupingDialog::cancel">
-<area shape="rect" id="node1" title=" " alt="" coords="215,69,365,109"/>
-<area shape="rect" id="node2" href="$d0/d4e/class_photos_grouping_dialog.html#acdd897a76c29645a0d8bdc3eb814e78e" title=" " alt="" coords="5,5,167,45"/>
-<area shape="rect" id="node3" href="$d0/d4e/class_photos_grouping_dialog.html#ae32516085d8f17286e6cd01da236cb6a" title=" " alt="" coords="11,69,161,109"/>
-<area shape="rect" id="node4" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="11,133,161,173"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="214,71,364,111"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#acdd897a76c29645a0d8bdc3eb814e78e" title=" " alt="" coords="5,5,166,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,68,150,49,152,44,210,63"/>
+<area shape="rect" id="Node000004" href="$d0/d4e/class_photos_grouping_dialog.html#ae32516085d8f17286e6cd01da236cb6a" title=" " alt="" coords="10,71,161,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="198,94,161,94,161,88,198,88"/>
+<area shape="rect" id="Node000005" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="10,136,161,177"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="210,119,152,138,150,133,208,114"/>
 </map>

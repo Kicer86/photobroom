@@ -1,11 +1,24 @@
 <map id="PhotosAnalyzerImpl::PhotosAnalyzerImpl" name="PhotosAnalyzerImpl::PhotosAnalyzerImpl">
-<area shape="rect" id="node1" title=" " alt="" coords="5,213,148,253"/>
-<area shape="rect" id="node2" href="$dd/d10/class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b" title=" " alt="" coords="233,5,371,45"/>
-<area shape="rect" id="node3" href="$da/d69/struct_i_view_task.html#a7a56a96028b15bab0e8989119da65ad5" title=" " alt="" coords="456,42,636,67"/>
-<area shape="rect" id="node4" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="231,120,373,160"/>
-<area shape="rect" id="node5" href="$d0/d76/namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7" title="return filter which will filter out broken photos (missing, broken, deleted etc)" alt="" coords="217,184,387,224"/>
-<area shape="rect" id="node6" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="251,249,353,274"/>
-<area shape="rect" id="node7" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#a1fb32c38ffea2b0422905239caa21e40" title=" " alt="" coords="196,299,408,339"/>
-<area shape="rect" id="node8" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="233,363,371,403"/>
-<area shape="rect" id="node9" href="$de/d2f/struct_i_progress_bar.html#ab7603d37913f6e3247a0655268673dbd" title=" " alt="" coords="225,427,379,453"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,280,148,321"/>
+<area shape="rect" id="Node000002" href="$dd/d10/class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b" title=" " alt="" coords="233,5,370,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="80,279,93,234,116,177,149,116,170,87,194,62,218,46,221,51,197,66,174,91,153,119,120,179,98,236,85,280"/>
+<area shape="rect" id="Node000007" href="$da/d69/struct_i_view_task.html#a7a56a96028b15bab0e8989119da65ad5" title=" " alt="" coords="455,42,634,68"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="82,278,96,240,119,193,151,145,171,124,194,106,237,88,299,75,439,59,440,64,300,80,239,94,197,111,175,128,156,149,123,196,101,243,87,280"/>
+<area shape="rect" id="Node000009" href="$d5/d20/class_observable_executor.html#afbefb81c6c79693e2e59d3fc23d3b145" title=" " alt="" coords="220,120,383,161"/>
+<area shape="poly" id="edge3_Node000001_Node000009" title=" " alt="" coords="90,278,132,225,162,196,194,171,205,165,208,170,197,176,165,200,136,229,94,281"/>
+<area shape="rect" id="Node000010" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="231,185,372,226"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="113,277,195,237,215,229,217,234,197,241,115,282"/>
+<area shape="rect" id="Node000013" href="$d0/d76/namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7" title="return filter which will filter out broken photos (missing, broken, deleted etc)" alt="" coords="216,251,387,291"/>
+<area shape="poly" id="edge6_Node000001_Node000013" title=" " alt="" coords="148,288,201,281,201,287,148,294"/>
+<area shape="rect" id="Node000015" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="250,316,353,341"/>
+<area shape="poly" id="edge7_Node000001_Node000015" title=" " alt="" coords="148,307,235,317,234,323,148,312"/>
+<area shape="rect" id="Node000016" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#a1fb32c38ffea2b0422905239caa21e40" title=" " alt="" coords="196,365,407,406"/>
+<area shape="poly" id="edge8_Node000001_Node000016" title=" " alt="" coords="121,319,197,351,214,358,213,363,195,356,119,324"/>
+<area shape="rect" id="Node000017" href="$d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" title="get photo operator" alt="" coords="233,431,370,471"/>
+<area shape="poly" id="edge9_Node000001_Node000017" title=" " alt="" coords="95,319,138,368,166,393,197,415,219,427,217,431,194,420,163,397,134,371,92,323"/>
+<area shape="rect" id="Node000018" href="$d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92" title="emited after new photos were added to database" alt="" coords="233,496,370,537"/>
+<area shape="poly" id="edge10_Node000001_Node000018" title=" " alt="" coords="88,320,104,355,127,398,159,443,197,481,220,494,217,499,194,485,154,446,123,401,99,357,83,322"/>
+<area shape="rect" id="Node000019" href="$de/d2f/struct_i_progress_bar.html#ab7603d37913f6e3247a0655268673dbd" title=" " alt="" coords="224,561,379,587"/>
+<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="84,320,95,367,117,429,150,493,172,521,197,546,211,555,208,560,194,550,168,525,145,495,112,431,90,369,79,322"/>
+<area shape="poly" id="edge2_Node000002_Node000007" title=" " alt="" coords="370,31,440,40,439,45,369,36"/>
 </map>
