@@ -49,9 +49,7 @@ addTestTarget(gui
                     photos_crawler
                     sample_dbs
                     Qt::Core
-                    Qt::Gui
                     Qt::Quick
-                    Qt::Widgets
                     Qt::Test
                     GTest::gtest
                     GTest::gmock
