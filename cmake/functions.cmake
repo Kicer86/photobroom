@@ -193,6 +193,94 @@ macro(addTestTarget target)
 endmacro(addTestTarget)
 
 
+# helper function for creating clone of an executable target
+function(cloneTarget target newtarget)
+    add_executable(${newtarget})
+    foreach(prp SOURCES LINK_LIBRARIES INCLUDE_DIRECTORIES COMPILE_DEFINITIONS AUTOMOC)
+        get_target_property(val ${target} ${prp})
+        set_target_properties(${newtarget} PROPERTIES ${prp} "${val}")
+    endforeach()
+endfunction()
+
+
+# helper function for creating unit tests with sanitizers enabled
+macro(addSanitizers target test_prefix)
+
+    #clone target
+    cloneTarget(${target} ${target}_addr)
+    cloneTarget(${target} ${target}_thread)
+    cloneTarget(${target} ${target}_leak)
+    cloneTarget(${target} ${target}_ub)
+
+    # setup proper flags for sanitizers
+    addFlags(${target}_addr COMPILE_FLAGS "-fsanitize=address")
+    addFlags(${target}_addr LINK_FLAGS "-fsanitize=address")
+
+    addFlags(${target}_thread COMPILE_FLAGS "-fsanitize=thread")
+    addFlags(${target}_thread LINK_FLAGS "-fsanitize=thread")
+
+    addFlags(${target}_leak COMPILE_FLAGS "-fsanitize=leak")
+    addFlags(${target}_leak LINK_FLAGS "-fsanitize=leak")
+
+    addFlags(${target}_ub COMPILE_FLAGS "-fsanitize=undefined -fno-sanitize-recover=all"
+                                            "-fsanitize-undefined-trap-on-error"
+                                            "-fsanitize=shift "
+                                            "-fsanitize=integer-divide-by-zero "
+                                            "-fsanitize=unreachable "
+                                            "-fsanitize=vla-bound "
+                                            "-fsanitize=null "
+                                            "-fsanitize=return "
+                                            "-fsanitize=signed-integer-overflow "
+                                            "-fsanitize=bounds "
+                                            "-fsanitize=bounds-strict "
+                                            "-fsanitize=alignment "
+                                            "-fsanitize=object-size "
+                                            "-fsanitize=float-divide-by-zero "
+                                            "-fsanitize=float-cast-overflow "
+                                            "-fsanitize=nonnull-attribute "
+                                            "-fsanitize=returns-nonnull-attribute "
+                                            "-fsanitize=bool "
+                                            "-fsanitize=enum "
+                                            "-fsanitize=vptr"
+    )
+
+    addFlags(${target}_ub LINK_FLAGS "-fsanitize=undefined -fno-sanitize-recover=all")
+
+    #add tests
+    add_test(${test_prefix}_addr ${target}_addr)
+    add_test(${test_prefix}_thread ${target}_thread)
+    add_test(${test_prefix}_leak ${target}_leak)
+    add_test(${test_prefix}_ub ${target}_ub)
+
+    set_tests_properties(${test_prefix}_addr PROPERTIES LABELS "UnitTest;Sanitizer;Address")
+    set_tests_properties(${test_prefix}_thread PROPERTIES LABELS "UnitTest;Sanitizer;Thread")
+    set_tests_properties(${test_prefix}_leak PROPERTIES LABELS "UnitTest;Sanitizer;Leak")
+    set_tests_properties(${test_prefix}_ub PROPERTIES LABELS "UnitTest;Sanitizer;UndefinedBehavior")
+
+    list(APPEND test_binaries
+        ${target}_addr
+        ${target}_thread
+        ${target}_leak
+        ${target}_ub
+    )
+
+    # make sure all test will be build before running them after build
+    add_dependencies(RunUnitTests ${test_binaries})
+
+endmacro(addSanitizers)
+
+
+# do some universal setup for a unit test
+function(register_unit_test unit_test executable)
+    set_tests_properties(${unit_test} PROPERTIES LABELS "UnitTest")
+    add_dependencies(RunUnitTests ${executable})
+
+    if(ENABLE_SANITIZERS_FOR_TESTS)
+        addSanitizers(${executable} ${unit_test})
+    endif()
+endfunction()
+
+
 function(disableWarnings target)
 
     if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
