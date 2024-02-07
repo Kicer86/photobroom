@@ -29,6 +29,17 @@ namespace
             lk.unlock();
             cv.notify_one();
         }
+
+        template<typename C>
+        requires std::is_invocable_v<C>
+        void ready(C c)
+        {
+            std::unique_lock lk(mutex);
+            c();
+            done = true;
+            lk.unlock();
+            cv.notify_one();
+        }
     };
 }
 
@@ -208,8 +219,9 @@ TEST(StoppableTask, sameThread)
         },
         [&](int)
         {
-            callbackThreadId = std::this_thread::get_id();
-            waiter2.ready();
+            waiter2.ready([&]{
+                callbackThreadId = std::this_thread::get_id();
+            });
         }
     );
 
@@ -230,7 +242,7 @@ TEST(StoppableTask, sameThread)
 TEST(StoppableTask, notSameThread)
 {
     const std::thread::id mainThreadId = std::this_thread::get_id();
-    std::atomic<std::thread::id> callbackThreadId = mainThreadId;
+    std::thread::id callbackThreadId = mainThreadId;
     ConditionalWait waiter;
 
     std::stop_source stop_source;
@@ -245,8 +257,9 @@ TEST(StoppableTask, notSameThread)
         },
         [&](int)
         {
-            callbackThreadId = std::this_thread::get_id();
-            waiter.ready();
+            waiter.ready([&]{
+                callbackThreadId = std::this_thread::get_id();
+            });
         },
         false
     );
