@@ -229,8 +229,8 @@ TEST(StoppableTask, sameThread)
 
 TEST(StoppableTask, notSameThread)
 {
-    std::thread::id callbackThreadId;
     const std::thread::id mainThreadId = std::this_thread::get_id();
+    std::atomic<std::thread::id> callbackThreadId = mainThreadId;
     ConditionalWait waiter;
 
     std::stop_source stop_source;
