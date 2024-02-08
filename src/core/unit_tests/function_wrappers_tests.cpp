@@ -26,7 +26,6 @@ namespace
         {
             std::unique_lock lk(mutex);
             done = true;
-            lk.unlock();
             cv.notify_one();
         }
 

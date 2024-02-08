@@ -15,7 +15,7 @@
 // Internal struct with data shared between safe_callback and safe_callback_ctrl
 struct safe_callback_data
 {
-    std::mutex mutex;
+    std::recursive_mutex mutex;             // recursive mutex - for one use case where deletion of safe_callback::m_callback triggered destruction of safe_callback_ctrl
     bool callbackAlive;
 
     safe_callback_data(): mutex(), callbackAlive(true) {}
@@ -36,11 +36,15 @@ class safe_callback final
 
         safe_callback& operator=(const safe_callback<Args...> &) = default;
 
-        virtual ~safe_callback() = default;
+        ~safe_callback()
+        {
+            std::lock_guard lock(m_data->mutex);
+            m_callback = std::function<void(Args...)>();            // release all possible resources held by m_callback
+        }
 
         void operator()(Args... args) const
         {
-            std::lock_guard<std::mutex> lock(m_data->mutex);
+            std::lock_guard lock(m_data->mutex);
 
             if (is_valid())
                 m_callback(std::forward<Args>(args)...);
@@ -53,7 +57,6 @@ class safe_callback final
 
     private:
         std::shared_ptr<safe_callback_data> m_data;
-
         std::function<void(Args...)> m_callback;
 };
 
@@ -78,7 +81,8 @@ class safe_callback_ctrl final
             // Otherwise owner class may be partialy destructed before
             // safe_callback_ctrl is reseted which will allow
             // callbacks to work on a broken object
-            assert(m_data.get() == 0 || m_data.use_count() == 1);  // no data, or only one client - us
+            auto data = m_data.load();
+            assert(data.get() == nullptr || data.use_count() == 2);  // no data, or only one client - us (there are 2 copies of data - `m_data` and `data`)
 
             reset();
         }
@@ -86,7 +90,10 @@ class safe_callback_ctrl final
         template<typename... R, typename T>
         [[nodiscard]] auto make_safe_callback(T&& callback) const
         {
-            safe_callback<R...> callbackPtr(m_data, std::forward<T>(callback));
+            auto data = m_data.load();
+
+            std::lock_guard lock(data->mutex);
+            safe_callback<R...> callbackPtr(data, std::forward<T>(callback));
 
             return callbackPtr;
         }
@@ -103,26 +110,30 @@ class safe_callback_ctrl final
         template<typename...>
         friend class safe_callback;
 
-        std::shared_ptr<safe_callback_data> m_data;
+        std::atomic<std::shared_ptr<safe_callback_data>> m_data;
 
         void setup()
         {
-            m_data = std::make_shared<safe_callback_data>();
+            m_data.store(std::make_shared<safe_callback_data>());
         }
 
         void reset()
         {
             // mark all safe callbacks as invalid
             {
+                // make copy of shared_ptr - reset() may be called from any thread, so we cannot operate on the same instance of m_data
+                // as main thread. Operate on a copy instead which is thread safe
+                auto data = m_data.load();
+
                 // lock resource
-                std::lock_guard<std::mutex> lock(m_data->mutex);
+                std::lock_guard lock(data->mutex);
 
                 // mark resource as dead
-                m_data->callbackAlive = false;
+                data->callbackAlive = false;
             }
 
-            // detach from existing safe callbacks
-            m_data.reset();
+            // replace m_data with empty shared_ptr (as result, resetting m_data)
+            m_data.store(std::shared_ptr<safe_callback_data>());
         }
 };
 
