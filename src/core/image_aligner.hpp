@@ -12,7 +12,7 @@
 class CORE_EXPORT ImageAligner
 {
 public:
-    ImageAligner(const QStringList& photos);
+    explicit ImageAligner(const QStringList& photos);
 
     bool align(const QString& outputDir, const QString& prefix);
 
