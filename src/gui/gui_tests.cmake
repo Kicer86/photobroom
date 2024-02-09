@@ -8,64 +8,73 @@ find_program(QML_TEST_RUNNER
              PATHS /usr/lib/qt6/bin
              REQUIRED
 )
+add_executable(gui_ut
+    desktop/models/aheavy_list_model.hpp                   # needed for moc
+    desktop/models/aphoto_data_model.cpp
+    desktop/models/flat_model.cpp
+    desktop/utils/model_index_utils.cpp
+    desktop/quick_items/selection_manager_component.cpp
+    desktop/utils/thumbnail_manager.cpp
+    desktop/utils/thumbnails_cache.cpp
 
-include_directories(unit_tests)
+    # model tests:
+    unit_tests/model/aheavy_list_model_tests.cpp
+    unit_tests/model/aphoto_data_model_tests.cpp
+    unit_tests/model/flat_model_tests.cpp
 
-addTestTarget(gui
-                SOURCES
-                    desktop/models/aheavy_list_model.hpp                   # needed for moc
-                    desktop/models/aphoto_data_model.cpp
-                    desktop/models/flat_model.cpp
-                    desktop/utils/model_index_utils.cpp
-                    desktop/quick_items/selection_manager_component.cpp
-                    desktop/utils/thumbnail_manager.cpp
-                    desktop/utils/thumbnails_cache.cpp
+    # helpers:
+    unit_tests/test_helpers/mock_configuration.hpp
+    unit_tests/test_helpers/mock_qabstractitemmodel.hpp
 
-                    # model tests:
-                    unit_tests/model/aheavy_list_model_tests.cpp
-                    unit_tests/model/aphoto_data_model_tests.cpp
-                    unit_tests/model/flat_model_tests.cpp
+    unit_tests/test_helpers/internal_task_executor.cpp
+    unit_tests/test_helpers/internal_task_executor.hpp
 
-                    # helpers:
-                    unit_tests/test_helpers/mock_configuration.hpp
-                    unit_tests/test_helpers/mock_qabstractitemmodel.hpp
+    # utils:
+    unit_tests/utils/model_index_utils_tests.cpp
+    unit_tests/utils/selection_manager_component_tests.cpp
+    unit_tests/utils/thumbnails_manager_tests.cpp
+    unit_tests/utils/thumbnails_cache_tests.cpp
 
-                    unit_tests/test_helpers/internal_task_executor.cpp
-                    unit_tests/test_helpers/internal_task_executor.hpp
-
-                    # utils:
-                    unit_tests/utils/model_index_utils_tests.cpp
-                    unit_tests/utils/selection_manager_component_tests.cpp
-                    unit_tests/utils/thumbnails_manager_tests.cpp
-                    unit_tests/utils/thumbnails_cache_tests.cpp
-
-                    # main()
-                    unit_tests/main.cpp
-
-                LIBRARIES
-                    core
-                    database
-                    database_memory_backend
-                    photos_crawler
-                    sample_dbs
-                    Qt::Core
-                    Qt::Gui
-                    Qt::Quick
-                    Qt::Widgets
-                    Qt::Test
-                    GTest::gtest
-                    GTest::gmock
-
-                INCLUDES
-                    ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models/model_helpers
-                    ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models
-                    ${CMAKE_CURRENT_SOURCE_DIR}/desktop
-                    ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
-                    ${CMAKE_CURRENT_SOURCE_DIR}
-
-                DEFINITIONS
-                    GUI_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+    # main()
+    unit_tests/main.cpp
 )
+
+target_link_libraries(gui_ut
+    PRIVATE
+        core
+        database
+        database_memory_backend
+        photos_crawler
+        sample_dbs
+        Qt::Core
+        Qt::Quick
+        Qt::Test
+        GTest::gtest
+        GTest::gmock
+)
+
+target_include_directories(gui_ut
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models/model_helpers
+        ${CMAKE_CURRENT_SOURCE_DIR}/desktop/models
+        ${CMAKE_CURRENT_SOURCE_DIR}/desktop
+        ${CMAKE_CURRENT_SOURCE_DIR}/unit_tests
+        ${CMAKE_CURRENT_SOURCE_DIR}
+)
+
+target_compile_definitions(gui_ut
+    PRIVATE
+        GUI_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+)
+
+set_target_properties(gui_ut PROPERTIES AUTOMOC TRUE)
+
+add_test(
+    NAME gui
+    COMMAND gui_ut
+)
+
+register_unit_test(gui gui_ut)
 
 
 add_test(
@@ -74,4 +83,4 @@ add_test(
 )
 
 set_tests_properties(QmlLogicTests PROPERTIES LABELS "UnitTest")
-
+set_tests_properties(QmlLogicTests PROPERTIES ENVIRONMENT "QT_QPA_PLATFORM=offscreen")

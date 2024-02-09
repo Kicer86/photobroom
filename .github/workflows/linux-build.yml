@@ -33,6 +33,7 @@ jobs:
       run: |
         sudo apt-get update &&  \
         sudo apt-get install    \
+          gcc                   \
           ninja-build           \
           qt6-base-dev          \
           qt6-declarative-dev   \
@@ -42,6 +43,8 @@ jobs:
           qt6-quick3d-dev       \
           qt6-quick3d-dev-tools \
           qt6-l10n-tools        \
+          qml6-module-qtqml-workerscript \
+          qml6-module-qtquick-window     \
           libqt6shadertools6-dev      \
           libqt6svg6-dev              \
           libqt6quick3druntimerender6 \
@@ -87,4 +90,14 @@ jobs:
         build-type: Release
         cc: ${{ matrix.compiler.CC }}
         cxx: ${{ matrix.compiler.CXX }}
-        configure-options: -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+        configure-options:                                      \
+            -DBUILD_SHARED_LIBS=${{ matrix.shared }}            \
+            -DLUPDATE=/usr/lib/qt6/bin/lupdate                  \
+            -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease       \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache                  \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache                \
+            -DENABLE_SANITIZERS_FOR_TESTS=TRUE
+        run-test: true
+        ctest-options:                  \
+            --output-on-failure         \
+            --repeat until-fail:5

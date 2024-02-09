@@ -7,6 +7,42 @@
 #include "function_wrappers.hpp"
 
 
+namespace
+{
+    class ConditionalWait
+    {
+        std::mutex mutex;
+        std::condition_variable cv;
+        bool done = false;
+
+    public:
+        void wait()
+        {
+            std::unique_lock lk(mutex);
+            cv.wait(lk, [this]{ return done; });
+        }
+
+        void ready()
+        {
+            std::unique_lock lk(mutex);
+            done = true;
+            cv.notify_one();
+        }
+
+        template<typename C>
+        requires std::is_invocable_v<C>
+        void ready(C c)
+        {
+            std::unique_lock lk(mutex);
+            c();
+            done = true;
+            lk.unlock();
+            cv.notify_one();
+        }
+    };
+}
+
+
 using namespace std::placeholders;
 
 struct DummyCallback
@@ -90,9 +126,7 @@ TEST(SafeCallbackTest, sequentialCall)
 TEST(StoppableTask, notStopped)
 {
     int result = 0;
-    std::mutex mutex;
-
-    mutex.lock();
+    ConditionalWait waiter;
 
     std::stop_source stop_source;
     stoppableTask<int>(
@@ -104,16 +138,17 @@ TEST(StoppableTask, notStopped)
                 c(5);
             });
         },
-        [&result, &mutex](int v)
+        [&](int v)
         {
             result = v;
-            mutex.unlock();
+
+            waiter.ready();
         },
         false
     );
 
     // wait for task to finish
-    mutex.lock();
+    waiter.wait();
 
     EXPECT_EQ(result, 5);
 }
@@ -123,22 +158,20 @@ TEST(StoppableTask, stopped)
 {
     bool stopped = false;
     bool called = false;
-    std::mutex mutex_1, mutex_2;
-
-    mutex_1.lock();
-    mutex_2.lock();
+    ConditionalWait waiter1, waiter2;
 
     std::stop_source stop_source;
     stoppableTask<int>(
         stop_source,
-        [&stopped, &mutex_1, &mutex_2](const std::stop_token& s, auto c)
+        [&](const std::stop_token& s, auto c)
         {
-            std::thread([c, s, &stopped, &mutex_1, &mutex_2]
+            std::thread([&, c, s]
             {
-                mutex_1.lock();                     // wait for mutex (step #1)
+                waiter1.wait();                        // wait for mutex (step #1)
+
                 stopped = s.stop_requested();
                 c(5);
-                mutex_2.unlock();                   // release mutex (step #2)
+                waiter2.ready();                       // release mutex (step #2)
             }).detach();
         },
         [&called](int)
@@ -150,10 +183,10 @@ TEST(StoppableTask, stopped)
 
     // step #1: stop task and let it finish
     stop_source.request_stop();
-    mutex_1.unlock();
+    waiter1.ready();
 
     // step #2: wait for task to finish
-    mutex_2.lock();
+    waiter2.wait();
 
     // verify expectations
     EXPECT_TRUE(stopped);
@@ -170,37 +203,35 @@ TEST(StoppableTask, sameThread)
 
     std::thread::id callbackThreadId;
     const std::thread::id mainThreadId = std::this_thread::get_id();
-    std::mutex mutex_1, mutex_2;
-
-    mutex_1.lock();
-    mutex_2.lock();
+    ConditionalWait waiter1, waiter2;
 
     std::stop_source stop_source;
     stoppableTask<int>(
         stop_source,
-        [&mutex_1](const std::stop_token &, auto c)
+        [&](const std::stop_token &, auto c)
         {
-            std::thread([c, &mutex_1]
+            std::thread([&, c]
             {
                 c(5);
-                mutex_1.unlock();
+                waiter1.ready();
             }).detach();
         },
-        [&mutex_2, &callbackThreadId](int)
+        [&](int)
         {
-            callbackThreadId = std::this_thread::get_id();
-            mutex_2.unlock();
+            waiter2.ready([&]{
+                callbackThreadId = std::this_thread::get_id();
+            });
         }
     );
 
     // wait for callback to be called
-    mutex_1.lock();
+    waiter1.wait();
 
     // process qt messages
     app.processEvents();
 
     // wait for callback
-    mutex_2.lock();
+    waiter2.wait();
 
     // verify expectations
     EXPECT_EQ(mainThreadId, callbackThreadId);
@@ -209,11 +240,9 @@ TEST(StoppableTask, sameThread)
 
 TEST(StoppableTask, notSameThread)
 {
-    std::thread::id callbackThreadId;
     const std::thread::id mainThreadId = std::this_thread::get_id();
-    std::mutex mutex;
-
-    mutex.lock();;
+    std::thread::id callbackThreadId = mainThreadId;
+    ConditionalWait waiter;
 
     std::stop_source stop_source;
     stoppableTask<int>(
@@ -225,16 +254,17 @@ TEST(StoppableTask, notSameThread)
                 c(5);
             }).detach();
         },
-        [&mutex, &callbackThreadId](int)
+        [&](int)
         {
-            callbackThreadId = std::this_thread::get_id();
-            mutex.unlock();
+            waiter.ready([&]{
+                callbackThreadId = std::this_thread::get_id();
+            });
         },
         false
     );
 
     // wait for callback
-    mutex.lock();
+    waiter.wait();
 
     // verify expectations
     EXPECT_NE(mainThreadId, callbackThreadId);
