@@ -18,6 +18,7 @@ jobs:
         compiler:
           - { compiler: GNU, CC: gcc, CXX: g++ }
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
+        build: [Release, Debug]
 
     steps:
     # switch to ubuntu 23.10
@@ -90,7 +91,7 @@ jobs:
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
-        build-type: Release
+        build-type: ${{ matrix.build }}
         cc: ${{ matrix.compiler.CC }}
         cxx: ${{ matrix.compiler.CXX }}
         configure-options:                                      \
