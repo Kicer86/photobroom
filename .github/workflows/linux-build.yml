@@ -13,12 +13,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04]
-        shared: [TRUE, FALSE]
         compiler:
           - { compiler: GNU, CC: gcc, CXX: g++ }
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
         build: [Release, Debug]
+        shared: [TRUE, FALSE]
+        os: [ubuntu-22.04]
 
     steps:
     # switch to ubuntu 23.10
