@@ -35,6 +35,9 @@ jobs:
         sudo apt-get install                \
           gcc                               \
           ninja-build                       \
+          python3-cairosvg                  \
+          python3-defusedxml                \
+          python3-pil                       \
           qt6-base-dev                      \
           qt6-declarative-dev               \
           qt6-declarative-dev-tools         \
