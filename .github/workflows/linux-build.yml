@@ -90,7 +90,13 @@ jobs:
         build-type: Release
         cc: ${{ matrix.compiler.CC }}
         cxx: ${{ matrix.compiler.CXX }}
-        configure-options: -DBUILD_SHARED_LIBS=${{ matrix.shared }} -DLUPDATE=/usr/lib/qt6/bin/lupdate -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease -DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DENABLE_SANITIZERS_FOR_TESTS=TRUE
+        configure-options:                                      \
+            -DBUILD_SHARED_LIBS=${{ matrix.shared }}            \
+            -DLUPDATE=/usr/lib/qt6/bin/lupdate                  \
+            -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease       \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache                  \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache                \
+            -DENABLE_SANITIZERS_FOR_TESTS=TRUE
         run-test: true
         ctest-options:                  \
             --output-on-failure         \
