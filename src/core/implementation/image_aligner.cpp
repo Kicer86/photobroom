@@ -55,10 +55,8 @@ AlignedImages::AlignedImages(const QStringList& photos, const QRect& imageSize, 
 }
 
 
-void AlignedImages::save(const QString& outputDir)
+void AlignedImages::forEachImage(std::function<void(const cv::Mat &)> op) const
 {
-    QDir().mkdir(outputDir);
-
     // adjust images
     for (int i = 0; i < m_photos.size(); i++)
     {
@@ -76,7 +74,7 @@ void AlignedImages::save(const QString& outputDir)
         const auto croppedNextImg = imageAligned(rect(m_commonPart));
 
         // save
-        cv::imwrite(QString("%1/%2.jpg").arg(outputDir).arg(i).toStdString(), croppedNextImg);
+        op(croppedNextImg);
     }
 }
 

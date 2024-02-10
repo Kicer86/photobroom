@@ -92,6 +92,7 @@ TEST(ImageAlignerTest, mixOfImagesOfTheSameSize)
 
     auto transformationV = range_to<std::vector<std::vector<long>>>(transformations | std::ranges::views::transform(transformationValues));
 
+    // verify transformations to be applied for each image
     // allow 1 pixel differences as different versions of openCV produce a little bit different results
     EXPECT_THAT(transformationV, ElementsAre(
         isSimilarTo(std::vector<long>{1, 0, 0, 0, 1, 0}),
@@ -101,6 +102,15 @@ TEST(ImageAlignerTest, mixOfImagesOfTheSameSize)
         isSimilarTo(std::vector<long>{1, 0, -158, 0, 1, 189})
     ));
 
+    // verify part of first image to which all images will be cropped
     const auto commonPart = alignedImages->imagesCommonPart();
     EXPECT_THAT(commonPart, isSimilarTo(QRect(158, 159, 1633, 1652)));
+
+    // check if all images have size of cropped area
+    const auto imgSize = commonPart.size();
+    alignedImages->forEachImage([imgSize](const auto image)
+    {
+        EXPECT_EQ(image.size().width, imgSize.width());
+        EXPECT_EQ(image.size().height, imgSize.height());
+    });
 }
