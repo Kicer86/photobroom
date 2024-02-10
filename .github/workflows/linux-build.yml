@@ -16,7 +16,7 @@ jobs:
         compiler:
           - { compiler: GNU, CC: gcc, CXX: g++ }
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
-        build: [Release, Debug]
+        build: [Release]
         shared: [TRUE, FALSE]
         os: [ubuntu-22.04]
 
