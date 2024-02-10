@@ -105,3 +105,5 @@ jobs:
         ctest-options:                  \
             --output-on-failure         \
             --repeat until-fail:5
+      env:
+        TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
