@@ -84,9 +84,11 @@ TEST(ImageAlignerTest, mixOfImagesOfTheSameSize)
         "alterd_images/img1_rotated.png"
     };
 
-    ImageAligner aligner(photos);
+    const ImageAligner aligner(photos);
+    const auto alignedImages = aligner.align();
+    ASSERT_TRUE(alignedImages.has_value());
 
-    const auto transformations = aligner.calculateTransformations();
+    const auto transformations = alignedImages->transformations();
 
     auto transformationV = range_to<std::vector<std::vector<long>>>(transformations | std::ranges::views::transform(transformationValues));
 
@@ -99,6 +101,6 @@ TEST(ImageAlignerTest, mixOfImagesOfTheSameSize)
         isSimilarTo(std::vector<long>{1, 0, -158, 0, 1, 189})
     ));
 
-    const auto commonPart = aligner.imagesCommonPart(transformations);
+    const auto commonPart = alignedImages->imagesCommonPart();
     EXPECT_THAT(commonPart, isSimilarTo(QRect(158, 159, 1633, 1652)));
 }
