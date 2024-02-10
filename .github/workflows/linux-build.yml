@@ -97,16 +97,16 @@ jobs:
         build-type: ${{ matrix.build }}
         cc: ${{ matrix.compiler.CC }}
         cxx: ${{ matrix.compiler.CXX }}
-        configure-options:                                      \
-            -DBUILD_SHARED_LIBS=${{ matrix.shared }}            \
-            -DLUPDATE=/usr/lib/qt6/bin/lupdate                  \
-            -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease       \
-            -DCMAKE_C_COMPILER_LAUNCHER=ccache                  \
-            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache                \
+        configure-options:
+            -DBUILD_SHARED_LIBS=${{ matrix.shared }}
+            -DLUPDATE=/usr/lib/qt6/bin/lupdate
+            -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
         run-test: true
-        ctest-options:                  \
-            --output-on-failure         \
+        ctest-options:
+            --output-on-failure
             --repeat until-fail:5
       env:
         TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
