@@ -9,6 +9,9 @@
 #include "core_export.h"
 
 
+/**
+ * @brief AlignedImages contains data required to align images. Built by @ref ImageAligner
+ */
 class CORE_EXPORT AlignedImages final
 {
 public:
@@ -25,7 +28,9 @@ private:
     const QStringList m_photos;
 };
 
-
+/**
+ * @brief ImageAligner builds all data needed to align given images and produces @ref AlignedImages
+ */
 class CORE_EXPORT ImageAligner final
 {
 public:
