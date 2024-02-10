@@ -87,6 +87,9 @@ jobs:
       with:
         key: ${{ github.job }}-${{ matrix.compiler.compiler }}
 
+    - name: Setup environment
+      run: echo "ENABLE_SANITIZERS=$( test ${{ matrix.build }} == "Release" && echo "ON" || echo "OFF" )" >> $GITHUB_ENV
+
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
@@ -100,7 +103,7 @@ jobs:
             -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease       \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache                  \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache                \
-            -DENABLE_SANITIZERS_FOR_TESTS=TRUE
+            -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
         run-test: true
         ctest-options:                  \
             --output-on-failure         \
