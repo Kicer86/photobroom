@@ -15,7 +15,7 @@
 class CORE_EXPORT AlignedImages final
 {
 public:
-    AlignedImages(const QStringList& photos, const QRect& imageSize, const std::vector<cv::Mat>& transformations);
+    explicit AlignedImages(const QStringList& photos, const QRect& imageSize, const std::vector<cv::Mat>& transformations);
 
     void forEachImage(std::function<void(const cv::Mat &)>) const;
 
