@@ -10,77 +10,65 @@
 
 using testing::ElementsAre;
 
-
-template<typename>
-struct is_std_vector : std::false_type {};
-
-template<typename T, typename A>
-struct is_std_vector<std::vector<T,A>> : std::true_type {};
-
-
-template<typename T> struct always_false : std::false_type {};
-
-
-template<typename T>
-bool areNotSimilar(const T& lhs, const T& rhs)
-{
-    return std::abs(lhs - rhs) > 1;
-}
-
-
-template<typename T>
-bool isSimilarToImpl(const T& arg, const T& v)
-{
-    if constexpr (is_std_vector<T>::value)
-    {
-        const auto s = arg.size();
-        assert(v.size() == s);
-
-        using vector_value_type = T::value_type;
-
-        if constexpr (is_std_vector<vector_value_type>::value)            // vector in vector
-        {
-            for(std::size_t i = 0; i < s; i++)
-                if (isSimilarToImpl(arg[i], v[i]) == false)
-                    return false;
-        }
-        else
-        {
-            for(std::size_t i = 0; i < s; i++)
-                if (areNotSimilar(arg[i], v[i]))
-                    return false;
-        }
-    }
-    else if constexpr (std::is_same_v<T, QRect>)
-    {
-        if (areNotSimilar(arg.x(), v.x()))
-            return false;
-        if (areNotSimilar(arg.y(), v.y()))
-            return false;
-        if (areNotSimilar(arg.width(), v.width()))
-            return false;
-        if (areNotSimilar(arg.height(), v.height()))
-            return false;
-    }
-    else
-        static_assert(always_false<T>::value, "Argument type is not supported");
-
-    return true;
-}
-
-
-MATCHER_P(isSimilarTo, v, "")
-{
-    using argT = std::remove_cvref_t<decltype(arg)>;
-    using vT = std::remove_cvref_t<decltype(v)>;
-    static_assert(std::is_same_v<argT, vT>, "Argument and expected value are of different types");
-
-    return isSimilarToImpl(arg, v);
-}
-
-
 namespace
 {
+    template<typename>
+    struct is_std_vector : std::false_type {};
+
+    template<typename T, typename A>
+    struct is_std_vector<std::vector<T,A>> : std::true_type {};
+
+
+    template<typename T> struct always_false : std::false_type {};
+
+
+    template<typename T>
+    bool areNotSimilar(const T& lhs, const T& rhs)
+    {
+        return std::abs(lhs - rhs) > 1;
+    }
+
+
+    template<typename T>
+    bool isSimilarToImpl(const T& arg, const T& v)
+    {
+        if constexpr (is_std_vector<T>::value)
+        {
+            const auto s = arg.size();
+            assert(v.size() == s);
+
+            using vector_value_type = T::value_type;
+
+            if constexpr (is_std_vector<vector_value_type>::value)            // vector in vector
+            {
+                for(std::size_t i = 0; i < s; i++)
+                    if (isSimilarToImpl(arg[i], v[i]) == false)
+                        return false;
+            }
+            else
+            {
+                for(std::size_t i = 0; i < s; i++)
+                    if (areNotSimilar(arg[i], v[i]))
+                        return false;
+            }
+        }
+        else if constexpr (std::is_same_v<T, QRect>)
+        {
+            if (areNotSimilar(arg.x(), v.x()))
+                return false;
+            if (areNotSimilar(arg.y(), v.y()))
+                return false;
+            if (areNotSimilar(arg.width(), v.width()))
+                return false;
+            if (areNotSimilar(arg.height(), v.height()))
+                return false;
+        }
+        else
+            static_assert(always_false<T>::value, "Argument type is not supported");
+
+        return true;
+    }
+
     std::vector<long> transformationValues(const cv::Mat& mat)
     {
         assert(mat.size().width == 3);
@@ -106,6 +94,17 @@ namespace
     // Setting it to false, loosens conditions and lets them pass
     constexpr bool strictMode = false;
 }
+
+
+MATCHER_P(isSimilarTo, v, "")
+{
+    using argT = std::remove_cvref_t<decltype(arg)>;
+    using vT = std::remove_cvref_t<decltype(v)>;
+    static_assert(std::is_same_v<argT, vT>, "Argument and expected value are of different types");
+
+    return isSimilarToImpl(arg, v);
+}
+
 
 using TestParams = std::tuple<QStringList, bool, std::vector<std::vector<long>>, QRect>;
 
