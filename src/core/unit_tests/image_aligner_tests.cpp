@@ -3,6 +3,7 @@
 #include <gmock/gmock.h>
 #include <ranges>
 
+#include <unit_tests_utils/empty_logger.hpp>
 #include "containers_utils.hpp"
 #include "image_aligner.hpp"
 
@@ -176,9 +177,10 @@ INSTANTIATE_TEST_SUITE_P
 
 TEST_P(ImageAlignerTest, validImages)
 {
-    const auto& [photos, exact, expectedTransformations, crop] = GetParam();
+    EmptyLogger logger;
 
-    const ImageAligner aligner(photos);
+    const auto& [photos, exact, expectedTransformations, crop] = GetParam();
+    const ImageAligner aligner(photos, logger);
     const auto alignedImages = aligner.align();
     ASSERT_TRUE(alignedImages.has_value());
 

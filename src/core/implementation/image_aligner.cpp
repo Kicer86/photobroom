@@ -13,6 +13,18 @@ namespace
         return cv::Rect(r.left(), r.top(), r.width(), r.height());
     }
 
+    QString mat(const cv::Mat& m)
+    {
+        const cv::Mat row = m.reshape(0,1);
+
+        std::ostringstream os;
+        os << row;
+
+        const std::string asStr = os.str();
+
+        return QString::fromStdString(asStr);
+    }
+
     auto findTransformation(const cv::Mat& referenceImageGray, const cv::Mat& imageGray)
     {
         const int number_of_iterations = 5000;
@@ -98,8 +110,9 @@ QRect AlignedImages::imagesCommonPart() const
 
 
 
-ImageAligner::ImageAligner(const QStringList& photos)
+ImageAligner::ImageAligner(const QStringList& photos, const ILogger& logger)
     : m_photos(photos)
+    , m_logger(logger.subLogger("ImageAligner"))
 {
 
 }
@@ -152,6 +165,7 @@ std::vector<cv::Mat> ImageAligner::calculateTransformations() const
         cv::cvtColor(image, imageGray, cv::COLOR_RGB2GRAY);
 
         const auto transformation = findTransformation(referenceImageGray, imageGray);
+        m_logger->trace(QString("Transformation for photo '%1': %2").arg(next).arg(mat(transformation)));
 
         transformations.push_back(transformation);
     }

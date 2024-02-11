@@ -7,7 +7,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "core_export.h"
-
+#include <core/ilogger.hpp>
 
 /**
  * @brief AlignedImages contains data required to align images. Built by @ref ImageAligner
@@ -34,7 +34,7 @@ private:
 class CORE_EXPORT ImageAligner final
 {
 public:
-    explicit ImageAligner(const QStringList& photos);
+    explicit ImageAligner(const QStringList& photos, const ILogger &);
 
     std::optional<AlignedImages> align() const;
 
@@ -43,6 +43,7 @@ private:
     QRect imagesCommonPart(const std::vector<cv::Mat>& transformations) const;
 
     const QStringList m_photos;
+    std::unique_ptr<ILogger> m_logger;
 };
 
 #endif
