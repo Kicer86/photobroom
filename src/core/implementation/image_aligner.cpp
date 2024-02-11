@@ -172,15 +172,3 @@ std::vector<cv::Mat> ImageAligner::calculateTransformations() const
 
     return transformations;
 }
-
-
-QRect ImageAligner::imagesCommonPart(const std::vector<cv::Mat>& transformations) const
-{
-    const auto& first = m_photos.front();
-    const auto referenceImage = cv::imread(first.toStdString());
-    QRect firstImageSize(0, 0, referenceImage.size().width, referenceImage.size().height);
-
-    // calculate common part of all images
-    const auto commonPartRect = commonPart(firstImageSize, transformations).toRect();
-    return commonPartRect;
-}

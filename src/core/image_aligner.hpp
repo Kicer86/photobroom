@@ -40,7 +40,6 @@ public:
 
 private:
     std::vector<cv::Mat> calculateTransformations() const;
-    QRect imagesCommonPart(const std::vector<cv::Mat>& transformations) const;
 
     const QStringList m_photos;
     std::unique_ptr<ILogger> m_logger;
