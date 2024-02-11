@@ -15,7 +15,9 @@ struct is_std_vector : std::false_type {};
 template<typename T, typename A>
 struct is_std_vector<std::vector<T,A>> : std::true_type {};
 
+
 template<typename T> struct always_false : std::false_type {};
+
 
 template<typename T>
 bool areNotSimilar(const T& lhs, const T& rhs)
@@ -24,22 +26,30 @@ bool areNotSimilar(const T& lhs, const T& rhs)
 }
 
 
-MATCHER_P(isSimilarTo, v, "")
+template<typename T>
+bool isSimilarToImpl(const T& arg, const T& v)
 {
-    using argT = std::remove_cvref_t<decltype(arg)>;
-    using vT = std::remove_cvref_t<decltype(v)>;
-    static_assert(std::is_same_v<argT, vT>, "Argument and expected value are of different types");
-
-    if constexpr (is_std_vector<argT>::value)
+    if constexpr (is_std_vector<T>::value)
     {
         const auto s = arg.size();
         assert(v.size() == s);
 
-        for(std::size_t i = 0; i < s; i++)
-            if (areNotSimilar(arg[i], v[i]))
-                return false;
+        using vector_value_type = T::value_type;
+
+        if constexpr (is_std_vector<vector_value_type>::value)            // vector in vector
+        {
+            for(std::size_t i = 0; i < s; i++)
+                if (isSimilarToImpl(arg[i], v[i]) == false)
+                    return false;
+        }
+        else
+        {
+            for(std::size_t i = 0; i < s; i++)
+                if (areNotSimilar(arg[i], v[i]))
+                    return false;
+        }
     }
-    else if constexpr (std::is_same_v<argT, QRect>)
+    else if constexpr (std::is_same_v<T, QRect>)
     {
         if (areNotSimilar(arg.x(), v.x()))
             return false;
@@ -51,9 +61,19 @@ MATCHER_P(isSimilarTo, v, "")
             return false;
     }
     else
-        static_assert(always_false<argT>::value, "Argument type is not supported");
+        static_assert(always_false<T>::value, "Argument type is not supported");
 
     return true;
+}
+
+
+MATCHER_P(isSimilarTo, v, "")
+{
+    using argT = std::remove_cvref_t<decltype(arg)>;
+    using vT = std::remove_cvref_t<decltype(v)>;
+    static_assert(std::is_same_v<argT, vT>, "Argument and expected value are of different types");
+
+    return isSimilarToImpl(arg, v);
 }
 
 
@@ -72,17 +92,58 @@ namespace
     }
 }
 
+using TestParams = std::tuple<QStringList, bool, std::vector<std::vector<long>>, QRect>;
 
-TEST(ImageAlignerTest, mixOfImagesOfTheSameSize)
+
+class ImageAlignerTest: public testing::TestWithParam<TestParams> {};
+
+INSTANTIATE_TEST_SUITE_P
+(
+    validImages,
+    ImageAlignerTest,
+    testing::Values
+    (
+        TestParams
+        {
+            {
+                "alterd_images/img1_.png",
+                "alterd_images/img1_moved_left.png",
+                "alterd_images/img1_moved_right.png",
+                "alterd_images/img1_rotated_negative.png",
+                "alterd_images/img1_rotated.png",
+            },
+            false,
+            {
+                std::vector<long>{1, 0, 0, 0, 1, 0},
+                std::vector<long>{1, 0, -20, 0, 1, 0},
+                std::vector<long>{1, 0, 20, 0, 1, 0},
+                std::vector<long>{1, 0, 189, 0, 1, -159},
+                std::vector<long>{1, 0, -158, 0, 1, 189},
+            },
+            QRect(158, 159, 1633, 1652)
+        },
+        TestParams
+        {
+            {
+                "alterd_images/img1_.png",
+                "alterd_images/img1_.png",
+                "alterd_images/img1_.png",
+            },
+            true,
+            {
+                std::vector<long>{1, 0, 0, 0, 1, 0},
+                std::vector<long>{1, 0, 0, 0, 1, 0},
+                std::vector<long>{1, 0, 0, 0, 1, 0},
+            },
+            QRect(0, 0, 2000, 2000)
+        }
+    )
+);
+
+
+TEST_P(ImageAlignerTest, validImages)
 {
-    const QStringList photos =
-    {
-        "alterd_images/img1_.png",
-        "alterd_images/img1_moved_left.png",
-        "alterd_images/img1_moved_right.png",
-        "alterd_images/img1_rotated_negative.png",
-        "alterd_images/img1_rotated.png"
-    };
+    const auto& [photos, exact, expectedTransformations, crop] = GetParam();
 
     const ImageAligner aligner(photos);
     const auto alignedImages = aligner.align();
@@ -90,21 +151,21 @@ TEST(ImageAlignerTest, mixOfImagesOfTheSameSize)
 
     const auto transformations = alignedImages->transformations();
 
-    auto transformationV = range_to<std::vector<std::vector<long>>>(transformations | std::ranges::views::transform(transformationValues));
+    auto transformationsV = range_to<std::vector<std::vector<long>>>(transformations | std::ranges::views::transform(transformationValues));
 
     // verify transformations to be applied for each image
-    // allow 1 pixel differences as different versions of openCV produce a little bit different results
-    EXPECT_THAT(transformationV, ElementsAre(
-        isSimilarTo(std::vector<long>{1, 0, 0, 0, 1, 0}),
-        isSimilarTo(std::vector<long>{1, 0, -20, 0, 1, 0}),
-        isSimilarTo(std::vector<long>{1, 0, 20, 0, 1, 0}),
-        isSimilarTo(std::vector<long>{1, 0, 189, 0, 1, -159}),
-        isSimilarTo(std::vector<long>{1, 0, -158, 0, 1, 189})
-    ));
+    // if 'exact' is false then allow 1 pixel differences (different versions of openCV produce a little bit different results)
+    if (exact)
+        EXPECT_EQ(transformationsV, expectedTransformations);
+    else
+        EXPECT_THAT(transformationsV, isSimilarTo(expectedTransformations));
 
     // verify part of first image to which all images will be cropped
     const auto commonPart = alignedImages->imagesCommonPart();
-    EXPECT_THAT(commonPart, isSimilarTo(QRect(158, 159, 1633, 1652)));
+    if (exact)
+        EXPECT_EQ(commonPart, crop);
+    else
+        EXPECT_THAT(commonPart, isSimilarTo(crop));
 
     // check if all images have size of cropped area
     const auto imgSize = commonPart.size();

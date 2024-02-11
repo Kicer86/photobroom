@@ -18,9 +18,12 @@ endforeach()
 
 add_custom_command(OUTPUT alterd_images/generated
     COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img1.png alterd_images
+    COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img2.png alterd_images
     COMMAND ${CMAKE_COMMAND} -E copy img1.png alterd_images/img1_.png
+    COMMAND ${CMAKE_COMMAND} -E copy img2.png alterd_images/img2_.png
     COMMAND ${CMAKE_COMMAND} -E touch alterd_images/generated
     DEPENDS img1.png
+    DEPENDS img2.png
 )
 
 add_custom_target(core_tests_images
