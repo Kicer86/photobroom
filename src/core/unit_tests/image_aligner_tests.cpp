@@ -2,6 +2,7 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <ranges>
+#include <QDir>
 
 #include <unit_tests_utils/empty_logger.hpp>
 #include "containers_utils.hpp"
@@ -202,11 +203,19 @@ TEST_P(ImageAlignerTest, validImages)
     else
         EXPECT_THAT(commonPart, isSimilarTo(crop));
 
+    static int i = 0;
+    int j = 0;
+    QDir().mkdir("test_results");
+
     // check if all images have size of cropped area
     const auto imgSize = commonPart.size();
-    alignedImages->forEachImage([imgSize](const auto image)
+    alignedImages->forEachImage([&](const auto image)
     {
         EXPECT_EQ(image.size().width, imgSize.width());
         EXPECT_EQ(image.size().height, imgSize.height());
+
+        cv::imwrite("test_results/" + std::to_string(i) + "_" + std::to_string(j++) + ".png", image);
     });
+
+    i++;
 }
