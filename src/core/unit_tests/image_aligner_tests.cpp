@@ -136,6 +136,25 @@ INSTANTIATE_TEST_SUITE_P
                 std::vector<long>{1, 0, 0, 0, 1, 0},
             },
             QRect(0, 0, 2000, 2000)
+        },
+        TestParams
+        {
+            {
+                "alterd_images/img2_.png",
+                "alterd_images/img2_moved_left.png",
+                "alterd_images/img2_moved_right.png",
+                "alterd_images/img2_rotated_negative.png",
+                "alterd_images/img2_rotated.png",
+            },
+            false,
+            {
+                std::vector<long>{1, 0, 0, 0, 1, 0},
+                std::vector<long>{1, 0, -3, 0, 1, 0},
+                std::vector<long>{1, 0, 5, 0, 1, -1},
+                std::vector<long>{1, 0, 104, 0, 1, -76},
+                std::vector<long>{1, 0, -96, 0, 1, 98},
+            },
+            QRect(96, 76, 1501, 961)
         }
     )
 );
