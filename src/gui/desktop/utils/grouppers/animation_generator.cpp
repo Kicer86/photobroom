@@ -27,6 +27,7 @@
 #include <webp_generator.hpp>
 
 #include <core/function_wrappers.hpp>
+#include <core/image_aligner.hpp>
 #include <system/system.hpp>
 
 using std::placeholders::_1;
@@ -98,30 +99,26 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
 
     // generate aligned files
     emit operation(tr("Stabilizing photos"));
-    const QString output_prefix = m_tmpDir->path() + "/stabilized";
+    const QString outputDir = m_tmpDir->path() + "/stabilized/";
+    const auto alignedImages = ImageAligner(photos, *m_logger).align();
 
-    GeneratorUtils::execute(m_logger,
-            m_data.alignImageStackPath,
-            analyzer,
-            m_runner,
-            "-C",
-            "-v",                              // for align_image_stack_output_analizer
-            "--align-to-first",                // use first as base, implies --use-given-order
-            "-d", "-i", "-x", "-y", "-z",
-            "-s", "0",
-            "-a", output_prefix,
-            photos);
-
-    if (m_runner.getExitCode() != 0)
+    if (alignedImages.has_value())
+    {
+        QDir().mkdir(outputDir);
+        int i = 0;
+        alignedImages->forEachImage([&](const auto& photo)
+        {
+            cv::imwrite(QString("%1/%2.jpg").arg(outputDir).arg(i++).toStdString(), photo);
+        });
+    }
+    else
     {
         const QStringList& output = analyzer.tail();
         throw output;
     }
 
     QStringList stabilized_images;
-
-    const QFileInfo output_prefix_info(output_prefix);
-    QDirIterator filesIterator(output_prefix_info.absolutePath(), {output_prefix_info.fileName() + "*"}, QDir::Files);
+    QDirIterator filesIterator(outputDir, {"*"}, QDir::Files);
 
     while(filesIterator.hasNext())
         stabilized_images.push_back(filesIterator.next());

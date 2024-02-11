@@ -4,7 +4,7 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+78"/>
         <source>Error occured during external program execution</source>
         <translatorcomment>Error occured during external program execution</translatorcomment>
         <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
@@ -20,7 +20,7 @@
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+38"/>
         <source>Saving animated file</source>
         <translation>Zapisywanie animacji</translation>
     </message>

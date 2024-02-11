@@ -4,22 +4,22 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="77"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="78"/>
         <source>Error occured during external program execution</source>
         <translation>Error occured during external program execution</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="88"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="89"/>
         <source>Preparing photos</source>
         <translation>Preparing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="100"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="101"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="142"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="139"/>
         <source>Saving animated file</source>
         <translation>Saving animated file</translation>
     </message>
