@@ -81,21 +81,35 @@ namespace
 {
     std::vector<long> transformationValues(const cv::Mat& mat)
     {
+        assert(mat.size().width == 3);
+        assert(mat.size().height == 3);
+
         return {
             std::lround(mat.at<float>(0, 0)),
             std::lround(mat.at<float>(0, 1)),
             std::lround(mat.at<float>(0, 2)),
+
             std::lround(mat.at<float>(1, 0)),
             std::lround(mat.at<float>(1, 1)),
-            std::lround(mat.at<float>(1, 2))
+            std::lround(mat.at<float>(1, 2)),
+
+            std::lround(mat.at<float>(2, 0)),
+            std::lround(mat.at<float>(2, 1)),
+            std::lround(mat.at<float>(2, 2))
         };
     }
+
+    // some tests fail depending on openCV version.
+    // Setting this flag to true will cause them to fall.
+    // Setting it to false, loosens conditions and lets them pass
+    constexpr bool strictMode = true;
 }
 
 using TestParams = std::tuple<QStringList, bool, std::vector<std::vector<long>>, QRect>;
 
 
 class ImageAlignerTest: public testing::TestWithParam<TestParams> {};
+
 
 INSTANTIATE_TEST_SUITE_P
 (
@@ -112,15 +126,15 @@ INSTANTIATE_TEST_SUITE_P
                 "alterd_images/img1_rotated_negative.png",
                 "alterd_images/img1_rotated.png",
             },
-            false,
+            strictMode,
             {
-                std::vector<long>{1, 0, 0, 0, 1, 0},
-                std::vector<long>{1, 0, -20, 0, 1, 0},
-                std::vector<long>{1, 0, 20, 0, 1, 0},
-                std::vector<long>{1, 0, 189, 0, 1, -159},
-                std::vector<long>{1, 0, -158, 0, 1, 189},
+                std::vector<long>{1, 0, 0,     0, 1, 0,     0, 0, 1},
+                std::vector<long>{1, 0, -20,   0, 1, 0,     0, 0, 1},
+                std::vector<long>{1, 0, 21,    0, 1, 0,     0, 0, 1},
+                std::vector<long>{1, 0, 189,   0, 1, -158,  0, 0, 1},
+                std::vector<long>{1, 0, -158,  0, 1, 189,   0, 0, 1},
             },
-            QRect(158, 159, 1633, 1652)
+            QRect(158, 159, 1631, 1651)
         },
         TestParams
         {
@@ -131,11 +145,11 @@ INSTANTIATE_TEST_SUITE_P
             },
             true,
             {
-                std::vector<long>{1, 0, 0, 0, 1, 0},
-                std::vector<long>{1, 0, 0, 0, 1, 0},
-                std::vector<long>{1, 0, 0, 0, 1, 0},
+                std::vector<long>{1, 0, 0,  0, 1, 0,  0, 0, 1},
+                std::vector<long>{1, 0, 0,  0, 1, 0,  0, 0, 1},
+                std::vector<long>{1, 0, 0,  0, 1, 0,  0, 0, 1},
             },
-            QRect(0, 0, 2000, 2000)
+            QRect(0, 0, 1999, 1999)
         },
         TestParams
         {
@@ -146,15 +160,15 @@ INSTANTIATE_TEST_SUITE_P
                 "alterd_images/img2_rotated_negative.png",
                 "alterd_images/img2_rotated.png",
             },
-            false,
+            strictMode,
             {
-                std::vector<long>{1, 0, 0, 0, 1, 0},
-                std::vector<long>{1, 0, -3, 0, 1, 0},
-                std::vector<long>{1, 0, 5, 0, 1, -1},
-                std::vector<long>{1, 0, 104, 0, 1, -76},
-                std::vector<long>{1, 0, -96, 0, 1, 98},
+                std::vector<long>{1, 0, 0,    0, 1, 0,     0, 0, 1},
+                std::vector<long>{1, 0, -20,  0, 1, 0,     0, 0, 1},
+                std::vector<long>{1, 0, 20,   0, 1, 0,     0, 0, 1},
+                std::vector<long>{1, 0, 112,  0, 1, -139,  0, 0, 1},
+                std::vector<long>{1, 0, -86,  0, 1, 157,   0, 0, 1},
             },
-            QRect(96, 76, 1501, 961)
+            QRect(86, 140, 1488, 840)
         }
     )
 );

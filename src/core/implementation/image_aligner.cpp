@@ -16,16 +16,16 @@ namespace
     auto findTransformation(const cv::Mat& referenceImageGray, const cv::Mat& imageGray)
     {
         const int number_of_iterations = 5000;
-        const double termination_eps = 1e-3;
+        const double termination_eps = 1e-5;
         const cv::TermCriteria criteria (cv::TermCriteria::COUNT + cv::TermCriteria::EPS, number_of_iterations, termination_eps);
 
-        cv::Mat warp_matrix = cv::Mat::eye(2, 3, CV_32F);
-        cv::findTransformECC(referenceImageGray, imageGray, warp_matrix, cv::MOTION_EUCLIDEAN, criteria);
+        cv::Mat warp_matrix = cv::Mat::eye(3, 3, CV_32F);
+        cv::findTransformECC(referenceImageGray, imageGray, warp_matrix, cv::MOTION_HOMOGRAPHY, criteria);
 
         return warp_matrix;
     }
 
-    QRectF commonPart(QRectF commonPart, const std::vector<cv::Mat>& transformations)
+    QRect commonPart(QRectF commonPart, const std::vector<cv::Mat>& transformations)
     {
         for(const auto& transformation: transformations)
         {
@@ -42,14 +42,19 @@ namespace
                 commonPart.setHeight(commonPart.height() - transformation.at<float>(1, 2));
         }
 
-        return commonPart;
+        commonPart.setX(std::ceil(commonPart.x()));
+        commonPart.setY(std::ceil(commonPart.y()));
+        commonPart.setWidth(std::floor(commonPart.width()));
+        commonPart.setHeight(std::floor(commonPart.height()));
+
+        return commonPart.toRect();
     }
 }
 
 
 AlignedImages::AlignedImages(const QStringList& photos, const QRect& imageSize, const std::vector<cv::Mat>& transformations)
     : m_transformations(transformations)
-    , m_commonPart(commonPart(imageSize, transformations).toRect())
+    , m_commonPart(commonPart(imageSize, transformations))
     , m_photos(photos)
 {
 }
@@ -68,7 +73,7 @@ void AlignedImages::forEachImage(std::function<void(const cv::Mat &)> op) const
         if (i == 0)
             imageAligned = image;  // reference image does not need any transformations
         else
-            cv::warpAffine(image, imageAligned, m_transformations[i], image.size(), cv::INTER_LINEAR + cv::WARP_INVERSE_MAP);
+            cv::warpPerspective(image, imageAligned, m_transformations[i], image.size(), cv::INTER_LINEAR + cv::WARP_INVERSE_MAP);
 
         // apply crop
         const auto croppedNextImg = imageAligned(rect(m_commonPart));
@@ -131,7 +136,7 @@ std::vector<cv::Mat> ImageAligner::calculateTransformations() const
 
     // calculate required transformations
     std::vector<cv::Mat> transformations(1, []{
-        cv::Mat mat = cv::Mat::eye(2, 3, CV_32F);
+        cv::Mat mat = cv::Mat::eye(3, 3, CV_32F);
         mat.at<float>(0, 0) = 1.;
         mat.at<float>(1, 1) = 1.;
 
