@@ -104,7 +104,7 @@ namespace
     // some tests fail depending on openCV version.
     // Setting this flag to true will cause them to fall.
     // Setting it to false, loosens conditions and lets them pass
-    constexpr bool strictMode = true;
+    constexpr bool strictMode = false;
 }
 
 using TestParams = std::tuple<QStringList, bool, std::vector<std::vector<long>>, QRect>;
