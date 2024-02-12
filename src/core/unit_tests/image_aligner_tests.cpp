@@ -5,6 +5,7 @@
 #include <QDir>
 
 #include <unit_tests_utils/empty_logger.hpp>
+#include <unit_tests_utils/printers.hpp>
 #include "containers_utils.hpp"
 #include "image_aligner.hpp"
 
