@@ -28,7 +28,7 @@ namespace
     auto findTransformation(const cv::Mat& referenceImageGray, const cv::Mat& imageGray)
     {
         const int number_of_iterations = 5000;
-        const double termination_eps = 1e-5;
+        const double termination_eps = 5e-5;
         const cv::TermCriteria criteria (cv::TermCriteria::COUNT + cv::TermCriteria::EPS, number_of_iterations, termination_eps);
 
         cv::Mat warp_matrix = cv::Mat::eye(3, 3, CV_32F);
