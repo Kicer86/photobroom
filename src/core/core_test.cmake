@@ -1,72 +1,69 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
-find_package(OpenCV  REQUIRED)
 find_package(GTest   REQUIRED CONFIG)
 find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
 
-find_program(PYTHON python REQUIRED)
+if (BUILD_LEARNING_TESTS)
+    find_package(OpenCV  REQUIRED)
+    find_program(PYTHON python REQUIRED)
 
-
-foreach(ext png jpeg)
-    foreach(img img1 img2)
-        convertSVG(${CMAKE_CURRENT_BINARY_DIR}/${img}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/${img}.svg -1 -1)
+    foreach(ext png jpeg)
+        foreach(img img1 img2)
+            convertSVG(${CMAKE_CURRENT_BINARY_DIR}/${img}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/${img}.svg -1 -1)
+        endforeach()
     endforeach()
-endforeach()
 
+    add_custom_command(OUTPUT alterd_images/generated
+        COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img1.png alterd_images
+        COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img2.png alterd_images
+        COMMAND ${CMAKE_COMMAND} -E copy img1.png alterd_images/img1_.png
+        COMMAND ${CMAKE_COMMAND} -E copy img2.png alterd_images/img2_.png
+        COMMAND ${CMAKE_COMMAND} -E touch alterd_images/generated
+        DEPENDS img1.png
+        DEPENDS img2.png
+    )
 
-add_custom_command(OUTPUT alterd_images/generated
-    COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img1.png alterd_images
-    COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img2.png alterd_images
-    COMMAND ${CMAKE_COMMAND} -E copy img1.png alterd_images/img1_.png
-    COMMAND ${CMAKE_COMMAND} -E copy img2.png alterd_images/img2_.png
-    COMMAND ${CMAKE_COMMAND} -E touch alterd_images/generated
-    DEPENDS img1.png
-    DEPENDS img2.png
-)
+    add_custom_target(core_tests_images
+        DEPENDS
+            ${CMAKE_CURRENT_BINARY_DIR}/img1.png
+            ${CMAKE_CURRENT_BINARY_DIR}/img1.jpeg
+            ${CMAKE_CURRENT_BINARY_DIR}/img2.png
+            ${CMAKE_CURRENT_BINARY_DIR}/img2.jpeg
+            alterd_images/generated
+    )
 
-add_custom_target(core_tests_images
-    DEPENDS
-        ${CMAKE_CURRENT_BINARY_DIR}/img1.png
-        ${CMAKE_CURRENT_BINARY_DIR}/img1.jpeg
-        ${CMAKE_CURRENT_BINARY_DIR}/img2.png
-        ${CMAKE_CURRENT_BINARY_DIR}/img2.jpeg
-        alterd_images/generated
-)
+    add_executable(core_lt_for_opencv
+        implementation/image_aligner.cpp
+        unit_tests/image_aligner_tests.cpp
+    )
 
+    target_include_directories(core_lt_for_opencv
+        PRIVATE
+            ${CMAKE_SOURCE_DIR}/src
+            ${CMAKE_CURRENT_SOURCE_DIR}
+            ${CMAKE_CURRENT_BINARY_DIR}
+    )
 
-add_executable(core_lt_for_opencv
-    implementation/image_aligner.cpp
-    unit_tests/image_aligner_tests.cpp
-)
+    target_link_libraries(core_lt_for_opencv
+        PRIVATE
+            Qt::Core
+            opencv_tracking
+            GTest::gtest
+            GTest::gmock
+            GTest::gmock_main
+    )
 
+    add_dependencies(core_lt_for_opencv core_tests_images)
 
-target_include_directories(core_lt_for_opencv
-    PRIVATE
-        ${CMAKE_SOURCE_DIR}/src
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        ${CMAKE_CURRENT_BINARY_DIR}
-)
+    add_test(
+        NAME core_learning_tests_for_opencv
+        COMMAND core_lt_for_opencv
+    )
 
-
-target_link_libraries(core_lt_for_opencv
-    PRIVATE
-        Qt::Core
-        opencv_tracking
-        GTest::gtest
-        GTest::gmock
-        GTest::gmock_main
-)
-
-add_dependencies(core_lt_for_opencv core_tests_images)
-
-add_test(
-    NAME core_learning_tests_for_opencv
-    COMMAND core_lt_for_opencv
-)
-
-set_tests_properties(core_learning_tests_for_opencv PROPERTIES LABELS "LearningTest")
+    set_tests_properties(core_learning_tests_for_opencv PROPERTIES LABELS "LearningTest")
+endif()
 
 
 add_executable(core_ut
