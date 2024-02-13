@@ -40,6 +40,6 @@ var searchData=
   ['url_37',['url',['../d8/dc4/struct_i_updater_1_1_online_version.html#a2333fd44b2351b44a07c813a8a36f404',1,'IUpdater::OnlineVersion']]],
   ['username_38',['userName',['../dc/ddb/struct_system.html#a05c501fa1704fd2c48008d14fe9bda42',1,'System']]],
   ['utils_39',['utils',['../d6/d84/namespaceutils.html',1,'utils'],['../d5/df1/class_utils.html',1,'Utils']]],
-  ['utils_2ecpp_40',['utils.cpp',['../d1/d1c/gui_2desktop_2_qml_items_2utils_8cpp.html',1,'(Global Namespace)'],['../d1/db9/face__recognition_2learning__tests_2utils_8cpp.html',1,'(Global Namespace)']]],
-  ['utils_2ehpp_41',['utils.hpp',['../d8/d43/core_2utils_8hpp.html',1,'(Global Namespace)'],['../d2/d99/face__recognition_2learning__tests_2utils_8hpp.html',1,'(Global Namespace)'],['../db/d61/gui_2desktop_2_qml_items_2utils_8hpp.html',1,'(Global Namespace)']]]
+  ['utils_2ecpp_40',['utils.cpp',['../d1/db9/face__recognition_2learning__tests_2utils_8cpp.html',1,'(Global Namespace)'],['../d1/d1c/gui_2desktop_2_qml_items_2utils_8cpp.html',1,'(Global Namespace)']]],
+  ['utils_2ehpp_41',['utils.hpp',['../d2/d99/face__recognition_2learning__tests_2utils_8hpp.html',1,'(Global Namespace)'],['../d8/d43/core_2utils_8hpp.html',1,'(Global Namespace)'],['../db/d61/gui_2desktop_2_qml_items_2utils_8hpp.html',1,'(Global Namespace)']]]
 ];
