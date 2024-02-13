@@ -36,12 +36,44 @@ add_custom_target(core_tests_images
 )
 
 
+add_executable(core_lt_for_opencv
+    implementation/image_aligner.cpp
+    unit_tests/image_aligner_tests.cpp
+)
+
+
+target_include_directories(core_lt_for_opencv
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+
+target_link_libraries(core_lt_for_opencv
+    PRIVATE
+        Qt::Core
+        opencv_tracking
+        GTest::gtest
+        GTest::gmock
+        GTest::gmock_main
+)
+
+add_dependencies(core_lt_for_opencv core_tests_images)
+
+add_test(
+    NAME core_learning_tests_for_opencv
+    COMMAND core_lt_for_opencv
+)
+
+set_tests_properties(core_learning_tests_for_opencv PROPERTIES LABELS "LearningTest")
+
+
 add_executable(core_ut
     implementation/base_tags.cpp
     implementation/data_from_path_extractor.cpp
     #implementation/oriented_image.cpp
     implementation/exiftool_video_details_reader.cpp
-    implementation/image_aligner.cpp
     implementation/model_compositor.cpp
     implementation/qmodelindex_selector.cpp
     implementation/qmodelindex_comparator.cpp
@@ -52,7 +84,6 @@ add_executable(core_ut
     unit_tests/containers_utils_tests.cpp
     unit_tests/data_from_path_extractor_tests.cpp
     unit_tests/exiftool_video_details_reader_tests.cpp
-    unit_tests/image_aligner_tests.cpp
     unit_tests/function_wrappers_tests.cpp
     unit_tests/json_serializer_tests.cpp
     unit_tests/lazy_ptr_tests.cpp
@@ -72,7 +103,6 @@ target_link_libraries(core_ut
         Qt::Core
         Qt::Gui
         Qt::Test
-        opencv_tracking
 )
 
 target_include_directories(core_ut
@@ -89,8 +119,6 @@ target_compile_definitions(core_ut
 )
 
 set_target_properties(core_ut PROPERTIES AUTOMOC TRUE)
-
-add_dependencies(core_ut core_tests_images)
 
 add_test(
     NAME core
