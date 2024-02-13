@@ -4,6 +4,7 @@
 #include "image_aligner.hpp"
 
 // Based on: https://stackoverflow.com/questions/62495112/aligning-and-cropping-same-scene-images
+//      and: https://learnopencv.com/image-alignment-ecc-in-opencv-c-python/
 
 
 namespace
