@@ -42,16 +42,16 @@ namespace
         for(const auto& transformation: transformations)
         {
             if (transformation.at<float>(0, 2) < 0)
-                commonPart.setX(transformation.at<float>(0, 2) * -1);
+                commonPart.setX(static_cast<qreal>(transformation.at<float>(0, 2)) * -1);
 
             if (transformation.at<float>(0, 2) > 0)
-                commonPart.setWidth(commonPart.width() - transformation.at<float>(0, 2));
+                commonPart.setWidth(commonPart.width() - static_cast<qreal>(transformation.at<float>(0, 2)));
 
             if (transformation.at<float>(1, 2) < 0)
-                commonPart.setY(transformation.at<float>(1, 2) * -1);
+                commonPart.setY(static_cast<qreal>(transformation.at<float>(1, 2)) * -1);
 
             if (transformation.at<float>(1, 2) > 0)
-                commonPart.setHeight(commonPart.height() - transformation.at<float>(1, 2));
+                commonPart.setHeight(commonPart.height() - static_cast<qreal>(transformation.at<float>(1, 2)));
         }
 
         commonPart.setX(std::ceil(commonPart.x()));
