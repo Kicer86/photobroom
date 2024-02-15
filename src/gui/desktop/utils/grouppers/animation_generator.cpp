@@ -102,7 +102,7 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
     const QString outputDir = m_tmpDir->path() + "/stabilized/";
     const auto alignedImages = ImageAligner(photos, *m_logger).align();
 
-    if (alignedImages.has_value())
+    if (alignedImages)
     {
         QDir().mkdir(outputDir);
         int i = 0;

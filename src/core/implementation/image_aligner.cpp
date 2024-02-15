@@ -65,52 +65,6 @@ namespace
 }
 
 
-AlignedImages::AlignedImages(const QStringList& photos, const QRect& imageSize, const std::vector<cv::Mat>& transformations)
-    : m_transformations(transformations)
-    , m_commonPart(commonPart(imageSize, transformations))
-    , m_photos(photos)
-{
-}
-
-
-void AlignedImages::forEachImage(std::function<void(const cv::Mat &)> op) const
-{
-    // adjust images
-    for (int i = 0; i < m_photos.size(); i++)
-    {
-        // read image
-        const auto image = cv::imread(m_photos[i].toStdString());
-
-        // align
-        cv::Mat imageAligned;
-        if (i == 0)
-            imageAligned = image;  // reference image does not need any transformations
-        else
-            cv::warpPerspective(image, imageAligned, m_transformations[i], image.size(), cv::INTER_LINEAR + cv::WARP_INVERSE_MAP);
-
-        // apply crop
-        const auto croppedNextImg = imageAligned(rect(m_commonPart));
-
-        // save
-        op(croppedNextImg);
-    }
-}
-
-
-const std::vector<cv::Mat>& AlignedImages::transformations() const
-{
-    return m_transformations;
-}
-
-
-
-QRect AlignedImages::imagesCommonPart() const
-{
-    return m_commonPart;
-}
-
-
-
 ImageAligner::ImageAligner(const QStringList& photos, const ILogger& logger)
     : m_photos(photos)
     , m_logger(logger.subLogger("ImageAligner"))
@@ -119,7 +73,7 @@ ImageAligner::ImageAligner(const QStringList& photos, const ILogger& logger)
 }
 
 
-std::optional<AlignedImages> ImageAligner::align() const
+const IAlignedImages* ImageAligner::align()
 {
     const auto transformations = calculateTransformations();
     if (transformations.empty())
@@ -129,7 +83,10 @@ std::optional<AlignedImages> ImageAligner::align() const
     const auto referenceImage = cv::imread(first.toStdString());
     QRect firstImageSize(0, 0, referenceImage.size().width, referenceImage.size().height);
 
-    return AlignedImages(m_photos, firstImageSize, transformations);
+    m_transformations = transformations;
+    m_commonPart = commonPart(firstImageSize, transformations);
+
+    return static_cast<const IAlignedImages *>(this);
 }
 
 
@@ -173,3 +130,41 @@ std::vector<cv::Mat> ImageAligner::calculateTransformations() const
 
     return transformations;
 }
+
+
+void ImageAligner::forEachImage(std::function<void(const cv::Mat &)> op) const
+{
+    // adjust images
+    for (int i = 0; i < m_photos.size(); i++)
+    {
+        // read image
+        const auto image = cv::imread(m_photos[i].toStdString());
+
+        // align
+        cv::Mat imageAligned;
+        if (i == 0)
+            imageAligned = image;  // reference image does not need any transformations
+        else
+            cv::warpPerspective(image, imageAligned, m_transformations[i], image.size(), cv::INTER_LINEAR + cv::WARP_INVERSE_MAP);
+
+        // apply crop
+        const auto croppedNextImg = imageAligned(rect(m_commonPart));
+
+        // save
+        op(croppedNextImg);
+    }
+}
+
+
+const std::vector<cv::Mat>& ImageAligner::transformations() const
+{
+    return m_transformations;
+}
+
+
+
+QRect ImageAligner::imagesCommonPart() const
+{
+    return m_commonPart;
+}
+

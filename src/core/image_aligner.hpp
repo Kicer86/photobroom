@@ -10,39 +10,40 @@
 #include <core/ilogger.hpp>
 
 /**
- * @brief AlignedImages contains data required to align images. Built by @ref ImageAligner
+ * @brief IAlignedImages is an interface returned by @ref ImageAligner providing access to aligned images.
  */
-class CORE_EXPORT AlignedImages final
+class IAlignedImages
 {
 public:
-    explicit AlignedImages(const QStringList& photos, const QRect& imageSize, const std::vector<cv::Mat>& transformations);
+    virtual void forEachImage(std::function<void(const cv::Mat &)>) const = 0;
 
-    void forEachImage(std::function<void(const cv::Mat &)>) const;
-
-    const std::vector<cv::Mat>& transformations() const;
-    QRect imagesCommonPart() const;
-
-private:
-    const std::vector<cv::Mat> m_transformations;
-    const QRect m_commonPart;
-    const QStringList m_photos;
+    virtual const std::vector<cv::Mat>& transformations() const = 0;
+    virtual QRect imagesCommonPart() const = 0;
 };
 
 /**
  * @brief ImageAligner builds all data needed to align given images and produces @ref AlignedImages
  */
-class CORE_EXPORT ImageAligner final
+class CORE_EXPORT ImageAligner final: IAlignedImages
 {
 public:
     explicit ImageAligner(const QStringList& photos, const ILogger &);
 
-    std::optional<AlignedImages> align() const;
+    const IAlignedImages* align();
 
 private:
+    void forEachImage(std::function<void(const cv::Mat &)>) const override;
+
+    const std::vector<cv::Mat>& transformations() const override;
+    QRect imagesCommonPart() const override;
+
     std::vector<cv::Mat> calculateTransformations() const;
 
     const QStringList m_photos;
     std::unique_ptr<ILogger> m_logger;
+
+    std::vector<cv::Mat> m_transformations;
+    QRect m_commonPart;
 };
 
 #endif

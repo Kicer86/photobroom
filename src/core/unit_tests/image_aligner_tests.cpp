@@ -181,9 +181,9 @@ TEST_P(ImageAlignerTest, validImages)
     EmptyLogger logger;
 
     const auto& [photos, exact, expectedTransformations, crop] = GetParam();
-    const ImageAligner aligner(photos, logger);
+    ImageAligner aligner(photos, logger);
     const auto alignedImages = aligner.align();
-    ASSERT_TRUE(alignedImages.has_value());
+    ASSERT_TRUE(alignedImages);
 
     const auto transformations = alignedImages->transformations();
 
