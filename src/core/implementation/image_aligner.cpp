@@ -64,33 +64,65 @@ namespace
     }
 }
 
+class ImageAligner::Impl: public IAlignedImages
+{
+public:
+    Impl(const QStringList& photos, const ILogger& logger)
+        : m_photos(photos)
+        , m_logger(logger.subLogger("ImageAligner"))
+    {
+
+    }
+
+    void forEachImage(std::function<void(const cv::Mat &)>) const override;
+
+    const std::vector<cv::Mat>& transformations() const override;
+    QRect imagesCommonPart() const override;
+
+    std::vector<cv::Mat> calculateTransformations() const;
+
+    const QStringList m_photos;
+    std::unique_ptr<ILogger> m_logger;
+
+    std::vector<cv::Mat> m_transformations;
+    QRect m_commonPart;
+};
+
 
 ImageAligner::ImageAligner(const QStringList& photos, const ILogger& logger)
-    : m_photos(photos)
-    , m_logger(logger.subLogger("ImageAligner"))
+    :  m_impl(std::make_unique<Impl>(photos, logger))
 {
 
 }
 
 
-const IAlignedImages* ImageAligner::align()
+ImageAligner::~ImageAligner()
 {
-    const auto transformations = calculateTransformations();
+
+}
+
+
+std::unique_ptr<IAlignedImages> ImageAligner::align()
+{
+    // object has no use after producing IAlignedImages
+    assert(m_impl);
+
+    const auto transformations = m_impl->calculateTransformations();
     if (transformations.empty())
         return {};
 
-    const auto& first = m_photos.front();
+    const auto& first = m_impl->m_photos.front();
     const auto referenceImage = cv::imread(first.toStdString());
     QRect firstImageSize(0, 0, referenceImage.size().width, referenceImage.size().height);
 
-    m_transformations = transformations;
-    m_commonPart = commonPart(firstImageSize, transformations);
+    m_impl->m_transformations = transformations;
+    m_impl->m_commonPart = commonPart(firstImageSize, transformations);
 
-    return static_cast<const IAlignedImages *>(this);
+    return std::move(m_impl);
 }
 
 
-std::vector<cv::Mat> ImageAligner::calculateTransformations() const
+std::vector<cv::Mat> ImageAligner::Impl::calculateTransformations() const
 {
      if (m_photos.size() < 2)
         return {};
@@ -132,10 +164,12 @@ std::vector<cv::Mat> ImageAligner::calculateTransformations() const
 }
 
 
-void ImageAligner::forEachImage(std::function<void(const cv::Mat &)> op) const
+void ImageAligner::Impl::forEachImage(std::function<void(const cv::Mat &)> op) const
 {
+    const int photos = static_cast<int>(m_photos.size());
+
     // adjust images
-    for (int i = 0; i < m_photos.size(); i++)
+    for (int i = 0; i < photos; i++)
     {
         // read image
         const auto image = cv::imread(m_photos[i].toStdString());
@@ -156,15 +190,14 @@ void ImageAligner::forEachImage(std::function<void(const cv::Mat &)> op) const
 }
 
 
-const std::vector<cv::Mat>& ImageAligner::transformations() const
+const std::vector<cv::Mat>& ImageAligner::Impl::transformations() const
 {
     return m_transformations;
 }
 
 
 
-QRect ImageAligner::imagesCommonPart() const
+QRect ImageAligner::Impl::imagesCommonPart() const
 {
     return m_commonPart;
 }
-

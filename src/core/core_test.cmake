@@ -36,7 +36,7 @@ if (BUILD_LEARNING_TESTS)
 
     add_executable(core_lt_for_opencv
         implementation/image_aligner.cpp
-        unit_tests/image_aligner_tests.cpp
+        learning_tests/image_aligner_tests.cpp
     )
 
     target_include_directories(core_lt_for_opencv

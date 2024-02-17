@@ -15,35 +15,40 @@
 class IAlignedImages
 {
 public:
+    /** @brief Align each image and pass result to provided function.
+     *
+     *  This method runs align operation when called, therefore is slow.
+     *  No caching is involved.
+     */
     virtual void forEachImage(std::function<void(const cv::Mat &)>) const = 0;
 
+    /** @brief return transformations which will be applied on photos when @ref forEachImage is called.
+     */
     virtual const std::vector<cv::Mat>& transformations() const = 0;
+
+    /**
+     * @brief Return crop
+     */
     virtual QRect imagesCommonPart() const = 0;
 };
 
 /**
  * @brief ImageAligner builds all data needed to align given images and produces @ref AlignedImages
  */
-class CORE_EXPORT ImageAligner final: IAlignedImages
+class CORE_EXPORT ImageAligner final
 {
 public:
     explicit ImageAligner(const QStringList& photos, const ILogger &);
+    ~ImageAligner();
 
-    const IAlignedImages* align();
+    /** @brief create object providing access to aligned photos.
+     *         After this method is called, ImageAligner becomes invalid and should not be used.
+     */
+    std::unique_ptr<IAlignedImages> align();
 
 private:
-    void forEachImage(std::function<void(const cv::Mat &)>) const override;
-
-    const std::vector<cv::Mat>& transformations() const override;
-    QRect imagesCommonPart() const override;
-
-    std::vector<cv::Mat> calculateTransformations() const;
-
-    const QStringList m_photos;
-    std::unique_ptr<ILogger> m_logger;
-
-    std::vector<cv::Mat> m_transformations;
-    QRect m_commonPart;
+    class Impl;
+    std::unique_ptr<Impl> m_impl;
 };
 
 #endif
