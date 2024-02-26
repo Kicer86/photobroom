@@ -157,7 +157,7 @@ std::vector<cv::Mat> ImageAligner::Impl::calculateTransformations() const
 
     const int photos = static_cast<int>(m_photos.size());
     if (m_progress)
-        m_progress(0, photos);
+        m_progress(0, photos - 1);
 
     for (int i = 1; i < photos; i++)
     {

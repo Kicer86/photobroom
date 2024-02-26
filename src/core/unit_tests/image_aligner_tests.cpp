@@ -38,12 +38,11 @@ TEST(ImageAlignerTest, progress)
         steps,
         ElementsAre
         (
-            std::pair(0, 5),
-            std::pair(1, 5),
-            std::pair(2, 5),
-            std::pair(3, 5),
-            std::pair(4, 5),
-            std::pair(5, 5)
+            std::pair(0, 4),
+            std::pair(1, 4),
+            std::pair(2, 4),
+            std::pair(3, 4),
+            std::pair(4, 4)
         )
     );
 }
