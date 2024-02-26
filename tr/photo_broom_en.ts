@@ -14,12 +14,12 @@
         <translation>Preparing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="101"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="100"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="139"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="144"/>
         <source>Saving animated file</source>
         <translation>Saving animated file</translation>
     </message>

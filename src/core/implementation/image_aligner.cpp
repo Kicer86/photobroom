@@ -84,6 +84,8 @@ public:
     const QStringList m_photos;
     std::unique_ptr<ILogger> m_logger;
 
+    std::function<void(int, int)> m_progress;
+
     std::vector<cv::Mat> m_transformations;
     QRect m_commonPart;
 };
@@ -99,6 +101,13 @@ ImageAligner::ImageAligner(const QStringList& photos, const ILogger& logger)
 ImageAligner::~ImageAligner()
 {
 
+}
+
+
+ImageAligner& ImageAligner::registerProgress(std::function<void(int, int)> progress)
+{
+    m_impl->m_progress = progress;
+    return *this;
 }
 
 
@@ -146,7 +155,11 @@ std::vector<cv::Mat> ImageAligner::Impl::calculateTransformations() const
         return mat;
     }());  // insert empty transformation matrix for first image
 
-    for (int i = 1; i < m_photos.size(); i++)
+    const int photos = static_cast<int>(m_photos.size());
+    if (m_progress)
+        m_progress(0, photos);
+
+    for (int i = 1; i < photos; i++)
     {
         const auto& next = m_photos[i];
         const auto image = cv::imread(next.toStdString());
@@ -158,6 +171,9 @@ std::vector<cv::Mat> ImageAligner::Impl::calculateTransformations() const
         m_logger->trace(QString("Transformation for photo '%1': %2").arg(next).arg(mat(transformation)));
 
         transformations.push_back(transformation);
+
+        if (m_progress)
+            m_progress(i, photos - 1);
     }
 
     return transformations;

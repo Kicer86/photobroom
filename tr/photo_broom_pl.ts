@@ -15,12 +15,12 @@
         <translation>Przygotowywanie zdjęć</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+11"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+44"/>
         <source>Saving animated file</source>
         <translation>Zapisywanie animacji</translation>
     </message>

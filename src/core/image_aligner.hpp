@@ -15,10 +15,9 @@
 class IAlignedImages
 {
 public:
+    virtual ~IAlignedImages() = default;
+
     /** @brief Align each image and pass result to provided function.
-     *
-     *  This method runs align operation when called, therefore is slow.
-     *  No caching is involved.
      */
     virtual void forEachImage(std::function<void(const cv::Mat &)>) const = 0;
 
@@ -40,6 +39,8 @@ class CORE_EXPORT ImageAligner final
 public:
     explicit ImageAligner(const QStringList& photos, const ILogger &);
     ~ImageAligner();
+
+    ImageAligner& registerProgress(std::function<void(int, int)>);
 
     /** @brief create object providing access to aligned photos.
      *         After this method is called, ImageAligner becomes invalid and should not be used.

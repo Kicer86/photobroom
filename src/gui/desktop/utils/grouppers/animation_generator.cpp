@@ -87,7 +87,6 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
     const int photos_count = static_cast<int>(photos.size());
 
     emit operation(tr("Preparing photos"));
-    emit progress(0);
     // https://groups.google.com/forum/#!topic/hugin-ptx/gqodoTgAjbI
     // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
     // http://wiki.panotools.org/Align_image_stack
@@ -100,7 +99,13 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
     // generate aligned files
     emit operation(tr("Stabilizing photos"));
     const QString outputDir = m_tmpDir->path() + "/stabilized/";
-    const auto alignedImages = ImageAligner(photos, *m_logger).align();
+    const auto alignedImages = ImageAligner(photos, *m_logger).registerProgress
+    (
+        [this](int photo, int photosCount)
+        {
+            emit progress(photo * 100 / photosCount);
+        }
+    ).align();
 
     if (alignedImages)
     {
@@ -148,7 +153,7 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
         const QImage image(photoPath);
         webpgenerator.append(image);
 
-        emit progress(i * 100 / static_cast<int>(photos.size()));
+        emit progress((i + 1) * 100 / static_cast<int>(photos.size()));
     }
 
     const auto outputData = webpgenerator.save();

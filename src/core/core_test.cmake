@@ -4,9 +4,10 @@ include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 find_package(GTest   REQUIRED CONFIG)
 find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
+find_package(OpenCV  REQUIRED)
+
 
 if (BUILD_LEARNING_TESTS)
-    find_package(OpenCV  REQUIRED)
     find_program(PYTHON python REQUIRED)
 
     foreach(ext png jpeg)
@@ -71,6 +72,7 @@ add_executable(core_ut
     implementation/data_from_path_extractor.cpp
     #implementation/oriented_image.cpp
     implementation/exiftool_video_details_reader.cpp
+    implementation/image_aligner.cpp
     implementation/model_compositor.cpp
     implementation/qmodelindex_selector.cpp
     implementation/qmodelindex_comparator.cpp
@@ -82,6 +84,7 @@ add_executable(core_ut
     unit_tests/data_from_path_extractor_tests.cpp
     unit_tests/exiftool_video_details_reader_tests.cpp
     unit_tests/function_wrappers_tests.cpp
+    unit_tests/image_aligner_tests.cpp
     unit_tests/json_serializer_tests.cpp
     unit_tests/lazy_ptr_tests.cpp
     unit_tests/model_compositor_tests.cpp
@@ -100,6 +103,7 @@ target_link_libraries(core_ut
         Qt::Core
         Qt::Gui
         Qt::Test
+        opencv_tracking
 )
 
 target_include_directories(core_ut
