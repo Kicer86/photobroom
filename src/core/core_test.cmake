@@ -6,26 +6,25 @@ find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
 find_package(OpenCV  REQUIRED)
 
+find_program(PYTHON python REQUIRED)
+
+foreach(ext png jpeg)
+    foreach(img img1 img2)
+        convertSVG(${CMAKE_CURRENT_BINARY_DIR}/${img}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/${img}.svg -1 -1)
+    endforeach()
+endforeach()
+
+add_custom_command(OUTPUT alterd_images/generated
+    COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img1.png alterd_images
+    COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img2.png alterd_images
+    COMMAND ${CMAKE_COMMAND} -E copy img1.png alterd_images/img1_.png
+    COMMAND ${CMAKE_COMMAND} -E copy img2.png alterd_images/img2_.png
+    COMMAND ${CMAKE_COMMAND} -E touch alterd_images/generated
+    DEPENDS img1.png
+    DEPENDS img2.png
+)
 
 if (BUILD_LEARNING_TESTS)
-    find_program(PYTHON python REQUIRED)
-
-    foreach(ext png jpeg)
-        foreach(img img1 img2)
-            convertSVG(${CMAKE_CURRENT_BINARY_DIR}/${img}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/${img}.svg -1 -1)
-        endforeach()
-    endforeach()
-
-    add_custom_command(OUTPUT alterd_images/generated
-        COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img1.png alterd_images
-        COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img2.png alterd_images
-        COMMAND ${CMAKE_COMMAND} -E copy img1.png alterd_images/img1_.png
-        COMMAND ${CMAKE_COMMAND} -E copy img2.png alterd_images/img2_.png
-        COMMAND ${CMAKE_COMMAND} -E touch alterd_images/generated
-        DEPENDS img1.png
-        DEPENDS img2.png
-    )
-
     add_custom_target(core_tests_images
         DEPENDS
             ${CMAKE_CURRENT_BINARY_DIR}/img1.png
@@ -120,6 +119,7 @@ target_compile_definitions(core_ut
 )
 
 set_target_properties(core_ut PROPERTIES AUTOMOC TRUE)
+add_dependencies(core_ut core_tests_images)
 
 add_test(
     NAME core
