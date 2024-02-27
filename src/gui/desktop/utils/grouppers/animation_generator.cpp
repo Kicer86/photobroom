@@ -113,7 +113,7 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
         int i = 0;
         alignedImages->forEachImage([&](const auto& photo)
         {
-            cv::imwrite(QString("%1/%2.jpg").arg(outputDir).arg(i++).toStdString(), photo);
+            cv::imwrite(QString("%1/%2.tiff").arg(outputDir).arg(i++).toStdString(), photo);
         });
     }
     else
@@ -144,8 +144,10 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
     emit operation(tr("Saving animated file"));
 
     WebPGenerator webpgenerator;
-    webpgenerator.setDelay(std::chrono::milliseconds(static_cast<int>(1/m_data.fps * 1000)));
-    webpgenerator.setLoopDelay(std::chrono::milliseconds(static_cast<int>(m_data.delay)));
+    webpgenerator
+        .setDelay(std::chrono::milliseconds(static_cast<int>(1/m_data.fps * 1000)))
+        .setLoopDelay(std::chrono::milliseconds(static_cast<int>(m_data.delay)))
+        .setLossless();
 
     for (int i = 0; i < photos.size(); i++)
     {
