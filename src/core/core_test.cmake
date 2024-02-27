@@ -24,16 +24,16 @@ add_custom_command(OUTPUT alterd_images/generated
     DEPENDS img2.png
 )
 
-if (BUILD_LEARNING_TESTS)
-    add_custom_target(core_tests_images
-        DEPENDS
-            ${CMAKE_CURRENT_BINARY_DIR}/img1.png
-            ${CMAKE_CURRENT_BINARY_DIR}/img1.jpeg
-            ${CMAKE_CURRENT_BINARY_DIR}/img2.png
-            ${CMAKE_CURRENT_BINARY_DIR}/img2.jpeg
-            alterd_images/generated
-    )
+add_custom_target(core_tests_images
+    DEPENDS
+        ${CMAKE_CURRENT_BINARY_DIR}/img1.png
+        ${CMAKE_CURRENT_BINARY_DIR}/img1.jpeg
+        ${CMAKE_CURRENT_BINARY_DIR}/img2.png
+        ${CMAKE_CURRENT_BINARY_DIR}/img2.jpeg
+        alterd_images/generated
+)
 
+if (BUILD_LEARNING_TESTS)
     add_executable(core_lt_for_opencv
         implementation/image_aligner.cpp
         learning_tests/image_aligner_tests.cpp
