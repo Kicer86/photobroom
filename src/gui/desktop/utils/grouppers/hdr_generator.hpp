@@ -29,10 +29,9 @@ class HDRGenerator: public GeneratorUtils::BreakableTask
         struct Data
         {
             QString storage;
-            QString alignImageStackPath;
             QStringList photos;
 
-            Data(): storage(), alignImageStackPath(), photos() {}
+            Data(): storage(), photos() {}
         };
 
         HDRGenerator(const Data& photos, ILogger *, IExifReaderFactory &);

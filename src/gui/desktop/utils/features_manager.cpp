@@ -21,7 +21,6 @@ namespace
 
     std::vector<ToolInfo> Tools =
     {
-        { "AlignImageStack", gui::features::ToolAIS      ,ExternalToolsConfigKeys::aisPath     },
         { "ExifTool",        gui::features::ToolExifTool ,ExternalToolsConfigKeys::exiftoolPath }
     };
 }

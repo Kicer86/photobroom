@@ -8,7 +8,6 @@ namespace
 {
     const std::map<QString, QString> Tools =
     {
-        { gui::features::ToolAIS      ,"AlignImageStack" },
         { gui::features::ToolExifTool ,"ExifTool"        }
     };
 }

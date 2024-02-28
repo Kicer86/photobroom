@@ -22,27 +22,6 @@ function(download_tools)
         RENAME exiftool.exe
     )
 
-    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi)
-        message("Downloading Hugin")
-        file(DOWNLOAD
-            https://netix.dl.sourceforge.net/project/hugin/hugin/hugin-2021.0/Hugin-2021.0.0-win64.msi ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
-            SHOW_PROGRESS
-        )
-
-        find_program(APP_7Z 7z REQUIRED)
-        execute_process(
-            COMMAND
-                ${APP_7Z} e
-                -o${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin
-                ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin-2021.0.0-win64.msi
-        )
-    endif()
-
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/Hugin/CM_FP_bin.align_image_stack.exe
-        DESTINATION tools/Hugin
-        RENAME align_image_stack.exe
-    )
-
 endfunction(download_tools)
 
 
