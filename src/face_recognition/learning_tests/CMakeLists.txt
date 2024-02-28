@@ -1,8 +1,6 @@
 
-
-find_program(WGET wget)
-
-if(BUILD_LEARNING_TESTS AND WGET)
+if(BUILD_LEARNING_TESTS)
+    find_program(WGET wget REQUIRED)
 
     find_package(GTest REQUIRED CONFIG)
     find_package(Qt6 REQUIRED COMPONENTS Core Gui)
