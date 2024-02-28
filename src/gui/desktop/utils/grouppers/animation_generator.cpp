@@ -27,7 +27,6 @@
 #include <webp_generator.hpp>
 
 #include <core/function_wrappers.hpp>
-#include <core/image_aligner.hpp>
 #include <system/system.hpp>
 
 using std::placeholders::_1;
@@ -73,17 +72,15 @@ void AnimationGenerator::run()
 
         emit finished(animation_path);
     }
-    catch(const QStringList& output)
+    catch(const std::exception &)
     {
-        emit error(tr("Error occured during external program execution"), output);
+        emit error(tr("Photos processing error"), {});
     }
 }
 
 
 QStringList AnimationGenerator::stabilize(const QStringList& photos)
 {
-    using GeneratorUtils::AISOutputAnalyzer;
-
     const int photos_count = static_cast<int>(photos.size());
 
     emit operation(tr("Preparing photos"));
@@ -91,36 +88,13 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
     // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
     // http://wiki.panotools.org/Align_image_stack
 
-    AISOutputAnalyzer analyzer(m_logger, photos_count);
-    connect(&analyzer, &AISOutputAnalyzer::operation, this, &AnimationGenerator::operation);
-    connect(&analyzer, &AISOutputAnalyzer::progress,  this, &AnimationGenerator::progress);
-    connect(&analyzer, &AISOutputAnalyzer::finished,  this, &AnimationGenerator::finished);
-
     // generate aligned files
     emit operation(tr("Stabilizing photos"));
     const QString outputDir = m_tmpDir->path() + "/stabilized/";
-    const auto alignedImages = ImageAligner(photos, *m_logger).registerProgress
-    (
-        [this](int photo, int photosCount)
-        {
-            emit progress(photo * 100 / photosCount);
-        }
-    ).align();
+    const bool status = GeneratorUtils::stabilizeImages(this, photos, *m_logger, outputDir);
 
-    if (alignedImages)
-    {
-        QDir().mkdir(outputDir);
-        int i = 0;
-        alignedImages->forEachImage([&](const auto& photo)
-        {
-            cv::imwrite(QString("%1/%2.tiff").arg(outputDir).arg(i++).toStdString(), photo);
-        });
-    }
-    else
-    {
-        const QStringList& output = analyzer.tail();
-        throw output;
-    }
+    if (status == false)
+        throw std::exception{};
 
     QStringList stabilized_images;
     QDirIterator filesIterator(outputDir, {"*"}, QDir::Files);
