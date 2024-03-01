@@ -41,11 +41,13 @@
 #include <database/filter.hpp>
 #include <database/ibackend.hpp>
 #include <database/idatabase.hpp>
-#include <system/filesystem.hpp>
 #include <system/system.hpp>
 
 #include "dlib_wrapper/dlib_face_recognition_api.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
+
+
+import system;
 
 
 using namespace std::placeholders;
@@ -129,7 +131,7 @@ int FaceRecognition::recognize(const Person::Fingerprint& unknown, const std::ve
 
 QVector<QRect> FaceRecognition::fetchFaces(const OrientedImage& orientedPhoto, double scale) const
 {
-    std::lock_guard lock(g_dlibMutex);
+    std::lock_guard<std::mutex> lock(g_dlibMutex);
     QVector<QRect> result;
 
     const QSize scaledSize = orientedPhoto.get().size() * scale;
