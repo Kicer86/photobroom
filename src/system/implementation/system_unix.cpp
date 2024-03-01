@@ -1,5 +1,12 @@
 
-#include "../system.hpp"
+module;
+
+#include <QString>
+#include <string>
+
+export module system:unix_system;
+import :system;
+
 
 std::string System::userName()
 {

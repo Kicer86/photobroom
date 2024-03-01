@@ -29,11 +29,12 @@ else()
 endif()
 
 
-add_library(system ${SYSTEM_SOURCES})
+add_library(system)
 
 target_sources(system
     PUBLIC
         FILE_SET CXX_MODULES FILES
+            ${SYSTEM_SOURCES}
             system.cxx
             implementation/filesystem.cpp
             implementation/system.cpp
