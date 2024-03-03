@@ -20,13 +20,14 @@ struct CORE_EXPORT IExifReader
 {
     enum class TagType
     {
-        DateTimeOriginal,          // string
-        Orientation,               // int
-        SequenceNumber,            // int
-        PixelXDimension,           // long
-        PixelYDimension,           // long
-        Exposure,                  // float
-        Projection,                // string
+        DateTimeOriginal,           // string
+        Orientation,                // int
+        SequenceNumber,             // int
+        PixelXDimension,            // long
+        PixelYDimension,            // long
+        Exposure,                   // float
+        Projection,                 // string
+        ShutterSpeed,               // float (seconds)
     };
 
     virtual ~IExifReader() = default;

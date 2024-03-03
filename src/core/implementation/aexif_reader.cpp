@@ -110,6 +110,21 @@ std::optional<std::any> AExifReader::get(const QString& path, const IExifReader:
         case TagType::Projection:
             result = exiv_result(readString(TagType::Projection));
             break;
+
+        case TagType::ShutterSpeed:
+        {
+            const auto shutterSpeed = readRational(TagType::ShutterSpeed);
+
+            if (shutterSpeed)
+            {
+                const float rawShutterSpeed = *shutterSpeed;
+                const auto realShutterSpeed = 1 / std::pow(2, rawShutterSpeed);
+
+                result = realShutterSpeed;
+            }
+
+            break;
+        }
     }
 
     return result;
