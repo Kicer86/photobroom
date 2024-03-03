@@ -14,7 +14,6 @@ set(HEADERS
 )
 
 add_library(plugins OBJECT ${SRCS} ${HEADERS})
-set_target_properties(plugins PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 target_include_directories(plugins
                             PRIVATE
