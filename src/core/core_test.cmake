@@ -34,9 +34,45 @@ add_custom_target(core_tests_images
 )
 
 if (BUILD_LEARNING_TESTS)
+
+    find_program(WGET wget REQUIRED)
+
+    # download face dataset from https://www.easyhdr.com/examples/wadi-rum-sunset/
+
+    set(hdr_photos_list)
+    foreach(N 1 2 3)
+        add_custom_command(OUTPUT wadi-rum-sunset${N}.jpg
+                           COMMAND ${WGET} https://www.easyhdr.com/examples/wadi-rum-sunset/wadi-rum-sunset${N}.jpg
+                                           -O ${CMAKE_CURRENT_BINARY_DIR}/wadi-rum-sunset${N}.jpg
+        )
+
+        list(APPEND hdr_photos_list wadi-rum-sunset${N}.jpg)
+    endforeach()
+
+    foreach(URL
+        https://upload.wikimedia.org/wikipedia/commons/0/09/StLouisArchMultExpEV-4.72.JPG
+        https://upload.wikimedia.org/wikipedia/commons/c/c3/StLouisArchMultExpEV-1.82.JPG
+        https://upload.wikimedia.org/wikipedia/commons/8/89/StLouisArchMultExpEV+1.51.JPG
+        https://upload.wikimedia.org/wikipedia/commons/8/8f/StLouisArchMultExpEV+4.09.JPG
+    )
+        get_filename_component(fileName ${URL} NAME)
+
+        add_custom_command(OUTPUT ${fileName}
+                           COMMAND ${WGET} ${URL}
+                                           -O ${CMAKE_CURRENT_BINARY_DIR}/${fileName}
+        )
+
+        list(APPEND hdr_photos_list ${fileName})
+    endforeach()
+
+    add_custom_target(hdr_photos
+        DEPENDS
+            ${hdr_photos_list}
+    )
+
     add_executable(core_lt_for_opencv
-        implementation/image_aligner.cpp
         learning_tests/image_aligner_tests.cpp
+        learning_tests/hdr_assembler_tests.cpp
     )
 
     target_include_directories(core_lt_for_opencv
@@ -48,14 +84,20 @@ if (BUILD_LEARNING_TESTS)
 
     target_link_libraries(core_lt_for_opencv
         PRIVATE
+            core
+
             Qt::Core
+            opencv_photo
             opencv_tracking
             GTest::gtest
             GTest::gmock
             GTest::gmock_main
     )
 
-    add_dependencies(core_lt_for_opencv core_tests_images)
+    add_dependencies(core_lt_for_opencv
+        core_tests_images
+        hdr_photos
+    )
 
     add_test(
         NAME core_learning_tests_for_opencv
