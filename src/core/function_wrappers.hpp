@@ -149,6 +149,17 @@ void invokeMethod(Obj* object, const F& method, Args&&... args) requires std::is
 }
 
 
+// like invokeMethod but postponed
+template<typename Obj, typename F, typename... Args>
+void invokeMethodLater(Obj* object, const F& method, Args&&... args) requires std::is_base_of<QObject, Obj>::value
+{
+    QMetaObject::invokeMethod(object, [object, method, ...args = std::forward<Args>(args)]() mutable
+    {
+        (object->*method)(std::forward<Args>(args)...);
+    }, Qt::QueuedConnection);
+}
+
+
 // Works as extended invokeMethod but waits for results
 template<typename T, typename ObjT, typename F, typename... Args>
 requires std::is_base_of_v<QObject, ObjT>
