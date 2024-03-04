@@ -1,7 +1,8 @@
 <map id="MediaTypes::isAnimatedImageFile" name="MediaTypes::isAnimatedImageFile">
-<area shape="rect" id="Node000001" title=" " alt="" coords="216,31,435,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="216,43,435,68"/>
 <area shape="rect" id="Node000002" href="$de/d4c/class_media_preview.html#a4aa614d60c4c1c0858ed4cc44016bba3" title=" " alt="" coords="5,5,168,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,33,168,29,168,24,201,28"/>
-<area shape="rect" id="Node000014" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="8,55,165,80"/>
-<area shape="poly" id="edge2_Node000001_Node000014" title=" " alt="" coords="200,59,165,62,165,57,200,53"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="224,42,168,34,169,28,224,37"/>
+<area shape="rect" id="Node000014" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="8,79,165,104"/>
+<area shape="poly" id="edge2_Node000001_Node000014" title=" " alt="" coords="221,74,166,82,165,77,220,69"/>
+<area shape="poly" id="edge3_Node000014_Node000014" title=" " alt="" coords="129,67,115,60,86,57,61,59,47,64,45,69,51,77,47,80,39,70,44,60,60,54,87,52,116,55,131,62"/>
 </map>

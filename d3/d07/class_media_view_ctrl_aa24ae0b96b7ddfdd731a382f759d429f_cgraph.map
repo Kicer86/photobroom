@@ -1,5 +1,6 @@
 <map id="MediaViewCtrl::setPath" name="MediaViewCtrl::setPath">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,195,162,220"/>
+<area shape="poly" id="edge9_Node000001_Node000001" title=" " alt="" coords="45,196,37,186,41,176,57,170,84,168,112,171,127,177,125,182,111,176,83,173,58,175,45,180,42,185,49,193"/>
 <area shape="rect" id="Node000002" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="242,5,397,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,193,105,161,131,120,165,76,208,40,226,30,229,35,211,44,169,80,135,123,109,164,93,195"/>
 <area shape="rect" id="Node000003" href="$d5/dd5/struct_i_exif_reader.html#adb056ee84526c248059ae528b57c47d2" title=" " alt="" coords="264,55,375,80"/>

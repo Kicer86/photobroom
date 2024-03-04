@@ -1,5 +1,6 @@
 <map id="MediaViewCtrl::pathChanged" name="MediaViewCtrl::pathChanged">
-<area shape="rect" id="Node000001" title=" " alt="" coords="210,5,397,31"/>
-<area shape="rect" id="Node000002" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="5,5,162,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,21,162,21,162,16,194,16"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="210,29,397,55"/>
+<area shape="rect" id="Node000002" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="5,29,162,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,45,162,45,162,40,194,40"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="122,17,109,10,83,8,60,10,48,15,45,20,51,27,47,31,40,21,44,11,59,5,84,3,110,5,124,12"/>
 </map>

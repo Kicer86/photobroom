@@ -6,9 +6,10 @@
 <area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="243,133,178,115,179,109,244,128"/>
 <area shape="rect" id="Node000006" href="$d5/db6/class_oriented_image.html#a7cb9dd0d57c97147d926c30500eef590" title=" " alt="" coords="5,136,203,161"/>
 <area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="235,151,203,151,203,146,235,146"/>
-<area shape="rect" id="Node000007" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="26,185,182,211"/>
-<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="237,168,203,176,161,187,159,182,202,171,236,163"/>
-<area shape="rect" id="Node000009" href="$de/d2a/class_image_media_information.html#ae1f3ce6893b7b33d7c30449e0c481301" title=" " alt="" coords="25,259,183,299"/>
-<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="278,173,204,225,145,260,142,256,201,221,274,169"/>
-<area shape="poly" id="edge6_Node000009_Node000009" title=" " alt="" coords="137,245,125,240,104,237,85,239,73,244,69,250,71,257,66,259,64,249,70,240,84,234,104,232,126,234,139,241"/>
+<area shape="rect" id="Node000007" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="26,209,182,235"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="255,170,143,211,141,206,253,165"/>
+<area shape="rect" id="Node000009" href="$de/d2a/class_image_media_information.html#ae1f3ce6893b7b33d7c30449e0c481301" title=" " alt="" coords="25,283,183,323"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="285,175,248,211,204,249,148,284,145,280,201,245,245,207,281,171"/>
+<area shape="poly" id="edge5_Node000007_Node000007" title=" " alt="" coords="139,196,127,190,104,187,83,189,71,194,69,200,74,207,70,210,64,200,68,190,81,184,104,182,129,185,142,192"/>
+<area shape="poly" id="edge7_Node000009_Node000009" title=" " alt="" coords="137,269,125,264,104,261,85,263,73,268,69,274,71,281,66,283,64,273,70,264,84,258,104,256,126,258,139,265"/>
 </map>
