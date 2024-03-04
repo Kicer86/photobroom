@@ -4,7 +4,7 @@
 
 
 function(download_tools)
-    set(EXIFTOOL_VER 12.50)
+    set(EXIFTOOL_VER 12.77)
     if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-${EXIFTOOL_VER}.zip)
         message("Downloading ExifTool")
         file(DOWNLOAD
