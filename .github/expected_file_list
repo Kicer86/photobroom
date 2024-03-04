@@ -51,6 +51,7 @@ opencv_flann4.dll
 opencv_imgcodecs4.dll
 opencv_img_hash4.dll
 opencv_imgproc4.dll
+opencv_photo4.dll
 opencv_video4.dll
 opencv_videoio4.dll
 opengl32sw.dll
@@ -628,7 +629,6 @@ shlwapi.dll
 sql_backend_base.dll
 system.dll
 tools\ExifTool\exiftool.exe
-tools\Hugin\align_image_stack.exe
 translations\qt_ar.qm
 translations\qt_bg.qm
 translations\qt_ca.qm
