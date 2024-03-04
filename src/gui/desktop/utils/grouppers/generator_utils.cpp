@@ -24,7 +24,8 @@
 #include <core/iexif_reader.hpp>
 #include <core/image_tools.hpp>
 #include <core/utils.hpp>
-#include <system/system.hpp>
+
+import system;
 
 
 namespace

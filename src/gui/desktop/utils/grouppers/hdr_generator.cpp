@@ -21,7 +21,7 @@
 
 #include "hdr_generator.hpp"
 
-#include "system/system.hpp"
+import system;
 
 
 HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):

@@ -41,7 +41,6 @@
 #include <database/filter.hpp>
 #include <database/ibackend.hpp>
 #include <database/idatabase.hpp>
-#include <system/system.hpp>
 
 #include "dlib_wrapper/dlib_face_recognition_api.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
