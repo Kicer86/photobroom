@@ -27,7 +27,8 @@
 #include <webp_generator.hpp>
 
 #include <core/function_wrappers.hpp>
-#include <system/system.hpp>
+
+import system;
 
 using std::placeholders::_1;
 
