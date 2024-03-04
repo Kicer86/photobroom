@@ -13,17 +13,22 @@
 
 namespace HDR
 {
-    bool assemble(const QStringList& photoPaths, const QString& outputFile)
+    void assemble(const QStringList& photoPaths, const QString& outputFile)
     {
         const auto images = photoPaths | std::views::transform([](const QString& path){ return cv::imread(path.toStdString()); });
 
+        const cv::Mat hdr = assemble(range_to<std::vector<cv::Mat>>(images));
+        cv::imwrite(outputFile.toStdString(), hdr);
+    }
+
+
+    cv::Mat assemble(const std::vector<cv::Mat>& photos)
+    {
         cv::Mat mertenes_hdr;
         const auto mertenes = cv::createMergeMertens();
-        mertenes->process(range_to<std::vector<cv::Mat>>(images), mertenes_hdr);
+        mertenes->process(photos, mertenes_hdr);
 
-        cv::Mat mertenes_hdr_8bit = mertenes_hdr * 255;
-        cv::imwrite(outputFile.toStdString(), mertenes_hdr_8bit);
-
-        return true;
+        const cv::Mat mertenes_hdr_8bit = mertenes_hdr * 255;
+        return mertenes_hdr_8bit;
     }
 }
