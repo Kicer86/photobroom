@@ -52,8 +52,8 @@ signals:
 private:
     safe_callback_ctrl m_callbackCtrl;
     QUrl m_path;
-    Mode m_mode;
-    ICoreFactoryAccessor* m_core;
+    Mode m_mode = Mode::Unknown;
+    ICoreFactoryAccessor* m_core = nullptr;
     Photo::Id m_id;
 
     void setPath(const QString &);
