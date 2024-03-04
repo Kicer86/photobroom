@@ -280,11 +280,16 @@ Check paths in configuration window.</source>
     <name>HDRGenerator</name>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="49"/>
-        <source>generating HDR</source>
+        <source>Stabilizing photos</source>
+        <translation type="unfinished">Stabilizing photos</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="61"/>
+        <source>Geenrating HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="54"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="64"/>
         <source>Saving result</source>
         <translation type="unfinished"></translation>
     </message>

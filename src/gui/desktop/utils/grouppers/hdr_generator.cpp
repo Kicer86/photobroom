@@ -21,7 +21,9 @@
 
 #include "hdr_generator.hpp"
 
-#include "system/system.hpp"
+#include <core/image_aligner.hpp>
+#include <core/hdr_assembler.hpp>
+#include <system/system.hpp>
 
 
 HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):
@@ -44,18 +46,24 @@ void HDRGenerator::run()
     const QStringList rotated = preparePhotos(m_data.photos, 100);
 
     // blend them!
-    const int photos_count = static_cast<int>(m_data.photos.size());
+    emit operation(tr("Stabilizing photos"));
+    const auto alignedImages = ImageAligner(rotated, *m_logger).registerProgress
+    (
+        [this](int photo, int photosCount)
+        {
+            emit this->progress(photo * 100 / photosCount);
+        }
+    ).align();
 
-    emit operation(tr("generating HDR"));
-    const QString location = System::getUniqueFileName(m_storage, "hdr");
+    std::vector<cv::Mat> alignedMats;
+    alignedImages->forEachImage([&alignedMats](const cv::Mat& mat) { alignedMats.push_back(mat); } );
 
-    // TODO implement!
+    emit operation(tr("Geenrating HDR"));
+    const auto hdrMat = HDR::assemble(alignedMats);
 
     emit operation(tr("Saving result"));
-
     const QString output = System::getUniqueFileName(m_storage, "jpeg");
-    const cv::Mat cvmat = cv::imread(location.toStdString());
-    cv::imwrite(output.toStdString(), cvmat);
+    cv::imwrite(output.toStdString(), hdrMat);
 
     emit finished(output);
 }

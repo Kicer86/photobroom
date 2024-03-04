@@ -288,11 +288,16 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     <name>HDRGenerator</name>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+49"/>
-        <source>generating HDR</source>
-        <translation>generacja HDR</translation>
+        <source>Stabilizing photos</source>
+        <translation type="unfinished">Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+12"/>
+        <source>Geenrating HDR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Saving result</source>
         <translation>Zapisywanie wyniku</translation>
     </message>
