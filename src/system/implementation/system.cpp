@@ -13,7 +13,7 @@ module;
 export module system:system;
 
 
-struct ITmpDir
+export struct ITmpDir
 {
     virtual ~ITmpDir() = default;
 

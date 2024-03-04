@@ -4,22 +4,22 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="77"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="78"/>
         <source>Photos processing error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="86"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="87"/>
         <source>Preparing photos</source>
         <translation>Preparing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="92"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="93"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="118"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="119"/>
         <source>Saving animated file</source>
         <translation>Saving animated file</translation>
     </message>
@@ -261,7 +261,7 @@
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="174"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="175"/>
         <source>Preparing photos</source>
         <translation type="unfinished">Preparing photos</translation>
     </message>
@@ -269,17 +269,17 @@
 <context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="49"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="50"/>
         <source>Stabilizing photos</source>
         <translation type="unfinished">Stabilizing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="61"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="62"/>
         <source>Geenrating HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="64"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="65"/>
         <source>Saving result</source>
         <translation type="unfinished"></translation>
     </message>
@@ -561,7 +561,7 @@ Error code: %1</source>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="116"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="117"/>
         <source>Photo(s) location:</source>
         <translation>
             <numerusform>photo location:</numerusform>
@@ -569,7 +569,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="117"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="118"/>
         <source>Photo(s) size:</source>
         <translation>
             <numerusform>Photo size:</numerusform>
@@ -577,7 +577,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="118"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="119"/>
         <source>Photo(s) geometry:</source>
         <translation>
             <numerusform>Photo geometry:</numerusform>
@@ -585,7 +585,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="207"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="208"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n byte</numerusform>
@@ -593,7 +593,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="208"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="209"/>
         <source>%n kbyte(s)</source>
         <translation>
             <numerusform>%n kbyte</numerusform>
@@ -601,7 +601,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="209"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="210"/>
         <source>%n Mbyte(s)</source>
         <translation>
             <numerusform>%n Mbyte</numerusform>
@@ -609,7 +609,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="210"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="211"/>
         <source>%n Gbyte(s)</source>
         <translation>
             <numerusform>%n Gbyte</numerusform>
@@ -816,12 +816,12 @@ Error code: %1</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="37"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="38"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="38"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="39"/>
         <source>?</source>
         <translation>?</translation>
     </message>
