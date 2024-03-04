@@ -66,6 +66,12 @@ MediaViewCtrl::Mode MediaViewCtrl::mode() const
 
 void MediaViewCtrl::setPath(const QString& path)
 {
+    if (m_core == nullptr)
+    {
+        invokeMethodLater(this, &MediaViewCtrl::setPath, path);
+        return;
+    }
+
     setMode(Mode::Unknown);
 
     const QFileInfo pathInfo(path);
