@@ -25,7 +25,8 @@
 #include <core/image_aligner.hpp>
 #include <core/image_tools.hpp>
 #include <core/utils.hpp>
-#include <system/system.hpp>
+
+import system;
 
 #include "generator_utils.hpp"
 
