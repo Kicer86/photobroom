@@ -47,58 +47,58 @@
 </a>
 </g>
 </g>
-<!-- Node26 -->
-<g id="Node000026" class="node">
-<title>Node26</title>
-<g id="a_Node000026"><a xlink:href="../../d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" target="_top" xlink:title=" ">
+<!-- Node25 -->
+<g id="Node000025" class="node">
+<title>Node25</title>
+<g id="a_Node000025"><a xlink:href="../../d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="263.75,-128.5 151,-128.5 151,-98 263.75,-98 263.75,-128.5"/>
 <text text-anchor="start" x="159" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosGroupingDialog</text>
 <text text-anchor="middle" x="207.38" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::makeCollage</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node26 -->
-<g id="edge2_Node000001_Node000026" class="edge">
-<title>Node1&#45;&gt;Node26</title>
-<g id="a_edge2_Node000001_Node000026"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node25 -->
+<g id="edge2_Node000001_Node000025" class="edge">
+<title>Node1&#45;&gt;Node25</title>
+<g id="a_edge2_Node000001_Node000025"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M112.86,-97.56C121.58,-99.02 130.68,-100.55 139.63,-102.05"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="138.91,-105.48 149.35,-103.68 140.07,-98.58 138.91,-105.48"/>
 </a>
 </g>
 </g>
-<!-- Node31 -->
-<g id="Node000031" class="node">
-<title>Node31</title>
-<g id="a_Node000031"><a xlink:href="../../d0/d4e/class_photos_grouping_dialog.html#a666247f1bcbc7b0653544e88af649703" target="_top" xlink:title=" ">
+<!-- Node30 -->
+<g id="Node000030" class="node">
+<title>Node30</title>
+<g id="a_Node000030"><a xlink:href="../../d0/d4e/class_photos_grouping_dialog.html#a666247f1bcbc7b0653544e88af649703" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="263.75,-79.5 151,-79.5 151,-49 263.75,-49 263.75,-79.5"/>
 <text text-anchor="start" x="159" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosGroupingDialog</text>
 <text text-anchor="middle" x="207.38" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::makeHDR</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node31 -->
-<g id="edge3_Node000001_Node000031" class="edge">
-<title>Node1&#45;&gt;Node31</title>
-<g id="a_edge3_Node000001_Node000031"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node30 -->
+<g id="edge3_Node000001_Node000030" class="edge">
+<title>Node1&#45;&gt;Node30</title>
+<g id="a_edge3_Node000001_Node000030"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M112.86,-79.31C121.58,-77.91 130.68,-76.44 139.63,-75"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="140.04,-78.48 149.35,-73.43 138.92,-71.57 140.04,-78.48"/>
 </a>
 </g>
 </g>
-<!-- Node32 -->
-<g id="Node000032" class="node">
-<title>Node32</title>
-<g id="a_Node000032"><a xlink:href="../../d0/d4e/class_photos_grouping_dialog.html#a5f2052c462d393f01e2358dde9a23add" target="_top" xlink:title=" ">
+<!-- Node31 -->
+<g id="Node000031" class="node">
+<title>Node31</title>
+<g id="a_Node000031"><a xlink:href="../../d0/d4e/class_photos_grouping_dialog.html#a5f2052c462d393f01e2358dde9a23add" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="266,-30.5 148.75,-30.5 148.75,0 266,0 266,-30.5"/>
 <text text-anchor="start" x="156.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosGroupingDialog</text>
 <text text-anchor="middle" x="207.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::switchUiToGeneration</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node32 -->
-<g id="edge4_Node000001_Node000032" class="edge">
-<title>Node1&#45;&gt;Node32</title>
-<g id="a_edge4_Node000001_Node000032"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node31 -->
+<g id="edge4_Node000001_Node000031" class="edge">
+<title>Node1&#45;&gt;Node31</title>
+<g id="a_edge4_Node000001_Node000031"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M85.91,-72.56C103.79,-62.91 127.42,-50.46 148.75,-40.25 152,-38.7 155.36,-37.13 158.76,-35.57"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="159.92,-38.89 167.61,-31.61 157.06,-32.5 159.92,-38.89"/>
 </a>

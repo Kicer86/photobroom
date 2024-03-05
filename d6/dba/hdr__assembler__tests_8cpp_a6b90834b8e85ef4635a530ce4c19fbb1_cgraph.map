@@ -1,0 +1,6 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,60,55"/>
+<area shape="rect" id="Node000002" href="$d3/d6f/namespace_h_d_r.html#a13092d6bb1fbae14e314f076d5add541" title=" " alt="" coords="108,29,219,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,40,92,40,92,45,60,45"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="140,30,136,21,139,11,148,5,163,3,180,5,188,12,185,16,177,10,163,8,150,10,143,14,142,20,145,28"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="ImageAligner::align" name="ImageAligner::align">
+<area shape="rect" id="Node000001" title="create object providing access to aligned photos. After this method is called, ImageAligner becomes i..." alt="" coords="124,55,254,80"/>
+<area shape="rect" id="Node000002" href="$d6/dba/hdr__assembler__tests_8cpp.html#ac16e9547ef1019e7ffdff56858e72603" title=" " alt="" coords="13,5,68,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,52,67,30,69,25,134,47"/>
+<area shape="rect" id="Node000003" href="$d1/d47/unit__tests_2image__aligner__tests_8cpp.html#a1e6f4290462193887397bcf7136b5412" title=" " alt="" coords="13,55,68,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="108,70,68,70,68,65,108,65"/>
+<area shape="rect" id="Node000004" href="$d6/d87/learning__tests_2image__aligner__tests_8cpp.html#a049e4a84796ed69fc4a3f66ba8a8f4b0" title=" " alt="" coords="5,104,76,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="134,88,77,108,75,103,133,83"/>
+</map>

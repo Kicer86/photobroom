@@ -1,8 +1,8 @@
 <map id="src/gui/desktop/config_tabs" name="src/gui/desktop/config_tabs">
 <area shape="rect" id="node1" href="dir_1c19ca1a4f7a7d4cea5c037903b88df8.html" title="ui_utils" alt="" coords="40,126,102,152"/>
 <area shape="rect" id="node2" href="dir_7d467393d560233103ebcba321685010.html" title="config_tabs" alt="" coords="27,52,114,78"/>
-<area shape="poly" id="edge1" href="dir_000002_000043.html" alt="" coords="73,78,73,110,68,110,68,78"/>
-<area shape="rect" id="edge1-headlabel" href="dir_000002_000043.html" title="2" alt="" coords="76,100,83,115"/>
+<area shape="poly" id="edge1" href="dir_000002_000044.html" alt="" coords="73,78,73,110,68,110,68,78"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000002_000044.html" title="2" alt="" coords="76,100,83,115"/>
 <area shape="rect" id="node3" href="dir_aebb8dcc11953d78e620bbef0b9e2183.html" title="core" alt="" coords="136,126,182,152"/>
 <area shape="poly" id="edge2" href="dir_000002_000003.html" alt="" coords="87,76,134,114,130,118,84,81"/>
 <area shape="rect" id="edge2-headlabel" href="dir_000002_000003.html" title="3" alt="" coords="132,100,139,115"/>

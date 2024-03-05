@@ -1,17 +1,20 @@
 <map id="HDRGenerator::run" name="HDRGenerator::run">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,145,136,171"/>
-<area shape="rect" id="Node000002" href="$de/de4/namespace_generator_utils.html#a698d3a12fc9b132c821f95e56939d2cd" title=" " alt="" coords="199,5,355,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="79,143,120,94,149,65,182,41,195,35,197,40,185,46,152,69,124,97,83,147"/>
-<area shape="rect" id="Node000005" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#afdf888ff3ce66c0559885b2582068e22" title=" " alt="" coords="192,55,362,96"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="98,142,183,105,198,99,200,104,185,110,101,147"/>
-<area shape="rect" id="Node000006" href="$dc/ddb/struct_system.html#ad5581178d3fe12a658fe8af70c4e4a9c" title="generate unique file name" alt="" coords="184,120,370,146"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="136,148,168,144,169,149,137,153"/>
-<area shape="rect" id="Node000007" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a942a17c818a3d5f88dd2428d8b82d611" title=" " alt="" coords="418,177,587,217"/>
-<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="136,161,403,185,402,191,136,167"/>
-<area shape="rect" id="Node000008" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a32d1b87cb6dcd42a9d9a860d3fcae8f3" title=" " alt="" coords="192,221,362,261"/>
-<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="106,169,211,212,209,217,104,174"/>
-<area shape="rect" id="Node000012" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a9ff152425e4a7563a10b24f2c37de1a8" title=" " alt="" coords="418,254,587,295"/>
-<area shape="poly" id="edge8_Node000001_Node000012" title=" " alt="" coords="82,170,121,222,150,250,185,270,238,287,295,294,350,294,402,290,403,296,351,300,294,299,237,292,183,275,147,254,117,226,77,173"/>
-<area shape="poly" id="edge6_Node000008_Node000007" title=" " alt="" coords="361,222,402,214,403,219,362,227"/>
-<area shape="poly" id="edge7_Node000008_Node000012" title=" " alt="" coords="362,251,403,257,402,262,362,256"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,195,136,220"/>
+<area shape="rect" id="Node000002" href="$d3/d6f/namespace_h_d_r.html#a13092d6bb1fbae14e314f076d5add541" title=" " alt="" coords="227,29,339,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,193,115,131,146,96,182,65,211,52,213,57,185,70,149,99,119,135,81,196"/>
+<area shape="rect" id="Node000004" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#afdf888ff3ce66c0559885b2582068e22" title=" " alt="" coords="198,79,368,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="87,192,129,161,182,129,194,124,197,128,185,134,132,165,90,196"/>
+<area shape="rect" id="Node000005" href="$dc/ddb/struct_system.html#ad5581178d3fe12a658fe8af70c4e4a9c" title="generate unique file name" alt="" coords="190,144,376,170"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="127,191,211,171,212,176,128,197"/>
+<area shape="rect" id="Node000006" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a942a17c818a3d5f88dd2428d8b82d611" title=" " alt="" coords="430,201,599,241"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="136,207,415,215,414,221,136,212"/>
+<area shape="rect" id="Node000007" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a32d1b87cb6dcd42a9d9a860d3fcae8f3" title=" " alt="" coords="198,245,368,285"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="122,218,191,237,189,242,120,224"/>
+<area shape="rect" id="Node000011" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a9ff152425e4a7563a10b24f2c37de1a8" title=" " alt="" coords="430,278,599,319"/>
+<area shape="poly" id="edge9_Node000001_Node000011" title=" " alt="" coords="84,219,125,259,153,279,185,294,242,309,302,315,360,316,414,312,414,317,360,321,301,321,241,314,183,299,151,284,122,263,81,222"/>
+<area shape="rect" id="Node000012" href="$dd/d14/class_image_aligner.html#a1ad7a39fe6eacce1eed7f05ed07cd887" title=" " alt="" coords="184,360,382,386"/>
+<area shape="poly" id="edge10_Node000001_Node000012" title=" " alt="" coords="82,219,121,277,151,310,185,339,210,352,207,356,182,343,147,314,117,280,77,222"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="247,31,240,21,245,11,259,5,283,3,309,5,322,12,320,17,307,10,283,8,260,10,248,15,246,20,252,27"/>
+<area shape="poly" id="edge7_Node000007_Node000006" title=" " alt="" coords="367,246,414,237,415,242,368,251"/>
+<area shape="poly" id="edge8_Node000007_Node000011" title=" " alt="" coords="368,274,415,281,414,286,367,280"/>
 </map>

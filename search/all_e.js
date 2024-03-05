@@ -7,7 +7,7 @@ var searchData=
   ['new_5fprj_4',['new_prj',['../d7/dc8/class_i_project_manager.html#a5e9df5405e140f0ffbeec2ac8e3a2e6b',1,'IProjectManager::new_prj()'],['../d7/d93/class_project_manager.html#a1b1d9f731deac51d3d9dbb7ef892131a',1,'ProjectManager::new_prj()']]],
   ['newphotos_5',['newPhotos',['../dc/d96/class_batch_face_detector.html#ad8df3db666cc3ed9f5222008ed88601e',1,'BatchFaceDetector']]],
   ['newtaskinqueue_6',['newTaskInQueue',['../d5/d20/class_observable_executor.html#aa26f0785583b5574136c3e8b909363c2',1,'ObservableExecutor']]],
-  ['newversionavailable_7',['NewVersionAvailable',['../d8/dc4/struct_i_updater_1_1_online_version.html#a596bc316840f7d1ad9ae48adc8f87c47aeefa566d21168a1ae6df3f773e2c2a17',1,'IUpdater::OnlineVersion']]],
+  ['newversionavailable_7',['NewVersionAvailable',['../d8/dc4/struct_i_updater_1_1_online_version.html#a358a85afdec5a2c329ffe9e904059ce4aeefa566d21168a1ae6df3f773e2c2a17',1,'IUpdater::OnlineVersion']]],
   ['next_8',['next',['../d6/d84/namespaceutils.html#a4f570843b8487b023e177d72d0e5f682',1,'utils::next()'],['../db/dfb/class_id.html#ad393fe2cf06c7d8369ea0da10e0e56ed',1,'Id::next()']]],
   ['nextstate_9',['nextState',['../d9/d1e/struct_i_task_executor_1_1_process_coroutine_1_1promise__type.html#adeb0322eefb8d880bc7b034af5c0a8e4',1,'ITaskExecutor::ProcessCoroutine::promise_type']]],
   ['none_10',['None',['../d8/d51/struct_group_info.html#a9aa4e9b730bf5856c3c32e7b9e22661da3f1144a43d612a99d24cb2ed13e74a4b',1,'GroupInfo']]],

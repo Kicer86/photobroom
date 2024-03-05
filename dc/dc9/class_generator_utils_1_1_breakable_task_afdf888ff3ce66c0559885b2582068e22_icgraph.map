@@ -1,12 +1,9 @@
 <map id="GeneratorUtils::BreakableTask::finished" name="GeneratorUtils::BreakableTask::finished">
-<area shape="rect" id="Node000001" title=" " alt="" coords="412,46,581,87"/>
-<area shape="rect" id="Node000002" href="$d6/d1f/class_animation_generator.html#a4e178172e1714a2e201deb2076085ba3" title=" " alt="" coords="5,28,166,54"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="442,42,404,26,363,15,302,8,240,11,182,20,134,30,133,25,181,15,239,6,302,3,365,9,406,21,444,37"/>
-<area shape="rect" id="Node000003" href="$de/def/class_h_d_r_generator.html#a9e42f118789e311753bf6e3d4ce66682" title=" " alt="" coords="224,24,354,50"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="397,55,354,49,355,44,397,50"/>
-<area shape="rect" id="Node000004" href="$d6/d1f/class_animation_generator.html#a3d975f14d70a629b7ac06db1b63d4a45" title=" " alt="" coords="221,74,357,115"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="397,83,358,88,357,83,396,77"/>
-<area shape="rect" id="Node000005" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="214,140,364,180"/>
-<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="437,96,365,129,338,141,336,137,363,124,435,91"/>
-<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="205,75,137,57,138,52,207,70"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="214,47,383,88"/>
+<area shape="rect" id="Node000002" href="$d6/d1f/class_animation_generator.html#a4e178172e1714a2e201deb2076085ba3" title=" " alt="" coords="5,5,166,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,47,143,34,144,29,199,42"/>
+<area shape="rect" id="Node000003" href="$de/def/class_h_d_r_generator.html#a9e42f118789e311753bf6e3d4ce66682" title=" " alt="" coords="20,55,151,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="198,70,151,70,151,65,198,65"/>
+<area shape="rect" id="Node000004" href="$d0/d4e/class_photos_grouping_dialog.html#ad0966fe1525c441947ec6b56b1213cdf" title=" " alt="" coords="10,105,161,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="206,95,162,107,160,102,205,90"/>
 </map>

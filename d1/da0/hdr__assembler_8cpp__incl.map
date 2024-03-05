@@ -1,0 +1,12 @@
+<map id="src/core/implementation/hdr_assembler.cpp" name="src/core/implementation/hdr_assembler.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="83,5,244,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,66,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="133,49,69,88,66,83,130,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="179,168,319,193"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,48,129,83,126,101,131,118,154,143,184,160,182,164,151,147,127,121,121,101,124,81,144,45"/>
+<area shape="rect" id="Node000004" href="$de/d87/containers__utils_8hpp.html" title=" " alt="" coords="141,94,306,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="180,45,207,80,203,83,176,48"/>
+<area shape="rect" id="Node000010" href="$d8/d68/hdr__assembler_8hpp.html" title=" " alt="" coords="330,94,461,120"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="222,44,346,86,344,91,221,49"/>
+<area shape="poly" id="edge5_Node000010_Node000003" title=" " alt="" coords="372,123,289,163,286,158,369,118"/>
+</map>

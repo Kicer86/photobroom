@@ -11,11 +11,10 @@ var searchData=
   ['photodata_8',['photoData',['../d5/d1f/struct_collected_data.html#a138fc399b5bcfac050e13d66afe533c5',1,'CollectedData']]],
   ['photooperator_9',['photoOperator',['../d6/d32/class_flat_model_test.html#a708646cdbfb02602b3d4f9248be34a9a',1,'FlatModelTest']]],
   ['photos_10',['photos',['../d5/da4/struct_animation_generator_1_1_data.html#a044bdb67463854fe8453dfd65d57b444',1,'AnimationGenerator::Data::photos'],['../d0/d4b/struct_h_d_r_generator_1_1_data.html#ab20df77119157b5a26b4b503dd4225bc',1,'HDRGenerator::Data::photos']]],
-  ['photos_5fsaved_11',['photos_saved',['../d5/da1/struct_generator_utils_1_1_a_i_s_output_analyzer_1_1_data.html#aeba117a55e58b8053bb85c30867f155d',1,'GeneratorUtils::AISOutputAnalyzer::Data']]],
-  ['pi_5fid_12',['pi_id',['../da/dbb/class_person_full_info.html#a6881fd03881d99988d3c085395324301',1,'PersonFullInfo']]],
-  ['pluginloader_13',['pluginLoader',['../db/d51/struct_database_1_1_builder_1_1_impl.html#ae62f0b3cb8111d755369dbde7cc0c0a8',1,'Database::Builder::Impl']]],
-  ['position_14',['position',['../da/dbb/class_person_full_info.html#a6818f6d5557d58d348a38c155dbb6099',1,'PersonFullInfo']]],
-  ['predictor_5f5_5fpoint_15',['predictor_5_point',['../d8/dad/structdlib__api_1_1_face_encoder_1_1_data.html#aba96c75dc3e4bd89c0d517924969696b',1,'dlib_api::FaceEncoder::Data']]],
-  ['predictor_5f68_5fpoint_16',['predictor_68_point',['../d8/dad/structdlib__api_1_1_face_encoder_1_1_data.html#a304112a5adeaddb81bc8ccd44d3f4d1d',1,'dlib_api::FaceEncoder::Data']]],
-  ['purpose_17',['purpose',['../d6/d76/struct_database_1_1_col_definition.html#a08d94545e3180108635cbb803bea67c8',1,'Database::ColDefinition']]]
+  ['pi_5fid_11',['pi_id',['../da/dbb/class_person_full_info.html#a6881fd03881d99988d3c085395324301',1,'PersonFullInfo']]],
+  ['pluginloader_12',['pluginLoader',['../db/d51/struct_database_1_1_builder_1_1_impl.html#ae62f0b3cb8111d755369dbde7cc0c0a8',1,'Database::Builder::Impl']]],
+  ['position_13',['position',['../da/dbb/class_person_full_info.html#a6818f6d5557d58d348a38c155dbb6099',1,'PersonFullInfo']]],
+  ['predictor_5f5_5fpoint_14',['predictor_5_point',['../d8/dad/structdlib__api_1_1_face_encoder_1_1_data.html#aba96c75dc3e4bd89c0d517924969696b',1,'dlib_api::FaceEncoder::Data']]],
+  ['predictor_5f68_5fpoint_15',['predictor_68_point',['../d8/dad/structdlib__api_1_1_face_encoder_1_1_data.html#a304112a5adeaddb81bc8ccd44d3f4d1d',1,'dlib_api::FaceEncoder::Data']]],
+  ['purpose_16',['purpose',['../d6/d76/struct_database_1_1_col_definition.html#a08d94545e3180108635cbb803bea67c8',1,'Database::ColDefinition']]]
 ];
