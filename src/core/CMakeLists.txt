@@ -18,6 +18,7 @@ set(CORE_SOURCES
     implementation/configuration_p.hpp
     implementation/exiftool_video_details_reader.hpp        implementation/exiftool_video_details_reader.cpp
     implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
+                                                            implementation/hdr_assembler.cpp
     implementation/image_media_information.hpp              implementation/image_media_information.cpp
     implementation/init.cpp
     implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
@@ -45,6 +46,7 @@ set(CORE_SOURCES
     ilogger.hpp
     ilogger.hpp
     image_tools.hpp                                         implementation/image_tools.cpp
+                                                            implementation/image_aligner.cpp
     imedia_information.hpp
     imodel_compositor_data_source.hpp
     itask_executor.hpp
@@ -101,7 +103,9 @@ target_link_libraries(core
         ${CMAKE_THREAD_LIBS_INIT}
         CsLibGuarded::CsLibGuarded
         ${EXIV2_LIB}
+        opencv_photo
         opencv_videoio
+        opencv_tracking
 )
 
 target_include_directories(core

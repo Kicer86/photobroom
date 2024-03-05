@@ -16,6 +16,7 @@ namespace
         { AExifReader::TagType::PixelYDimension,  "Exif.Photo.PixelYDimension" },
         { AExifReader::TagType::Exposure,         "Exif.Photo.ExposureBiasValue" },
         { AExifReader::TagType::Projection,       "Xmp.GPano.ProjectionType" },
+        { AExifReader::TagType::ShutterSpeed,     "Exif.Photo.ShutterSpeedValue" },
     };
 }
 

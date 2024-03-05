@@ -21,7 +21,9 @@
 
 #include "hdr_generator.hpp"
 
-#include "system/system.hpp"
+#include <core/image_aligner.hpp>
+#include <core/hdr_assembler.hpp>
+#include <system/system.hpp>
 
 
 HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):
@@ -40,37 +42,28 @@ std::string HDRGenerator::name() const
 
 void HDRGenerator::run()
 {
-    using GeneratorUtils::AISOutputAnalyzer;
-
     // rotate photos
     const QStringList rotated = preparePhotos(m_data.photos, 100);
 
     // blend them!
-    const int photos_count = static_cast<int>(m_data.photos.size());
-    AISOutputAnalyzer analyzer(m_logger, photos_count);
-    connect(&analyzer, &AISOutputAnalyzer::operation, this, &HDRGenerator::operation);
-    connect(&analyzer, &AISOutputAnalyzer::progress,  this, &HDRGenerator::progress);
-    connect(&analyzer, &AISOutputAnalyzer::finished,  this, &HDRGenerator::finished);
+    emit operation(tr("Stabilizing photos"));
+    const auto alignedImages = ImageAligner(rotated, *m_logger).registerProgress
+    (
+        [this](int photo, int photosCount)
+        {
+            emit this->progress(photo * 100 / photosCount);
+        }
+    ).align();
 
-    emit operation(tr("generating HDR"));
-    const QString location = System::getUniqueFileName(m_storage, "hdr");
+    std::vector<cv::Mat> alignedMats;
+    alignedImages->forEachImage([&alignedMats](const cv::Mat& mat) { alignedMats.push_back(mat); } );
 
-    GeneratorUtils::execute(m_logger,
-            m_data.alignImageStackPath,
-            analyzer,
-            m_runner,
-            "-C",
-            "-v",                              // for align_image_stack_output_analizer
-            "-d", "-i", "-x", "-y", "-z",
-            "-s", "0",
-            "-o", location,
-            rotated);
+    emit operation(tr("Geenrating HDR"));
+    const auto hdrMat = HDR::assemble(alignedMats);
 
     emit operation(tr("Saving result"));
-
     const QString output = System::getUniqueFileName(m_storage, "jpeg");
-    const cv::Mat cvmat = cv::imread(location.toStdString());
-    cv::imwrite(output.toStdString(), cvmat);
+    cv::imwrite(output.toStdString(), hdrMat);
 
     emit finished(output);
 }

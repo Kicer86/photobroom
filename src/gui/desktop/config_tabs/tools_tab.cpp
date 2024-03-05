@@ -25,8 +25,6 @@ ToolsTab::ToolsTab(QWidget *parent) :
 #endif
     };
 
-    ui->aisPath->setBrowseButtonText(tr("Browse"));
-    ui->aisPath->setBrowseCallback(chooseExecutable);
     ui->exiftoolPath->setBrowseButtonText(tr("Browse"));
     ui->exiftoolPath->setBrowseCallback(chooseExecutable);
 }
@@ -35,12 +33,6 @@ ToolsTab::ToolsTab(QWidget *parent) :
 ToolsTab::~ToolsTab()
 {
     delete ui;
-}
-
-
-QtExtChooseFile* ToolsTab::aisPath() const
-{
-    return ui->aisPath;
 }
 
 
@@ -79,10 +71,8 @@ QWidget* ToolsTabController::constructTab()
 
     IConfiguration* config = configuration();
 
-    const QString aisPath = config->getEntry(ExternalToolsConfigKeys::aisPath).toString();
     const QString exiftoolPath = config->getEntry(ExternalToolsConfigKeys::exiftoolPath).toString();
 
-    tab->aisPath()->setValue(aisPath);
     tab->exiftoolPath()->setValue(exiftoolPath);
 
     connect(tab, &QObject::destroyed, [this](QObject* t)
@@ -100,12 +90,10 @@ void ToolsTabController::applyConfiguration()
 {
     ToolsTab* tab = tabWidget();
 
-    const QString aisPath = tab->aisPath()->value();
     const QString exiftoolPath = tab->exiftoolPath()->value();
 
     IConfiguration* config = configuration();
 
-    config->setEntry(ExternalToolsConfigKeys::aisPath, aisPath);
     config->setEntry(ExternalToolsConfigKeys::exiftoolPath, exiftoolPath);
 }
 

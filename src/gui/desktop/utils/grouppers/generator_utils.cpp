@@ -16,16 +16,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "generator_utils.hpp"
-
+#include <QDir>
 #include <QEventLoop>
 #include <QRegularExpression>
+#include <opencv2/imgcodecs.hpp>
 
 #include <core/iexif_reader.hpp>
+#include <core/image_aligner.hpp>
 #include <core/image_tools.hpp>
 #include <core/utils.hpp>
 #include <system/system.hpp>
 
+#include "generator_utils.hpp"
 
 namespace
 {
@@ -78,52 +80,6 @@ namespace GeneratorUtils
 
         if (m_tail.size() > m_tailLenght)
             m_tail.pop_front();
-    }
-
-
-    ///////////////////////////////////////////////////////////////////////////
-
-
-    AISOutputAnalyzer::AISOutputAnalyzer(ILogger* logger, int photos_count):
-        GenericAnalyzer(logger, 10),
-        m_photos_count(photos_count)
-    {
-        stabilization_data.stabilization_steps =  photos_count - 1 // there will be n-1 control points groups
-                                                  + 4;             // and 4 optimization steps
-    }
-
-
-    void AISOutputAnalyzer::processMessage(const QString& line)
-    {
-        switch (stabilization_data.state)
-        {
-            case Data::StabilizingImages:
-                if (cp_regExp.match(line).hasMatch())
-                {
-                    stabilization_data.stabilization_step++;
-
-                    emit progress( stabilization_data.stabilization_step * 100 /
-                                   stabilization_data.stabilization_steps);
-                }
-                else if (run_regExp.match(line).hasMatch())
-                {
-                    stabilization_data.state = stabilization_data.SavingImages;
-
-                    emit operation(tr("Saving stabilized images"));
-                }
-
-                break;
-
-            case Data::SavingImages:
-                if (remapping_regExp.match(line).hasMatch())
-                {
-                    stabilization_data.photos_saved++;
-
-                    emit progress( stabilization_data.photos_saved * 100 / m_photos_count );
-                }
-
-                break;
-        }
     }
 
 
@@ -223,7 +179,7 @@ namespace GeneratorUtils
         int photo_index = 0;
         QStringList prepared_photos;
 
-        const int p_s = photos.size();
+        const int p_s = static_cast<int>(photos.size());
 
         for (int i = 0; i < p_s; i++)
         {
@@ -242,10 +198,37 @@ namespace GeneratorUtils
             prepared_photos << location;
             photo_index++;
 
-            emit progress( (i + 1) * 100 /p_s );
+            emit progress( (i + 1) * 100 / p_s );
         }
 
         return prepared_photos;
+    }
+
+
+    ///////////////////////////////////////////////////////////////////////////
+
+
+    bool stabilizeImages(BreakableTask* task, const QStringList& photos, const ILogger& logger, const QString& outputDir)
+    {
+        const auto alignedImages = ImageAligner(photos, logger).registerProgress
+        (
+            [task](int photo, int photosCount)
+            {
+                emit task->progress(photo * 100 / photosCount);
+            }
+        ).align();
+
+        if (alignedImages)
+        {
+            QDir().mkdir(outputDir);
+            int i = 0;
+            alignedImages->forEachImage([&](const auto& photo)
+            {
+                cv::imwrite(QString("%1/%2.tiff").arg(outputDir).arg(i++).toStdString(), photo);
+            });
+        }
+
+        return alignedImages.get() != nullptr;
     }
 
 }

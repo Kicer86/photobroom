@@ -111,10 +111,8 @@ void Gui::run()
 
     // defaults
 #ifdef OS_WIN
-    configuration.setDefaultValue(ExternalToolsConfigKeys::aisPath, FileSystem().getDataPath() + "/tools/Hugin/align_image_stack.exe");
     configuration.setDefaultValue(ExternalToolsConfigKeys::exiftoolPath, FileSystem().getDataPath() + "/tools/ExifTool/exiftool.exe");
 #else
-    configuration.setDefaultValue(ExternalToolsConfigKeys::aisPath, QStandardPaths::findExecutable("align_image_stack"));
     configuration.setDefaultValue(ExternalToolsConfigKeys::exiftoolPath, QStandardPaths::findExecutable("exiftool"));
 #endif
 

@@ -13,11 +13,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04]
-        shared: [TRUE, FALSE]
         compiler:
           - { compiler: GNU, CC: gcc, CXX: g++ }
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
+        build: [Release]
+        shared: [TRUE, FALSE]
+        os: [ubuntu-22.04]
 
     steps:
     # switch to ubuntu 23.10
@@ -31,30 +32,33 @@ jobs:
 
     - name: Install system dependencies
       run: |
-        sudo apt-get update &&  \
-        sudo apt-get install    \
-          gcc                   \
-          ninja-build           \
-          qt6-base-dev          \
-          qt6-declarative-dev   \
-          qt6-declarative-dev-tools \
-          qt6-declarative-private-dev \
-          qt6-multimedia-dev    \
-          qt6-quick3d-dev       \
-          qt6-quick3d-dev-tools \
-          qt6-l10n-tools        \
-          qml6-module-qtqml-workerscript \
-          qml6-module-qtquick-window     \
-          libqt6shadertools6-dev      \
-          libqt6svg6-dev              \
-          libqt6quick3druntimerender6 \
-          libboost-dev          \
-          libopencv-dev         \
-          libdlib-dev           \
-          libexiv2-dev          \
-          libgmock-dev          \
-          libgl1-mesa-dev       \
-          libglvnd-dev          \
+        sudo apt-get update &&              \
+        sudo apt-get install                \
+          gcc                               \
+          ninja-build                       \
+          python3-cairosvg                  \
+          python3-defusedxml                \
+          python3-pil                       \
+          qt6-base-dev                      \
+          qt6-declarative-dev               \
+          qt6-declarative-dev-tools         \
+          qt6-declarative-private-dev       \
+          qt6-multimedia-dev                \
+          qt6-quick3d-dev                   \
+          qt6-quick3d-dev-tools             \
+          qt6-l10n-tools                    \
+          qml6-module-qtqml-workerscript    \
+          qml6-module-qtquick-window        \
+          libqt6shadertools6-dev            \
+          libqt6svg6-dev                    \
+          libqt6quick3druntimerender6       \
+          libboost-dev                      \
+          libopencv-dev                     \
+          libdlib-dev                       \
+          libexiv2-dev                      \
+          libgmock-dev                      \
+          libgl1-mesa-dev                   \
+          libglvnd-dev                      \
           libwebp-dev
 
     # todo: this step will be redundant when github actions use ubuntu >= 23.10 by default
@@ -83,21 +87,27 @@ jobs:
       with:
         key: ${{ github.job }}-${{ matrix.compiler.compiler }}
 
+    - name: Setup environment
+      run: echo "ENABLE_SANITIZERS=$( test ${{ matrix.build }} == "Release" && echo "ON" || echo "OFF" )" >> $GITHUB_ENV
+
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
-        build-type: Release
+        build-type: ${{ matrix.build }}
         cc: ${{ matrix.compiler.CC }}
         cxx: ${{ matrix.compiler.CXX }}
-        configure-options:                                      \
-            -DBUILD_SHARED_LIBS=${{ matrix.shared }}            \
-            -DLUPDATE=/usr/lib/qt6/bin/lupdate                  \
-            -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease       \
-            -DCMAKE_C_COMPILER_LAUNCHER=ccache                  \
-            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache                \
-            -DENABLE_SANITIZERS_FOR_TESTS=TRUE
+        configure-options:
+            -DBUILD_SHARED_LIBS=${{ matrix.shared }}
+            -DLUPDATE=/usr/lib/qt6/bin/lupdate
+            -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+            -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
+            -Wdev -Werror=dev
         run-test: true
-        ctest-options:                  \
-            --output-on-failure         \
+        ctest-options:
+            --output-on-failure
             --repeat until-fail:5
+      env:
+        TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt

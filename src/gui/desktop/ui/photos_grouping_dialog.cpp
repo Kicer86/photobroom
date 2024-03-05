@@ -7,8 +7,6 @@
 #include <QPlainTextEdit>
 #include <QProcess>
 
-#include <core/configuration.hpp>
-#include <core/constants.hpp>
 #include <core/containers_utils.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/tags_utils.hpp>
@@ -282,7 +280,6 @@ void PhotosGroupingDialog::makeAnimation()
     AnimationGenerator::Data generator_data;
 
     generator_data.storage = m_tmpDir->path();
-    generator_data.alignImageStackPath = m_config.getEntry(ExternalToolsConfigKeys::aisPath).toString();
     generator_data.photos = getPhotos();
     generator_data.fps = ui->speedSpinBox->value();
     generator_data.scale = ui->scaleSpinBox->value();
@@ -300,7 +297,6 @@ void PhotosGroupingDialog::makeHDR()
     HDRGenerator::Data generator_data;
 
     generator_data.storage = m_tmpDir->path();
-    generator_data.alignImageStackPath = m_config.getEntry(ExternalToolsConfigKeys::aisPath).toString();
     generator_data.photos = getPhotos();
 
     auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReaderFactory);

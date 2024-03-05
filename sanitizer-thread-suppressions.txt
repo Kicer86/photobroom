@@ -1,5 +1,11 @@
 
-#Qt races
+# Qt races
 race:QMetaCallEvent::~QMetaCallEvent()
 race:QCoreApplicationPrivate::cleanupThreadData()
 race:libQt5Core.so
+
+# Qt signals
+signal:QByteArray::append()
+
+# https://github.com/OSGeo/gdal/issues/1108
+deadlock:libgdal.so

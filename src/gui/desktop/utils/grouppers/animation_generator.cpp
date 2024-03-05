@@ -72,56 +72,32 @@ void AnimationGenerator::run()
 
         emit finished(animation_path);
     }
-    catch(const QStringList& output)
+    catch(const std::exception &)
     {
-        emit error(tr("Error occured during external program execution"), output);
+        emit error(tr("Photos processing error"), {});
     }
 }
 
 
 QStringList AnimationGenerator::stabilize(const QStringList& photos)
 {
-    using GeneratorUtils::AISOutputAnalyzer;
-
     const int photos_count = static_cast<int>(photos.size());
 
     emit operation(tr("Preparing photos"));
-    emit progress(0);
     // https://groups.google.com/forum/#!topic/hugin-ptx/gqodoTgAjbI
     // http://wiki.panotools.org/Panorama_scripting_in_a_nutshell
     // http://wiki.panotools.org/Align_image_stack
 
-    AISOutputAnalyzer analyzer(m_logger, photos_count);
-    connect(&analyzer, &AISOutputAnalyzer::operation, this, &AnimationGenerator::operation);
-    connect(&analyzer, &AISOutputAnalyzer::progress,  this, &AnimationGenerator::progress);
-    connect(&analyzer, &AISOutputAnalyzer::finished,  this, &AnimationGenerator::finished);
-
     // generate aligned files
     emit operation(tr("Stabilizing photos"));
-    const QString output_prefix = m_tmpDir->path() + "/stabilized";
+    const QString outputDir = m_tmpDir->path() + "/stabilized/";
+    const bool status = GeneratorUtils::stabilizeImages(this, photos, *m_logger, outputDir);
 
-    GeneratorUtils::execute(m_logger,
-            m_data.alignImageStackPath,
-            analyzer,
-            m_runner,
-            "-C",
-            "-v",                              // for align_image_stack_output_analizer
-            "--align-to-first",                // use first as base, implies --use-given-order
-            "-d", "-i", "-x", "-y", "-z",
-            "-s", "0",
-            "-a", output_prefix,
-            photos);
-
-    if (m_runner.getExitCode() != 0)
-    {
-        const QStringList& output = analyzer.tail();
-        throw output;
-    }
+    if (status == false)
+        throw std::exception{};
 
     QStringList stabilized_images;
-
-    const QFileInfo output_prefix_info(output_prefix);
-    QDirIterator filesIterator(output_prefix_info.absolutePath(), {output_prefix_info.fileName() + "*"}, QDir::Files);
+    QDirIterator filesIterator(outputDir, {"*"}, QDir::Files);
 
     while(filesIterator.hasNext())
         stabilized_images.push_back(filesIterator.next());
@@ -142,8 +118,10 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
     emit operation(tr("Saving animated file"));
 
     WebPGenerator webpgenerator;
-    webpgenerator.setDelay(std::chrono::milliseconds(static_cast<int>(1/m_data.fps * 1000)));
-    webpgenerator.setLoopDelay(std::chrono::milliseconds(static_cast<int>(m_data.delay)));
+    webpgenerator
+        .setDelay(std::chrono::milliseconds(static_cast<int>(1/m_data.fps * 1000)))
+        .setLoopDelay(std::chrono::milliseconds(static_cast<int>(m_data.delay)))
+        .setLossless();
 
     for (int i = 0; i < photos.size(); i++)
     {
@@ -151,7 +129,7 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
         const QImage image(photoPath);
         webpgenerator.append(image);
 
-        emit progress(i * 100 / static_cast<int>(photos.size()));
+        emit progress((i + 1) * 100 / static_cast<int>(photos.size()));
     }
 
     const auto outputData = webpgenerator.save();

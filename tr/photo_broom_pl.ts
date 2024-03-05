@@ -5,22 +5,21 @@
     <name>AnimationGenerator</name>
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
-        <source>Error occured during external program execution</source>
-        <translatorcomment>Error occured during external program execution</translatorcomment>
-        <translation>Wystąpił błąd podczas uruchamiania zewnętrznej aplikacji</translation>
+        <source>Photos processing error</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location line="+11"/>
+        <location line="+9"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location line="+6"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+42"/>
+        <location line="+26"/>
         <source>Saving animated file</source>
         <translation>Zapisywanie animacji</translation>
     </message>
@@ -240,7 +239,7 @@
 <context>
     <name>FeaturesObserver</name>
     <message>
-        <location filename="../src/gui/desktop/utils/features_observer.cpp" line="+49"/>
+        <location filename="../src/gui/desktop/utils/features_observer.cpp" line="+48"/>
         <source>Path for tool %1 is not set or is invalid.
 Some functionality may be disabled.
 Check paths in configuration window.</source>
@@ -278,17 +277,9 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
     </message>
 </context>
 <context>
-    <name>GeneratorUtils::AISOutputAnalyzer</name>
-    <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+112"/>
-        <source>Saving stabilized images</source>
-        <translation>Zapisywanie wyników</translation>
-    </message>
-</context>
-<context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location line="+106"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+174"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -296,12 +287,17 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
 <context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+55"/>
-        <source>generating HDR</source>
-        <translation>generacja HDR</translation>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+49"/>
+        <source>Stabilizing photos</source>
+        <translation type="unfinished">Stabilizowanie zdjęć</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+12"/>
+        <source>Geenrating HDR</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Saving result</source>
         <translation>Zapisywanie wyniku</translation>
     </message>
@@ -743,7 +739,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+146"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+144"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -759,7 +755,7 @@ Kod błędu: %1</translation>
         <translation>Czy na pewno chcesz anulować bieżącą operację?</translation>
     </message>
     <message>
-        <location line="+49"/>
+        <location line="+47"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>
@@ -965,17 +961,7 @@ Kod błędu: %1</translation>
         <translation>Zewnętrzne narzędzia</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <source>Used to stabilize scene when creating animations (gifs) from photo series.</source>
-        <translation>Wykorzystywany do ustabilizowania obrazu podczas tworzenia animacji (gifu) z serii zdjęć.</translation>
-    </message>
-    <message>
-        <location line="+18"/>
-        <source>align_image_stack is part of Hugin.&lt;br/&gt;Visit &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; for downloads.</source>
-        <translation>align_image_stack jest częścią programu Hugin.&lt;br/&gt;Odwiedź &lt;a href=&quot;http://hugin.sourceforge.net/&quot;&gt;http://hugin.sourceforge.net&lt;/a&gt; aby go pobrać.</translation>
-    </message>
-    <message>
-        <location line="+61"/>
+        <location line="+44"/>
         <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
         <translation>Zewnętrzne narzędzia nie są konieczne, aby program Photo Broom działał, ale pewne funkcje mogą być niedostępne.</translation>
     </message>
@@ -997,7 +983,6 @@ Kod błędu: %1</translation>
     </message>
     <message>
         <location line="+6"/>
-        <location line="+2"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
@@ -1005,7 +990,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ToolsTabController</name>
     <message>
-        <location line="+41"/>
+        <location line="+35"/>
         <source>External tools</source>
         <translation>Zewnętrzne narzędzia</translation>
     </message>

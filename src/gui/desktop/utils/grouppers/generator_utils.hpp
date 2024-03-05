@@ -103,33 +103,6 @@ namespace GeneratorUtils
     };
 
 
-    class AISOutputAnalyzer: public GenericAnalyzer
-    {
-            Q_OBJECT
-
-        public:
-            AISOutputAnalyzer(ILogger* logger, int photos_count);
-
-            void processMessage(const QString &) override;
-
-        private:
-            struct Data
-            {
-                int stabilization_steps = 0;
-                int stabilization_step = 0;
-                int photos_saved = 0;
-
-                enum
-                {
-                    StabilizingImages,
-                    SavingImages,
-                } state = StabilizingImages;
-            } stabilization_data;
-
-            const int m_photos_count;
-    };
-
-
     class ProcessRunner: public QObject
     {
             Q_OBJECT
@@ -181,6 +154,9 @@ namespace GeneratorUtils
             void canceled() const;
             void error(const QString &, const QStringList &) const;
     };
+
+
+    bool stabilizeImages(BreakableTask* task, const QStringList& photos, const ILogger& logger, const QString& outputDir);
 }
 
-#endif // GENERATORUTILS_HPP
+#endif

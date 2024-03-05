@@ -21,7 +21,6 @@ namespace ConfigConsts
 
 namespace ExternalToolsConfigKeys
 {
-    const char* const aisPath      = "tool_path::align_image_stack";
     const char* const exiftoolPath = "tool_path::exiftool";
 }
 
