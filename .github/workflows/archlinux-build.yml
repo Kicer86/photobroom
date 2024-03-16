@@ -19,12 +19,12 @@ jobs:
     - name: Install requirements
       run: |
         pacman -Sy --noconfirm          \
+            base-devel                  \
             git                         \
             wget                        \
             ccache                      \
             cmake                       \
             ninja                       \
-            gcc                         \
             python                      \
             qt6-base                    \
             qt6-multimedia              \
