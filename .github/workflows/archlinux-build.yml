@@ -22,6 +22,7 @@ jobs:
             base-devel                  \
             git                         \
             wget                        \
+            catch2                      \
             ccache                      \
             cmake                       \
             ninja                       \
