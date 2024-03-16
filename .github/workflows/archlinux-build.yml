@@ -25,7 +25,8 @@ jobs:
             ninja                       \
             gcc                         \
             python                      \
-            qt6-base
+            qt6-base                    \
+            opencv
 
     - uses: actions/checkout@v4
       with:
