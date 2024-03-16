@@ -21,6 +21,7 @@ jobs:
         pacman -Sy --noconfirm          \
             base-devel                  \
             git                         \
+            go                          \
             wget                        \
             catch2                      \
             ccache                      \
@@ -37,9 +38,9 @@ jobs:
         chsh -s /bin/bash nobody                                                                        && \
         mkdir aur                                                                                       && \
         pushd aur                                                                                       && \
-        mkdir -m777 cs-libguarded                                                                       && \
-        pushd cs-libguarded                                                                             && \
-        wget https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=cs-libguarded -O PKGBUILD          && \
+        mkdir -m777 yay                                                                                 && \
+        pushd yay                                                                                       && \
+        wget https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay -O PKGBUILD                    && \
         su nobody -c makepkg                                                                            && \
         pacman -U *.pkg.tar.*                                                                           && \
         popd                                                                                            && \
