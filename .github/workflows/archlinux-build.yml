@@ -16,6 +16,10 @@ jobs:
       fail-fast: false
 
     steps:
+    - name: Install base requirements
+      run: |
+        pacman -S git
+
     - uses: actions/checkout@v4
       with:
         submodules: true
