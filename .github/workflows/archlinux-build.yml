@@ -16,14 +16,15 @@ jobs:
       fail-fast: false
 
     steps:
-    - name: Install base requirements
+    - name: Install requirements
       run: |
         pacman -Sy --noconfirm          \
             git                         \
             ccache                      \
             cmake                       \
             ninja                       \
-            gcc
+            gcc                         \
+            python
 
     - uses: actions/checkout@v4
       with:
