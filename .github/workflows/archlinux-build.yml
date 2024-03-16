@@ -20,7 +20,8 @@ jobs:
       run: |
         pacman -Sy --noconfirm          \
             git                         \
-            ccache
+            ccache                      \
+            cmake
 
     - uses: actions/checkout@v4
       with:
