@@ -24,7 +24,8 @@ jobs:
             cmake                       \
             ninja                       \
             gcc                         \
-            python
+            python                      \
+            qt6-base
 
     - uses: actions/checkout@v4
       with:
