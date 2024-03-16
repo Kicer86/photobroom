@@ -36,7 +36,7 @@ jobs:
         chsh -s /bin/bash nobody                                                                        && \
         mkdir aur                                                                                       && \
         pushd aur                                                                                       && \
-        mkdir cs-libguarded                                                                             && \
+        mkdir -m777 cs-libguarded                                                                       && \
         pushd cs-libguarded                                                                             && \
         wget https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=cs-libguarded -O PKGBUILD          && \
         su nobody -c makepkg                                                                            && \
