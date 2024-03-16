@@ -26,6 +26,7 @@ jobs:
             gcc                         \
             python                      \
             qt6-base                    \
+            qt6-multimedia              \
             opencv
 
     - uses: actions/checkout@v4
