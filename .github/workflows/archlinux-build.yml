@@ -33,6 +33,7 @@ jobs:
 
     - name: Build AUR requirements
       run: |
+        chsh -s /bin/bash nobody                                                                        && \
         mkdir aur                                                                                       && \
         pushd aur                                                                                       && \
         mkdir cs-libguarded                                                                             && \
