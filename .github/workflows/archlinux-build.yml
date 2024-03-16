@@ -35,13 +35,13 @@ jobs:
 
     - name: Build AUR requirements
       run: |
-        chsh -s /bin/bash nobody                                                                        && \
+        useradd -m -d /home/build -s /bin/bash build                                                    && \
         mkdir aur                                                                                       && \
         pushd aur                                                                                       && \
         mkdir -m777 yay                                                                                 && \
         pushd yay                                                                                       && \
         wget https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay -O PKGBUILD                    && \
-        su nobody -c makepkg                                                                            && \
+        su build -c makepkg                                                                             && \
         pacman -U *.pkg.tar.*                                                                           && \
         popd                                                                                            && \
         popd
