@@ -23,7 +23,6 @@ jobs:
             git                         \
             go                          \
             wget                        \
-            catch2                      \
             ccache                      \
             cmake                       \
             ninja                       \
@@ -42,9 +41,10 @@ jobs:
         pushd yay                                                                                       && \
         wget https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay -O PKGBUILD                    && \
         su build -c makepkg                                                                             && \
-        pacman -U *.pkg.tar.*                                                                           && \
+        pacman -U --noconfirm *.pkg.tar.*                                                               && \
         popd                                                                                            && \
-        popd
+        popd                                                                                            && \
+        yay -S cs-libguarded
 
     - uses: actions/checkout@v4
       with:
