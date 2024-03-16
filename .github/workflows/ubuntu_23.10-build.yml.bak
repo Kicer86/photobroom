@@ -1,5 +1,5 @@
 
-name: Build-Linux
+name: Build on Ubuntu 23.10 (Mantic Minotaur)
 
 on:
   push:

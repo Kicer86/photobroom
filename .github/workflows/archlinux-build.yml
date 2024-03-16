@@ -1,0 +1,72 @@
+
+name: Build on ArchLinux
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: archlinux:latest
+    strategy:
+      fail-fast: false
+
+    steps:
+    - name: Install requirements
+      run: |
+        pacman -Sy --noconfirm          \
+            base-devel                  \
+            git                         \
+            go                          \
+            wget                        \
+            ccache                      \
+            cmake                       \
+            ninja                       \
+            python                      \
+            qt6-base                    \
+            qt6-multimedia              \
+            opencv                      \
+            exiv2
+
+    - name: Build AUR requirements
+      run: |
+        useradd -m -d /home/build -s /bin/bash build                                                    && \
+        mkdir aur                                                                                       && \
+        pushd aur                                                                                       && \
+        mkdir -m777 yay                                                                                 && \
+        pushd yay                                                                                       && \
+        wget https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=yay -O PKGBUILD                    && \
+        su build -c makepkg                                                                             && \
+        pacman -U --noconfirm *.pkg.tar.*                                                               && \
+        popd                                                                                            && \
+        popd                                                                                            && \
+        yay -S cs-libguarded
+
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-dir: ${{ runner.workspace }}/build
+        configure-options:
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+            -Wdev -Werror=dev
+            -G Ninja
+        run-test: true
+        ctest-options:
+            --output-on-failure
+            --repeat until-fail:5
+      env:
+        TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
