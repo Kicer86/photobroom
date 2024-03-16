@@ -27,7 +27,8 @@ jobs:
             python                      \
             qt6-base                    \
             qt6-multimedia              \
-            opencv
+            opencv                      \
+            exiv2
 
     - uses: actions/checkout@v4
       with:
