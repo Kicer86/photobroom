@@ -22,7 +22,8 @@ jobs:
             git                         \
             ccache                      \
             cmake                       \
-            ninja
+            ninja                       \
+            gcc
 
     - uses: actions/checkout@v4
       with:
