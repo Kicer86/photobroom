@@ -20,6 +20,7 @@ jobs:
       run: |
         pacman -Sy --noconfirm          \
             git                         \
+            wget                        \
             ccache                      \
             cmake                       \
             ninja                       \
@@ -29,6 +30,18 @@ jobs:
             qt6-multimedia              \
             opencv                      \
             exiv2
+
+    - name: Build AUR requirements
+      run: |
+        mkdir aur                                                                                       && \
+        pushd aur                                                                                       && \
+        mkdir cs-libguarded                                                                             && \
+        pushd cs-libguarded                                                                             && \
+        wget https://aur.archlinux.org/cgit/aur.git/plain/PKGBUILD?h=cs-libguarded -O PKGBUILD          && \
+        su nobody -c makepkg                                                                            && \
+        pacman -U *.pkg.tar.*                                                                           && \
+        popd                                                                                            && \
+        popd
 
     - uses: actions/checkout@v4
       with:
