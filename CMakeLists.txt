@@ -6,6 +6,10 @@ if(POLICY CMP0146)
     cmake_policy(SET CMP0146 OLD)
 endif()
 
+if(POLICY CMP0160)
+    cmake_policy(SET CMP0160 OLD)
+endif()
+
 set(CMAKE_MODULE_PATH
     ${CMAKE_SOURCE_DIR}/cmake_modules;
 )
