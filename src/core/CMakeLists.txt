@@ -1,6 +1,6 @@
 
 find_package(OpenCV           REQUIRED)
-find_package(Qt6              REQUIRED COMPONENTS Core Gui Multimedia)
+find_package(Qt6              REQUIRED COMPONENTS Core Gui)
 find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
 find_package(CsLibGuarded     REQUIRED)
@@ -102,7 +102,6 @@ target_link_libraries(core
     PUBLIC
         Qt::Core
         Qt::Gui
-        Qt::Multimedia
     PRIVATE
         system
         ${CMAKE_THREAD_LIBS_INIT}
