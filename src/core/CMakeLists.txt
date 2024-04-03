@@ -1,9 +1,10 @@
 
+find_package(CsLibGuarded     REQUIRED)
+find_package(exiv2            REQUIRED)
+find_package(FFmpeg           COMPONENTS AVCODEC AVFORMAT REQUIRED)
 find_package(OpenCV           REQUIRED)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui)
-find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
-find_package(CsLibGuarded     REQUIRED)
 
 include(GenerateExportHeader)
 
@@ -107,6 +108,7 @@ target_link_libraries(core
         ${CMAKE_THREAD_LIBS_INIT}
         CsLibGuarded::CsLibGuarded
         ${EXIV2_LIB}
+        ${FFMPEG_LIBRARIES}
         opencv_photo
         opencv_videoio
         opencv_tracking

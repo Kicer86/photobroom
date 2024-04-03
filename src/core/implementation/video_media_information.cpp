@@ -17,9 +17,12 @@
  *
  */
 
+extern "C"
+{
+#include <libavformat/avformat.h>
+}
 
 #include <cassert>
-
 #include <opencv2/opencv.hpp>
 
 #include "constants.hpp"
@@ -39,6 +42,18 @@ VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration, cons
 
 FileInformation VideoMediaInformation::getInformation(const QString& path) const
 {
+    AVFormatContext* formatContext = avformat_alloc_context();
+    if (avformat_open_input(&formatContext, path.toStdString().c_str(), NULL, NULL) == 0)
+    {
+        if (avformat_find_stream_info(formatContext, NULL) >= 0)
+        {
+            av_dump_format(formatContext, 0, "input.mp4", 0);
+        }
+    }
+
+    avformat_close_input(&formatContext);
+    avformat_free_context(formatContext);
+
     const auto output = ExiftoolUtils::exiftoolOutput(m_exiftoolPath, path);
     const auto parsed = ExiftoolUtils::parseOutput(output);
     const ExiftoolVideoDetailsReader videoDetailsReader(parsed);
