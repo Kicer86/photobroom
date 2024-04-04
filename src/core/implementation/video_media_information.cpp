@@ -31,6 +31,44 @@ extern "C"
 #include "video_media_information.hpp"
 
 
+namespace
+{
+    AVStream* findVideoStream(AVFormatContext* context)
+    {
+        for (auto i = 0u; i < context->nb_streams; ++i)
+            if (context->streams[i]->codecpar->codec_type == AVMEDIA_TYPE_VIDEO)
+                return context->streams[i];
+
+        return nullptr;
+    }
+
+    QSize getRawResolution(AVStream* videoStream)
+    {
+        AVCodecParameters *codecParameters = videoStream->codecpar;
+
+        QSize resolution;
+        if (codecParameters != nullptr)
+            resolution = QSize(codecParameters->width, codecParameters->height);
+
+        return resolution;
+    }
+
+    std::time_t getCreationTime(AVStream* videoStream)
+    {
+        char** str = nullptr;
+        av_dict_get_string(videoStream->metadata, str, '=', ',');
+        qDebug() << *str;
+
+        const auto creationTimeEntry = videoStream->metadata? av_dict_get(videoStream->metadata, "creation_time", nullptr, 0) : nullptr;
+        const char* creationTimeStr = creationTimeEntry? creationTimeEntry->value: nullptr;
+        const std::time_t creationTime = creationTimeStr? std::stoll(creationTimeStr): 0;
+
+        return creationTime;
+    }
+}
+
+
+
 VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration, const ILogger& logger)
     : m_logger(logger.subLogger("VideoMediaInformation"))
 {
@@ -42,12 +80,18 @@ VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration, cons
 
 FileInformation VideoMediaInformation::getInformation(const QString& path) const
 {
-    AVFormatContext* formatContext = avformat_alloc_context();
+    AVFormatContext* formatContext = nullptr;
     if (avformat_open_input(&formatContext, path.toStdString().c_str(), NULL, NULL) == 0)
     {
         if (avformat_find_stream_info(formatContext, NULL) >= 0)
         {
-            av_dump_format(formatContext, 0, "input.mp4", 0);
+            auto videoStream = findVideoStream(formatContext);
+
+            const auto creationTime = getCreationTime(videoStream);
+            const auto creationChronoTime = std::chrono::system_clock::from_time_t(creationTime);
+
+            qDebug() << getRawResolution(videoStream);
+            qDebug() << std::format("{:%FT%TZ}", creationChronoTime);
         }
     }
 
