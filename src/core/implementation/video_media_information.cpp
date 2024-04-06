@@ -85,9 +85,6 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
 
             const auto creationTime = getCreationTime(formatContext);
             const auto creationChronoTime = std::chrono::system_clock::from_time_t(creationTime);
-
-            qDebug() << getRawResolution(videoStream);
-            qDebug() << std::format("{:%FT%TZ}", creationChronoTime);
         }
     }
 
