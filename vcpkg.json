@@ -18,6 +18,7 @@
     },
     "boost-multi-index",
     "exiv2",
+    "ffmpeg",
     "jsoncpp",
     "libguarded",
     "libwebp",

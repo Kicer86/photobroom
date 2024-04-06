@@ -52,6 +52,7 @@ jobs:
           libqt6shadertools6-dev            \
           libqt6svg6-dev                    \
           libqt6quick3druntimerender6       \
+          libavformat-dev                   \
           libboost-dev                      \
           libopencv-dev                     \
           libdlib-dev                       \
