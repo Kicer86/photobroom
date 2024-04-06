@@ -16,9 +16,13 @@
       "default-features": false,
       "features": [ "contrib" ]
     },
+    {
+      "name": "ffmpeg",
+      "default-features": false,
+      "features": [ "avcodec", "avformat" ]
+    },
     "boost-multi-index",
     "exiv2",
-    "ffmpeg",
     "jsoncpp",
     "libguarded",
     "libwebp",
