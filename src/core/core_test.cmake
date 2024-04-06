@@ -70,19 +70,20 @@ if (BUILD_LEARNING_TESTS)
             ${hdr_photos_list}
     )
 
-    add_executable(core_lt_for_opencv
-        learning_tests/image_aligner_tests.cpp
+    add_executable(core_lt
+        learning_tests/ffmpeg_metadata_extraction_tests.cpp
         learning_tests/hdr_assembler_tests.cpp
+        learning_tests/image_aligner_tests.cpp
     )
 
-    target_include_directories(core_lt_for_opencv
+    target_include_directories(core_lt
         PRIVATE
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_BINARY_DIR}
     )
 
-    target_link_libraries(core_lt_for_opencv
+    target_link_libraries(core_lt
         PRIVATE
             core
 
@@ -94,17 +95,17 @@ if (BUILD_LEARNING_TESTS)
             GTest::gmock_main
     )
 
-    add_dependencies(core_lt_for_opencv
+    add_dependencies(core_lt
         core_tests_images
         hdr_photos
     )
 
     add_test(
-        NAME core_learning_tests_for_opencv
-        COMMAND core_lt_for_opencv
+        NAME core_learning_tests
+        COMMAND core_lt
     )
 
-    set_tests_properties(core_learning_tests_for_opencv PROPERTIES LABELS "LearningTest")
+    set_tests_properties(core_learning_tests PROPERTIES LABELS "LearningTest")
 endif()
 
 

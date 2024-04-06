@@ -53,13 +53,9 @@ namespace
         return resolution;
     }
 
-    std::time_t getCreationTime(AVStream* videoStream)
+    std::time_t getCreationTime(AVFormatContext* context)
     {
-        char** str = nullptr;
-        av_dict_get_string(videoStream->metadata, str, '=', ',');
-        qDebug() << *str;
-
-        const auto creationTimeEntry = videoStream->metadata? av_dict_get(videoStream->metadata, "creation_time", nullptr, 0) : nullptr;
+        const auto creationTimeEntry = context->metadata? av_dict_get(context->metadata, "creation_time", nullptr, 0) : nullptr;
         const char* creationTimeStr = creationTimeEntry? creationTimeEntry->value: nullptr;
         const std::time_t creationTime = creationTimeStr? std::stoll(creationTimeStr): 0;
 
@@ -87,7 +83,7 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
         {
             auto videoStream = findVideoStream(formatContext);
 
-            const auto creationTime = getCreationTime(videoStream);
+            const auto creationTime = getCreationTime(formatContext);
             const auto creationChronoTime = std::chrono::system_clock::from_time_t(creationTime);
 
             qDebug() << getRawResolution(videoStream);
