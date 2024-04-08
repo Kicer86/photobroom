@@ -103,12 +103,12 @@ target_link_libraries(core
     PUBLIC
         Qt::Core
         Qt::Gui
+        ${FFMPEG_LIBRARIES}
     PRIVATE
         system
         ${CMAKE_THREAD_LIBS_INIT}
         CsLibGuarded::CsLibGuarded
         ${EXIV2_LIB}
-        ${FFMPEG_LIBRARIES}
         opencv_photo
         opencv_videoio
         opencv_tracking
