@@ -17,6 +17,7 @@ namespace
         { AExifReader::TagType::Exposure,         "Exif.Photo.ExposureBiasValue" },
         { AExifReader::TagType::Projection,       "Xmp.GPano.ProjectionType" },
         { AExifReader::TagType::ShutterSpeed,     "Exif.Photo.ShutterSpeedValue" },
+        { AExifReader::TagType::Xmp_video_DateTimeOriginal,     "Xmp.video.DateTimeOriginal" },
     };
 }
 

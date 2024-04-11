@@ -28,6 +28,7 @@ struct CORE_EXPORT IExifReader
         Exposure,                   // float
         Projection,                 // string
         ShutterSpeed,               // float (seconds)
+        Xmp_video_DateTimeOriginal, // string
     };
 
     virtual ~IExifReader() = default;
