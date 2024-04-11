@@ -71,9 +71,9 @@ if (BUILD_LEARNING_TESTS)
     )
 
     add_executable(core_lt
-        learning_tests/ffmpeg_metadata_extraction_tests.cpp
         learning_tests/hdr_assembler_tests.cpp
         learning_tests/image_aligner_tests.cpp
+        learning_tests/video_metadata_extraction_tests.cpp
     )
 
     target_include_directories(core_lt
@@ -81,6 +81,7 @@ if (BUILD_LEARNING_TESTS)
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_BINARY_DIR}
+            ${PROJECT_BINARY_DIR}
     )
 
     target_link_libraries(core_lt
