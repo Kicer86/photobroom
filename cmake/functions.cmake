@@ -96,7 +96,13 @@ endmacro(addSanitizers)
 # do some universal setup for a unit test
 function(register_unit_test unit_test executable)
     set_tests_properties(${unit_test} PROPERTIES LABELS "UnitTest")
-    add_dependencies(RunUnitTests ${executable})
+
+    if(BUILD_TESTING)
+        add_custom_command(TARGET ${executable}
+            POST_BUILD
+                COMMAND ${executable} --gtest_brief=1
+        )
+    endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
         addSanitizers(${executable} ${unit_test})
