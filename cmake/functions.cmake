@@ -97,7 +97,7 @@ endmacro(addSanitizers)
 function(register_unit_test unit_test executable)
     set_tests_properties(${unit_test} PROPERTIES LABELS "UnitTest")
 
-    if(BUILD_TESTING)
+    if(RUN_TESTS_AFTER_BUILD)
         add_custom_command(TARGET ${executable}
             POST_BUILD
                 COMMAND ${executable} --gtest_brief=1
