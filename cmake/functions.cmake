@@ -80,16 +80,6 @@ macro(addSanitizers target test_prefix)
     set_tests_properties(${test_prefix}_leak PROPERTIES LABELS "UnitTest;Sanitizer;Leak")
     set_tests_properties(${test_prefix}_ub PROPERTIES LABELS "UnitTest;Sanitizer;UndefinedBehavior")
 
-    list(APPEND test_binaries
-        ${target}_addr
-        ${target}_thread
-        ${target}_leak
-        ${target}_ub
-    )
-
-    # make sure all test will be build before running them after build
-    add_dependencies(RunUnitTests ${test_binaries})
-
 endmacro(addSanitizers)
 
 
