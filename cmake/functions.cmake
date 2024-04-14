@@ -100,6 +100,7 @@ function(register_unit_test unit_test executable)
     if(RUN_TESTS_AFTER_BUILD)
         add_custom_command(TARGET ${executable}
             POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E echo "Running unit test ${unit_test}"  # https://cmake.org/pipermail/cmake/2017-April/065274.html
                 COMMAND ${executable} --gtest_brief=1
         )
     endif()
