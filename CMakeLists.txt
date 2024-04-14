@@ -69,9 +69,7 @@ add_feature_info("Static plugins" STATIC_PLUGINS "Build all plugins as static mo
 add_feature_info("Build id" PHOTO_BROOM_BUILD_ID "Build id attached to installer version")
 
 #tests
-if(BUILD_TESTING)
-    enable_testing()
-endif(BUILD_TESTING)
+enable_testing()
 
 #system related definitions
 if(UNIX OR CYGWIN)
