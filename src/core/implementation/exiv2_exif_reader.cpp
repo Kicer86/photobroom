@@ -18,6 +18,8 @@ namespace
         { AExifReader::TagType::Projection,       "Xmp.GPano.ProjectionType" },
         { AExifReader::TagType::ShutterSpeed,     "Exif.Photo.ShutterSpeedValue" },
         { AExifReader::TagType::Xmp_video_DateTimeOriginal,     "Xmp.video.DateTimeOriginal" },
+        { AExifReader::TagType::Xmp_video_Width,  "Xmp.video.Width" },
+        { AExifReader::TagType::Xmp_video_Height, "Xmp.video.Height" },
     };
 }
 

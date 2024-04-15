@@ -58,4 +58,4 @@ class AExifReader: public IExifReader
         std::optional<float> readRational(const TagType &) const;
 };
 
-#endif // A_EXIF_READER_HPP
+#endif

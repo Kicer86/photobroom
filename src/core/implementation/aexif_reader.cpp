@@ -85,6 +85,8 @@ std::optional<std::any> AExifReader::get(const QString& path, const IExifReader:
     {
         case TagType::SequenceNumber:
         case TagType::Orientation:
+        case TagType::Xmp_video_Height:
+        case TagType::Xmp_video_Width:
             result = exiv_result(readInt(type));
             break;
 
