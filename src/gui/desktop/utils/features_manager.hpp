@@ -8,6 +8,7 @@
 #include <core/ifeatures_manager.hpp>
 #include <core/ilogger.hpp>
 
+
 class FeaturesManager: public IFeaturesManager
 {
 public:
@@ -21,8 +22,6 @@ private:
     IConfiguration& m_configuration;
 
     void refresh();
-
-    void refreshTools();
 
     void addFeature(const QString &);
     void removeFeature(const QString &);

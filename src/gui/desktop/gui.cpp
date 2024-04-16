@@ -109,14 +109,6 @@ void Gui::run()
     // setup basic configuration
     IConfiguration& configuration = m_coreFactory.getConfiguration();
 
-    // defaults
-
-#ifdef OS_WIN
-    configuration.setDefaultValue(ExternalToolsConfigKeys::exiftoolPath, FileSystem().getDataPath() + "/tools/ExifTool/exiftool.exe");
-#else
-    configuration.setDefaultValue(ExternalToolsConfigKeys::exiftoolPath, QStandardPaths::findExecutable("exiftool"));
-#endif
-
     //
     auto thumbnail_generator_logger = loggerFactory.get("ThumbnailGenerator");
     ThumbnailsCache thumbnailsCache;

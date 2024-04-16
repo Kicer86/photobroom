@@ -10,33 +10,12 @@
 
 using namespace std::placeholders;
 
-namespace
-{
-    struct ToolInfo
-    {
-        QString name;
-        QString featureKey;
-        QString configurationKey;
-    };
-
-    std::vector<ToolInfo> Tools =
-    {
-        { "ExifTool",        gui::features::ToolExifTool ,ExternalToolsConfigKeys::exiftoolPath }
-    };
-}
-
 
 FeaturesManager::FeaturesManager(IConfiguration& configuration, const std::unique_ptr<ILogger>& logger)
     : m_logger(logger->subLogger("FeaturesManager"))
     , m_configuration(configuration)
 {
     refresh();
-
-    for (const auto& tool: Tools)
-    {
-        const QString& configKey = tool.configurationKey;
-        m_configuration.watchFor(configKey, std::bind(&FeaturesManager::configChanged, this, _1, _2));
-    }
 }
 
 
@@ -48,19 +27,7 @@ bool FeaturesManager::has(const QString& name) const
 
 void FeaturesManager::refresh()
 {
-    refreshTools();
-}
 
-
-void FeaturesManager::refreshTools()
-{
-    for (const auto& tool: Tools)
-    {
-        const QString& configKey = tool.configurationKey;
-        const QString path = m_configuration.getEntry(configKey).toString();
-
-        testTool(path, tool.featureKey, tool.name);
-    }
 }
 
 
@@ -92,13 +59,7 @@ void FeaturesManager::removeFeature(const QString& feature)
 
 void FeaturesManager::configChanged(const QString& changed_key, const QVariant& new_value)
 {
-    for (const auto& tool: Tools)
-        if (tool.configurationKey == changed_key)
-        {
-            const QString path = new_value.toString();
 
-            testTool(path, tool.featureKey, tool.name);
-        }
 }
 
 void FeaturesManager::testTool(const QString& path, const QString& featureKey, const QString& toolName)

@@ -628,7 +628,6 @@ shell32.dll
 shlwapi.dll
 sql_backend_base.dll
 system.dll
-tools\ExifTool\exiftool.exe
 translations\qt_ar.qm
 translations\qt_bg.qm
 translations\qt_ca.qm
