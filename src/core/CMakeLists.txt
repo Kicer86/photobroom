@@ -22,7 +22,6 @@ endif()
 set(CORE_SOURCES
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
     implementation/configuration_p.hpp
-    implementation/exiftool_video_details_reader.hpp        implementation/exiftool_video_details_reader.cpp
     implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
                                                             implementation/hdr_assembler.cpp
     implementation/image_media_information.hpp              implementation/image_media_information.cpp

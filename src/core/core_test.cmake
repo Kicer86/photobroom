@@ -114,7 +114,6 @@ add_executable(core_ut
     implementation/base_tags.cpp
     implementation/data_from_path_extractor.cpp
     #implementation/oriented_image.cpp
-    implementation/exiftool_video_details_reader.cpp
     implementation/image_aligner.cpp
     implementation/model_compositor.cpp
     implementation/qmodelindex_selector.cpp
@@ -125,7 +124,6 @@ add_executable(core_ut
 
     unit_tests/containers_utils_tests.cpp
     unit_tests/data_from_path_extractor_tests.cpp
-    unit_tests/exiftool_video_details_reader_tests.cpp
     unit_tests/function_wrappers_tests.cpp
     unit_tests/image_aligner_tests.cpp
     unit_tests/json_serializer_tests.cpp

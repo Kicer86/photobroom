@@ -32,7 +32,7 @@ struct ILogger;
 class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
 {
     public:
-        ThumbnailGenerator(ILogger *, IConfiguration *);
+        ThumbnailGenerator(ILogger *, IExifReaderFactory &);
         ThumbnailGenerator(const ThumbnailGenerator &) = delete;
         ~ThumbnailGenerator();
 
@@ -45,7 +45,7 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
     private:
         ILogger* m_logger;
         mutable ExifReaderFactory m_exifReaderFactory;
-        IConfiguration* m_configuration;
+        IExifReaderFactory& m_exif;
 
         QImage readFrameFromImage(const QString& path) const;
         QImage readFrameFromVideo(const QString& path) const;
@@ -53,4 +53,4 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         QImage scaleImage(const QImage& path, const ThumbnailParameters& params) const;
 };
 
-#endif // THUMBNAILGENERATOR_HPP
+#endif

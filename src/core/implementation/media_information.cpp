@@ -41,7 +41,7 @@ struct MediaInformation::Impl
     explicit Impl(ICoreFactoryAccessor* coreFactory):
         m_logger(coreFactory->getLoggerFactory().get("Media Information")),
         m_image_info(coreFactory->getExifReaderFactory(), *m_logger),
-        m_video_info(coreFactory->getConfiguration(), *m_logger)
+        m_video_info(coreFactory->getExifReaderFactory(), *m_logger)
     {
 
     }

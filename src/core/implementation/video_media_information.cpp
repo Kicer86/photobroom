@@ -20,14 +20,15 @@
 extern "C"
 {
 #include <libavformat/avformat.h>
+#include <libavutil/display.h>
 }
 
+#include <iostream>
+
 #include <cassert>
-#include <opencv2/opencv.hpp>
+#include <QTimeZone>
 
 #include "constants.hpp"
-#include "iconfiguration.hpp"
-#include "exiftool_video_details_reader.hpp"
 #include "video_media_information.hpp"
 
 
@@ -42,74 +43,98 @@ namespace
         return nullptr;
     }
 
-    QSize getRawResolution(AVStream* videoStream)
-    {
-        AVCodecParameters *codecParameters = videoStream->codecpar;
-
-        QSize resolution;
-        if (codecParameters != nullptr)
-            resolution = QSize(codecParameters->width, codecParameters->height);
-
-        return resolution;
-    }
-
-    std::time_t getCreationTime(AVFormatContext* context)
+    QDateTime getCreationTime(AVFormatContext* context)
     {
         const auto creationTimeEntry = context->metadata? av_dict_get(context->metadata, "creation_time", nullptr, 0) : nullptr;
-        const char* creationTimeStr = creationTimeEntry? creationTimeEntry->value: nullptr;
-        const std::time_t creationTime = creationTimeStr? std::stoll(creationTimeStr): 0;
+        const QString creationTimeStr = creationTimeEntry? creationTimeEntry->value: nullptr;
 
-        return creationTime;
+        if (creationTimeStr.isEmpty() == false)
+        {
+            const auto dateTimeSplit = creationTimeStr.split('T');
+            assert(dateTimeSplit.size() == 2);
+            const auto date = dateTimeSplit.first();
+            const auto time = dateTimeSplit.last().left(8);         // left() for removing any leftovers
+
+            const auto dateQ = QDate::fromString(date, "yyyy-MM-dd");
+            const auto timeQ = QTime::fromString(time, "hh:mm:ss");
+
+            QDateTime creationTime(dateQ, timeQ);
+
+            return creationTime;
+        }
+        else
+            return {};
     }
 }
 
 
 
-VideoMediaInformation::VideoMediaInformation(IConfiguration& configuration, const ILogger& logger)
+VideoMediaInformation::VideoMediaInformation(IExifReaderFactory& exif, const ILogger& logger)
     : m_logger(logger.subLogger("VideoMediaInformation"))
+    , m_exif(exif)
 {
-    const QVariant exiftoolVar = configuration.getEntry(ExternalToolsConfigKeys::exiftoolPath);
 
-    m_exiftoolPath = exiftoolVar.toString();
 }
 
 
 FileInformation VideoMediaInformation::getInformation(const QString& path) const
 {
+    FileInformation info;
+    VideoFile videoInfo;
+
+    IExifReader& exif = m_exif.get();
+
+    const auto exif_creation_time = exif.get(path, IExifReader::TagType::Xmp_video_DateTimeOriginal);
+    auto width = exif.get(path, IExifReader::TagType::Xmp_video_Width);
+    auto height = exif.get(path, IExifReader::TagType::Xmp_video_Height);
+
+    if (exif_creation_time)
+    {
+        const auto creation_time = std::any_cast<std::string>(*exif_creation_time);
+        const auto creation_time_qstr = QString::fromStdString(creation_time);
+
+        info.common.creationTime = QDateTime::fromString(creation_time_qstr, "yyyy:MM:dd hh:mm:ss");
+    }
+
     AVFormatContext* formatContext = nullptr;
     if (avformat_open_input(&formatContext, path.toStdString().c_str(), NULL, NULL) == 0)
     {
         if (avformat_find_stream_info(formatContext, NULL) >= 0)
         {
+            if (info.common.creationTime.has_value() == false)
+                info.common.creationTime = getCreationTime(formatContext);
+
             auto videoStream = findVideoStream(formatContext);
 
-            const auto creationTime = getCreationTime(formatContext);
-            const auto creationChronoTime = std::chrono::system_clock::from_time_t(creationTime);
+            double rotation = 0.0;
+            AVCodecParameters *codecParameters = videoStream->codecpar;
+            for (int i = 0; i < codecParameters->nb_coded_side_data; ++i) {
+                AVPacketSideData *sideData = &codecParameters->coded_side_data[i];
+                if (sideData->type == AV_PKT_DATA_DISPLAYMATRIX)
+                {
+                    rotation = av_display_rotation_get(reinterpret_cast<int32_t*>(sideData->data));
+
+                    break;
+                }
+            }
+
+            const int rotationInt = static_cast<int>(rotation);
+            if (rotationInt == 90 || rotationInt == -90)
+                std::swap(width, height);
+
+            static_assert(AV_TIME_BASE / 1000 >= 1, "AV_TIME_BASE not big enought to provide millisecond resolution");
+            static_assert(AV_TIME_BASE % 1000 == 0, "AV_TIME_BASE is not suitable for millisecond resolution");
+            videoInfo.duration = std::chrono::milliseconds(formatContext->duration / (AV_TIME_BASE / 1000));
         }
     }
+
+    if (width && height)
+        info.common.dimension = QSize(std::any_cast<int>(*width), std::any_cast<int>(*height));
 
     avformat_close_input(&formatContext);
     avformat_free_context(formatContext);
 
-    const auto output = ExiftoolUtils::exiftoolOutput(m_exiftoolPath, path);
-    const auto parsed = ExiftoolUtils::parseOutput(output);
-    const ExiftoolVideoDetailsReader videoDetailsReader(parsed);
-
-    FileInformation info;
-    info.common.dimension = videoDetailsReader.resolutionOf();
-    info.common.creationTime = videoDetailsReader.creationTime();
-
-    m_logger->trace(QString("Opening video file %1 for reading video details").arg(path));
-    cv::VideoCapture video(path.toStdString(), cv::CAP_FFMPEG);
-    if (video.isOpened())
-    {
-        m_logger->trace("File opened successfully");
-
-        const qint64 lenght = static_cast<int64>(video.get(cv::CAP_PROP_FRAME_COUNT) / video.get(cv::CAP_PROP_FPS) * 1000);
-        info.details = VideoFile{.duration = std::chrono::milliseconds(lenght) };
-    }
-    else
-        m_logger->warning(QString("Error when opening video file %1 for reading video details").arg(path));
+    info.details = videoInfo;
 
     return info;
 }
