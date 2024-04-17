@@ -80,23 +80,20 @@ macro(addSanitizers target test_prefix)
     set_tests_properties(${test_prefix}_leak PROPERTIES LABELS "UnitTest;Sanitizer;Leak")
     set_tests_properties(${test_prefix}_ub PROPERTIES LABELS "UnitTest;Sanitizer;UndefinedBehavior")
 
-    list(APPEND test_binaries
-        ${target}_addr
-        ${target}_thread
-        ${target}_leak
-        ${target}_ub
-    )
-
-    # make sure all test will be build before running them after build
-    add_dependencies(RunUnitTests ${test_binaries})
-
 endmacro(addSanitizers)
 
 
 # do some universal setup for a unit test
 function(register_unit_test unit_test executable)
     set_tests_properties(${unit_test} PROPERTIES LABELS "UnitTest")
-    add_dependencies(RunUnitTests ${executable})
+
+    if(RUN_TESTS_AFTER_BUILD)
+        add_custom_command(TARGET ${executable}
+            POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E echo "Running unit test ${unit_test}"  # https://cmake.org/pipermail/cmake/2017-April/065274.html
+                COMMAND ${executable} --gtest_brief=1
+        )
+    endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
         addSanitizers(${executable} ${unit_test})
