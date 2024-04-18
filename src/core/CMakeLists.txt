@@ -1,7 +1,7 @@
 
 find_package(CsLibGuarded     REQUIRED)
 find_package(exiv2            REQUIRED)
-find_package(FFmpeg           COMPONENTS AVCODEC AVFORMAT REQUIRED)
+find_package(FFmpeg           COMPONENTS AVCODEC AVFORMAT AVUTIL REQUIRED)
 find_package(OpenCV           REQUIRED)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui)
 find_package(Threads          REQUIRED)
@@ -104,8 +104,6 @@ endif()
 set(CORE_RESOURCE_FILES     images/images.qrc)
 
 qt6_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
-
-message("DDDDDDDDEBUG ${FFMPEG_LIBRARIES}")
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_libraries(core

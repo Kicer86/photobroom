@@ -2,7 +2,7 @@
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
 find_package(exiv2   REQUIRED)
-find_package(FFmpeg  COMPONENTS AVCODEC AVFORMAT REQUIRED)
+find_package(FFmpeg  COMPONENTS AVCODEC AVFORMAT AVUTIL REQUIRED)
 find_package(GTest   REQUIRED CONFIG)
 find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
