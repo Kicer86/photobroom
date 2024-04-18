@@ -8,6 +8,10 @@ $PLUGINSDIR\System.dll
 $PLUGINSDIR\UserInfo.dll
 advapi32.dll
 animatedwebp.dll
+avcodec-60.dll
+avformat-60.dll
+avutil-58.dll
+bcrypt.dll
 concrt140.dll
 core.dll
 cpp_restapi.dll
@@ -624,6 +628,7 @@ QtQuick\tooling\Signal.qml
 QtQuick\Window\qmldir
 QtQuick\Window\quickwindowplugin.dll
 QtQuick\Window\quickwindow.qmltypes
+secur32.dll
 shell32.dll
 shlwapi.dll
 sql_backend_base.dll
@@ -660,6 +665,7 @@ translations\qt_zh_TW.qm
 tr\photo_broom_en.qm
 tr\photo_broom_pl.qm
 updater.dll
+user32.dll
 vcruntime140_1.dll
 vcruntime140.dll
 ws2_32.dll
