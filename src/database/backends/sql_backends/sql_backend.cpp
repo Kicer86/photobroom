@@ -187,6 +187,7 @@ namespace Database
 
     BackendStatus ASqlBackend::ensureTableExists(const TableDefinition& definition) const
     {
+        m_logger->trace(QString("Making sure table '%1' exists in database").arg(definition.name));
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
 
         QSqlQuery query(db);
@@ -195,10 +196,12 @@ namespace Database
         BackendStatus status = m_executor.exec(showQuery, &query);
 
         //create table 'name' if doesn't exist
-        bool empty = query.next() == false;
+        bool nonexistent = query.next() == false;
 
-        if (status && empty)
+        if (status && nonexistent)
         {
+            m_logger->debug(QString("Table '%1' does not exist in database. Creating.").arg(definition.name));
+
             QString columnsDesc;
             const std::size_t size = definition.columns.size();
 
@@ -748,9 +751,7 @@ namespace Database
                 case 6:
                 {
                     // move thumbnails to blob table
-                    const QString copy_thumbnails =
-                    QString("INSERT INTO blobs(photo_id, type, data) SELECT photo_id, %1 AS type, data FROM thumbnails")
-                            .arg("thumbnail");
+                    const QString copy_thumbnails("INSERT INTO blobs(photo_id, type, data) SELECT photo_id, \"thumbnail\" AS type, data FROM thumbnails");
 
                     status = m_executor.exec(copy_thumbnails, &query);
                     if (status == false)
