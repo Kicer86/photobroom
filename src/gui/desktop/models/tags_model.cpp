@@ -278,8 +278,8 @@ void TagsModel::loadPhotos(const std::vector<Photo::DataDelta>& deltas)
     assert(rowCount() == 0);
     assert(tags.empty() == false);
 
-    const std::size_t tc = tags.size();
-    QAbstractItemModel::beginInsertRows(QModelIndex(), 0, tc - 1);
+    const auto tc = tags.size();
+    QAbstractItemModel::beginInsertRows(QModelIndex(), 0, static_cast<int>(tc) - 1);
 
     m_keys.resize(tc);
     m_values.resize(tc);
