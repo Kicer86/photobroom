@@ -71,8 +71,8 @@ void ContextMenuManager::setProject(Project* prj)
 
     if (m_project)
     {
-        m_translator = std::make_unique<IdToDataConverter>(m_project->getDatabase());
-        connect(m_translator.get(), &IdToDataConverter::photoDataDeltaFetched,
+        m_translator = std::make_unique<PhotoDeltaFetcher>(m_project->getDatabase());
+        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched,
                 this, &ContextMenuManager::updateModel);
     }
 }

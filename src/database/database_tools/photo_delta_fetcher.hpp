@@ -1,6 +1,5 @@
 
-#ifndef ID_TO_DATA_CONVERTER_HPP_INCLUDED
-#define ID_TO_DATA_CONVERTER_HPP_INCLUDED
+#pragma once
 
 #include <QObject>
 
@@ -11,13 +10,13 @@
 #include "database_export.h"
 
 
-class DATABASE_EXPORT IdToDataConverter: public QObject
+class DATABASE_EXPORT PhotoDeltaFetcher: public QObject
 {
         Q_OBJECT
 
     public:
-        explicit IdToDataConverter(Database::IDatabase &);
-        ~IdToDataConverter();
+        explicit PhotoDeltaFetcher(Database::IDatabase &);
+        ~PhotoDeltaFetcher();
 
         void fetchIds(const std::vector<Photo::Id> &, const std::set<Photo::Field> &);
 
@@ -30,6 +29,3 @@ class DATABASE_EXPORT IdToDataConverter: public QObject
     signals:
         void photoDataDeltaFetched(const std::vector<Photo::DataDelta> &) const;
 };
-
-
-#endif // ID_TO_DATA_CONVERTER_HPP_INCLUDED

@@ -53,9 +53,9 @@ void TagsModel::set(Database::IDatabase* database)
 
     if (m_database)
     {
-        m_translator = std::make_unique<IdToDataConverter>(*m_database);
+        m_translator = std::make_unique<PhotoDeltaFetcher>(*m_database);
 
-        connect(m_translator.get(), &IdToDataConverter::photoDataDeltaFetched, this, &TagsModel::loadPhotos);
+        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched, this, &TagsModel::loadPhotos);
     }
     else
         m_translator.reset();

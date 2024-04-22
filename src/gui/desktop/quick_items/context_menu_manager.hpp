@@ -7,7 +7,7 @@
 #include <QtQml/qqmlregistration.h>
 
 #include <core/icore_factory_accessor.hpp>
-#include <database/database_tools/id_to_data_converter.hpp>
+#include <database/database_tools/photo_delta_fetcher.hpp>
 #include <database/explicit_photo_delta.hpp>
 #include <project_utils/project.hpp>
 #include "models/actions_model.hpp"
@@ -46,7 +46,7 @@ signals:
 private:
     using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags>;
 
-    std::unique_ptr<IdToDataConverter> m_translator;
+    std::unique_ptr<PhotoDeltaFetcher> m_translator;
     std::vector<ExplicitDelta> m_photos;
     ActionsModel m_model;
     QList<QVariant> m_selection;

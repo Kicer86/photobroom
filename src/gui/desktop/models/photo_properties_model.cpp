@@ -70,9 +70,9 @@ void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
     m_db = db;
     if (m_db)
     {
-        m_translator = std::make_unique<IdToDataConverter>(*db);
+        m_translator = std::make_unique<PhotoDeltaFetcher>(*db);
 
-        connect(m_translator.get(), &IdToDataConverter::photoDataDeltaFetched, this, &PhotoPropertiesModel::gotPhotoData);
+        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched, this, &PhotoPropertiesModel::gotPhotoData);
     }
     else
         m_translator.reset();
