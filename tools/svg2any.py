@@ -21,7 +21,6 @@ def get_svg_size(input_svg):
 
 
 def svg_to_any(input_svg, output_any, desired_size):
-
     default_width, default_height = get_svg_size(input_svg)
 
     width = default_width if desired_size[0] == -1 else desired_size[0]
@@ -39,7 +38,7 @@ def svg_to_any(input_svg, output_any, desired_size):
         img = white_background.convert('RGB')
 
     with open(output_any, 'wb') as output_file:
-        img.save(output_file, sizes=[width, height])
+        img.save(output_file, sizes=[(width, height)])
 
 
 if __name__ == "__main__":
