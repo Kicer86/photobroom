@@ -24,7 +24,11 @@
     "magic-enum",
     "qtbase",
     "qtsvg",
-    "qttools",
+    {
+      "name": "qttools",
+      "default-features": false,
+      "features": [ "linguist", "qml" ]
+    },
     "qtdeclarative",
     "qtmultimedia",
     "qtquick3d"
