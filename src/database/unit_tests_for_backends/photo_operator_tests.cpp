@@ -11,7 +11,7 @@ using testing::ElementsAre;
 
 
 MATCHER_P(IsPhotoWithPath, _path, "") {
-    return arg.path == _path;
+    return arg.template get<Photo::Field::Path>() == _path;
 }
 
 template<typename T>
@@ -33,10 +33,10 @@ TYPED_TEST(PhotoOperatorTest, gettingAllPhotos)
 
     ASSERT_EQ(photos.size(), 3);
 
-    std::vector<Photo::Data> photo_data;
-    photo_data.push_back(this->m_backend->getPhoto(photos[0]));
-    photo_data.push_back(this->m_backend->getPhoto(photos[1]));
-    photo_data.push_back(this->m_backend->getPhoto(photos[2]));
+    std::vector<Photo::ExplicitDelta<Photo::Field::Path>> photo_data;
+    photo_data.push_back(this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[0]));
+    photo_data.push_back(this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[1]));
+    photo_data.push_back(this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[2]));
 
     EXPECT_THAT(photo_data, Contains(IsPhotoWithPath("/some/path1.jpeg")));
     EXPECT_THAT(photo_data, Contains(IsPhotoWithPath("/some/path2.jpeg")));
@@ -55,10 +55,10 @@ TYPED_TEST(PhotoOperatorTest, sortingByTagActionOnPhotos)
 
     ASSERT_EQ(photos.size(), 3);
 
-    std::vector<Photo::Data> photo_data;
-    photo_data.push_back(this->m_backend->getPhoto(photos[0]));
-    photo_data.push_back(this->m_backend->getPhoto(photos[1]));
-    photo_data.push_back(this->m_backend->getPhoto(photos[2]));
+    std::vector<Photo::ExplicitDelta<Photo::Field::Path>> photo_data;
+    photo_data.push_back(this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[0]));
+    photo_data.push_back(this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[1]));
+    photo_data.push_back(this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[2]));
 
     EXPECT_THAT(photo_data[0], IsPhotoWithPath("/some/path2.jpeg"));
     EXPECT_THAT(photo_data[1], IsPhotoWithPath("/some/path3.jpeg"));
@@ -79,10 +79,9 @@ TYPED_TEST(PhotoOperatorTest, sortingByTimestampActionOnPhotos)
 
     for (int idx = 21, p = 0; p < 21; idx--, p++)
     {
-        Photo::Data photo_data;
-        photo_data = this->m_backend->getPhoto(photos[p]);
-
+        const auto photo_data = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[p]);
         const QString expected_path = QString("/some/path%1.jpeg").arg(idx);
+
         EXPECT_THAT(photo_data, IsPhotoWithPath(expected_path));
     }
 }
