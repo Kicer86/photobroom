@@ -21,7 +21,6 @@ def get_svg_size(input_svg):
 
 
 def svg_to_any(input_svg, output_any, desired_size):
-
     default_width, default_height = get_svg_size(input_svg)
 
     width = default_width if desired_size[0] == -1 else desired_size[0]
@@ -39,7 +38,7 @@ def svg_to_any(input_svg, output_any, desired_size):
         img = white_background.convert('RGB')
 
     with open(output_any, 'wb') as output_file:
-        img.save(output_file, sizes=[width, height])
+        img.save(output_file, sizes=[(width, height)])
 
 
 if __name__ == "__main__":
@@ -48,7 +47,8 @@ if __name__ == "__main__":
     parser.add_argument("output_file", help="Output image path")
     parser.add_argument("--width", type=int, default=-1, help="Output file width")
     parser.add_argument("--height", type=int, default=-1, help="Output file height")
+    parser.add_argument("--check-requirements", action='store_true', default=False, help="Do nothing, just exit. Used for dependencies check.")
 
     args = parser.parse_args()
-
-    svg_to_any(args.input_svg, args.output_file, (args.width, args.height))
+    if not args.check_requirements:
+        svg_to_any(args.input_svg, args.output_file, (args.width, args.height))

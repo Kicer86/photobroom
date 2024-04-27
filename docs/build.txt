@@ -33,7 +33,7 @@ Required tools and libraries:
   for download, build and install all marked libraries.
 
 ** Only on Windows.
-Make sure PIL and cairosvg are installed.
+Make sure PIL, defusedxml and cairosvg are installed.
 For cairosvg to work, it may be required to install pipwin and then to install cairocffi with:
   pipwin install cairocffi
 

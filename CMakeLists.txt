@@ -1,6 +1,10 @@
 
-cmake_minimum_required(VERSION 3.18)
+cmake_minimum_required(VERSION 3.25)
 project(PhotoBroom VERSION 1.7.0 LANGUAGES CXX)
+
+if(POLICY CMP0140)
+    cmake_policy(SET CMP0140 NEW)
+endif()
 
 if(POLICY CMP0146)
     cmake_policy(SET CMP0146 OLD)
