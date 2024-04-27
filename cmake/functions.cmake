@@ -131,10 +131,66 @@ function(stringify_file output_file input_file variable_with_type namespace)
 endfunction(stringify_file)
 
 
-function(convertSVG output_file input_file width height)
-    find_program(Magick magick)
+function(determine_image_conversion_tool result)
+    find_program(Python python)
 
+    if(Python)
+        execute_process(
+            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py --check-requirements _ _
+            RESULT_VARIABLE _result
+            OUTPUT_QUIET
+            ERROR_QUIET
+        )
+
+        if(_result EQUAL 0)        # success
+            set(${result} "PYTHON")
+            return(PROPAGATE ${result})
+        endif()
+    endif()
+
+    find_program(Magick magick)
     if(Magick)
+        set(${result} "MAGICK")
+        return(PROPAGATE ${result})
+    endif()
+
+    set(${result} "NONE")
+    return(PROPAGATE ${result})
+endfunction()
+
+
+function(convertSVG output_file input_file width height)
+
+    if(NOT A_PB_IMAGE_CONVERTER)
+        determine_image_conversion_tool(converter)
+        set(A_PB_IMAGE_CONVERTER ${converter} CACHE INTERNAL "Tool used for converting svg files" FORCE)
+    endif()
+
+    if(A_PB_IMAGE_CONVERTER STREQUAL "NONE")
+        # Magick executable was not found OR
+        # Python executable was not found OR
+        # Python was found but there are missing dependencies for tools/svg2any.py
+        message(FATAL_ERROR "Neither magick nor python can be used for generation of required images.")
+    endif()
+
+    if(A_PB_IMAGE_CONVERTER STREQUAL "PYTHON")
+        find_program(Python python REQUIRED)
+
+        if(${width} EQUAL -1 AND ${height} EQUAL -1)
+            set(resize "")
+        elseif(${width} EQUAL -1 OR ${height} EQUAL -1)
+            message(FATAL_ERROR "Not handled")
+        else()
+            set(resize --width ${width} --height ${height})
+        endif()
+
+        add_custom_command(OUTPUT ${output_file}
+            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${input_file} ${output_file} ${resize}
+            DEPENDS ${input_file}
+        )
+    elseif(A_PB_IMAGE_CONVERTER STREQUAL "MAGICK")
+        find_program(Magick magick REQUIRED)
+
         if(${width} EQUAL -1 AND ${height} EQUAL -1)
             set(resize "")
         elseif(${width} EQUAL -1 OR ${height} EQUAL -1)
@@ -153,20 +209,7 @@ function(convertSVG output_file input_file width height)
             DEPENDS ${input_file}
         )
     else()
-        find_program(Python python REQUIRED)
-
-        if(${width} EQUAL -1 AND ${height} EQUAL -1)
-            set(resize "")
-        elseif(${width} EQUAL -1 OR ${height} EQUAL -1)
-            message(FATAL_ERROR "Not handled")
-        else()
-            set(resize --width ${width} --height ${height})
-        endif()
-
-        add_custom_command(OUTPUT ${output_file}
-            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${input_file} ${output_file} ${resize}
-            DEPENDS ${input_file}
-        )
+        message(FATAL_ERROR "Unexpected value of A_PB_IMAGE_CONVERTER variable: ${A_PB_IMAGE_CONVERTER}")
     endif()
 endfunction()
 
