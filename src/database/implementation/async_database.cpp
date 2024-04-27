@@ -209,7 +209,7 @@ namespace Database
     }
 
 
-    std::unique_ptr<IClient> AsyncDatabase::attach(const QString& name)
+    std::unique_ptr<IClient> AsyncDatabase::attach(const QString& /*name*/)
     {
         if (m_acceptClients)
         {
