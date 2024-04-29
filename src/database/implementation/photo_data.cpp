@@ -23,39 +23,6 @@
 
 namespace Photo
 {
-
-    Data::Data(const Photo::Id& i)
-        : id(i)
-    {
-
-    }
-
-    Data& Data::apply(const DataDelta& delta)
-    {
-        id = delta.getId();
-
-        if (delta.has(Photo::Field::Tags))
-            tags = delta.get<Photo::Field::Tags>();
-
-        if (delta.has(Photo::Field::Geometry))
-            geometry = delta.get<Photo::Field::Geometry>();
-
-        if (delta.has(Photo::Field::Flags))
-            flags = delta.get<Photo::Field::Flags>();
-
-        if (delta.has(Photo::Field::GroupInfo))
-            groupInfo = delta.get<Photo::Field::GroupInfo>();
-
-        if (delta.has(Photo::Field::Path))
-            path = delta.get<Photo::Field::Path>();
-
-        if (delta.has(Photo::Field::PHash))
-            phash = delta.get<Photo::Field::PHash>();
-
-        return *this;
-    }
-
-
     DataDelta::DataDelta(const DataDelta& other)
     {
         m_id = other.m_id;
@@ -70,38 +37,6 @@ namespace Photo
     }
 
 
-    DataDelta::DataDelta(const Data& oldData, const Data& newData)
-    {
-        assert(oldData.id == newData.id);
-
-        setId(oldData.id);
-
-        if (oldData.flags != newData.flags)
-            insert<Photo::Field::Flags>(newData.flags);
-
-        if (oldData.geometry != newData.geometry)
-            insert<Photo::Field::Geometry>(newData.geometry);
-
-        if (oldData.groupInfo != newData.groupInfo)
-            insert<Photo::Field::GroupInfo>(newData.groupInfo);
-
-        if (oldData.path != newData.path)
-            insert<Photo::Field::Path>(newData.path);
-
-        if (oldData.tags != newData.tags)
-            insert<Photo::Field::Tags>(newData.tags);
-
-        if (oldData.phash != newData.phash)
-            insert<Photo::Field::PHash>(newData.phash);
-    }
-
-
-    DataDelta::DataDelta(const Photo::Data& data)
-        : m_id(data.id)
-    {
-        this->operator=(data);
-    }
-
     DataDelta& DataDelta::operator=(const DataDelta& other)
     {
         m_id = other.m_id;
@@ -109,6 +44,7 @@ namespace Photo
 
         return *this;
     }
+
 
     void DataDelta::setId(const Photo::Id& id)
     {
@@ -169,18 +105,6 @@ namespace Photo
             else
                 m_data.insert_or_assign(otherData.first, otherData.second);
         }
-
-        return *this;
-    }
-
-
-    DataDelta& DataDelta::operator=(const Data& data)
-    {
-        insert<Photo::Field::Tags>(data.tags);
-        insert<Photo::Field::Geometry>(data.geometry);
-        insert<Photo::Field::Flags>(data.flags);
-        insert<Photo::Field::GroupInfo>(data.groupInfo);
-        insert<Photo::Field::Path>(data.path);
 
         return *this;
     }
