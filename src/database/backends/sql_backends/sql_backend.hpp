@@ -146,7 +146,6 @@ namespace Database
 
             std::vector<TagValue>    listTagValues(const Tag::Types &, const Filter &) override final;
 
-            Photo::Data              getPhoto(const Photo::Id &) override final;
             Photo::DataDelta         getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> & = {}) override final;
             int                      getPhotosCount(const Filter &) override final;
             void                     set(const Photo::Id &, const QString &, int) override final;

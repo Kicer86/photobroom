@@ -48,18 +48,34 @@ namespace Database
 
     namespace
     {
+        template<Photo::Field field>
+        void copy_delta_field(auto& dst, const auto& src)
+        {
+            dst.template insert<field>(src.template get<field>());
+        }
+
+        template<Photo::Field field, Photo::Field... Fields>
+        void for_each(auto& dst, const auto& src, const std::set<Photo::Field>& neededFields)
+        {
+            if (neededFields.contains(field))
+                copy_delta_field<field>(dst, src);
+
+            if constexpr (sizeof...(Fields) > 0)
+                for_each<Fields...>(dst, src, neededFields);
+        }
+
         template<typename T>
         bool compare(const T& lhs, const T& rhs, Qt::SortOrder order)
         {
             return order == Qt::AscendingOrder? lhs < rhs: rhs < lhs;
         }
 
-        int tristate_compare(const Photo::Data& lhs, const Photo::Data& rhs, const Tag::Types& tagType, Qt::SortOrder order)
+        int tristate_compare(const Photo::DataDelta& lhs, const Photo::DataDelta& rhs, const Tag::Types& tagType, Qt::SortOrder order)
         {
-            const auto l_it = lhs.tags.find(tagType);
-            const auto r_it = rhs.tags.find(tagType);
-            const auto l_tag = l_it == lhs.tags.end()? TagValue(): l_it->second;
-            const auto r_tag = r_it == rhs.tags.end()? TagValue(): r_it->second;
+            const auto l_it = lhs.get<Photo::Field::Tags>().find(tagType);
+            const auto r_it = rhs.get<Photo::Field::Tags>().find(tagType);
+            const auto l_tag = l_it == lhs.get<Photo::Field::Tags>().end()? TagValue(): l_it->second;
+            const auto r_tag = r_it == rhs.get<Photo::Field::Tags>().end()? TagValue(): r_it->second;
 
             const bool is_less = compare(l_tag, r_tag, order);
             const bool is_greater = compare(r_tag, l_tag, order);
@@ -302,21 +318,13 @@ namespace Database
     }
 
 
-    Photo::Data MemoryBackend::getPhoto(const Photo::Id& id)
+    Photo::DataDelta MemoryBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& _fields)
     {
-        Photo::Data data;
+        StoregeDelta storageDelta;
         auto it = m_db->m_photos.find(id);
 
         if (it != m_db->m_photos.end())
-            data.apply(*it);
-
-        return data;
-    }
-
-
-    Photo::DataDelta MemoryBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& _fields)
-    {
-        const Photo::Data data = getPhoto(id);
+            storageDelta = *it;
 
         std::set<Photo::Field> fields = _fields;
         if (fields.empty())
@@ -327,33 +335,12 @@ namespace Database
 
         Photo::DataDelta delta(id);
 
-        if (fields.contains(Photo::Field::Path))
-            delta.insert<Photo::Field::Path>(data.path);
-
-        if (fields.contains(Photo::Field::Tags))
-            delta.insert<Photo::Field::Tags>(data.tags);
-
-        if (fields.contains(Photo::Field::Geometry))
-        {
-            const auto& geometry = data.geometry;
-
-            if (geometry.isValid())
-                delta.insert<Photo::Field::Geometry>(geometry);
-        }
-
-        if (fields.contains(Photo::Field::GroupInfo))
-            delta.insert<Photo::Field::GroupInfo>(data.groupInfo);
-
-        if (fields.contains(Photo::Field::Flags))
-            delta.insert<Photo::Field::Flags>(data.flags);
-
-        if (fields.contains(Photo::Field::PHash))
-            delta.insert<Photo::Field::PHash>(data.phash);
+        for_each<Photo::Field::Path, Photo::Field::Tags, Photo::Field::Geometry, Photo::Field::GroupInfo, Photo::Field::Flags, Photo::Field::PHash>(delta, storageDelta, fields);
 
         if (fields.contains(Photo::Field::People))
         {
             auto& peopleAccessor = peopleInformationAccessor();
-            const auto peopleData = peopleAccessor.listPeopleFull(data.id);
+            const auto peopleData = peopleAccessor.listPeopleFull(id);
             delta.insert<Photo::Field::People>(peopleData);
         }
 
@@ -742,15 +729,15 @@ namespace Database
     {
         std::vector<Photo::Id> ids = getPhotos(filters);
 
-        std::vector<Photo::Data> photo_data;
+        std::vector<Photo::DataDelta> photo_data;
         for(const auto id: ids)
-            photo_data.push_back(getPhoto(id));
+            photo_data.push_back(getPhotoDelta(id, {}));
 
         onPhotos(photo_data, action);
 
-        std::transform(photo_data.cbegin(), photo_data.cend(), ids.begin(), [](const Photo::Data& data)
+        std::transform(photo_data.cbegin(), photo_data.cend(), ids.begin(), [](const Photo::DataDelta& data)
         {
-            return data.id;
+            return data.getId();
         });
 
         return ids;
@@ -823,7 +810,7 @@ namespace Database
     }
 
 
-    void MemoryBackend::onPhotos(std::vector<Photo::Data>& photo_data, const Action& action) const
+    void MemoryBackend::onPhotos(std::vector<Photo::DataDelta>& photo_data, const Action& action) const
     {
         if (auto sort_action = std::get_if<Actions::SortByTag>(&action))
         {
@@ -844,9 +831,9 @@ namespace Database
             {
                 case Actions::Sort::By::PHash:
                     if (sort->order == Qt::AscendingOrder)
-                        std::stable_sort(photo_data.begin(), photo_data.end(), &PhotoData::isLess<Photo::Field::PHash>);
+                        std::stable_sort(photo_data.begin(), photo_data.end(), &PhotoDelta::isLess<Photo::Field::PHash>);
                     else
-                        std::stable_sort(photo_data.rbegin(), photo_data.rend(), &PhotoData::isLess<Photo::Field::PHash>);
+                        std::stable_sort(photo_data.rbegin(), photo_data.rend(), &PhotoDelta::isLess<Photo::Field::PHash>);
                     break;
 
                 case Actions::Sort::By::Timestamp:
@@ -864,12 +851,12 @@ namespace Database
                     if (sort->order == Qt::AscendingOrder)
                         std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
                         {
-                            return lhs.id < rhs.id;
+                            return lhs.getId() < rhs.getId();
                         });
                     else
                         std::sort(photo_data.begin(), photo_data.end(), [](const auto& lhs, const auto& rhs)
                         {
-                            return lhs.id > rhs.id;
+                            return lhs.getId() > rhs.getId();
                         });
 
                     break;

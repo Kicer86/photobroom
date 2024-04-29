@@ -53,16 +53,16 @@ set(DATABASE_SOURCES
     implementation/photo_utils.cpp
 
     database_tools/common_backend_operations.hpp
-    database_tools/id_to_data_converter.hpp
     database_tools/itag_info_collector.hpp
     database_tools/json_to_backend.hpp
+    database_tools/photo_delta_fetcher.hpp
     database_tools/photos_analyzer.hpp
     database_tools/series_candidate.hpp
     database_tools/series_detector.hpp
     database_tools/tag_info_collector.hpp
 
-    database_tools/implementation/id_to_data_converter.cpp
     database_tools/implementation/json_to_backend.cpp
+    database_tools/implementation/photo_delta_fetcher.cpp
     database_tools/implementation/photos_analyzer.cpp
     database_tools/implementation/series_detector.cpp
     database_tools/implementation/tag_info_collector.cpp

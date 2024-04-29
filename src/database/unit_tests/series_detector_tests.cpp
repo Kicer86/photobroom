@@ -69,13 +69,17 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
-        Photo::Data data;
-        data.id = id;
-        data.path = QString("path: %1.jpeg").arg(id.value());                                    // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg(id.value()), "hh.mm.s"));  // simulate different time - use id as second
+        Photo::DataDelta data(id);
 
-        return Photo::DataDelta(data);
+        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                          // add id to path so exif mock can use it for data mocking
+
+        Tag::TagsList tags;
+        tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg(id.value()), "hh.mm.s"));  // simulate different time - use id as second
+
+        data.insert<Photo::Field::Tags>(tags);
+
+        return data;
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -125,13 +129,17 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
-        Photo::Data data;
-        data.id = id;
-        data.path = QString("path: %1.jpeg").arg(id.value());        // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg( (id.value() - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+        Photo::DataDelta data(id);
 
-        return Photo::DataDelta(data);
+        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                                     // add id to path so exif mock can use it for data mocking
+
+        Tag::TagsList tags;
+        tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg( (id.value() - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+
+        data.insert<Photo::Field::Tags>(tags);
+
+        return data;
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -182,13 +190,17 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
-        Photo::Data data;
-        data.id = id;
-        data.path = QString("path: %1.jpeg").arg(id.value());        // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg( (id.value() - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+        Photo::DataDelta data(id);
 
-        return Photo::DataDelta(data);
+        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value())) ;        // add id to path so exif mock can use it for data mocking
+
+        Tag::TagsList tags;
+        tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg( (id.value() - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+
+        data.insert<Photo::Field::Tags>(tags);
+
+        return data;
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -240,13 +252,17 @@ TEST_F(SeriesDetectorTest, smartphoneSeries)
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)))).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
-        Photo::Data data;
-        data.id = id;
-        data.path = QString("path_BURST%1.jpeg").arg(id.value() % 3 + 1);                                    // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg(id.value()), "hh.mm.s"));  // simulate different time - use id as second
+        Photo::DataDelta data(id);
 
-        return Photo::DataDelta(data);
+        data.insert<Photo::Field::Path>(QString("path_BURST%1.jpeg").arg(id.value() % 3 + 1));              // add id to path so exif mock can use it for data mocking
+
+        Tag::TagsList tags;
+        tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg(id.value()), "hh.mm.s"));  // simulate different time - use id as second
+
+        data.insert<Photo::Field::Tags>(tags);
+
+        return data;
     }));
 
     const SeriesDetector sd(logger, db, exif, {});
@@ -288,13 +304,17 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     ON_CALL(photoOperator, onPhotos(_, Database::Action(Database::Actions::Sort(Database::Actions::Sort::By::Timestamp)) )).WillByDefault(Return(all_photos));
     ON_CALL(backend, getPhotoDelta(_, _)).WillByDefault(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
-        Photo::Data data;
-        data.id = id;
-        data.path = QString("path: %1.jpeg").arg(id.value());        // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg( (id.value() - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+        Photo::DataDelta data(id);
 
-        return Photo::DataDelta(data);
+        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                                     // add id to path so exif mock can use it for data mocking
+
+        Tag::TagsList tags;
+        tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.00.%1").arg( (id.value() - 1) / 3), "hh.mm.s"));  // simulate same time within a group
+
+        data.insert<Photo::Field::Tags>(tags);
+
+        return data;
     }));
 
     // return sequence number basing on file name (file name contains photo id)
@@ -385,13 +405,17 @@ TEST_F(SeriesDetectorTest, Complexity)
 
     EXPECT_CALL(backend, getPhotoDelta(_, _)).Times(50).WillRepeatedly(Invoke([](const Photo::Id& id, const auto &) -> Photo::DataDelta
     {
-        Photo::Data data;
-        data.id = id;
-        data.path = QString("path: %1.jpeg").arg(id.value());        // add id to path so exif mock can use it for data mocking
-        data.tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
-        data.tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.%1.00").arg(id.value()), "hh.m.ss"));  // simulate different time - use id as minute
+        Photo::DataDelta data(id);
 
-        return Photo::DataDelta(data);
+        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                          // add id to path so exif mock can use it for data mocking
+
+        Tag::TagsList tags;
+        tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
+        tags.emplace(Tag::Types::Time, QTime::fromString(QString("12.%1.00").arg(id.value()), "hh.m.ss"));  // simulate different time - use id as minute
+
+        data.insert<Photo::Field::Tags>(tags);
+
+        return data;
     }));
 
     const SeriesDetector sd(logger, db, exif, {});

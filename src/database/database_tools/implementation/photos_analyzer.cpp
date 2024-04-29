@@ -137,7 +137,7 @@ namespace
         {
             auto data = evaluate<Photo::DataDelta(Database::IBackend &)>(*m_storage, [this](Database::IBackend& backend)
             {
-                return backend.getPhotoDelta(m_id);
+                return backend.getPhotoDelta<Photo::Field::Flags, Photo::Field::PHash>(m_id);
             });
 
             std::vector<std::tuple<Photo::Id, QString, int>> bitsToSet;

@@ -375,17 +375,6 @@ namespace Database
     }
 
 
-    Photo::Data ASqlBackend::getPhoto(const Photo::Id& id)
-    {
-        const Photo::DataDelta photoDelta = getPhotoDelta(id);
-
-        Photo::Data photoData;
-        photoData.apply(photoDelta);            // photoDelta contains full information about photo, so photoData will be complete
-
-        return photoData;
-    }
-
-
     Photo::DataDelta ASqlBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& _fields)
     {
         const bool valid_id = doesPhotoExist(id);

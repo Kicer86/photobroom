@@ -11,9 +11,6 @@
 
 namespace Photo
 {
-    inline auto& getId = extract<Photo::Data, Photo::Id, &Photo::Data::id>;
-
-    DATABASE_EXPORT const QString& getPath(const Photo::Data &);
     DATABASE_EXPORT const QString& getPath(const Photo::DataDelta &);
 
     template<typename T>                    // TODO: T is expected to be Photo::ExplicitDelta
@@ -35,23 +32,20 @@ namespace Photo
 }
 
 
-namespace PhotoData
-{
-    template<Photo::Field field>
-    bool isLess(const Photo::Data& lhs, const Photo::Data& rhs)
-    {
-        if constexpr (field == Photo::Field::PHash)
-            return lhs.phash < rhs.phash;
-    }
-}
-
 namespace PhotoDelta
 {
     template<GroupInfo::Role role> bool is(const Photo::DataDelta& data)
     {
         return data.get<Photo::Field::GroupInfo>().role == role;
     }
+
+    template<Photo::Field field>
+    bool isLess(const Photo::DataDelta& lhs, const Photo::DataDelta& rhs)
+    {
+        return lhs.get<field>() < rhs.get<field>();
+    }
 }
+
 
 namespace PhotoExplicitDelta
 {

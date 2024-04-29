@@ -449,9 +449,9 @@ TYPED_TEST(PeopleTest, photoTagsWhenNoName)
     this->m_backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r2));
     this->m_backend->peopleInformationAccessor().store(PersonInfo(Person::Id(), ph_id, {}, r3));
 
-    const auto photo = this->m_backend->getPhoto(ph_id);
+    const auto photo = this->m_backend->getPhotoDelta(ph_id);
 
-    EXPECT_TRUE(photo.tags.empty());
+    EXPECT_TRUE(photo.template get<Photo::Field::Tags>().empty());
 }
 
 

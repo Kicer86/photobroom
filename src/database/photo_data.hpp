@@ -34,37 +34,6 @@
 
 namespace Photo
 {
-    class DataDelta;
-
-    /**
-     * @brief Structure containing full set of photo details
-     */
-    struct DATABASE_EXPORT Data
-    {
-        Photo::Id            id;
-        Tag::TagsList        tags;
-        Photo::FlagValues    flags;
-        QString              path;
-        QSize                geometry;
-        GroupInfo            groupInfo;
-        Photo::PHashT        phash;
-
-        Data() = default;
-        Data(const Data &) = default;
-        Data(const Photo::Id& id);
-
-        Data& operator=(const Data &) = default;
-        bool operator==(const Data &) const = default;
-
-        Data& apply(const DataDelta &);
-
-        Q_PROPERTY(QString path MEMBER path)
-        Q_PROPERTY(QSize size MEMBER geometry)
-        Q_PROPERTY(Photo::Id id MEMBER id)
-        Q_GADGET
-    };
-
-
     /**
      * @brief Structure containing chosen details of photo
      */
@@ -79,8 +48,6 @@ namespace Photo
             DataDelta(const DataDelta& other);
             explicit DataDelta(DataDelta&& other) noexcept;
             explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
-            explicit DataDelta(const Data& oldData, const Data& newData);
-            explicit DataDelta(const Data &);
 
             DataDelta& operator=(const DataDelta& other);
 
@@ -119,7 +86,6 @@ namespace Photo
             bool operator<(const DataDelta &) const;
             bool operator==(const DataDelta &) const;
             DataDelta& operator|=(const DataDelta &);       // merge anothor delta into
-            DataDelta& operator=(const Data &);
 
         private:
             typedef std::variant<
@@ -138,10 +104,6 @@ namespace Photo
             const Storage& get(Field) const;
             Storage& get(Field);
     };
-
-
-    using SafeData = libguarded::plain_guarded<Data>;
-    using SharedData = std::shared_ptr<SafeData>;
 
     using SafeDataDelta = libguarded::plain_guarded<DataDelta>;
     using SharedDataDelta = std::shared_ptr<SafeDataDelta>;

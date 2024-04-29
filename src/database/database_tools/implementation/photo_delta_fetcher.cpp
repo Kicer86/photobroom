@@ -1,25 +1,24 @@
 
-#include "../id_to_data_converter.hpp"
-
 #include <QItemSelectionModel>
 
 #include <database/photo_data.hpp>
+#include "../photo_delta_fetcher.hpp"
 
 
-IdToDataConverter::IdToDataConverter(Database::IDatabase& db)
+PhotoDeltaFetcher::PhotoDeltaFetcher(Database::IDatabase& db)
     : m_db(db)
 {
 
 }
 
 
-IdToDataConverter::~IdToDataConverter()
+PhotoDeltaFetcher::~PhotoDeltaFetcher()
 {
     m_callbackCtrl.invalidate();
 }
 
 
-void IdToDataConverter::fetchIds(const std::vector<Photo::Id>& ids, const std::set<Photo::Field>& fields)
+void PhotoDeltaFetcher::fetchIds(const std::vector<Photo::Id>& ids, const std::set<Photo::Field>& fields)
 {
     m_callbackCtrl.invalidate();        // new query, drop any pending tasks
 
@@ -42,7 +41,7 @@ void IdToDataConverter::fetchIds(const std::vector<Photo::Id>& ids, const std::s
 }
 
 
-void IdToDataConverter::storePhotoData(const std::vector<Photo::DataDelta>& data)
+void PhotoDeltaFetcher::storePhotoData(const std::vector<Photo::DataDelta>& data)
 {
     emit photoDataDeltaFetched(data);
 }
