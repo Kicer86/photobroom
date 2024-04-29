@@ -42,7 +42,6 @@ namespace Database
             bool addPhotos(std::vector<Photo::DataDelta>& photos) override;
             bool update(const std::vector<Photo::DataDelta> &) override;
             std::vector<TagValue> listTagValues(const Tag::Types &, const Filter &) override;
-            Photo::Data getPhoto(const Photo::Id &) override;
             Photo::DataDelta getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> &) override;
             int getPhotosCount(const Filter &) override;
             void set(const Photo::Id& id, const QString& name, int value) override;
@@ -99,7 +98,7 @@ namespace Database
             static Person::Id getIdFor(const PersonName& pn);
             static PersonInfo::Id getIdFor(const PersonInfo& pn);
 
-            void onPhotos(std::vector<Photo::Data> &, const Action &) const;
+            void onPhotos(std::vector<Photo::DataDelta> &, const Action &) const;
 
             typedef std::map<QString, int> Flags;
             typedef std::pair<Photo::Id, Group::Type> GroupData;

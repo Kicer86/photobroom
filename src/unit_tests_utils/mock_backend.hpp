@@ -20,7 +20,6 @@ struct MockBackend: public Database::IBackend
   MOCK_METHOD(bool, update, (const std::vector<Photo::DataDelta> &), (override));
 
   MOCK_METHOD(std::vector<TagValue>, listTagValues, (const Tag::Types &, const Database::Filter &), (override));
-  MOCK_METHOD(Photo::Data, getPhoto, (const Photo::Id &), (override));
   MOCK_METHOD(Photo::DataDelta, getPhotoDelta, (const Photo::Id &, const std::set<Photo::Field> &), (override));
   MOCK_METHOD(int, getPhotosCount, (const Database::Filter &), (override));
   MOCK_METHOD(void, set, (const Photo::Id &, const QString &, int value), (override));
