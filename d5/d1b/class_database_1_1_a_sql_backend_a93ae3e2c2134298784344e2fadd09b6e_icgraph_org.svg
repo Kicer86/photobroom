@@ -132,39 +132,39 @@
 </a>
 </g>
 </g>
-<!-- Node20 -->
-<g id="Node000020" class="node">
-<title>Node20</title>
-<g id="a_Node000020"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" target="_top" xlink:title="add tag to photo">
+<!-- Node19 -->
+<g id="Node000019" class="node">
+<title>Node19</title>
+<g id="a_Node000019"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" target="_top" xlink:title="add tag to photo">
 <polygon fill="#fff0f0" stroke="red" points="126.25,-79.5 5.25,-79.5 5.25,-49 126.25,-49 126.25,-79.5"/>
 <text text-anchor="start" x="13.25" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
 <text text-anchor="middle" x="65.75" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::store</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node20 -->
-<g id="edge7_Node000001_Node000020" class="edge">
-<title>Node1&#45;&gt;Node20</title>
-<g id="a_edge7_Node000001_Node000020"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node19 -->
+<g id="edge7_Node000001_Node000019" class="edge">
+<title>Node1&#45;&gt;Node19</title>
+<g id="a_edge7_Node000001_Node000019"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M213.72,-161.92C194.28,-140.41 163.51,-109.41 131.5,-89.25 125.99,-85.78 119.93,-82.67 113.79,-79.91"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="211.07,-164.21 220.32,-169.37 216.31,-159.56 211.07,-164.21"/>
 </a>
 </g>
 </g>
-<!-- Node22 -->
-<g id="Node000022" class="node">
-<title>Node22</title>
-<g id="a_Node000022"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" target="_top" xlink:title="insert data to database or upgrade existing entries.">
+<!-- Node21 -->
+<g id="Node000021" class="node">
+<title>Node21</title>
+<g id="a_Node000021"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" target="_top" xlink:title="insert data to database or upgrade existing entries.">
 <polygon fill="#fff0f0" stroke="red" points="126.25,-30.5 5.25,-30.5 5.25,0 126.25,0 126.25,-30.5"/>
 <text text-anchor="start" x="13.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
 <text text-anchor="middle" x="65.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::updateOrInsert</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node22 -->
-<g id="edge8_Node000001_Node000022" class="edge">
-<title>Node1&#45;&gt;Node22</title>
-<g id="a_edge8_Node000001_Node000022"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node21 -->
+<g id="edge8_Node000001_Node000021" class="edge">
+<title>Node1&#45;&gt;Node21</title>
+<g id="a_edge8_Node000001_Node000021"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M222.5,-160.79C206.12,-128.58 173.91,-73.33 131.5,-40.25 126.94,-36.69 121.81,-33.59 116.49,-30.9"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="219.19,-162 226.76,-169.41 225.46,-158.89 219.19,-162"/>
 </a>

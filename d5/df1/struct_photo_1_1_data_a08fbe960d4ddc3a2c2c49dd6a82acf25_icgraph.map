@@ -1,9 +1,0 @@
-<map id="Photo::Data::apply" name="Photo::Data::apply">
-<area shape="rect" id="Node000001" title=" " alt="" coords="233,78,357,104"/>
-<area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#ae9f3134491cdfdfc696ab178ace218f1" title="get particular photo" alt="" coords="5,5,185,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="238,75,159,49,160,44,240,70"/>
-<area shape="rect" id="Node000006" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a93d6664d9c92ca8a176d01c941ea149a" title="get particular photo" alt="" coords="14,71,176,111"/>
-<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="217,94,176,94,176,88,217,88"/>
-<area shape="rect" id="Node000007" href="$d6/dc3/data__delta__tests_8cpp.html#aa7cd8c97026be456e7cd0013cb585821" title=" " alt="" coords="68,136,122,161"/>
-<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="234,111,185,126,123,143,122,138,184,120,233,106"/>
-</map>

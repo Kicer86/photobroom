@@ -13,45 +13,45 @@
 <area shape="poly" id="edge22_Node000001_Node000007" title=" " alt="" coords="960,674,953,595,945,546,933,494,915,441,892,390,861,343,822,303,800,294,759,284,642,266,381,241,382,235,642,261,760,279,802,288,825,299,865,340,896,387,920,439,938,492,951,545,959,594,965,673"/>
 <area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a9fa3a0d6b981521fe6d75b116da62fed" title="check if" alt="" coords="650,313,812,354"/>
 <area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="956,674,942,609,918,527,900,484,879,442,853,403,822,368,805,356,808,352,825,365,857,400,883,440,905,482,923,526,948,608,961,673"/>
-<area shape="rect" id="Node000016" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8c3289f1a2a5c783309eb9bd1db939e4" title="Execute query." alt="" coords="650,378,812,419"/>
-<area shape="poly" id="edge12_Node000001_Node000016" title=" " alt="" coords="952,675,935,622,909,557,871,491,848,461,822,434,804,422,807,417,825,430,852,457,876,488,914,555,940,620,957,673"/>
-<area shape="rect" id="Node000017" href="$d3/d47/class_database_1_1_sql_query_executor.html#ac5b00c0e23fdcd229dbe880e771fdd1f" title=" " alt="" coords="638,444,824,484"/>
-<area shape="poly" id="edge13_Node000001_Node000017" title=" " alt="" coords="947,676,927,635,899,587,864,539,822,498,804,487,807,482,825,494,868,536,904,584,932,632,951,673"/>
-<area shape="rect" id="Node000018" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a41e84695cdf694bf0cba52495164997c" title="get flag value" alt="" coords="638,508,824,534"/>
-<area shape="poly" id="edge15_Node000001_Node000018" title=" " alt="" coords="941,677,892,611,859,577,822,549,798,537,800,532,825,544,863,574,896,608,945,674"/>
-<area shape="rect" id="Node000021" href="$d5/d1b/class_database_1_1_a_sql_backend.html#abcf031def9563be78611d22e14e94f6f" title="read flags for photo" alt="" coords="650,558,812,599"/>
-<area shape="poly" id="edge16_Node000001_Node000021" title=" " alt="" coords="924,681,877,647,822,614,795,602,797,597,825,609,880,643,927,677"/>
-<area shape="rect" id="Node000022" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ac3dff9d69e5311d8e5ac7090c42225f5" title="read photo&#39;s geometry" alt="" coords="650,624,812,664"/>
-<area shape="poly" id="edge17_Node000001_Node000022" title=" " alt="" coords="874,687,806,667,807,662,876,682"/>
-<area shape="rect" id="Node000023" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8f9836cdac088f4b01cd62b51926a2a0" title="read details about group" alt="" coords="650,689,812,730"/>
-<area shape="poly" id="edge18_Node000001_Node000023" title=" " alt="" coords="856,712,812,712,812,707,856,707"/>
-<area shape="rect" id="Node000024" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad882d8655cd694ff0ba4967c30f36fcf" title="read photo path" alt="" coords="650,754,812,795"/>
-<area shape="poly" id="edge19_Node000001_Node000024" title=" " alt="" coords="876,737,807,756,806,751,874,732"/>
-<area shape="rect" id="Node000025" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a836670f22b3282242eaefb1db2c53fe5" title="Count photos matching filter." alt="" coords="650,820,812,860"/>
-<area shape="poly" id="edge20_Node000001_Node000025" title=" " alt="" coords="927,742,880,776,825,809,797,821,795,817,822,804,877,771,924,737"/>
-<area shape="rect" id="Node000026" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adcb6eb7ac6bcd49815d7b7e0f670c602" title="get all tags assigned to photo" alt="" coords="650,885,812,926"/>
-<area shape="poly" id="edge21_Node000001_Node000026" title=" " alt="" coords="944,744,895,809,862,844,825,874,803,887,800,882,822,870,858,840,891,806,940,741"/>
-<area shape="rect" id="Node000012" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="650,950,812,991"/>
-<area shape="poly" id="edge23_Node000001_Node000012" title=" " alt="" coords="953,745,934,789,906,841,870,893,825,939,806,952,803,947,822,935,866,890,901,838,929,787,948,743"/>
-<area shape="rect" id="Node000027" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb" title="list all values of tag for photos matching provided filter" alt="" coords="650,1016,812,1056"/>
-<area shape="poly" id="edge24_Node000001_Node000027" title=" " alt="" coords="958,745,942,801,916,871,878,942,853,975,825,1005,808,1017,805,1013,822,1000,849,972,873,939,911,868,937,800,953,744"/>
-<area shape="rect" id="Node000028" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e3356b06cf60068593e13c0997b85e6" title="mark all staged photos as reviewed." alt="" coords="646,1081,816,1122"/>
-<area shape="poly" id="edge25_Node000001_Node000028" title=" " alt="" coords="962,745,949,813,925,900,907,945,885,990,858,1032,825,1070,809,1083,805,1078,822,1066,854,1029,880,988,902,943,920,898,944,812,956,744"/>
-<area shape="rect" id="Node000029" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e" title=" " alt="" coords="650,1146,812,1187"/>
-<area shape="poly" id="edge26_Node000001_Node000029" title=" " alt="" coords="964,745,955,824,934,928,916,983,892,1038,863,1089,826,1135,809,1148,806,1144,822,1131,858,1086,888,1036,911,982,928,927,950,823,959,745"/>
-<area shape="rect" id="Node000031" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a3cb7010e9d0d5859441a34dc48ab0255" title="Read blob of type bt associated with photo id." alt="" coords="650,1212,812,1252"/>
-<area shape="poly" id="edge27_Node000001_Node000031" title=" " alt="" coords="966,745,961,835,954,893,942,956,924,1021,900,1085,867,1146,826,1200,810,1213,807,1209,822,1197,863,1143,895,1083,919,1019,936,955,948,892,956,834,961,745"/>
-<area shape="rect" id="Node000032" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="650,1326,812,1367"/>
-<area shape="poly" id="edge28_Node000001_Node000032" title=" " alt="" coords="962,746,945,870,916,1038,898,1123,876,1200,852,1264,826,1310,804,1328,800,1324,822,1306,848,1262,871,1199,893,1121,911,1037,940,869,956,745"/>
-<area shape="rect" id="Node000033" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a21c7b6005ea9c9e59adc7166f978111b" title="store photo&#39;s tags in database" alt="" coords="429,1297,590,1338"/>
-<area shape="poly" id="edge30_Node000001_Node000033" title=" " alt="" coords="962,745,946,863,918,1020,900,1098,878,1169,854,1227,826,1266,809,1277,786,1286,726,1301,657,1310,591,1316,590,1311,656,1305,725,1295,784,1281,806,1272,822,1262,849,1224,873,1167,895,1097,913,1019,941,863,956,745"/>
-<area shape="rect" id="Node000035" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="650,1392,812,1432"/>
-<area shape="poly" id="edge31_Node000001_Node000035" title=" " alt="" coords="963,745,949,883,922,1072,904,1168,882,1257,856,1329,841,1358,826,1380,811,1393,807,1389,822,1377,837,1355,851,1327,876,1255,898,1167,917,1071,943,882,957,744"/>
+<area shape="rect" id="Node000015" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8c3289f1a2a5c783309eb9bd1db939e4" title="Execute query." alt="" coords="650,378,812,419"/>
+<area shape="poly" id="edge12_Node000001_Node000015" title=" " alt="" coords="952,675,935,622,909,557,871,491,848,461,822,434,804,422,807,417,825,430,852,457,876,488,914,555,940,620,957,673"/>
+<area shape="rect" id="Node000016" href="$d3/d47/class_database_1_1_sql_query_executor.html#ac5b00c0e23fdcd229dbe880e771fdd1f" title=" " alt="" coords="638,444,824,484"/>
+<area shape="poly" id="edge13_Node000001_Node000016" title=" " alt="" coords="947,676,927,635,899,587,864,539,822,498,804,487,807,482,825,494,868,536,904,584,932,632,951,673"/>
+<area shape="rect" id="Node000017" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a41e84695cdf694bf0cba52495164997c" title="get flag value" alt="" coords="638,508,824,534"/>
+<area shape="poly" id="edge15_Node000001_Node000017" title=" " alt="" coords="941,677,892,611,859,577,822,549,798,537,800,532,825,544,863,574,896,608,945,674"/>
+<area shape="rect" id="Node000020" href="$d5/d1b/class_database_1_1_a_sql_backend.html#abcf031def9563be78611d22e14e94f6f" title="read flags for photo" alt="" coords="650,558,812,599"/>
+<area shape="poly" id="edge16_Node000001_Node000020" title=" " alt="" coords="924,681,877,647,822,614,795,602,797,597,825,609,880,643,927,677"/>
+<area shape="rect" id="Node000021" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ac3dff9d69e5311d8e5ac7090c42225f5" title="read photo&#39;s geometry" alt="" coords="650,624,812,664"/>
+<area shape="poly" id="edge17_Node000001_Node000021" title=" " alt="" coords="874,687,806,667,807,662,876,682"/>
+<area shape="rect" id="Node000022" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8f9836cdac088f4b01cd62b51926a2a0" title="read details about group" alt="" coords="650,689,812,730"/>
+<area shape="poly" id="edge18_Node000001_Node000022" title=" " alt="" coords="856,712,812,712,812,707,856,707"/>
+<area shape="rect" id="Node000023" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ad882d8655cd694ff0ba4967c30f36fcf" title="read photo path" alt="" coords="650,754,812,795"/>
+<area shape="poly" id="edge19_Node000001_Node000023" title=" " alt="" coords="876,737,807,756,806,751,874,732"/>
+<area shape="rect" id="Node000024" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a836670f22b3282242eaefb1db2c53fe5" title="Count photos matching filter." alt="" coords="650,820,812,860"/>
+<area shape="poly" id="edge20_Node000001_Node000024" title=" " alt="" coords="927,742,880,776,825,809,797,821,795,817,822,804,877,771,924,737"/>
+<area shape="rect" id="Node000025" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adcb6eb7ac6bcd49815d7b7e0f670c602" title="get all tags assigned to photo" alt="" coords="650,885,812,926"/>
+<area shape="poly" id="edge21_Node000001_Node000025" title=" " alt="" coords="944,744,895,809,862,844,825,874,803,887,800,882,822,870,858,840,891,806,940,741"/>
+<area shape="rect" id="Node000011" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="650,950,812,991"/>
+<area shape="poly" id="edge23_Node000001_Node000011" title=" " alt="" coords="953,745,934,789,906,841,870,893,825,939,806,952,803,947,822,935,866,890,901,838,929,787,948,743"/>
+<area shape="rect" id="Node000026" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb" title="list all values of tag for photos matching provided filter" alt="" coords="650,1016,812,1056"/>
+<area shape="poly" id="edge24_Node000001_Node000026" title=" " alt="" coords="958,745,942,801,916,871,878,942,853,975,825,1005,808,1017,805,1013,822,1000,849,972,873,939,911,868,937,800,953,744"/>
+<area shape="rect" id="Node000027" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e3356b06cf60068593e13c0997b85e6" title="mark all staged photos as reviewed." alt="" coords="646,1081,816,1122"/>
+<area shape="poly" id="edge25_Node000001_Node000027" title=" " alt="" coords="962,745,949,813,925,900,907,945,885,990,858,1032,825,1070,809,1083,805,1078,822,1066,854,1029,880,988,902,943,920,898,944,812,956,744"/>
+<area shape="rect" id="Node000028" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e" title=" " alt="" coords="650,1146,812,1187"/>
+<area shape="poly" id="edge26_Node000001_Node000028" title=" " alt="" coords="964,745,955,824,934,928,916,983,892,1038,863,1089,826,1135,809,1148,806,1144,822,1131,858,1086,888,1036,911,982,928,927,950,823,959,745"/>
+<area shape="rect" id="Node000030" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a3cb7010e9d0d5859441a34dc48ab0255" title="Read blob of type bt associated with photo id." alt="" coords="650,1212,812,1252"/>
+<area shape="poly" id="edge27_Node000001_Node000030" title=" " alt="" coords="966,745,961,835,954,893,942,956,924,1021,900,1085,867,1146,826,1200,810,1213,807,1209,822,1197,863,1143,895,1083,919,1019,936,955,948,892,956,834,961,745"/>
+<area shape="rect" id="Node000031" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="650,1326,812,1367"/>
+<area shape="poly" id="edge28_Node000001_Node000031" title=" " alt="" coords="962,746,945,870,916,1038,898,1123,876,1200,852,1264,826,1310,804,1328,800,1324,822,1306,848,1262,871,1199,893,1121,911,1037,940,869,956,745"/>
+<area shape="rect" id="Node000032" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a21c7b6005ea9c9e59adc7166f978111b" title="store photo&#39;s tags in database" alt="" coords="429,1297,590,1338"/>
+<area shape="poly" id="edge30_Node000001_Node000032" title=" " alt="" coords="962,745,946,863,918,1020,900,1098,878,1169,854,1227,826,1266,809,1277,786,1286,726,1301,657,1310,591,1316,590,1311,656,1305,725,1295,784,1281,806,1272,822,1262,849,1224,873,1167,895,1097,913,1019,941,863,956,745"/>
+<area shape="rect" id="Node000034" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="650,1392,812,1432"/>
+<area shape="poly" id="edge31_Node000001_Node000034" title=" " alt="" coords="963,745,949,883,922,1072,904,1168,882,1257,856,1329,841,1358,826,1380,811,1393,807,1389,822,1377,837,1355,851,1327,876,1255,898,1167,917,1071,943,882,957,744"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="202,133,168,138,167,133,201,128"/>
 <area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="635,202,590,193,591,188,636,197"/>
 <area shape="poly" id="edge6_Node000006_Node000002" title=" " alt="" coords="417,152,375,141,376,136,418,147"/>
 <area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="414,171,167,154,167,149,414,166"/>
 <area shape="poly" id="edge8_Node000006_Node000007" title=" " alt="" coords="418,202,376,213,375,208,417,197"/>
 <area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="230,208,138,170,140,165,232,203"/>
-<area shape="poly" id="edge29_Node000032_Node000033" title=" " alt="" coords="635,1336,591,1331,591,1325,635,1331"/>
+<area shape="poly" id="edge29_Node000031_Node000032" title=" " alt="" coords="635,1336,591,1331,591,1325,635,1331"/>
 </map>

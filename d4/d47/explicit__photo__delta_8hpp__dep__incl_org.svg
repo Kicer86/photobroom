@@ -151,39 +151,39 @@
 </a>
 </g>
 </g>
-<!-- Node54 -->
-<g id="Node000054" class="node">
-<title>Node54</title>
-<g id="a_Node000054"><a xlink:href="../../df/d86/photo__properties__model_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node55 -->
+<g id="Node000055" class="node">
+<title>Node55</title>
+<g id="a_Node000055"><a xlink:href="../../df/d86/photo__properties__model_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="1122.62,-36.12 982.12,-36.12 982.12,-5.62 1122.62,-5.62 1122.62,-36.12"/>
 <text text-anchor="start" x="990.12" y="-22.62" font-family="Helvetica,sans-Serif" font-size="10.00">src/gui/desktop/models</text>
 <text text-anchor="middle" x="1052.38" y="-11.38" font-family="Helvetica,sans-Serif" font-size="10.00">/photo_properties_model.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node54 -->
-<g id="edge8_Node000001_Node000054" class="edge">
-<title>Node1&#45;&gt;Node54</title>
-<g id="a_edge8_Node000001_Node000054"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node55 -->
+<g id="edge8_Node000001_Node000055" class="edge">
+<title>Node1&#45;&gt;Node55</title>
+<g id="a_edge8_Node000001_Node000055"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M831.43,-76.5C872.11,-66.63 925.85,-53.52 973.38,-41.75 980.1,-40.08 987.15,-38.33 994.14,-36.58"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="830.69,-73.08 821.79,-78.84 832.34,-79.88 830.69,-73.08"/>
 </a>
 </g>
 </g>
-<!-- Node58 -->
-<g id="Node000058" class="node">
-<title>Node58</title>
-<g id="a_Node000058"><a xlink:href="../../d8/de4/context__menu__manager_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node59 -->
+<g id="Node000059" class="node">
+<title>Node59</title>
+<g id="a_Node000059"><a xlink:href="../../d8/de4/context__menu__manager_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="1310.25,-36.12 1140.5,-36.12 1140.5,-5.62 1310.25,-5.62 1310.25,-36.12"/>
 <text text-anchor="start" x="1148.5" y="-22.62" font-family="Helvetica,sans-Serif" font-size="10.00">src/gui/desktop/quick</text>
 <text text-anchor="middle" x="1225.38" y="-11.38" font-family="Helvetica,sans-Serif" font-size="10.00">_items/context_menu_manager.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node58 -->
-<g id="edge9_Node000001_Node000058" class="edge">
-<title>Node1&#45;&gt;Node58</title>
-<g id="a_edge9_Node000001_Node000058"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node59 -->
+<g id="edge9_Node000001_Node000059" class="edge">
+<title>Node1&#45;&gt;Node59</title>
+<g id="a_edge9_Node000001_Node000059"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M831.57,-84.54C904.46,-75.75 1026.83,-59.99 1131.38,-41.75 1140.25,-40.2 1149.56,-38.42 1158.73,-36.58"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="831.32,-81.05 821.81,-85.71 832.15,-88 831.32,-81.05"/>
 </a>

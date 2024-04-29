@@ -30,10 +30,10 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#ae9f3134491cdfdfc696ab178ace218f1" target="_top" xlink:title="get particular photo">
+<g id="a_Node000002"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#ab37722297b03e09bee4eed0ce7e5cff8" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="305,-79.5 170.5,-79.5 170.5,-49 305,-49 305,-79.5"/>
 <text text-anchor="start" x="178.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::MemoryBackend</text>
-<text text-anchor="middle" x="237.75" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhoto</text>
+<text text-anchor="middle" x="237.75" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhotoDelta</text>
 </a>
 </g>
 </g>
@@ -46,20 +46,20 @@
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="Node000007" class="node">
-<title>Node7</title>
-<g id="a_Node000007"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#a5add72bb5517a444c7df2b5130aacf54" target="_top" xlink:title="find all photos matching filters">
+<!-- Node5 -->
+<g id="Node000005" class="node">
+<title>Node5</title>
+<g id="a_Node000005"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#a5add72bb5517a444c7df2b5130aacf54" target="_top" xlink:title="find all photos matching filters">
 <polygon fill="white" stroke="#666666" points="305,-30.5 170.5,-30.5 170.5,0 305,0 305,-30.5"/>
 <text text-anchor="start" x="178.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::MemoryBackend</text>
 <text text-anchor="middle" x="237.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhotos</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge2_Node000001_Node000007" class="edge">
-<title>Node1&#45;&gt;Node7</title>
-<g id="a_edge2_Node000001_Node000007"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node5 -->
+<g id="edge2_Node000001_Node000005" class="edge">
+<title>Node1&#45;&gt;Node5</title>
+<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M134.85,-29.76C142.72,-28.64 150.82,-27.49 158.83,-26.35"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="159.18,-29.83 168.59,-24.96 158.19,-22.9 159.18,-29.83"/>
 </a>

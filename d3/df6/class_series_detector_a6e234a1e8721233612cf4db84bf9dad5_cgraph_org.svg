@@ -38,8 +38,8 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="../../d4/d50/namespace_photo.html#ac4904ce3f8b7ddbe6bf54e26ad366521" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="298.62,-130.25 218.88,-130.25 218.88,-111 298.62,-111 298.62,-130.25"/>
+<g id="a_Node000003"><a xlink:href="../../d4/d50/namespace_photo.html#a4f56c419b3674bafac3f5c360192b1e8" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="298.62,-130.25 218.88,-130.25 218.88,-111 298.62,-111 298.62,-130.25"/>
 <text text-anchor="middle" x="258.75" y="-116.75" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::getPath</text>
 </a>
 </g>
@@ -53,55 +53,55 @@
 </a>
 </g>
 </g>
-<!-- Node4 -->
-<g id="Node000004" class="node">
-<title>Node4</title>
-<g id="a_Node000004"><a xlink:href="../../d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" target="_top" xlink:title=" ">
+<!-- Node5 -->
+<g id="Node000005" class="node">
+<title>Node5</title>
+<g id="a_Node000005"><a xlink:href="../../d6/ddb/namespace_media_types.html#ae77c92c4d8be4dda4c9f016ce6bd791a" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="320.38,-93.25 197.12,-93.25 197.12,-74 320.38,-74 320.38,-93.25"/>
 <text text-anchor="middle" x="258.75" y="-79.75" font-family="Helvetica,sans-Serif" font-size="10.00">MediaTypes::isImageFile</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node4 -->
-<g id="edge3_Node000001_Node000004" class="edge">
-<title>Node1&#45;&gt;Node4</title>
-<g id="a_edge3_Node000001_Node000004"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node5 -->
+<g id="edge3_Node000001_Node000005" class="edge">
+<title>Node1&#45;&gt;Node5</title>
+<g id="a_edge3_Node000001_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M148.28,-83.62C160.47,-83.62 173.11,-83.62 185.28,-83.62"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="185.26,-87.13 195.26,-83.63 185.26,-80.13 185.26,-87.13"/>
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="Node000005" class="node">
-<title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../d3/df6/class_series_detector.html#af571b628d1f9df8742bc7747af817cd6" target="_top" xlink:title=" ">
+<!-- Node6 -->
+<g id="Node000006" class="node">
+<title>Node6</title>
+<g id="a_Node000006"><a xlink:href="../../d3/df6/class_series_detector.html#af571b628d1f9df8742bc7747af817cd6" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="333.5,-56.25 184,-56.25 184,-37 333.5,-37 333.5,-56.25"/>
 <text text-anchor="middle" x="258.75" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">SeriesDetector::removeSingles</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge4_Node000001_Node000005" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<g id="a_edge4_Node000001_Node000005"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node6 -->
+<g id="edge4_Node000001_Node000006" class="edge">
+<title>Node1&#45;&gt;Node6</title>
+<g id="a_edge4_Node000001_Node000006"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M124.94,-73.51C147.1,-69.03 173.38,-63.71 196.7,-58.99"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="197.28,-62.44 206.39,-57.02 195.89,-55.58 197.28,-62.44"/>
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="Node000007" class="node">
-<title>Node7</title>
-<g id="a_Node000007"><a xlink:href="../../df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643" target="_top" xlink:title=" ">
+<!-- Node8 -->
+<g id="Node000008" class="node">
+<title>Node8</title>
+<g id="a_Node000008"><a xlink:href="../../df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="308.38,-19.25 209.12,-19.25 209.12,0 308.38,0 308.38,-19.25"/>
 <text text-anchor="middle" x="258.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">ILogger::subLogger</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge5_Node000001_Node000007" class="edge">
-<title>Node1&#45;&gt;Node7</title>
-<g id="a_edge5_Node000001_Node000007"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node8 -->
+<g id="edge5_Node000001_Node000008" class="edge">
+<title>Node1&#45;&gt;Node8</title>
+<g id="a_edge5_Node000001_Node000008"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M91.43,-73.62C112.3,-61.3 149.71,-40.41 184,-27.62 188.64,-25.89 193.51,-24.28 198.44,-22.8"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="199.13,-26.24 207.8,-20.15 197.22,-19.5 199.13,-26.24"/>
 </a>

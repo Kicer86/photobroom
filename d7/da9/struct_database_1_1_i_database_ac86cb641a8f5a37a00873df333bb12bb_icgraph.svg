@@ -105,9 +105,9 @@ var sectionId = 'dynsection-4';
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="../../df/d55/class_id_to_data_converter.html#aa417b3a4822c66fef649e76b57ec8c27" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="133,-878.5 30.75,-878.5 30.75,-848 133,-848 133,-878.5"/>
-<text text-anchor="start" x="38.75" y="-865" font-family="Helvetica,sans-Serif" font-size="10.00">IdToDataConverter::</text>
+<g id="a_Node000004"><a xlink:href="../../d9/d95/class_photo_delta_fetcher.html#a14b13b1a4f59b82ebac67de36bd160f4" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="132.62,-878.5 31.12,-878.5 31.12,-848 132.62,-848 132.62,-878.5"/>
+<text text-anchor="start" x="39.12" y="-865" font-family="Helvetica,sans-Serif" font-size="10.00">PhotoDeltaFetcher::</text>
 <text text-anchor="middle" x="81.88" y="-853.75" font-family="Helvetica,sans-Serif" font-size="10.00">fetchIds</text>
 </a>
 </g>
@@ -116,7 +116,7 @@ var sectionId = 'dynsection-4';
 <g id="edge3_Node000001_Node000004" class="edge">
 <title>Node1&#45;&gt;Node4</title>
 <g id="a_edge3_Node000001_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M248.83,-497.04C240.01,-573.27 211.26,-789.08 163.75,-839.25 155.59,-847.86 144.5,-853.43 133.15,-857.01"/>
+<path fill="none" stroke="#63b8ff" d="M248.83,-497.04C240.01,-573.27 211.26,-789.08 163.75,-839.25 155.49,-847.97 144.23,-853.57 132.73,-857.14"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="252.3,-497.5 249.95,-487.17 245.35,-496.71 252.3,-497.5"/>
 </a>
 </g>

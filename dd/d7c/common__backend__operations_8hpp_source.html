@@ -92,13 +92,13 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span>{</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>    <span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">requires</span> std::input_iterator&lt;T&gt; &amp;&amp; std::is_same_v&lt;typename T::value_type, Photo::Id&gt;</div>
 <div class="foldopen" id="foldopen00011" data-start="{" data-end="}">
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../d0/d76/namespace_database.html#a602ea90a84cc50ef96721e531a788d08">   11</a></span>    std::vector&lt;Photo::Data&gt; <a class="code hl_function" href="../../d0/d76/namespace_database.html#a602ea90a84cc50ef96721e531a788d08">fetchPhotoData</a>(<a class="code hl_struct" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a>&amp; backend, T first, T last)</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../d0/d76/namespace_database.html#a479c4f90cf4a75943214f51a61633fa1">   11</a></span>    std::vector&lt;Photo::DataDelta&gt; <a class="code hl_function" href="../../d0/d76/namespace_database.html#a479c4f90cf4a75943214f51a61633fa1">fetchPhotoData</a>(<a class="code hl_struct" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a>&amp; backend, T first, T last)</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        std::vector&lt;Photo::Data&gt; data;</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        std::vector&lt;Photo::DataDelta&gt; data;</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        data.reserve(std::distance(first, last));</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">for</span>(; first != last; ++first)</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            data.push_back(backend.<a class="code hl_function" href="../../d2/ddd/struct_database_1_1_i_backend.html#a42a4220df0a0e8f90b93249e5dbb905d">getPhoto</a>(*first));</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            data.push_back(backend.<a class="code hl_function" href="../../d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523">getPhotoDelta</a>(*first));</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">return</span> data;</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
@@ -108,13 +108,13 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aibackend_8hpp_html"><div class="ttname"><a href="../../da/d2a/ibackend_8hpp.html">ibackend.hpp</a></div></div>
 <div class="ttc" id="anamespace_database_html"><div class="ttname"><a href="../../d0/d76/namespace_database.html">Database</a></div><div class="ttdef"><b>Definition</b> actions.hpp:10</div></div>
-<div class="ttc" id="anamespace_database_html_a602ea90a84cc50ef96721e531a788d08"><div class="ttname"><a href="../../d0/d76/namespace_database.html#a602ea90a84cc50ef96721e531a788d08">Database::fetchPhotoData</a></div><div class="ttdeci">std::vector&lt; Photo::Data &gt; fetchPhotoData(Database::IBackend &amp;backend, T first, T last)</div><div class="ttdef"><b>Definition</b> common_backend_operations.hpp:11</div></div>
+<div class="ttc" id="anamespace_database_html_a479c4f90cf4a75943214f51a61633fa1"><div class="ttname"><a href="../../d0/d76/namespace_database.html#a479c4f90cf4a75943214f51a61633fa1">Database::fetchPhotoData</a></div><div class="ttdeci">std::vector&lt; Photo::DataDelta &gt; fetchPhotoData(Database::IBackend &amp;backend, T first, T last)</div><div class="ttdef"><b>Definition</b> common_backend_operations.hpp:11</div></div>
 <div class="ttc" id="astruct_database_1_1_i_backend_html"><div class="ttname"><a href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a></div><div class="ttdoc">Low level database interface.</div><div class="ttdef"><b>Definition</b> ibackend.hpp:92</div></div>
-<div class="ttc" id="astruct_database_1_1_i_backend_html_a42a4220df0a0e8f90b93249e5dbb905d"><div class="ttname"><a href="../../d2/ddd/struct_database_1_1_i_backend.html#a42a4220df0a0e8f90b93249e5dbb905d">Database::IBackend::getPhoto</a></div><div class="ttdeci">virtual Photo::Data getPhoto(const Photo::Id &amp;)=0</div><div class="ttdoc">get particular photo</div></div>
+<div class="ttc" id="astruct_database_1_1_i_backend_html_a439e4f41fce9b9d813000bbcb4c59523"><div class="ttname"><a href="../../d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523">Database::IBackend::getPhotoDelta</a></div><div class="ttdeci">virtual Photo::DataDelta getPhotoDelta(const Photo::Id &amp;, const std::set&lt; Photo::Field &gt; &amp;={})=0</div><div class="ttdoc">get particular photo</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 27 2024 11:14:43 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Apr 29 2024 20:59:35 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

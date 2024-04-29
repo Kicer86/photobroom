@@ -1,6 +1,6 @@
 <map id="Database::MemoryBackend::update" name="Database::MemoryBackend::update">
 <area shape="rect" id="Node000001" title="update photos details" alt="" coords="5,104,185,145"/>
-<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title=" " alt="" coords="257,5,395,46"/>
+<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title="get particular photo" alt="" coords="257,5,395,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,101,232,57,249,49,251,54,234,61,138,106"/>
 <area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html#a9a4c01c32827fd52e6491b096165fe1d" title="begin transaction" alt="" coords="236,71,416,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,109,221,103,221,109,186,114"/>

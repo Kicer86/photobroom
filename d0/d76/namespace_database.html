@@ -275,10 +275,10 @@ Functions</h2></td></tr>
 <tr class="separator:afefdec1a6f100f2a8b794a8e264f04de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a704f892ae2492e80827433911d9fd9bb" id="r_a704f892ae2492e80827433911d9fd9bb"><td class="memItemLeft" align="right" valign="top">QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a704f892ae2492e80827433911d9fd9bb">convert</a> (const <a class="el" href="../../d4/df7/class_database_1_1_insert_query_data.html#abec99e2e29a6108b371843bd65f5a000">InsertQueryData::Value</a> &amp;v)</td></tr>
 <tr class="separator:a704f892ae2492e80827433911d9fd9bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a602ea90a84cc50ef96721e531a788d08" id="r_a602ea90a84cc50ef96721e531a788d08"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; <br />
+<tr class="memitem:a479c4f90cf4a75943214f51a61633fa1" id="r_a479c4f90cf4a75943214f51a61633fa1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; <br />
 requires std::input_iterator&lt;T&gt; &amp;&amp; std::is_same_v&lt;typename T::value_type, <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>&gt;</td></tr>
-<tr class="memitem:a602ea90a84cc50ef96721e531a788d08"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a602ea90a84cc50ef96721e531a788d08">fetchPhotoData</a> (<a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a> &amp;backend, T first, T last)</td></tr>
-<tr class="separator:a602ea90a84cc50ef96721e531a788d08"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a479c4f90cf4a75943214f51a61633fa1"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a479c4f90cf4a75943214f51a61633fa1">fetchPhotoData</a> (<a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a> &amp;backend, T first, T last)</td></tr>
+<tr class="separator:a479c4f90cf4a75943214f51a61633fa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4ec02b4e9c6e42324e216f62f863a5c7" id="r_a4ec02b4e9c6e42324e216f62f863a5c7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> DATABASE_EXPORT&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d76/namespace_database.html#a4ec02b4e9c6e42324e216f62f863a5c7">getValidPhotosFilter</a> ()</td></tr>
 <tr class="memdesc:a4ec02b4e9c6e42324e216f62f863a5c7"><td class="mdescLeft">&#160;</td><td class="mdescRight">return filter which will filter out broken photos (missing, broken, deleted etc)  <br /></td></tr>
 <tr class="separator:a4ec02b4e9c6e42324e216f62f863a5c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -492,8 +492,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a602ea90a84cc50ef96721e531a788d08" name="a602ea90a84cc50ef96721e531a788d08"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a602ea90a84cc50ef96721e531a788d08">&#9670;&#160;</a></span>fetchPhotoData()</h2>
+<a id="a479c4f90cf4a75943214f51a61633fa1" name="a479c4f90cf4a75943214f51a61633fa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a479c4f90cf4a75943214f51a61633fa1">&#9670;&#160;</a></span>fetchPhotoData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -502,7 +502,7 @@ template&lt;typename T &gt; <br />
 requires std::input_iterator&lt;T&gt; &amp;&amp; std::is_same_v&lt;typename T::value_type, <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>&gt;</div>
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt; <a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a> &gt; Database::fetchPhotoData </td>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt; Database::fetchPhotoData </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a> &amp;&#160;</td>
           <td class="paramname"><em>backend</em>, </td>
@@ -529,7 +529,7 @@ requires std::input_iterator&lt;T&gt; &amp;&amp; std::is_same_v&lt;typename T::v
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_a602ea90a84cc50ef96721e531a788d08_cgraph.svg" width="368" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_a479c4f90cf4a75943214f51a61633fa1_cgraph.svg" width="368" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1157,7 +1157,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 27 2024 11:14:45 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Apr 29 2024 20:59:37 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

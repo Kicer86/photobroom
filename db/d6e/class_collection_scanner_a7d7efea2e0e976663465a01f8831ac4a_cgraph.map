@@ -6,7 +6,7 @@
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="91,241,108,210,134,169,170,126,212,91,225,83,228,88,215,95,173,130,139,172,112,212,96,243"/>
 <area shape="rect" id="Node000007" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="249,105,390,145"/>
 <area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="99,240,147,199,212,156,233,146,235,151,215,160,150,203,103,244"/>
-<area shape="rect" id="Node000010" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title=" " alt="" coords="251,170,388,211"/>
+<area shape="rect" id="Node000010" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title="get particular photo" alt="" coords="251,170,388,211"/>
 <area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="133,240,235,211,236,216,135,245"/>
 <area shape="rect" id="Node000011" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#af4cadc51c5fb475fc6acf0a78b23193a" title="find all photos matching filters" alt="" coords="234,235,405,276"/>
 <area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="166,253,218,253,218,258,166,258"/>

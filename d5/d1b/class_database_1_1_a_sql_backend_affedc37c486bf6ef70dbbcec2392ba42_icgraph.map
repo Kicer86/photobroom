@@ -1,9 +1,9 @@
 <map id="Database::ASqlBackend::peopleInformationAccessor" name="Database::ASqlBackend::peopleInformationAccessor">
 <area shape="rect" id="Node000001" title=" " alt="" coords="215,71,400,111"/>
-<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title=" " alt="" coords="5,5,167,46"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title="get particular photo" alt="" coords="5,5,167,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="221,68,157,49,158,44,223,63"/>
-<area shape="rect" id="Node000009" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a28fa86aa6d5c4c70277ae6d0d51d125b" title="get people details for given people ids" alt="" coords="5,71,167,111"/>
-<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="199,94,167,94,167,88,199,88"/>
-<area shape="rect" id="Node000010" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="5,136,167,177"/>
-<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="223,119,158,138,157,133,221,114"/>
+<area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a28fa86aa6d5c4c70277ae6d0d51d125b" title="get people details for given people ids" alt="" coords="5,71,167,111"/>
+<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="199,94,167,94,167,88,199,88"/>
+<area shape="rect" id="Node000009" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="5,136,167,177"/>
+<area shape="poly" id="edge3_Node000001_Node000009" title=" " alt="" coords="223,119,158,138,157,133,221,114"/>
 </map>

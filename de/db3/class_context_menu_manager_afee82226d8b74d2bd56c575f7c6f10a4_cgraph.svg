@@ -49,9 +49,9 @@
 <!-- Node3 -->
 <g id="Node000003" class="node">
 <title>Node3</title>
-<g id="a_Node000003"><a xlink:href="../../df/d55/class_id_to_data_converter.html#a0de72e2d9423853d2c6277055f7b6ffa" target="_top" xlink:title=" ">
+<g id="a_Node000003"><a xlink:href="../../d9/d95/class_photo_delta_fetcher.html#a894a55c80a8063f71ae1b16291db3d7b" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="264.5,-79.5 146.5,-79.5 146.5,-49 264.5,-49 264.5,-79.5"/>
-<text text-anchor="start" x="154.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">IdToDataConverter::</text>
+<text text-anchor="start" x="154.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">PhotoDeltaFetcher::</text>
 <text text-anchor="middle" x="205.5" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">photoDataDeltaFetched</text>
 </a>
 </g>

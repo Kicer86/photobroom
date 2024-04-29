@@ -2,8 +2,8 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="215,78,349,104"/>
 <area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adcb6eb7ac6bcd49815d7b7e0f670c602" title="get all tags assigned to photo" alt="" coords="5,5,167,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,75,148,49,150,44,227,70"/>
-<area shape="rect" id="Node000010" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb" title="list all values of tag for photos matching provided filter" alt="" coords="5,71,167,111"/>
-<area shape="poly" id="edge2_Node000001_Node000010" title=" " alt="" coords="199,94,167,94,167,88,199,88"/>
-<area shape="rect" id="Node000011" href="$d6/d20/tag__value__tests_8cpp.html#ac8d3bbe646f874b92387cb698b813369" title=" " alt="" coords="51,136,121,161"/>
-<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="222,111,122,141,121,136,220,106"/>
+<area shape="rect" id="Node000009" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb" title="list all values of tag for photos matching provided filter" alt="" coords="5,71,167,111"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="199,94,167,94,167,88,199,88"/>
+<area shape="rect" id="Node000010" href="$d6/d20/tag__value__tests_8cpp.html#ac8d3bbe646f874b92387cb698b813369" title=" " alt="" coords="51,136,121,161"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="222,111,122,141,121,136,220,106"/>
 </map>

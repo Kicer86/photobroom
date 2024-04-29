@@ -41,7 +41,7 @@
 <g id="Node000003" class="node">
 <title>Node3</title>
 <g id="a_Node000003"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#ab37722297b03e09bee4eed0ce7e5cff8" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="134.5,-30.5 0,-30.5 0,0 134.5,0 134.5,-30.5"/>
+<polygon fill="#fff0f0" stroke="red" points="134.5,-30.5 0,-30.5 0,0 134.5,0 134.5,-30.5"/>
 <text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::MemoryBackend</text>
 <text text-anchor="middle" x="67.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhotoDelta</text>
 </a>

@@ -170,10 +170,8 @@ Private Member Functions</h2></td></tr>
 <tr class="memitem:a378dcd419d61056d0fbdf57f969304cb" id="r_a378dcd419d61056d0fbdf57f969304cb"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../df/d7c/class_tag_value.html">TagValue</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb">listTagValues</a> (const <a class="el" href="../../da/dac/namespace_tag.html#aff207a07ada4bab29906bfbb4975a78b">Tag::Types</a> &amp;, const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) override final</td></tr>
 <tr class="memdesc:a378dcd419d61056d0fbdf57f969304cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">list all values of tag for photos matching provided filter  <br /></td></tr>
 <tr class="separator:a378dcd419d61056d0fbdf57f969304cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93d6664d9c92ca8a176d01c941ea149a" id="r_a93d6664d9c92ca8a176d01c941ea149a"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a93d6664d9c92ca8a176d01c941ea149a">getPhoto</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;) override final</td></tr>
-<tr class="memdesc:a93d6664d9c92ca8a176d01c941ea149a"><td class="mdescLeft">&#160;</td><td class="mdescRight">get particular photo  <br /></td></tr>
-<tr class="separator:a93d6664d9c92ca8a176d01c941ea149a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8e8f34e5b5f23ed598c300c572765ff7" id="r_a8e8f34e5b5f23ed598c300c572765ff7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7">getPhotoDelta</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;, const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;={}) override final</td></tr>
+<tr class="memdesc:a8e8f34e5b5f23ed598c300c572765ff7"><td class="mdescLeft">&#160;</td><td class="mdescRight">get particular photo  <br /></td></tr>
 <tr class="separator:a8e8f34e5b5f23ed598c300c572765ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a836670f22b3282242eaefb1db2c53fe5" id="r_a836670f22b3282242eaefb1db2c53fe5"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a836670f22b3282242eaefb1db2c53fe5">getPhotosCount</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) override final</td></tr>
 <tr class="memdesc:a836670f22b3282242eaefb1db2c53fe5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Count photos matching filter.  <br /></td></tr>
@@ -1108,41 +1106,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a93d6664d9c92ca8a176d01c941ea149a" name="a93d6664d9c92ca8a176d01c941ea149a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a93d6664d9c92ca8a176d01c941ea149a">&#9670;&#160;</a></span>getPhoto()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="../../d5/df1/struct_photo_1_1_data.html">Photo::Data</a> Database::ASqlBackend::getPhoto </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">final</span><span class="mlabel">override</span><span class="mlabel">private</span><span class="mlabel">virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get particular photo </p>
-
-<p>Implements <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a42a4220df0a0e8f90b93249e5dbb905d">Database::IBackend</a>.</p>
-<div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_a93d6664d9c92ca8a176d01c941ea149a_cgraph.svg" width="382" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
 <a id="a8e8f34e5b5f23ed598c300c572765ff7" name="a8e8f34e5b5f23ed598c300c572765ff7"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a8e8f34e5b5f23ed598c300c572765ff7">&#9670;&#160;</a></span>getPhotoDelta()</h2>
 
@@ -1156,13 +1119,13 @@ Here is the call graph for this function:</div>
           <td class="memname"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> Database::ASqlBackend::getPhotoDelta </td>
           <td>(</td>
           <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
-          <td class="paramname"><em>id</em>, </td>
+          <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;&#160;</td>
-          <td class="paramname"><em>_fields</em> = <code>{}</code>&#160;</td>
+          <td class="paramname"> = <code>{}</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -1177,6 +1140,8 @@ Here is the call graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
+<p>get particular photo </p>
+
 <p>Implements <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523">Database::IBackend</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
@@ -1186,7 +1151,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_a8e8f34e5b5f23ed598c300c572765ff7_icgraph.svg" width="382" height="142"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d5/d1b/class_database_1_1_a_sql_backend_a8e8f34e5b5f23ed598c300c572765ff7_icgraph.svg" width="382" height="76"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -2775,7 +2740,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 27 2024 11:14:45 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Apr 29 2024 20:59:37 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

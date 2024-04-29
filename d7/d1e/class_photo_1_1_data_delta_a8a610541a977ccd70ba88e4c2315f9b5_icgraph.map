@@ -1,11 +1,9 @@
 <map id="Photo::DataDelta::setId" name="Photo::DataDelta::setId">
-<area shape="rect" id="Node000001" title=" " alt="" coords="235,84,388,110"/>
-<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a3347ff97a20254af59a35d294bc2a7b1" title=" " alt="" coords="5,5,187,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="268,79,186,45,152,34,153,29,188,40,270,74"/>
-<area shape="rect" id="Node000003" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="20,55,172,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="219,87,172,80,173,75,220,82"/>
-<area shape="rect" id="Node000004" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="15,105,177,145"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="220,111,177,117,177,112,219,106"/>
-<area shape="rect" id="Node000007" href="$d2/d3c/groups__tests_8cpp.html#a162fbb10176e5aaf22d468e099285e39" title=" " alt="" coords="44,169,148,195"/>
-<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="274,120,188,159,149,172,148,167,186,154,271,115"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="215,63,368,88"/>
+<area shape="rect" id="Node000002" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="10,5,162,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="227,60,134,34,136,29,229,55"/>
+<area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="5,55,167,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="200,78,167,78,167,73,200,73"/>
+<area shape="rect" id="Node000006" href="$d2/d3c/groups__tests_8cpp.html#a162fbb10176e5aaf22d468e099285e39" title=" " alt="" coords="34,120,138,146"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="229,96,136,122,134,117,227,91"/>
 </map>

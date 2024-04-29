@@ -197,350 +197,350 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node16 -->
-<g id="Node000016" class="node">
-<title>Node16</title>
-<g id="a_Node000016"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0" target="_top" xlink:title="find all photos matching filters">
+<!-- Node15 -->
+<g id="Node000015" class="node">
+<title>Node15</title>
+<g id="a_Node000015"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0" target="_top" xlink:title="find all photos matching filters">
 <polygon fill="#fff0f0" stroke="red" points="309.12,-744.9 184.38,-744.9 184.38,-714.4 309.12,-714.4 309.12,-744.9"/>
 <text text-anchor="start" x="192.38" y="-731.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PhotoOperator</text>
 <text text-anchor="middle" x="246.75" y="-720.15" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhotos</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node16 -->
-<g id="edge8_Node000001_Node000016" class="edge">
-<title>Node1&#45;&gt;Node16</title>
-<g id="a_edge8_Node000001_Node000016"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node15 -->
+<g id="edge8_Node000001_Node000015" class="edge">
+<title>Node1&#45;&gt;Node15</title>
+<g id="a_edge8_Node000001_Node000015"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M414.86,-542.17C401.1,-582.73 369.5,-660.15 317,-704.65 312.81,-708.2 308.07,-711.27 303.09,-713.91"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="418.16,-543.33 417.94,-532.74 411.51,-541.15 418.16,-543.33"/>
 </a>
 </g>
 </g>
-<!-- Node18 -->
-<g id="Node000018" class="node">
-<title>Node18</title>
-<g id="a_Node000018"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#ab246a44fbe0bef5f8eab10150b74c7c8" target="_top" xlink:title=" ">
+<!-- Node17 -->
+<g id="Node000017" class="node">
+<title>Node17</title>
+<g id="a_Node000017"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#ab246a44fbe0bef5f8eab10150b74c7c8" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="309.12,-695.9 184.38,-695.9 184.38,-665.4 309.12,-665.4 309.12,-695.9"/>
 <text text-anchor="start" x="192.38" y="-682.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PhotoOperator</text>
 <text text-anchor="middle" x="246.75" y="-671.15" font-family="Helvetica,sans-Serif" font-size="10.00">::hasPHash</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node18 -->
-<g id="edge9_Node000001_Node000018" class="edge">
-<title>Node1&#45;&gt;Node18</title>
-<g id="a_edge9_Node000001_Node000018"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node17 -->
+<g id="edge9_Node000001_Node000017" class="edge">
+<title>Node1&#45;&gt;Node17</title>
+<g id="a_edge9_Node000001_Node000017"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M409.82,-541.07C392.47,-572.2 359.17,-624.6 317,-655.65 312.16,-659.21 306.77,-662.3 301.18,-664.99"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="412.86,-542.8 414.55,-532.35 406.71,-539.46 412.86,-542.8"/>
 </a>
 </g>
 </g>
-<!-- Node19 -->
-<g id="Node000019" class="node">
-<title>Node19</title>
-<g id="a_Node000019"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" target="_top" xlink:title=" ">
+<!-- Node18 -->
+<g id="Node000018" class="node">
+<title>Node18</title>
+<g id="a_Node000018"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="132.62,-888.9 7.88,-888.9 7.88,-858.4 132.62,-858.4 132.62,-888.9"/>
 <text text-anchor="start" x="15.88" y="-875.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PhotoOperator</text>
 <text text-anchor="middle" x="70.25" y="-864.15" font-family="Helvetica,sans-Serif" font-size="10.00">::setPHash</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node19 -->
-<g id="edge22_Node000001_Node000019" class="edge">
-<title>Node1&#45;&gt;Node19</title>
-<g id="a_edge22_Node000001_Node000019"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node18 -->
+<g id="edge22_Node000001_Node000018" class="edge">
+<title>Node1&#45;&gt;Node18</title>
+<g id="a_edge22_Node000001_Node000018"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M421.96,-542.47C417.51,-641.26 396.51,-982.42 317,-1047.65 268.72,-1087.25 230.89,-1078.32 176.5,-1047.65 114.53,-1012.71 84.91,-924.97 75.1,-889.2"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="425.45,-542.82 422.38,-532.68 418.45,-542.52 425.45,-542.82"/>
 </a>
 </g>
 </g>
-<!-- Node21 -->
-<g id="Node000021" class="node">
-<title>Node21</title>
-<g id="a_Node000021"><a xlink:href="../../d5/d6b/class_database_1_1_group_operator.html#a7769ec373316878bf78bf5c8615438cf" target="_top" xlink:title=" ">
+<!-- Node20 -->
+<g id="Node000020" class="node">
+<title>Node20</title>
+<g id="a_Node000020"><a xlink:href="../../d5/d6b/class_database_1_1_group_operator.html#a7769ec373316878bf78bf5c8615438cf" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="309.5,-579.9 184,-579.9 184,-549.4 309.5,-549.4 309.5,-579.9"/>
 <text text-anchor="start" x="192" y="-566.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::GroupOperator</text>
 <text text-anchor="middle" x="246.75" y="-555.15" font-family="Helvetica,sans-Serif" font-size="10.00">::listGroups</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node21 -->
-<g id="edge11_Node000001_Node000021" class="edge">
-<title>Node1&#45;&gt;Node21</title>
-<g id="a_edge11_Node000001_Node000021"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node20 -->
+<g id="edge11_Node000001_Node000020" class="edge">
+<title>Node1&#45;&gt;Node20</title>
+<g id="a_edge11_Node000001_Node000020"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M355.99,-534.38C338.85,-539.17 320.59,-544.28 304.05,-548.9"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="356.92,-537.76 365.61,-531.69 355.04,-531.02 356.92,-537.76"/>
 </a>
 </g>
 </g>
-<!-- Node22 -->
-<g id="Node000022" class="node">
-<title>Node22</title>
-<g id="a_Node000022"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a2fbbd2e205b5ea165f13d6990cce5acd" target="_top" xlink:title="list all people names">
+<!-- Node21 -->
+<g id="Node000021" class="node">
+<title>Node21</title>
+<g id="a_Node000021"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a2fbbd2e205b5ea165f13d6990cce5acd" target="_top" xlink:title="list all people names">
 <polygon fill="white" stroke="#666666" points="317,-530.9 176.5,-530.9 176.5,-500.4 317,-500.4 317,-530.9"/>
 <text text-anchor="start" x="184.5" y="-517.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="246.75" y="-506.15" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::listPeople</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node22 -->
-<g id="edge12_Node000001_Node000022" class="edge">
-<title>Node1&#45;&gt;Node22</title>
-<g id="a_edge12_Node000001_Node000022"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node21 -->
+<g id="edge12_Node000001_Node000021" class="edge">
+<title>Node1&#45;&gt;Node21</title>
+<g id="a_edge12_Node000001_Node000021"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M341.46,-515.65C333.44,-515.65 325.35,-515.65 317.47,-515.65"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="341.22,-519.15 351.22,-515.65 341.22,-512.15 341.22,-519.15"/>
 </a>
 </g>
 </g>
-<!-- Node23 -->
-<g id="Node000023" class="node">
-<title>Node23</title>
-<g id="a_Node000023"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a176ddb886b5d84ba4714f5f317713499" target="_top" xlink:title="list people on photo">
+<!-- Node22 -->
+<g id="Node000022" class="node">
+<title>Node22</title>
+<g id="a_Node000022"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a176ddb886b5d84ba4714f5f317713499" target="_top" xlink:title="list people on photo">
 <polygon fill="white" stroke="#666666" points="317,-481.9 176.5,-481.9 176.5,-451.4 317,-451.4 317,-481.9"/>
 <text text-anchor="start" x="184.5" y="-468.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="246.75" y="-457.15" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::listPeople</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node23 -->
-<g id="edge13_Node000001_Node000023" class="edge">
-<title>Node1&#45;&gt;Node23</title>
-<g id="a_edge13_Node000001_Node000023"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node22 -->
+<g id="edge13_Node000001_Node000022" class="edge">
+<title>Node1&#45;&gt;Node22</title>
+<g id="a_edge13_Node000001_Node000022"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M355.99,-496.91C338.85,-492.12 320.59,-487.01 304.05,-482.39"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="355.04,-500.28 365.61,-499.6 356.92,-493.54 355.04,-500.28"/>
 </a>
 </g>
 </g>
-<!-- Node24 -->
-<g id="Node000024" class="node">
-<title>Node24</title>
-<g id="a_Node000024"><a xlink:href="../../d5/d6b/class_database_1_1_group_operator.html#a6bbdf8576bf3ee2b776b83145de18f6a" target="_top" xlink:title=" ">
+<!-- Node23 -->
+<g id="Node000023" class="node">
+<title>Node23</title>
+<g id="a_Node000023"><a xlink:href="../../d5/d6b/class_database_1_1_group_operator.html#a6bbdf8576bf3ee2b776b83145de18f6a" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="309.5,-395.9 184,-395.9 184,-365.4 309.5,-365.4 309.5,-395.9"/>
 <text text-anchor="start" x="192" y="-382.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::GroupOperator</text>
 <text text-anchor="middle" x="246.75" y="-371.15" font-family="Helvetica,sans-Serif" font-size="10.00">::membersOf</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node24 -->
-<g id="edge14_Node000001_Node000024" class="edge">
-<title>Node1&#45;&gt;Node24</title>
-<g id="a_edge14_Node000001_Node000024"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node23 -->
+<g id="edge14_Node000001_Node000023" class="edge">
+<title>Node1&#45;&gt;Node23</title>
+<g id="a_edge14_Node000001_Node000023"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M403.64,-491.41C383.89,-467.97 351.34,-432.69 317,-409.65 309.42,-404.56 300.81,-400.09 292.3,-396.28"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="400.77,-493.43 409.84,-498.9 406.16,-488.97 400.77,-493.43"/>
 </a>
 </g>
 </g>
-<!-- Node25 -->
-<g id="Node000025" class="node">
-<title>Node25</title>
-<g id="a_Node000025"><a xlink:href="../../d5/d6b/class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315" target="_top" xlink:title=" ">
+<!-- Node24 -->
+<g id="Node000024" class="node">
+<title>Node24</title>
+<g id="a_Node000024"><a xlink:href="../../d5/d6b/class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="133,-349.9 7.5,-349.9 7.5,-319.4 133,-319.4 133,-349.9"/>
 <text text-anchor="start" x="15.5" y="-336.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::GroupOperator</text>
 <text text-anchor="middle" x="70.25" y="-325.15" font-family="Helvetica,sans-Serif" font-size="10.00">::removeGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node25 -->
-<g id="edge20_Node000001_Node000025" class="edge">
-<title>Node1&#45;&gt;Node25</title>
-<g id="a_edge20_Node000001_Node000025"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node24 -->
+<g id="edge20_Node000001_Node000024" class="edge">
+<title>Node1&#45;&gt;Node24</title>
+<g id="a_edge20_Node000001_Node000024"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M418.46,-488.66C408.99,-442.07 382.35,-347.69 317,-307.65 250.39,-266.83 154.28,-297.7 104.28,-318.95"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="415.01,-489.28 420.31,-498.45 421.89,-487.97 415.01,-489.28"/>
 </a>
 </g>
 </g>
-<!-- Node26 -->
-<g id="Node000026" class="node">
-<title>Node26</title>
-<g id="a_Node000026"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8" target="_top" xlink:title=" ">
+<!-- Node25 -->
+<g id="Node000025" class="node">
+<title>Node25</title>
+<g id="a_Node000025"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="309.12,-346.9 184.38,-346.9 184.38,-316.4 309.12,-316.4 309.12,-346.9"/>
 <text text-anchor="start" x="192.38" y="-333.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PhotoOperator</text>
 <text text-anchor="middle" x="246.75" y="-322.15" font-family="Helvetica,sans-Serif" font-size="10.00">::onPhotos</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node26 -->
-<g id="edge16_Node000001_Node000026" class="edge">
-<title>Node1&#45;&gt;Node26</title>
-<g id="a_edge16_Node000001_Node000026"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node25 -->
+<g id="edge16_Node000001_Node000025" class="edge">
+<title>Node1&#45;&gt;Node25</title>
+<g id="a_edge16_Node000001_Node000025"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M412.11,-489.83C396.15,-454.91 363.19,-392.84 317,-356.65 312.47,-353.1 307.4,-350.03 302.11,-347.37"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="408.82,-491.05 416.08,-498.76 415.22,-488.2 408.82,-491.05"/>
 </a>
 </g>
 </g>
-<!-- Node27 -->
-<g id="Node000027" class="node">
-<title>Node27</title>
-<g id="a_Node000027"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a68e4ff266d1c8a9b2ada19811c972ea7" target="_top" xlink:title="get person name for given person id">
+<!-- Node26 -->
+<g id="Node000026" class="node">
+<title>Node26</title>
+<g id="a_Node000026"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a68e4ff266d1c8a9b2ada19811c972ea7" target="_top" xlink:title="get person name for given person id">
 <polygon fill="white" stroke="#666666" points="317,-260.9 176.5,-260.9 176.5,-230.4 317,-230.4 317,-260.9"/>
 <text text-anchor="start" x="184.5" y="-247.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="246.75" y="-236.15" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::person</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node27 -->
-<g id="edge17_Node000001_Node000027" class="edge">
-<title>Node1&#45;&gt;Node27</title>
-<g id="a_edge17_Node000001_Node000027"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node26 -->
+<g id="edge17_Node000001_Node000026" class="edge">
+<title>Node1&#45;&gt;Node26</title>
+<g id="a_edge17_Node000001_Node000026"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M418.06,-488.98C407.72,-440.18 379.37,-335.92 317,-274.65 311.61,-269.35 305.1,-264.96 298.27,-261.35"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="414.6,-489.54 420.01,-498.65 421.46,-488.15 414.6,-489.54"/>
 </a>
 </g>
 </g>
-<!-- Node28 -->
-<g id="Node000028" class="node">
-<title>Node28</title>
-<g id="a_Node000028"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" target="_top" xlink:title="Store or update person.">
+<!-- Node27 -->
+<g id="Node000027" class="node">
+<title>Node27</title>
+<g id="a_Node000027"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" target="_top" xlink:title="Store or update person.">
 <polygon fill="white" stroke="#666666" points="140.5,-184.9 0,-184.9 0,-154.4 140.5,-154.4 140.5,-184.9"/>
 <text text-anchor="start" x="8" y="-171.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="70.25" y="-160.15" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::store</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node28 -->
-<g id="edge24_Node000001_Node000028" class="edge">
-<title>Node1&#45;&gt;Node28</title>
-<g id="a_edge24_Node000001_Node000028"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node27 -->
+<g id="edge24_Node000001_Node000027" class="edge">
+<title>Node1&#45;&gt;Node27</title>
+<g id="a_edge24_Node000001_Node000027"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M421.47,-488.82C415.5,-395.12 390.42,-84.88 317,-25.65 268.4,13.56 232.18,2.62 176.5,-25.65 122.38,-53.12 89.44,-122.94 76.97,-154.15"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="417.96,-488.81 422.07,-498.58 424.95,-488.39 417.96,-488.81"/>
 </a>
 </g>
 </g>
-<!-- Node29 -->
-<g id="Node000029" class="node">
-<title>Node29</title>
-<g id="a_Node000029"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#aee53756b81c637299211ed693d54583a" target="_top" xlink:title="get person name structure for person name">
+<!-- Node28 -->
+<g id="Node000028" class="node">
+<title>Node28</title>
+<g id="a_Node000028"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#aee53756b81c637299211ed693d54583a" target="_top" xlink:title="get person name structure for person name">
 <polygon fill="white" stroke="#666666" points="317,-211.9 176.5,-211.9 176.5,-181.4 317,-181.4 317,-211.9"/>
 <text text-anchor="start" x="184.5" y="-198.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="246.75" y="-187.15" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::person</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node29 -->
-<g id="edge19_Node000001_Node000029" class="edge">
-<title>Node1&#45;&gt;Node29</title>
-<g id="a_edge19_Node000001_Node000029"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node28 -->
+<g id="edge19_Node000001_Node000028" class="edge">
+<title>Node1&#45;&gt;Node28</title>
+<g id="a_edge19_Node000001_Node000028"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M420.84,-488.89C414.82,-431.91 392.94,-297.62 317,-221.65 313.39,-218.03 309.21,-214.93 304.74,-212.28"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="417.33,-489 421.77,-498.62 424.3,-488.33 417.33,-489"/>
 </a>
 </g>
 </g>
-<!-- Node30 -->
-<g id="Node000030" class="node">
-<title>Node30</title>
-<g id="a_Node000030"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" target="_top" xlink:title=" ">
+<!-- Node29 -->
+<g id="Node000029" class="node">
+<title>Node29</title>
+<g id="a_Node000029"><a xlink:href="../../da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="309.12,-162.9 184.38,-162.9 184.38,-132.4 309.12,-132.4 309.12,-162.9"/>
 <text text-anchor="start" x="192.38" y="-149.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PhotoOperator</text>
 <text text-anchor="middle" x="246.75" y="-138.15" font-family="Helvetica,sans-Serif" font-size="10.00">::removePhotos</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node30 -->
-<g id="edge21_Node000001_Node000030" class="edge">
-<title>Node1&#45;&gt;Node30</title>
-<g id="a_edge21_Node000001_Node000030"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node29 -->
+<g id="edge21_Node000001_Node000029" class="edge">
+<title>Node1&#45;&gt;Node29</title>
+<g id="a_edge21_Node000001_Node000029"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M422.44,-488.49C419.67,-424.68 403.94,-263.74 317,-172.65 313.56,-169.04 309.56,-165.95 305.25,-163.31"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="418.94,-488.52 422.79,-498.39 425.94,-488.28 418.94,-488.52"/>
 </a>
 </g>
 </g>
-<!-- Node32 -->
-<g id="Node000032" class="node">
-<title>Node32</title>
-<g id="a_Node000032"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" target="_top" xlink:title="Store person&#39;s fingerprint in db.">
+<!-- Node31 -->
+<g id="Node000031" class="node">
+<title>Node31</title>
+<g id="a_Node000031"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" target="_top" xlink:title="Store person&#39;s fingerprint in db.">
 <polygon fill="white" stroke="#666666" points="317,-113.9 176.5,-113.9 176.5,-83.4 317,-83.4 317,-113.9"/>
 <text text-anchor="start" x="184.5" y="-100.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="246.75" y="-89.15" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::store</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node32 -->
-<g id="edge23_Node000001_Node000032" class="edge">
-<title>Node1&#45;&gt;Node32</title>
-<g id="a_edge23_Node000001_Node000032"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node31 -->
+<g id="edge23_Node000001_Node000031" class="edge">
+<title>Node1&#45;&gt;Node31</title>
+<g id="a_edge23_Node000001_Node000031"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M423.71,-488.98C424.08,-419.43 415.44,-230.54 317,-123.65 313.71,-120.07 309.87,-117.01 305.72,-114.38"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="420.21,-488.61 423.58,-498.66 427.21,-488.7 420.21,-488.61"/>
 </a>
 </g>
 </g>
-<!-- Node33 -->
-<g id="Node000033" class="node">
-<title>Node33</title>
-<g id="a_Node000033"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" target="_top" xlink:title="store or update person details in database">
+<!-- Node32 -->
+<g id="Node000032" class="node">
+<title>Node32</title>
+<g id="a_Node000032"><a xlink:href="../../db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" target="_top" xlink:title="store or update person details in database">
 <polygon fill="white" stroke="#666666" points="317,-64.9 176.5,-64.9 176.5,-34.4 317,-34.4 317,-64.9"/>
 <text text-anchor="start" x="184.5" y="-51.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::PeopleInformation</text>
 <text text-anchor="middle" x="246.75" y="-40.15" font-family="Helvetica,sans-Serif" font-size="10.00">Accessor::storePerson</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node33 -->
-<g id="edge25_Node000001_Node000033" class="edge">
-<title>Node1&#45;&gt;Node33</title>
-<g id="a_edge25_Node000001_Node000033"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node32 -->
+<g id="edge25_Node000001_Node000032" class="edge">
+<title>Node1&#45;&gt;Node32</title>
+<g id="a_edge25_Node000001_Node000032"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M419.91,-488.97C409.5,-403.35 373.19,-137.42 317,-74.65 313.76,-71.03 309.96,-67.93 305.83,-65.28"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="416.42,-489.23 421.08,-498.75 423.37,-488.4 416.42,-489.23"/>
 </a>
 </g>
 </g>
-<!-- Node34 -->
-<g id="Node000034" class="node">
-<title>Node34</title>
-<g id="a_Node000034"><a xlink:href="../../d5/d6b/class_database_1_1_group_operator.html#a2055bf7c5525db5b31eef31573816f16" target="_top" xlink:title=" ">
+<!-- Node33 -->
+<g id="Node000033" class="node">
+<title>Node33</title>
+<g id="a_Node000033"><a xlink:href="../../d5/d6b/class_database_1_1_group_operator.html#a2055bf7c5525db5b31eef31573816f16" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="309.5,-628.9 184,-628.9 184,-598.4 309.5,-598.4 309.5,-628.9"/>
 <text text-anchor="start" x="192" y="-615.4" font-family="Helvetica,sans-Serif" font-size="10.00">Database::GroupOperator</text>
 <text text-anchor="middle" x="246.75" y="-604.15" font-family="Helvetica,sans-Serif" font-size="10.00">::type</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node34 -->
-<g id="edge26_Node000001_Node000034" class="edge">
-<title>Node1&#45;&gt;Node34</title>
-<g id="a_edge26_Node000001_Node000034"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node33 -->
+<g id="edge26_Node000001_Node000033" class="edge">
+<title>Node1&#45;&gt;Node33</title>
+<g id="a_edge26_Node000001_Node000033"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M394.78,-538.06C374.12,-553.71 344.92,-574.3 317,-588.65 310.41,-592.04 303.25,-595.17 296.11,-598"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="396.64,-541.04 402.44,-532.17 392.38,-535.49 396.64,-541.04"/>
 </a>
 </g>
 </g>
-<!-- Node18&#45;&gt;Node19 -->
-<g id="edge10_Node000018_Node000019" class="edge">
-<title>Node18&#45;&gt;Node19</title>
-<g id="a_edge10_Node000018_Node000019"><a xlink:title=" ">
+<!-- Node17&#45;&gt;Node18 -->
+<g id="edge10_Node000017_Node000018" class="edge">
+<title>Node17&#45;&gt;Node18</title>
+<g id="a_edge10_Node000017_Node000018"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M181.76,-701.79C179.94,-703.01 178.18,-704.29 176.5,-705.65 123.46,-748.43 89.5,-825.53 76.84,-858.27"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="183.1,-705.06 189.98,-697 179.58,-699.01 183.1,-705.06"/>
 </a>
 </g>
 </g>
-<!-- Node24&#45;&gt;Node25 -->
-<g id="edge15_Node000024_Node000025" class="edge">
-<title>Node24&#45;&gt;Node25</title>
-<g id="a_edge15_Node000024_Node000025"><a xlink:title=" ">
+<!-- Node23&#45;&gt;Node24 -->
+<g id="edge15_Node000023_Node000024" class="edge">
+<title>Node23&#45;&gt;Node24</title>
+<g id="a_edge15_Node000023_Node000024"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M175.11,-362.03C160.42,-358.15 145.08,-354.11 130.84,-350.36"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="174.16,-365.39 184.72,-364.56 175.94,-358.63 174.16,-365.39"/>
 </a>
 </g>
 </g>
-<!-- Node27&#45;&gt;Node28 -->
-<g id="edge18_Node000027_Node000028" class="edge">
-<title>Node27&#45;&gt;Node28</title>
-<g id="a_edge18_Node000027_Node000028"><a xlink:title=" ">
+<!-- Node26&#45;&gt;Node27 -->
+<g id="edge18_Node000026_Node000027" class="edge">
+<title>Node26&#45;&gt;Node27</title>
+<g id="a_edge18_Node000026_Node000027"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M189.62,-225.95C185.16,-224.21 180.74,-222.43 176.5,-220.65 150.68,-209.77 122.11,-195.8 101.26,-185.23"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="188.04,-229.09 198.63,-229.38 190.52,-222.55 188.04,-229.09"/>
 </a>
 </g>
 </g>
-<!-- Node34&#45;&gt;Node2 -->
-<g id="edge27_Node000034_Node000002" class="edge">
-<title>Node34&#45;&gt;Node2</title>
-<g id="a_edge27_Node000034_Node000002"><a xlink:title=" ">
+<!-- Node33&#45;&gt;Node2 -->
+<g id="edge27_Node000033_Node000002" class="edge">
+<title>Node33&#45;&gt;Node2</title>
+<g id="a_edge27_Node000033_Node000002"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M187.1,-593.62C183.48,-592.03 179.91,-590.37 176.5,-588.65 145.14,-572.85 111.87,-549.45 91.32,-534.13"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="185.46,-596.72 196.04,-597.32 188.14,-590.26 185.46,-596.72"/>
 </a>
 </g>
 </g>
-<!-- Node34&#45;&gt;Node34 -->
-<g id="edge28_Node000034_Node000034" class="edge">
-<title>Node34&#45;&gt;Node34</title>
-<g id="a_edge28_Node000034_Node000034"><a xlink:title=" ">
+<!-- Node33&#45;&gt;Node33 -->
+<g id="edge28_Node000033_Node000033" class="edge">
+<title>Node33&#45;&gt;Node33</title>
+<g id="a_edge28_Node000033_Node000033"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M276.35,-640.6C271.51,-644.37 261.64,-646.9 246.75,-646.9 219.52,-646.9 209.09,-638.45 215.47,-629.38"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="279.79,-641.29 277.8,-630.88 272.86,-640.25 279.79,-641.29"/>
 </a>

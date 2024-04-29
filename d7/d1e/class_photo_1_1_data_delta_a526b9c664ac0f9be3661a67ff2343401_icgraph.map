@@ -1,26 +1,22 @@
 <map id="Photo::DataDelta::has" name="Photo::DataDelta::has">
-<area shape="rect" id="Node000001" title=" " alt="" coords="454,268,599,294"/>
-<area shape="rect" id="Node000002" href="$d5/df1/struct_photo_1_1_data.html#a08fbe960d4ddc3a2c2c49dd6a82acf25" title=" " alt="" coords="248,5,373,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="517,254,504,207,481,151,449,93,428,67,404,44,372,28,374,23,408,40,432,63,453,90,486,148,509,206,522,252"/>
-<area shape="rect" id="Node000009" href="$d7/d1e/class_photo_1_1_data_delta.html#a7272ed9d28b235c6ec00667726bbbdde" title=" " alt="" coords="239,55,382,80"/>
-<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="513,254,497,218,474,174,443,130,404,94,381,81,383,77,408,89,447,127,479,171,502,215,518,252"/>
-<area shape="rect" id="Node000010" href="$d7/d1e/class_photo_1_1_data_delta.html#ae420eb27c1756e873497ece402226e37" title=" " alt="" coords="239,104,382,130"/>
-<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="508,256,466,198,437,168,405,143,381,132,383,127,407,139,441,164,470,195,512,253"/>
-<area shape="rect" id="Node000011" href="$d7/d1e/class_photo_1_1_data_delta.html#a937a374107a40054d349dfae25fd020f" title=" " alt="" coords="219,153,402,179"/>
-<area shape="poly" id="edge4_Node000001_Node000011" title=" " alt="" coords="498,259,456,226,405,194,374,182,376,177,407,189,459,221,502,255"/>
-<area shape="rect" id="Node000012" href="$db/d29/class_photo_1_1_explicit_delta.html#ad7890b27689ea81215cb534bb78854c4" title=" " alt="" coords="244,203,377,244"/>
-<area shape="poly" id="edge5_Node000001_Node000012" title=" " alt="" coords="460,266,376,244,378,238,461,261"/>
-<area shape="rect" id="Node000013" href="$d7/ddf/class_photo_data_qml.html#a36de9c664118b798d1871c7effd2a20b" title=" " alt="" coords="242,268,379,294"/>
-<area shape="poly" id="edge6_Node000001_Node000013" title=" " alt="" coords="439,284,380,284,380,278,439,278"/>
-<area shape="rect" id="Node000014" href="$d7/ddf/class_photo_data_qml.html#a5a6883aaeb5705e29c447b6d0bfa01fe" title=" " alt="" coords="215,317,406,343"/>
-<area shape="poly" id="edge7_Node000001_Node000014" title=" " alt="" coords="453,300,371,319,369,314,451,295"/>
-<area shape="rect" id="Node000015" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="5,390,167,431"/>
-<area shape="poly" id="edge8_Node000001_Node000015" title=" " alt="" coords="499,305,457,333,407,358,346,378,282,392,167,408,166,402,281,387,344,372,405,353,454,329,496,301"/>
-<area shape="rect" id="Node000016" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" title=" " alt="" coords="215,418,406,459"/>
-<area shape="poly" id="edge9_Node000001_Node000016" title=" " alt="" coords="507,308,464,355,407,402,374,420,372,415,405,397,460,351,503,304"/>
-<area shape="rect" id="Node000017" href="$d6/dc3/data__delta__tests_8cpp.html#ae9b738cc9b0a8d14d0b46e72e0850327" title=" " alt="" coords="283,483,338,508"/>
-<area shape="poly" id="edge11_Node000001_Node000017" title=" " alt="" coords="518,309,502,346,478,390,447,435,408,472,373,489,338,496,337,491,371,484,404,468,443,431,474,388,497,344,513,307"/>
-<area shape="rect" id="Node000018" href="$d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" title=" " alt="" coords="283,532,338,558"/>
-<area shape="poly" id="edge12_Node000001_Node000018" title=" " alt="" coords="522,310,509,356,486,414,453,473,432,500,408,523,391,533,373,540,338,547,337,541,372,535,389,528,404,519,428,496,449,470,482,412,504,355,517,308"/>
-<area shape="poly" id="edge10_Node000016_Node000015" title=" " alt="" coords="199,427,167,423,167,418,200,422"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="454,219,599,244"/>
+<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a7272ed9d28b235c6ec00667726bbbdde" title=" " alt="" coords="239,5,382,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="513,205,497,168,474,125,443,81,404,44,381,32,383,27,408,40,447,77,479,122,502,166,518,203"/>
+<area shape="rect" id="Node000003" href="$d7/d1e/class_photo_1_1_data_delta.html#ae420eb27c1756e873497ece402226e37" title=" " alt="" coords="239,55,382,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="508,207,466,149,437,119,405,94,381,82,383,78,407,89,441,115,470,146,512,204"/>
+<area shape="rect" id="Node000004" href="$d7/d1e/class_photo_1_1_data_delta.html#a937a374107a40054d349dfae25fd020f" title=" " alt="" coords="219,104,402,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="498,210,456,176,405,145,374,133,376,128,407,140,459,172,502,206"/>
+<area shape="rect" id="Node000005" href="$db/d29/class_photo_1_1_explicit_delta.html#ad7890b27689ea81215cb534bb78854c4" title=" " alt="" coords="244,154,377,195"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="460,217,376,194,378,189,461,212"/>
+<area shape="rect" id="Node000006" href="$d7/ddf/class_photo_data_qml.html#a36de9c664118b798d1871c7effd2a20b" title=" " alt="" coords="242,219,379,244"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="439,234,380,234,380,229,439,229"/>
+<area shape="rect" id="Node000007" href="$d7/ddf/class_photo_data_qml.html#a5a6883aaeb5705e29c447b6d0bfa01fe" title=" " alt="" coords="215,268,406,294"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="453,251,371,270,369,265,451,246"/>
+<area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="5,341,167,381"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="499,256,457,284,407,309,346,328,282,342,167,358,166,353,281,337,344,323,405,304,454,279,496,251"/>
+<area shape="rect" id="Node000009" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" title=" " alt="" coords="215,369,406,409"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="507,258,464,305,407,352,374,370,372,366,405,348,460,301,503,255"/>
+<area shape="rect" id="Node000010" href="$d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" title=" " alt="" coords="283,433,338,459"/>
+<area shape="poly" id="edge10_Node000001_Node000010" title=" " alt="" coords="518,260,502,297,478,341,447,385,408,423,373,440,338,447,337,442,371,435,404,419,443,382,474,338,497,295,513,258"/>
+<area shape="poly" id="edge9_Node000009_Node000008" title=" " alt="" coords="199,378,167,374,167,368,200,372"/>
 </map>

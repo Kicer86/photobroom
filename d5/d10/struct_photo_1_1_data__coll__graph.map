@@ -1,9 +1,0 @@
-<map id="Photo::Data" name="Photo::Data">
-<area shape="rect" id="Node000001" title="Structure containing full set of photo details." alt="" coords="312,70,400,96"/>
-<area shape="rect" id="Node000002" href="$db/dfb/class_id.html" title=" " alt="" coords="9,5,203,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,44,288,60,312,67,311,72,287,66,218,50"/>
-<area shape="rect" id="Node000003" href="$d8/d51/struct_group_info.html" title=" " alt="" coords="67,70,145,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="161,80,311,80,311,86,161,86"/>
-<area shape="rect" id="Node000005" href="$db/dfb/class_id.html" title=" " alt="" coords="5,120,207,161"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="221,116,287,101,312,94,313,99,288,106,223,121"/>
-</map>

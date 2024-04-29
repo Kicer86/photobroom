@@ -1,8 +1,8 @@
 <map id="Database::MemoryBackend::onPhotos" name="Database::MemoryBackend::onPhotos">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,39,185,79"/>
 <area shape="poly" id="edge3_Node000001_Node000001" title=" " alt="" coords="52,39,50,29,57,20,72,14,95,12,120,14,134,21,132,26,118,20,95,17,73,19,60,24,55,30,57,37"/>
-<area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#ae9f3134491cdfdfc696ab178ace218f1" title="get particular photo" alt="" coords="233,5,412,46"/>
+<area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#ab37722297b03e09bee4eed0ce7e5cff8" title=" " alt="" coords="233,5,412,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,43,217,38,218,44,186,48"/>
-<area shape="rect" id="Node000007" href="$da/dba/class_database_1_1_memory_backend.html#a5add72bb5517a444c7df2b5130aacf54" title="find all photos matching filters" alt="" coords="233,71,412,111"/>
-<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="186,69,217,74,217,79,185,74"/>
+<area shape="rect" id="Node000005" href="$da/dba/class_database_1_1_memory_backend.html#a5add72bb5517a444c7df2b5130aacf54" title="find all photos matching filters" alt="" coords="233,71,412,111"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="186,69,217,74,217,79,185,74"/>
 </map>

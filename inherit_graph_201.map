@@ -1,3 +1,11 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$d0/dcc/struct_tag_value_traits.html" title=" " alt="" coords="5,5,145,31"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,80,162,106"/>
+<area shape="rect" id="Node000001" href="$dc/d14/struct_file_analyzer_test.html" title=" " alt="" coords="240,5,358,31"/>
+<area shape="poly" id="edge207_Node000000_Node000001" title=" " alt="" coords="128,71,209,40,243,29,245,34,211,45,130,76"/>
+<area shape="rect" id="Node000002" href="$dd/daa/class_image_aligner_test.html" title=" " alt="" coords="237,55,361,80"/>
+<area shape="poly" id="edge208_Node000000_Node000002" title=" " alt="" coords="177,79,236,72,237,77,178,84"/>
+<area shape="rect" id="Node000003" href="$df/dd2/struct_tag_value_raw_setter_test.html" title=" " alt="" coords="217,104,381,130"/>
+<area shape="poly" id="edge209_Node000000_Node000003" title=" " alt="" coords="178,101,217,105,216,110,177,106"/>
+<area shape="rect" id="Node000004" href="$d4/d06/struct_tag_value_variant_setter_test.html" title=" " alt="" coords="210,153,388,179"/>
+<area shape="poly" id="edge210_Node000000_Node000004" title=" " alt="" coords="131,110,211,140,246,150,244,155,209,145,129,115"/>
 </map>

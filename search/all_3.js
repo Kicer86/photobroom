@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['c_0',['c',['../da/db9/classlazy__ptr.html#a73f13971198c1ec0dc351fb978a2be83',1,'lazy_ptr::C'],['../d2/d12/struct_a_b_c.html#a4b89709618ce761bf650d887c9c33918',1,'ABC::c']]],
+  ['c_0',['c',['../d2/d12/struct_a_b_c.html#a4b89709618ce761bf650d887c9c33918',1,'ABC::c'],['../da/db9/classlazy__ptr.html#a73f13971198c1ec0dc351fb978a2be83',1,'lazy_ptr::C']]],
   ['c10_1',['c10',['../d5/d48/struct_q_model_index_selector_test.html#a4d4631f9ccd7e4ae84f808f402ae5405',1,'QModelIndexSelectorTest']]],
   ['c11_2',['c11',['../d5/d48/struct_q_model_index_selector_test.html#a1596e2764ea5a00d7e15f1884d8d8159',1,'QModelIndexSelectorTest']]],
   ['c12_3',['c12',['../d5/d48/struct_q_model_index_selector_test.html#a021902e456bcd5c43f4acafe2a48b18f',1,'QModelIndexSelectorTest']]],
@@ -111,7 +111,7 @@ var searchData=
   ['configdialogmanager_108',['configdialogmanager',['../df/dc2/class_config_dialog_manager.html#a2dba22d091a108d9ce217eeef970f8d4',1,'ConfigDialogManager::ConfigDialogManager()'],['../df/dc2/class_config_dialog_manager.html#aa554e815900d51187a26536415104940',1,'ConfigDialogManager::ConfigDialogManager(const ConfigDialogManager &amp;)=delete'],['../df/dc2/class_config_dialog_manager.html',1,'ConfigDialogManager']]],
   ['configstorage_109',['configstorage',['../d9/d02/class_config_storage.html#aa66378f121562b04372ca6afc18d95ba',1,'ConfigStorage::ConfigStorage()'],['../d9/d02/class_config_storage.html',1,'ConfigStorage']]],
   ['configtools_110',['ConfigTools',['../dc/dcf/namespace_config_tools.html',1,'']]],
-  ['configuration_111',['configuration',['../db/d54/class_configuration.html',1,'Configuration'],['../db/d54/class_configuration.html#a6f27285cdfa0938b4cb0727bfe8e92c3',1,'Configuration::Configuration(const Configuration &amp;)=delete'],['../db/d54/class_configuration.html#a9d608360da0d2a608c644a4a52201406',1,'Configuration::Configuration(IConfigStorage &amp;configStorage)'],['../d9/d9d/class_a_config_tab.html#ae795471316dfe5bad284fa6bcbca4f50',1,'AConfigTab::configuration()']]],
+  ['configuration_111',['configuration',['../db/d54/class_configuration.html',1,'Configuration'],['../d9/d9d/class_a_config_tab.html#ae795471316dfe5bad284fa6bcbca4f50',1,'AConfigTab::configuration()'],['../db/d54/class_configuration.html#a6f27285cdfa0938b4cb0727bfe8e92c3',1,'Configuration::Configuration(const Configuration &amp;)=delete'],['../db/d54/class_configuration.html#a9d608360da0d2a608c644a4a52201406',1,'Configuration::Configuration(IConfigStorage &amp;configStorage)']]],
   ['configuration_2ecpp_112',['configuration.cpp',['../df/d22/configuration_8cpp.html',1,'']]],
   ['configuration_2ehpp_113',['configuration.hpp',['../dc/d0a/configuration_8hpp.html',1,'']]],
   ['configuration_5fdialog_2ecpp_114',['configuration_dialog.cpp',['../d8/db8/configuration__dialog_8cpp.html',1,'']]],

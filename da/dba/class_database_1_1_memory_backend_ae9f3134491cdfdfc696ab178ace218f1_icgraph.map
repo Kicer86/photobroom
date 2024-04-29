@@ -1,8 +1,0 @@
-<map id="Database::MemoryBackend::getPhoto" name="Database::MemoryBackend::getPhoto">
-<area shape="rect" id="Node000001" title="get particular photo" alt="" coords="233,51,412,91"/>
-<area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#ab37722297b03e09bee4eed0ce7e5cff8" title=" " alt="" coords="5,5,185,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,53,185,46,186,41,218,47"/>
-<area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html#a4a3aeb0f7e651ee11267449d7bb511e6" title=" " alt="" coords="5,95,185,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,94,186,100,185,95,217,89"/>
-<area shape="poly" id="edge3_Node000003_Node000003" title=" " alt="" coords="132,82,118,76,95,73,73,75,60,80,55,86,57,93,52,95,50,85,57,76,72,70,95,68,120,70,134,77"/>
-</map>
