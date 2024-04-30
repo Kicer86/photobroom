@@ -95,6 +95,12 @@ jobs:
         ctest-options:
             --output-on-failure
 
+    - name: Generate lcov raports
+      run: |
+        lcov --capture --directory ${{ runner.workspace }}/build --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --list coverage.info
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v3
       env:
