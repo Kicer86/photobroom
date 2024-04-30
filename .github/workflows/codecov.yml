@@ -30,6 +30,7 @@ jobs:
         sudo apt-get update &&              \
         sudo apt-get install                \
           gcc                               \
+          lcov                              \
           ninja-build                       \
           python3-cairosvg                  \
           python3-defusedxml                \
