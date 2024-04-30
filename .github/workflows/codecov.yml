@@ -13,11 +13,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        compiler:
-          - { compiler: GNU, CC: gcc, CXX: g++ }
-          - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
-        build: [Release]
-        shared: [TRUE, FALSE]
         os: [ubuntu-22.04]
 
     steps:
@@ -61,13 +56,6 @@ jobs:
           libglvnd-dev                      \
           libwebp-dev
 
-    # todo: this step will be redundant when github actions use ubuntu >= 23.10 by default
-    - name: Install clang
-      if: matrix.compiler.compiler == 'LLVM'
-      run: |
-        sudo apt-get install    \
-          clang                 \
-
     - name: Install magic enum
       run: |
         sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
@@ -87,26 +75,24 @@ jobs:
       with:
         key: ${{ github.job }}-${{ matrix.compiler.compiler }}
 
-    - name: Setup environment
-      run: echo "ENABLE_SANITIZERS=$( test ${{ matrix.build }} == "Release" && echo "ON" || echo "OFF" )" >> $GITHUB_ENV
-
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
-        build-type: ${{ matrix.build }}
-        cc: ${{ matrix.compiler.CC }}
-        cxx: ${{ matrix.compiler.CXX }}
+        build-type: Debug
         configure-options:
             -DBUILD_SHARED_LIBS=${{ matrix.shared }}
             -DLUPDATE=/usr/lib/qt6/bin/lupdate
             -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
-            -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
+            -DENABLE_SANITIZERS_FOR_TESTS=FALSE
             -Wdev -Werror=dev
         run-test: true
         ctest-options:
             --output-on-failure
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
       env:
-        TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
