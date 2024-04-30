@@ -1,5 +1,5 @@
 
-name: Build-Linux
+name: Code coverage
 
 on:
   push:
