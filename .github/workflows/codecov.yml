@@ -1,0 +1,108 @@
+
+name: Code coverage
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-22.04]
+
+    steps:
+    # switch to ubuntu 23.10
+    - name: Update Repositories
+      run: |
+        sudo sed -i 's/jammy/mantic/g' /etc/apt/sources.list
+
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update &&              \
+        sudo apt-get install                \
+          gcc                               \
+          lcov                              \
+          ninja-build                       \
+          python3-cairosvg                  \
+          python3-defusedxml                \
+          python3-pil                       \
+          qt6-base-dev                      \
+          qt6-declarative-dev               \
+          qt6-declarative-dev-tools         \
+          qt6-declarative-private-dev       \
+          qt6-multimedia-dev                \
+          qt6-quick3d-dev                   \
+          qt6-quick3d-dev-tools             \
+          qt6-l10n-tools                    \
+          qml6-module-qtqml-workerscript    \
+          qml6-module-qtquick-window        \
+          libqt6shadertools6-dev            \
+          libqt6svg6-dev                    \
+          libqt6quick3druntimerender6       \
+          libboost-dev                      \
+          libopencv-dev                     \
+          libdlib-dev                       \
+          libexiv2-dev                      \
+          libgmock-dev                      \
+          libgl1-mesa-dev                   \
+          libglvnd-dev                      \
+          libwebp-dev
+
+    - name: Install magic enum
+      run: |
+        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
+
+    - name: Install CsLibGuarded
+      run: |
+        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
+        cd cs_libguarded
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --target all
+        sudo cmake --build . --target install
+
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-dir: ${{ runner.workspace }}/build
+        build-type: Debug
+        configure-options:
+            -DBUILD_SHARED_LIBS=${{ matrix.shared }}
+            -DLUPDATE=/usr/lib/qt6/bin/lupdate
+            -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+            -DENABLE_SANITIZERS_FOR_TESTS=FALSE
+            -Wdev -Werror=dev
+            -DCMAKE_CXX_FLAGS=--coverage
+            -DCMAKE_SHARED_LINKER_FLAGS=--coverage
+            -DCMAKE_EXE_LINKER_FLAGS=--coverage
+        run-test: true
+        ctest-options:
+            --output-on-failure
+
+    - name: Generate lcov raports
+      run: |
+        lcov --capture --ignore-errors mismatch --directory ${{ runner.workspace }}/build --output-file coverage.info
+        lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --list coverage.info
+
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
