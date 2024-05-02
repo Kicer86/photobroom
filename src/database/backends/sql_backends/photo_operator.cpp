@@ -131,6 +131,12 @@ namespace Database
     }
 
 
+    std::vector<Photo::DataDelta> PhotoOperator::fetchData(const Filter &, const Action &)
+    {
+        return {};
+    }
+
+
     std::vector<Photo::Id> PhotoOperator::getPhotos(const Filter& filter)
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
