@@ -1,16 +1,15 @@
 
 #include "backend.hpp"
 
-#include <stdexcept>
-
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QStringList>
 #include <QDir>
 
 #include <database/project_info.hpp>
-#include <backends/sql_backends/table_definition.hpp>
-#include <backends/sql_backends/query_structs.hpp>
+#include <database/backends/sql_backends/table_definition.hpp>
+#include <database/backends/sql_backends/query_structs.hpp>
+
 
 namespace Database
 {
@@ -113,52 +112,6 @@ namespace Database
         }
 
         return result;
-    }
-
-
-    SQLitePlugin::SQLitePlugin(): IPlugin()
-    {
-
-    }
-
-
-    SQLitePlugin::~SQLitePlugin()
-    {
-
-    }
-
-
-    std::unique_ptr<IBackend> SQLitePlugin::constructBackend(IConfiguration* c, ILogger* l)
-    {
-        return std::make_unique<SQLiteBackend>(c, l);
-    }
-
-
-    QString SQLitePlugin::backendName() const
-    {
-        return "SQLite";
-    }
-
-
-    ProjectInfo SQLitePlugin::initPrjDir(const QString& dir, const QString &) const
-    {
-        ProjectInfo prjInfo;
-        prjInfo.backendName = backendName();
-        prjInfo.databaseLocation = dir + QDir::separator() + "photo_broom.db";
-
-        return prjInfo;
-    }
-
-
-    QLayout* SQLitePlugin::buildDBOptions()
-    {
-        return nullptr;
-    }
-
-
-    char SQLitePlugin::simplicity() const
-    {
-        return 127;
     }
 
 }
