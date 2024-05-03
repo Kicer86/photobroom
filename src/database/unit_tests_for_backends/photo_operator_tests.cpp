@@ -179,7 +179,7 @@ TYPED_TEST(PhotoOperatorTest, removal)
     // Some may ask Photo::DataDelta for it while photo is being deleted.
     // It is not convenient to protect them all against null result.
     // Instead db should mark such photos and delete them later (possibly on db close).
-    const Photo::DataDelta readData = this->m_backend->template getPhotoDelta<Photo::Field::Path>(id);    // TODO: for some reason Photo::DataDelta cannot be replaced with auto. gcc 12.1.1 bug?
-    const auto& readDataPath = readData.get<Photo::Field::Path>();
+    const auto readData = this->m_backend->template getPhotoDelta<Photo::Field::Path>(id);
+    const auto& readDataPath = readData.template get<Photo::Field::Path>();
     EXPECT_EQ(readDataPath, path);
 }
