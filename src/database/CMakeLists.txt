@@ -72,8 +72,9 @@ add_library(database SHARED ${DATABASE_SOURCES})
 target_link_libraries(database
                         PUBLIC
                             Qt::Gui
+                            core                            # core is being used in some public interfaces (see photo_data.hpp)
+
                         PRIVATE
-                            core
                             Qt::Core
                             opencv_img_hash                 # do not link all possible libs, just those we will need (opencv_cvv uses Qt5 which causes problems)
                             ${CMAKE_THREAD_LIBS_INIT}
@@ -83,8 +84,9 @@ target_include_directories(database
                             PUBLIC
                                 ${MAGIC_ENUM_INCLUDE_DIR}
                                 ${CMAKE_CURRENT_BINARY_DIR}
+                                ${PROJECT_SOURCE_DIR}/src
+
                             PRIVATE
-                                ${CMAKE_SOURCE_DIR}/src
                                 ${CMAKE_CURRENT_SOURCE_DIR}
                                 ${OpenCV_INCLUDE_DIRS}
 )
