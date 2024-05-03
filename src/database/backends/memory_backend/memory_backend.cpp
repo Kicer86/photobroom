@@ -94,11 +94,13 @@ namespace Database
                 using T = std::decay_t<decltype(filter)>;
                 if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
                 {
-                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo) {
+                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo)
+                    {
                         return !photo.get<Photo::Field::PHash>().valid();
                     }), result.end());
 
-                    std::sort(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& lhs, const MemoryBackend::StoregeDelta& rhs) {
+                    std::sort(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& lhs, const MemoryBackend::StoregeDelta& rhs)
+                    {
                         return lhs.get<Photo::Field::PHash>() < rhs.get<Photo::Field::PHash>();
                     });
 
@@ -108,14 +110,15 @@ namespace Database
                 }
                 else if constexpr (std::is_same_v<T, Database::FilterPhotosWithPHash>)
                 {
-                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo) {
+                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo)
+                    {
                         return !photo.get<Photo::Field::PHash>().valid();
                     }), result.end());
                 }
                 else if constexpr (std::is_same_v<T, Database::FilterPhotosWithGeneralFlag>)
                 {
-                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo) {
-
+                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo)
+                    {
                         int value = 0;
                         auto it = db.m_flags.find(photo.getId());
 
@@ -135,7 +138,8 @@ namespace Database
                 }
                 else if constexpr (std::is_same_v<T, Database::FilterFaceAnalysisStatus>)
                 {
-                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo) {
+                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo)
+                    {
                         bool performed = false;
 
                         const auto ph_id = photo.getId();
