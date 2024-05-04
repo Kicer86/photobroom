@@ -5,6 +5,8 @@ if(BUILD_LEARNING_TESTS)
     add_subdirectory(learning_tests)
 endif()
 
+add_subdirectory(benchmarks)
+
 find_package(Qt6       REQUIRED COMPONENTS Core Gui)
 find_package(Threads   REQUIRED)
 find_package(MagicEnum REQUIRED)
