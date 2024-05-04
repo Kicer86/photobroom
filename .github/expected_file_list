@@ -61,7 +61,7 @@ opencv_videoio4.dll
 opengl32sw.dll
 photo_broom.exe
 photos_crawler.dll
-plugins\database\database_sqlite_backend.dll
+plugins\database\database_sqlite_plugin.dll
 project_utils.dll
 psapi.dll
 Qt6Core.dll
