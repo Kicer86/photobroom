@@ -5,7 +5,7 @@
 namespace Database
 {
 
-    NotificationsAccumulator::~NotificationsAccumulator() noexcept
+    NotificationsAccumulator::~NotificationsAccumulator()
     {
         assert(m_photosAdded.empty() && m_photosModified.empty() && m_photosRemoved.empty());
     }
