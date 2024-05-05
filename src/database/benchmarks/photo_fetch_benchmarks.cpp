@@ -95,6 +95,8 @@ void BM_get_photo_delta()
         std::vector<Photo::DataDelta> photos;
         for(const auto id: ids)
             backend.getPhotoDelta(id, {});
+
+        ankerl::nanobench::doNotOptimizeAway(photos);
     },
     "getPhotoDelta()"
     );
