@@ -162,6 +162,21 @@ namespace Database
                               (filter.status == Database::FilterFaceAnalysisStatus::NotPerformed && performed);
                     }), result.end());
                 }
+                else if constexpr (std::is_same_v<T, Database::FilterPhotosWithTag>)
+                {
+                    result.erase(std::remove_if(result.begin(), result.end(), [&filter](const MemoryBackend::StoregeDelta& photo)
+                    {
+                        const auto& tags = photo.get<Photo::Field::Tags>();
+                        const auto it = tags.find(filter.tagType);
+
+                        if (it == tags.end())
+                            return true;
+                        else
+                        {
+                            return it->second != filter.tagValue;
+                        }
+                    }), result.end());
+                }
 
             }, dbFilter);
 
