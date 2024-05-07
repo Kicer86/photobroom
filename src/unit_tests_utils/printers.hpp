@@ -19,7 +19,7 @@ concept isQtPrintable = requires(QDebug d, T a)
 
 template<typename T>
 requires isQtPrintable<T>
-inline void PrintTo(const T& qtObj, ::std::ostream* os)
+inline void PrintTo(const T& qtObj, std::ostream* os)
 {
     QString qtStr;
     QDebug debug(&qtStr);
