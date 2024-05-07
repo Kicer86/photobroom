@@ -101,3 +101,16 @@ void BM_get_photo_delta()
     "getPhotoDelta()"
     );
 }
+
+
+void BM_fetch_photo_delta()
+{
+    for_each_backend(fillBackendWithData, [](Database::IBackend& backend)
+    {
+        const auto photos = backend.photoOperator().fetchData(Database::FilterPhotosWithPath("path 1"));
+
+        ankerl::nanobench::doNotOptimizeAway(photos);
+    },
+    "fetchPhotoDelta()"
+    );
+}
