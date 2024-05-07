@@ -34,7 +34,7 @@ namespace Database
                 db_obj = QSqlDatabase::addDatabase("QSQLITE", backend->getConnectionName());
 
                 /// TODO: use some nice way for setting database name here
-                db_obj.setDatabaseName(prjInfo.databaseLocation );
+                db_obj.setDatabaseName(prjInfo.databaseLocation);
             }
 
             return status;
