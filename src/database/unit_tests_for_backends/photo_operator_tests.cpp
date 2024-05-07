@@ -183,3 +183,25 @@ TYPED_TEST(PhotoOperatorTest, removal)
     const auto& readDataPath = readData.template get<Photo::Field::Path>();
     EXPECT_EQ(readDataPath, path);
 }
+
+
+TYPED_TEST(PhotoOperatorTest, fetchDeltasForAllPhotos)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(SampleDB::db2);
+
+    const auto photos = this->m_backend->photoOperator().fetchData(Database::EmptyFilter());
+
+    ASSERT_EQ(photos.size(), 21);
+}
+
+
+TYPED_TEST(PhotoOperatorTest, fetchDeltasForSomePhotos)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(SampleDB::db2);
+
+    const auto photos = this->m_backend->photoOperator().fetchData(Database::FilterPhotosWithTag(Tag::Types::Time, QTime(10, 0, 0)));
+
+    ASSERT_EQ(photos.size(), 7);
+}

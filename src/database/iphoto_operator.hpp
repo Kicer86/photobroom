@@ -19,10 +19,10 @@ namespace Database
         virtual bool removePhoto(const Photo::Id &) = 0;
         virtual bool removePhotos(const Filter &) = 0;
         virtual std::vector<Photo::Id> onPhotos(const Filter &, const Action &) = 0;
-        virtual std::vector<Photo::DataDelta> fetchData(const Filter &, const Action &) = 0;
 
         /// find all photos matching filters
         virtual std::vector<Photo::Id> getPhotos(const Filter &) = 0;
+        virtual std::vector<Photo::DataDelta> fetchData(const Filter &) = 0;
 
         // phash operations
         virtual void setPHash(const Photo::Id &, const Photo::PHashT &) = 0;

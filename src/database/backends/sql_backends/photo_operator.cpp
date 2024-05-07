@@ -131,12 +131,6 @@ namespace Database
     }
 
 
-    std::vector<Photo::DataDelta> PhotoOperator::fetchData(const Filter &, const Action &)
-    {
-        return {};
-    }
-
-
     std::vector<Photo::Id> PhotoOperator::getPhotos(const Filter& filter)
     {
         const QString queryStr = SqlFilterQueryGenerator().generate(filter);
@@ -148,6 +142,24 @@ namespace Database
         auto result = fetch(query);
 
         return result;
+    }
+
+
+    std::vector<Photo::DataDelta> PhotoOperator::fetchData(const Filter& filter)
+    {
+        std::vector<Photo::DataDelta> deltas;
+
+        std::unordered_map<Photo::Id, Photo::DataDelta> accumulator;
+
+        const auto paths = getPaths(filter);
+        for (const auto& [id, path]: paths)
+            accumulator[id].insert<Photo::Field::Path>(path);
+
+        deltas.reserve(accumulator.size());
+        for (const auto& [_, delta]: accumulator)
+            deltas.push_back(delta);
+
+        return deltas;
     }
 
 
@@ -245,68 +257,100 @@ namespace Database
         return collection;
     }
 
-}
 
-
-void Database::PhotoOperator::processAction(ActionContext& context, const Database::Action& action) const
-{
-    if (auto sort_by_tag = std::get_if<Actions::SortByTag>(&action))
+    void PhotoOperator::processAction(ActionContext& context, const Action& action) const
     {
-        auto it = namesForJoins.find(sort_by_tag->tag);
-
-        if (it != namesForJoins.end())
+        if (auto sort_by_tag = std::get_if<Actions::SortByTag>(&action))
         {
-            const char* joinName = it->second;
+            auto it = namesForJoins.find(sort_by_tag->tag);
 
-            context.joins.append(QString("LEFT JOIN %1 %4 ON (%2.id = %4.photo_id AND %4.name = %3)")
-                .arg(TAB_TAGS)
-                .arg(TAB_PHOTOS)
-                .arg(sort_by_tag->tag)
-                .arg(joinName));
-
-            context.sortOrder.append(QString("%2.value %1")
-                .arg(sort_by_tag->sort_order == Qt::AscendingOrder? "ASC": "DESC")
-                .arg(joinName));
-        }
-    }
-    else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
-    {
-        for (const auto& sub_action: group_action->actions)
-            processAction(context, sub_action);
-    }
-    else if (auto sort = std::get_if<Actions::Sort>(&action))
-    {
-        switch(sort->by)
-        {
-            case Actions::Sort::By::PHash:
+            if (it != namesForJoins.end())
             {
-                context.joins.append(QString("LEFT JOIN %1 ON (%2.id = %1.photo_id)")
-                    .arg(TAB_PHASHES)
-                    .arg(TAB_PHOTOS));
+                const char* joinName = it->second;
 
-                context.sortOrder.append(QString("%2.hash %1")
-                    .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC")
-                    .arg(TAB_PHASHES));
-
-                break;
-            }
-
-            case Actions::Sort::By::Timestamp:
-            {
-                const Actions::SortByTag byDate(Tag::Types::Date, sort->order);
-                const Actions::SortByTag byTime(Tag::Types::Time, sort->order);
-                processAction(context, byDate);
-                processAction(context, byTime);
-                break;
-            }
-
-            case Actions::Sort::By::ID:
-                context.sortOrder.append(QString("%1.id %2")
+                context.joins.append(QString("LEFT JOIN %1 %4 ON (%2.id = %4.photo_id AND %4.name = %3)")
+                    .arg(TAB_TAGS)
                     .arg(TAB_PHOTOS)
-                    .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC"));
-                break;
+                    .arg(sort_by_tag->tag)
+                    .arg(joinName));
+
+                context.sortOrder.append(QString("%2.value %1")
+                    .arg(sort_by_tag->sort_order == Qt::AscendingOrder? "ASC": "DESC")
+                    .arg(joinName));
+            }
         }
+        else if (auto group_action = std::get_if<Actions::GroupAction>(&action))
+        {
+            for (const auto& sub_action: group_action->actions)
+                processAction(context, sub_action);
+        }
+        else if (auto sort = std::get_if<Actions::Sort>(&action))
+        {
+            switch(sort->by)
+            {
+                case Actions::Sort::By::PHash:
+                {
+                    context.joins.append(QString("LEFT JOIN %1 ON (%2.id = %1.photo_id)")
+                        .arg(TAB_PHASHES)
+                        .arg(TAB_PHOTOS));
+
+                    context.sortOrder.append(QString("%2.hash %1")
+                        .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC")
+                        .arg(TAB_PHASHES));
+
+                    break;
+                }
+
+                case Actions::Sort::By::Timestamp:
+                {
+                    const Actions::SortByTag byDate(Tag::Types::Date, sort->order);
+                    const Actions::SortByTag byTime(Tag::Types::Time, sort->order);
+                    processAction(context, byDate);
+                    processAction(context, byTime);
+                    break;
+                }
+
+                case Actions::Sort::By::ID:
+                    context.sortOrder.append(QString("%1.id %2")
+                        .arg(TAB_PHOTOS)
+                        .arg(sort->order == Qt::AscendingOrder? "ASC": "DESC"));
+                    break;
+            }
+        }
+        else
+            assert(!"Unknown action");
     }
-    else
-        assert(!"Unknown action");
+
+
+    std::unordered_map<Photo::Id, QString> PhotoOperator::getPaths(const Filter& filter) const
+    {
+        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
+        const QString queryStr = QString("SELECT id, path FROM %1 WHERE id IN (%2)")
+            .arg(TAB_PHOTOS)
+            .arg(filterQuery);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(queryStr, &query);
+
+        std::unordered_map<Photo::Id, QString> pathsOfMatchingPhotos;
+
+        while (query.next())
+        {
+            const QVariant idVar = query.value(0);
+            assert(idVar.isValid());
+            assert(idVar.canConvert<int>());
+            const Photo::Id id(idVar);
+
+            const QVariant pathVar = query.value(1);
+            assert(pathVar.isValid());
+            assert(pathVar.canConvert<QString>());
+            const auto path = pathVar.toString();
+
+            pathsOfMatchingPhotos.emplace(id, path);
+        }
+
+        return pathsOfMatchingPhotos;
+    }
 }
