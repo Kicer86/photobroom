@@ -763,12 +763,6 @@ namespace Database
     }
 
 
-    std::vector<Photo::DataDelta> MemoryBackend::fetchData(const Filter &, const Action &)
-    {
-        return {};
-    }
-
-
     std::vector<Photo::Id> MemoryBackend::getPhotos(const Filter& filter)
     {
         std::vector<StoregeDelta> data(m_db->m_photos.begin(), m_db->m_photos.end());
@@ -779,6 +773,15 @@ namespace Database
             ids.push_back(photo.getId());
 
         return ids;
+    }
+
+
+    std::vector<Photo::DataDelta> MemoryBackend::fetchData(const Filter& filter)
+    {
+        std::vector<StoregeDelta> data(m_db->m_photos.begin(), m_db->m_photos.end());
+        data = filterPhotos(data, *m_db, filter);
+
+        return std::vector<Photo::DataDelta>(data.begin(), data.end());
     }
 
 
