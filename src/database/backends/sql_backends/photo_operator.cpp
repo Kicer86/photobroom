@@ -44,6 +44,43 @@ namespace Database
             { Tag::Types::Rating,   "rating_tag"   },
             { Tag::Types::Category, "category_tag" },
         };
+
+        template<typename T, std::size_t... Is>
+        void forEachItem(T& tp, auto op, std::index_sequence<Is...>)
+        {
+            (op(std::get<Is>(tp), Is), ...);
+        }
+
+
+        template<typename... Args>
+        auto readValues(QSqlQuery& query)
+        {
+            std::tuple<Args...> values;
+
+            forEachItem(
+                values,
+                [&query](auto& v, int i)
+                {
+                    using vType = std::decay_t<decltype(v)>;
+
+                    if constexpr (std::is_same_v<vType, Photo::Id>)
+                    {
+                        const QVariant value = query.value(i);
+                        assert(value.canConvert<int>());
+                        v = value.value<int>();
+                    }
+                    else
+                    {
+                        const QVariant value = query.value(i);
+                        assert(value.canConvert<vType>());
+                        v = value.value<vType>();
+                    }
+                },
+                std::make_integer_sequence<std::size_t, sizeof...(Args)>()
+            );
+
+            return values;
+        }
     }
 
     PhotoOperator::PhotoOperator(const QString& connection,
@@ -155,9 +192,16 @@ namespace Database
         for (const auto& [id, path]: paths)
             accumulator[id].insert<Photo::Field::Path>(path);
 
+        const auto photos_tags = getTags(filter);
+        for (const auto& [id, tags]: photos_tags)
+            accumulator[id].insert<Photo::Field::Tags>(tags);
+
         deltas.reserve(accumulator.size());
-        for (const auto& [_, delta]: accumulator)
+        for (auto& [id, delta]: accumulator)
+        {
+            delta.setId(id);
             deltas.push_back(delta);
+        }
 
         return deltas;
     }
@@ -338,19 +382,40 @@ namespace Database
 
         while (query.next())
         {
-            const QVariant idVar = query.value(0);
-            assert(idVar.isValid());
-            assert(idVar.canConvert<int>());
-            const Photo::Id id(idVar);
-
-            const QVariant pathVar = query.value(1);
-            assert(pathVar.isValid());
-            assert(pathVar.canConvert<QString>());
-            const auto path = pathVar.toString();
-
+            const auto [id, path] = readValues<Photo::Id, QString>(query);
             pathsOfMatchingPhotos.emplace(id, path);
         }
 
         return pathsOfMatchingPhotos;
+    }
+
+
+    std::unordered_map<Photo::Id, Tag::TagsList> PhotoOperator::getTags(const Filter& filter) const
+    {
+        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
+        const QString queryStr = QString("SELECT "
+                                         "photo_id, name, value "
+                                         "FROM "
+                                         "%1 "
+                                         "WHERE photo_id IN (%2)")
+                                 .arg(TAB_TAGS)
+                                 .arg(filterQuery);
+
+        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
+        QSqlQuery query(db);
+
+        m_executor->exec(queryStr, &query);
+
+        std::unordered_map<Photo::Id, Tag::TagsList> tagsOfMatchingPhotos;
+
+        while (query.next())
+        {
+            const auto [id, tagTypeI, tagValue] = readValues<Photo::Id, int, QString>(query);
+            const Tag::Types tagType = static_cast<Tag::Types>(tagTypeI);
+
+            tagsOfMatchingPhotos[id].emplace(tagType, TagValue::fromRaw(tagValue, BaseTags::getType(tagType)));
+        }
+
+        return tagsOfMatchingPhotos;
     }
 }

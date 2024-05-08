@@ -71,6 +71,7 @@ namespace Database
             void processAction(ActionContext &, const Action &) const;
 
             std::unordered_map<Photo::Id, QString> getPaths(const Filter &) const;
+            std::unordered_map<Photo::Id, Tag::TagsList> getTags(const Filter &) const;
     };
 }
 
