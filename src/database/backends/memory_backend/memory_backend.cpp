@@ -780,7 +780,20 @@ namespace Database
         std::vector<StoregeDelta> data(m_db->m_photos.begin(), m_db->m_photos.end());
         data = filterPhotos(data, *m_db, filter);
 
-        return std::vector<Photo::DataDelta>(data.begin(), data.end());
+        auto& peopleAccessor = peopleInformationAccessor();
+        std::vector<Photo::DataDelta> deltas;
+
+        for(const auto& explicitDelta: data)
+        {
+            const auto peopleData = peopleAccessor.listPeopleFull(explicitDelta.getId());
+
+            Photo::DataDelta delta(explicitDelta);
+            delta.insert<Photo::Field::People>(peopleData);
+
+            deltas.push_back(delta);
+        }
+
+        return deltas;
     }
 
 
