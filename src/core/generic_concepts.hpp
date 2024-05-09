@@ -2,6 +2,10 @@
 #ifndef GENERIC_CONCEPTS
 #define GENERIC_CONCEPTS
 
+#include <map>
+#include <unordered_map>
+
+
 template<typename T>
 concept SmartPointer = requires(T p)
 {
@@ -39,5 +43,13 @@ concept Container = requires(T p)
     { p.begin() };
     { p.end()   };
 };
+
+
+// https://stackoverflow.com/a/64088175/1749713
+template<typename T>
+concept map_type =
+    std::same_as<T, std::map<typename T::key_type, typename T::mapped_type, typename T::key_compare, typename T::allocator_type>> ||
+    std::same_as<T, std::unordered_map<typename T::key_type, typename T::mapped_type, typename T::hasher, typename T::key_equal, typename T::allocator_type>>;
+
 
 #endif
