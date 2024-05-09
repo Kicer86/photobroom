@@ -201,6 +201,10 @@ namespace Database
         for (const auto& [id, flags]: photos_flags)
             accumulator[id].insert<Photo::Field::Flags>(flags);
 
+        const auto photos_geometry = getGeometry(filter);
+        for (const auto& [id, geometry]: photos_geometry)
+            accumulator[id].insert<Photo::Field::Geometry>(geometry);
+
         deltas.reserve(accumulator.size());
         for (auto& [id, delta]: accumulator)
         {
@@ -416,6 +420,20 @@ namespace Database
 
         return flagsOfMatchingPhotos;
     }
+
+
+    std::unordered_map<Photo::Id, QSize> PhotoOperator::getGeometry(const Filter& filter) const
+    {
+        const QString query = QString("SELECT photo_id, width, height FROM %1").arg(TAB_GEOMETRY);
+        const auto geometryOfMatchingPhotos = getAny<QSize>(filter, query, [](const QSqlQuery& sqlQuery)
+        {
+            const auto [id, width, height] = readValues<Photo::Id, int, int>(sqlQuery);
+            return std::tuple{id, QSize(width, height)};
+        });
+
+        return geometryOfMatchingPhotos;
+    }
+
 
     template<typename T, typename C>
     std::unordered_map<Photo::Id, T> PhotoOperator::getAny(const Filter& filter, const QString& queryStr, C op) const
