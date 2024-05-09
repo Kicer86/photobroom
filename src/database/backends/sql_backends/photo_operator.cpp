@@ -22,6 +22,7 @@
 #include <QSqlQuery>
 
 #include <core/ilogger.hpp>
+#include <core/generic_concepts.hpp>
 #include <database/ibackend.hpp>
 #include <database/general_flags.hpp>
 
@@ -53,7 +54,7 @@ namespace Database
 
 
         template<typename... Args>
-        auto readValues(QSqlQuery& query)
+        auto readValues(const QSqlQuery& query)
         {
             std::tuple<Args...> values;
 
@@ -368,23 +369,13 @@ namespace Database
 
     std::unordered_map<Photo::Id, QString> PhotoOperator::getPaths(const Filter& filter) const
     {
-        const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
-        const QString queryStr = QString("SELECT id, path FROM %1 WHERE id IN (%2)")
-            .arg(TAB_PHOTOS)
-            .arg(filterQuery);
+        const QString query = QString("SELECT id, path FROM %1").arg(TAB_PHOTOS);
 
-        QSqlDatabase db = QSqlDatabase::database(m_connectionName);
-        QSqlQuery query(db);
-
-        m_executor->exec(queryStr, &query);
-
-        std::unordered_map<Photo::Id, QString> pathsOfMatchingPhotos;
-
-        while (query.next())
+        const std::unordered_map<Photo::Id, QString> pathsOfMatchingPhotos = getAny<QString>(filter, query, [](const QSqlQuery& sqlQuery)
         {
-            const auto [id, path] = readValues<Photo::Id, QString>(query);
-            pathsOfMatchingPhotos.emplace(id, path);
-        }
+            const auto [id, path] = readValues<Photo::Id, QString>(sqlQuery);
+            return std::tuple{id, path};
+        });
 
         return pathsOfMatchingPhotos;
     }
@@ -392,30 +383,41 @@ namespace Database
 
     std::unordered_map<Photo::Id, Tag::TagsList> PhotoOperator::getTags(const Filter& filter) const
     {
+        const QString query = QString("SELECT photo_id, name, value FROM %1").arg(TAB_TAGS);
+        const std::unordered_map<Photo::Id, Tag::TagsList> tagsOfMatchingPhotos = getAny<Tag::TagsList>(filter, query, [](const QSqlQuery& sqlQuery)
+        {
+            const auto [id, tagTypeI, tagValue] = readValues<Photo::Id, int, QString>(sqlQuery);
+            const Tag::Types tagType = static_cast<Tag::Types>(tagTypeI);
+
+            return std::tuple{id, std::pair{tagType, TagValue::fromRaw(tagValue, BaseTags::getType(tagType)) }};
+        });
+
+        return tagsOfMatchingPhotos;
+    }
+
+    template<typename T, typename C>
+    std::unordered_map<Photo::Id, T> PhotoOperator::getAny(const Filter& filter, const QString& queryStr, C op) const
+    {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
-        const QString queryStr = QString("SELECT "
-                                         "photo_id, name, value "
-                                         "FROM "
-                                         "%1 "
-                                         "WHERE photo_id IN (%2)")
-                                 .arg(TAB_TAGS)
-                                 .arg(filterQuery);
+        const QString finalQueryStr = QString("%1 WHERE photo_id IN (%2)").arg(queryStr).arg(filterQuery);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
 
-        m_executor->exec(queryStr, &query);
+        m_executor->exec(finalQueryStr, &query);
 
-        std::unordered_map<Photo::Id, Tag::TagsList> tagsOfMatchingPhotos;
+        std::unordered_map<Photo::Id, T> anyForPhoto;
 
         while (query.next())
         {
-            const auto [id, tagTypeI, tagValue] = readValues<Photo::Id, int, QString>(query);
-            const Tag::Types tagType = static_cast<Tag::Types>(tagTypeI);
+            const auto [id, any] = op(query);
 
-            tagsOfMatchingPhotos[id].emplace(tagType, TagValue::fromRaw(tagValue, BaseTags::getType(tagType)));
+            if constexpr (std::is_same_v<T, std::decay_t<decltype(any)>>)
+                anyForPhoto.emplace(id, any);
+            else if (map_type<T>)
+                anyForPhoto[id].insert(any);
         }
 
-        return tagsOfMatchingPhotos;
+        return anyForPhoto;
     }
 }
