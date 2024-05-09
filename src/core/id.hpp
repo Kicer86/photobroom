@@ -122,7 +122,6 @@ class Id
 };
 
 
-template<>
 template<typename T, typename Tag>
 struct std::hash<Id<T, Tag>>
 {
