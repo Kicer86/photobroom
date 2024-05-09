@@ -1,4 +1,6 @@
 
+module;
+
 #include <QDir>
 #include <QTime>
 #include <QTemporaryDir>
@@ -11,6 +13,8 @@
 #include <database/project_info.hpp>
 
 #include <unit_tests_utils/empty_logger.hpp>
+
+export module photoDeltaFetchingBenchmarks;
 
 namespace
 {
@@ -99,7 +103,7 @@ namespace
 }
 
 
-void BM_get_photo_delta()
+export void BM_get_photo_delta()
 {
     for_each_backend(fillBackendWithData, [](Database::IBackend& backend)
     {
@@ -116,7 +120,7 @@ void BM_get_photo_delta()
 }
 
 
-void BM_fetch_photo_delta()
+export void BM_fetch_photo_delta()
 {
     for_each_backend(fillBackendWithData, [](Database::IBackend& backend)
     {
