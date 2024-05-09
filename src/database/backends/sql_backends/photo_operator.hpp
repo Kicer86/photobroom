@@ -72,6 +72,9 @@ namespace Database
 
             std::unordered_map<Photo::Id, QString> getPaths(const Filter &) const;
             std::unordered_map<Photo::Id, Tag::TagsList> getTags(const Filter &) const;
+
+            template<typename T, typename C>
+            std::unordered_map<Photo::Id, T> getAny(const Filter &, const QString &, C op) const;
     };
 }
 
