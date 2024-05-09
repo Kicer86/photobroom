@@ -197,6 +197,10 @@ namespace Database
         for (const auto& [id, tags]: photos_tags)
             accumulator[id].insert<Photo::Field::Tags>(tags);
 
+        const auto photos_flags = getFlags(filter);
+        for (const auto& [id, flags]: photos_flags)
+            accumulator[id].insert<Photo::Field::Flags>(flags);
+
         deltas.reserve(accumulator.size());
         for (auto& [id, delta]: accumulator)
         {
@@ -370,8 +374,7 @@ namespace Database
     std::unordered_map<Photo::Id, QString> PhotoOperator::getPaths(const Filter& filter) const
     {
         const QString query = QString("SELECT id, path FROM %1").arg(TAB_PHOTOS);
-
-        const std::unordered_map<Photo::Id, QString> pathsOfMatchingPhotos = getAny<QString>(filter, query, [](const QSqlQuery& sqlQuery)
+        const auto pathsOfMatchingPhotos = getAny<QString>(filter, query, [](const QSqlQuery& sqlQuery)
         {
             const auto [id, path] = readValues<Photo::Id, QString>(sqlQuery);
             return std::tuple{id, path};
@@ -384,7 +387,7 @@ namespace Database
     std::unordered_map<Photo::Id, Tag::TagsList> PhotoOperator::getTags(const Filter& filter) const
     {
         const QString query = QString("SELECT photo_id, name, value FROM %1").arg(TAB_TAGS);
-        const std::unordered_map<Photo::Id, Tag::TagsList> tagsOfMatchingPhotos = getAny<Tag::TagsList>(filter, query, [](const QSqlQuery& sqlQuery)
+        const auto tagsOfMatchingPhotos = getAny<Tag::TagsList>(filter, query, [](const QSqlQuery& sqlQuery)
         {
             const auto [id, tagTypeI, tagValue] = readValues<Photo::Id, int, QString>(sqlQuery);
             const Tag::Types tagType = static_cast<Tag::Types>(tagTypeI);
@@ -393,6 +396,25 @@ namespace Database
         });
 
         return tagsOfMatchingPhotos;
+    }
+
+
+    std::unordered_map<Photo::Id, Photo::FlagValues> PhotoOperator::getFlags(const Filter& filter) const
+    {
+        const QString query = QString("SELECT photo_id, staging_area, tags_loaded, geometry_loaded FROM %1").arg(TAB_FLAGS);
+        const auto flagsOfMatchingPhotos = getAny<Photo::FlagValues>(filter, query, [](const QSqlQuery& sqlQuery)
+        {
+            const auto [id, staging_area, tags_loaded, geometry_loaded] = readValues<Photo::Id, int, int, int>(sqlQuery);
+            const Photo::FlagValues flags{
+                {Photo::FlagsE::StagingArea, staging_area},
+                {Photo::FlagsE::ExifLoaded, tags_loaded},
+                {Photo::FlagsE::GeometryLoaded, geometry_loaded}
+            };
+
+            return std::tuple{id, flags};
+        });
+
+        return flagsOfMatchingPhotos;
     }
 
     template<typename T, typename C>
