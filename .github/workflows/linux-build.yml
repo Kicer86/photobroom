@@ -55,7 +55,6 @@ jobs:
           libboost-dev                      \
           libopencv-dev                     \
           libdlib-dev                       \
-          libexiv2-dev                      \
           libgmock-dev                      \
           libgl1-mesa-dev                   \
           libglvnd-dev                      \
@@ -76,6 +75,17 @@ jobs:
       run: |
         git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
         cd cs_libguarded
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --target all
+        sudo cmake --build . --target install
+
+    - name: Install Exiv2
+      run: |
+        sudo apt-get install libinih-dev
+        git clone -b v0.28.2 https://github.com/Exiv2/exiv2.git
+        cd exiv2
         mkdir build
         cd build
         cmake ..
