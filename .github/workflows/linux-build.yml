@@ -89,7 +89,7 @@ jobs:
         cd exiv2
         mkdir build
         cd build
-        cmake ..
+        cmake .. -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_SAMPLES=OFF
         cmake --build . --target all
         sudo cmake --build . --target install
 
