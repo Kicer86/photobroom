@@ -84,7 +84,7 @@ jobs:
 
     - name: Install Exiv2
       run: |
-        sudo apt-get install libinih-dev
+        sudo apt-get install libinih-dev gettext
         git clone -b v0.28.2 https://github.com/Exiv2/exiv2.git
         cd exiv2
         mkdir build
