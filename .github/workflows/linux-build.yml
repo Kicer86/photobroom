@@ -18,7 +18,7 @@ jobs:
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
         build: [Release]
         shared: [TRUE, FALSE]
-        os: [ubuntu-22.04]
+        os: [ubuntu-24.04]
 
     steps:
     # switch to ubuntu 23.10
@@ -35,7 +35,6 @@ jobs:
       run: |
         sudo apt-get update &&              \
         sudo apt-get install                \
-          gcc                               \
           ninja-build                       \
           python3-cairosvg                  \
           python3-defusedxml                \
