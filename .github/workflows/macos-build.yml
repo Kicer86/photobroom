@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - master
+      - macos_build
   pull_request:
 
 jobs:
