@@ -1,11 +1,16 @@
 
 find_package(OpenCV           REQUIRED)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui Multimedia)
-find_package(exiv2     0.28.2 REQUIRED)
+find_package(exiv2            REQUIRED)
 find_package(Threads          REQUIRED)
 find_package(CsLibGuarded     REQUIRED)
 
 include(GenerateExportHeader)
+
+if(exiv2_VERSION  VERSION_LESS 0.28.1)
+    message(FATAL_ERROR "Exiv2 0.28.1 or higher is required")
+endif()
+
 
 if(TARGET Exiv2::exiv2lib)
     set(EXIV2_LIB Exiv2::exiv2lib)
