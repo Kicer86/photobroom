@@ -12,7 +12,5 @@ var searchData=
   ['exifreaderfactorymock_9',['ExifReaderFactoryMock',['../de/d3c/class_exif_reader_factory_mock.html',1,'']]],
   ['exiftoolvideodetailsreader_10',['ExiftoolVideoDetailsReader',['../d9/db9/class_exiftool_video_details_reader.html',1,'']]],
   ['exiv2exifreader_11',['Exiv2ExifReader',['../d5/d00/class_exiv2_exif_reader.html',1,'']]],
-  ['exiv2helper_12',['Exiv2Helper',['../dc/d5c/struct_exiv2_helper.html',1,'']]],
-  ['exiv2helper_3c_20exiv2_3a_3aimage_20_3e_13',['Exiv2Helper&lt; Exiv2::Image &gt;',['../dc/d5c/struct_exiv2_helper.html',1,'']]],
-  ['explicitdelta_14',['ExplicitDelta',['../db/d29/class_photo_1_1_explicit_delta.html',1,'Photo']]]
+  ['explicitdelta_12',['ExplicitDelta',['../db/d29/class_photo_1_1_explicit_delta.html',1,'Photo']]]
 ];
