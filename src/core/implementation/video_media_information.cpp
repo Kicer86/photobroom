@@ -107,7 +107,7 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
             auto videoStream = findVideoStream(formatContext);
 
             double rotation = 0.0;
-            for (int i = 0; i < videoStream->nb_side_data; ++i) {
+            for (int i = 0; videoStream && i < videoStream->nb_side_data; ++i) {
                 AVPacketSideData *sideData = &videoStream->side_data[i];
                 if (sideData->type == AV_PKT_DATA_DISPLAYMATRIX)
                 {
