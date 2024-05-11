@@ -67,7 +67,7 @@ jobs:
       if: matrix.compiler.compiler == 'LLVM'
       run: |
         sudo apt-get install    \
-          clang                 \
+          clang
 
     - name: Install magic enum
       run: |
@@ -85,12 +85,12 @@ jobs:
 
     - name: Install Exiv2
       run: |
-        sudo apt-get install libinih-dev gettext
+        sudo apt-get install libinih-dev
         git clone -b v0.28.2 https://github.com/Exiv2/exiv2.git
         cd exiv2
         mkdir build
         cd build
-        cmake .. -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_ENABLE_NLS=ON -DEXIV2_ENABLE_XMP=ON -DEXIV2_ENABLE_WEBREADY=ON -DEXIV2_ENABLE_BMFF=ON -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_SAMPLES=OFF
+        cmake .. -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_BUILD_EXIV2_COMMAND=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_SAMPLES=OFF
         cmake --build . --target all
         sudo cmake --build . --target install
 
