@@ -24,6 +24,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
+        lfs: true
 
     - name: Install system dependencies
       run: |
@@ -77,7 +78,7 @@ jobs:
         cd exiv2
         mkdir build
         cd build
-        cmake ..
+        cmake .. -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_BUILD_EXIV2_COMMAND=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_SAMPLES=OFF
         cmake --build . --target all
         sudo cmake --build . --target install
 

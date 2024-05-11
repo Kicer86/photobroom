@@ -237,18 +237,6 @@
     </message>
 </context>
 <context>
-    <name>FeaturesObserver</name>
-    <message>
-        <location filename="../src/gui/desktop/utils/features_observer.cpp" line="+48"/>
-        <source>Path for tool %1 is not set or is invalid.
-Some functionality may be disabled.
-Check paths in configuration window.</source>
-        <translation>Ścieżka do programu %1 jest nieustawiona bądź jest niepoprawna.
-Pewne funkcjonalności mogą być niedostępne.
-Sprawdź poprawność ścieżek w konfiguracji.</translation>
-    </message>
-</context>
-<context>
     <name>Filter</name>
     <message>
         <location filename="../src/gui/desktop/quick_items/Filter.qml" line="+89"/>
@@ -421,7 +409,7 @@ Sprawdź poprawność ścieżek w konfiguracji.</translation>
         <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+195"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+192"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -443,7 +431,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+120"/>
+        <location line="+119"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -951,48 +939,6 @@ Kod błędu: %1</translation>
         <location line="+25"/>
         <source>unknown</source>
         <translation>nieznane</translation>
-    </message>
-</context>
-<context>
-    <name>ToolsTab</name>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.ui" line="+20"/>
-        <source>External tools</source>
-        <translation>Zewnętrzne narzędzia</translation>
-    </message>
-    <message>
-        <location line="+44"/>
-        <source>External tools are not needed for Photo Broom to work, but may impact available features.</source>
-        <translation>Zewnętrzne narzędzia nie są konieczne, aby program Photo Broom działał, ale pewne funkcje mogą być niedostępne.</translation>
-    </message>
-    <message>
-        <location line="-23"/>
-        <source>Visit &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; for downloads.</source>
-        <translation>Odwiedź &lt;a href=&quot;https://exiftool.org/&quot;&gt;https://exiftool.org&lt;/a&gt; aby pobrać.</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/config_tabs/tools_tab.cpp" line="+20"/>
-        <location line="+4"/>
-        <source>Select executable</source>
-        <translation>Wybierz plik wykonywalny</translation>
-    </message>
-    <message>
-        <location line="-2"/>
-        <source>Applications (*.exe);;All files (*.*)</source>
-        <translation>Aplikacje (*.exe);;Wszystkie pliki (*.*)</translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Browse</source>
-        <translation>Przeglądaj</translation>
-    </message>
-</context>
-<context>
-    <name>ToolsTabController</name>
-    <message>
-        <location line="+35"/>
-        <source>External tools</source>
-        <translation>Zewnętrzne narzędzia</translation>
     </message>
 </context>
 <context>

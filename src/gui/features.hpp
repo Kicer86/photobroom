@@ -5,7 +5,7 @@
 
 namespace gui::features
 {
-    const char* const ToolExifTool = "gui::tool::exiftool";
+
 }
 
 

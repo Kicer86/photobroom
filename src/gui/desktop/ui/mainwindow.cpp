@@ -33,7 +33,6 @@
 
 #include "config_keys.hpp"
 #include "config_tabs/main_tab.hpp"
-#include "config_tabs/tools_tab.hpp"
 #include "models/flat_model.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
 #include "ui_utils/config_dialog_manager.hpp"
@@ -60,7 +59,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_thumbnailsManager(thbMgr),
     m_configDialogManager(new ConfigDialogManager),
     m_mainTabCtrl(new MainTabController),
-    m_toolsTabCtrl(new ToolsTabController),
     m_completerFactory(*m_logger),
     m_featuresObserver(featuresManager, m_notifications)
 {
@@ -76,7 +74,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
             &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
 
     m_mainTabCtrl->set(&m_configuration);
-    m_toolsTabCtrl->set(&m_configuration);
 }
 
 
@@ -296,7 +293,6 @@ void MainWindow::updateProjectProperties()
 void MainWindow::registerConfigTab()
 {
     m_configDialogManager->registerTab(m_mainTabCtrl.get());
-    m_configDialogManager->registerTab(m_toolsTabCtrl.get());
 }
 
 

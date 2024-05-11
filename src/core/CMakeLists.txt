@@ -1,9 +1,10 @@
 
-find_package(OpenCV           REQUIRED)
-find_package(Qt6              REQUIRED COMPONENTS Core Gui Multimedia)
-find_package(exiv2            REQUIRED)
-find_package(Threads          REQUIRED)
 find_package(CsLibGuarded     REQUIRED)
+find_package(exiv2            REQUIRED)
+find_package(FFmpeg           COMPONENTS AVCODEC AVFORMAT AVUTIL REQUIRED)
+find_package(OpenCV           REQUIRED)
+find_package(Qt6              REQUIRED COMPONENTS Core Gui)
+find_package(Threads          REQUIRED)
 
 include(GenerateExportHeader)
 
@@ -18,10 +19,17 @@ else()
     set(EXIV2_LIB exiv2lib)
 endif()
 
+# FFmpeg's list of libraries may come with many duplicated entries (with and without absolute paths) which causes
+# havoc on Windows. Remove all duplicates and entries which do not come with absolute path
+list(REMOVE_DUPLICATES FFMPEG_LIBRARIES)
+if(WIN32)
+    list(FILTER FFMPEG_LIBRARIES INCLUDE REGEX "[a-zA-Z]\\:/")
+endif()
+
+
 set(CORE_SOURCES
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
     implementation/configuration_p.hpp
-    implementation/exiftool_video_details_reader.hpp        implementation/exiftool_video_details_reader.cpp
     implementation/exiv2_exif_reader.hpp                    implementation/exiv2_exif_reader.cpp
                                                             implementation/hdr_assembler.cpp
     implementation/image_media_information.hpp              implementation/image_media_information.cpp
@@ -102,7 +110,7 @@ target_link_libraries(core
     PUBLIC
         Qt::Core
         Qt::Gui
-        Qt::Multimedia
+        ${FFMPEG_LIBRARIES}
     PRIVATE
         system
         ${CMAKE_THREAD_LIBS_INIT}

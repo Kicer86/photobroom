@@ -16,3 +16,6 @@
 [submodule "src/third_party/reflect-cpp"]
 	path = src/third_party/reflect-cpp
 	url = https://github.com/getml/reflect-cpp.git
+[submodule "src/core/learning_tests/test-videos"]
+	path = src/core/learning_tests/test-videos
+	url = https://github.com/Kicer86/VOF-media.git

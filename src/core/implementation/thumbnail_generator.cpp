@@ -33,9 +33,9 @@
 #include "video_media_information.hpp"
 
 
-ThumbnailGenerator::ThumbnailGenerator(ILogger* logger, IConfiguration* config):
+ThumbnailGenerator::ThumbnailGenerator(ILogger* logger, IExifReaderFactory& exif):
     m_logger(logger),
-    m_configuration(config)
+    m_exif(exif)
 {
 
 }
@@ -103,7 +103,7 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
     {
         m_logger->trace(QString("Opening video file %1 to read frame for thumbnail").arg(path));
         const QString absolute_path = pathInfo.absoluteFilePath();
-        const VideoMediaInformation videoMediaInfo(*m_configuration, *m_logger);
+        const VideoMediaInformation videoMediaInfo(m_exif, *m_logger);
         const auto fileInfo = videoMediaInfo.getInformation(absolute_path);
 
         if (std::holds_alternative<VideoFile>(fileInfo.details))

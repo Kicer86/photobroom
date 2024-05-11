@@ -20,7 +20,6 @@
 class ConfigDialogManager;
 class LookTabController;
 class MainTabController;
-class ToolsTabController;
 class PhotosAnalyzer;
 struct ICoreFactoryAccessor;
 struct ILoggerFactory;
@@ -33,6 +32,7 @@ struct IView;
 class Project;
 struct ProjectInfo;
 struct IThumbnailsManager;
+
 
 class MainWindow: public QObject
 {
@@ -64,7 +64,6 @@ class MainWindow: public QObject
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
         std::unique_ptr<ConfigDialogManager> m_configDialogManager;
         std::unique_ptr<MainTabController> m_mainTabCtrl;
-        std::unique_ptr<ToolsTabController> m_toolsTabCtrl;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;

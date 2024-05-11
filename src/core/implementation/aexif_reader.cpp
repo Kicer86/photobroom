@@ -84,31 +84,25 @@ std::optional<std::any> AExifReader::get(const QString& path, const IExifReader:
     switch(type)
     {
         case TagType::SequenceNumber:
-            result = exiv_result(readInt(TagType::SequenceNumber));
-            break;
-
         case TagType::Orientation:
-            result = exiv_result(readInt(TagType::Orientation));
+        case TagType::Xmp_video_Height:
+        case TagType::Xmp_video_Width:
+            result = exiv_result(readInt(type));
             break;
 
         case TagType::DateTimeOriginal:
-            result = exiv_result(readString(TagType::DateTimeOriginal));
+        case TagType::Projection:
+        case TagType::Xmp_video_DateTimeOriginal:
+            result = exiv_result(readString(type));
             break;
 
         case TagType::PixelXDimension:
-            result = exiv_result(readLong(TagType::PixelXDimension));
-            break;
-
         case TagType::PixelYDimension:
-            result = exiv_result(readLong(TagType::PixelYDimension));
+            result = exiv_result(readLong(type));
             break;
 
         case TagType::Exposure:
-            result = exiv_result(readRational(TagType::Exposure));
-            break;
-
-        case TagType::Projection:
-            result = exiv_result(readString(TagType::Projection));
+            result = exiv_result(readRational(type));
             break;
 
         case TagType::ShutterSpeed:

@@ -3,28 +3,6 @@
 # http://stackoverflow.com/questions/17446981/cmake-externalproject-add-and-findpackage
 
 
-function(download_tools)
-    set(EXIFTOOL_VER 12.77)
-    if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-${EXIFTOOL_VER}.zip)
-        message("Downloading ExifTool")
-        file(DOWNLOAD
-            https://exiftool.org/exiftool-${EXIFTOOL_VER}.zip ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-${EXIFTOOL_VER}.zip
-            SHOW_PROGRESS
-        )
-        file(ARCHIVE_EXTRACT
-            INPUT ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool-${EXIFTOOL_VER}.zip
-            DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/tools
-        )
-    endif()
-
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/tools/exiftool\(-k\).exe
-        DESTINATION tools/ExifTool/
-        RENAME exiftool.exe
-    )
-
-endfunction(download_tools)
-
-
 function(addDependenciesInstallStep)
 
     find_package(Qt6 REQUIRED COMPONENTS Core)
@@ -47,9 +25,6 @@ endfunction(addDependenciesInstallStep)
 
 #install dependencies
 addDependenciesInstallStep()
-
-#download tools
-download_tools()
 
 #uninstall previous version of photo broom
 set(CPACK_NSIS_ENABLE_UNINSTALL_BEFORE_INSTALL ON)

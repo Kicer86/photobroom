@@ -24,14 +24,13 @@
 
 #include "ilogger.hpp"
 #include "imedia_information.hpp"
+#include "iexif_reader.hpp"
 
-
-struct IConfiguration;
 
 class VideoMediaInformation
 {
     public:
-        explicit VideoMediaInformation(IConfiguration &, const ILogger &);
+        explicit VideoMediaInformation(IExifReaderFactory &, const ILogger &);
         VideoMediaInformation(const VideoMediaInformation &) = delete;
         VideoMediaInformation(VideoMediaInformation &&) = delete;
 
@@ -43,8 +42,8 @@ class VideoMediaInformation
         FileInformation getInformation(const QString &) const;
 
     private:
-        QString m_exiftoolPath;
         std::unique_ptr<ILogger> m_logger;
+        IExifReaderFactory& m_exif;
 };
 
 #endif // VIDEOINFORMATION_HPP

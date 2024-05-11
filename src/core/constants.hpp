@@ -19,11 +19,6 @@ namespace ConfigConsts
 }
 
 
-namespace ExternalToolsConfigKeys
-{
-    const char* const exiftoolPath = "tool_path::exiftool";
-}
-
 namespace Parameters
 {
     const QSize databaseThumbnailSize(400, 400);

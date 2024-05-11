@@ -1,6 +1,8 @@
 
 include(${CMAKE_SOURCE_DIR}/cmake/functions.cmake)
 
+find_package(exiv2   REQUIRED)
+find_package(FFmpeg  COMPONENTS AVCODEC AVFORMAT AVUTIL REQUIRED)
 find_package(GTest   REQUIRED CONFIG)
 find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
@@ -70,19 +72,19 @@ if (BUILD_LEARNING_TESTS)
             ${hdr_photos_list}
     )
 
-    add_executable(core_lt_for_opencv
-        learning_tests/image_aligner_tests.cpp
+    add_executable(core_lt
         learning_tests/hdr_assembler_tests.cpp
+        learning_tests/image_aligner_tests.cpp
     )
 
-    target_include_directories(core_lt_for_opencv
+    target_include_directories(core_lt
         PRIVATE
             ${CMAKE_SOURCE_DIR}/src
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_CURRENT_BINARY_DIR}
     )
 
-    target_link_libraries(core_lt_for_opencv
+    target_link_libraries(core_lt
         PRIVATE
             core
 
@@ -94,36 +96,41 @@ if (BUILD_LEARNING_TESTS)
             GTest::gmock_main
     )
 
-    add_dependencies(core_lt_for_opencv
+    add_dependencies(core_lt
         core_tests_images
         hdr_photos
     )
 
     add_test(
-        NAME core_learning_tests_for_opencv
-        COMMAND core_lt_for_opencv
+        NAME core_learning_tests
+        COMMAND core_lt
     )
 
-    set_tests_properties(core_learning_tests_for_opencv PROPERTIES LABELS "LearningTest")
+    set_tests_properties(core_learning_tests PROPERTIES LABELS "LearningTest")
 endif()
 
 
 add_executable(core_ut
+    implementation/aexif_reader.cpp
     implementation/base_tags.cpp
+    implementation/exiv2_exif_reader.cpp
+    implementation/exif_reader_factory.cpp
     implementation/data_from_path_extractor.cpp
     #implementation/oriented_image.cpp
-    implementation/exiftool_video_details_reader.cpp
     implementation/image_aligner.cpp
+    implementation/image_media_information.cpp
+    implementation/media_information.cpp
+    implementation/media_types.cpp
     implementation/model_compositor.cpp
     implementation/qmodelindex_selector.cpp
     implementation/qmodelindex_comparator.cpp
+    implementation/video_media_information.cpp
     implementation/tag.cpp
     implementation/task_executor_utils.cpp
     imodel_compositor_data_source.hpp
 
     unit_tests/containers_utils_tests.cpp
     unit_tests/data_from_path_extractor_tests.cpp
-    unit_tests/exiftool_video_details_reader_tests.cpp
     unit_tests/function_wrappers_tests.cpp
     unit_tests/image_aligner_tests.cpp
     unit_tests/json_serializer_tests.cpp
@@ -134,10 +141,13 @@ add_executable(core_ut
     unit_tests/qmodelindex_selector_tests.cpp
     unit_tests/status_tests.cpp
     unit_tests/tag_value_tests.cpp
+    unit_tests/video_metadata_extraction_tests.cpp
 )
 
 target_link_libraries(core_ut
     PRIVATE
+        ${EXIV2_LIB}
+        ${FFMPEG_LIBRARIES}
         GTest::gtest
         GTest::gmock
         GTest::gmock_main
@@ -153,6 +163,7 @@ target_include_directories(core_ut
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
         ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
+        ${PROJECT_BINARY_DIR}
 )
 
 target_compile_definitions(core_ut
