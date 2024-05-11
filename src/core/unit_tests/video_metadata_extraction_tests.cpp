@@ -1,5 +1,6 @@
 
 #include <gtest/gtest.h>
+#include <QFileInfo>
 
 #include "config.hpp"
 #include "media_information.hpp"
@@ -96,6 +97,10 @@ TEST_P(VideoMediaInformationTest, validateMetadata)
     NiceMock<ICoreFactoryAccessorMock> core;
     NiceMock<ILoggerFactoryMock> loggerFactory;
     ExifReaderFactory exifFactory;
+
+    const QFileInfo fi(QString::fromStdString(std::string(path)));
+    ASSERT_TRUE(fi.exists());
+    ASSERT_TRUE(fi.size() > 1024*1024);
 
     ON_CALL(core, getLoggerFactory).WillByDefault(ReturnRef(loggerFactory));
     ON_CALL(core, getExifReaderFactory).WillByDefault(ReturnRef(exifFactory));
