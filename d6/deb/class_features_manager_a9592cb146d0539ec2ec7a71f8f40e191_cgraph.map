@@ -1,9 +1,5 @@
 <map id="FeaturesManager::FeaturesManager" name="FeaturesManager::FeaturesManager">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,47,185,88"/>
-<area shape="rect" id="Node000002" href="$d6/deb/class_features_manager.html#a03c782802bd77ddb75941b6c150746a2" title=" " alt="" coords="233,5,446,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,47,257,32,258,37,186,52"/>
-<area shape="rect" id="Node000007" href="$d6/deb/class_features_manager.html#a2e83d3c2792c4e6fbd2e57aeb1919f87" title=" " alt="" coords="255,55,424,80"/>
-<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="185,65,240,65,240,70,185,70"/>
-<area shape="rect" id="Node000010" href="$d7/db4/struct_i_configuration.html#afb7c554a124245f565595c931d3fa02b" title=" " alt="" coords="259,104,420,130"/>
-<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="186,83,258,98,257,103,185,88"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,185,46"/>
+<area shape="rect" id="Node000002" href="$d6/deb/class_features_manager.html#a2e83d3c2792c4e6fbd2e57aeb1919f87" title=" " alt="" coords="233,13,401,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,23,217,23,217,28,185,28"/>
 </map>

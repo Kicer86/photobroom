@@ -288,7 +288,7 @@
 <g id="Node000027" class="node">
 <title>Node27</title>
 <g id="a_Node000027"><a xlink:href="../../d0/db4/mock__core__factory__accessor_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="1843,-102.62 1678.5,-102.62 1678.5,-72.12 1843,-72.12 1843,-102.62"/>
+<polygon fill="#fff0f0" stroke="red" points="1843,-102.62 1678.5,-102.62 1678.5,-72.12 1843,-72.12 1843,-102.62"/>
 <text text-anchor="start" x="1686.5" y="-89.12" font-family="Helvetica,sans-Serif" font-size="10.00">src/unit_tests_utils</text>
 <text text-anchor="middle" x="1760.75" y="-77.88" font-family="Helvetica,sans-Serif" font-size="10.00">/mock_core_factory_accessor.hpp</text>
 </a>

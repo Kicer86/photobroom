@@ -1,11 +1,9 @@
 <map id="QtExtChooseFile::value" name="QtExtChooseFile::value">
-<area shape="rect" id="Node000001" title=" " alt="" coords="257,96,412,121"/>
-<area shape="rect" id="Node000002" href="$da/d3d/class_tools_tab_controller.html#a5cec9e3d8f40487380000943d5d91616" title=" " alt="" coords="41,5,173,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,91,208,60,172,48,174,43,210,55,289,87"/>
-<area shape="rect" id="Node000003" href="$dc/df3/class_qt_ext_choose_file.html#ac13cdc356e83a0770d1e74318c1e7eec" title=" " alt="" coords="5,70,209,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="241,101,209,97,210,92,241,95"/>
-<area shape="rect" id="Node000006" href="$dc/df3/class_qt_ext_choose_file.html#a8b5a3d61db18285e3b733d904127a708" title=" " alt="" coords="19,120,195,145"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="242,121,195,126,195,120,241,115"/>
-<area shape="rect" id="Node000008" href="$dc/df3/class_qt_ext_choose_file.html#a25a2ec5cc7b9e996e8dc9739e7bd3a0f" title=" " alt="" coords="34,169,180,195"/>
-<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="290,130,209,160,172,171,170,166,208,155,288,125"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="257,55,412,80"/>
+<area shape="rect" id="Node000002" href="$dc/df3/class_qt_ext_choose_file.html#ac13cdc356e83a0770d1e74318c1e7eec" title=" " alt="" coords="5,5,209,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,53,169,34,170,29,257,48"/>
+<area shape="rect" id="Node000005" href="$dc/df3/class_qt_ext_choose_file.html#a8b5a3d61db18285e3b733d904127a708" title=" " alt="" coords="19,55,195,80"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="241,70,195,70,195,65,241,65"/>
+<area shape="rect" id="Node000006" href="$dc/df3/class_qt_ext_choose_file.html#a25a2ec5cc7b9e996e8dc9739e7bd3a0f" title=" " alt="" coords="34,104,180,130"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="257,87,170,106,169,101,256,82"/>
 </map>

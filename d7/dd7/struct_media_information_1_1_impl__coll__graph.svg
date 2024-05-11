@@ -50,7 +50,7 @@
 <g id="Node000005" class="node">
 <title>Node5</title>
 <g id="a_Node000005"><a xlink:href="../../d8/de9/class_video_media_information.html" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="251.88,-85.75 136.12,-85.75 136.12,-66.5 251.88,-66.5 251.88,-85.75"/>
+<polygon fill="#fff0f0" stroke="red" points="251.88,-85.75 136.12,-85.75 136.12,-66.5 251.88,-66.5 251.88,-85.75"/>
 <text text-anchor="middle" x="194" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">VideoMediaInformation</text>
 </a>
 </g>

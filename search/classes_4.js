@@ -10,7 +10,6 @@ var searchData=
   ['executortraits_3c_20itaskexecutor_2c_20t_20_3e_7',['ExecutorTraits&lt; ITaskExecutor, T &gt;',['../d4/dcd/struct_executor_traits_3_01_i_task_executor_00_01_t_01_4.html',1,'']]],
   ['exifreaderfactory_8',['ExifReaderFactory',['../d4/d93/class_exif_reader_factory.html',1,'']]],
   ['exifreaderfactorymock_9',['ExifReaderFactoryMock',['../de/d3c/class_exif_reader_factory_mock.html',1,'']]],
-  ['exiftoolvideodetailsreader_10',['ExiftoolVideoDetailsReader',['../d9/db9/class_exiftool_video_details_reader.html',1,'']]],
-  ['exiv2exifreader_11',['Exiv2ExifReader',['../d5/d00/class_exiv2_exif_reader.html',1,'']]],
-  ['explicitdelta_12',['ExplicitDelta',['../db/d29/class_photo_1_1_explicit_delta.html',1,'Photo']]]
+  ['exiv2exifreader_10',['Exiv2ExifReader',['../d5/d00/class_exiv2_exif_reader.html',1,'']]],
+  ['explicitdelta_11',['ExplicitDelta',['../db/d29/class_photo_1_1_explicit_delta.html',1,'Photo']]]
 ];

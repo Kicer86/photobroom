@@ -1,7 +1,5 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$df/d64/class_i_thumbnails_generator.html" title=" " alt="" coords="5,31,155,56"/>
-<area shape="rect" id="Node000001" href="$d3/d80/struct_mock_thumbnails_generator.html" title=" " alt="" coords="203,5,380,31"/>
-<area shape="poly" id="edge158_Node000000_Node000001" title=" " alt="" coords="169,30,202,26,202,31,170,35"/>
-<area shape="rect" id="Node000002" href="$d7/d27/class_thumbnail_generator.html" title=" " alt="" coords="222,55,361,80"/>
-<area shape="poly" id="edge159_Node000000_Node000002" title=" " alt="" coords="170,51,222,57,221,62,170,56"/>
+<area shape="rect" id="Node000000" href="$dd/dfb/struct_i_thumbnails_manager.html" title=" " alt="" coords="5,5,148,31"/>
+<area shape="rect" id="Node000001" href="$dd/d17/class_thumbnail_manager.html" title=" " alt="" coords="196,5,327,31"/>
+<area shape="poly" id="edge157_Node000000_Node000001" title=" " alt="" coords="163,16,195,16,195,21,163,21"/>
 </map>

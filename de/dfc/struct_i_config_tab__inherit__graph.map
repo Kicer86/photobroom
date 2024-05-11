@@ -1,9 +1,7 @@
 <map id="IConfigTab" name="IConfigTab">
-<area shape="rect" id="Node000001" title=" " alt="" coords="211,5,295,31"/>
-<area shape="rect" id="Node000002" href="$d9/d9d/class_a_config_tab.html" title=" " alt="" coords="5,79,170,105"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,40,117,81,115,76,210,35"/>
-<area shape="rect" id="Node000004" href="$d9/d9d/class_a_config_tab.html" title=" " alt="" coords="194,79,312,105"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="256,46,256,79,250,79,250,46"/>
-<area shape="rect" id="Node000005" href="$d4/d11/class_main_tab_controller.html" title=" " alt="" coords="336,79,463,105"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="293,36,376,76,373,81,290,41"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="96,5,180,31"/>
+<area shape="rect" id="Node000002" href="$d9/d9d/class_a_config_tab.html" title=" " alt="" coords="5,79,124,105"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,44,79,80,75,77,113,40"/>
+<area shape="rect" id="Node000003" href="$d4/d11/class_main_tab_controller.html" title=" " alt="" coords="148,79,274,105"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,40,201,77,197,80,159,44"/>
 </map>

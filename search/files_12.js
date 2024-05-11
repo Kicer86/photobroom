@@ -42,11 +42,9 @@ var searchData=
   ['thumbnails_5ftests_2ecpp_39',['thumbnails_tests.cpp',['../dc/dab/thumbnails__tests_8cpp.html',1,'']]],
   ['time_5fguardian_2ecpp_40',['time_guardian.cpp',['../d4/d47/time__guardian_8cpp.html',1,'']]],
   ['time_5fguardian_2ehpp_41',['time_guardian.hpp',['../da/dcd/time__guardian_8hpp.html',1,'']]],
-  ['tools_5ftab_2ecpp_42',['tools_tab.cpp',['../dd/d2e/tools__tab_8cpp.html',1,'']]],
-  ['tools_5ftab_2ehpp_43',['tools_tab.hpp',['../df/d3f/tools__tab_8hpp.html',1,'']]],
-  ['transaction_2ecpp_44',['transaction.cpp',['../d8/df2/transaction_8cpp.html',1,'']]],
-  ['transaction_2ehpp_45',['transaction.hpp',['../d5/d61/transaction_8hpp.html',1,'']]],
-  ['transaction_5faccumulations_5ftests_2ecpp_46',['transaction_accumulations_tests.cpp',['../dd/d49/transaction__accumulations__tests_8cpp.html',1,'']]],
-  ['transaction_5fwrapper_2ehpp_47',['transaction_wrapper.hpp',['../db/d06/transaction__wrapper_8hpp.html',1,'']]],
-  ['ts_5fqueue_2ehpp_48',['ts_queue.hpp',['../de/d19/ts__queue_8hpp.html',1,'']]]
+  ['transaction_2ecpp_42',['transaction.cpp',['../d8/df2/transaction_8cpp.html',1,'']]],
+  ['transaction_2ehpp_43',['transaction.hpp',['../d5/d61/transaction_8hpp.html',1,'']]],
+  ['transaction_5faccumulations_5ftests_2ecpp_44',['transaction_accumulations_tests.cpp',['../dd/d49/transaction__accumulations__tests_8cpp.html',1,'']]],
+  ['transaction_5fwrapper_2ehpp_45',['transaction_wrapper.hpp',['../db/d06/transaction__wrapper_8hpp.html',1,'']]],
+  ['ts_5fqueue_2ehpp_46',['ts_queue.hpp',['../de/d19/ts__queue_8hpp.html',1,'']]]
 ];

@@ -1,5 +1,7 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$df/d3c/class_i_aligned_images.html" title="IAlignedImages is an interface returned by ImageAligner providing access to aligned images." alt="" coords="5,5,117,31"/>
-<area shape="rect" id="Node000001" href="$de/ddb/class_image_aligner_1_1_impl.html" title=" " alt="" coords="165,5,293,31"/>
-<area shape="poly" id="edge11_Node000000_Node000001" title=" " alt="" coords="132,16,164,16,164,21,132,21"/>
+<area shape="rect" id="Node000000" href="$dc/da7/struct_i_analyzer.html" title=" " alt="" coords="5,31,80,56"/>
+<area shape="rect" id="Node000001" href="$d2/d80/struct_analyzer_mock.html" title=" " alt="" coords="128,5,230,31"/>
+<area shape="poly" id="edge12_Node000000_Node000001" title=" " alt="" coords="94,31,127,25,128,30,95,36"/>
+<area shape="rect" id="Node000002" href="$de/db8/class_file_analyzer.html" title=" " alt="" coords="133,55,225,80"/>
+<area shape="poly" id="edge13_Node000000_Node000002" title=" " alt="" coords="95,50,133,57,132,62,94,55"/>
 </map>
