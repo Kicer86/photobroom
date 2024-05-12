@@ -47,7 +47,7 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
-        configure-options: -DBUILD_TESTING=OFF
+        configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON
         cc: /opt/homebrew/bin/gcc-13
         cxx: /opt/homebrew/bin/c++-13
         parallel: 1
