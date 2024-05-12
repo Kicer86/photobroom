@@ -24,7 +24,6 @@ jobs:
     - name: Install system dependencies
       run: |
         brew install        \
-          llvm              \
           dlib              \
           exiv2             \
           magic_enum        \
@@ -49,10 +48,8 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
         configure-options: -DBUILD_TESTING=OFF
-        cc: /opt/homebrew/opt/llvm/bin/clang
-        cxx: /opt/homebrew/opt/llvm/bin/clang++
+        cc: /opt/homebrew/bin/gcc-13
+        cxx: /opt/homebrew/bin/c++-13
         parallel: 1
       env:
         VERBOSE: 1
-        CPPFLAGS: "-I/opt/homebrew/opt/llvm/include"
-        LDFLAGS: "-L/opt/homebrew/opt/llvm/lib/c++ -Wl,-rpath,/opt/homebrew/opt/llvm/lib/c++"
