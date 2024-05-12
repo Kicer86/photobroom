@@ -5,10 +5,11 @@ if(BUILD_LEARNING_TESTS)
     add_subdirectory(learning_tests)
 endif()
 
-find_package(Qt6       REQUIRED COMPONENTS Core Gui)
-find_package(Threads   REQUIRED)
-find_package(MagicEnum REQUIRED)
-find_package(OpenCV    REQUIRED)
+find_package(CsLibGuarded   REQUIRED)
+find_package(Qt6            REQUIRED COMPONENTS Core Gui)
+find_package(Threads        REQUIRED)
+find_package(MagicEnum      REQUIRED)
+find_package(OpenCV         REQUIRED)
 
 set(DATABASE_SOURCES
     actions.hpp
@@ -71,6 +72,7 @@ set(DATABASE_SOURCES
 add_library(database SHARED ${DATABASE_SOURCES})
 target_link_libraries(database
                         PUBLIC
+                            CsLibGuarded::CsLibGuarded
                             Qt::Gui
                         PRIVATE
                             core
