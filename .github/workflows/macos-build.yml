@@ -25,11 +25,13 @@ jobs:
       run: |
         brew install        \
           llvm              \
-          qt6               \
+          dlib              \
           exiv2             \
           magic_enum        \
           opencv            \
-          dlib
+          qt6
+
+        brew install ffmpeg --build-from-source
 
     - name: Install CsLibGuarded
       run: |
