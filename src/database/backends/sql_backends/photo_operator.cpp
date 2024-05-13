@@ -205,6 +205,10 @@ namespace Database
         for (const auto& [id, geometry]: photos_geometry)
             accumulator[id].insert<Photo::Field::Geometry>(geometry);
 
+        const auto photos_group = getGroups(filter);
+        for (const auto& [id, group]: photos_group)
+            accumulator[id].insert<Photo::Field::GroupInfo>(group);
+
         deltas.reserve(accumulator.size());
         for (auto& [id, delta]: accumulator)
         {
@@ -435,11 +439,38 @@ namespace Database
     }
 
 
+    std::unordered_map<Photo::Id, GroupInfo> PhotoOperator::getGroups(const Filter& filter) const
+    {
+        const QString membersQuery = QString("SELECT group_id, photo_id FROM %1").arg(TAB_GROUPS_MEMBERS);
+
+        const auto groupsMembersOfMatchingPhotos = getAny<GroupInfo>(filter, membersQuery, [](const QSqlQuery& sqlQuery)
+        {
+            const auto [g_id, p_id] = readValues<Group::Id, Photo::Id>(sqlQuery);
+            return std::tuple{p_id, GroupInfo(g_id, GroupInfo::Member)};
+        });
+
+        const QString representativesQuery = QString("SELECT id, representative_id FROM %1").arg(TAB_GROUPS);
+
+        const auto groupsRepresentativesOfMatchingPhotos = getAny<GroupInfo>(filter, representativesQuery, [](const QSqlQuery& sqlQuery)
+        {
+            const auto [g_id, p_id] = readValues<Group::Id, Photo::Id>(sqlQuery);
+            return std::tuple{p_id, GroupInfo(g_id, GroupInfo::Representative)};
+        },
+        "representative_id");
+
+        std::unordered_map<Photo::Id, GroupInfo> groupsOfMatchingPhotos;
+        groupsOfMatchingPhotos.insert(groupsMembersOfMatchingPhotos.begin(), groupsMembersOfMatchingPhotos.end());
+        groupsOfMatchingPhotos.insert(groupsRepresentativesOfMatchingPhotos.begin(), groupsRepresentativesOfMatchingPhotos.end());
+
+        return groupsOfMatchingPhotos;
+    }
+
+
     template<typename T, typename C>
-    std::unordered_map<Photo::Id, T> PhotoOperator::getAny(const Filter& filter, const QString& queryStr, C op) const
+    std::unordered_map<Photo::Id, T> PhotoOperator::getAny(const Filter& filter, const QString& queryStr, C op, const QString& filterColumn) const
     {
         const QString filterQuery = SqlFilterQueryGenerator().generate(filter);
-        const QString finalQueryStr = QString("%1 WHERE photo_id IN (%2)").arg(queryStr).arg(filterQuery);
+        const QString finalQueryStr = QString("%1 WHERE %2 IN (%3)").arg(queryStr).arg(filterColumn).arg(filterQuery);
 
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
