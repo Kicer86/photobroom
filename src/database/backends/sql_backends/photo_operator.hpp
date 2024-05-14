@@ -75,6 +75,7 @@ namespace Database
             std::unordered_map<Photo::Id, Photo::FlagValues> getFlags(const Filter &) const;
             std::unordered_map<Photo::Id, QSize> getGeometry(const Filter &) const;
             std::unordered_map<Photo::Id, GroupInfo> getGroups(const Filter &) const;
+            std::unordered_map<Photo::Id, Photo::PHashT> getPHashes(const Filter &) const;
 
             template<typename T, typename C>
             std::unordered_map<Photo::Id, T> getAny(const Filter &, const QString &, C op, const QString& filterColumn = "photo_id") const;

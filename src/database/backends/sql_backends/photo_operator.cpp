@@ -52,6 +52,14 @@ namespace Database
             (op(std::get<Is>(tp), Is), ...);
         }
 
+        template<typename T, typename = void>
+        struct is_id_type : std::false_type {};
+
+        template<typename T>
+        struct is_id_type<T, std::void_t<typename T::type, typename T::tag>>: std::true_type {};
+
+        template<typename vType>
+        constexpr bool is_id_type_v = is_id_type<vType>::value;
 
         template<typename... Args>
         auto readValues(const QSqlQuery& query)
@@ -64,11 +72,12 @@ namespace Database
                 {
                     using vType = std::decay_t<decltype(v)>;
 
-                    if constexpr (std::is_same_v<vType, Photo::Id>)
+                    // all Id based types
+                    if constexpr (is_id_type_v<vType>)
                     {
                         const QVariant value = query.value(i);
-                        assert(value.canConvert<int>());
-                        v = value.value<int>();
+                        assert(value.canConvert<typename vType::type>());
+                        v = value.value<typename vType::type>();
                     }
                     else
                     {
@@ -208,6 +217,10 @@ namespace Database
         const auto photos_group = getGroups(filter);
         for (const auto& [id, group]: photos_group)
             accumulator[id].insert<Photo::Field::GroupInfo>(group);
+
+        const auto photos_phashes = getPHashes(filter);
+        for (const auto& [id, phash]: photos_phashes)
+            accumulator[id].insert<Photo::Field::PHash>(phash);
 
         deltas.reserve(accumulator.size());
         for (auto& [id, delta]: accumulator)
@@ -463,6 +476,19 @@ namespace Database
         groupsOfMatchingPhotos.insert(groupsRepresentativesOfMatchingPhotos.begin(), groupsRepresentativesOfMatchingPhotos.end());
 
         return groupsOfMatchingPhotos;
+    }
+
+
+    std::unordered_map<Photo::Id, Photo::PHashT> PhotoOperator::getPHashes(const Filter& filter) const
+    {
+        const QString query = QString("SELECT photo_id, hash FROM %1").arg(TAB_PHASHES);
+        const auto hashesOfMatchingPhotos = getAny<Photo::PHashT>(filter, query, [](const QSqlQuery& sqlQuery)
+        {
+            const auto [id, hash] = readValues<Photo::Id, Photo::PHashT>(sqlQuery);
+            return std::tuple{id, hash};
+        });
+
+        return hashesOfMatchingPhotos;
     }
 
 
