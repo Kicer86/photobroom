@@ -71,17 +71,16 @@ namespace Database
                 [&query](auto& v, int i)
                 {
                     using vType = std::decay_t<decltype(v)>;
+                    const QVariant value = query.value(i);
 
                     // all Id based types
                     if constexpr (is_id_type_v<vType>)
                     {
-                        const QVariant value = query.value(i);
                         assert(value.canConvert<typename vType::type>());
                         v = value.value<typename vType::type>();
                     }
                     else
                     {
-                        const QVariant value = query.value(i);
                         assert(value.canConvert<vType>());
                         v = value.value<vType>();
                     }
