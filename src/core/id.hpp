@@ -29,6 +29,7 @@ class Id
 {
     public:
         typedef T type;
+        typedef Tag tag;
 
         Id()
         {
