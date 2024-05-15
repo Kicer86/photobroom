@@ -1,6 +1,6 @@
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui)
-find_package(dlib REQUIRED)
+find_package(dlib 19.24.2 REQUIRED)
 
 add_library(dlib_wrapper
     cnn_face_detector.cpp
@@ -29,10 +29,6 @@ target_link_libraries(dlib_wrapper
                                 core
                                 system
 )
-
-if (${dlib_VERSION} VERSION_LESS 19.25)
-    target_compile_definitions(dlib_wrapper PRIVATE DLIB_HAS_CUDA_MEMORY_OVERFLOW_BUG)
-endif()
 
 generate_export_header(dlib_wrapper)
 hideSymbols(dlib_wrapper)
