@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['main_2ecpp_0',['main.cpp',['../df/d0a/main_8cpp.html',1,'(Global Namespace)'],['../d0/db5/database_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../de/d84/database_2unit__tests__for__backends_2main_8cpp.html',1,'(Global Namespace)'],['../d7/db8/gui_2unit__tests_2main_8cpp.html',1,'(Global Namespace)']]],
+  ['main_2ecpp_0',['main.cpp',['../df/d0a/main_8cpp.html',1,'(Global Namespace)'],['../d7/db8/gui_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../de/d84/database_2unit__tests__for__backends_2main_8cpp.html',1,'(Global Namespace)'],['../d0/db5/database_2unit__tests_2main_8cpp.html',1,'(Global Namespace)']]],
   ['main_5ftab_2ecpp_1',['main_tab.cpp',['../d4/df5/main__tab_8cpp.html',1,'']]],
   ['main_5ftab_2ehpp_2',['main_tab.hpp',['../d1/dcc/main__tab_8hpp.html',1,'']]],
   ['mainwindow_2ecpp_3',['mainwindow.cpp',['../d8/dd9/mainwindow_8cpp.html',1,'']]],
@@ -28,7 +28,7 @@ var searchData=
   ['mock_5fmedia_5finformation_2ehpp_25',['mock_media_information.hpp',['../d1/dc4/mock__media__information_8hpp.html',1,'']]],
   ['mock_5fmodel_5fcompositor_5fdata_5fsource_2ehpp_26',['mock_model_compositor_data_source.hpp',['../db/d8e/mock__model__compositor__data__source_8hpp.html',1,'']]],
   ['mock_5fphoto_5foperator_2ehpp_27',['mock_photo_operator.hpp',['../d8/dee/mock__photo__operator_8hpp.html',1,'']]],
-  ['mock_5fqabstractitemmodel_2ehpp_28',['mock_qabstractitemmodel.hpp',['../d1/d3d/unit__tests__utils_2mock__qabstractitemmodel_8hpp.html',1,'(Global Namespace)'],['../d9/d50/gui_2unit__tests_2test__helpers_2mock__qabstractitemmodel_8hpp.html',1,'(Global Namespace)']]],
+  ['mock_5fqabstractitemmodel_2ehpp_28',['mock_qabstractitemmodel.hpp',['../d9/d50/gui_2unit__tests_2test__helpers_2mock__qabstractitemmodel_8hpp.html',1,'(Global Namespace)'],['../d1/d3d/unit__tests__utils_2mock__qabstractitemmodel_8hpp.html',1,'(Global Namespace)']]],
   ['mock_5fthumbnails_5fcache_2ehpp_29',['mock_thumbnails_cache.hpp',['../d4/d63/mock__thumbnails__cache_8hpp.html',1,'']]],
   ['mock_5fthumbnails_5fgenerator_2ehpp_30',['mock_thumbnails_generator.hpp',['../d3/dc3/mock__thumbnails__generator_8hpp.html',1,'']]],
   ['model_5fcompositor_2ecpp_31',['model_compositor.cpp',['../d2/d89/model__compositor_8cpp.html',1,'']]],
