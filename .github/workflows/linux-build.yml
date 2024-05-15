@@ -18,14 +18,9 @@ jobs:
           - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
         build: [Release]
         shared: [TRUE, FALSE]
-        os: [ubuntu-22.04]
+        os: [ubuntu-24.04]
 
     steps:
-    # switch to ubuntu 23.10
-    - name: Update Repositories
-      run: |
-        sudo sed -i 's/jammy/mantic/g' /etc/apt/sources.list
-
     - uses: actions/checkout@v4
       with:
         submodules: true
@@ -35,7 +30,6 @@ jobs:
       run: |
         sudo apt-get update &&              \
         sudo apt-get install                \
-          gcc                               \
           ninja-build                       \
           python3-cairosvg                  \
           python3-defusedxml                \
@@ -56,18 +50,12 @@ jobs:
           libavformat-dev                   \
           libboost-dev                      \
           libopencv-dev                     \
+          libopenblas-dev                   \
           libdlib-dev                       \
           libgmock-dev                      \
           libgl1-mesa-dev                   \
           libglvnd-dev                      \
           libwebp-dev
-
-    # todo: this step will be redundant when github actions use ubuntu >= 23.10 by default
-    - name: Install clang
-      if: matrix.compiler.compiler == 'LLVM'
-      run: |
-        sudo apt-get install    \
-          clang
 
     - name: Install magic enum
       run: |

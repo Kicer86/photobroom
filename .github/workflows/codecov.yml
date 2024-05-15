@@ -13,14 +13,9 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-22.04]
+        os: [ubuntu-24.04]
 
     steps:
-    # switch to ubuntu 23.10
-    - name: Update Repositories
-      run: |
-        sudo sed -i 's/jammy/mantic/g' /etc/apt/sources.list
-
     - uses: actions/checkout@v4
       with:
         submodules: true
@@ -30,7 +25,6 @@ jobs:
       run: |
         sudo apt-get update &&              \
         sudo apt-get install                \
-          gcc                               \
           lcov                              \
           ninja-build                       \
           python3-cairosvg                  \
@@ -51,6 +45,7 @@ jobs:
           libqt6quick3druntimerender6       \
           libboost-dev                      \
           libopencv-dev                     \
+          libopenblas-dev                   \
           libdlib-dev                       \
           libgmock-dev                      \
           libgl1-mesa-dev                   \
