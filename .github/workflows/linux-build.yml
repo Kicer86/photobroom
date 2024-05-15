@@ -21,11 +21,6 @@ jobs:
         os: [ubuntu-24.04]
 
     steps:
-    # switch to ubuntu 23.10
-    - name: Update Repositories
-      run: |
-        sudo sed -i 's/jammy/mantic/g' /etc/apt/sources.list
-
     - uses: actions/checkout@v4
       with:
         submodules: true
@@ -61,13 +56,6 @@ jobs:
           libgl1-mesa-dev                   \
           libglvnd-dev                      \
           libwebp-dev
-
-    # todo: this step will be redundant when github actions use ubuntu >= 23.10 by default
-    - name: Install clang
-      if: matrix.compiler.compiler == 'LLVM'
-      run: |
-        sudo apt-get install    \
-          clang
 
     - name: Install magic enum
       run: |
