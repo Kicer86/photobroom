@@ -55,6 +55,7 @@ jobs:
           libavformat-dev                   \
           libboost-dev                      \
           libopencv-dev                     \
+          libopenblas-dev                   \
           libdlib-dev                       \
           libgmock-dev                      \
           libgl1-mesa-dev                   \

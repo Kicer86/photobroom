@@ -45,6 +45,7 @@ jobs:
           libqt6quick3druntimerender6       \
           libboost-dev                      \
           libopencv-dev                     \
+          libopenblas-dev                   \
           libdlib-dev                       \
           libgmock-dev                      \
           libgl1-mesa-dev                   \
