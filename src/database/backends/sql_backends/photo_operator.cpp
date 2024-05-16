@@ -221,6 +221,10 @@ namespace Database
         for (const auto& [id, phash]: photos_phashes)
             accumulator[id].insert<Photo::Field::PHash>(phash);
 
+        const auto photos_people = getPeople(filter);
+        for (const auto& [id, people]: photos_people)
+            accumulator[id].insert<Photo::Field::People>(people);
+
         deltas.reserve(accumulator.size());
         for (auto& [id, delta]: accumulator)
         {
@@ -491,6 +495,25 @@ namespace Database
     }
 
 
+    std::unordered_map<Photo::Id, std::vector<PersonFullInfo>> PhotoOperator::getPeople(const Filter& filter) const
+    {
+        const QString query = QString("SELECT %1.photo_id, %1.person_id, %1.fingerprint_id, %1.location, %2.name, %3.fingerprint FROM %1 "
+                                      "JOIN %2 ON (%2.id = %1.person_id) "
+                                      "JOIN %3 ON (%3.id = %1.fingerprint_id)")
+                                .arg(TAB_PEOPLE)
+                                .arg(TAB_PEOPLE_NAMES)
+                                .arg(TAB_FACES_FINGERPRINTS);
+
+        const auto peopleOfMatchingPhotos = getAny<std::vector<PersonFullInfo>>(filter, query, [](const QSqlQuery& sqlQuery)
+        {
+            const auto [photo_id, person_id, fingerprint_id, location, name, fingerprint] = readValues<Photo::Id, Person::Id, PersonFingerprint::Id, QString, QString, QByteArray>(sqlQuery);
+            return std::tuple{photo_id, PersonFullInfo()};
+        });
+
+        return peopleOfMatchingPhotos;
+    }
+
+
     template<typename T, typename C>
     std::unordered_map<Photo::Id, T> PhotoOperator::getAny(const Filter& filter, const QString& queryStr, C op, const QString& filterColumn) const
     {
@@ -510,8 +533,12 @@ namespace Database
 
             if constexpr (std::is_same_v<T, std::decay_t<decltype(any)>>)
                 anyForPhoto.emplace(id, any);
-            else if (map_type<T>)
+            else if constexpr (map_type<T>)
                 anyForPhoto[id].insert(any);
+            else if constexpr (is_std_vector_v<T>)
+                anyForPhoto[id].push_back(any);
+            else
+                static_assert(always_false<T>::value, "Unexpected type");
         }
 
         return anyForPhoto;
