@@ -402,7 +402,8 @@ namespace Database
         {
             const auto [id, path] = readValues<Photo::Id, QString>(sqlQuery);
             return std::tuple{id, path};
-        });
+        },
+        "id");
 
         return pathsOfMatchingPhotos;
     }
