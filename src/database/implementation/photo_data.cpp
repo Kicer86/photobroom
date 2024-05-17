@@ -21,6 +21,7 @@
 
 #include "photo_data.hpp"
 
+
 namespace Photo
 {
     DataDelta::DataDelta(const DataDelta& other)
@@ -46,6 +47,45 @@ namespace Photo
     }
 
 
+    void DataDelta::clear(Field field)
+    {
+        // TODO: improve it
+        switch(field)
+        {
+            case Field::Tags:
+                m_data[field] = DeltaTypes<Field::Tags>::Storage{};
+                break;
+
+            case Field::Flags:
+                m_data[field] = DeltaTypes<Field::Flags>::Storage{};
+                break;
+
+            case Field::Path:
+                m_data[field] = DeltaTypes<Field::Path>::Storage{};
+                break;
+
+            case Field::Geometry:
+                m_data[field] = DeltaTypes<Field::Geometry>::Storage{};
+                break;
+
+            case Field::GroupInfo:
+                m_data[field] = DeltaTypes<Field::GroupInfo>::Storage{};
+                break;
+
+            case Field::PHash:
+                m_data[field] = DeltaTypes<Field::PHash>::Storage{};
+                break;
+
+            case Field::People:
+                m_data[field] = DeltaTypes<Field::People>::Storage{};
+                break;
+
+            default:
+                assert(!"missing case");
+        }
+    }
+
+
     void DataDelta::setId(const Photo::Id& id)
     {
         assert(m_id.valid() == false);      // do we expect id to be set more than once?
@@ -68,7 +108,7 @@ namespace Photo
     }
 
 
-    const Id & DataDelta::getId() const
+    const Id& DataDelta::getId() const
     {
         return m_id;
     }
@@ -100,7 +140,6 @@ namespace Photo
                 const auto& otherFlags = std::get<DeltaTypes<Field::Flags>::Storage>(otherData.second);
 
                 flags.insert(otherFlags.begin(), otherFlags.end());
-
             }
             else
                 m_data.insert_or_assign(otherData.first, otherData.second);
