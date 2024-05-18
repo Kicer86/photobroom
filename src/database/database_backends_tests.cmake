@@ -23,6 +23,7 @@ add_executable(database_backends_ut
     backends/sql_backends/table_definition.cpp
     backends/sql_backends/tables.cpp
     backends/sql_backends/transaction.cpp
+    backends/sql_backends/utils.cpp
     ibackend.hpp
     idatabase_plugin.hpp
 

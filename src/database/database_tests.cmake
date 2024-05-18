@@ -9,6 +9,7 @@ add_executable(database_ut
     backends/sql_backends/generic_sql_query_constructor.cpp
     backends/sql_backends/sql_filter_query_generator.cpp
     backends/sql_backends/query_structs.cpp
+    backends/sql_backends/utils.cpp
     database_tools/implementation/json_to_backend.cpp
     database_tools/implementation/series_detector.cpp
     database_tools/implementation/tag_info_collector.cpp
