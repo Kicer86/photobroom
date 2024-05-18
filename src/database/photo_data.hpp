@@ -57,6 +57,11 @@ namespace Photo
                 m_data.insert_or_assign(field, value);
             }
 
+            /**
+             * @brief set hiven field to empty value
+             */
+            void clear(Field);
+
             void setId(const Photo::Id &);
             void clear();
             bool has(Field) const;
