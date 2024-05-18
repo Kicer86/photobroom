@@ -229,6 +229,12 @@ namespace Database
         for (auto& [id, delta]: accumulator)
         {
             delta.setId(id);
+
+            // set all non-set fields
+            for(auto field: magic_enum::enum_values<Photo::Field>())
+                if (delta.has(field) == false)
+                    delta.clear(field);
+
             deltas.push_back(delta);
         }
 
