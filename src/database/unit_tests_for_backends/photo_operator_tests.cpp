@@ -3,11 +3,15 @@
 #include "unit_tests_utils/sample_db.json.hpp"
 #include "unit_tests_utils/sample_db2.json.hpp"
 #include "unit_tests_utils/phash_db.json.hpp"
+#include "unit_tests_utils/rich_db.json.hpp"
+#include "database/ut_printers.hpp"
 
 #include "common.hpp"
 
+
 using testing::Contains;
 using testing::ElementsAre;
+using testing::UnorderedElementsAreArray;
 
 
 MATCHER_P(IsPhotoWithPath, _path, "") {
@@ -204,4 +208,25 @@ TYPED_TEST(PhotoOperatorTest, fetchDeltasForSomePhotos)
     const auto photos = this->m_backend->photoOperator().fetchData(Database::FilterPhotosWithTag(Tag::Types::Time, QTime(10, 0, 0)));
 
     ASSERT_EQ(photos.size(), 7);
+}
+
+
+TYPED_TEST(PhotoOperatorTest, compareCompletness)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(RichDB::db1);
+
+    const auto filter = Database::FilterPhotosWithTag(Tag::Types::Time, QTime(10, 0, 0));
+    const auto fetchedPhotos = this->m_backend->photoOperator().fetchData(filter);
+    const auto ids = this->m_backend->photoOperator().getPhotos(filter);
+
+    std::vector<Photo::DataDelta> gotPhotos;
+    for (const auto id: ids)
+    {
+        const auto delta = this->m_backend->getPhotoDelta(id);
+        gotPhotos.push_back(delta);
+    }
+
+    // both methods should return the same set of data (possibily in different order)
+    EXPECT_THAT(fetchedPhotos, UnorderedElementsAreArray(gotPhotos));
 }

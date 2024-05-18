@@ -27,9 +27,10 @@
 #include <database/general_flags.hpp>
 
 #include "isql_query_executor.hpp"
+#include "query_structs.hpp"
 #include "sql_filter_query_generator.hpp"
 #include "tables.hpp"
-#include "query_structs.hpp"
+#include "utils.hpp"
 
 
 namespace Database
@@ -504,7 +505,7 @@ namespace Database
 
     std::unordered_map<Photo::Id, std::vector<PersonFullInfo>> PhotoOperator::getPeople(const Filter& filter) const
     {
-        const QString query = QString("SELECT %1.photo_id, %1.person_id, %1.fingerprint_id, %1.location, %2.name, %3.fingerprint FROM %1 "
+        const QString query = QString("SELECT %1.id, %1.photo_id, %1.person_id, %1.fingerprint_id, %1.location, %2.name, %3.fingerprint FROM %1 "
                                       "JOIN %2 ON (%2.id = %1.person_id) "
                                       "JOIN %3 ON (%3.id = %1.fingerprint_id)")
                                 .arg(TAB_PEOPLE)
@@ -513,8 +514,11 @@ namespace Database
 
         const auto peopleOfMatchingPhotos = getAny<std::vector<PersonFullInfo>>(filter, query, [](const QSqlQuery& sqlQuery)
         {
-            const auto [photo_id, person_id, fingerprint_id, location, name, fingerprint] = readValues<Photo::Id, Person::Id, PersonFingerprint::Id, QString, QString, QByteArray>(sqlQuery);
-            return std::tuple{photo_id, PersonFullInfo()};
+            const auto [personInfo_id, photo_id, person_id, fingerprint_id, location, name, fingerprint] = readValues<PersonInfo::Id, Photo::Id, Person::Id, PersonFingerprint::Id, QString, QString, QByteArray>(sqlQuery);
+            const auto locationRect = decodeFaceLocation(location);
+            const auto personFingerprint = decodeFingerprint(fingerprint);
+
+            return std::tuple{photo_id, PersonFullInfo(PersonName(person_id, name), PersonFingerprint(fingerprint_id, personFingerprint), locationRect, personInfo_id)};
         });
 
         return peopleOfMatchingPhotos;
