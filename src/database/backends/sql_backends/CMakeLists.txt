@@ -18,6 +18,7 @@ set(SOURCES
         query_structs.cpp
         sql_filter_query_generator.cpp
         sql_query_executor.cpp
+        utils.cpp
 )
 
 set(HEADERS
