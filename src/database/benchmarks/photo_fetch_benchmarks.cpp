@@ -29,6 +29,19 @@ namespace
             tags.emplace(Tag::Types::Place, QString("Place %1").arg(i % 9));
             data.insert<Photo::Field::Tags>(tags);
 
+            std::vector<PersonFullInfo> people;
+            for(int j = 0; j < i % 5; j++)
+            {
+                Person::Fingerprint fingerprint;
+                for (int k = 0; k < 80; k++)
+                    fingerprint.push_back(k + j);
+
+                const PersonData pd({100 * j, 100 + j* 50, 64 * (j + 1), 128 * (j + 1)}, fingerprint, QString::number(j));
+                people.push_back(pd);
+            }
+
+            data.insert<Photo::Field::People>(people);
+
             photos.push_back(data);
         }
 
