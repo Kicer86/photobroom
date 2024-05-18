@@ -18,4 +18,18 @@ namespace Database
         return location;
     }
 
+
+    Person::Fingerprint decodeFingerprint(const QByteArray& f)
+    {
+        const QList<QByteArray> splitted = f.split(' ');
+
+        Person::Fingerprint fingerprint;
+        fingerprint.reserve(splitted.size());
+
+        for(const QByteArray& component: splitted)
+            fingerprint.push_back(component.toDouble());
+
+        return fingerprint;
+    }
+
 }
