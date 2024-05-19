@@ -7,30 +7,42 @@
 
 namespace Database
 {
+    namespace
+    {
+        void slice(auto view, auto condition, auto append, std::size_t limit = std::numeric_limits<std::size_t>::max())
+        {
+            qsizetype begin = 0;
+            qsizetype size = view.size();
+            std::size_t count = 0;
+
+            for(qsizetype i = 0; i < size; i++)
+            {
+                if (condition(view[i]) || i + 1 == size)
+                {
+                    auto len = i - begin;
+
+                    // special case for last element which does not end with a separator.
+                    if (i + 1 == size)
+                        len++;
+
+                    append(view.sliced(begin, len));
+                    begin = i + 1;
+                    count++;
+
+                    if (count >= limit)
+                        break;
+                }
+            }
+        }
+    }
+
+
     QRect decodeFaceLocation(QStringView loc)
     {
         std::array<QStringView, 4> splitted;
-        qsizetype begin = 0;
         size_t count = 0;
-        qsizetype size = loc.size();
-        for(qsizetype i = 0; i < size; i++)
-        {
-            if (loc[i] < '0' || loc[i] > '9' || i + 1 == size)
-            {
-                auto len = i - begin;
 
-                // special case for last element which does not end with a separator.
-                if (i + 1 == size)
-                    len++;
-
-                splitted[count] = loc.sliced(begin, len);
-                count++;
-                begin = i + 1;
-            }
-
-            if (count == 4)
-                break;
-        }
+        slice(loc, [](QChar c){return c < '0' || c > '9';}, [&](QStringView s){splitted[count++] = s;}, splitted.size());
 
         if (count == 4)
         {
@@ -49,24 +61,7 @@ namespace Database
     Person::Fingerprint decodeFingerprint(QByteArrayView f)
     {
         std::vector<QByteArrayView> splitted;
-        qsizetype begin = 0;
-        size_t count = 0;
-        qsizetype size = f.size();
-        for(qsizetype i = 0; i < size; i++)
-        {
-            if (f[i] == ' ' || i + 1 == size)
-            {
-                auto len = i - begin;
-
-                // special case for last element which does not end with a separator.
-                if (i + 1 == size)
-                    len++;
-
-                splitted.push_back(f.sliced(begin, len));
-                count++;
-                begin = i + 1;
-            }
-        }
+        slice(f, [](QChar c){return c == ' ';}, [&](QByteArrayView s){splitted.push_back(s);});
 
         Person::Fingerprint fingerprint;
         fingerprint.reserve(splitted.size());
