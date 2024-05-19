@@ -7,5 +7,5 @@
 namespace Database
 {
     QRect decodeFaceLocation(QStringView);
-    Person::Fingerprint decodeFingerprint(const QByteArray &);
+    Person::Fingerprint decodeFingerprint(QByteArrayView);
 }

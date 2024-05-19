@@ -46,14 +46,32 @@ namespace Database
     }
 
 
-    Person::Fingerprint decodeFingerprint(const QByteArray& f)
+    Person::Fingerprint decodeFingerprint(QByteArrayView f)
     {
-        const QList<QByteArray> splitted = f.split(' ');
+        std::vector<QByteArrayView> splitted;
+        qsizetype begin = 0;
+        size_t count = 0;
+        qsizetype size = f.size();
+        for(qsizetype i = 0; i < size; i++)
+        {
+            if (f[i] == ' ' || i + 1 == size)
+            {
+                auto len = i - begin;
+
+                // special case for last element which does not end with a separator.
+                if (i + 1 == size)
+                    len++;
+
+                splitted.push_back(f.sliced(begin, len));
+                count++;
+                begin = i + 1;
+            }
+        }
 
         Person::Fingerprint fingerprint;
         fingerprint.reserve(splitted.size());
 
-        for(const QByteArray& component: splitted)
+        for(const QByteArrayView& component: splitted)
             fingerprint.push_back(component.toDouble());
 
         return fingerprint;
