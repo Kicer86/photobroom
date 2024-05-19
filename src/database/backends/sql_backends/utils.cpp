@@ -7,15 +7,37 @@
 
 namespace Database
 {
-    QRect decodeFaceLocation(const QString& l)
+    QRect decodeFaceLocation(QStringView loc)
     {
-        const QStringList location_list = l.split(QRegularExpression("[ ,x]"));
-        if (location_list.size() == 4)
+        std::array<QStringView, 4> splitted;
+        qsizetype begin = 0;
+        size_t count = 0;
+        qsizetype size = loc.size();
+        for(qsizetype i = 0; i < size; i++)
         {
-            const QRect location(location_list[0].toInt(),
-                                 location_list[1].toInt(),
-                                 location_list[2].toInt(),
-                                 location_list[3].toInt());
+            if (loc[i] < '0' || loc[i] > '9' || i + 1 == size)
+            {
+                auto len = i - begin;
+
+                // special case for last element which does not end with a separator.
+                if (i + 1 == size)
+                    len++;
+
+                splitted[count] = loc.sliced(begin, len);
+                count++;
+                begin = i + 1;
+            }
+
+            if (count == 4)
+                break;
+        }
+
+        if (count == 4)
+        {
+            const QRect location(splitted[0].toInt(),
+                                 splitted[1].toInt(),
+                                 splitted[2].toInt(),
+                                 splitted[3].toInt());
 
             return location;
         }
