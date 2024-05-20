@@ -42,14 +42,19 @@ jobs:
         cmake --build . --target all
         sudo cmake --build . --target install
 
+    # Fix for https://forums.developer.apple.com/forums/thread/737707
+    - uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: 14.3.1
+
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
         configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON
-        cc: /opt/homebrew/bin/gcc-13
-        cxx: /opt/homebrew/bin/c++-13
+        cc: gcc-13
+        cxx: c++-13
         parallel: 1
       env:
         VERBOSE: 1
