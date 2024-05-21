@@ -41,7 +41,7 @@ class DATABASE_EXPORT PhotosAnalyzer final: public QObject
     public:
         PhotosAnalyzer(ICoreFactoryAccessor *, Database::IDatabase &);
         PhotosAnalyzer(const PhotosAnalyzer &) = delete;
-        ~PhotosAnalyzer();
+        ~PhotosAnalyzer() = default;
 
         PhotosAnalyzer& operator=(const PhotosAnalyzer &) = delete;
 
