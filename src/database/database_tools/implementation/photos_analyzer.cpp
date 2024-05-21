@@ -364,12 +364,6 @@ PhotosAnalyzer::PhotosAnalyzer(ICoreFactoryAccessor* coreFactory,
 }
 
 
-PhotosAnalyzer::~PhotosAnalyzer()
-{
-
-}
-
-
 void PhotosAnalyzer::set(ITasksView* tasksView)
 {
     m_data->set(tasksView);
