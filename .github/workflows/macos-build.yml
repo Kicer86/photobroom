@@ -31,8 +31,6 @@ jobs:
           opencv            \
           qt6
 
-        brew install ffmpeg --build-from-source
-
     - name: Install CsLibGuarded
       run: |
         git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
