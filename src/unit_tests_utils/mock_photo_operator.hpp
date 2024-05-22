@@ -15,7 +15,7 @@ class PhotoOperatorMock: public Database::IPhotoOperator
         MOCK_METHOD(bool, removePhotos, (const Database::Filter &), (override));
         MOCK_METHOD(std::vector<Photo::Id>, onPhotos, (const Database::Filter &, const Database::Action &), (override));
         MOCK_METHOD(std::vector<Photo::Id>, getPhotos, (const Database::Filter &), (override));
-        MOCK_METHOD(std::vector<Photo::DataDelta>, fetchData, (const Database::Filter &), (override));
+        MOCK_METHOD(std::vector<Photo::DataDelta>, fetchData, (const Database::Filter &, const std::set<Photo::Field> &), (override));
         MOCK_METHOD(void, setPHash, (const Photo::Id&, const Photo::PHashT &), (override));
         MOCK_METHOD(std::optional<Photo::PHashT>, getPHash, (const Photo::Id &), (override));
         MOCK_METHOD(bool, hasPHash, (const Photo::Id &), (override));

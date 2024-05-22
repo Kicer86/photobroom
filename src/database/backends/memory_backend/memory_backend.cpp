@@ -64,6 +64,18 @@ namespace Database
                 for_each<Fields...>(dst, src, neededFields);
         }
 
+        std::set<Photo::Field> computeFields(const std::set<Photo::Field>& fs)
+        {
+            std::set<Photo::Field> fields = fs;
+            if (fields.empty())
+            {
+                const auto allEntries = magic_enum::enum_values<Photo::Field>();
+                fields.insert(allEntries.begin(), allEntries.end());
+            }
+
+            return fields;
+        }
+
         template<typename T>
         bool compare(const T& lhs, const T& rhs, Qt::SortOrder order)
         {
@@ -344,12 +356,7 @@ namespace Database
         if (it != m_db->m_photos.end())
             storageDelta = *it;
 
-        std::set<Photo::Field> fields = _fields;
-        if (fields.empty())
-        {
-            const auto allEntries = magic_enum::enum_values<Photo::Field>();
-            fields.insert(allEntries.begin(), allEntries.end());
-        }
+        const std::set<Photo::Field> fields = computeFields(_fields);
 
         Photo::DataDelta delta(id);
 
@@ -775,19 +782,22 @@ namespace Database
     }
 
 
-    std::vector<Photo::DataDelta> MemoryBackend::fetchData(const Filter& filter)
+    std::vector<Photo::DataDelta> MemoryBackend::fetchData(const Filter& filter, const std::set<Photo::Field>& fs)
     {
         std::vector<StoregeDelta> data(m_db->m_photos.begin(), m_db->m_photos.end());
         data = filterPhotos(data, *m_db, filter);
 
+        const std::set<Photo::Field> fields = computeFields(fs);
+
         auto& peopleAccessor = peopleInformationAccessor();
         std::vector<Photo::DataDelta> deltas;
 
-        for(const auto& explicitDelta: data)
+        for(const auto& d: data)
         {
-            const auto peopleData = peopleAccessor.listPeopleFull(explicitDelta.getId());
+            Photo::DataDelta delta(d.getId());
+            for_each<Photo::Field::Path, Photo::Field::Tags, Photo::Field::Geometry, Photo::Field::GroupInfo, Photo::Field::Flags, Photo::Field::PHash>(delta, d, fields);
 
-            Photo::DataDelta delta(explicitDelta);
+            const auto peopleData = peopleAccessor.listPeopleFull(delta.getId());
             delta.insert<Photo::Field::People>(peopleData);
 
             deltas.push_back(delta);

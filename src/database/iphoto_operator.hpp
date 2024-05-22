@@ -8,6 +8,7 @@
 #include "filter.hpp"
 #include "photo_data.hpp"
 #include "photo_types.hpp"
+#include "explicit_photo_delta.hpp"
 
 
 namespace Database
@@ -22,7 +23,36 @@ namespace Database
 
         /// find all photos matching filters
         virtual std::vector<Photo::Id> getPhotos(const Filter &) = 0;
-        virtual std::vector<Photo::DataDelta> fetchData(const Filter &) = 0;
+
+        /**
+         * @brief fetch photos data
+         *
+         * @param filter photos to match
+         * @param fields list of photo details to read
+         *
+         * @return vector of structures containing chosen fields of filtered photos
+         */
+        virtual std::vector<Photo::DataDelta> fetchData(const Filter& filter, const std::set<Photo::Field>& fields = {}) = 0;
+
+        /**
+         * @brief fetch photos data
+         *
+         * @param filter photos to match
+         * @param fields list of photo details to read
+         *
+         * @return vector of explicit structures containing chosen fields of filtered photos
+         *
+         */
+        template<Photo::Field... fields>
+        std::vector<Photo::ExplicitDelta<fields...>> fetchData(const Filter& filter)
+        {
+            std::set<Photo::Field> f;
+
+            auto append = [&f](Photo::Field field) { f.insert(field); };
+            (..., append(fields));
+
+            return Photo::ExplicitDelta<fields...>(fetchData(filter, f));
+        }
 
         // phash operations
         virtual void setPHash(const Photo::Id &, const Photo::PHashT &) = 0;

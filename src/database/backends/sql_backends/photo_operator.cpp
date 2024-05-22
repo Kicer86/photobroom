@@ -192,7 +192,7 @@ namespace Database
     }
 
 
-    std::vector<Photo::DataDelta> PhotoOperator::fetchData(const Filter& filter)
+    std::vector<Photo::DataDelta> PhotoOperator::fetchData(const Filter& filter, const std::set<Photo::Field>& fields)
     {
         std::vector<Photo::DataDelta> deltas;
 
