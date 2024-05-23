@@ -230,3 +230,46 @@ TYPED_TEST(PhotoOperatorTest, compareCompletness)
     // both methods should return the same set of data (possibily in different order)
     EXPECT_THAT(fetchedPhotos, UnorderedElementsAreArray(gotPhotos));
 }
+
+namespace
+{
+    namespace details
+    {
+        template<auto... args>
+        void unfold()
+        {
+
+        }
+
+        template<auto arr, typename IS = decltype(std::make_index_sequence<arr.size()>())> struct Generator;
+
+        template<auto arr, std::size_t... I>
+        struct Generator<arr, std::index_sequence<I...>>
+        {
+            void operator()()
+            {
+                unfold<arr[I]...>();
+            }
+        };
+
+        template<auto arr>
+        using Generator_t = Generator<arr>;
+    }
+
+    template<typename E>
+    void for_each(auto lambda)
+    {
+        details::Generator_t<magic_enum::enum_values<Photo::Field>()>();
+    }
+}
+
+TYPED_TEST(PhotoOperatorTest, fetchPhotoParts)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(RichDB::db1);
+
+    for(const auto field: magic_enum::enum_values<Photo::Field>())
+    {
+
+    }
+}
