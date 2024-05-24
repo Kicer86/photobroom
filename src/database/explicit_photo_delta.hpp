@@ -85,6 +85,8 @@ namespace Photo
             return *this;
         }
 
+        bool operator==(const ExplicitDelta<dataFields...> &) const = default;
+
         operator const DataDelta& () const
         {
             return m_data;
