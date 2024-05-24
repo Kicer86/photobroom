@@ -51,7 +51,7 @@ namespace Database
             auto append = [&f](Photo::Field field) { f.insert(field); };
             (..., append(fields));
 
-            return Photo::ExplicitDelta<fields...>(fetchData(filter, f));
+            return EDV<Photo::ExplicitDelta<fields...>>(fetchData(filter, f));
         }
 
         // phash operations
