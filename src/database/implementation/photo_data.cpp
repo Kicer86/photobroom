@@ -19,6 +19,8 @@
 
 #include <cassert>
 
+#include <core/utils.hpp>
+
 #include "photo_data.hpp"
 
 
@@ -50,39 +52,13 @@ namespace Photo
     void DataDelta::clear(Field field)
     {
         // TODO: improve it
-        switch(field)
+        for_each<Field>([&](auto enum_v)
         {
-            case Field::Tags:
-                m_data[field] = DeltaTypes<Field::Tags>::Storage{};
-                break;
+            constexpr auto enum_value = decltype(enum_v)::value;
 
-            case Field::Flags:
-                m_data[field] = DeltaTypes<Field::Flags>::Storage{};
-                break;
-
-            case Field::Path:
-                m_data[field] = DeltaTypes<Field::Path>::Storage{};
-                break;
-
-            case Field::Geometry:
-                m_data[field] = DeltaTypes<Field::Geometry>::Storage{};
-                break;
-
-            case Field::GroupInfo:
-                m_data[field] = DeltaTypes<Field::GroupInfo>::Storage{};
-                break;
-
-            case Field::PHash:
-                m_data[field] = DeltaTypes<Field::PHash>::Storage{};
-                break;
-
-            case Field::People:
-                m_data[field] = DeltaTypes<Field::People>::Storage{};
-                break;
-
-            default:
-                assert(!"missing case");
-        }
+            if (enum_value == field)
+                m_data[field] = typename DeltaTypes<enum_value>::Storage{};
+        });
     }
 
 
