@@ -375,8 +375,10 @@ namespace Database
     }
 
 
-    Photo::DataDelta ASqlBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& _fields)
+    Photo::DataDelta ASqlBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& fields)
     {
+        assert(fields.empty() == false);
+
         const bool valid_id = doesPhotoExist(id);
         assert(valid_id);
 
@@ -384,14 +386,6 @@ namespace Database
 
         if (valid_id)
         {
-            std::set<Photo::Field> fields = _fields;
-
-            if (fields.empty())
-            {
-                const auto allEntries = magic_enum::enum_values<Photo::Field>();
-                fields.insert(allEntries.begin(), allEntries.end());
-            }
-
             if (fields.contains(Photo::Field::Path))
                 photoData.insert<Photo::Field::Path>(getPathFor(id));
 

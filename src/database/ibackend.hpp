@@ -124,7 +124,7 @@ namespace Database
          *
          * @return structure containing chosen fields
          */
-        virtual Photo::DataDelta  getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& fields= {}) = 0;
+        virtual Photo::DataDelta  getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& fields = Photo::AllFields) = 0;
 
         /**
          * @brief fetch photo data
