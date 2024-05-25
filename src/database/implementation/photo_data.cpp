@@ -124,6 +124,14 @@ namespace Photo
         return *this;
     }
 
+    DataDelta DataDelta::operator-(Photo::Field field) const
+    {
+        DataDelta copy(*this);
+        copy.m_data.erase(field);
+
+        return copy;
+    }
+
 
     const DataDelta::Storage& DataDelta::get(Photo::Field field) const
     {

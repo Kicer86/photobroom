@@ -58,7 +58,7 @@ namespace Photo
             }
 
             /**
-             * @brief set hiven field to empty value
+             * @brief set hiven field to an empty value
              */
             void clear(Field);
 
@@ -91,6 +91,11 @@ namespace Photo
             bool operator<(const DataDelta &) const;
             bool operator==(const DataDelta &) const;
             DataDelta& operator|=(const DataDelta &);       // merge anothor delta into
+
+            /**
+             * @brief Return copy of DataDelta with given field removed
+             */
+            DataDelta operator-(Photo::Field field) const;
 
         private:
             typedef std::variant<
