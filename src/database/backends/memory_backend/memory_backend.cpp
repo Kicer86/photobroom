@@ -263,7 +263,7 @@ namespace Database
             const Photo::Id id(m_db->m_nextPhotoId);
             delta.setId(id);
 
-            auto [it, i] = m_db->m_photos.insert(StoregeDelta(delta));
+            auto [it, i] = m_db->m_photos.insert(StoregeDelta(delta - Photo::Field::People));
             assert(i == true);
 
             if (delta.has(Photo::Field::People))
