@@ -744,7 +744,7 @@ namespace Database
 
         std::vector<Photo::DataDelta> photo_data;
         for(const auto id: ids)
-            photo_data.push_back(getPhotoDelta(id, {}));
+            photo_data.push_back(getPhotoDelta(id, Photo::AllFields));
 
         onPhotos(photo_data, action);
 
@@ -785,8 +785,11 @@ namespace Database
             Photo::DataDelta delta(d.getId());
             for_each<Photo::Field::Path, Photo::Field::Tags, Photo::Field::Geometry, Photo::Field::GroupInfo, Photo::Field::Flags, Photo::Field::PHash>(delta, d, fields);
 
-            const auto peopleData = peopleAccessor.listPeopleFull(delta.getId());
-            delta.insert<Photo::Field::People>(peopleData);
+            if (fields.contains(Photo::Field::People))
+            {
+                const auto peopleData = peopleAccessor.listPeopleFull(delta.getId());
+                delta.insert<Photo::Field::People>(peopleData);
+            }
 
             deltas.push_back(delta);
         }

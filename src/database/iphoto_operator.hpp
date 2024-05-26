@@ -32,7 +32,7 @@ namespace Database
          *
          * @return vector of structures containing chosen fields of filtered photos
          */
-        virtual std::vector<Photo::DataDelta> fetchData(const Filter& filter, const std::set<Photo::Field>& fields = {}) = 0;
+        virtual std::vector<Photo::DataDelta> fetchData(const Filter& filter, const std::set<Photo::Field>& fields = Photo::AllFields) = 0;
 
         /**
          * @brief fetch photos data
