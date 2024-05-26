@@ -32,6 +32,7 @@ namespace Photo
 
         explicit ExplicitDelta(const DataDelta& delta)
         {
+            validate(delta);
             fill<dataFields...>();
             m_data |= delta;
         }
@@ -72,12 +73,9 @@ namespace Photo
             return *this;
         }
 
-
         ExplicitDelta& operator|=(const DataDelta& other)
         {
-            for(const Photo::Field field : magic_enum::enum_values<Photo::Field>())
-                if (other.has(field) && has(field) == false)
-                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " from DataDelta is not part of this ExplicitDelta.");
+            validate(other);
 
             fill<dataFields...>();
             m_data |= other;
@@ -126,6 +124,13 @@ namespace Photo
         friend class ExplicitDelta;
 
         DataDelta m_data;
+
+        void validate(const Photo::DataDelta& other) const
+        {
+            for(const Photo::Field field : magic_enum::enum_values<Photo::Field>())
+                if (other.has(field) && has(field) == false)
+                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " from DataDelta is not part of this ExplicitDelta.");
+        }
 
         template<Field field, Field... fields>
         void fill()

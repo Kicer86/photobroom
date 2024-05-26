@@ -1,4 +1,6 @@
 
+#include <core/utils.hpp>
+
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
 #include "unit_tests_utils/sample_db2.json.hpp"
@@ -231,45 +233,26 @@ TYPED_TEST(PhotoOperatorTest, compareCompletness)
     EXPECT_THAT(fetchedPhotos, UnorderedElementsAreArray(gotPhotos));
 }
 
-namespace
-{
-    namespace details
-    {
-        template<auto... args>
-        void unfold()
-        {
-
-        }
-
-        template<auto arr, typename IS = decltype(std::make_index_sequence<arr.size()>())> struct Generator;
-
-        template<auto arr, std::size_t... I>
-        struct Generator<arr, std::index_sequence<I...>>
-        {
-            void operator()()
-            {
-                unfold<arr[I]...>();
-            }
-        };
-
-        template<auto arr>
-        using Generator_t = Generator<arr>;
-    }
-
-    template<typename E>
-    void for_each(auto lambda)
-    {
-        details::Generator_t<magic_enum::enum_values<Photo::Field>()>();
-    }
-}
 
 TYPED_TEST(PhotoOperatorTest, fetchPhotoParts)
 {
     Database::JsonToBackend converter(*this->m_backend);
     converter.append(RichDB::db1);
 
-    for(const auto field: magic_enum::enum_values<Photo::Field>())
+    for_each<Photo::Field>([&](auto field)
     {
+        constexpr auto constexpr_field = decltype(field)::value;
+        std::vector<Photo::ExplicitDelta<constexpr_field>> fromBackendPhotos;
 
-    }
+        const auto ids = this->m_backend->photoOperator().getPhotos({});
+        for (const auto id: ids)
+        {
+            Photo::ExplicitDelta<constexpr_field> fromBackendPhoto = this->m_backend->template getPhotoDelta<constexpr_field>(id);
+            fromBackendPhotos.push_back(fromBackendPhoto);
+        }
+
+        const auto fromOperatorPhotos = this->m_backend->photoOperator().template fetchData<constexpr_field>({});
+
+        EXPECT_THAT(fromBackendPhotos, UnorderedElementsAreArray(fromOperatorPhotos));
+    });
 }

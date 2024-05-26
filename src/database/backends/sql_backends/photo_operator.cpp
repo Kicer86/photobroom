@@ -194,50 +194,78 @@ namespace Database
 
     std::vector<Photo::DataDelta> PhotoOperator::fetchData(const Filter& filter, const std::set<Photo::Field>& fields)
     {
-        std::vector<Photo::DataDelta> deltas;
+        assert(fields.empty() == false);
 
         std::unordered_map<Photo::Id, Photo::DataDelta> accumulator;
 
-        const auto paths = getPaths(filter);
-        for (const auto& [id, path]: paths)
-            accumulator[id].insert<Photo::Field::Path>(path);
+        // collect all matching ids
+        const auto ids = getPhotos(filter);
 
-        const auto photos_tags = getTags(filter);
-        for (const auto& [id, tags]: photos_tags)
-            accumulator[id].insert<Photo::Field::Tags>(tags);
-
-        const auto photos_flags = getFlags(filter);
-        for (const auto& [id, flags]: photos_flags)
-            accumulator[id].insert<Photo::Field::Flags>(flags);
-
-        const auto photos_geometry = getGeometry(filter);
-        for (const auto& [id, geometry]: photos_geometry)
-            accumulator[id].insert<Photo::Field::Geometry>(geometry);
-
-        const auto photos_group = getGroups(filter);
-        for (const auto& [id, group]: photos_group)
-            accumulator[id].insert<Photo::Field::GroupInfo>(group);
-
-        const auto photos_phashes = getPHashes(filter);
-        for (const auto& [id, phash]: photos_phashes)
-            accumulator[id].insert<Photo::Field::PHash>(phash);
-
-        const auto photos_people = getPeople(filter);
-        for (const auto& [id, people]: photos_people)
-            accumulator[id].insert<Photo::Field::People>(people);
-
-        deltas.reserve(accumulator.size());
-        for (auto& [id, delta]: accumulator)
+        for (const auto id: ids)
         {
-            delta.setId(id);
+            Photo::DataDelta delta(id);
 
-            // set all non-set fields
-            for(auto field: magic_enum::enum_values<Photo::Field>())
-                if (delta.has(field) == false)
-                    delta.clear(field);
+            // preset all requiered fields
+            for(auto field: fields)
+                delta.clear(field);
 
-            deltas.push_back(delta);
+            accumulator[id] = delta;
         }
+
+        if (fields.contains(Photo::Field::Path))
+        {
+            const auto paths = getPaths(filter);
+            for (const auto& [id, path]: paths)
+                accumulator[id].insert<Photo::Field::Path>(path);
+        }
+
+        if (fields.contains(Photo::Field::Tags))
+        {
+            const auto photos_tags = getTags(filter);
+            for (const auto& [id, tags]: photos_tags)
+                accumulator[id].insert<Photo::Field::Tags>(tags);
+        }
+
+        if (fields.contains(Photo::Field::Flags))
+        {
+            const auto photos_flags = getFlags(filter);
+            for (const auto& [id, flags]: photos_flags)
+                accumulator[id].insert<Photo::Field::Flags>(flags);
+        }
+
+        if (fields.contains(Photo::Field::Geometry))
+        {
+            const auto photos_geometry = getGeometry(filter);
+            for (const auto& [id, geometry]: photos_geometry)
+                accumulator[id].insert<Photo::Field::Geometry>(geometry);
+        }
+
+        if (fields.contains(Photo::Field::GroupInfo))
+        {
+            const auto photos_group = getGroups(filter);
+            for (const auto& [id, group]: photos_group)
+                accumulator[id].insert<Photo::Field::GroupInfo>(group);
+        }
+
+        if (fields.contains(Photo::Field::PHash))
+        {
+            const auto photos_phashes = getPHashes(filter);
+            for (const auto& [id, phash]: photos_phashes)
+                accumulator[id].insert<Photo::Field::PHash>(phash);
+        }
+
+        if (fields.contains(Photo::Field::People))
+        {
+            const auto photos_people = getPeople(filter);
+            for (const auto& [id, people]: photos_people)
+                accumulator[id].insert<Photo::Field::People>(people);
+        }
+
+        std::vector<Photo::DataDelta> deltas;
+        deltas.reserve(accumulator.size());
+
+        for (auto& [id, delta]: accumulator)
+            deltas.push_back(delta);
 
         return deltas;
     }
