@@ -107,7 +107,7 @@ jobs:
             -Wdev -Werror=dev
         run-test: true
         ctest-options:
+            -LE HeavyData
             --output-on-failure
-            -LE "HeavyData"
       env:
         TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
