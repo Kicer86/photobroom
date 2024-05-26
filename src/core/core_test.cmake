@@ -141,7 +141,6 @@ add_executable(core_ut
     unit_tests/qmodelindex_selector_tests.cpp
     unit_tests/status_tests.cpp
     unit_tests/tag_value_tests.cpp
-    unit_tests/video_metadata_extraction_tests.cpp
 )
 
 target_link_libraries(core_ut
@@ -149,7 +148,6 @@ target_link_libraries(core_ut
         ${EXIV2_LIB}
         ${FFMPEG_LIBRARIES}
         GTest::gtest
-        GTest::gmock
         GTest::gmock_main
         Qt::Core
         Qt::Gui
@@ -180,3 +178,51 @@ add_test(
 )
 
 register_unit_test(core core_ut)
+
+
+add_executable(core_video_ut
+    implementation/aexif_reader.cpp
+    implementation/base_tags.cpp
+    implementation/exiv2_exif_reader.cpp
+    implementation/exif_reader_factory.cpp
+    implementation/image_media_information.cpp
+    implementation/media_information.cpp
+    implementation/media_types.cpp
+    implementation/tag.cpp
+    implementation/video_media_information.cpp
+
+    unit_tests/video_metadata_extraction_tests.cpp
+)
+
+target_link_libraries(core_video_ut
+    PRIVATE
+        ${EXIV2_LIB}
+        ${FFMPEG_LIBRARIES}
+        GTest::gtest
+        GTest::gmock_main
+        Qt::Core
+        Qt::Gui
+        opencv_tracking
+)
+
+target_include_directories(core_video_ut
+    PRIVATE
+        ${CMAKE_SOURCE_DIR}/src
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${PROJECT_BINARY_DIR}
+)
+
+target_compile_definitions(core_video_ut
+    PRIVATE
+        CORE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+)
+
+set_target_properties(core_video_ut PROPERTIES AUTOMOC TRUE)
+
+add_test(
+    NAME core_video
+    COMMAND core_video_ut
+)
+
+register_unit_test(core_video core_video_ut "HeavyData")
