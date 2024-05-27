@@ -4,7 +4,7 @@ module;
 #include <cstdlib>
 #include <string>
 
-export module system:win32_system;
+module system;
 import :system;
 
 

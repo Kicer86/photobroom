@@ -4,7 +4,7 @@ module;
 #include <cstdlib>
 #include <string>
 
-export module system:unix_system;
+module system;
 import :system;
 
 

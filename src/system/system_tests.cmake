@@ -7,11 +7,11 @@ find_package(Qt6 REQUIRED COMPONENTS Core)
 
 add_executable(system_ut
     unit_tests/common_path.cpp
-    implementation/filesystem.cpp
 )
 
 target_link_libraries(system_ut
     PRIVATE
+        system
         GTest::gtest
         GTest::gmock
         GTest::gmock_main
