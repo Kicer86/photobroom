@@ -4,8 +4,7 @@ module;
 #include <cstdlib>
 #include <string>
 
-export module system:unix_system;
-import :system;
+module system:system;
 
 
 std::string System::userName()

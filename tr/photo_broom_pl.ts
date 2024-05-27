@@ -409,7 +409,7 @@
         <translation>&amp;Operacje</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+192"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="+191"/>
         <source>New version</source>
         <translation>Nowa wersja</translation>
     </message>
@@ -726,7 +726,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+144"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+143"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
