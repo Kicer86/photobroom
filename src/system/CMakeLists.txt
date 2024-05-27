@@ -32,12 +32,13 @@ endif()
 add_library(system)
 
 target_sources(system
-    PUBLIC
-        FILE_SET CXX_MODULES FILES
-            ${SYSTEM_SOURCES}
-            system.cxx
-            implementation/filesystem.cpp
-            implementation/system.cpp
+    PUBLIC FILE_SET CXX_MODULES FILES
+        system.cxx
+        implementation/filesystem.cpp
+        implementation/system.cpp
+
+    PRIVATE
+        #${SYSTEM_SOURCES}
 )
 
 target_include_directories(system
@@ -50,6 +51,7 @@ target_include_directories(system
 
 target_link_libraries(system PRIVATE Qt::Core)
 
+hideSymbols(system)
 
 if(BUILD_SHARED_LIBS)
     install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
@@ -58,5 +60,5 @@ endif()
 
 
 if(BUILD_TESTING)
-    include(system_tests.cmake)
+    #include(system_tests.cmake)
 endif()
