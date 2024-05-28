@@ -54,7 +54,7 @@ template<typename R, typename E, typename T>
 [[nodiscard]]
 auto evaluate(E& executor, const T& task)
 {
-    typedef std::packaged_task<R> PTask;
+    using PTask = std::packaged_task<R>;
 
     PTask p_task(task);
 

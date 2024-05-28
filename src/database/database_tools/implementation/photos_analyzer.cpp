@@ -37,30 +37,32 @@ using namespace PhotosAnalyzerConsts;
 
 namespace
 {
-    void assignGeometry(IMediaInformation& mediaInfo, Photo::DataDelta& data)
+    // TODO: put some nice concept here which will detect if T is ExplicitDelta and has required fields
+    void assignGeometry(IMediaInformation& mediaInfo, auto& data)
     {
-        const QString path = data.get<Photo::Field::Path>();
+        const QString path = data.template get<Photo::Field::Path>();
         const auto info = mediaInfo.getInformation(path);
 
         if (info.common.dimension.has_value())
         {
-            data.insert<Photo::Field::Geometry>(info.common.dimension.value());
-            data.get<Photo::Field::Flags>()[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
+            data.template insert<Photo::Field::Geometry>(info.common.dimension.value());
+            data.template get<Photo::Field::Flags>()[Photo::FlagsE::GeometryLoaded] = GeometryFlagVersion;
         }
         else
             throw std::make_pair(Database::CommonGeneralFlags::State, static_cast<int>(Database::CommonGeneralFlags::StateType::Broken));
     }
 
-    void assignTags(IMediaInformation& mediaInfo, Photo::DataDelta& data)
+    // TODO: put some nice concept here which will detect if T is ExplicitDelta and has required fields
+    void assignTags(IMediaInformation& mediaInfo, auto& data)
     {
-        auto& tags = data.get<Photo::Field::Tags>();
-        const auto path = data.get<Photo::Field::Path>();
+        auto& tags = data.template get<Photo::Field::Tags>();
+        const auto path = data.template get<Photo::Field::Path>();
 
         // If media already has date or time update, do not override it.
         // Just update ExifLoaded flag. It could be set to previous version, so bump it
         if (tags.contains(Tag::Types::Date) || tags.contains(Tag::Types::Time))
         {
-            data.get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+            data.template get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
             return;
         }
 
@@ -73,15 +75,16 @@ namespace
             tags[Tag::Types::Time] = info.common.creationTime->time();
         }
 
-        data.get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
+        data.template get<Photo::Field::Flags>()[Photo::FlagsE::ExifLoaded] = ExifFlagVersion;
     }
 
-    void assignPHash(Photo::DataDelta& data)
+    // TODO: put some nice concept here which will detect if T is ExplicitDelta and has required fields
+    void assignPHash(auto& data)
     {
         // based on:
         // https://docs.opencv.org/3.4/d4/d93/group__img__hash.html
 
-        const QString path = data.get<Photo::Field::Path>();
+        const QString path = data.template get<Photo::Field::Path>();
 
         // NOTE: cv::imread could be used here, however it would be better to have a unique mechanism
         // of reading images, so if an image can be displayed in gui, then we also know how to
@@ -118,7 +121,7 @@ namespace
                 std::memcpy(rawPHash.data(), phashMat.datastart, DataSize);
 
                 Photo::PHashT phash(rawPHash);
-                data.insert<Photo::Field::PHash>(phash);
+                data.template insert<Photo::Field::PHash>(phash);
             }
         }
     }
@@ -135,9 +138,10 @@ namespace
 
         void perform() override
         {
-            auto data = evaluate<Photo::DataDelta(Database::IBackend &)>(*m_storage, [this](Database::IBackend& backend)
+            using namespace Photo;
+            auto data = evaluate<Photo::ExplicitDelta<Field::Flags, Field::PHash, Field::Path, Field::Geometry, Field::Tags>(Database::IBackend &)>(*m_storage, [this](Database::IBackend& backend)
             {
-                return backend.getPhotoDelta<Photo::Field::Flags, Photo::Field::PHash>(m_id);
+                return backend.getPhotoDelta<Field::Flags, Field::PHash, Field::Path, Field::Geometry, Field::Tags>(m_id);
             });
 
             std::vector<std::tuple<Photo::Id, QString, int>> bitsToSet;
@@ -155,7 +159,7 @@ namespace
             if (data.get<Photo::Field::Flags>().at(Photo::FlagsE::ExifLoaded) < ExifFlagVersion)
                 assignTags(m_mediaInfo, data);
 
-            if (data.has(Photo::Field::PHash) == false)
+            if (data.get<Photo::Field::PHash>().valid() == false)
                 try
                 {
                     assignPHash(data);

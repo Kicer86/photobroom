@@ -120,7 +120,7 @@ namespace Photo
         }
 
     private:
-        template<typename Photo::Field... other>
+        template<typename Photo::Field...>
         friend class ExplicitDelta;
 
         DataDelta m_data;
