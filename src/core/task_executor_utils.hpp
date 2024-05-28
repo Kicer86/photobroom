@@ -50,16 +50,14 @@ class CORE_EXPORT WorkState
 
 // Helper function.
 // Run a task and wait for it to be finished.
-template<typename R, typename E, typename T>
+template<typename E, typename T>
 [[nodiscard]]
 auto evaluate(E& executor, const T& task)
 {
-    using PTask = std::packaged_task<R>;
-
-    PTask p_task(task);
+    std::packaged_task p_task(task);
 
     auto result_future = p_task.get_future();
-    ExecutorTraits<E, PTask>::exec(executor, std::move(p_task));
+    ExecutorTraits<E, decltype(p_task)>::exec(executor, std::move(p_task));
 
     result_future.wait();
 

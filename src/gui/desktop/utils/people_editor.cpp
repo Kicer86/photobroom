@@ -58,7 +58,7 @@ namespace
 
     bool wasPhotoAnalyzedAndHasNoFaces(Database::IDatabase& db, const Photo::Id& ph_id)
     {
-        return evaluate<bool(Database::IBackend &)>(db, [ph_id](Database::IBackend& backend)
+        return evaluate(db, [ph_id](Database::IBackend& backend)
         {
             const auto analysisState = backend.get(ph_id, FacesAnalysisState);
 
@@ -68,7 +68,7 @@ namespace
 
     QString pathFor(Database::IDatabase& db, const Photo::Id& id)
     {
-        return evaluate<QString(Database::IBackend &)>(db, [id](Database::IBackend& backend)
+        return evaluate(db, [id](Database::IBackend& backend)
         {
             auto photo = backend.getPhotoDelta(id, {Photo::Field::Path});
 
@@ -173,7 +173,7 @@ class Recognizer: public IRecognizePerson
         {
             typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
 
-            evaluate<void(Database::IBackend &)>(db, [this](Database::IBackend& backend)
+            evaluate(db, [this](Database::IBackend& backend)
             {
                 std::vector<Person::Fingerprint> people_fingerprints;
                 std::vector<Person::Id> people;
@@ -238,7 +238,7 @@ FaceEditor::PeopleData FaceEditor::findFaces(const OrientedImage& image, const P
     // photo not analyzed yet (no records in db) or analyzed and we have data in db
     if (facesNotFound == false)
     {
-        result = evaluate<FaceEditor::PeopleData(Database::IBackend &)>(m_db, [id](Database::IBackend& backend)
+        result = evaluate(m_db, [id](Database::IBackend& backend)
         {
             return backend.getPhotoDelta<Photo::Field::People>(id);
         });
@@ -262,7 +262,7 @@ FaceEditor::PeopleData FaceEditor::findFaces(const OrientedImage& image, const P
             else
             {
                 // store face location and fingerprint in db and update ids
-                evaluate<void(Database::IBackend &)>(m_db, [&result](Database::IBackend& backend)
+                evaluate(m_db, [&result](Database::IBackend& backend)
                 {
                     backend.update({result});
 

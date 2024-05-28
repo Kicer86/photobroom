@@ -67,7 +67,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
             QByteArray dbThumb;
 
             if (m_db)                   // load thumbnail from db
-                dbThumb = evaluate<QByteArray(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
+                dbThumb = evaluate(*m_db, [id](Database::IBackend& backend)
                 {
                     return backend.readBlob(id, BlobType);
                 });
@@ -78,7 +78,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
             if (dbThumb.isNull())
             {
                 // load path to photo
-                const Photo::DataDelta photoData = evaluate<Photo::DataDelta(Database::IBackend &)>(*m_db, [id](Database::IBackend& backend)
+                const Photo::DataDelta photoData = evaluate(*m_db, [id](Database::IBackend& backend)
                 {
                     return backend.getPhotoDelta<Photo::Field::Path>(id);
                 });

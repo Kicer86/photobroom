@@ -138,9 +138,9 @@ namespace
 
         void perform() override
         {
-            using namespace Photo;
-            auto data = evaluate<Photo::ExplicitDelta<Field::Flags, Field::PHash, Field::Path, Field::Geometry, Field::Tags>(Database::IBackend &)>(*m_storage, [this](Database::IBackend& backend)
+            auto data = evaluate(*m_storage, [this](Database::IBackend& backend)
             {
+                using namespace Photo;
                 return backend.getPhotoDelta<Field::Flags, Field::PHash, Field::Path, Field::Geometry, Field::Tags>(m_id);
             });
 
