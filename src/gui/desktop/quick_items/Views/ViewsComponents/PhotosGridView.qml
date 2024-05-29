@@ -1,7 +1,10 @@
 
 import QtQuick 2.15
 import QtQuick.Controls 2.15
+
+import QmlItems
 import "../../Components" as Components
+
 
 /*
  * Photos grid with multiselection component
@@ -58,5 +61,5 @@ Components.MultiselectGridView {
 
     // TODO: without it parent (PhotosView) doesn't get focus and Esc key does not work.
     // Figure out how to drop this.
-    Components.Focuser { }
+    Focuser { }
 }
