@@ -116,7 +116,7 @@ add_executable(core_ut
     implementation/exiv2_exif_reader.cpp
     implementation/exif_reader_factory.cpp
     implementation/data_from_path_extractor.cpp
-    #implementation/oriented_image.cpp
+    implementation/oriented_image.cpp
     implementation/image_aligner.cpp
     implementation/image_media_information.cpp
     implementation/media_information.cpp
@@ -136,7 +136,7 @@ add_executable(core_ut
     unit_tests/json_serializer_tests.cpp
     unit_tests/lazy_ptr_tests.cpp
     unit_tests/model_compositor_tests.cpp
-    #unit_tests/oriented_image_tests.cpp
+    unit_tests/oriented_image_tests.cpp
     unit_tests/qmodelindex_comparator_tests.cpp
     unit_tests/qmodelindex_selector_tests.cpp
     unit_tests/status_tests.cpp
