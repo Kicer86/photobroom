@@ -181,6 +181,7 @@ target_include_directories(core_ut
 target_compile_definitions(core_ut
     PRIVATE
         CORE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+        IMAGES_DIR="${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 set_target_properties(core_ut PROPERTIES AUTOMOC TRUE)
