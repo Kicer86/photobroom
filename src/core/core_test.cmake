@@ -108,7 +108,7 @@ if (BUILD_LEARNING_TESTS)
 endif()
 
 
-# for exif testing
+# for exif testing (https://github.com/golang/go/issues/4341)
 add_custom_command(OUTPUT exif_tests_images.tar
                    COMMAND ${WGET} https://storage.googleapis.com/go-attachment/4341/0/f.tar -O exif_tests_images.tar
 )
