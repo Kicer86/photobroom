@@ -24,7 +24,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-        lfs: true
+        lfs: false
 
     - name: Install system dependencies
       run: |
@@ -107,6 +107,7 @@ jobs:
             -Wdev -Werror=dev
         run-test: true
         ctest-options:
+            -LE HeavyData
             --output-on-failure
       env:
         TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt

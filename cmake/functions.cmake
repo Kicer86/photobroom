@@ -27,7 +27,7 @@ endfunction()
 
 
 # helper function for creating unit tests with sanitizers enabled
-macro(addSanitizers target test_prefix)
+macro(addSanitizers target test_prefix extra_labels)
 
     #clone target
     cloneTarget(${target} ${target}_addr)
@@ -75,17 +75,19 @@ macro(addSanitizers target test_prefix)
     add_test(${test_prefix}_leak ${target}_leak)
     add_test(${test_prefix}_ub ${target}_ub)
 
-    set_tests_properties(${test_prefix}_addr PROPERTIES LABELS "UnitTest;Sanitizer;Address")
-    set_tests_properties(${test_prefix}_thread PROPERTIES LABELS "UnitTest;Sanitizer;Thread")
-    set_tests_properties(${test_prefix}_leak PROPERTIES LABELS "UnitTest;Sanitizer;Leak")
-    set_tests_properties(${test_prefix}_ub PROPERTIES LABELS "UnitTest;Sanitizer;UndefinedBehavior")
+    set_tests_properties(${test_prefix}_addr PROPERTIES LABELS "UnitTest;Sanitizer;Address;${extra_labels}")
+    set_tests_properties(${test_prefix}_thread PROPERTIES LABELS "UnitTest;Sanitizer;Thread;${extra_labels}")
+    set_tests_properties(${test_prefix}_leak PROPERTIES LABELS "UnitTest;Sanitizer;Leak;${extra_labels}")
+    set_tests_properties(${test_prefix}_ub PROPERTIES LABELS "UnitTest;Sanitizer;UndefinedBehavior;${extra_labels}")
 
 endmacro(addSanitizers)
 
 
 # do some universal setup for a unit test
 function(register_unit_test unit_test executable)
-    set_tests_properties(${unit_test} PROPERTIES LABELS "UnitTest")
+    set(extra_labels "${ARGN}")
+
+    set_tests_properties(${unit_test} PROPERTIES LABELS "UnitTest;${extra_labels}")
 
     if(RUN_TESTS_AFTER_BUILD)
         add_custom_command(TARGET ${executable}
@@ -96,7 +98,7 @@ function(register_unit_test unit_test executable)
     endif()
 
     if(ENABLE_SANITIZERS_FOR_TESTS)
-        addSanitizers(${executable} ${unit_test})
+        addSanitizers(${executable} ${unit_test} "${extra_labels}")
     endif()
 endfunction()
 
