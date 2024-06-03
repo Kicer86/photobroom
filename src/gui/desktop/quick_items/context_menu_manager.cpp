@@ -169,7 +169,7 @@ void ContextMenuManager::manageGroupsAction()
 {
     Database::IDatabase& db = m_project->getDatabase();
 
-    const std::vector<ExplicitDelta> groupMembers = evaluate<std::vector<ExplicitDelta>(Database::IBackend &)>(db, [this](Database::IBackend& backend)
+    const std::vector<ExplicitDelta> groupMembers = evaluate(db, [this](Database::IBackend& backend)
     {
         std::vector<ExplicitDelta> members;
 

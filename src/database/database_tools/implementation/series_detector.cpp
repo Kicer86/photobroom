@@ -371,7 +371,7 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
     timer.start();
 
     const std::deque<ExplicitDelta> candidates =
-        evaluate<std::deque<ExplicitDelta>(Database::IBackend &)>(m_db, [](Database::IBackend& backend)
+        evaluate(m_db, [](Database::IBackend& backend)
     {
         std::vector<GroupCandidate> result;
 
