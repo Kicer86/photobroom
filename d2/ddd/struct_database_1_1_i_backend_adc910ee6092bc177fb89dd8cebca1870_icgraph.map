@@ -1,17 +1,19 @@
 <map id="Database::IBackend::photoOperator" name="Database::IBackend::photoOperator">
-<area shape="rect" id="Node000001" title="get photo operator" alt="" coords="272,193,409,234"/>
+<area shape="rect" id="Node000001" title="get photo operator" alt="" coords="272,215,409,255"/>
 <area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" title=" " alt="" coords="31,5,198,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="320,181,280,119,253,88,222,61,197,47,199,43,225,57,257,84,284,116,324,178"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="323,202,284,130,256,93,222,61,197,47,200,42,225,57,260,89,288,127,327,199"/>
 <area shape="rect" id="Node000019" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,71,224,111"/>
-<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="304,185,266,154,222,127,194,114,196,109,225,122,269,150,308,181"/>
-<area shape="rect" id="Node000021" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="42,136,187,177"/>
-<area shape="poly" id="edge3_Node000001_Node000021" title=" " alt="" coords="256,195,186,177,188,172,257,190"/>
-<area shape="rect" id="Node000022" href="$d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" title=" " alt="" coords="27,201,202,227"/>
-<area shape="poly" id="edge4_Node000001_Node000022" title=" " alt="" coords="256,216,202,216,202,211,256,211"/>
-<area shape="rect" id="Node000023" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="43,251,186,291"/>
-<area shape="poly" id="edge5_Node000001_Node000023" title=" " alt="" coords="258,237,187,255,186,250,257,232"/>
-<area shape="rect" id="Node000024" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="34,316,195,341"/>
-<area shape="poly" id="edge6_Node000001_Node000024" title=" " alt="" coords="308,247,270,278,225,305,192,317,191,312,223,301,267,273,305,243"/>
-<area shape="rect" id="Node000025" href="$df/d40/namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c" title=" " alt="" coords="32,365,197,391"/>
-<area shape="poly" id="edge7_Node000001_Node000025" title=" " alt="" coords="323,249,283,304,256,333,225,356,199,368,197,363,222,351,252,329,279,301,318,246"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="311,204,272,163,222,125,199,114,202,109,225,121,275,159,315,201"/>
+<area shape="rect" id="Node000021" href="$d3/df6/class_series_detector.html#a7fb133fe47e82c32db512738a9e02742" title=" " alt="" coords="17,136,212,161"/>
+<area shape="poly" id="edge3_Node000001_Node000021" title=" " alt="" coords="291,209,223,176,184,164,186,159,225,171,294,204"/>
+<area shape="rect" id="Node000029" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="42,185,187,226"/>
+<area shape="poly" id="edge4_Node000001_Node000029" title=" " alt="" coords="256,227,187,218,187,212,257,222"/>
+<area shape="rect" id="Node000030" href="$d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" title=" " alt="" coords="27,250,202,276"/>
+<area shape="poly" id="edge5_Node000001_Node000030" title=" " alt="" coords="257,248,203,255,202,250,256,243"/>
+<area shape="rect" id="Node000031" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="43,300,186,341"/>
+<area shape="poly" id="edge6_Node000001_Node000031" title=" " alt="" coords="285,265,225,291,187,304,185,299,223,286,283,260"/>
+<area shape="rect" id="Node000032" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="34,365,195,391"/>
+<area shape="poly" id="edge7_Node000001_Node000032" title=" " alt="" coords="317,270,278,314,252,336,225,355,196,367,194,362,222,350,249,332,274,310,313,266"/>
+<area shape="rect" id="Node000033" href="$df/d40/namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c" title=" " alt="" coords="32,414,197,440"/>
+<area shape="poly" id="edge8_Node000001_Node000033" title=" " alt="" coords="327,271,311,303,288,340,260,375,225,405,199,418,196,413,222,401,256,372,284,337,306,301,322,268"/>
 </map>

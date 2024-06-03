@@ -74,8 +74,8 @@
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="../../d4/d20/task__executor__utils_8hpp.html#ab600807ae28e81f2270dbd0213fd64bd" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="274.25,-337.88 221.5,-337.88 221.5,-318.62 274.25,-318.62 274.25,-337.88"/>
+<g id="a_Node000006"><a xlink:href="../../d4/d20/task__executor__utils_8hpp.html#a3f0aa9b30c11096d7aa5e0e982b1c7a5" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="274.25,-337.88 221.5,-337.88 221.5,-318.62 274.25,-318.62 274.25,-337.88"/>
 <text text-anchor="middle" x="247.88" y="-324.38" font-family="Helvetica,sans-Serif" font-size="10.00">evaluate</text>
 </a>
 </g>
@@ -89,132 +89,132 @@
 </a>
 </g>
 </g>
-<!-- Node8 -->
-<g id="Node000008" class="node">
-<title>Node8</title>
-<g id="a_Node000008"><a xlink:href="../../dd/d17/class_thumbnail_manager.html#a7c97ab9eebab7904b0d6e8708d107d5f" target="_top" xlink:title=" ">
+<!-- Node7 -->
+<g id="Node000007" class="node">
+<title>Node7</title>
+<g id="a_Node000007"><a xlink:href="../../dd/d17/class_thumbnail_manager.html#a7c97ab9eebab7904b0d6e8708d107d5f" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="306.88,-300.88 188.88,-300.88 188.88,-281.62 306.88,-281.62 306.88,-300.88"/>
 <text text-anchor="middle" x="247.88" y="-287.38" font-family="Helvetica,sans-Serif" font-size="10.00">ThumbnailManager::find</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node8 -->
-<g id="edge5_Node000001_Node000008" class="edge">
-<title>Node1&#45;&gt;Node8</title>
-<g id="a_edge5_Node000001_Node000008"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node7 -->
+<g id="edge5_Node000001_Node000007" class="edge">
+<title>Node1&#45;&gt;Node7</title>
+<g id="a_edge5_Node000001_Node000007"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M103.12,-258.28C120.75,-262.67 141.76,-267.82 160.75,-272.25 169.97,-274.4 179.75,-276.62 189.3,-278.75"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="188.34,-282.13 198.86,-280.88 189.86,-275.29 188.34,-282.13"/>
 </a>
 </g>
 </g>
-<!-- Node10 -->
-<g id="Node000010" class="node">
-<title>Node10</title>
-<g id="a_Node000010"><a xlink:href="../../df/d64/class_i_thumbnails_generator.html#a9cb5f9d451440a1d5edbe228f01b0595" target="_top" xlink:title=" ">
+<!-- Node9 -->
+<g id="Node000009" class="node">
+<title>Node9</title>
+<g id="a_Node000009"><a xlink:href="../../df/d64/class_i_thumbnails_generator.html#a9cb5f9d451440a1d5edbe228f01b0595" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="303.88,-263.5 191.88,-263.5 191.88,-233 303.88,-233 303.88,-263.5"/>
 <text text-anchor="start" x="199.88" y="-250" font-family="Helvetica,sans-Serif" font-size="10.00">IThumbnailsGenerator</text>
 <text text-anchor="middle" x="247.88" y="-238.75" font-family="Helvetica,sans-Serif" font-size="10.00">::generate</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node10 -->
-<g id="edge6_Node000001_Node000010" class="edge">
-<title>Node1&#45;&gt;Node10</title>
-<g id="a_edge6_Node000001_Node000010"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node9 -->
+<g id="edge6_Node000001_Node000009" class="edge">
+<title>Node1&#45;&gt;Node9</title>
+<g id="a_edge6_Node000001_Node000009"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M125.24,-248.25C142.91,-248.25 162.24,-248.25 180.18,-248.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="179.92,-251.75 189.92,-248.25 179.92,-244.75 179.92,-251.75"/>
 </a>
 </g>
 </g>
-<!-- Node11 -->
-<g id="Node000011" class="node">
-<title>Node11</title>
-<g id="a_Node000011"><a xlink:href="../../df/d64/class_i_thumbnails_generator.html#a7d4be3063adc1034883d8b48b53ca4c4" target="_top" xlink:title=" ">
+<!-- Node10 -->
+<g id="Node000010" class="node">
+<title>Node10</title>
+<g id="a_Node000010"><a xlink:href="../../df/d64/class_i_thumbnails_generator.html#a7d4be3063adc1034883d8b48b53ca4c4" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="303.88,-214.5 191.88,-214.5 191.88,-184 303.88,-184 303.88,-214.5"/>
 <text text-anchor="start" x="199.88" y="-201" font-family="Helvetica,sans-Serif" font-size="10.00">IThumbnailsGenerator</text>
 <text text-anchor="middle" x="247.88" y="-189.75" font-family="Helvetica,sans-Serif" font-size="10.00">::generateFrom</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node11 -->
-<g id="edge7_Node000001_Node000011" class="edge">
-<title>Node1&#45;&gt;Node11</title>
-<g id="a_edge7_Node000001_Node000011"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node10 -->
+<g id="edge7_Node000001_Node000010" class="edge">
+<title>Node1&#45;&gt;Node10</title>
+<g id="a_edge7_Node000001_Node000010"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M100.95,-238.22C123.9,-232.09 153.89,-224.08 180.71,-216.92"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="181.37,-220.37 190.13,-214.4 179.56,-213.6 181.37,-220.37"/>
+</a>
+</g>
+</g>
+<!-- Node11 -->
+<g id="Node000011" class="node">
+<title>Node11</title>
+<g id="a_Node000011"><a xlink:href="../../da/d88/task__executor__utils_8cpp.html#a81de700536a9ac466b67431bbdf99ea7" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="278,-165.88 217.75,-165.88 217.75,-146.62 278,-146.62 278,-165.88"/>
+<text text-anchor="middle" x="247.88" y="-152.38" font-family="Helvetica,sans-Serif" font-size="10.00">inlineTask</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node11 -->
+<g id="edge8_Node000001_Node000011" class="edge">
+<title>Node1&#45;&gt;Node11</title>
+<g id="a_edge8_Node000001_Node000011"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M73.49,-238.28C90.19,-222.42 125.22,-191.55 160.75,-175.25 175.06,-168.69 191.76,-164.33 206.63,-161.47"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="206.83,-164.98 216.08,-159.82 205.63,-158.09 206.83,-164.98"/>
 </a>
 </g>
 </g>
 <!-- Node12 -->
 <g id="Node000012" class="node">
 <title>Node12</title>
-<g id="a_Node000012"><a xlink:href="../../da/d88/task__executor__utils_8cpp.html#a81de700536a9ac466b67431bbdf99ea7" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="278,-165.88 217.75,-165.88 217.75,-146.62 278,-146.62 278,-165.88"/>
-<text text-anchor="middle" x="247.88" y="-152.38" font-family="Helvetica,sans-Serif" font-size="10.00">inlineTask</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node12 -->
-<g id="edge8_Node000001_Node000012" class="edge">
-<title>Node1&#45;&gt;Node12</title>
-<g id="a_edge8_Node000001_Node000012"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M73.49,-238.28C90.19,-222.42 125.22,-191.55 160.75,-175.25 175.06,-168.69 191.76,-164.33 206.63,-161.47"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="206.83,-164.98 216.08,-159.82 205.63,-158.09 206.83,-164.98"/>
-</a>
-</g>
-</g>
-<!-- Node13 -->
-<g id="Node000013" class="node">
-<title>Node13</title>
-<g id="a_Node000013"><a xlink:href="../../d2/d3a/classsafe__callback__ctrl.html#a2782272aba3be1150a5740914ba63f5f" target="_top" xlink:title=" ">
+<g id="a_Node000012"><a xlink:href="../../d2/d3a/classsafe__callback__ctrl.html#a2782272aba3be1150a5740914ba63f5f" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="302.75,-128.5 193,-128.5 193,-98 302.75,-98 302.75,-128.5"/>
 <text text-anchor="start" x="201" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">safe_callback_ctrl</text>
 <text text-anchor="middle" x="247.88" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::make_safe_callback</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node13 -->
-<g id="edge9_Node000001_Node000013" class="edge">
-<title>Node1&#45;&gt;Node13</title>
-<g id="a_edge9_Node000001_Node000013"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node12 -->
+<g id="edge9_Node000001_Node000012" class="edge">
+<title>Node1&#45;&gt;Node12</title>
+<g id="a_edge9_Node000001_Node000012"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M69.28,-238.23C82.68,-216.41 117.56,-164.4 160.75,-137.25 167.36,-133.09 174.7,-129.65 182.22,-126.79"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="183.16,-130.16 191.49,-123.61 180.9,-123.54 183.16,-130.16"/>
 </a>
 </g>
 </g>
-<!-- Node14 -->
-<g id="Node000014" class="node">
-<title>Node14</title>
-<g id="a_Node000014"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a727dd5575e1ae8565377b4be2df76524" target="_top" xlink:title="Read blob of type bt associated with photo id.">
+<!-- Node13 -->
+<g id="Node000013" class="node">
+<title>Node13</title>
+<g id="a_Node000013"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a727dd5575e1ae8565377b4be2df76524" target="_top" xlink:title="Read blob of type bt associated with photo id.">
 <polygon fill="white" stroke="#666666" points="299.38,-79.5 196.38,-79.5 196.38,-49 299.38,-49 299.38,-79.5"/>
 <text text-anchor="start" x="204.38" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="247.88" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::readBlob</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node14 -->
-<g id="edge10_Node000001_Node000014" class="edge">
-<title>Node1&#45;&gt;Node14</title>
-<g id="a_edge10_Node000001_Node000014"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node13 -->
+<g id="edge10_Node000001_Node000013" class="edge">
+<title>Node1&#45;&gt;Node13</title>
+<g id="a_edge10_Node000001_Node000013"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M66.58,-238.29C76.1,-210.3 106.97,-130.29 160.75,-89.25 168.05,-83.68 176.57,-79.34 185.34,-75.98"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="186.33,-79.34 194.68,-72.81 184.09,-72.71 186.33,-79.34"/>
 </a>
 </g>
 </g>
-<!-- Node15 -->
-<g id="Node000015" class="node">
-<title>Node15</title>
-<g id="a_Node000015"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#aefdb3497be40914b407537004a76f1d3" target="_top" xlink:title="Write blob of type bt.">
+<!-- Node14 -->
+<g id="Node000014" class="node">
+<title>Node14</title>
+<g id="a_Node000014"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#aefdb3497be40914b407537004a76f1d3" target="_top" xlink:title="Write blob of type bt.">
 <polygon fill="white" stroke="#666666" points="299.38,-30.5 196.38,-30.5 196.38,0 299.38,0 299.38,-30.5"/>
 <text text-anchor="start" x="204.38" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="247.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::writeBlob</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node15 -->
-<g id="edge11_Node000001_Node000015" class="edge">
-<title>Node1&#45;&gt;Node15</title>
-<g id="a_edge11_Node000001_Node000015"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node14 -->
+<g id="edge11_Node000001_Node000014" class="edge">
+<title>Node1&#45;&gt;Node14</title>
+<g id="a_edge11_Node000001_Node000014"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M65.06,-238.24C71.2,-204.81 95.61,-95.98 160.75,-40.25 167.81,-34.21 176.27,-29.62 185.08,-26.14"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="186.18,-29.47 194.51,-22.92 183.91,-22.84 186.18,-29.47"/>
 </a>
