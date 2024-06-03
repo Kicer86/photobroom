@@ -8,5 +8,6 @@ var searchData=
   ['observabletaskexecutor_3c_20tasksqueue_20_3e_5',['ObservableTaskExecutor&lt; TasksQueue &gt;',['../d5/d65/class_observable_task_executor.html',1,'']]],
   ['observer_6',['Observer',['../d5/da4/struct_observer.html',1,'']]],
   ['onlineversion_7',['OnlineVersion',['../d8/dc4/struct_i_updater_1_1_online_version.html',1,'IUpdater']]],
-  ['orientedimage_8',['OrientedImage',['../d5/db6/class_oriented_image.html',1,'']]]
+  ['orientedimage_8',['OrientedImage',['../d5/db6/class_oriented_image.html',1,'']]],
+  ['orientedimagetest_9',['OrientedImageTest',['../da/dcc/class_oriented_image_test.html',1,'']]]
 ];

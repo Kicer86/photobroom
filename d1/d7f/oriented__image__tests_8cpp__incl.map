@@ -1,13 +1,12 @@
 <map id="src/core/unit_tests/oriented_image_tests.cpp" name="src/core/unit_tests/oriented_image_tests.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="65,5,238,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="11,183,124,208"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="75,49,41,68,14,95,8,114,14,134,26,154,42,171,38,174,22,157,9,136,3,114,10,93,37,64,72,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="202,183,269,208"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="164,45,225,168,221,170,159,47"/>
-<area shape="rect" id="Node000004" href="$da/d9a/mock__exif__reader_8hpp.html" title=" " alt="" coords="24,94,170,135"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="142,48,120,82,115,79,137,45"/>
-<area shape="rect" id="Node000019" href="$de/d3b/oriented__image_8hpp.html" title=" " alt="" coords="245,102,378,127"/>
-<area shape="poly" id="edge5_Node000001_Node000019" title=" " alt="" coords="189,44,277,91,275,96,187,49"/>
-<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="92,136,80,169,75,167,87,134"/>
-<area shape="poly" id="edge6_Node000019_Node000003" title=" " alt="" coords="302,129,260,173,256,169,298,126"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="127,5,301,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,119,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,49,98,96,95,91,178,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="266,183,333,208"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="201,48,190,67,181,89,178,112,184,133,197,149,214,162,252,180,250,185,211,167,194,153,180,136,173,113,176,88,185,65,197,45"/>
+<area shape="rect" id="Node000004" href="$d5/d4b/exiv2__exif__reader_8hpp.html" title=" " alt="" coords="195,94,348,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="229,45,252,80,248,83,225,48"/>
+<area shape="rect" id="Node000021" href="$de/d3b/oriented__image_8hpp.html" title=" " alt="" coords="372,102,515,127"/>
+<area shape="poly" id="edge4_Node000001_Node000021" title=" " alt="" coords="267,44,398,93,396,98,265,49"/>
+<area shape="poly" id="edge5_Node000021_Node000003" title=" " alt="" coords="423,130,336,177,333,173,420,125"/>
 </map>
