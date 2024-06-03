@@ -3,21 +3,35 @@
 
 #include <QImage>
 
-#include <unit_tests_utils/mock_exif_reader.hpp>
-#include "oriented_image.hpp"
+#include "../implementation/exiv2_exif_reader.hpp"
+#include "../oriented_image.hpp"
 
 
-TEST(OrientedImageTest, constructor)
+class OrientedImageTest: public testing::TestWithParam<QLatin1StringView> {};
+
+INSTANTIATE_TEST_SUITE_P(RotatedImages,
+                         OrientedImageTest,
+                         testing::Values(
+                             "f/f1-exif.jpg",
+                             "f/f2-exif.jpg",
+                             "f/f3-exif.jpg",
+                             "f/f4-exif.jpg",
+                             "f/f5-exif.jpg",
+                             "f/f6-exif.jpg",
+                             "f/f7-exif.jpg",
+                             "f/f8-exif.jpg"
+                        )
+);
+
+
+TEST_P(OrientedImageTest, allOrientations)
 {
-    // TODO: build issues...
-    //       probably broken by https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90415
+    const auto fileName = GetParam();
 
-    /*
-    OrientedImage();
+    Exiv2ExifReader reader;
+    OrientedImage orientedImage(reader, QString(IMAGES_DIR) + "/" + QString(fileName));
 
-    QImage qimage(10, 100, QImage::Format_RGB32);
-    MockExifReader exif;
+    const QImage referenceImage(QString(IMAGES_DIR) + "/f/f1.jpg");
 
-    OrientedImage(&exif, qimage);
-    */
+    EXPECT_EQ(referenceImage, orientedImage.get());
 }

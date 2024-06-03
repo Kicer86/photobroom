@@ -9,6 +9,7 @@ find_package(Qt6Test REQUIRED)
 find_package(OpenCV  REQUIRED)
 
 find_program(PYTHON python REQUIRED)
+find_program(WGET wget REQUIRED)
 
 foreach(ext png jpeg)
     foreach(img img1 img2)
@@ -37,8 +38,6 @@ add_custom_target(core_tests_images
 
 if (BUILD_LEARNING_TESTS)
 
-    find_program(WGET wget REQUIRED)
-
     # download face dataset from https://www.easyhdr.com/examples/wadi-rum-sunset/
 
     set(hdr_photos_list)
@@ -60,8 +59,7 @@ if (BUILD_LEARNING_TESTS)
         get_filename_component(fileName ${URL} NAME)
 
         add_custom_command(OUTPUT ${fileName}
-                           COMMAND ${WGET} ${URL}
-                                           -O ${CMAKE_CURRENT_BINARY_DIR}/${fileName}
+                           COMMAND ${WGET} ${URL} -O ${CMAKE_CURRENT_BINARY_DIR}/${fileName}
         )
 
         list(APPEND hdr_photos_list ${fileName})
@@ -110,13 +108,29 @@ if (BUILD_LEARNING_TESTS)
 endif()
 
 
+# for exif testing (https://github.com/golang/go/issues/4341)
+add_custom_command(OUTPUT exif_tests_images.tar
+                   COMMAND ${WGET} https://storage.googleapis.com/go-attachment/4341/0/f.tar -O exif_tests_images.tar
+)
+
+add_custom_command(OUTPUT f/f1.jpg
+                   COMMAND ${CMAKE_COMMAND} -E tar xf exif_tests_images.tar
+                   DEPENDS exif_tests_images.tar
+)
+
+add_custom_target(exif_tests_images
+    DEPENDS
+        f/f1.jpg
+)
+
+
 add_executable(core_ut
     implementation/aexif_reader.cpp
     implementation/base_tags.cpp
     implementation/exiv2_exif_reader.cpp
     implementation/exif_reader_factory.cpp
     implementation/data_from_path_extractor.cpp
-    #implementation/oriented_image.cpp
+    implementation/oriented_image.cpp
     implementation/image_aligner.cpp
     implementation/image_media_information.cpp
     implementation/media_information.cpp
@@ -136,7 +150,7 @@ add_executable(core_ut
     unit_tests/json_serializer_tests.cpp
     unit_tests/lazy_ptr_tests.cpp
     unit_tests/model_compositor_tests.cpp
-    #unit_tests/oriented_image_tests.cpp
+    unit_tests/oriented_image_tests.cpp
     unit_tests/qmodelindex_comparator_tests.cpp
     unit_tests/qmodelindex_selector_tests.cpp
     unit_tests/status_tests.cpp
@@ -167,10 +181,14 @@ target_include_directories(core_ut
 target_compile_definitions(core_ut
     PRIVATE
         CORE_STATIC_DEFINE                  # disable visibility mechanisms to prevent inconsistent dll linkage warnings
+        IMAGES_DIR="${CMAKE_CURRENT_BINARY_DIR}"
 )
 
 set_target_properties(core_ut PROPERTIES AUTOMOC TRUE)
-add_dependencies(core_ut core_tests_images)
+add_dependencies(core_ut
+    core_tests_images
+    exif_tests_images
+)
 
 add_test(
     NAME core
