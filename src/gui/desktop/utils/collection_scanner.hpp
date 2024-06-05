@@ -46,10 +46,11 @@ class CollectionScanner: public QObject
         void scanFinished() const;
 
     private:
+        using PhotoPaths = Photo::ExplicitDelta<Photo::Field::Path>;
         PhotosCollector m_collector;
         std::vector<Photo::DataDelta> m_diskPhotos;
-        std::vector<Photo::DataDelta> m_dbPhotos;
-        std::vector<Photo::DataDelta> m_missingPhotos;
+        std::vector<PhotoPaths> m_dbPhotos;
+        std::vector<PhotoPaths> m_missingPhotos;
         const Project& m_project;
         Database::IDatabase& m_database;
         ITasksView& m_tasksView;
@@ -66,7 +67,7 @@ class CollectionScanner: public QObject
         void checkIfReady();
 
         void gotDiskPhoto(const QString &);
-        void gotDBPhotos(const std::vector<Photo::DataDelta> &, const std::vector<Photo::DataDelta> &);
+        void gotDBPhotos(const std::vector<PhotoPaths> &, const std::vector<PhotoPaths> &);
         void addNotification(std::size_t, std::size_t, std::size_t);
 };
 

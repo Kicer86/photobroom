@@ -79,22 +79,10 @@ void CollectionScanner::scan()
                                                                   Database::FilterPhotosWithGeneralFlag::Mode::Bit);
         const Database::FilterNotMatchingFilter filterNotMissing(filterMissing);
 
-        auto photos = backend.photoOperator().getPhotos(Database::GroupFilter( {notDeleted, filterNotMissing} ));
-        auto missingPhotos = backend.photoOperator().getPhotos(Database::GroupFilter( {notDeleted, filterMissing} ));
+        const auto photos = backend.photoOperator().fetchData<Photo::Field::Path>(Database::GroupFilter( {notDeleted, filterNotMissing} ));
+        const auto missingPhotos = backend.photoOperator().fetchData<Photo::Field::Path>(Database::GroupFilter( {notDeleted, filterMissing} ));
 
-        std::vector<Photo::DataDelta> photoDeltas;
-        photoDeltas.reserve(photos.size());
-
-        for(const Photo::Id& id: photos)
-            photoDeltas.push_back(backend.getPhotoDelta<Photo::Field::Path>(id));
-
-        std::vector<Photo::DataDelta> missingPhotoDeltas;
-        missingPhotoDeltas.reserve(missingPhotos.size());
-
-        for(const Photo::Id& id: missingPhotos)
-            missingPhotoDeltas.push_back(backend.getPhotoDelta<Photo::Field::Path>(id));
-
-        db_callback(photoDeltas, missingPhotoDeltas);
+        db_callback(photos, missingPhotos);
     });
 }
 
@@ -197,7 +185,7 @@ void CollectionScanner::gotDiskPhoto(const QString& path)
 }
 
 
-void CollectionScanner::gotDBPhotos(const std::vector<Photo::DataDelta>& photos, const std::vector<Photo::DataDelta>& missingPhotos)
+void CollectionScanner::gotDBPhotos(const std::vector<PhotoPaths>& photos, const std::vector<PhotoPaths>& missingPhotos)
 {
     m_dbPhotos = photos;
     m_missingPhotos = missingPhotos;
