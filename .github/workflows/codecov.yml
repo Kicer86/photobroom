@@ -100,7 +100,7 @@ jobs:
             -DCMAKE_EXE_LINKER_FLAGS=--coverage
         run-test: true
         ctest-options:
-            -LE HeavyData
+            -LE HeavyData                               # TODO: remove after cleanups with LFS on github side
             --output-on-failure
 
     - name: Generate lcov raports
