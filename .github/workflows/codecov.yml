@@ -19,7 +19,7 @@ jobs:
     - uses: actions/checkout@v4
       with:
         submodules: true
-        lfs: false                          # TODO: reeanble after cleanups with LFS on github side
+        lfs: true
 
     - name: Install system dependencies
       run: |
@@ -100,7 +100,6 @@ jobs:
             -DCMAKE_EXE_LINKER_FLAGS=--coverage
         run-test: true
         ctest-options:
-            -LE HeavyData
             --output-on-failure
 
     - name: Generate lcov raports
