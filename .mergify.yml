@@ -1,0 +1,25 @@
+pull_request_rules:
+  - name: Squash and merge (one commit)
+    conditions:
+      - check-success=build (ubuntu-24.04)
+      - check-success=windows-build
+      - "#commits=1"
+      - or:
+        - "#approved-reviews-by>0"
+        - author=Kicer86
+    actions:
+      merge:
+        method: squash
+
+  - name: Merge pull request (more than one commit)
+    conditions:
+      - check-success=build (ubuntu-24.04)
+      - check-success=windows-build
+      - "#commits>1"
+      - "#commits-behind=0"
+      - or:
+        - "#approved-reviews-by>0"
+        - author=Kicer86
+    actions:
+      merge:
+        method: merge
