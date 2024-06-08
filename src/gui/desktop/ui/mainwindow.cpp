@@ -219,19 +219,25 @@ void MainWindow::openProject(const QString& prjPath, bool is_new)
     {
         closeProject();
 
-        // setup search path prefix
         assert( QDir::searchPaths("prj").isEmpty() == true );
-        QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
         auto open_status = m_prjManager->open(prjInfo);
 
-        m_currentPrj = std::move(open_status.first);
-        projectOpened(open_status.second, is_new);
+        if (open_status.second)
+        {
+            // setup search path prefix
+            QDir::setSearchPaths("prj", { prjInfo.getBaseDir() } );
 
-        // add project to list of recent projects
-        QStringList projects = ObjectsAccessor::instance().recentProjects();
-        projects.removeAll(prjInfo.getPath());  // remove entry if it alredy exists
-        projects.prepend(prjInfo.getPath());    // add it at the beginning
-        ObjectsAccessor::instance().setRecentProjects(projects);
+            m_currentPrj = std::move(open_status.first);
+            projectOpened(is_new);
+
+            // add project to list of recent projects
+            QStringList projects = ObjectsAccessor::instance().recentProjects();
+            projects.removeAll(prjInfo.getPath());  // remove entry if it alredy exists
+            projects.prepend(prjInfo.getPath());    // add it at the beginning
+            ObjectsAccessor::instance().setRecentProjects(projects);
+        }
+        else
+            showProjectOpeningError(prjPath, open_status.second);
     }
 }
 
@@ -372,20 +378,27 @@ void MainWindow::on_actionConfiguration_triggered()
 }
 
 
-void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_new)
+void MainWindow::projectOpened(bool is_new)
+{
+    Database::IDatabase& db = m_currentPrj->getDatabase();
+
+    emit currentDatabaseChanged(&db);
+    emit currentProjectChanged(m_currentPrj.get());
+
+    // TODO: I do not like this flag here...
+    if (is_new)
+        on_actionScan_collection_triggered();
+
+    updateGui();
+}
+
+void MainWindow::showProjectOpeningError(const QString& prjPath, const Database::BackendStatus& status)
 {
     switch(status.get())
     {
         case Database::StatusCodes::Ok:
         {
-            Database::IDatabase& db = m_currentPrj->getDatabase();
-
-            emit currentDatabaseChanged(&db);
-            emit currentProjectChanged(m_currentPrj.get());
-
-            // TODO: I do not like this flag here...
-            if (is_new)
-                on_actionScan_collection_triggered();
+            assert(!"Error was expected");
             break;
         }
 
@@ -396,7 +409,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
                                      "It means your application is too old to open it.\n\n"
                                      "Please upgrade application to open this collection.")
                                  );
-            closeProject();
             break;
 
         case Database::StatusCodes::VersionTooOld:
@@ -405,7 +417,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
                                   tr("Photo collection you are trying to open uses database in version which is not supported.\n"
                                      "It means your database is too old to open it.\n\n")
                                  );
-            closeProject();
             break;
 
         case Database::StatusCodes::OpenFailed:
@@ -414,9 +425,8 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
                                   tr("Photo collection could not be opened.\n"
                                      "It usually means that collection files are broken\n"
                                      "or you don't have rights to access them.\n\n"
-                                     "Please check collection files:\n%1").arg(m_currentPrj->getProjectInfo().getPath())
+                                     "Please check collection files:\n%1").arg(prjPath)
                                  );
-            closeProject();
             break;
 
         case Database::StatusCodes::ProjectLocked:
@@ -425,7 +435,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
                                   tr("Photo collection could not be opened.\n"
                                      "It is already opened by another Photo Broom instance.")
                                   );
-            closeProject();
             break;
 
         default:
@@ -435,9 +444,6 @@ void MainWindow::projectOpened(const Database::BackendStatus& status, bool is_ne
                                      "Please report a bug.\n"
                                      "Error code: %1").arg(static_cast<int>( status.get()) )
                                  );
-            closeProject();
             break;
     }
-
-    updateGui();
 }

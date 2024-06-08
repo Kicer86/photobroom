@@ -431,7 +431,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+119"/>
+        <location line="+125"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -441,13 +441,13 @@ Sprawdź proszę swoje połączenie z internetem.</translation>
         <translation>Pliki Photo Broom (*.bpj)</translation>
     </message>
     <message>
-        <location line="+73"/>
-        <location line="+10"/>
+        <location line="+80"/>
+        <location line="+9"/>
         <source>Unsupported photo collection version</source>
         <translation>Nieobsługiwana wersja kolekcji</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location line="-8"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -458,7 +458,7 @@ Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
 Proszę zaktualizować aplikację.</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your database is too old to open it.
 
@@ -469,7 +469,7 @@ Oznacza to, że twoja aplikacja jest zbyt stara aby ją otworzyć.
 </translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location line="+7"/>
         <source>Could not open collection</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
@@ -489,7 +489,7 @@ Sprawdź proszę pliki kolekcji:
 %1</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="+9"/>
         <source>Collection locked</source>
         <translation>Kolekcja w użyciu</translation>
     </message>
@@ -500,7 +500,7 @@ It is already opened by another Photo Broom instance.</source>
         <translation>Kolekcja zdjęć nie mogła zostać otwarta ponieważ jest już używana.</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location line="+8"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
@@ -514,7 +514,7 @@ Kod błędu: %1</translation>
         <translation>Niespodziewany błąd</translation>
     </message>
     <message>
-        <location line="-74"/>
+        <location line="-77"/>
         <source>About Photo Broom</source>
         <translation>O programie</translation>
     </message>
