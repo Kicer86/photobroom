@@ -98,7 +98,8 @@ class MainWindow: public QObject
         void on_actionConfiguration_triggered();
 
         //internal slots
-        void projectOpened(const Database::BackendStatus &, bool);
+        void projectOpened(bool);
+        void showProjectOpeningError(const QString& prjPath, const Database::BackendStatus &);
 
         //check version
         void checkVersion();
