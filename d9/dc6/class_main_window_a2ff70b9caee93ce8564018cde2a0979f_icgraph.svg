@@ -31,7 +31,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d9/dc6/class_main_window.html#a2c2d7e1cdd309b698173f750f3d98738" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="../../d9/dc6/class_main_window.html#a9461890b13003120548090ab88ab810e" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="139.38,-56.25 0.38,-56.25 0.38,-37 139.38,-37 139.38,-56.25"/>
 <text text-anchor="middle" x="69.88" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::projectOpened</text>
 </a>

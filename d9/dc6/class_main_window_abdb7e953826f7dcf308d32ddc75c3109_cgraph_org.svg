@@ -165,76 +165,76 @@
 </a>
 </g>
 </g>
-<!-- Node38 -->
-<g id="Node000038" class="node">
-<title>Node38</title>
-<g id="a_Node000038"><a xlink:href="../../d9/dc6/class_main_window.html#a75b19596e845dabf979ddb0d2b9f3863" target="_top" xlink:title=" ">
+<!-- Node39 -->
+<g id="Node000039" class="node">
+<title>Node39</title>
+<g id="a_Node000039"><a xlink:href="../../d9/dc6/class_main_window.html#a75b19596e845dabf979ddb0d2b9f3863" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="333.5,-202.5 192.25,-202.5 192.25,-172 333.5,-172 333.5,-202.5"/>
 <text text-anchor="start" x="200.25" y="-189" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::on_actionOpen</text>
 <text text-anchor="middle" x="262.88" y="-177.75" font-family="Helvetica,sans-Serif" font-size="10.00">_collection_triggered</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node38 -->
-<g id="edge12_Node000001_Node000038" class="edge">
-<title>Node1&#45;&gt;Node38</title>
-<g id="a_edge12_Node000001_Node000038"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node39 -->
+<g id="edge12_Node000001_Node000039" class="edge">
+<title>Node1&#45;&gt;Node39</title>
+<g id="a_edge12_Node000001_Node000039"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M100.72,-241.25C128.36,-231.99 170.23,-217.96 204.37,-206.52"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="205.35,-209.88 213.72,-203.39 203.12,-203.25 205.35,-209.88"/>
 </a>
 </g>
 </g>
-<!-- Node33 -->
-<g id="Node000033" class="node">
-<title>Node33</title>
-<g id="a_Node000033"><a xlink:href="../../d9/dc6/class_main_window.html#a2ff70b9caee93ce8564018cde2a0979f" target="_top" xlink:title=" ">
+<!-- Node32 -->
+<g id="Node000032" class="node">
+<title>Node32</title>
+<g id="a_Node000032"><a xlink:href="../../d9/dc6/class_main_window.html#a2ff70b9caee93ce8564018cde2a0979f" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="333.12,-116.5 192.62,-116.5 192.62,-86 333.12,-86 333.12,-116.5"/>
 <text text-anchor="start" x="200.62" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">MainWindow::on_actionScan</text>
 <text text-anchor="middle" x="262.88" y="-91.75" font-family="Helvetica,sans-Serif" font-size="10.00">_collection_triggered</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node33 -->
-<g id="edge14_Node000001_Node000033" class="edge">
-<title>Node1&#45;&gt;Node33</title>
-<g id="a_edge14_Node000001_Node000033"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node32 -->
+<g id="edge14_Node000001_Node000032" class="edge">
+<title>Node1&#45;&gt;Node32</title>
+<g id="a_edge14_Node000001_Node000032"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M76.89,-241.2C91.16,-218.22 129.34,-161.37 175.75,-130.25 180.54,-127.04 185.72,-124.15 191.08,-121.56"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="192.43,-124.79 200.17,-117.56 189.6,-118.39 192.43,-124.79"/>
-</a>
-</g>
-</g>
-<!-- Node39 -->
-<g id="Node000039" class="node">
-<title>Node39</title>
-<g id="a_Node000039"><a xlink:href="../../d2/d0d/namespace_qml_utils.html#a7abaf2fcaa1e51a6e84d3ab281791190" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="342.5,-67.88 183.25,-67.88 183.25,-48.62 342.5,-48.62 342.5,-67.88"/>
-<text text-anchor="middle" x="262.88" y="-54.38" font-family="Helvetica,sans-Serif" font-size="10.00">QmlUtils::registerImageProviders</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node39 -->
-<g id="edge16_Node000001_Node000039" class="edge">
-<title>Node1&#45;&gt;Node39</title>
-<g id="a_edge16_Node000001_Node000039"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M73.72,-241.46C82.95,-211.57 115.01,-120.86 175.75,-77.25 177.69,-75.85 179.72,-74.56 181.81,-73.36"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="183.21,-76.57 190.67,-69.04 180.14,-70.28 183.21,-76.57"/>
 </a>
 </g>
 </g>
 <!-- Node40 -->
 <g id="Node000040" class="node">
 <title>Node40</title>
-<g id="a_Node000040"><a xlink:href="../../d2/d10/class_photos_model_controller_component.html#a8ba1a06258de0c6d4e4788e51bc1e130" target="_top" xlink:title=" ">
+<g id="a_Node000040"><a xlink:href="../../d2/d0d/namespace_qml_utils.html#a7abaf2fcaa1e51a6e84d3ab281791190" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="342.5,-67.88 183.25,-67.88 183.25,-48.62 342.5,-48.62 342.5,-67.88"/>
+<text text-anchor="middle" x="262.88" y="-54.38" font-family="Helvetica,sans-Serif" font-size="10.00">QmlUtils::registerImageProviders</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node40 -->
+<g id="edge16_Node000001_Node000040" class="edge">
+<title>Node1&#45;&gt;Node40</title>
+<g id="a_edge16_Node000001_Node000040"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M73.72,-241.46C82.95,-211.57 115.01,-120.86 175.75,-77.25 177.69,-75.85 179.72,-74.56 181.81,-73.36"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="183.21,-76.57 190.67,-69.04 180.14,-70.28 183.21,-76.57"/>
+</a>
+</g>
+</g>
+<!-- Node41 -->
+<g id="Node000041" class="node">
+<title>Node41</title>
+<g id="a_Node000041"><a xlink:href="../../d2/d10/class_photos_model_controller_component.html#a8ba1a06258de0c6d4e4788e51bc1e130" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="344.75,-30.5 181,-30.5 181,0 344.75,0 344.75,-30.5"/>
 <text text-anchor="start" x="189" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosModelControllerComponent</text>
 <text text-anchor="middle" x="262.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::setCompleterFactory</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node40 -->
-<g id="edge17_Node000001_Node000040" class="edge">
-<title>Node1&#45;&gt;Node40</title>
-<g id="a_edge17_Node000001_Node000040"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node41 -->
+<g id="edge17_Node000001_Node000041" class="edge">
+<title>Node1&#45;&gt;Node41</title>
+<g id="a_edge17_Node000001_Node000041"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M72.75,-241.48C79.74,-207.85 107.43,-95.82 175.75,-39.25 176.71,-38.46 177.69,-37.69 178.69,-36.95"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="180.36,-40.04 186.96,-31.75 176.63,-34.11 180.36,-40.04"/>
 </a>
@@ -276,10 +276,10 @@
 </a>
 </g>
 </g>
-<!-- Node38&#45;&gt;Node28 -->
-<g id="edge13_Node000038_Node000028" class="edge">
-<title>Node38&#45;&gt;Node28</title>
-<g id="a_edge13_Node000038_Node000028"><a xlink:title=" ">
+<!-- Node39&#45;&gt;Node28 -->
+<g id="edge13_Node000039_Node000028" class="edge">
+<title>Node39&#45;&gt;Node28</title>
+<g id="a_edge13_Node000039_Node000028"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M333.92,-202.9C355.69,-207.76 379.39,-213.05 400.1,-217.68"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="399.26,-221.08 409.78,-219.84 400.78,-214.25 399.26,-221.08"/>
 </a>

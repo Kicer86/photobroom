@@ -1,9 +1,9 @@
 <map id="Status::get" name="Status::get">
-<area shape="rect" id="Node000001" title=" " alt="" coords="239,55,322,80"/>
-<area shape="rect" id="Node000002" href="$d7/d93/class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc" title=" " alt="" coords="25,5,171,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="223,54,190,45,150,34,152,29,191,40,224,49"/>
-<area shape="rect" id="Node000004" href="$d9/dc6/class_main_window.html#a2c2d7e1cdd309b698173f750f3d98738" title=" " alt="" coords="5,55,191,80"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="223,70,191,70,191,65,223,65"/>
-<area shape="rect" id="Node000010" href="$d3/d40/status__tests_8cpp.html#a604f70e6ed2143514f49670b99c7675c" title=" " alt="" coords="71,104,125,130"/>
-<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="224,86,191,95,126,113,125,107,190,90,223,81"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="275,63,358,88"/>
+<area shape="rect" id="Node000002" href="$d7/d93/class_project_manager.html#ac970236f08b83d3edbae94ba2e8947bc" title=" " alt="" coords="43,5,189,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="266,59,226,46,181,34,182,29,227,41,268,54"/>
+<area shape="rect" id="Node000004" href="$d9/dc6/class_main_window.html#a18611423710d05ec80301ecf6311ddec" title=" " alt="" coords="5,55,227,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="259,78,227,78,227,73,259,73"/>
+<area shape="rect" id="Node000010" href="$d3/d40/status__tests_8cpp.html#a604f70e6ed2143514f49670b99c7675c" title=" " alt="" coords="89,120,143,146"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="268,97,227,110,144,130,143,125,226,105,266,92"/>
 </map>

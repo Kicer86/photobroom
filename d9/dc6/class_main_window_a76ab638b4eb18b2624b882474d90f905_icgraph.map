@@ -1,16 +1,13 @@
 <map id="MainWindow::closeProject" name="MainWindow::closeProject">
-<area shape="rect" id="Node000001" title=" " alt="" coords="711,121,885,147"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="478,96,651,121"/>
 <area shape="rect" id="Node000002" href="$d9/dc6/class_main_window.html#a189b458b701fa572969a22f8718ce5b0" title=" " alt="" coords="240,5,430,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="763,115,716,89,662,67,604,52,543,41,430,30,431,25,544,36,605,47,664,62,719,84,765,110"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="511,92,393,49,395,44,513,87"/>
 <area shape="rect" id="Node000003" href="$d9/dc6/class_main_window.html#abdb7e953826f7dcf308d32ddc75c3109" title=" " alt="" coords="5,70,192,96"/>
-<area shape="poly" id="edge7_Node000001_Node000003" title=" " alt="" coords="696,121,663,118,407,99,192,89,192,83,408,93,664,112,696,116"/>
+<area shape="poly" id="edge5_Node000001_Node000003" title=" " alt="" coords="462,105,192,91,192,85,463,100"/>
 <area shape="rect" id="Node000005" href="$d9/dc6/class_main_window.html#aabba421121a791ec3aa10a742f37790a" title=" " alt="" coords="250,121,420,147"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="696,136,420,136,420,131,696,131"/>
-<area shape="rect" id="Node000008" href="$d9/dc6/class_main_window.html#a2c2d7e1cdd309b698173f750f3d98738" title=" " alt="" coords="478,172,663,197"/>
-<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="723,153,632,174,631,168,722,148"/>
-<area shape="rect" id="Node000009" href="$d9/dc6/class_main_window.html#ae98d00a93bc118200eeef9f9bba1dba7" title=" " alt="" coords="480,221,662,247"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="766,157,719,185,664,212,633,223,631,218,662,207,716,181,763,153"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="463,122,421,127,420,122,462,117"/>
+<area shape="rect" id="Node000008" href="$d9/dc6/class_main_window.html#ae98d00a93bc118200eeef9f9bba1dba7" title=" " alt="" coords="244,170,426,196"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="518,130,431,162,394,172,392,167,429,156,516,125"/>
 <area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="234,53,155,72,154,67,233,48"/>
 <area shape="poly" id="edge4_Node000005_Node000003" title=" " alt="" coords="256,120,161,99,162,94,257,114"/>
-<area shape="poly" id="edge6_Node000008_Node000005" title=" " alt="" coords="492,170,397,150,398,144,493,165"/>
 </map>
