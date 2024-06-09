@@ -43,7 +43,7 @@ namespace
         return nullptr;
     }
 
-    QDateTime getCreationTime(AVFormatContext* context)
+    std::optional<QDateTime> getCreationTime(AVFormatContext* context)
     {
         const auto creationTimeEntry = context->metadata? av_dict_get(context->metadata, "creation_time", nullptr, 0) : nullptr;
         const QString creationTimeStr = creationTimeEntry? creationTimeEntry->value: nullptr;
