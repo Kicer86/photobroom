@@ -53,7 +53,7 @@ class PhotosAnalyzerImpl: public QObject
         QMetaObject::Connection m_backendConnection;
         std::weak_ptr<Database::DatabaseQueue> m_storageQueue;
         std::mutex m_storageMutex;
-        Database::IDatabase& m_database;
+        std::unique_ptr<Database::IClient> m_database;
         ITasksView* m_tasksView;
         IViewTask* m_viewTask;
         int m_maxPhotos;
