@@ -171,8 +171,6 @@ class Recognizer: public IRecognizePerson
 
         void fetchPeopleAndFingerprints(Database::IDatabase& db)
         {
-            typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
-
             evaluate(db, [this](Database::IBackend& backend)
             {
                 std::vector<Person::Fingerprint> people_fingerprints;

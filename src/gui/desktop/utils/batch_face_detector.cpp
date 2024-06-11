@@ -64,14 +64,13 @@ void BatchFaceDetector::setCore(ICoreFactoryAccessor* core)
 
 void BatchFaceDetector::setDB(Database::IDatabase* db)
 {
-    m_dbClient = db->attach(tr("Batch face detector"));
+    m_dbClient = db->attach("Batch face detector", [this]()
+    {
+        m_photosProcessingProcess->terminate();
+    });
+
     if (m_dbClient)
     {
-        m_dbClient->onClose([this]()
-        {
-            m_photosProcessingProcess->terminate();
-        });
-
         // begin photo analysis
         auto process = std::bind(&BatchFaceDetector::processPhotos, this, std::placeholders::_1);
         m_photosProcessingProcess = m_core->getTaskExecutor().add(process);

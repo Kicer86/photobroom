@@ -71,6 +71,7 @@ void GroupsManager::group(Database::IDatabase& database, QPromise<void>&& promis
     database.exec([groups, db_promise = std::move(promise)](Database::IBackend& backend) mutable
     {
         const std::size_t groupSize = groups.size();
+        assert(groupSize > 0);
 
         db_promise.start();
         db_promise.setProgressRange(0, groupSize - 1);

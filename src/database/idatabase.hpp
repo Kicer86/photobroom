@@ -60,7 +60,6 @@ namespace Database
         virtual ~IClient() = default;
 
         virtual IDatabase& db() = 0;
-        virtual void onClose(const std::function<void()> &) = 0;
     };
 
 
@@ -91,7 +90,7 @@ namespace Database
          *
          * @return object blocking database's destruction
          */
-        [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &) = 0;
+        [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &, std::function<void()> = {}) = 0;
 
         struct ITask
         {

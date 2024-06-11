@@ -209,11 +209,12 @@ namespace Database
     }
 
 
-    std::unique_ptr<IClient> AsyncDatabase::attach(const QString& /*name*/)
+    std::unique_ptr<IClient> AsyncDatabase::attach(const QString& /*name*/, std::function<void()> onClose)
     {
         if (m_acceptClients)
         {
             auto observer = std::make_unique<Client>(*this);
+            observer->onClose(onClose);
 
             std::lock_guard _(m_clientsMutex);
             m_clients.insert(observer.get());
