@@ -196,7 +196,7 @@ namespace
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
-    m_database(database.attach("PhotosAnalyzer")),
+    m_database(database.attach("Photos Analyzer", std::bind(&PhotosAnalyzerImpl::stop, this))),
     m_tasksView(nullptr),
     m_viewTask(nullptr)
 {
@@ -335,6 +335,8 @@ void PhotosAnalyzerImpl::stop()
 
     // make sure storage is unlocked
     std::lock_guard _(m_storageMutex);
+
+    m_database.reset();
 }
 
 
