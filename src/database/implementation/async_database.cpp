@@ -120,8 +120,9 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    AsyncDatabase::Client::Client(AsyncDatabase& _db)
+    AsyncDatabase::Client::Client(AsyncDatabase& _db, QStringView name)
         : m_db(_db)
+        , m_name(name.toString())
     {
 
     }
@@ -151,6 +152,11 @@ namespace Database
             m_onClose();
     }
 
+
+    const QString& AsyncDatabase::Client::name() const
+    {
+        return m_name;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -209,11 +215,11 @@ namespace Database
     }
 
 
-    std::unique_ptr<IClient> AsyncDatabase::attach(const QString& /*name*/, std::function<void()> onClose)
+    std::unique_ptr<IClient> AsyncDatabase::attach(QStringView name, std::function<void()> onClose)
     {
         if (m_acceptClients)
         {
-            auto observer = std::make_unique<Client>(*this);
+            auto observer = std::make_unique<Client>(*this, name);
             observer->onClose(onClose);
 
             std::lock_guard _(m_clientsMutex);
@@ -245,7 +251,10 @@ namespace Database
         assert(m_clientsMutex.try_lock() == false);     // m_clientsMutex should be locked by caller
 
         for(auto& client: m_clients)
+        {
+            m_logger->debug("Sending close notification to " + client->name());
             client->callOnClose();
+        }
     }
 
 

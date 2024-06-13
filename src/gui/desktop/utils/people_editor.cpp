@@ -37,6 +37,7 @@
 
 
 using namespace Database::CommonGeneralFlags;
+using namespace Qt::Literals::StringLiterals;
 
 
 namespace
@@ -215,7 +216,7 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
 
     auto faces = findFaces(*image, id);
 
-    std::shared_ptr<Database::IClient> dbClient = m_db.attach("FaceEditor");
+    std::shared_ptr<Database::IClient> dbClient = m_db.attach(u"FaceEditor"_s);
     std::vector<std::unique_ptr<IFace>> result;
 
     std::ranges::transform(faces.get<Photo::Field::People>(), std::back_inserter(result), [id = faces.getId(), &image, &dbClient, recognizer = m_recognizer](const auto& personData)

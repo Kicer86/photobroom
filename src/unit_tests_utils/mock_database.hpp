@@ -12,7 +12,7 @@ struct DatabaseMock: Database::IDatabase
 {
     MOCK_METHOD(Database::IBackend&, backend, (), (override));
     MOCK_METHOD(void, execute, (std::unique_ptr<Database::IDatabase::ITask> &&), (override));
-    MOCK_METHOD(std::unique_ptr<Database::IClient>, attach, (const QString &, std::function<void()>), (override));
+    MOCK_METHOD(std::unique_ptr<Database::IClient>, attach, (QStringView, std::function<void()>), (override));
 };
 
 #endif

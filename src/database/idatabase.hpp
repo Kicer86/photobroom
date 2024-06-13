@@ -90,7 +90,7 @@ namespace Database
          *
          * @return object blocking database's destruction
          */
-        [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &, std::function<void()> = {}) = 0;
+        [[nodiscard]] virtual std::unique_ptr<IClient> attach(QStringView, std::function<void()> = {}) = 0;
 
         struct ITask
         {

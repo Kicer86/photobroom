@@ -640,7 +640,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+293"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+294"/>
         <source>Extracting data from new photos</source>
         <translatorcomment>Extracting data from new photos</translatorcomment>
         <translation>Odczytywanie danych z nowych zdjęć</translation>
@@ -884,7 +884,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+69"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+70"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>
