@@ -260,6 +260,10 @@ namespace Database
 
     void AsyncDatabase::waitForClients(std::unique_lock<std::mutex>& clientsLock)
     {
+        m_logger->debug("Active clients:");
+        for(auto& client: m_clients)
+            m_logger->debug(client->name());
+
         m_clientsChangeCV.wait(clientsLock, [this]()
         {
             return m_clients.empty();
