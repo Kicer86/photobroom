@@ -121,8 +121,8 @@ namespace Database
 
 
     AsyncDatabase::Client::Client(AsyncDatabase& _db, QStringView name)
-        : m_db(_db)
-        , m_name(name.toString())
+        : m_name(name.toString())
+        , m_db(_db)
     {
 
     }
@@ -204,11 +204,10 @@ namespace Database
     void AsyncDatabase::close()
     {
         // close clients
-        std::unique_lock lk(m_clientsMutex);
         m_acceptClients = false;
 
         sendOnCloseNotification();
-        waitForClients(lk);
+        waitForClients();
 
         // finish tasks
         stopExecutor();
@@ -248,9 +247,14 @@ namespace Database
 
     void AsyncDatabase::sendOnCloseNotification()
     {
-        assert(m_clientsMutex.try_lock() == false);     // m_clientsMutex should be locked by caller
+        assert(m_acceptClients == false);
 
-        for(auto& client: m_clients)
+        std::unique_lock lk(m_clientsMutex);
+
+        // client may be removed during the loop below, so work on a copy
+        const auto clients = m_clients;
+
+        for(auto& client: clients)
         {
             m_logger->debug("Sending close notification to " + client->name());
             client->callOnClose();
@@ -258,13 +262,15 @@ namespace Database
     }
 
 
-    void AsyncDatabase::waitForClients(std::unique_lock<std::mutex>& clientsLock)
+    void AsyncDatabase::waitForClients()
     {
+        std::unique_lock lk(m_clientsMutex);
+
         m_logger->debug("Active clients:");
         for(auto& client: m_clients)
             m_logger->debug(client->name());
 
-        m_clientsChangeCV.wait(clientsLock, [this]()
+        m_clientsChangeCV.wait(lk, [this]()
         {
             return m_clients.empty();
         });

@@ -336,6 +336,8 @@ void PhotosAnalyzerImpl::stop()
 
     // make sure storage is unlocked
     std::lock_guard _(m_storageMutex);
+
+    m_database.reset();
 }
 
 
