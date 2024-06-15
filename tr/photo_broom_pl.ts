@@ -423,7 +423,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+124"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
