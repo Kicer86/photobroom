@@ -165,7 +165,7 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00082" name="l00082"></a><span class="lineno">   82</span>        }</div>
 </div>
 <div class="line"><a id="l00083" name="l00083"></a><span class="lineno">   83</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="../../d7/da9/struct_database_1_1_i_database.html#aadcb967f207e416765f5b021339b252a">   94</a></span>        [[nodiscard]] <span class="keyword">virtual</span> std::unique_ptr&lt;IClient&gt; <a class="code hl_function" href="../../d7/da9/struct_database_1_1_i_database.html#aadcb967f207e416765f5b021339b252a">attach</a>(<span class="keyword">const</span> QString &amp;) = 0;</div>
+<div class="line"><a id="l00094" name="l00094"></a><span class="lineno"><a class="line" href="../../d7/da9/struct_database_1_1_i_database.html#a988838f5c8505e5d207d9165099c1004">   94</a></span>        [[nodiscard]] <span class="keyword">virtual</span> std::unique_ptr&lt;IClient&gt; <a class="code hl_function" href="../../d7/da9/struct_database_1_1_i_database.html#a988838f5c8505e5d207d9165099c1004">attach</a>(QStringView) = 0;</div>
 <div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span> </div>
 <div class="foldopen" id="foldopen00096" data-start="{" data-end="};">
 <div class="line"><a id="l00096" name="l00096"></a><span class="lineno"><a class="line" href="../../de/d42/struct_database_1_1_i_database_1_1_i_task.html">   96</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="../../de/d42/struct_database_1_1_i_database_1_1_i_task.html">ITask</a></div>
@@ -260,7 +260,7 @@ $(document).ready(function() { init_codefold(1); });
 <div class="ttc" id="astruct_database_1_1_i_database_1_1_task_html_ab1538bc654ec0752a813c02ed98e6b38"><div class="ttname"><a href="../../dd/d3e/struct_database_1_1_i_database_1_1_task.html#ab1538bc654ec0752a813c02ed98e6b38">Database::IDatabase::Task::run</a></div><div class="ttdeci">void run(IBackend &amp;backend) override</div><div class="ttdef"><b>Definition</b> idatabase.hpp:114</div></div>
 <div class="ttc" id="astruct_database_1_1_i_database_html"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a></div><div class="ttdoc">Base Database interface. A bridge between regular clients and backend.</div><div class="ttdef"><b>Definition</b> idatabase.hpp:72</div></div>
 <div class="ttc" id="astruct_database_1_1_i_database_html_a0b95fea80210ee6657d79a0f8a266aa7"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html#a0b95fea80210ee6657d79a0f8a266aa7">Database::IDatabase::backend</a></div><div class="ttdeci">virtual IBackend &amp; backend()=0</div></div>
-<div class="ttc" id="astruct_database_1_1_i_database_html_aadcb967f207e416765f5b021339b252a"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html#aadcb967f207e416765f5b021339b252a">Database::IDatabase::attach</a></div><div class="ttdeci">virtual std::unique_ptr&lt; IClient &gt; attach(const QString &amp;)=0</div><div class="ttdoc">Attach to db as a client.</div></div>
+<div class="ttc" id="astruct_database_1_1_i_database_html_a988838f5c8505e5d207d9165099c1004"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html#a988838f5c8505e5d207d9165099c1004">Database::IDatabase::attach</a></div><div class="ttdeci">virtual std::unique_ptr&lt; IClient &gt; attach(QStringView)=0</div><div class="ttdoc">Attach to db as a client.</div></div>
 <div class="ttc" id="astruct_database_1_1_i_database_html_ab1cc16c84162045d16d6db3b34e1e014"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html#ab1cc16c84162045d16d6db3b34e1e014">Database::IDatabase::execute</a></div><div class="ttdeci">virtual void execute(std::unique_ptr&lt; ITask &gt; &amp;&amp;)=0</div></div>
 <div class="ttc" id="astruct_database_1_1_i_database_html_ac86cb641a8f5a37a00873df333bb12bb"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb">Database::IDatabase::exec</a></div><div class="ttdeci">void exec(Callable &amp;&amp;f, const std::string &amp;name=std::source_location::current().function_name())</div><div class="ttdef"><b>Definition</b> idatabase.hpp:78</div></div>
 <div class="ttc" id="astruct_database_1_1_i_database_html_ad133c232d1ea26c728605bcf419cfd6f"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html#ad133c232d1ea26c728605bcf419cfd6f">Database::IDatabase::~IDatabase</a></div><div class="ttdeci">virtual ~IDatabase()=default</div></div>
@@ -279,7 +279,7 @@ $(document).ready(function() { init_codefold(1); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 9 2024 20:10:41 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Sun Jun 16 2024 10:16:57 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

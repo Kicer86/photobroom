@@ -46,19 +46,19 @@
 </a>
 </g>
 </g>
-<!-- Node4 -->
-<g id="Node000004" class="node">
-<title>Node4</title>
-<g id="a_Node000004"><a xlink:href="../../d4/da4/class_queue.html#a54283914b0f086199961cfb52a911793" target="_top" xlink:title=" ">
+<!-- Node5 -->
+<g id="Node000005" class="node">
+<title>Node5</title>
+<g id="a_Node000005"><a xlink:href="../../d4/da4/class_queue.html#a54283914b0f086199961cfb52a911793" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="92.5,-19.25 9.75,-19.25 9.75,0 92.5,0 92.5,-19.25"/>
 <text text-anchor="middle" x="51.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">Queue::~Queue</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node4 -->
-<g id="edge2_Node000001_Node000004" class="edge">
-<title>Node1&#45;&gt;Node4</title>
-<g id="a_edge2_Node000001_Node000004"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node5 -->
+<g id="edge2_Node000001_Node000005" class="edge">
+<title>Node1&#45;&gt;Node5</title>
+<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M126.68,-19.61C114.98,-18.04 103.39,-16.49 92.96,-15.09"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="126.03,-23.05 136.41,-20.91 126.96,-16.11 126.03,-23.05"/>
 </a>

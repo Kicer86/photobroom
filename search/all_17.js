@@ -1,7 +1,7 @@
 var searchData=
 [
   ['wait_5ffor_5fdata_0',['wait_for_data',['../d2/d36/classol_1_1_t_s___queue.html#af589d6326c0fe024cae643c3f80160b9',1,'ol::TS_Queue::wait_for_data()'],['../d2/d36/classol_1_1_t_s___queue.html#aa39633aab7a1b9dfe4bbd05b67fd739f',1,'ol::TS_Queue::wait_for_data(std::unique_lock&lt; std::mutex &gt; &amp;lock)'],['../d2/d36/classol_1_1_t_s___queue.html#a187c19bed14f0a3f84200cff521a7b94',1,'ol::TS_Queue::wait_for_data(std::unique_lock&lt; std::mutex &gt; &amp;lock, const std::chrono::milliseconds &amp;timeout)']]],
-  ['waitforclients_1',['waitForClients',['../dc/dc0/class_database_1_1_async_database.html#acfccc5a4357cf8f77fd6c704199d06e9',1,'Database::AsyncDatabase']]],
+  ['waitforclients_1',['waitForClients',['../dc/dc0/class_database_1_1_async_database.html#aeeb0b9530fbf0f43d64c074488c83c1a',1,'Database::AsyncDatabase']]],
   ['waitforfiletoappear_2',['waitForFileToAppear',['../d7/db0/class_disk_observer.html#a613f1c8cd3e34a11e698414233b3982f',1,'DiskObserver']]],
   ['waitforpendingtasks_3',['waitForPendingTasks',['../d4/da4/class_queue.html#af775d4a141d4bc06c5c9faf00bb56663',1,'Queue']]],
   ['waitforservertostart_4',['waitForServerToStart',['../d9/d03/class_my_sql_server.html#adc915b0ef6cf734d665735e4343578aa',1,'MySqlServer']]],

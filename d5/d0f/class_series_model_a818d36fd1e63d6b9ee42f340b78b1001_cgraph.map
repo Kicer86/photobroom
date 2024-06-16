@@ -1,6 +1,6 @@
 <map id="SeriesModel::loadData" name="SeriesModel::loadData">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,100,156,125"/>
-<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#aadcb967f207e416765f5b021339b252a" title="Attach to db as a client." alt="" coords="208,5,350,46"/>
+<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#a988838f5c8505e5d207d9165099c1004" title="Attach to db as a client." alt="" coords="208,5,350,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,97,203,55,214,50,216,55,205,60,112,101"/>
 <area shape="rect" id="Node000003" href="$d9/d6e/class_project.html#a6d94d817c1233702908c063886bb5701" title=" " alt="" coords="208,70,350,96"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="155,99,193,93,193,98,156,104"/>

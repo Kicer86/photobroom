@@ -28,7 +28,7 @@ var searchData=
   ['clearmodel_25',['clearModel',['../d0/d5d/class_tags_model.html#af7dd528ba8e78953e0a5d71eb05ffc9d',1,'TagsModel']]],
   ['clearnotifications_26',['clearNotifications',['../d2/deb/class_database_1_1_notifications_accumulator.html#a0b6d547032516337cfcb6154e95a81d2',1,'Database::NotificationsAccumulator']]],
   ['clearselection_27',['clearSelection',['../d2/de4/class_selection_manager_component.html#abe5ea44678c4e747f24c1dafe49772d0',1,'SelectionManagerComponent']]],
-  ['client_28',['Client',['../d6/d6d/class_database_1_1_async_database_1_1_client.html#a3c9151a2a5b00666e63607d2016ac315',1,'Database::AsyncDatabase::Client']]],
+  ['client_28',['Client',['../d6/d6d/class_database_1_1_async_database_1_1_client.html#a5776d91da686942ca1bfc6331ee8d6d2',1,'Database::AsyncDatabase::Client']]],
   ['close_29',['close',['../d5/d69/struct_database_1_1_i_database_root.html#ab04fb291a6d5ac690e19a907efb560b8',1,'Database::IDatabaseRoot::close()'],['../dc/dc0/class_database_1_1_async_database.html#a5e7522d1b923190e4251fbc33be813c7',1,'Database::AsyncDatabase::close()']]],
   ['closeconnections_30',['closeconnections',['../da/dba/class_database_1_1_memory_backend.html#aa9e5b8958c1b8f4549cc7f2117bd8831',1,'Database::MemoryBackend::closeConnections()'],['../d5/d1b/class_database_1_1_a_sql_backend.html#ab9f6b6ff87a938d0444a43dfea6006c2',1,'Database::ASqlBackend::closeConnections()'],['../d2/ddd/struct_database_1_1_i_backend.html#a906ce18126ee5926c6f5592a4e7ae18e',1,'Database::IBackend::closeConnections()']]],
   ['closedatabase_31',['closeDatabase',['../d9/d6e/class_project.html#a91e4a8849846f7a112aa51600da07319',1,'Project']]],

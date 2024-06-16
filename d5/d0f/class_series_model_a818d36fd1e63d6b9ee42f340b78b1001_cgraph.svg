@@ -30,7 +30,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#aadcb967f207e416765f5b021339b252a" target="_top" xlink:title="Attach to db as a client.">
+<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#a988838f5c8505e5d207d9165099c1004" target="_top" xlink:title="Attach to db as a client.">
 <polygon fill="white" stroke="#666666" points="258.12,-153.88 152.12,-153.88 152.12,-123.38 258.12,-123.38 258.12,-153.88"/>
 <text text-anchor="start" x="160.12" y="-140.38" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 <text text-anchor="middle" x="205.12" y="-129.12" font-family="Helvetica,sans-Serif" font-size="10.00">::attach</text>

@@ -92,7 +92,7 @@ var searchData=
   ['async_5fdatabase_2ecpp_89',['async_database.cpp',['../de/d97/async__database_8cpp.html',1,'']]],
   ['async_5fdatabase_2ehpp_90',['async_database.hpp',['../d8/da1/async__database_8hpp.html',1,'']]],
   ['asyncdatabase_91',['asyncdatabase',['../dc/dc0/class_database_1_1_async_database.html#a64ab02abc612e0a8106091040850fec4',1,'Database::AsyncDatabase::AsyncDatabase(std::unique_ptr&lt; IBackend &gt; &amp;&amp;, ILogger *)'],['../dc/dc0/class_database_1_1_async_database.html#adfea06cce9b64fc1da5e7a7caad6efec',1,'Database::AsyncDatabase::AsyncDatabase(const AsyncDatabase &amp;)=delete'],['../dc/dc0/class_database_1_1_async_database.html',1,'Database::AsyncDatabase']]],
-  ['attach_92',['attach',['../dc/dc0/class_database_1_1_async_database.html#aa75aa338ac9ff1a22c352afb2016bc37',1,'Database::AsyncDatabase::attach()'],['../d7/da9/struct_database_1_1_i_database.html#aadcb967f207e416765f5b021339b252a',1,'Database::IDatabase::attach()']]],
+  ['attach_92',['attach',['../dc/dc0/class_database_1_1_async_database.html#a469fcb2bb8e1cbd2db14cec166f641e6',1,'Database::AsyncDatabase::attach()'],['../d7/da9/struct_database_1_1_i_database.html#a988838f5c8505e5d207d9165099c1004',1,'Database::IDatabase::attach()']]],
   ['awaitingtasks_93',['awaitingtasks',['../d5/d20/class_observable_executor.html#a3e96aa8175a4316b0e951ad7b0d41ae1',1,'ObservableExecutor::awaitingTasks() const'],['../d5/d20/class_observable_executor.html#aa5036c839acfac73e65670e2e50810ec',1,'ObservableExecutor::awaitingTasks']]],
   ['awaitingtaskschanged_94',['awaitingTasksChanged',['../d5/d20/class_observable_executor.html#afbefb81c6c79693e2e59d3fc23d3b145',1,'ObservableExecutor']]]
 ];

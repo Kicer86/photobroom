@@ -1,5 +1,7 @@
 <map id="PhotosAnalyzerImpl::stop" name="PhotosAnalyzerImpl::stop">
-<area shape="rect" id="Node000001" title=" " alt="" coords="203,5,339,46"/>
-<area shape="rect" id="Node000002" href="$dd/d10/class_photos_analyzer_impl.html#a08ff5c2a4ddb259b23e2d053d2995665" title=" " alt="" coords="5,5,155,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,28,155,28,155,23,187,23"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="203,39,339,79"/>
+<area shape="rect" id="Node000002" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="9,5,151,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="187,47,151,41,152,35,188,42"/>
+<area shape="rect" id="Node000003" href="$dd/d10/class_photos_analyzer_impl.html#a08ff5c2a4ddb259b23e2d053d2995665" title=" " alt="" coords="5,71,155,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="188,76,156,81,155,76,187,70"/>
 </map>
