@@ -214,12 +214,11 @@ namespace Database
     }
 
 
-    std::unique_ptr<IClient> AsyncDatabase::attach(QStringView name, std::function<void()> onClose)
+    std::unique_ptr<IClient> AsyncDatabase::attach(QStringView name)
     {
         if (m_acceptClients)
         {
             auto observer = std::make_unique<Client>(*this, name);
-            observer->onClose(onClose);
 
             std::lock_guard _(m_clientsMutex);
             m_clients.insert(observer.get());

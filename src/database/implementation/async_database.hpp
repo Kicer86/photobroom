@@ -53,7 +53,7 @@ namespace Database
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void close() override;
 
-            std::unique_ptr<IClient> attach(QStringView name, std::function<void()> onClose) override;
+            std::unique_ptr<IClient> attach(QStringView name) override;
 
         private:
             class Client: public IClient
@@ -63,7 +63,7 @@ namespace Database
                 ~Client() override;
 
                 IDatabase& db() override;
-                void onClose(const std::function<void()> &);
+                void onClose(const std::function<void()> &) override;
 
                 void callOnClose() const;
                 const QString& name() const;

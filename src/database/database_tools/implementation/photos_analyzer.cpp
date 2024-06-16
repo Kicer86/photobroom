@@ -197,12 +197,14 @@ namespace
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
-    m_database(database.attach(u"Photos Analyzer"_s, std::bind(&PhotosAnalyzerImpl::stop, this))),
+    m_database(database.attach(u"Photos Analyzer"_s)),
     m_tasksView(nullptr),
     m_viewTask(nullptr)
 {
     //check for not fully initialized photos in database
     //TODO: use independent updaters here (issue #102)
+
+    m_database->onClose(std::bind(&PhotosAnalyzerImpl::stop, this));
 
     // GeometryLoaded < 1
     Database::FilterPhotosWithFlags geometryFilter;

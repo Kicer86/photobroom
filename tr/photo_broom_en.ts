@@ -71,6 +71,14 @@
     </message>
 </context>
 <context>
+    <name>BatchFaceDetector</name>
+    <message>
+        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="69"/>
+        <source>Batch face detector</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>CollectionScanner</name>
     <message>
         <location filename="../src/gui/desktop/utils/collection_scanner.cpp" line="57"/>
@@ -612,7 +620,7 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="294"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="296"/>
         <source>Extracting data from new photos</source>
         <translation type="unfinished"></translation>
     </message>
