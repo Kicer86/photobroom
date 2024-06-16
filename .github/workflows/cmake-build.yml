@@ -1,0 +1,77 @@
+
+name: Build-with-CMake
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+env:
+  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
+
+jobs:
+  windows-build:
+    runs-on: [windows-2022, ubuntu-24.04]
+    strategy:
+      fail-fast: false
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Prepare build dir
+      run: |
+        New-Item -ItemType directory -Path "c:\" -Name "build"
+        compact.exe /C "c:\build\"
+        New-Item -ItemType Junction  -Path "out" -Target "c:\build"
+        Move-Item -Path vcpkg -Destination c:\build
+        New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
+      if: contains(matrix.os, 'windows')
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.4.3'
+        cache: 'true'
+        modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
+
+    - name: disable debug build for vcpkg
+      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
+      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-linux.cmake
+
+    - name: Setup ccache
+      uses: Chocobo1/setup-ccache-action@v1
+      with:
+        windows_compile_environment: msvc
+
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v11.5
+      with:
+        vcpkgJsonGlob: vcpkg.json
+
+    - name: Add msbuild to PATH
+      uses: ilammy/msvc-dev-cmd@v1.13.0
+      if: contains(matrix.os, 'windows')
+
+    - name: Build
+      run: |
+        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
+        cmake --build --preset "Ninja Release"
+
+    - name: Make package
+      run: cmake --build --target package --preset 'Ninja Release'
+      if: contains(matrix.os, 'windows')
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Installer
+        path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
+      if: contains(matrix.os, 'windows')
+
+    - name: Verify list of files in installer
+      run: |
+        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
+      if: contains(matrix.os, 'windows')
