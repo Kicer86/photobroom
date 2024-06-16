@@ -91,7 +91,7 @@ namespace Database
          *
          * @return object blocking database's destruction
          */
-        [[nodiscard]] virtual std::unique_ptr<IClient> attach(const QString &) = 0;
+        [[nodiscard]] virtual std::unique_ptr<IClient> attach(QStringView) = 0;
 
         struct ITask
         {

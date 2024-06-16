@@ -53,21 +53,23 @@ namespace Database
             virtual void init(const ProjectInfo &, const Callback<const BackendStatus &> &) override;
             virtual void close() override;
 
-            std::unique_ptr<IClient> attach(const QString &) override;
+            std::unique_ptr<IClient> attach(QStringView name) override;
 
         private:
             class Client: public IClient
             {
             public:
-                explicit Client(AsyncDatabase &);
+                explicit Client(AsyncDatabase &, QStringView);
                 ~Client() override;
 
                 IDatabase& db() override;
                 void onClose(const std::function<void()> &) override;
 
                 void callOnClose() const;
+                const QString& name() const;
 
             private:
+                const QString m_name;
                 std::function<void()> m_onClose;
                 AsyncDatabase& m_db;
             };
@@ -75,18 +77,18 @@ namespace Database
             friend class Client;
 
             std::set<Client *> m_clients;
-            std::mutex m_clientsMutex;
+            std::recursive_mutex m_clientsMutex;
             std::unique_ptr<ILogger> m_logger;
             std::unique_ptr<IBackend> m_backend;
             std::unique_ptr<Executor> m_executor;
-            std::condition_variable m_clientsChangeCV;
+            std::condition_variable_any m_clientsChangeCV;
             std::thread m_thread;
             bool m_acceptClients = true;
             bool m_working;
 
             void addTask(std::unique_ptr<IDatabase::ITask> &&);
             void sendOnCloseNotification();
-            void waitForClients(std::unique_lock<std::mutex> &);
+            void waitForClients();
             void stopExecutor();
             void remove(Client *);
     };

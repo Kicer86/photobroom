@@ -10,6 +10,8 @@
 
 #include <iostream>
 
+using namespace Qt::Literals::StringLiterals;
+
 
 BatchFaceDetector::BatchFaceDetector()
     : m_faceEditor(make_lazy_ptr<FaceEditor>([this]{ return std::make_unique<FaceEditor>(*this->db(), *this->core(), *this->m_logger); }))
@@ -65,6 +67,7 @@ void BatchFaceDetector::setCore(ICoreFactoryAccessor* core)
 void BatchFaceDetector::setDB(Database::IDatabase* db)
 {
     m_dbClient = db->attach(tr("Batch face detector"));
+
     if (m_dbClient)
     {
         m_dbClient->onClose([this]()

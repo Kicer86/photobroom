@@ -73,7 +73,7 @@
 <context>
     <name>BatchFaceDetector</name>
     <message>
-        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="67"/>
+        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="69"/>
         <source>Batch face detector</source>
         <translation type="unfinished"></translation>
     </message>
@@ -424,33 +424,33 @@ Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="327"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="326"/>
         <source>Open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="327"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="326"/>
         <source>Photo Broom files (*.bpj)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="365"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="364"/>
         <source>About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="371"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="370"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="407"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="416"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="406"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="415"/>
         <source>Unsupported photo collection version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="408"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="407"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -458,7 +458,7 @@ Please upgrade application to open this collection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="417"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="416"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your database is too old to open it.
 
@@ -466,12 +466,12 @@ It means your database is too old to open it.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="424"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="423"/>
         <source>Could not open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="425"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="424"/>
         <source>Photo collection could not be opened.
 It usually means that collection files are broken
 or you don&apos;t have rights to access them.
@@ -481,23 +481,23 @@ Please check collection files:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="434"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="433"/>
         <source>Collection locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="435"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="434"/>
         <source>Photo collection could not be opened.
 It is already opened by another Photo Broom instance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="442"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="441"/>
         <source>Unexpected error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="443"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="442"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
@@ -620,7 +620,7 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="293"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="296"/>
         <source>Extracting data from new photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -863,17 +863,17 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="69"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="72"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>

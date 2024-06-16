@@ -33,6 +33,7 @@
 using namespace std::chrono_literals;
 using namespace std::placeholders;
 using namespace PhotosAnalyzerConsts;
+using namespace Qt::Literals::StringLiterals;
 
 
 namespace
@@ -196,12 +197,14 @@ namespace
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
     m_taskQueue(coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
-    m_database(database),
+    m_database(database.attach(u"Photos Analyzer"_s)),
     m_tasksView(nullptr),
     m_viewTask(nullptr)
 {
     //check for not fully initialized photos in database
     //TODO: use independent updaters here (issue #102)
+
+    m_database->onClose(std::bind(&PhotosAnalyzerImpl::stop, this));
 
     // GeometryLoaded < 1
     Database::FilterPhotosWithFlags geometryFilter;
@@ -244,7 +247,7 @@ PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Databa
     Database::GroupFilter filters = {noExifOrGeometryFilter, noPhashFilterGroup};
     filters.mode = Database::LogicalOp::Or;
 
-    m_database.exec([this, filters](Database::IBackend& backend)
+    m_database->db().exec([this, filters](Database::IBackend& backend)
     {
         auto photos = backend.photoOperator().getPhotos(filters);
 
@@ -297,7 +300,7 @@ void PhotosAnalyzerImpl::addPhotos(const std::vector<Photo::Id>& ids)
         // Construct DatabaseQueue as a shared pointer used to be passed to all tasks.
         // When last task is done, custom destructor below will do all necessary cleanups.
         storage = std::shared_ptr<Database::DatabaseQueue>(
-            new Database::DatabaseQueue(m_database),
+            new Database::DatabaseQueue(m_database->db()),
             [this, _ = std::move(storageLock)](Database::DatabaseQueue* queue)
         {
             // This lambda may be called from ~PhotosAnalyzerImpl as a result of stop().
@@ -335,6 +338,8 @@ void PhotosAnalyzerImpl::stop()
 
     // make sure storage is unlocked
     std::lock_guard _(m_storageMutex);
+
+    m_database.reset();
 }
 
 
@@ -346,7 +351,6 @@ void PhotosAnalyzerImpl::finishProgressBar()
         m_viewTask = nullptr;
     }
 }
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

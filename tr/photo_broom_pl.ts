@@ -73,7 +73,7 @@
 <context>
     <name>BatchFaceDetector</name>
     <message>
-        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="+67"/>
+        <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="+69"/>
         <source>Batch face detector</source>
         <translation type="unfinished"></translation>
     </message>
@@ -431,7 +431,7 @@ Please check your internet connection.</source>
 Sprawdź proszę swoje połączenie z internetem.</translation>
     </message>
     <message>
-        <location line="+125"/>
+        <location line="+124"/>
         <source>Open collection</source>
         <translation>Otwórz kolekcję</translation>
     </message>
@@ -648,10 +648,9 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+293"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+296"/>
         <source>Extracting data from new photos</source>
-        <translatorcomment>Extracting data from new photos</translatorcomment>
-        <translation>Odczytywanie danych z nowych zdjęć</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -892,7 +891,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+69"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+70"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>

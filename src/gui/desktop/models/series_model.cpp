@@ -16,6 +16,7 @@
 
 
 using namespace std::placeholders;
+using namespace Qt::Literals::StringLiterals;
 
 
 ENUM_ROLES_SETUP(SeriesModel::Roles);
@@ -101,7 +102,7 @@ void SeriesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallba
 {
     runOn(
         m_core->getTaskExecutor(),
-        [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach("SeriesDetector"), callback, stopToken]() mutable
+        [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach(u"SeriesDetector"_s), callback, stopToken]() mutable
         {
             IExifReaderFactory& exif = core->getExifReaderFactory();
 

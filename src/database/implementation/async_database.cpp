@@ -120,8 +120,9 @@ namespace Database
     ///////////////////////////////////////////////////////////////////////////
 
 
-    AsyncDatabase::Client::Client(AsyncDatabase& _db)
-        : m_db(_db)
+    AsyncDatabase::Client::Client(AsyncDatabase& _db, QStringView name)
+        : m_name(name.toString())
+        , m_db(_db)
     {
 
     }
@@ -151,6 +152,11 @@ namespace Database
             m_onClose();
     }
 
+
+    const QString& AsyncDatabase::Client::name() const
+    {
+        return m_name;
+    }
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -198,22 +204,21 @@ namespace Database
     void AsyncDatabase::close()
     {
         // close clients
-        std::unique_lock lk(m_clientsMutex);
         m_acceptClients = false;
 
         sendOnCloseNotification();
-        waitForClients(lk);
+        waitForClients();
 
         // finish tasks
         stopExecutor();
     }
 
 
-    std::unique_ptr<IClient> AsyncDatabase::attach(const QString& /*name*/)
+    std::unique_ptr<IClient> AsyncDatabase::attach(QStringView name)
     {
         if (m_acceptClients)
         {
-            auto observer = std::make_unique<Client>(*this);
+            auto observer = std::make_unique<Client>(*this, name);
 
             std::lock_guard _(m_clientsMutex);
             m_clients.insert(observer.get());
@@ -241,16 +246,30 @@ namespace Database
 
     void AsyncDatabase::sendOnCloseNotification()
     {
-        assert(m_clientsMutex.try_lock() == false);     // m_clientsMutex should be locked by caller
+        assert(m_acceptClients == false);
 
-        for(auto& client: m_clients)
+        std::unique_lock lk(m_clientsMutex);
+
+        // client may be removed during the loop below, so work on a copy
+        const auto clients = m_clients;
+
+        for(auto& client: clients)
+        {
+            m_logger->debug("Sending close notification to " + client->name());
             client->callOnClose();
+        }
     }
 
 
-    void AsyncDatabase::waitForClients(std::unique_lock<std::mutex>& clientsLock)
+    void AsyncDatabase::waitForClients()
     {
-        m_clientsChangeCV.wait(clientsLock, [this]()
+        std::unique_lock lk(m_clientsMutex);
+
+        m_logger->debug("Active clients:");
+        for(auto& client: m_clients)
+            m_logger->debug(client->name());
+
+        m_clientsChangeCV.wait(lk, [this]()
         {
             return m_clients.empty();
         });

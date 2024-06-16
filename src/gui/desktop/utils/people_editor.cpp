@@ -37,6 +37,7 @@
 
 
 using namespace Database::CommonGeneralFlags;
+using namespace Qt::Literals::StringLiterals;
 
 
 namespace
@@ -171,8 +172,6 @@ class Recognizer: public IRecognizePerson
 
         void fetchPeopleAndFingerprints(Database::IDatabase& db)
         {
-            typedef std::tuple<std::vector<Person::Fingerprint>, std::vector<Person::Id>> Result;
-
             evaluate(db, [this](Database::IBackend& backend)
             {
                 std::vector<Person::Fingerprint> people_fingerprints;
@@ -217,7 +216,7 @@ std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
 
     auto faces = findFaces(*image, id);
 
-    std::shared_ptr<Database::IClient> dbClient = m_db.attach("FaceEditor");
+    std::shared_ptr<Database::IClient> dbClient = m_db.attach(u"FaceEditor"_s);
     std::vector<std::unique_ptr<IFace>> result;
 
     std::ranges::transform(faces.get<Photo::Field::People>(), std::back_inserter(result), [id = faces.getId(), &image, &dbClient, recognizer = m_recognizer](const auto& personData)
