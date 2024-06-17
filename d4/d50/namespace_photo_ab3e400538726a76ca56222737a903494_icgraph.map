@@ -1,0 +1,8 @@
+<map id="Photo::AllFields" name="Photo::AllFields">
+<area shape="rect" id="Node000001" title=" " alt="" coords="233,47,344,72"/>
+<area shape="rect" id="Node000002" href="$db/d64/photo__fetch__benchmarks_8cpp.html#aca4d30221ea7fd35935a36be798e4128" title=" " alt="" coords="25,5,165,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,47,158,34,159,29,218,42"/>
+<area shape="rect" id="Node000004" href="$da/dba/class_database_1_1_memory_backend.html#a4a3aeb0f7e651ee11267449d7bb511e6" title=" " alt="" coords="5,79,185,120"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="218,77,186,83,185,78,217,71"/>
+<area shape="poly" id="edge3_Node000004_Node000004" title=" " alt="" coords="126,66,115,60,95,58,77,60,66,64,62,70,63,78,58,79,56,69,62,60,75,55,95,53,116,55,129,61"/>
+</map>

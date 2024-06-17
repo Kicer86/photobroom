@@ -72,6 +72,7 @@ $(function() {
   <div class="summary">
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-types">Private Types</a> &#124;
 <a href="#pri-methods">Private Member Functions</a> &#124;
 <a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="../../da/db6/class_collection_scanner-members.html">List of all members</a>  </div>
@@ -109,6 +110,11 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a7d7efea2e0e976663465a01f8831ac4a" id="r_a7d7efea2e0e976663465a01f8831ac4a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a">scan</a> ()</td></tr>
 <tr class="separator:a7d7efea2e0e976663465a01f8831ac4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-types" name="pri-types"></a>
+Private Types</h2></td></tr>
+<tr class="memitem:a5aeb5c78ccfe1c332cd4ced093f9e354" id="r_a5aeb5c78ccfe1c332cd4ced093f9e354"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a> = <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aaac70412e939d72a9234cdebb1af5867b">Photo::Field::Path</a> &gt;</td></tr>
+<tr class="separator:a5aeb5c78ccfe1c332cd4ced093f9e354"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
 <tr class="memitem:a47f7a7c6fba3be1ad9574f665a5a7c68" id="r_a47f7a7c6fba3be1ad9574f665a5a7c68"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a47f7a7c6fba3be1ad9574f665a5a7c68">diskScanDone</a> ()</td></tr>
@@ -119,8 +125,8 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a6a86b486a44501010ddec4e8fd9c0d1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab0b44dadf7d37b2eab5472d9813297c9" id="r_ab0b44dadf7d37b2eab5472d9813297c9"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#ab0b44dadf7d37b2eab5472d9813297c9">gotDiskPhoto</a> (const QString &amp;)</td></tr>
 <tr class="separator:ab0b44dadf7d37b2eab5472d9813297c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec1d0106854a73c237d39ae58ff85ec1" id="r_aec1d0106854a73c237d39ae58ff85ec1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#aec1d0106854a73c237d39ae58ff85ec1">gotDBPhotos</a> (const std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt; &amp;, const std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt; &amp;)</td></tr>
-<tr class="separator:aec1d0106854a73c237d39ae58ff85ec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b68507f00dc1b05db6de8c9e368a302" id="r_a6b68507f00dc1b05db6de8c9e368a302"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a6b68507f00dc1b05db6de8c9e368a302">gotDBPhotos</a> (const std::vector&lt; <a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a> &gt; &amp;, const std::vector&lt; <a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a> &gt; &amp;)</td></tr>
+<tr class="separator:a6b68507f00dc1b05db6de8c9e368a302"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3558b9d54b1298bdce201f33a1ef4acc" id="r_a3558b9d54b1298bdce201f33a1ef4acc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a3558b9d54b1298bdce201f33a1ef4acc">addNotification</a> (std::size_t, std::size_t, std::size_t)</td></tr>
 <tr class="separator:a3558b9d54b1298bdce201f33a1ef4acc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -130,10 +136,10 @@ Private Attributes</h2></td></tr>
 <tr class="separator:a057c2b58cbe7335d932c6baaec68411b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a239929126450bdc3e1f562c10c83b2ad" id="r_a239929126450bdc3e1f562c10c83b2ad"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a239929126450bdc3e1f562c10c83b2ad">m_diskPhotos</a></td></tr>
 <tr class="separator:a239929126450bdc3e1f562c10c83b2ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6b1a09a6b559bc1ca2192afc130ae4f1" id="r_a6b1a09a6b559bc1ca2192afc130ae4f1"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a6b1a09a6b559bc1ca2192afc130ae4f1">m_dbPhotos</a></td></tr>
-<tr class="separator:a6b1a09a6b559bc1ca2192afc130ae4f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2653ea2a6767a2a54a9e0db91e6a01f5" id="r_a2653ea2a6767a2a54a9e0db91e6a01f5"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a2653ea2a6767a2a54a9e0db91e6a01f5">m_missingPhotos</a></td></tr>
-<tr class="separator:a2653ea2a6767a2a54a9e0db91e6a01f5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02c02ade419c371117926671290e4d7b" id="r_a02c02ade419c371117926671290e4d7b"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a02c02ade419c371117926671290e4d7b">m_dbPhotos</a></td></tr>
+<tr class="separator:a02c02ade419c371117926671290e4d7b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa28a7c78e5e0f5350dbe6193ffbe0c21" id="r_aa28a7c78e5e0f5350dbe6193ffbe0c21"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#aa28a7c78e5e0f5350dbe6193ffbe0c21">m_missingPhotos</a></td></tr>
+<tr class="separator:aa28a7c78e5e0f5350dbe6193ffbe0c21"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7057732f4bf8019c78048b872d19fcfd" id="r_a7057732f4bf8019c78048b872d19fcfd"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../d9/d6e/class_project.html">Project</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a7057732f4bf8019c78048b872d19fcfd">m_project</a></td></tr>
 <tr class="separator:a7057732f4bf8019c78048b872d19fcfd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af1eadaa0ff263ec4783f065a1d477e99" id="r_af1eadaa0ff263ec4783f065a1d477e99"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#af1eadaa0ff263ec4783f065a1d477e99">m_database</a></td></tr>
@@ -149,6 +155,29 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a9e0e145c77657d2567ebd5aeda7be00e" id="r_a9e0e145c77657d2567ebd5aeda7be00e"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../db/d6e/class_collection_scanner.html#a9e0e145c77657d2567ebd5aeda7be00e">m_gotDBPhotos</a></td></tr>
 <tr class="separator:a9e0e145c77657d2567ebd5aeda7be00e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
+<h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a5aeb5c78ccfe1c332cd4ced093f9e354" name="a5aeb5c78ccfe1c332cd4ced093f9e354"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5aeb5c78ccfe1c332cd4ced093f9e354">&#9670;&#160;</a></span>PhotoPaths</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">CollectionScanner::PhotoPaths</a> =  <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt;<a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aaac70412e939d72a9234cdebb1af5867b">Photo::Field::Path</a>&gt;</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a3ca1912842473ee4048d95eaed3c0281" name="a3ca1912842473ee4048d95eaed3c0281"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3ca1912842473ee4048d95eaed3c0281">&#9670;&#160;</a></span>CollectionScanner() <span class="overload">[1/2]</span></h2>
@@ -355,8 +384,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="aec1d0106854a73c237d39ae58ff85ec1" name="aec1d0106854a73c237d39ae58ff85ec1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aec1d0106854a73c237d39ae58ff85ec1">&#9670;&#160;</a></span>gotDBPhotos()</h2>
+<a id="a6b68507f00dc1b05db6de8c9e368a302" name="a6b68507f00dc1b05db6de8c9e368a302"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b68507f00dc1b05db6de8c9e368a302">&#9670;&#160;</a></span>gotDBPhotos()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -367,13 +396,13 @@ Here is the caller graph for this function:</div>
         <tr>
           <td class="memname">void CollectionScanner::gotDBPhotos </td>
           <td>(</td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>photos</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt; &amp;&#160;</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a> &gt; &amp;&#160;</td>
           <td class="paramname"><em>missingPhotos</em>&#160;</td>
         </tr>
         <tr>
@@ -391,12 +420,12 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d6e/class_collection_scanner_aec1d0106854a73c237d39ae58ff85ec1_cgraph.svg" width="324" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d6e/class_collection_scanner_a6b68507f00dc1b05db6de8c9e368a302_cgraph.svg" width="324" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d6e/class_collection_scanner_aec1d0106854a73c237d39ae58ff85ec1_icgraph.svg" width="352" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d6e/class_collection_scanner_a6b68507f00dc1b05db6de8c9e368a302_icgraph.svg" width="352" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -515,7 +544,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d6e/class_collection_scanner_a7d7efea2e0e976663465a01f8831ac4a_cgraph.svg" width="431" height="543"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/d6e/class_collection_scanner_a7d7efea2e0e976663465a01f8831ac4a_cgraph.svg" width="431" height="478"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -595,8 +624,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a6b1a09a6b559bc1ca2192afc130ae4f1" name="a6b1a09a6b559bc1ca2192afc130ae4f1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b1a09a6b559bc1ca2192afc130ae4f1">&#9670;&#160;</a></span>m_dbPhotos</h2>
+<a id="a02c02ade419c371117926671290e4d7b" name="a02c02ade419c371117926671290e4d7b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02c02ade419c371117926671290e4d7b">&#9670;&#160;</a></span>m_dbPhotos</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -605,7 +634,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a>&gt; CollectionScanner::m_dbPhotos</td>
+          <td class="memname">std::vector&lt;<a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a>&gt; CollectionScanner::m_dbPhotos</td>
         </tr>
       </table>
   </td>
@@ -683,8 +712,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a2653ea2a6767a2a54a9e0db91e6a01f5" name="a2653ea2a6767a2a54a9e0db91e6a01f5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2653ea2a6767a2a54a9e0db91e6a01f5">&#9670;&#160;</a></span>m_missingPhotos</h2>
+<a id="aa28a7c78e5e0f5350dbe6193ffbe0c21" name="aa28a7c78e5e0f5350dbe6193ffbe0c21"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa28a7c78e5e0f5350dbe6193ffbe0c21">&#9670;&#160;</a></span>m_missingPhotos</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -693,7 +722,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::vector&lt;<a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a>&gt; CollectionScanner::m_missingPhotos</td>
+          <td class="memname">std::vector&lt;<a class="el" href="../../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354">PhotoPaths</a>&gt; CollectionScanner::m_missingPhotos</td>
         </tr>
       </table>
   </td>
@@ -800,7 +829,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:58 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:21 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

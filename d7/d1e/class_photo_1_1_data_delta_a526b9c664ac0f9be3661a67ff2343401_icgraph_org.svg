@@ -5,15 +5,15 @@
  -->
 <!-- Title: Photo::DataDelta::has Pages: 1 -->
 <svg width="454pt" height="348pt"
- viewBox="0.00 0.00 453.50 348.25" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 344.25)">
+ viewBox="0.00 0.00 453.50 347.88" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 343.88)">
 <title>Photo::DataDelta::has</title>
 <!-- Node1 -->
 <g id="Node000001" class="node">
 <title>Node1</title>
 <g id="a_Node000001"><a xlink:title=" ">
-<polygon fill="#999999" stroke="#666666" points="445.5,-180.25 336.5,-180.25 336.5,-161 445.5,-161 445.5,-180.25"/>
-<text text-anchor="middle" x="391" y="-166.75" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::has</text>
+<polygon fill="#999999" stroke="#666666" points="445.5,-191.88 336.5,-191.88 336.5,-172.62 445.5,-172.62 445.5,-191.88"/>
+<text text-anchor="middle" x="391" y="-178.38" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::has</text>
 </a>
 </g>
 </g>
@@ -21,8 +21,8 @@
 <g id="Node000002" class="node">
 <title>Node2</title>
 <g id="a_Node000002"><a xlink:href="../../d7/d1e/class_photo_1_1_data_delta.html#a7272ed9d28b235c6ec00667726bbbdde" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="282.12,-340.25 175.38,-340.25 175.38,-321 282.12,-321 282.12,-340.25"/>
-<text text-anchor="middle" x="228.75" y="-326.75" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::get</text>
+<polygon fill="white" stroke="#666666" points="282.12,-339.88 175.38,-339.88 175.38,-320.62 282.12,-320.62 282.12,-339.88"/>
+<text text-anchor="middle" x="228.75" y="-326.38" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::get</text>
 </a>
 </g>
 </g>
@@ -30,8 +30,8 @@
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M382.77,-191.2C370.73,-222.39 343.55,-281.32 300.5,-312.62 295.07,-316.58 288.85,-319.66 282.41,-322.07"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="385.94,-192.73 386.12,-182.14 379.37,-190.3 385.94,-192.73"/>
+<path fill="none" stroke="#63b8ff" d="M381.57,-202.7C368.56,-231.65 340.81,-284.17 300.5,-312.25 294.99,-316.09 288.73,-319.11 282.26,-321.49"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="384.75,-204.16 385.5,-193.6 378.32,-201.39 384.75,-204.16"/>
 </a>
 </g>
 </g>
@@ -39,8 +39,8 @@
 <g id="Node000003" class="node">
 <title>Node3</title>
 <g id="a_Node000003"><a xlink:href="../../d7/d1e/class_photo_1_1_data_delta.html#ae420eb27c1756e873497ece402226e37" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="282.12,-303.25 175.38,-303.25 175.38,-284 282.12,-284 282.12,-303.25"/>
-<text text-anchor="middle" x="228.75" y="-289.75" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::get</text>
+<polygon fill="white" stroke="#666666" points="282.12,-302.88 175.38,-302.88 175.38,-283.62 282.12,-283.62 282.12,-302.88"/>
+<text text-anchor="middle" x="228.75" y="-289.38" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::get</text>
 </a>
 </g>
 </g>
@@ -48,8 +48,8 @@
 <g id="edge2_Node000001_Node000003" class="edge">
 <title>Node1&#45;&gt;Node3</title>
 <g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M378.63,-190.21C363.75,-214.07 335.41,-253.88 300.5,-275.62 294.91,-279.11 288.66,-281.92 282.27,-284.19"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="381.55,-192.16 383.72,-181.79 375.55,-188.54 381.55,-192.16"/>
+<path fill="none" stroke="#63b8ff" d="M376.72,-201.44C360.98,-222.7 332.79,-256.47 300.5,-275.25 294.91,-278.5 288.74,-281.17 282.45,-283.36"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="379.53,-203.52 382.52,-193.36 373.85,-199.44 379.53,-203.52"/>
 </a>
 </g>
 </g>
@@ -57,8 +57,8 @@
 <g id="Node000004" class="node">
 <title>Node4</title>
 <g id="a_Node000004"><a xlink:href="../../d7/d1e/class_photo_1_1_data_delta.html#a937a374107a40054d349dfae25fd020f" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="297.12,-266.25 160.38,-266.25 160.38,-247 297.12,-247 297.12,-266.25"/>
-<text text-anchor="middle" x="228.75" y="-252.75" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::operator|=</text>
+<polygon fill="white" stroke="#666666" points="297.12,-265.88 160.38,-265.88 160.38,-246.62 297.12,-246.62 297.12,-265.88"/>
+<text text-anchor="middle" x="228.75" y="-252.38" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::operator|=</text>
 </a>
 </g>
 </g>
@@ -66,18 +66,17 @@
 <g id="edge3_Node000001_Node000004" class="edge">
 <title>Node1&#45;&gt;Node4</title>
 <g id="a_edge3_Node000001_Node000004"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M371.07,-188.21C353.86,-203.32 327.16,-224.67 300.5,-237.62 293.18,-241.18 285.1,-244.15 277.09,-246.6"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="373.37,-190.85 378.47,-181.56 368.69,-185.65 373.37,-190.85"/>
+<path fill="none" stroke="#63b8ff" d="M367.76,-198.91C350.27,-211.31 324.87,-227.83 300.5,-238.25 293.27,-241.34 285.4,-243.99 277.61,-246.23"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="369.8,-201.75 375.84,-193.05 365.69,-196.08 369.8,-201.75"/>
 </a>
 </g>
 </g>
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../db/d29/class_photo_1_1_explicit_delta.html#ad7890b27689ea81215cb534bb78854c4" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="278.38,-228.88 179.12,-228.88 179.12,-198.38 278.38,-198.38 278.38,-228.88"/>
-<text text-anchor="start" x="187.12" y="-215.38" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::ExplicitDelta</text>
-<text text-anchor="middle" x="228.75" y="-204.12" font-family="Helvetica,sans-Serif" font-size="10.00">::operator|=</text>
+<g id="a_Node000005"><a xlink:href="../../d7/ddf/class_photo_data_qml.html#a36de9c664118b798d1871c7effd2a20b" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="280.25,-228.88 177.25,-228.88 177.25,-209.62 280.25,-209.62 280.25,-228.88"/>
+<text text-anchor="middle" x="228.75" y="-215.38" font-family="Helvetica,sans-Serif" font-size="10.00">PhotoDataQml::path</text>
 </a>
 </g>
 </g>
@@ -85,17 +84,17 @@
 <g id="edge4_Node000001_Node000005" class="edge">
 <title>Node1&#45;&gt;Node5</title>
 <g id="a_edge4_Node000001_Node000005"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M341.43,-183.66C321.54,-189 298.56,-195.16 278.63,-200.51"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="342.22,-187.07 350.97,-181.1 340.4,-180.31 342.22,-187.07"/>
+<path fill="none" stroke="#63b8ff" d="M335.01,-194.95C314.91,-199.59 292.47,-204.77 273.49,-209.15"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="335.78,-198.36 344.74,-192.7 334.21,-191.54 335.78,-198.36"/>
 </a>
 </g>
 </g>
 <!-- Node6 -->
 <g id="Node000006" class="node">
 <title>Node6</title>
-<g id="a_Node000006"><a xlink:href="../../d7/ddf/class_photo_data_qml.html#a36de9c664118b798d1871c7effd2a20b" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="280.25,-180.25 177.25,-180.25 177.25,-161 280.25,-161 280.25,-180.25"/>
-<text text-anchor="middle" x="228.75" y="-166.75" font-family="Helvetica,sans-Serif" font-size="10.00">PhotoDataQml::path</text>
+<g id="a_Node000006"><a xlink:href="../../d7/ddf/class_photo_data_qml.html#a5a6883aaeb5705e29c447b6d0bfa01fe" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="300.5,-191.88 157,-191.88 157,-172.62 300.5,-172.62 300.5,-191.88"/>
+<text text-anchor="middle" x="228.75" y="-178.38" font-family="Helvetica,sans-Serif" font-size="10.00">PhotoDataQml::setPhotoData</text>
 </a>
 </g>
 </g>
@@ -103,17 +102,18 @@
 <g id="edge5_Node000001_Node000006" class="edge">
 <title>Node1&#45;&gt;Node6</title>
 <g id="a_edge5_Node000001_Node000006"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M325.07,-170.62C310.29,-170.62 294.8,-170.62 280.7,-170.62"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="324.68,-174.13 334.68,-170.63 324.68,-167.13 324.68,-174.13"/>
+<path fill="none" stroke="#63b8ff" d="M324.79,-182.25C316.88,-182.25 308.77,-182.25 300.78,-182.25"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="324.68,-185.75 334.68,-182.25 324.68,-178.75 324.68,-185.75"/>
 </a>
 </g>
 </g>
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="../../d7/ddf/class_photo_data_qml.html#a5a6883aaeb5705e29c447b6d0bfa01fe" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="300.5,-143.25 157,-143.25 157,-124 300.5,-124 300.5,-143.25"/>
-<text text-anchor="middle" x="228.75" y="-129.75" font-family="Helvetica,sans-Serif" font-size="10.00">PhotoDataQml::setPhotoData</text>
+<g id="a_Node000007"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="121,-137.5 0,-137.5 0,-107 121,-107 121,-137.5"/>
+<text text-anchor="start" x="8" y="-124" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
+<text text-anchor="middle" x="60.5" y="-112.75" font-family="Helvetica,sans-Serif" font-size="10.00">::storeData</text>
 </a>
 </g>
 </g>
@@ -121,18 +121,18 @@
 <g id="edge6_Node000001_Node000007" class="edge">
 <title>Node1&#45;&gt;Node7</title>
 <g id="a_edge6_Node000001_Node000007"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M335.01,-157.93C314.91,-153.29 292.47,-148.11 273.49,-143.72"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="334.21,-161.33 344.74,-160.17 335.78,-154.51 334.21,-161.33"/>
+<path fill="none" stroke="#63b8ff" d="M333.03,-169.81C322.24,-167.55 311.04,-165.27 300.5,-163.25 239.52,-151.55 169.46,-139.72 121.04,-131.8"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="332.09,-173.18 342.6,-171.83 333.54,-166.34 332.09,-173.18"/>
 </a>
 </g>
 </g>
 <!-- Node8 -->
 <g id="Node000008" class="node">
 <title>Node8</title>
-<g id="a_Node000008"><a xlink:href="../../d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="121,-88.88 0,-88.88 0,-58.38 121,-58.38 121,-88.88"/>
-<text text-anchor="start" x="8" y="-75.38" font-family="Helvetica,sans-Serif" font-size="10.00">Database::ASqlBackend</text>
-<text text-anchor="middle" x="60.5" y="-64.12" font-family="Helvetica,sans-Serif" font-size="10.00">::storeData</text>
+<g id="a_Node000008"><a xlink:href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="300.5,-116.5 157,-116.5 157,-86 300.5,-86 300.5,-116.5"/>
+<text text-anchor="start" x="165" y="-103" font-family="Helvetica,sans-Serif" font-size="10.00">Database::APhotoChangeLog</text>
+<text text-anchor="middle" x="228.75" y="-91.75" font-family="Helvetica,sans-Serif" font-size="10.00">Operator::storeDifference</text>
 </a>
 </g>
 </g>
@@ -140,36 +140,36 @@
 <g id="edge7_Node000001_Node000008" class="edge">
 <title>Node1&#45;&gt;Node8</title>
 <g id="a_edge7_Node000001_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M368.77,-153.99C351.38,-141.23 325.64,-124.22 300.5,-114.62 241.89,-92.26 170.54,-82.04 121.14,-77.41"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="366.2,-156.44 376.3,-159.66 370.41,-150.85 366.2,-156.44"/>
+<path fill="none" stroke="#63b8ff" d="M364.64,-166.26C346.99,-155.45 322.74,-141.2 300.5,-130.25 290.97,-125.56 280.49,-120.97 270.58,-116.87"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="362.56,-169.09 372.91,-171.38 366.25,-163.14 362.56,-169.09"/>
 </a>
 </g>
 </g>
 <!-- Node9 -->
 <g id="Node000009" class="node">
 <title>Node9</title>
-<g id="a_Node000009"><a xlink:href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="300.5,-67.88 157,-67.88 157,-37.38 300.5,-37.38 300.5,-67.88"/>
-<text text-anchor="start" x="165" y="-54.38" font-family="Helvetica,sans-Serif" font-size="10.00">Database::APhotoChangeLog</text>
-<text text-anchor="middle" x="228.75" y="-43.12" font-family="Helvetica,sans-Serif" font-size="10.00">Operator::storeDifference</text>
+<g id="a_Node000009"><a xlink:href="../../d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="249.12,-67.88 208.38,-67.88 208.38,-48.62 249.12,-48.62 249.12,-67.88"/>
+<text text-anchor="middle" x="228.75" y="-54.38" font-family="Helvetica,sans-Serif" font-size="10.00">TEST</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node9 -->
-<g id="edge8_Node000001_Node000009" class="edge">
+<g id="edge9_Node000001_Node000009" class="edge">
 <title>Node1&#45;&gt;Node9</title>
-<g id="a_edge8_Node000001_Node000009"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M375.02,-151.84C358.51,-132.16 330.31,-101.41 300.5,-81.62 292.87,-76.56 284.21,-72.12 275.63,-68.33"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="372.13,-153.84 381.18,-159.35 377.54,-149.4 372.13,-153.84"/>
+<g id="a_edge9_Node000001_Node000009"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M378.59,-162.74C363.66,-138.96 335.27,-99.22 300.5,-77.25 284.91,-67.4 264.28,-62.61 249.33,-60.31"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="375.5,-164.4 383.69,-171.13 381.48,-160.77 375.5,-164.4"/>
 </a>
 </g>
 </g>
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="../../d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="249.12,-19.25 208.38,-19.25 208.38,0 249.12,0 249.12,-19.25"/>
-<text text-anchor="middle" x="228.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">TEST</text>
+<g id="a_Node000010"><a xlink:href="../../db/d29/class_photo_1_1_explicit_delta.html#a95d074f58abb01db61cc054f5555eda9" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="278.38,-30.5 179.12,-30.5 179.12,0 278.38,0 278.38,-30.5"/>
+<text text-anchor="start" x="187.12" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::ExplicitDelta</text>
+<text text-anchor="middle" x="228.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::validate</text>
 </a>
 </g>
 </g>
@@ -177,17 +177,17 @@
 <g id="edge10_Node000001_Node000010" class="edge">
 <title>Node1&#45;&gt;Node10</title>
 <g id="a_edge10_Node000001_Node000010"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M382.72,-150.12C370.61,-119.02 343.34,-60.22 300.5,-28.62 285.56,-17.6 264.64,-12.97 249.43,-11.03"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="379.32,-151 386.09,-159.15 385.87,-148.56 379.32,-151"/>
+<path fill="none" stroke="#63b8ff" d="M382.5,-161.94C370.11,-131.07 342.46,-72.44 300.5,-39.25 294.09,-34.18 286.55,-30.15 278.83,-26.96"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="379.09,-162.82 385.96,-170.89 385.62,-160.3 379.09,-162.82"/>
 </a>
 </g>
 </g>
-<!-- Node9&#45;&gt;Node8 -->
-<g id="edge9_Node000009_Node000008" class="edge">
-<title>Node9&#45;&gt;Node8</title>
-<g id="a_edge9_Node000009_Node000008"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M145.61,-63C137.4,-64.04 129.18,-65.08 121.27,-66.08"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="145.78,-66.51 155.26,-61.78 144.9,-59.56 145.78,-66.51"/>
+<!-- Node8&#45;&gt;Node7 -->
+<g id="edge8_Node000008_Node000007" class="edge">
+<title>Node8&#45;&gt;Node7</title>
+<g id="a_edge8_Node000008_Node000007"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M145.61,-111.63C137.4,-112.66 129.18,-113.7 121.27,-114.7"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="145.78,-115.13 155.26,-110.41 144.9,-108.19 145.78,-115.13"/>
 </a>
 </g>
 </g>

@@ -45,19 +45,19 @@
 </a>
 </g>
 </g>
-<!-- Node4 -->
-<g id="Node000004" class="node">
-<title>Node4</title>
-<g id="a_Node000004"><a xlink:href="../../db/d29/class_photo_1_1_explicit_delta.html#acac3a734d9c10410e7d1615a3416a310" target="_top" xlink:title=" ">
+<!-- Node6 -->
+<g id="Node000006" class="node">
+<title>Node6</title>
+<g id="a_Node000006"><a xlink:href="../../db/d29/class_photo_1_1_explicit_delta.html#acac3a734d9c10410e7d1615a3416a310" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="119.5,-19.25 0,-19.25 0,0 119.5,0 119.5,-19.25"/>
 <text text-anchor="middle" x="59.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::ExplicitDelta::has</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node4 -->
-<g id="edge2_Node000001_Node000004" class="edge">
-<title>Node1&#45;&gt;Node4</title>
-<g id="a_edge2_Node000001_Node000004"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node6 -->
+<g id="edge2_Node000001_Node000006" class="edge">
+<title>Node1&#45;&gt;Node6</title>
+<g id="a_edge2_Node000001_Node000006"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M143.77,-22.03C136.2,-20.9 128.08,-19.68 119.98,-18.47"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="143.2,-25.48 153.61,-23.5 144.23,-18.56 143.2,-25.48"/>
 </a>

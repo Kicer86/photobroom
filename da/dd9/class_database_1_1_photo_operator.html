@@ -114,6 +114,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a24e714e7dd4bd6cd962c8231ce1081f0" id="r_a24e714e7dd4bd6cd962c8231ce1081f0"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0">getPhotos</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) override final</td></tr>
 <tr class="memdesc:a24e714e7dd4bd6cd962c8231ce1081f0"><td class="mdescLeft">&#160;</td><td class="mdescRight">find all photos matching filters  <br /></td></tr>
 <tr class="separator:a24e714e7dd4bd6cd962c8231ce1081f0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cfe1633a1785e793764ec88ccacd1c2" id="r_a0cfe1633a1785e793764ec88ccacd1c2"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a0cfe1633a1785e793764ec88ccacd1c2">fetchData</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;, const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;fields=<a class="el" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">Photo::AllFields</a>) override</td></tr>
+<tr class="memdesc:a0cfe1633a1785e793764ec88ccacd1c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch photos data  <br /></td></tr>
+<tr class="separator:a0cfe1633a1785e793764ec88ccacd1c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adf53bf4b4937460792849dbede9d7dd7" id="r_adf53bf4b4937460792849dbede9d7dd7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7">setPHash</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;, const <a class="el" href="../../d4/d50/namespace_photo.html#a4851e231522c227601522f215cef2d3d">Photo::PHashT</a> &amp;) override</td></tr>
 <tr class="separator:adf53bf4b4937460792849dbede9d7dd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb2efaf2200feb697c51bf35dad19e3d" id="r_afb2efaf2200feb697c51bf35dad19e3d"><td class="memItemLeft" align="right" valign="top">std::optional&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a4851e231522c227601522f215cef2d3d">Photo::PHashT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#afb2efaf2200feb697c51bf35dad19e3d">getPHash</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;) override</td></tr>
@@ -123,6 +126,10 @@ Public Member Functions</h2></td></tr>
 <tr class="inherit_header pub_methods_struct_database_1_1_i_photo_operator"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_struct_database_1_1_i_photo_operator')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html">Database::IPhotoOperator</a></td></tr>
 <tr class="memitem:a35870f8a459cbe26056387a2ccf1979e inherit pub_methods_struct_database_1_1_i_photo_operator" id="r_a35870f8a459cbe26056387a2ccf1979e"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#a35870f8a459cbe26056387a2ccf1979e">~IPhotoOperator</a> ()=default</td></tr>
 <tr class="separator:a35870f8a459cbe26056387a2ccf1979e inherit pub_methods_struct_database_1_1_i_photo_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a226a39f6bab6a190c4ff78d4d20aa2a9 inherit pub_methods_struct_database_1_1_i_photo_operator" id="r_a226a39f6bab6a190c4ff78d4d20aa2a9"><td class="memTemplParams" colspan="2">template&lt;Photo::Field... fields&gt; </td></tr>
+<tr class="memitem:a226a39f6bab6a190c4ff78d4d20aa2a9 inherit pub_methods_struct_database_1_1_i_photo_operator"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt; fields... &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#a226a39f6bab6a190c4ff78d4d20aa2a9">fetchData</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;filter)</td></tr>
+<tr class="memdesc:a226a39f6bab6a190c4ff78d4d20aa2a9 inherit pub_methods_struct_database_1_1_i_photo_operator"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch photos data  <br /></td></tr>
+<tr class="separator:a226a39f6bab6a190c4ff78d4d20aa2a9 inherit pub_methods_struct_database_1_1_i_photo_operator"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-types" name="pri-types"></a>
 Private Types</h2></td></tr>
@@ -136,6 +143,23 @@ Private Member Functions</h2></td></tr>
 <tr class="separator:a9683391f66d12745b7a7ba9bd695f265"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a308856b17ad3e63894f06306163b3b67" id="r_a308856b17ad3e63894f06306163b3b67"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a308856b17ad3e63894f06306163b3b67">processAction</a> (<a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#ad306a5531e38d4a518ae3f1c6f9a71b7">ActionContext</a> &amp;, const <a class="el" href="../../d0/d76/namespace_database.html#ae93ff7ad382ae688fd989e58927b075f">Action</a> &amp;) const</td></tr>
 <tr class="separator:a308856b17ad3e63894f06306163b3b67"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a30777aeebff4d46def665c959c4b3a69" id="r_a30777aeebff4d46def665c959c4b3a69"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, QString &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a30777aeebff4d46def665c959c4b3a69">getPaths</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) const</td></tr>
+<tr class="separator:a30777aeebff4d46def665c959c4b3a69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2332216039ab0c7b42229597298f5c97" id="r_a2332216039ab0c7b42229597298f5c97"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a2332216039ab0c7b42229597298f5c97">getTags</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) const</td></tr>
+<tr class="separator:a2332216039ab0c7b42229597298f5c97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2656b6c8ce25c2ee4de27e7ac788427d" id="r_a2656b6c8ce25c2ee4de27e7ac788427d"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a091bce950ce3e8bd8f927568286ff75a">Photo::FlagValues</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a2656b6c8ce25c2ee4de27e7ac788427d">getFlags</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) const</td></tr>
+<tr class="separator:a2656b6c8ce25c2ee4de27e7ac788427d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa54a5785634c030edfee01a46fd6d3c6" id="r_aa54a5785634c030edfee01a46fd6d3c6"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, QSize &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#aa54a5785634c030edfee01a46fd6d3c6">getGeometry</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) const</td></tr>
+<tr class="separator:aa54a5785634c030edfee01a46fd6d3c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adf83ed438ea163ba77a0612390a399e6" id="r_adf83ed438ea163ba77a0612390a399e6"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../d8/d51/struct_group_info.html">GroupInfo</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#adf83ed438ea163ba77a0612390a399e6">getGroups</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) const</td></tr>
+<tr class="separator:adf83ed438ea163ba77a0612390a399e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1740e657914b62fce569214ab1d8ccd5" id="r_a1740e657914b62fce569214ab1d8ccd5"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a4851e231522c227601522f215cef2d3d">Photo::PHashT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a1740e657914b62fce569214ab1d8ccd5">getPHashes</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) const</td></tr>
+<tr class="separator:a1740e657914b62fce569214ab1d8ccd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a353cf5ad2549713e76e0910d1bf9cb3e" id="r_a353cf5ad2549713e76e0910d1bf9cb3e"><td class="memItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, std::vector&lt; <a class="el" href="../../da/dbb/class_person_full_info.html">PersonFullInfo</a> &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a353cf5ad2549713e76e0910d1bf9cb3e">getPeople</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;) const</td></tr>
+<tr class="separator:a353cf5ad2549713e76e0910d1bf9cb3e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97a04c554ea0e4b9fbadbcc3036a9456" id="r_a97a04c554ea0e4b9fbadbcc3036a9456"><td class="memTemplParams" colspan="2">template&lt;typename T , typename C &gt; </td></tr>
+<tr class="memitem:a97a04c554ea0e4b9fbadbcc3036a9456"><td class="memTemplItemLeft" align="right" valign="top">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, T &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a97a04c554ea0e4b9fbadbcc3036a9456">getAny</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;, const QString &amp;, C op, const QString &amp;filterColumn=&quot;photo_id&quot;) const</td></tr>
+<tr class="separator:a97a04c554ea0e4b9fbadbcc3036a9456"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
@@ -269,6 +293,274 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a0cfe1633a1785e793764ec88ccacd1c2" name="a0cfe1633a1785e793764ec88ccacd1c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0cfe1633a1785e793764ec88ccacd1c2">&#9670;&#160;</a></span>fetchData()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt; Database::PhotoOperator::fetchData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fields</em> = <code><a class="el" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">Photo::AllFields</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">override</span><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>fetch photos data </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filter</td><td>photos to match </td></tr>
+    <tr><td class="paramname">fields</td><td>list of photo details to read</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of structures containing chosen fields of filtered photos </dd></dl>
+
+<p>Implements <a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#a881db7429ce4a32458352755955d659c">Database::IPhotoOperator</a>.</p>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a0cfe1633a1785e793764ec88ccacd1c2_cgraph.svg" width="392" height="559"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a97a04c554ea0e4b9fbadbcc3036a9456" name="a97a04c554ea0e4b9fbadbcc3036a9456"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a97a04c554ea0e4b9fbadbcc3036a9456">&#9670;&#160;</a></span>getAny()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T , typename C &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, T &gt; Database::PhotoOperator::getAny </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>queryStr</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">C&#160;</td>
+          <td class="paramname"><em>op</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QString &amp;&#160;</td>
+          <td class="paramname"><em>filterColumn</em> = <code>&quot;photo_id&quot;</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a97a04c554ea0e4b9fbadbcc3036a9456_cgraph.svg" width="415" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a2656b6c8ce25c2ee4de27e7ac788427d" name="a2656b6c8ce25c2ee4de27e7ac788427d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2656b6c8ce25c2ee4de27e7ac788427d">&#9670;&#160;</a></span>getFlags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a091bce950ce3e8bd8f927568286ff75a">Photo::FlagValues</a> &gt; Database::PhotoOperator::getFlags </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a2656b6c8ce25c2ee4de27e7ac788427d_icgraph.svg" width="392" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aa54a5785634c030edfee01a46fd6d3c6" name="aa54a5785634c030edfee01a46fd6d3c6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa54a5785634c030edfee01a46fd6d3c6">&#9670;&#160;</a></span>getGeometry()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, QSize &gt; Database::PhotoOperator::getGeometry </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_aa54a5785634c030edfee01a46fd6d3c6_icgraph.svg" width="392" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="adf83ed438ea163ba77a0612390a399e6" name="adf83ed438ea163ba77a0612390a399e6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#adf83ed438ea163ba77a0612390a399e6">&#9670;&#160;</a></span>getGroups()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../d8/d51/struct_group_info.html">GroupInfo</a> &gt; Database::PhotoOperator::getGroups </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_adf83ed438ea163ba77a0612390a399e6_icgraph.svg" width="392" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a30777aeebff4d46def665c959c4b3a69" name="a30777aeebff4d46def665c959c4b3a69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a30777aeebff4d46def665c959c4b3a69">&#9670;&#160;</a></span>getPaths()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, QString &gt; Database::PhotoOperator::getPaths </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a30777aeebff4d46def665c959c4b3a69_icgraph.svg" width="392" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a353cf5ad2549713e76e0910d1bf9cb3e" name="a353cf5ad2549713e76e0910d1bf9cb3e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a353cf5ad2549713e76e0910d1bf9cb3e">&#9670;&#160;</a></span>getPeople()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, std::vector&lt; <a class="el" href="../../da/dbb/class_person_full_info.html">PersonFullInfo</a> &gt; &gt; Database::PhotoOperator::getPeople </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a353cf5ad2549713e76e0910d1bf9cb3e_cgraph.svg" width="428" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a353cf5ad2549713e76e0910d1bf9cb3e_icgraph.svg" width="392" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="afb2efaf2200feb697c51bf35dad19e3d" name="afb2efaf2200feb697c51bf35dad19e3d"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#afb2efaf2200feb697c51bf35dad19e3d">&#9670;&#160;</a></span>getPHash()</h2>
 
@@ -303,6 +595,37 @@ Here is the call graph for this function:</div>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_afb2efaf2200feb697c51bf35dad19e3d_icgraph.svg" width="387" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a1740e657914b62fce569214ab1d8ccd5" name="a1740e657914b62fce569214ab1d8ccd5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1740e657914b62fce569214ab1d8ccd5">&#9670;&#160;</a></span>getPHashes()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../d4/d50/namespace_photo.html#a4851e231522c227601522f215cef2d3d">Photo::PHashT</a> &gt; Database::PhotoOperator::getPHashes </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a1740e657914b62fce569214ab1d8ccd5_icgraph.svg" width="392" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -342,7 +665,43 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a24e714e7dd4bd6cd962c8231ce1081f0_icgraph.svg" width="396" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a24e714e7dd4bd6cd962c8231ce1081f0_icgraph.svg" width="396" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a2332216039ab0c7b42229597298f5c97" name="a2332216039ab0c7b42229597298f5c97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a2332216039ab0c7b42229597298f5c97">&#9670;&#160;</a></span>getTags()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unordered_map&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a>, <a class="el" href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a> &gt; Database::PhotoOperator::getTags </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a2332216039ab0c7b42229597298f5c97_cgraph.svg" width="360" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../da/dd9/class_database_1_1_photo_operator_a2332216039ab0c7b42229597298f5c97_icgraph.svg" width="392" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -733,7 +1092,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:59 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:21 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

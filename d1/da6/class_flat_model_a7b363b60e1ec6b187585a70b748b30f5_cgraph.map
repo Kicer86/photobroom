@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,63,212,88"/>
 <area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a10e9daef6f559197140e219b1ffbd36c" title=" " alt="" coords="260,5,480,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,59,293,32,294,37,171,65"/>
-<area shape="rect" id="Node000003" href="$d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523" title="get particular photo" alt="" coords="301,55,439,96"/>
+<area shape="rect" id="Node000003" href="$d2/ddd/struct_database_1_1_i_backend.html#ac762cc3e374776d405c5854a0d7e02d2" title="fetch photo data" alt="" coords="301,55,439,96"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,73,286,73,286,78,212,78"/>
 <area shape="rect" id="Node000004" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="319,120,421,146"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="171,86,304,116,303,121,170,92"/>

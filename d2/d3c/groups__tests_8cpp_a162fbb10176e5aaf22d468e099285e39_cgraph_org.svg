@@ -20,7 +20,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/d1e/class_photo_1_1_data_delta.html#a440184f6e08922141b6773e9a6c31651" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="../../d7/d1e/class_photo_1_1_data_delta.html#a55488cc4549bc4d15c122c9f02f1dbad" target="_top" xlink:title="set hiven field to an empty value">
 <polygon fill="white" stroke="#666666" points="230,-163.66 115.75,-163.66 115.75,-144.41 230,-144.41 230,-163.66"/>
 <text text-anchor="middle" x="172.88" y="-150.16" font-family="Helvetica,sans-Serif" font-size="10.00">Photo::DataDelta::clear</text>
 </a>

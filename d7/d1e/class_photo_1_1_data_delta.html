@@ -109,6 +109,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a4e20dab36867e0c89032b534c963029f" id="r_a4e20dab36867e0c89032b534c963029f"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a> field&gt; </td></tr>
 <tr class="memitem:a4e20dab36867e0c89032b534c963029f"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f">insert</a> (const typename <a class="el" href="../../d1/d06/struct_photo_1_1_delta_types.html">DeltaTypes</a>&lt; field &gt;<a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html#ad44525b2824916b72ce2bef69c3a45af">::Storage</a> &amp;value)</td></tr>
 <tr class="separator:a4e20dab36867e0c89032b534c963029f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55488cc4549bc4d15c122c9f02f1dbad" id="r_a55488cc4549bc4d15c122c9f02f1dbad"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html#a55488cc4549bc4d15c122c9f02f1dbad">clear</a> (<a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a>)</td></tr>
+<tr class="memdesc:a55488cc4549bc4d15c122c9f02f1dbad"><td class="mdescLeft">&#160;</td><td class="mdescRight">set hiven field to an empty value  <br /></td></tr>
+<tr class="separator:a55488cc4549bc4d15c122c9f02f1dbad"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8a610541a977ccd70ba88e4c2315f9b5" id="r_a8a610541a977ccd70ba88e4c2315f9b5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html#a8a610541a977ccd70ba88e4c2315f9b5">setId</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;)</td></tr>
 <tr class="separator:a8a610541a977ccd70ba88e4c2315f9b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a440184f6e08922141b6773e9a6c31651" id="r_a440184f6e08922141b6773e9a6c31651"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html#a440184f6e08922141b6773e9a6c31651">clear</a> ()</td></tr>
@@ -129,6 +132,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab88a16f00e5cf33a4add15fb3f9132bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a937a374107a40054d349dfae25fd020f" id="r_a937a374107a40054d349dfae25fd020f"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">DataDelta</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html#a937a374107a40054d349dfae25fd020f">operator|=</a> (const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">DataDelta</a> &amp;)</td></tr>
 <tr class="separator:a937a374107a40054d349dfae25fd020f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7bfe5adff9e115e0848e4c4f66ee0fc0" id="r_a7bfe5adff9e115e0848e4c4f66ee0fc0"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">DataDelta</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html#a7bfe5adff9e115e0848e4c4f66ee0fc0">operator-</a> (<a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> field) const</td></tr>
+<tr class="memdesc:a7bfe5adff9e115e0848e4c4f66ee0fc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return copy of <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html" title="Structure containing chosen details of photo.">DataDelta</a> with given field removed.  <br /></td></tr>
+<tr class="separator:a7bfe5adff9e115e0848e4c4f66ee0fc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="properties" name="properties"></a>
 Properties</h2></td></tr>
@@ -277,7 +283,7 @@ Private Attributes</h2></td></tr>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a440184f6e08922141b6773e9a6c31651" name="a440184f6e08922141b6773e9a6c31651"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a440184f6e08922141b6773e9a6c31651">&#9670;&#160;</a></span>clear()</h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a440184f6e08922141b6773e9a6c31651">&#9670;&#160;</a></span>clear() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -290,10 +296,30 @@ Private Attributes</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+</div>
+</div>
+<a id="a55488cc4549bc4d15c122c9f02f1dbad" name="a55488cc4549bc4d15c122c9f02f1dbad"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a55488cc4549bc4d15c122c9f02f1dbad">&#9670;&#160;</a></span>clear() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Photo::DataDelta::clear </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a>&#160;</td>
+          <td class="paramname"><em>field</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>set hiven field to an empty value </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/d1e/class_photo_1_1_data_delta_a440184f6e08922141b6773e9a6c31651_icgraph.svg" width="316" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/d1e/class_photo_1_1_data_delta_a55488cc4549bc4d15c122c9f02f1dbad_icgraph.svg" width="378" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -497,6 +523,26 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a7bfe5adff9e115e0848e4c4f66ee0fc0" name="a7bfe5adff9e115e0848e4c4f66ee0fc0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7bfe5adff9e115e0848e4c4f66ee0fc0">&#9670;&#160;</a></span>operator-()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">DataDelta</a> Photo::DataDelta::operator- </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a>&#160;</td>
+          <td class="paramname"><em>field</em></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Return copy of <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html" title="Structure containing chosen details of photo.">DataDelta</a> with given field removed. </p>
+
+</div>
+</div>
 <a id="aa267f71f13031e0cedd582064cb85668" name="aa267f71f13031e0cedd582064cb85668"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#aa267f71f13031e0cedd582064cb85668">&#9670;&#160;</a></span>operator&lt;()</h2>
 
@@ -669,7 +715,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:59 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:22 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

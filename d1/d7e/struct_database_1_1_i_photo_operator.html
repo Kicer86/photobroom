@@ -100,6 +100,13 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:af4cadc51c5fb475fc6acf0a78b23193a" id="r_af4cadc51c5fb475fc6acf0a78b23193a"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#af4cadc51c5fb475fc6acf0a78b23193a">getPhotos</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;)=0</td></tr>
 <tr class="memdesc:af4cadc51c5fb475fc6acf0a78b23193a"><td class="mdescLeft">&#160;</td><td class="mdescRight">find all photos matching filters  <br /></td></tr>
 <tr class="separator:af4cadc51c5fb475fc6acf0a78b23193a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a881db7429ce4a32458352755955d659c" id="r_a881db7429ce4a32458352755955d659c"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#a881db7429ce4a32458352755955d659c">fetchData</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;filter, const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;fields=<a class="el" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">Photo::AllFields</a>)=0</td></tr>
+<tr class="memdesc:a881db7429ce4a32458352755955d659c"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch photos data  <br /></td></tr>
+<tr class="separator:a881db7429ce4a32458352755955d659c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a226a39f6bab6a190c4ff78d4d20aa2a9" id="r_a226a39f6bab6a190c4ff78d4d20aa2a9"><td class="memTemplParams" colspan="2">template&lt;Photo::Field... fields&gt; </td></tr>
+<tr class="memitem:a226a39f6bab6a190c4ff78d4d20aa2a9"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt; fields... &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#a226a39f6bab6a190c4ff78d4d20aa2a9">fetchData</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;filter)</td></tr>
+<tr class="memdesc:a226a39f6bab6a190c4ff78d4d20aa2a9"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch photos data  <br /></td></tr>
+<tr class="separator:a226a39f6bab6a190c4ff78d4d20aa2a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7531438d3e85963a717123e150c6de67" id="r_a7531438d3e85963a717123e150c6de67"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#a7531438d3e85963a717123e150c6de67">setPHash</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;, const <a class="el" href="../../d4/d50/namespace_photo.html#a4851e231522c227601522f215cef2d3d">Photo::PHashT</a> &amp;)=0</td></tr>
 <tr class="separator:a7531438d3e85963a717123e150c6de67"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af491d144024f3931020f74cb71b208c3" id="r_af491d144024f3931020f74cb71b208c3"><td class="memItemLeft" align="right" valign="top">virtual std::optional&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a4851e231522c227601522f215cef2d3d">Photo::PHashT</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#af491d144024f3931020f74cb71b208c3">getPHash</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;)=0</td></tr>
@@ -134,6 +141,102 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="a226a39f6bab6a190c4ff78d4d20aa2a9" name="a226a39f6bab6a190c4ff78d4d20aa2a9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a226a39f6bab6a190c4ff78d4d20aa2a9">&#9670;&#160;</a></span>fetchData() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;Photo::Field... fields&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::vector&lt; <a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt; fields... &gt; &gt; Database::IPhotoOperator::fetchData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>fetch photos data </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filter</td><td>photos to match </td></tr>
+    <tr><td class="paramname">fields</td><td>list of photo details to read</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of explicit structures containing chosen fields of filtered photos </dd></dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d7e/struct_database_1_1_i_photo_operator_a226a39f6bab6a190c4ff78d4d20aa2a9_cgraph.svg" width="400" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a881db7429ce4a32458352755955d659c" name="a881db7429ce4a32458352755955d659c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a881db7429ce4a32458352755955d659c">&#9670;&#160;</a></span>fetchData() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt; Database::IPhotoOperator::fetchData </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;&#160;</td>
+          <td class="paramname"><em>filter</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fields</em> = <code><a class="el" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">Photo::AllFields</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>fetch photos data </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">filter</td><td>photos to match </td></tr>
+    <tr><td class="paramname">fields</td><td>list of photo details to read</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>vector of structures containing chosen fields of filtered photos </dd></dl>
+
+<p>Implemented in <a class="el" href="../../da/dd9/class_database_1_1_photo_operator.html#a0cfe1633a1785e793764ec88ccacd1c2">Database::PhotoOperator</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d7e/struct_database_1_1_i_photo_operator_a881db7429ce4a32458352755955d659c_icgraph.svg" width="400" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="af491d144024f3931020f74cb71b208c3" name="af491d144024f3931020f74cb71b208c3"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#af491d144024f3931020f74cb71b208c3">&#9670;&#160;</a></span>getPHash()</h2>
 
@@ -192,7 +295,7 @@ Public Member Functions</h2></td></tr>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d7e/struct_database_1_1_i_photo_operator_af4cadc51c5fb475fc6acf0a78b23193a_icgraph.svg" width="448" height="167"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d1/d7e/struct_database_1_1_i_photo_operator_af4cadc51c5fb475fc6acf0a78b23193a_icgraph.svg" width="448" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -368,7 +471,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:59 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:21 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

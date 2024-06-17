@@ -110,20 +110,20 @@
 </a>
 </g>
 </g>
-<!-- Node58 -->
-<g id="Node000058" class="node">
-<title>Node58</title>
-<g id="a_Node000058"><a xlink:href="../../d4/dba/photo__crawler_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node59 -->
+<g id="Node000059" class="node">
+<title>Node59</title>
+<g id="a_Node000059"><a xlink:href="../../d4/dba/photo__crawler_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="816.12,-30.5 707.12,-30.5 707.12,0 816.12,0 816.12,-30.5"/>
 <text text-anchor="start" x="715.12" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">photos_crawler/photo</text>
 <text text-anchor="middle" x="761.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">_crawler.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node58 -->
-<g id="edge6_Node000001_Node000058" class="edge">
-<title>Node1&#45;&gt;Node58</title>
-<g id="a_edge6_Node000001_Node000058"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node59 -->
+<g id="edge6_Node000001_Node000059" class="edge">
+<title>Node1&#45;&gt;Node59</title>
+<g id="a_edge6_Node000001_Node000059"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M407.21,-74.08C473.13,-65.73 587.61,-50.34 695.75,-30.76"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="696.17,-34.24 705.38,-29 694.91,-27.35 696.17,-34.24"/>
 </a>

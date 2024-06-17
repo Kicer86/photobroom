@@ -1,5 +1,5 @@
 <map id="Database::getPhotoDelta" name="Database::getPhotoDelta">
 <area shape="rect" id="Node000001" title=" " alt="" coords="191,13,355,39"/>
-<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html#a5902be2ac25260b2ed0670c83d3209e4" title=" " alt="" coords="5,5,143,46"/>
+<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html#a5902be2ac25260b2ed0670c83d3209e4" title="fetch photo data" alt="" coords="5,5,143,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="175,28,143,28,143,23,175,23"/>
 </map>

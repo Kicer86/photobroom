@@ -1,7 +1,9 @@
 <map id="Database::PeopleInformationAccessor::listPeople" name="Database::PeopleInformationAccessor::listPeople">
-<area shape="rect" id="Node000001" title="list people on photo" alt="" coords="5,35,193,75"/>
-<area shape="rect" id="Node000002" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="241,5,430,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,41,225,37,226,42,193,46"/>
-<area shape="rect" id="Node000003" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="301,70,370,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="193,63,285,74,285,80,193,69"/>
+<area shape="rect" id="Node000001" title="list people on photo" alt="" coords="5,55,193,96"/>
+<area shape="rect" id="Node000002" href="$d0/d76/namespace_database.html#aa6552d7b9a792ed15a2f3c6d4c6ef710" title=" " alt="" coords="241,5,444,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,52,269,33,270,38,189,57"/>
+<area shape="rect" id="Node000004" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="248,55,437,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="193,73,232,73,232,78,193,78"/>
+<area shape="rect" id="Node000005" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="308,120,377,146"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="189,94,293,119,292,124,188,99"/>
 </map>

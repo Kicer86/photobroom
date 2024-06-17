@@ -1,6 +1,6 @@
 <map id="Database::ASqlBackend::photoOperator" name="Database::ASqlBackend::photoOperator">
 <area shape="rect" id="Node000001" title="get photo operator" alt="" coords="224,71,385,111"/>
-<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7" title="get particular photo" alt="" coords="10,5,171,46"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a32dc3997614090cc5978a8a40d2fe2b6" title="fetch photo data" alt="" coords="10,5,171,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,68,159,49,160,44,222,63"/>
 <area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a8e3356b06cf60068593e13c0997b85e6" title="mark all staged photos as reviewed." alt="" coords="5,71,176,111"/>
 <area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="208,94,176,94,176,88,208,88"/>

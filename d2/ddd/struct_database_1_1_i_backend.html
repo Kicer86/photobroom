@@ -123,11 +123,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a566e5e93d90f9747fd65b028d47812c5" id="r_a566e5e93d90f9747fd65b028d47812c5"><td class="memItemLeft" align="right" valign="top">virtual std::vector&lt; <a class="el" href="../../df/d7c/class_tag_value.html">TagValue</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a566e5e93d90f9747fd65b028d47812c5">listTagValues</a> (const <a class="el" href="../../da/dac/namespace_tag.html#aff207a07ada4bab29906bfbb4975a78b">Tag::Types</a> &amp;, const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;)=0</td></tr>
 <tr class="memdesc:a566e5e93d90f9747fd65b028d47812c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">list all values of tag for photos matching provided filter  <br /></td></tr>
 <tr class="separator:a566e5e93d90f9747fd65b028d47812c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a439e4f41fce9b9d813000bbcb4c59523" id="r_a439e4f41fce9b9d813000bbcb4c59523"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523">getPhotoDelta</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;, const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;={})=0</td></tr>
-<tr class="memdesc:a439e4f41fce9b9d813000bbcb4c59523"><td class="mdescLeft">&#160;</td><td class="mdescRight">get particular photo  <br /></td></tr>
-<tr class="separator:a439e4f41fce9b9d813000bbcb4c59523"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac762cc3e374776d405c5854a0d7e02d2" id="r_ac762cc3e374776d405c5854a0d7e02d2"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#ac762cc3e374776d405c5854a0d7e02d2">getPhotoDelta</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id, const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;fields=<a class="el" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">Photo::AllFields</a>)=0</td></tr>
+<tr class="memdesc:ac762cc3e374776d405c5854a0d7e02d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch photo data  <br /></td></tr>
+<tr class="separator:ac762cc3e374776d405c5854a0d7e02d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5902be2ac25260b2ed0670c83d3209e4" id="r_a5902be2ac25260b2ed0670c83d3209e4"><td class="memTemplParams" colspan="2">template&lt;Photo::Field... fields&gt; </td></tr>
 <tr class="memitem:a5902be2ac25260b2ed0670c83d3209e4"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../db/d29/class_photo_1_1_explicit_delta.html">Photo::ExplicitDelta</a>&lt; fields... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a5902be2ac25260b2ed0670c83d3209e4">getPhotoDelta</a> (const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;id)</td></tr>
+<tr class="memdesc:a5902be2ac25260b2ed0670c83d3209e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">fetch photo data  <br /></td></tr>
 <tr class="separator:a5902be2ac25260b2ed0670c83d3209e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6c31a15064fb59b1c04fb68093801d76" id="r_a6c31a15064fb59b1c04fb68093801d76"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a6c31a15064fb59b1c04fb68093801d76">getPhotosCount</a> (const <a class="el" href="../../d0/d76/namespace_database.html#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a> &amp;)=0</td></tr>
 <tr class="memdesc:a6c31a15064fb59b1c04fb68093801d76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Count photos matching filter.  <br /></td></tr>
@@ -235,11 +236,15 @@ requires std::is_enum_v&lt;E&gt;</td></tr>
 </div><div class="memdoc">
 
 <p>Add photos to database. </p>
-<ul>
-<li>photos details of photos to be stored. At least id and path need to be valid. <dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html" title="Structure containing chosen details of photo.">Photo::DataDelta</a> </dd></dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">photos</td><td>details of photos to be stored. At least id and path need to be valid. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section see"><dt>See also</dt><dd><a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html" title="Structure containing chosen details of photo.">Photo::DataDelta</a> </dd></dl>
 <dl class="section return"><dt>Returns</dt><dd>true if successful.</dd></dl>
-If operation is sucessful <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92" title="emited after new photos were added to database">photosAdded()</a> signal is emited. </li>
-</ul>
+<p>If operation is sucessful <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92" title="emited after new photos were added to database">photosAdded()</a> signal is emited. </p>
 
 <p>Implemented in <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a2564c757e1cb2fa493a1905b0c4993be">Database::ASqlBackend</a>, and <a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a9d9d28d5c6ca50aec66b845a364124a2">Database::MemoryBackend</a>.</p>
 <div class="dynheader">
@@ -291,11 +296,14 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>clear bits for provided flag </p>
-<ul>
-<li>id id of photo </li>
-<li>name flag name </li>
-<li>bits bits to be cleared (zeroed)</li>
-</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of photo </td></tr>
+    <tr><td class="paramname">name</td><td>flag name </td></tr>
+    <tr><td class="paramname">bits</td><td>bits to be cleared (zeroed)</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>This method is similar to <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a1e061ef0e8b1c3645f134171c4869bba">set</a> and <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a043cd4e3f933780157072a225cae861f">setBits</a> but allow to clear particular bits of stored value </p>
 
 <p>Implemented in <a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a49d7baf48856e386560b0dde241079f2">Database::MemoryBackend</a>, and <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a3e487165f32855d9aec8064fa48c65e3">Database::ASqlBackend</a>.</p>
@@ -376,11 +384,15 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>get flag value </p>
-<ul>
-<li>id id of photo </li>
-<li>name flag name <dl class="section return"><dt>Returns</dt><dd>flag value</dd></dl>
-Method reads flag value for given photo. </li>
-</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of photo </td></tr>
+    <tr><td class="paramname">name</td><td>flag name </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>flag value</dd></dl>
+<p>Method reads flag value for given photo. </p>
 
 <p>Implemented in <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a41e84695cdf694bf0cba52495164997c">Database::ASqlBackend</a>, and <a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a87db0727f9bbc52e5462317c5ca24218">Database::MemoryBackend</a>.</p>
 <div class="dynheader">
@@ -391,53 +403,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a439e4f41fce9b9d813000bbcb4c59523" name="a439e4f41fce9b9d813000bbcb4c59523"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a439e4f41fce9b9d813000bbcb4c59523">&#9670;&#160;</a></span>getPhotoDelta() <span class="overload">[1/2]</span></h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">virtual <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> Database::IBackend::getPhotoDelta </td>
-          <td>(</td>
-          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
-          <td class="paramname">, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;&#160;</td>
-          <td class="paramname"> = <code>{}</code>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>get particular photo </p>
-
-<p>Implemented in <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a8e8f34e5b5f23ed598c300c572765ff7">Database::ASqlBackend</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/ddd/struct_database_1_1_i_backend_a439e4f41fce9b9d813000bbcb4c59523_icgraph.svg" width="403" height="528"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-
-</div>
-</div>
 <a id="a5902be2ac25260b2ed0670c83d3209e4" name="a5902be2ac25260b2ed0670c83d3209e4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5902be2ac25260b2ed0670c83d3209e4">&#9670;&#160;</a></span>getPhotoDelta() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a5902be2ac25260b2ed0670c83d3209e4">&#9670;&#160;</a></span>getPhotoDelta() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -461,10 +428,78 @@ template&lt;Photo::Field... fields&gt; </div>
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>fetch photo data </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of photo to fetch </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">fields</td><td>list of photo details to read</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>explicit structure containing chosen fields </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/ddd/struct_database_1_1_i_backend_a5902be2ac25260b2ed0670c83d3209e4_cgraph.svg" width="360" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="ac762cc3e374776d405c5854a0d7e02d2" name="ac762cc3e374776d405c5854a0d7e02d2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac762cc3e374776d405c5854a0d7e02d2">&#9670;&#160;</a></span>getPhotoDelta() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> Database::IBackend::getPhotoDelta </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d4/d50/namespace_photo.html#a9c65ed4e3369e530428132eb0523b2a7">Photo::Id</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fields</em> = <code><a class="el" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">Photo::AllFields</a></code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>fetch photo data </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of photo to fetch </td></tr>
+    <tr><td class="paramname">fields</td><td>list of photo details to read</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>structure containing chosen fields </dd></dl>
+
+<p>Implemented in <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a32dc3997614090cc5978a8a40d2fe2b6">Database::ASqlBackend</a>.</p>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/ddd/struct_database_1_1_i_backend_ac762cc3e374776d405c5854a0d7e02d2_icgraph.svg" width="403" height="528"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -782,7 +817,7 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/ddd/struct_database_1_1_i_backend_adc910ee6092bc177fb89dd8cebca1870_icgraph.svg" width="415" height="446"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d2/ddd/struct_database_1_1_i_backend_adc910ee6092bc177fb89dd8cebca1870_icgraph.svg" width="415" height="544"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -953,11 +988,14 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Read blob of type <code>bt</code> associated with photo <code>id</code>. </p>
-<ul>
-<li>id photo id </li>
-<li>bt blob type <dl class="section return"><dt>Returns</dt><dd>raw data </dd></dl>
-</li>
-</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>photo id </td></tr>
+    <tr><td class="paramname">bt</td><td>blob type </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>raw data </dd></dl>
 
 <p>Implemented in <a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a7a0948f9ed7b0f9e2b5f2722a0b76165">Database::MemoryBackend</a>, and <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a3cb7010e9d0d5859441a34dc48ab0255">Database::ASqlBackend</a>.</p>
 <div class="dynheader">
@@ -1054,11 +1092,14 @@ requires std::is_enum_v&lt;E&gt;</div>
 </div><div class="memdoc">
 
 <p>set flag for photo to given value </p>
-<ul>
-<li>id id of photo </li>
-<li>name flag name </li>
-<li>value flag value to set</li>
-</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of photo </td></tr>
+    <tr><td class="paramname">name</td><td>flag name </td></tr>
+    <tr><td class="paramname">value</td><td>flag value to set</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Method sets flag with given value on photo with given id. </p>
 
 <p>Implemented in <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a">Database::ASqlBackend</a>, and <a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a8faea221710cc284da5eb0810aa1ed9e">Database::MemoryBackend</a>.</p>
@@ -1111,11 +1152,14 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>set bits for provided flag </p>
-<ul>
-<li>id id of photo </li>
-<li>name flag name </li>
-<li>bits bits to be set</li>
-</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>id of photo </td></tr>
+    <tr><td class="paramname">name</td><td>flag name </td></tr>
+    <tr><td class="paramname">bits</td><td>bits to be set</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>This method is similar to <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#a1e061ef0e8b1c3645f134171c4869bba">set</a> and <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html#aa2a9300036c9a979d277bf5ba1a7acd5">clearBits</a> but allow to set particular bits of stored value </p>
 
 <p>Implemented in <a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#a68bbcf60445b4c85ddc325e2c70e3fc6">Database::MemoryBackend</a>, and <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#aa6a769e34be141b0da34148e5a0c9250">Database::ASqlBackend</a>.</p>
@@ -1152,9 +1196,12 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>update photos details </p>
-<ul>
-<li>delta set of photos details to be updated</li>
-</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">delta</td><td>set of photos details to be updated</td></tr>
+  </table>
+  </dd>
+</dl>
 <p>Method updates (modifies or removes) photos details <br  />
 provided in <em>delta</em> <br  />
 If particular <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> is not stored in delta <br  />
@@ -1210,11 +1257,14 @@ Here is the caller graph for this function:</div>
 </div><div class="memdoc">
 
 <p>Write <code>blob</code> of type <code>bt</code>. </p>
-<ul>
-<li>id associated photo id </li>
-<li>bt blob type </li>
-<li>blob raw data </li>
-</ul>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">id</td><td>associated photo id </td></tr>
+    <tr><td class="paramname">bt</td><td>blob type </td></tr>
+    <tr><td class="paramname">blob</td><td>raw data </td></tr>
+  </table>
+  </dd>
+</dl>
 
 <p>Implemented in <a class="el" href="../../da/dba/class_database_1_1_memory_backend.html#abd20865b4025c2bd804202e6aadde35b">Database::MemoryBackend</a>, and <a class="el" href="../../d5/d1b/class_database_1_1_a_sql_backend.html#a23e52466215b03d13e6955a466bc27a1">Database::ASqlBackend</a>.</p>
 <div class="dynheader">
@@ -1231,7 +1281,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:59 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:21 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

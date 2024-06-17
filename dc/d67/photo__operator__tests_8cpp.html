@@ -79,10 +79,13 @@ $(function() {
   <div class="headertitle"><div class="title">photo_operator_tests.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><code>#include &quot;<a class="el" href="../../d3/dcf/json__to__backend_8hpp_source.html">database_tools/json_to_backend.hpp</a>&quot;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="../../d8/d43/core_2utils_8hpp_source.html">core/utils.hpp</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="../../d3/dcf/json__to__backend_8hpp_source.html">database_tools/json_to_backend.hpp</a>&quot;</code><br />
 <code>#include &quot;unit_tests_utils/sample_db.json.hpp&quot;</code><br />
 <code>#include &quot;unit_tests_utils/sample_db2.json.hpp&quot;</code><br />
 <code>#include &quot;unit_tests_utils/phash_db.json.hpp&quot;</code><br />
+<code>#include &quot;unit_tests_utils/rich_db.json.hpp&quot;</code><br />
+<code>#include &quot;<a class="el" href="../../d6/dae/ut__printers_8hpp_source.html">database/ut_printers.hpp</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="../../dd/d3a/common_8hpp_source.html">common.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for photo_operator_tests.cpp:</div>
@@ -117,6 +120,14 @@ Functions</h2></td></tr>
 <tr class="separator:a3d5b41b95d5550d7c97115c2fc81a15d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afab36bb9de4466def2cc9e038abf1d38" id="r_afab36bb9de4466def2cc9e038abf1d38"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d67/photo__operator__tests_8cpp.html#afab36bb9de4466def2cc9e038abf1d38">TYPED_TEST</a> (<a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>, removal)</td></tr>
 <tr class="separator:afab36bb9de4466def2cc9e038abf1d38"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38203023af32b4945c3b98598d1d9e83" id="r_a38203023af32b4945c3b98598d1d9e83"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d67/photo__operator__tests_8cpp.html#a38203023af32b4945c3b98598d1d9e83">TYPED_TEST</a> (<a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>, fetchDeltasForAllPhotos)</td></tr>
+<tr class="separator:a38203023af32b4945c3b98598d1d9e83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3399a9227da8927a88c6e862da11292b" id="r_a3399a9227da8927a88c6e862da11292b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d67/photo__operator__tests_8cpp.html#a3399a9227da8927a88c6e862da11292b">TYPED_TEST</a> (<a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>, fetchDeltasForSomePhotos)</td></tr>
+<tr class="separator:a3399a9227da8927a88c6e862da11292b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a005e5ef98f2d21b0c1a810ec97212606" id="r_a005e5ef98f2d21b0c1a810ec97212606"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d67/photo__operator__tests_8cpp.html#a005e5ef98f2d21b0c1a810ec97212606">TYPED_TEST</a> (<a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>, compareCompletness)</td></tr>
+<tr class="separator:a005e5ef98f2d21b0c1a810ec97212606"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a547aeefabd5fe61b703cee6cca925007" id="r_a547aeefabd5fe61b703cee6cca925007"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dc/d67/photo__operator__tests_8cpp.html#a547aeefabd5fe61b703cee6cca925007">TYPED_TEST</a> (<a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>, fetchPhotoParts)</td></tr>
+<tr class="separator:a547aeefabd5fe61b703cee6cca925007"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a1a863f5652024c55229f18c4693943b2" name="a1a863f5652024c55229f18c4693943b2"></a>
@@ -153,8 +164,140 @@ Functions</h2></td></tr>
 
 </div>
 </div>
+<a id="a005e5ef98f2d21b0c1a810ec97212606" name="a005e5ef98f2d21b0c1a810ec97212606"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a005e5ef98f2d21b0c1a810ec97212606">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[1/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPED_TEST </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">compareCompletness&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d67/photo__operator__tests_8cpp_a005e5ef98f2d21b0c1a810ec97212606_cgraph.svg" width="340" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a38203023af32b4945c3b98598d1d9e83" name="a38203023af32b4945c3b98598d1d9e83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38203023af32b4945c3b98598d1d9e83">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[2/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPED_TEST </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">fetchDeltasForAllPhotos&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d67/photo__operator__tests_8cpp_a38203023af32b4945c3b98598d1d9e83_cgraph.svg" width="340" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a3399a9227da8927a88c6e862da11292b" name="a3399a9227da8927a88c6e862da11292b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3399a9227da8927a88c6e862da11292b">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[3/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPED_TEST </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">fetchDeltasForSomePhotos&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d67/photo__operator__tests_8cpp_a3399a9227da8927a88c6e862da11292b_cgraph.svg" width="340" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a547aeefabd5fe61b703cee6cca925007" name="a547aeefabd5fe61b703cee6cca925007"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a547aeefabd5fe61b703cee6cca925007">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[4/12]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">TYPED_TEST </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../de/dfc/struct_photo_operator_test.html">PhotoOperatorTest</a>&#160;</td>
+          <td class="paramname">, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">fetchPhotoParts&#160;</td>
+          <td class="paramname">&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d67/photo__operator__tests_8cpp_a547aeefabd5fe61b703cee6cca925007_cgraph.svg" width="340" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a3fc2f9602213f1e9bcadf7f2ff3815aa" name="a3fc2f9602213f1e9bcadf7f2ff3815aa"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3fc2f9602213f1e9bcadf7f2ff3815aa">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[1/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3fc2f9602213f1e9bcadf7f2ff3815aa">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[5/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -187,7 +330,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="afab36bb9de4466def2cc9e038abf1d38" name="afab36bb9de4466def2cc9e038abf1d38"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afab36bb9de4466def2cc9e038abf1d38">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[2/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#afab36bb9de4466def2cc9e038abf1d38">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[6/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -214,13 +357,13 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d67/photo__operator__tests_8cpp_afab36bb9de4466def2cc9e038abf1d38_cgraph.svg" width="320" height="86"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/d67/photo__operator__tests_8cpp_afab36bb9de4466def2cc9e038abf1d38_cgraph.svg" width="320" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
 </div>
 <a id="a849a32c1651e7e411897d88f6fa18709" name="a849a32c1651e7e411897d88f6fa18709"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a849a32c1651e7e411897d88f6fa18709">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[3/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a849a32c1651e7e411897d88f6fa18709">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[7/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -253,7 +396,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a3d5b41b95d5550d7c97115c2fc81a15d" name="a3d5b41b95d5550d7c97115c2fc81a15d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3d5b41b95d5550d7c97115c2fc81a15d">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[4/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d5b41b95d5550d7c97115c2fc81a15d">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[8/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -286,7 +429,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a80292680927c56f10b9c842a3f4340de" name="a80292680927c56f10b9c842a3f4340de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a80292680927c56f10b9c842a3f4340de">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[5/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a80292680927c56f10b9c842a3f4340de">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[9/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,7 +462,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a59e00c7b000cec47f255e545fe4bb944" name="a59e00c7b000cec47f255e545fe4bb944"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a59e00c7b000cec47f255e545fe4bb944">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[6/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a59e00c7b000cec47f255e545fe4bb944">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[10/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -352,7 +495,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a8f5acb5e6fe4517d9d4eac7998b3af68" name="a8f5acb5e6fe4517d9d4eac7998b3af68"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8f5acb5e6fe4517d9d4eac7998b3af68">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[7/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f5acb5e6fe4517d9d4eac7998b3af68">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[11/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,7 +528,7 @@ Here is the call graph for this function:</div>
 </div>
 </div>
 <a id="a779acbc4a490d54b83e6563ce835e062" name="a779acbc4a490d54b83e6563ce835e062"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a779acbc4a490d54b83e6563ce835e062">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[8/8]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a779acbc4a490d54b83e6563ce835e062">&#9670;&#160;</a></span>TYPED_TEST() <span class="overload">[12/12]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -448,7 +591,7 @@ Here is the call graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:58 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:20 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

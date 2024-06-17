@@ -40,7 +40,7 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="../../db/d6e/class_collection_scanner.html#aec1d0106854a73c237d39ae58ff85ec1" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="../../db/d6e/class_collection_scanner.html#a6b68507f00dc1b05db6de8c9e368a302" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="99.25,-30.5 0,-30.5 0,0 99.25,0 99.25,-30.5"/>
 <text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">CollectionScanner::</text>
 <text text-anchor="middle" x="49.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">gotDBPhotos</text>

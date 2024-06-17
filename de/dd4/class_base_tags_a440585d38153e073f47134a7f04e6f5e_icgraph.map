@@ -1,7 +1,9 @@
 <map id="BaseTags::getType" name="BaseTags::getType">
-<area shape="rect" id="Node000001" title="Get structure describing tag." alt="" coords="215,46,347,72"/>
-<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adcb6eb7ac6bcd49815d7b7e0f670c602" title="get all tags assigned to photo" alt="" coords="5,5,167,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,48,167,42,168,37,200,43"/>
-<area shape="rect" id="Node000009" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb" title="list all values of tag for photos matching provided filter" alt="" coords="5,71,167,111"/>
-<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="200,75,168,80,167,75,199,70"/>
+<area shape="rect" id="Node000001" title="Get structure describing tag." alt="" coords="220,78,352,104"/>
+<area shape="rect" id="Node000002" href="$da/dd9/class_database_1_1_photo_operator.html#a2332216039ab0c7b42229597298f5c97" title=" " alt="" coords="5,5,172,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="229,75,151,49,153,44,231,70"/>
+<area shape="rect" id="Node000004" href="$d5/d1b/class_database_1_1_a_sql_backend.html#adcb6eb7ac6bcd49815d7b7e0f670c602" title="get all tags assigned to photo" alt="" coords="8,71,169,111"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="204,94,170,94,170,88,204,88"/>
+<area shape="rect" id="Node000011" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a378dcd419d61056d0fbdf57f969304cb" title="list all values of tag for photos matching provided filter" alt="" coords="8,136,169,177"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="231,112,153,138,151,133,229,107"/>
 </map>

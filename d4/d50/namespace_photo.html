@@ -160,6 +160,8 @@ requires std::is_same_v&lt;typename C::value_type, <a class="el" href="../../d7/
 <tr class="separator:a876cb7b0e4a9425a41ad8283bcf36cd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4f56c419b3674bafac3f5c360192b1e8" id="r_a4f56c419b3674bafac3f5c360192b1e8"><td class="memItemLeft" align="right" valign="top">const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d50/namespace_photo.html#a4f56c419b3674bafac3f5c360192b1e8">getPath</a> (const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;data)</td></tr>
 <tr class="separator:a4f56c419b3674bafac3f5c360192b1e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab3e400538726a76ca56222737a903494" id="r_ab3e400538726a76ca56222737a903494"><td class="memItemLeft" align="right" valign="top">const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">AllFields</a> (magic_enum::enum_values&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a> &gt;().begin(), magic_enum::enum_values&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a> &gt;().end())</td></tr>
+<tr class="separator:ab3e400538726a76ca56222737a903494"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af8b81e8f68d1f91da558e3e07cbfbd24" id="r_af8b81e8f68d1f91da558e3e07cbfbd24"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
 <tr class="memitem:af8b81e8f68d1f91da558e3e07cbfbd24"><td class="memTemplItemLeft" align="right" valign="top">const QString &amp;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/d50/namespace_photo.html#af8b81e8f68d1f91da558e3e07cbfbd24">getPath</a> (const T &amp;data)</td></tr>
 <tr class="separator:af8b81e8f68d1f91da558e3e07cbfbd24"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -169,6 +171,8 @@ requires std::is_same_v&lt;typename C::value_type, <a class="el" href="../../d7/
 <tr class="memitem:acfa4c22bb2d186512596cbe74c290e7a" id="r_acfa4c22bb2d186512596cbe74c290e7a"><td class="memTemplParams" colspan="2">template&lt;<a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a> field&gt; </td></tr>
 <tr class="memitem:acfa4c22bb2d186512596cbe74c290e7a"><td class="memTemplItemLeft" align="right" valign="top">bool&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="../../d4/d50/namespace_photo.html#acfa4c22bb2d186512596cbe74c290e7a">isLess</a> (const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;lhs, const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &amp;rhs)</td></tr>
 <tr class="separator:acfa4c22bb2d186512596cbe74c290e7a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3465206306cc8533a564db51af37ce83" id="r_a3465206306cc8533a564db51af37ce83"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d50/namespace_photo.html#a3465206306cc8533a564db51af37ce83">PrintTo</a> (const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">DataDelta</a> &amp;delta, ::std::ostream *os)</td></tr>
+<tr class="separator:a3465206306cc8533a564db51af37ce83"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Typedef Documentation</h2>
 <a id="a091bce950ce3e8bd8f927568286ff75a" name="a091bce950ce3e8bd8f927568286ff75a"></a>
@@ -341,6 +345,47 @@ requires std::is_same_v&lt;typename C::value_type, <a class="el" href="../../d7/
 </div>
 </div>
 <h2 class="groupheader">Function Documentation</h2>
+<a id="ab3e400538726a76ca56222737a903494" name="ab3e400538726a76ca56222737a903494"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab3e400538726a76ca56222737a903494">&#9670;&#160;</a></span>AllFields()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const std::set&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a> &gt; Photo::AllFields </td>
+          <td>(</td>
+          <td class="paramtype">magic_enum::enum_values&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a> &gt;&#160;</td>
+          <td class="paramname">).begin(, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">magic_enum::enum_values&lt; <a class="el" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a> &gt;&#160;</td>
+          <td class="paramname">).end(&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/d50/namespace_photo_ab3e400538726a76ca56222737a903494_icgraph.svg" width="350" height="126"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <a id="a594c3d326153119c0f9358f4277d62b9" name="a594c3d326153119c0f9358f4277d62b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a594c3d326153119c0f9358f4277d62b9">&#9670;&#160;</a></span>EDV() <span class="overload">[1/2]</span></h2>
 
@@ -500,10 +545,51 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
+<a id="a3465206306cc8533a564db51af37ce83" name="a3465206306cc8533a564db51af37ce83"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3465206306cc8533a564db51af37ce83">&#9670;&#160;</a></span>PrintTo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Photo::PrintTo </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">DataDelta</a> &amp;&#160;</td>
+          <td class="paramname"><em>delta</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">::std::ostream *&#160;</td>
+          <td class="paramname"><em>os</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d4/d50/namespace_photo_a3465206306cc8533a564db51af37ce83_cgraph.svg" width="430" height="138"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:59 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:22 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

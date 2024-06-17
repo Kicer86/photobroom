@@ -83,136 +83,136 @@ var sectionId = 'dynsection-0';
 </a>
 </g>
 </g>
-<!-- Node36 -->
-<g id="Node000036" class="node">
-<title>Node36</title>
-<g id="a_Node000036"><a xlink:title=" ">
+<!-- Node37 -->
+<g id="Node000037" class="node">
+<title>Node37</title>
+<g id="a_Node000037"><a xlink:title=" ">
 <polygon fill="#e0e0e0" stroke="#999999" points="250.12,-74.5 171.12,-74.5 171.12,-55.25 250.12,-55.25 250.12,-74.5"/>
 <text text-anchor="middle" x="210.62" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">QSqlDatabase</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node36 -->
-<g id="edge2_Node000001_Node000036" class="edge">
-<title>Node1&#45;&gt;Node36</title>
-<g id="a_edge2_Node000001_Node000036"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node37 -->
+<g id="edge2_Node000001_Node000037" class="edge">
+<title>Node1&#45;&gt;Node37</title>
+<g id="a_edge2_Node000001_Node000037"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M357.89,-110.06C323.08,-99.61 281.78,-87.22 251.79,-78.22"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="252.92,-74.91 242.34,-75.39 250.91,-81.61 252.92,-74.91"/>
-</a>
-</g>
-</g>
-<!-- Node37 -->
-<g id="Node000037" class="node">
-<title>Node37</title>
-<g id="a_Node000037"><a xlink:title=" ">
-<polygon fill="#e0e0e0" stroke="#999999" points="518.25,-19.25 455,-19.25 455,0 518.25,0 518.25,-19.25"/>
-<text text-anchor="middle" x="486.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">QSqlQuery</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node37 -->
-<g id="edge3_Node000001_Node000037" class="edge">
-<title>Node1&#45;&gt;Node37</title>
-<g id="a_edge3_Node000001_Node000037"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M354.16,-114.71C313.92,-102.5 275.72,-82.93 297.62,-55.25 315.48,-32.69 393.56,-20.37 443.61,-14.67"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="443.68,-18.18 453.25,-13.62 442.93,-11.22 443.68,-18.18"/>
 </a>
 </g>
 </g>
 <!-- Node38 -->
 <g id="Node000038" class="node">
 <title>Node38</title>
-<g id="a_Node000038"><a xlink:href="../../da/d2a/ibackend_8hpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000038"><a xlink:title=" ">
+<polygon fill="#e0e0e0" stroke="#999999" points="518.25,-19.25 455,-19.25 455,0 518.25,0 518.25,-19.25"/>
+<text text-anchor="middle" x="486.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">QSqlQuery</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node38 -->
+<g id="edge3_Node000001_Node000038" class="edge">
+<title>Node1&#45;&gt;Node38</title>
+<g id="a_edge3_Node000001_Node000038"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M354.16,-114.71C313.92,-102.5 275.72,-82.93 297.62,-55.25 315.48,-32.69 393.56,-20.37 443.61,-14.67"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="443.68,-18.18 453.25,-13.62 442.93,-11.22 443.68,-18.18"/>
+</a>
+</g>
+</g>
+<!-- Node39 -->
+<g id="Node000039" class="node">
+<title>Node39</title>
+<g id="a_Node000039"><a xlink:href="../../da/d2a/ibackend_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="422.5,-74.5 306.75,-74.5 306.75,-55.25 422.5,-55.25 422.5,-74.5"/>
 <text text-anchor="middle" x="364.62" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">database/ibackend.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node38 -->
-<g id="edge4_Node000001_Node000038" class="edge">
-<title>Node1&#45;&gt;Node38</title>
-<g id="a_edge4_Node000001_Node000038"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node39 -->
+<g id="edge4_Node000001_Node000039" class="edge">
+<title>Node1&#45;&gt;Node39</title>
+<g id="a_edge4_Node000001_Node000039"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M406.66,-110.32C398.44,-101.63 388.91,-91.55 381.01,-83.19"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="383.66,-80.91 374.24,-76.05 378.57,-85.72 383.66,-80.91"/>
 </a>
 </g>
 </g>
-<!-- Node48 -->
-<g id="Node000048" class="node">
-<title>Node48</title>
-<g id="a_Node000048"><a xlink:href="../../dd/dbe/query__structs_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node49 -->
+<g id="Node000049" class="node">
+<title>Node49</title>
+<g id="a_Node000049"><a xlink:href="../../dd/dbe/query__structs_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="532.88,-74.5 440.38,-74.5 440.38,-55.25 532.88,-55.25 532.88,-74.5"/>
 <text text-anchor="middle" x="486.62" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">query_structs.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node48 -->
-<g id="edge5_Node000001_Node000048" class="edge">
-<title>Node1&#45;&gt;Node48</title>
-<g id="a_edge5_Node000001_Node000048"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node49 -->
+<g id="edge5_Node000001_Node000049" class="edge">
+<title>Node1&#45;&gt;Node49</title>
+<g id="a_edge5_Node000001_Node000049"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M444.59,-110.32C452.81,-101.63 462.34,-91.55 470.24,-83.19"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="472.68,-85.72 477.01,-76.05 467.59,-80.91 472.68,-85.72"/>
-</a>
-</g>
-</g>
-<!-- Node50 -->
-<g id="Node000050" class="node">
-<title>Node50</title>
-<g id="a_Node000050"><a xlink:href="../../d0/d08/tables_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="610.75,-74.5 550.5,-74.5 550.5,-55.25 610.75,-55.25 610.75,-74.5"/>
-<text text-anchor="middle" x="580.62" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">tables.hpp</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node50 -->
-<g id="edge6_Node000001_Node000050" class="edge">
-<title>Node1&#45;&gt;Node50</title>
-<g id="a_edge6_Node000001_Node000050"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M474.24,-110.14C498.44,-100.08 527.01,-88.19 548.45,-79.26"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="549.67,-82.55 557.55,-75.48 546.98,-76.09 549.67,-82.55"/>
 </a>
 </g>
 </g>
 <!-- Node51 -->
 <g id="Node000051" class="node">
 <title>Node51</title>
-<g id="a_Node000051"><a xlink:href="../../dc/d48/isql__query__constructor_8hpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000051"><a xlink:href="../../d0/d08/tables_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="610.75,-74.5 550.5,-74.5 550.5,-55.25 610.75,-55.25 610.75,-74.5"/>
+<text text-anchor="middle" x="580.62" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">tables.hpp</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node51 -->
+<g id="edge6_Node000001_Node000051" class="edge">
+<title>Node1&#45;&gt;Node51</title>
+<g id="a_edge6_Node000001_Node000051"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M474.24,-110.14C498.44,-100.08 527.01,-88.19 548.45,-79.26"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="549.67,-82.55 557.55,-75.48 546.98,-76.09 549.67,-82.55"/>
+</a>
+</g>
+</g>
+<!-- Node52 -->
+<g id="Node000052" class="node">
+<title>Node52</title>
+<g id="a_Node000052"><a xlink:href="../../dc/d48/isql__query__constructor_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="760.38,-74.5 628.88,-74.5 628.88,-55.25 760.38,-55.25 760.38,-74.5"/>
 <text text-anchor="middle" x="694.62" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">isql_query_constructor.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node51 -->
-<g id="edge7_Node000001_Node000051" class="edge">
-<title>Node1&#45;&gt;Node51</title>
-<g id="a_edge7_Node000001_Node000051"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node52 -->
+<g id="edge7_Node000001_Node000052" class="edge">
+<title>Node1&#45;&gt;Node52</title>
+<g id="a_edge7_Node000001_Node000052"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M497.36,-113.17C544.16,-101.95 604.04,-87.6 645.49,-77.66"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="646.28,-81.07 655.19,-75.33 644.65,-74.26 646.28,-81.07"/>
 </a>
 </g>
 </g>
-<!-- Node53 -->
-<g id="Node000053" class="node">
-<title>Node53</title>
-<g id="a_Node000053"><a xlink:href="../../df/d40/isql__query__executor_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node54 -->
+<g id="Node000054" class="node">
+<title>Node54</title>
+<g id="a_Node000054"><a xlink:href="../../df/d40/isql__query__executor_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="898.38,-74.5 778.88,-74.5 778.88,-55.25 898.38,-55.25 898.38,-74.5"/>
 <text text-anchor="middle" x="838.62" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">isql_query_executor.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node53 -->
-<g id="edge9_Node000001_Node000053" class="edge">
-<title>Node1&#45;&gt;Node53</title>
-<g id="a_edge9_Node000001_Node000053"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node54 -->
+<g id="edge9_Node000001_Node000054" class="edge">
+<title>Node1&#45;&gt;Node54</title>
+<g id="a_edge9_Node000001_Node000054"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M497.09,-119.21C573.4,-107.3 693.52,-88.54 769.09,-76.74"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="769.52,-80.21 778.86,-75.21 768.44,-73.29 769.52,-80.21"/>
 </a>
 </g>
 </g>
-<!-- Node51&#45;&gt;Node37 -->
-<g id="edge8_Node000051_Node000037" class="edge">
-<title>Node51&#45;&gt;Node37</title>
-<g id="a_edge8_Node000051_Node000037"><a xlink:title=" ">
+<!-- Node52&#45;&gt;Node38 -->
+<g id="edge8_Node000052_Node000038" class="edge">
+<title>Node52&#45;&gt;Node38</title>
+<g id="a_edge8_Node000052_Node000038"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M659.34,-54.84C623.47,-45.66 567.87,-31.42 529.49,-21.6"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="530.68,-18.29 520.13,-19.2 528.95,-25.07 530.68,-18.29"/>
 </a>

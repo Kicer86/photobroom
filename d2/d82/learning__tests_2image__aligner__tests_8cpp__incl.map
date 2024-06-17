@@ -1,19 +1,22 @@
 <map id="src/core/learning_tests/image_aligner_tests.cpp" name="src/core/learning_tests/image_aligner_tests.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="345,5,511,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="347,5,512,46"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,102,99,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="345,45,234,67,111,97,102,99,101,94,110,91,233,62,344,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="347,45,234,67,111,97,102,99,101,94,110,91,233,62,346,39"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="123,102,237,127"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="373,49,230,98,228,93,371,44"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="374,49,230,98,229,93,372,44"/>
 <area shape="rect" id="Node000004" title=" " alt="" coords="261,102,321,127"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="398,49,324,95,321,91,395,44"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="399,49,324,95,322,91,396,44"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="344,102,392,127"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="417,48,387,90,383,87,412,45"/>
-<area shape="rect" id="Node000006" href="$d9/d0f/empty__logger_8hpp.html" title=" " alt="" coords="415,94,564,135"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="444,45,469,80,464,83,440,48"/>
-<area shape="rect" id="Node000012" href="$d2/d08/printers_8hpp.html" title=" " alt="" coords="587,102,768,127"/>
-<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="485,44,629,93,627,98,484,49"/>
-<area shape="rect" id="Node000017" href="$de/d87/containers__utils_8hpp.html" title=" " alt="" coords="792,102,928,127"/>
-<area shape="poly" id="edge7_Node000001_Node000017" title=" " alt="" coords="512,39,781,91,796,95,795,100,779,97,511,44"/>
-<area shape="rect" id="Node000023" href="$d6/d1d/image__aligner_8hpp.html" title=" " alt="" coords="952,102,1077,127"/>
-<area shape="poly" id="edge8_Node000001_Node000023" title=" " alt="" coords="511,32,708,55,940,91,956,95,955,100,940,97,707,60,511,37"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="418,48,387,91,383,88,413,45"/>
+<area shape="rect" id="Node000006" href="$db/dbd/generic__concepts_8hpp.html" title=" " alt="" coords="583,183,759,208"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="431,46,435,90,443,113,457,133,481,153,508,167,568,185,567,191,506,172,478,157,453,136,438,115,430,91,426,47"/>
+<area shape="rect" id="Node000009" href="$d9/d0f/empty__logger_8hpp.html" title=" " alt="" coords="467,94,616,135"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="456,44,506,82,503,87,453,49"/>
+<area shape="rect" id="Node000015" href="$d2/d08/printers_8hpp.html" title=" " alt="" coords="639,102,820,127"/>
+<area shape="poly" id="edge7_Node000001_Node000015" title=" " alt="" coords="499,44,673,94,672,99,497,49"/>
+<area shape="rect" id="Node000020" href="$de/d87/containers__utils_8hpp.html" title=" " alt="" coords="844,102,980,127"/>
+<area shape="poly" id="edge8_Node000001_Node000020" title=" " alt="" coords="513,37,662,60,833,91,849,95,848,100,831,97,661,66,512,42"/>
+<area shape="rect" id="Node000025" href="$d6/d1d/image__aligner_8hpp.html" title=" " alt="" coords="1004,102,1129,127"/>
+<area shape="poly" id="edge10_Node000001_Node000025" title=" " alt="" coords="513,31,730,53,862,70,992,91,1009,95,1008,100,992,97,861,75,730,58,512,36"/>
+<area shape="poly" id="edge9_Node000020_Node000006" title=" " alt="" coords="876,130,723,180,721,175,874,125"/>
 </map>

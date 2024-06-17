@@ -1,5 +1,7 @@
 <map id="Database::PeopleInformationAccessor::fingerprintsFor" name="Database::PeopleInformationAccessor::fingerprintsFor">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,193,46"/>
-<area shape="rect" id="Node000002" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="241,5,430,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,23,225,23,225,28,193,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,193,68"/>
+<area shape="rect" id="Node000002" href="$d0/d76/namespace_database.html#a214cbe8711df46c9d1292f16b344f2e9" title=" " alt="" coords="243,5,428,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="193,33,227,29,228,34,193,39"/>
+<area shape="rect" id="Node000004" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html#acfcd209fa4cb62eb1c1f99bbdd653131" title=" " alt="" coords="241,55,430,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="193,56,225,60,225,65,193,61"/>
 </map>

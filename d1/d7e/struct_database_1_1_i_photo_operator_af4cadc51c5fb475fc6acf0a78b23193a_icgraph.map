@@ -1,9 +1,7 @@
 <map id="Database::IPhotoOperator::getPhotos" name="Database::IPhotoOperator::getPhotos">
-<area shape="rect" id="Node000001" title="find all photos matching filters" alt="" coords="272,71,442,111"/>
+<area shape="rect" id="Node000001" title="find all photos matching filters" alt="" coords="272,39,442,79"/>
 <area shape="rect" id="Node000002" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,5,224,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="263,69,192,49,194,44,265,64"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,48,224,43,224,38,257,43"/>
 <area shape="rect" id="Node000005" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="42,71,187,111"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="256,94,187,94,187,88,256,88"/>
-<area shape="rect" id="Node000006" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="34,136,195,161"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="257,118,224,126,174,137,173,132,223,120,256,113"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="256,75,188,84,187,79,256,70"/>
 </map>

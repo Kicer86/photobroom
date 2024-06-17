@@ -1,14 +1,17 @@
 <map id="src/database/idatabase_plugin.hpp" name="src/database/idatabase_plugin.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="365,5,522,46"/>
-<area shape="rect" id="Node000002" href="$d6/da5/database__builder_8cpp.html" title=" " alt="" coords="5,94,194,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="351,53,178,96,177,91,349,48"/>
-<area shape="rect" id="Node000003" href="$d4/d34/ibackend__qt__interface_8hpp.html" title=" " alt="" coords="217,94,406,135"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="402,57,343,96,340,91,399,53"/>
-<area shape="rect" id="Node000020" href="$d0/df0/project__creator__dialog_8cpp.html" title=" " alt="" coords="523,183,682,238"/>
-<area shape="poly" id="edge3_Node000001_Node000020" title=" " alt="" coords="447,61,454,98,471,133,498,160,530,180,528,184,495,164,467,136,449,100,442,62"/>
-<area shape="rect" id="Node000021" href="$d6/d41/plugin__loader_8cpp.html" title=" " alt="" coords="481,94,657,135"/>
-<area shape="poly" id="edge4_Node000001_Node000021" title=" " alt="" coords="486,53,542,91,539,96,483,57"/>
-<area shape="rect" id="Node000022" href="$d2/dee/iproject__manager_8hpp.html" title=" " alt="" coords="681,94,841,135"/>
-<area shape="poly" id="edge5_Node000001_Node000022" title=" " alt="" coords="531,48,689,91,688,96,530,53"/>
-<area shape="poly" id="edge6_Node000022_Node000020" title=" " alt="" coords="716,145,649,184,647,180,713,141"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="323,5,479,46"/>
+<area shape="rect" id="Node000002" href="$d1/dab/plugin_8hpp.html" title=" " alt="" coords="159,183,315,238"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="307,33,224,39,138,50,64,69,37,81,19,96,9,114,11,130,22,145,42,158,97,179,159,194,158,200,95,184,39,163,19,148,6,132,4,113,15,92,35,77,63,64,137,45,224,34,307,27"/>
+<area shape="rect" id="Node000004" href="$d6/da5/database__builder_8cpp.html" title=" " alt="" coords="30,94,218,135"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="324,54,188,96,186,91,323,48"/>
+<area shape="rect" id="Node000005" href="$d4/d34/ibackend__qt__interface_8hpp.html" title=" " alt="" coords="242,94,430,135"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="379,60,353,95,348,92,375,57"/>
+<area shape="rect" id="Node000008" href="$d0/df0/project__creator__dialog_8cpp.html" title=" " alt="" coords="485,183,645,238"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="428,56,495,133,540,180,536,184,491,136,424,59"/>
+<area shape="rect" id="Node000009" href="$d6/d41/plugin__loader_8cpp.html" title=" " alt="" coords="505,94,681,135"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="460,50,551,91,549,96,457,55"/>
+<area shape="rect" id="Node000010" href="$d2/dee/iproject__manager_8hpp.html" title=" " alt="" coords="705,94,865,135"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="495,45,706,93,705,98,494,51"/>
+<area shape="poly" id="edge4_Node000005_Node000002" title=" " alt="" coords="306,147,268,184,264,180,303,143"/>
+<area shape="poly" id="edge8_Node000010_Node000008" title=" " alt="" coords="726,144,630,185,628,180,724,139"/>
 </map>

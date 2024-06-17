@@ -41,11 +41,11 @@
 <!-- Node4 -->
 <g id="Node000004" class="node">
 <title>Node4</title>
-<g id="a_Node000004"><a xlink:href="../../da/d0e/sqlite__backend_2backend_8hpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000004"><a xlink:href="../../d1/dab/plugin_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="284.38,-41.75 167.12,-41.75 167.12,0 284.38,0 284.38,-41.75"/>
 <text text-anchor="start" x="175.12" y="-28.25" font-family="Helvetica,sans-Serif" font-size="10.00">src/database/backends</text>
 <text text-anchor="start" x="175.12" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">/sql_backends/sqlite</text>
-<text text-anchor="middle" x="225.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">_backend/backend.hpp</text>
+<text text-anchor="middle" x="225.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">_backend/plugin.hpp</text>
 </a>
 </g>
 </g>

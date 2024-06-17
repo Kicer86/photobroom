@@ -5,5 +5,6 @@ var searchData=
   ['peopledata_2',['PeopleData',['../dd/d0a/class_face_editor.html#aa5b0237526eddeda3d01b1eba93ededd',1,'FaceEditor']]],
   ['phasht_3',['PHashT',['../d4/d50/namespace_photo.html#a4851e231522c227601522f215cef2d3d',1,'Photo']]],
   ['photodelta_4',['PhotoDelta',['../d2/dbb/class_photo_properties_model.html#a32a3d6a0e26dc00ab99211032aeaa0b5',1,'PhotoPropertiesModel']]],
-  ['process_5',['Process',['../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3',1,'ITaskExecutor']]]
+  ['photopaths_5',['PhotoPaths',['../db/d6e/class_collection_scanner.html#a5aeb5c78ccfe1c332cd4ced093f9e354',1,'CollectionScanner']]],
+  ['process_6',['Process',['../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3',1,'ITaskExecutor']]]
 ];

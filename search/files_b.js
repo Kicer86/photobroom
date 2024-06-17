@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['main_2ecpp_0',['main.cpp',['../df/d0a/main_8cpp.html',1,'(Global Namespace)'],['../d7/db8/gui_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../de/d84/database_2unit__tests__for__backends_2main_8cpp.html',1,'(Global Namespace)'],['../d0/db5/database_2unit__tests_2main_8cpp.html',1,'(Global Namespace)']]],
+  ['main_2ecpp_0',['main.cpp',['../df/d0a/main_8cpp.html',1,'(Global Namespace)'],['../d7/db8/gui_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../de/d84/database_2unit__tests__for__backends_2main_8cpp.html',1,'(Global Namespace)'],['../d0/db5/database_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../df/d50/database_2benchmarks_2main_8cpp.html',1,'(Global Namespace)']]],
   ['main_5ftab_2ecpp_1',['main_tab.cpp',['../d4/df5/main__tab_8cpp.html',1,'']]],
   ['main_5ftab_2ehpp_2',['main_tab.hpp',['../d1/dcc/main__tab_8hpp.html',1,'']]],
   ['mainwindow_2ecpp_3',['mainwindow.cpp',['../d8/dd9/mainwindow_8cpp.html',1,'']]],

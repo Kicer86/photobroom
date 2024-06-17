@@ -93,6 +93,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a74cc0f81d68641b94a3eeb81a99644b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad9380d07113cbf3ef47f5cbc6e8cfa05" id="r_ad9380d07113cbf3ef47f5cbc6e8cfa05"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dbb/class_person_full_info.html#ad9380d07113cbf3ef47f5cbc6e8cfa05">PersonFullInfo</a> (const <a class="el" href="../../d9/d7c/struct_person_data.html">PersonData</a> &amp;data)</td></tr>
 <tr class="separator:ad9380d07113cbf3ef47f5cbc6e8cfa05"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a02149252ac8d32ea6fd9ec64b78dd809" id="r_a02149252ac8d32ea6fd9ec64b78dd809"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dbb/class_person_full_info.html#a02149252ac8d32ea6fd9ec64b78dd809">PersonFullInfo</a> (const <a class="el" href="../../db/de4/class_person_name.html">PersonName</a> &amp;n, const <a class="el" href="../../da/d2c/class_person_fingerprint.html">PersonFingerprint</a> &amp;f, const QRect &amp;r, const <a class="el" href="../../dd/dc4/class_person_info.html#aea8b90f97da1055008393ef1841f05ea">PersonInfo::Id</a> &amp;id)</td></tr>
+<tr class="separator:a02149252ac8d32ea6fd9ec64b78dd809"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a873fb50519a88249b53033bf85153598" id="r_a873fb50519a88249b53033bf85153598"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../da/dbb/class_person_full_info.html#a873fb50519a88249b53033bf85153598">operator&lt;=&gt;</a> (const <a class="el" href="../../da/dbb/class_person_full_info.html">PersonFullInfo</a> &amp;) const =default</td></tr>
 <tr class="separator:a873fb50519a88249b53033bf85153598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -111,7 +113,7 @@ Public Attributes</h2></td></tr>
 <div class="textblock"><p>Container for all people related data (DB IDs + values) </p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a74cc0f81d68641b94a3eeb81a99644b3" name="a74cc0f81d68641b94a3eeb81a99644b3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a74cc0f81d68641b94a3eeb81a99644b3">&#9670;&#160;</a></span>PersonFullInfo() <span class="overload">[1/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#a74cc0f81d68641b94a3eeb81a99644b3">&#9670;&#160;</a></span>PersonFullInfo() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -136,7 +138,7 @@ Public Attributes</h2></td></tr>
 </div>
 </div>
 <a id="ad9380d07113cbf3ef47f5cbc6e8cfa05" name="ad9380d07113cbf3ef47f5cbc6e8cfa05"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad9380d07113cbf3ef47f5cbc6e8cfa05">&#9670;&#160;</a></span>PersonFullInfo() <span class="overload">[2/2]</span></h2>
+<h2 class="memtitle"><span class="permalink"><a href="#ad9380d07113cbf3ef47f5cbc6e8cfa05">&#9670;&#160;</a></span>PersonFullInfo() <span class="overload">[2/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -150,6 +152,54 @@ Public Attributes</h2></td></tr>
           <td class="paramtype">const <a class="el" href="../../d9/d7c/struct_person_data.html">PersonData</a> &amp;&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
           <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a02149252ac8d32ea6fd9ec64b78dd809" name="a02149252ac8d32ea6fd9ec64b78dd809"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a02149252ac8d32ea6fd9ec64b78dd809">&#9670;&#160;</a></span>PersonFullInfo() <span class="overload">[3/3]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">PersonFullInfo::PersonFullInfo </td>
+          <td>(</td>
+          <td class="paramtype">const <a class="el" href="../../db/de4/class_person_name.html">PersonName</a> &amp;&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../da/d2c/class_person_fingerprint.html">PersonFingerprint</a> &amp;&#160;</td>
+          <td class="paramname"><em>f</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const QRect &amp;&#160;</td>
+          <td class="paramname"><em>r</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const <a class="el" href="../../dd/dc4/class_person_info.html#aea8b90f97da1055008393ef1841f05ea">PersonInfo::Id</a> &amp;&#160;</td>
+          <td class="paramname"><em>id</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -251,7 +301,7 @@ Public Attributes</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:58 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:21 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

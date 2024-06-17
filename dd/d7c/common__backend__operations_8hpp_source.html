@@ -98,7 +98,7 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>        data.reserve(std::distance(first, last));</div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span> </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keywordflow">for</span>(; first != last; ++first)</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            data.push_back(backend.<a class="code hl_function" href="../../d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523">getPhotoDelta</a>(*first));</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>            data.push_back(backend.<a class="code hl_function" href="../../d2/ddd/struct_database_1_1_i_backend.html#ac762cc3e374776d405c5854a0d7e02d2">getPhotoDelta</a>(*first));</div>
 <div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">return</span> data;</div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    }</div>
@@ -110,11 +110,11 @@ $(document).ready(function() { init_codefold(1); });
 <div class="ttc" id="anamespace_database_html"><div class="ttname"><a href="../../d0/d76/namespace_database.html">Database</a></div><div class="ttdef"><b>Definition</b> actions.hpp:10</div></div>
 <div class="ttc" id="anamespace_database_html_a479c4f90cf4a75943214f51a61633fa1"><div class="ttname"><a href="../../d0/d76/namespace_database.html#a479c4f90cf4a75943214f51a61633fa1">Database::fetchPhotoData</a></div><div class="ttdeci">std::vector&lt; Photo::DataDelta &gt; fetchPhotoData(Database::IBackend &amp;backend, T first, T last)</div><div class="ttdef"><b>Definition</b> common_backend_operations.hpp:11</div></div>
 <div class="ttc" id="astruct_database_1_1_i_backend_html"><div class="ttname"><a href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a></div><div class="ttdoc">Low level database interface.</div><div class="ttdef"><b>Definition</b> ibackend.hpp:92</div></div>
-<div class="ttc" id="astruct_database_1_1_i_backend_html_a439e4f41fce9b9d813000bbcb4c59523"><div class="ttname"><a href="../../d2/ddd/struct_database_1_1_i_backend.html#a439e4f41fce9b9d813000bbcb4c59523">Database::IBackend::getPhotoDelta</a></div><div class="ttdeci">virtual Photo::DataDelta getPhotoDelta(const Photo::Id &amp;, const std::set&lt; Photo::Field &gt; &amp;={})=0</div><div class="ttdoc">get particular photo</div></div>
+<div class="ttc" id="astruct_database_1_1_i_backend_html_ac762cc3e374776d405c5854a0d7e02d2"><div class="ttname"><a href="../../d2/ddd/struct_database_1_1_i_backend.html#ac762cc3e374776d405c5854a0d7e02d2">Database::IBackend::getPhotoDelta</a></div><div class="ttdeci">virtual Photo::DataDelta getPhotoDelta(const Photo::Id &amp;id, const std::set&lt; Photo::Field &gt; &amp;fields=Photo::AllFields)=0</div><div class="ttdoc">fetch photo data</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 16 2024 10:16:57 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Mon Jun 17 2024 19:37:20 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

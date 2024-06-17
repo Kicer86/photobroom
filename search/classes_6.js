@@ -1,8 +1,8 @@
 var searchData=
 [
   ['generalflagstest_0',['GeneralFlagsTest',['../d1/d52/struct_general_flags_test.html',1,'']]],
-  ['generator_1',['Generator',['../d6/d0d/struct_photo_1_1details_1_1_generator.html',1,'Photo::details']]],
-  ['generator_3c_20arr_2c_20std_3a_3aindex_5fsequence_3c_20i_2e_2e_2e_20_3e_20_3e_2',['Generator&lt; arr, std::index_sequence&lt; I... &gt; &gt;',['../d3/d0a/struct_photo_1_1details_1_1_generator_3_01arr_00_01std_1_1index__sequence_3_01_i_8_8_8_01_4_01_4.html',1,'Photo::details']]],
+  ['generator_1',['generator',['../d4/ddf/structdetails_1_1_generator.html',1,'details::Generator&lt; arr, IS &gt;'],['../d6/d0d/struct_photo_1_1details_1_1_generator.html',1,'Photo::details::Generator&lt; arr, IS &gt;']]],
+  ['generator_3c_20arr_2c_20std_3a_3aindex_5fsequence_3c_20i_2e_2e_2e_20_3e_20_3e_2',['generator&lt; arr, std::index_sequence&lt; i... &gt; &gt;',['../d9/d65/structdetails_1_1_generator_3_01arr_00_01std_1_1index__sequence_3_01_i_8_8_8_01_4_01_4.html',1,'details::Generator&lt; arr, std::index_sequence&lt; I... &gt; &gt;'],['../d3/d0a/struct_photo_1_1details_1_1_generator_3_01arr_00_01std_1_1index__sequence_3_01_i_8_8_8_01_4_01_4.html',1,'Photo::details::Generator&lt; arr, std::index_sequence&lt; I... &gt; &gt;']]],
   ['genericanalyzer_3',['GenericAnalyzer',['../d2/d05/class_generator_utils_1_1_generic_analyzer.html',1,'GeneratorUtils']]],
   ['genericsqlqueryconstructor_4',['GenericSqlQueryConstructor',['../d0/d6d/class_database_1_1_generic_sql_query_constructor.html',1,'Database']]],
   ['genericsqlqueryconstructorimpl_5',['GenericSqlQueryConstructorImpl',['../d1/dff/struct_generic_sql_query_constructor_impl.html',1,'']]],

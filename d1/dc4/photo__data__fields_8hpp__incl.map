@@ -1,8 +1,10 @@
 <map id="src/database/photo_data_fields.hpp" name="src/database/photo_data_fields.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,138,46"/>
-<area shape="rect" id="Node000002" href="$dc/d82/photo__types_8hpp.html" title=" " alt="" coords="14,168,129,193"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,47,53,81,50,100,51,119,62,153,57,154,46,120,45,100,48,80,59,46"/>
-<area shape="rect" id="Node000012" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="61,94,178,120"/>
-<area shape="poly" id="edge2_Node000001_Node000012" title=" " alt="" coords="86,45,107,79,102,82,81,48"/>
-<area shape="poly" id="edge3_Node000012_Node000002" title=" " alt="" coords="114,121,90,156,86,153,109,118"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="96,5,229,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,125,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,48,93,86,90,82,137,44"/>
+<area shape="rect" id="Node000003" href="$dc/d82/photo__types_8hpp.html" title=" " alt="" coords="153,168,268,193"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="170,46,190,119,202,152,197,154,185,120,164,47"/>
+<area shape="rect" id="Node000013" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="200,94,317,120"/>
+<area shape="poly" id="edge3_Node000001_Node000013" title=" " alt="" coords="188,44,234,82,230,86,184,48"/>
+<area shape="poly" id="edge4_Node000013_Node000003" title=" " alt="" coords="253,121,229,156,225,153,248,118"/>
 </map>

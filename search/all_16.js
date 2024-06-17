@@ -1,7 +1,7 @@
 var searchData=
 [
   ['valid_0',['valid',['../db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed',1,'Id']]],
-  ['validate_1',['validate',['../df/d7c/class_tag_value.html#a72a7e0282b1e35067ebb0c5946da3509',1,'TagValue']]],
+  ['validate_1',['validate',['../db/d29/class_photo_1_1_explicit_delta.html#a95d074f58abb01db61cc054f5555eda9',1,'Photo::ExplicitDelta::validate()'],['../df/d7c/class_tag_value.html#a72a7e0282b1e35067ebb0c5946da3509',1,'TagValue::validate()']]],
   ['validateinputs_2',['validateInputs',['../de/d75/class_picture_item.html#a6580e1f5ed41bb04fde614ee3b86d8fa',1,'PictureItem']]],
   ['validmedia_3',['validMedia',['../d5/d40/class_q_m_l_flat_model.html#abb613fc7430f103de9693b1ce5c8a25d',1,'QMLFlatModel']]],
   ['validmediafilter_4',['validMediaFilter',['../d5/d40/class_q_m_l_flat_model.html#ae15867b9722cf2da12b8063c9eefdd6b',1,'QMLFlatModel']]],

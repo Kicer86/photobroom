@@ -1,8 +1,5 @@
 <map id="AHeavyListModel::clear" name="AHeavyListModel::clear">
-<area shape="rect" id="Node000001" title=" " alt="" coords="321,31,479,56"/>
-<area shape="rect" id="Node000002" href="$de/d3a/class_a_heavy_list_model.html#a6b6c46a6ea7bbe5b06b07ee783836204" title=" " alt="" coords="108,5,273,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="305,35,273,31,274,26,306,29"/>
-<area shape="rect" id="Node000003" href="$d4/d99/aheavy__list__model__tests_8cpp.html#af8cf8760cc4d7d42ef7965e514a360fc" title=" " alt="" coords="5,31,60,56"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="306,46,60,46,60,41,306,41"/>
-<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="93,37,61,42,60,37,92,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="219,5,377,31"/>
+<area shape="rect" id="Node000002" href="$de/d3a/class_a_heavy_list_model.html#a6b6c46a6ea7bbe5b06b07ee783836204" title=" " alt="" coords="5,5,171,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="203,21,171,21,171,16,203,16"/>
 </map>
