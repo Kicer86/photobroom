@@ -11,10 +11,12 @@ env:
   VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
 
 jobs:
-  windows-build:
-    runs-on: [windows-2022, ubuntu-24.04]
+  vcpkg-build:
     strategy:
       fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
