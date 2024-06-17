@@ -38,8 +38,9 @@ jobs:
         modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
 
     - name: disable debug build for vcpkg
-      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
-      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-linux.cmake
+      run: |
+        echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
+        echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-linux.cmake
 
     - name: Setup ccache
       uses: Chocobo1/setup-ccache-action@v1
