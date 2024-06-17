@@ -57,6 +57,11 @@ namespace Photo
                 m_data.insert_or_assign(field, value);
             }
 
+            /**
+             * @brief set hiven field to an empty value
+             */
+            void clear(Field);
+
             void setId(const Photo::Id &);
             void clear();
             bool has(Field) const;
@@ -86,6 +91,11 @@ namespace Photo
             bool operator<(const DataDelta &) const;
             bool operator==(const DataDelta &) const;
             DataDelta& operator|=(const DataDelta &);       // merge anothor delta into
+
+            /**
+             * @brief Return copy of DataDelta with given field removed
+             */
+            DataDelta operator-(Photo::Field field) const;
 
         private:
             typedef std::variant<

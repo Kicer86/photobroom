@@ -93,7 +93,7 @@ namespace Database
         virtual ~IBackend() = default;
 
         /** \brief Add photos to database
-         *  \arg photos details of photos to be stored. At least id and path need to be valid. \see Photo::DataDelta
+         *  @param photos details of photos to be stored. At least id and path need to be valid. \see Photo::DataDelta
          *  \return true if successful.
          *
          *  If operation is sucessful photosAdded() signal is emited.
@@ -102,7 +102,7 @@ namespace Database
 
         /**
          * \brief update photos details
-         * \arg delta set of photos details to be updated
+         * @param delta set of photos details to be updated
          *
          * Method updates (modifies or removes) photos details \n
          * provided in \a delta                                \n
@@ -116,9 +116,25 @@ namespace Database
         virtual std::vector<TagValue>    listTagValues(const Tag::Types &,
                                                        const Filter &) = 0;
 
-        /// get particular photo
-        virtual Photo::DataDelta  getPhotoDelta(const Photo::Id &, const std::set<Photo::Field> & = {}) = 0;
+        /**
+         * @brief fetch photo data
+         *
+         * @param id id of photo to fetch
+         * @param fields list of photo details to read
+         *
+         * @return structure containing chosen fields
+         */
+        virtual Photo::DataDelta  getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& fields = Photo::AllFields) = 0;
 
+        /**
+         * @brief fetch photo data
+         *
+         * @param id id of photo to fetch
+         * @tparam fields list of photo details to read
+         *
+         * @return explicit structure containing chosen fields
+         *
+         */
         template<Photo::Field... fields>
         Photo::ExplicitDelta<fields...>    getPhotoDelta(const Photo::Id& id)
         {
@@ -135,9 +151,9 @@ namespace Database
 
         /**
          * \brief set flag for photo to given value
-         * \arg id id of photo
-         * \arg name flag name
-         * \arg value flag value to set
+         * @param id id of photo
+         * @param name flag name
+         * @param value flag value to set
          *
          * Method sets flag with given value on photo with given id.
          */
@@ -152,8 +168,8 @@ namespace Database
 
         /**
          * \brief get flag value
-         * \arg id id of photo
-         * \arg name flag name
+         * @param id id of photo
+         * @param name flag name
          * \return flag value
          *
          * Method reads flag value for given photo.
@@ -162,9 +178,9 @@ namespace Database
 
         /**
          * @brief set bits for provided flag
-         * @arg id id of photo
-         * @arg name flag name
-         * @arg bits bits to be set
+         * @param id id of photo
+         * @param name flag name
+         * @param bits bits to be set
          *
          * This method is similar to @ref set and @ref clearBits but allow to set particular bits of stored value
          */
@@ -172,9 +188,9 @@ namespace Database
 
         /**
          * @brief clear bits for provided flag
-         * @arg id id of photo
-         * @arg name flag name
-         * @arg bits bits to be cleared (zeroed)
+         * @param id id of photo
+         * @param name flag name
+         * @param bits bits to be cleared (zeroed)
          *
          * This method is similar to @ref set and @ref setBits but allow to clear particular bits of stored value
          */
@@ -182,16 +198,16 @@ namespace Database
 
         /**
          * @brief Write @p blob of type @p bt
-         * @arg id associated photo id
-         * @arg bt blob type
-         * @arg blob raw data
+         * @param id associated photo id
+         * @param bt blob type
+         * @param blob raw data
          */
         virtual void writeBlob(const Photo::Id& id, const QString& bt, const QByteArray& blob) = 0;
 
         /**
          * @brief Read blob of type @p bt associated with photo @p id
-         * @arg id photo id
-         * @arg bt blob type
+         * @param id photo id
+         * @param bt blob type
          * @return raw data
          */
         virtual QByteArray readBlob(const Photo::Id& id, const QString& bt) = 0;

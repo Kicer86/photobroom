@@ -4,6 +4,9 @@
 #include "models/aheavy_list_model.hpp"
 
 using testing::Invoke;
+using testing::Return;
+using testing::NiceMock;
+
 
 class AHeavyListModelMock: public AHeavyListModel<int>
 {
@@ -26,7 +29,7 @@ TEST(AHeavyListModelTest, initialState)
 
 TEST(AHeavyListModelTest, process)
 {
-    AHeavyListModelMock model;
+    NiceMock<AHeavyListModelMock> model;
     EXPECT_CALL(model, loadData).WillOnce(
         Invoke(
             [&model](const std::stop_token, auto callback)
@@ -36,6 +39,8 @@ TEST(AHeavyListModelTest, process)
             }
         )
     );
+
+    ON_CALL(model, rowCount).WillByDefault(Return(0));
 
     model.reload();
     EXPECT_EQ(model.state(), AHeavyListModelMock::Loaded);

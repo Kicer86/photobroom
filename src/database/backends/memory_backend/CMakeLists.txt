@@ -19,9 +19,10 @@ target_link_libraries(database_memory_backend
         Qt::Core
         Boost::boost
 
+        database
+
     PRIVATE
         core
-        database
 )
 
 generate_export_header(database_memory_backend)

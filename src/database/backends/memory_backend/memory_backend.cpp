@@ -94,11 +94,13 @@ namespace Database
                 using T = std::decay_t<decltype(filter)>;
                 if constexpr (std::is_same_v<T, Database::FilterSimilarPhotos>)
                 {
-                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo) {
+                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo)
+                    {
                         return !photo.get<Photo::Field::PHash>().valid();
                     }), result.end());
 
-                    std::sort(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& lhs, const MemoryBackend::StoregeDelta& rhs) {
+                    std::sort(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& lhs, const MemoryBackend::StoregeDelta& rhs)
+                    {
                         return lhs.get<Photo::Field::PHash>() < rhs.get<Photo::Field::PHash>();
                     });
 
@@ -108,14 +110,15 @@ namespace Database
                 }
                 else if constexpr (std::is_same_v<T, Database::FilterPhotosWithPHash>)
                 {
-                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo) {
+                    result.erase(std::remove_if(result.begin(), result.end(), [](const MemoryBackend::StoregeDelta& photo)
+                    {
                         return !photo.get<Photo::Field::PHash>().valid();
                     }), result.end());
                 }
                 else if constexpr (std::is_same_v<T, Database::FilterPhotosWithGeneralFlag>)
                 {
-                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo) {
-
+                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo)
+                    {
                         int value = 0;
                         auto it = db.m_flags.find(photo.getId());
 
@@ -135,7 +138,8 @@ namespace Database
                 }
                 else if constexpr (std::is_same_v<T, Database::FilterFaceAnalysisStatus>)
                 {
-                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo) {
+                    result.erase(std::remove_if(result.begin(), result.end(), [&filter, &db](const MemoryBackend::StoregeDelta& photo)
+                    {
                         bool performed = false;
 
                         const auto ph_id = photo.getId();
@@ -156,6 +160,21 @@ namespace Database
 
                        return (filter.status == Database::FilterFaceAnalysisStatus::Performed && !performed) ||
                               (filter.status == Database::FilterFaceAnalysisStatus::NotPerformed && performed);
+                    }), result.end());
+                }
+                else if constexpr (std::is_same_v<T, Database::FilterPhotosWithTag>)
+                {
+                    result.erase(std::remove_if(result.begin(), result.end(), [&filter](const MemoryBackend::StoregeDelta& photo)
+                    {
+                        const auto& tags = photo.get<Photo::Field::Tags>();
+                        const auto it = tags.find(filter.tagType);
+
+                        if (it == tags.end())
+                            return true;
+                        else
+                        {
+                            return it->second != filter.tagValue;
+                        }
                     }), result.end());
                 }
 
@@ -232,7 +251,7 @@ namespace Database
             const Photo::Id id(m_db->m_nextPhotoId);
             delta.setId(id);
 
-            auto [it, i] = m_db->m_photos.insert(StoregeDelta(delta));
+            auto [it, i] = m_db->m_photos.insert(StoregeDelta(delta - Photo::Field::People));
             assert(i == true);
 
             if (delta.has(Photo::Field::People))
@@ -317,20 +336,15 @@ namespace Database
     }
 
 
-    Photo::DataDelta MemoryBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& _fields)
+    Photo::DataDelta MemoryBackend::getPhotoDelta(const Photo::Id& id, const std::set<Photo::Field>& fields)
     {
+        assert(fields.empty() == false);
+
         StoregeDelta storageDelta;
         auto it = m_db->m_photos.find(id);
 
         if (it != m_db->m_photos.end())
             storageDelta = *it;
-
-        std::set<Photo::Field> fields = _fields;
-        if (fields.empty())
-        {
-            const auto allEntries = magic_enum::enum_values<Photo::Field>();
-            fields.insert(allEntries.begin(), allEntries.end());
-        }
 
         Photo::DataDelta delta(id);
 
@@ -730,7 +744,7 @@ namespace Database
 
         std::vector<Photo::DataDelta> photo_data;
         for(const auto id: ids)
-            photo_data.push_back(getPhotoDelta(id, {}));
+            photo_data.push_back(getPhotoDelta(id, Photo::AllFields));
 
         onPhotos(photo_data, action);
 
@@ -753,6 +767,34 @@ namespace Database
             ids.push_back(photo.getId());
 
         return ids;
+    }
+
+
+    std::vector<Photo::DataDelta> MemoryBackend::fetchData(const Filter& filter, const std::set<Photo::Field>& fields)
+    {
+        assert(fields.empty() == false);
+
+        std::vector<StoregeDelta> data(m_db->m_photos.begin(), m_db->m_photos.end());
+        data = filterPhotos(data, *m_db, filter);
+
+        auto& peopleAccessor = peopleInformationAccessor();
+        std::vector<Photo::DataDelta> deltas;
+
+        for(const auto& d: data)
+        {
+            Photo::DataDelta delta(d.getId());
+            for_each<Photo::Field::Path, Photo::Field::Tags, Photo::Field::Geometry, Photo::Field::GroupInfo, Photo::Field::Flags, Photo::Field::PHash>(delta, d, fields);
+
+            if (fields.contains(Photo::Field::People))
+            {
+                const auto peopleData = peopleAccessor.listPeopleFull(delta.getId());
+                delta.insert<Photo::Field::People>(peopleData);
+            }
+
+            deltas.push_back(delta);
+        }
+
+        return deltas;
     }
 
 

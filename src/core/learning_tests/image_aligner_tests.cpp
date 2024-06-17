@@ -4,6 +4,7 @@
 #include <ranges>
 #include <QDir>
 
+#include <core/generic_concepts.hpp>
 #include <unit_tests_utils/empty_logger.hpp>
 #include <unit_tests_utils/printers.hpp>
 #include "containers_utils.hpp"
@@ -13,16 +14,6 @@ using testing::ElementsAre;
 
 namespace
 {
-    template<typename>
-    struct is_std_vector : std::false_type {};
-
-    template<typename T, typename A>
-    struct is_std_vector<std::vector<T,A>> : std::true_type {};
-
-
-    template<typename T> struct always_false : std::false_type {};
-
-
     template<typename T>
     bool areNotSimilar(const T& lhs, const T& rhs)
     {
@@ -33,14 +24,14 @@ namespace
     template<typename T>
     bool isSimilarToImpl(const T& arg, const T& v)
     {
-        if constexpr (is_std_vector<T>::value)
+        if constexpr (is_std_vector_v<T>)
         {
             const auto s = arg.size();
             assert(v.size() == s);
 
             using vector_value_type = T::value_type;
 
-            if constexpr (is_std_vector<vector_value_type>::value)            // vector in vector
+            if constexpr (is_std_vector_v<vector_value_type>)               // vector in vector
             {
                 for(std::size_t i = 0; i < s; i++)
                     if (isSimilarToImpl(arg[i], v[i]) == false)
@@ -65,7 +56,7 @@ namespace
                 return false;
         }
         else
-            static_assert(always_false<T>::value, "Argument type is not supported");
+            static_assert(always_false_v<T>, "Argument type is not supported");
 
         return true;
     }

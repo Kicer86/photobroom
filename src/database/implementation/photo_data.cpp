@@ -19,7 +19,10 @@
 
 #include <cassert>
 
+#include <core/utils.hpp>
+
 #include "photo_data.hpp"
+
 
 namespace Photo
 {
@@ -46,6 +49,19 @@ namespace Photo
     }
 
 
+    void DataDelta::clear(Field field)
+    {
+        // TODO: improve it
+        for_each<Field>([&](auto enum_v)
+        {
+            constexpr auto enum_value = decltype(enum_v)::value;
+
+            if (enum_value == field)
+                m_data[field] = typename DeltaTypes<enum_value>::Storage{};
+        });
+    }
+
+
     void DataDelta::setId(const Photo::Id& id)
     {
         assert(m_id.valid() == false);      // do we expect id to be set more than once?
@@ -68,7 +84,7 @@ namespace Photo
     }
 
 
-    const Id & DataDelta::getId() const
+    const Id& DataDelta::getId() const
     {
         return m_id;
     }
@@ -100,13 +116,20 @@ namespace Photo
                 const auto& otherFlags = std::get<DeltaTypes<Field::Flags>::Storage>(otherData.second);
 
                 flags.insert(otherFlags.begin(), otherFlags.end());
-
             }
             else
                 m_data.insert_or_assign(otherData.first, otherData.second);
         }
 
         return *this;
+    }
+
+    DataDelta DataDelta::operator-(Photo::Field field) const
+    {
+        DataDelta copy(*this);
+        copy.m_data.erase(field);
+
+        return copy;
     }
 
 

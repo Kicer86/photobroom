@@ -25,8 +25,10 @@
 
 #include "isql_query_executor.hpp"
 #include "isql_query_constructor.hpp"
-#include "tables.hpp"
 #include "query_structs.hpp"
+#include "tables.hpp"
+#include "utils.hpp"
+
 
 namespace Database
 {
@@ -107,11 +109,7 @@ namespace Database
                 if (query.isNull(2) == false)
                 {
                     const QVariant location_raw = query.value(2);
-                    const QStringList location_list = location_raw.toString().split(QRegularExpression("[ ,x]"));
-                    location = QRect(location_list[0].toInt(),
-                                     location_list[1].toInt(),
-                                     location_list[2].toInt(),
-                                     location_list[3].toInt());
+                    location = decodeFaceLocation(location_raw.toString());
                 }
 
                 result.emplace_back(id, pid, ph_id, f_id, location);
@@ -167,13 +165,7 @@ namespace Database
         {
             const PersonFingerprint::Id fid(query.value(0).toInt());
             const QByteArray raw_fingerprint = query.value(1).toByteArray();
-            const QList<QByteArray> splitted = raw_fingerprint.split(' ');
-
-            Person::Fingerprint fingerprint;
-            fingerprint.reserve(splitted.size());
-
-            for(const QByteArray& component: splitted)
-                fingerprint.push_back(component.toDouble());
+            const Person::Fingerprint fingerprint = decodeFingerprint(raw_fingerprint);
 
             result.emplace_back(fid, fingerprint);
         }

@@ -138,6 +138,13 @@ public:
         , name(data.name)
     {}
 
+    PersonFullInfo(const PersonName& n, const PersonFingerprint& f, const QRect& r, const PersonInfo::Id& id)
+        : position(r)
+        , fingerprint(f)
+        , name(n)
+        , pi_id(id)
+    {}
+
     QRect position;
     PersonFingerprint fingerprint;
     PersonName name;

@@ -1,13 +1,19 @@
 
+#include <core/utils.hpp>
+
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
 #include "unit_tests_utils/sample_db2.json.hpp"
 #include "unit_tests_utils/phash_db.json.hpp"
+#include "unit_tests_utils/rich_db.json.hpp"
+#include "database/ut_printers.hpp"
 
 #include "common.hpp"
 
+
 using testing::Contains;
 using testing::ElementsAre;
+using testing::UnorderedElementsAreArray;
 
 
 MATCHER_P(IsPhotoWithPath, _path, "") {
@@ -179,7 +185,74 @@ TYPED_TEST(PhotoOperatorTest, removal)
     // Some may ask Photo::DataDelta for it while photo is being deleted.
     // It is not convenient to protect them all against null result.
     // Instead db should mark such photos and delete them later (possibly on db close).
-    const Photo::DataDelta readData = this->m_backend->template getPhotoDelta<Photo::Field::Path>(id);    // TODO: for some reason Photo::DataDelta cannot be replaced with auto. gcc 12.1.1 bug?
-    const auto& readDataPath = readData.get<Photo::Field::Path>();
+    const auto readData = this->m_backend->template getPhotoDelta<Photo::Field::Path>(id);
+    const auto& readDataPath = readData.template get<Photo::Field::Path>();
     EXPECT_EQ(readDataPath, path);
+}
+
+
+TYPED_TEST(PhotoOperatorTest, fetchDeltasForAllPhotos)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(SampleDB::db2);
+
+    const auto photos = this->m_backend->photoOperator().fetchData(Database::EmptyFilter());
+
+    ASSERT_EQ(photos.size(), 21);
+}
+
+
+TYPED_TEST(PhotoOperatorTest, fetchDeltasForSomePhotos)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(SampleDB::db2);
+
+    const auto photos = this->m_backend->photoOperator().fetchData(Database::FilterPhotosWithTag(Tag::Types::Time, QTime(10, 0, 0)));
+
+    ASSERT_EQ(photos.size(), 7);
+}
+
+
+TYPED_TEST(PhotoOperatorTest, compareCompletness)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(RichDB::db1);
+
+    const auto filter = Database::FilterPhotosWithTag(Tag::Types::Time, QTime(10, 0, 0));
+    const auto fetchedPhotos = this->m_backend->photoOperator().fetchData(filter);
+    const auto ids = this->m_backend->photoOperator().getPhotos(filter);
+
+    std::vector<Photo::DataDelta> gotPhotos;
+    for (const auto id: ids)
+    {
+        const auto delta = this->m_backend->getPhotoDelta(id);
+        gotPhotos.push_back(delta);
+    }
+
+    // both methods should return the same set of data (possibily in different order)
+    EXPECT_THAT(fetchedPhotos, UnorderedElementsAreArray(gotPhotos));
+}
+
+
+TYPED_TEST(PhotoOperatorTest, fetchPhotoParts)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(RichDB::db1);
+
+    for_each<Photo::Field>([&](auto field)
+    {
+        constexpr auto constexpr_field = decltype(field)::value;
+        std::vector<Photo::ExplicitDelta<constexpr_field>> fromBackendPhotos;
+
+        const auto ids = this->m_backend->photoOperator().getPhotos({});
+        for (const auto id: ids)
+        {
+            Photo::ExplicitDelta<constexpr_field> fromBackendPhoto = this->m_backend->template getPhotoDelta<constexpr_field>(id);
+            fromBackendPhotos.push_back(fromBackendPhoto);
+        }
+
+        const auto fromOperatorPhotos = this->m_backend->photoOperator().template fetchData<constexpr_field>({});
+
+        EXPECT_THAT(fromBackendPhotos, UnorderedElementsAreArray(fromOperatorPhotos));
+    });
 }

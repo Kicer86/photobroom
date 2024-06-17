@@ -45,6 +45,7 @@ namespace Database
             std::vector<Photo::Id> onPhotos(const Filter &, const Action &) override;
 
             std::vector<Photo::Id> getPhotos(const Filter &) override final;
+            std::vector<Photo::DataDelta> fetchData(const Filter &, const std::set<Photo::Field>& fields = Photo::AllFields) override;
 
             void setPHash(const Photo::Id &, const Photo::PHashT & ) override;
             std::optional<Photo::PHashT> getPHash(const Photo::Id &) override;
@@ -68,6 +69,17 @@ namespace Database
 
             std::vector<Photo::Id> fetch(QSqlQuery &) const;
             void processAction(ActionContext &, const Action &) const;
+
+            std::unordered_map<Photo::Id, QString> getPaths(const Filter &) const;
+            std::unordered_map<Photo::Id, Tag::TagsList> getTags(const Filter &) const;
+            std::unordered_map<Photo::Id, Photo::FlagValues> getFlags(const Filter &) const;
+            std::unordered_map<Photo::Id, QSize> getGeometry(const Filter &) const;
+            std::unordered_map<Photo::Id, GroupInfo> getGroups(const Filter &) const;
+            std::unordered_map<Photo::Id, Photo::PHashT> getPHashes(const Filter &) const;
+            std::unordered_map<Photo::Id, std::vector<PersonFullInfo>> getPeople(const Filter &) const;
+
+            template<typename T, typename C>
+            std::unordered_map<Photo::Id, T> getAny(const Filter &, const QString &, C op, const QString& filterColumn = "photo_id") const;
     };
 }
 

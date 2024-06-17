@@ -18,7 +18,8 @@ set(SOURCES
         query_structs.cpp
         sql_filter_query_generator.cpp
         sql_query_executor.cpp
-    )
+        utils.cpp
+)
 
 set(HEADERS
         generic_sql_query_constructor.hpp
@@ -35,11 +36,27 @@ set(HEADERS
         query_structs.hpp
         sql_filter_query_generator.hpp
         sql_query_executor.hpp
-    )
+)
 
 add_library(sql_backend_base SHARED ${SOURCES} ${HEADERS})
-target_link_libraries(sql_backend_base PRIVATE database core Qt::Core Qt::Sql Qt::Gui)
-target_include_directories(sql_backend_base PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
+
+target_link_libraries(sql_backend_base
+    PUBLIC
+        Qt::Sql
+
+    PRIVATE
+        Qt::Core
+        Qt::Gui
+
+        database
+        core
+)
+
+target_include_directories(sql_backend_base
+    PUBLIC
+    ${CMAKE_CURRENT_BINARY_DIR}
+)
+
 hideSymbols(sql_backend_base)
 generate_export_header(sql_backend_base)
 

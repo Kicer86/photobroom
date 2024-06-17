@@ -29,6 +29,7 @@ class Id
 {
     public:
         typedef T type;
+        typedef Tag tag;
 
         Id()
         {
@@ -119,6 +120,16 @@ class Id
     private:
         T m_value = {};
         bool m_valid = false;
+};
+
+
+template<typename T, typename Tag>
+struct std::hash<Id<T, Tag>>
+{
+    std::size_t operator()(const Id<T, Tag>& k) const
+    {
+        return k.value();
+    }
 };
 
 #endif

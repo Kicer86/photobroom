@@ -11,7 +11,7 @@ if(POLICY CMP0146)
 endif()
 
 if(POLICY CMP0160)
-    cmake_policy(SET CMP0160 OLD)
+    cmake_policy(SET CMP0160 NEW)
 endif()
 
 set(CMAKE_MODULE_PATH
