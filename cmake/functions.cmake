@@ -188,6 +188,7 @@ function(convertSVG output_file input_file width height)
 
         add_custom_command(OUTPUT ${output_file}
             COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${input_file} ${output_file} ${resize}
+            DEPENDS ${PROJECT_SOURCE_DIR}/tools/svg2any.py
             DEPENDS ${input_file}
         )
     elseif(A_PB_IMAGE_CONVERTER STREQUAL "MAGICK")
