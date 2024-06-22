@@ -158,10 +158,10 @@ INSTANTIATE_TEST_SUITE_P
                 std::vector<long>{1, 0, 0,    0, 1, 0,     0, 0, 1},
                 std::vector<long>{1, 0, -20,  0, 1, 0,     0, 0, 1},
                 std::vector<long>{1, 0, 20,   0, 1, 0,     0, 0, 1},
-                std::vector<long>{1, 0, 112,  0, 1, -139,  0, 0, 1},
-                std::vector<long>{1, 0, -86,  0, 1, 157,   0, 0, 1},
+                std::vector<long>{1, 0, 84,   0, 1, -104,  0, 0, 1},
+                std::vector<long>{1, 0, -64,  0, 1, 118,   0, 0, 1},
             },
-            QRect(86, 140, 1488, 840)
+            QRect(64, 105, 1132, 630)
         }
     )
 );

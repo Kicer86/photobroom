@@ -33,7 +33,15 @@ namespace
         const cv::TermCriteria criteria (cv::TermCriteria::COUNT + cv::TermCriteria::EPS, number_of_iterations, termination_eps);
 
         cv::Mat warp_matrix = cv::Mat::eye(3, 3, CV_32F);
-        cv::findTransformECC(referenceImageGray, imageGray, warp_matrix, cv::MOTION_HOMOGRAPHY, criteria);
+
+        try
+        {
+            cv::findTransformECC(referenceImageGray, imageGray, warp_matrix, cv::MOTION_HOMOGRAPHY, criteria);
+        }
+        catch(const cv::Exception& error)
+        {
+
+        }
 
         return warp_matrix;
     }
