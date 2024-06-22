@@ -23,6 +23,7 @@ add_custom_command(OUTPUT alterd_images/generated
     COMMAND ${CMAKE_COMMAND} -E copy img1.png alterd_images/img1_.png
     COMMAND ${CMAKE_COMMAND} -E copy img2.png alterd_images/img2_.png
     COMMAND ${CMAKE_COMMAND} -E touch alterd_images/generated
+    DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py
     DEPENDS img1.png
     DEPENDS img2.png
 )

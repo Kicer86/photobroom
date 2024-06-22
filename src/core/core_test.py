@@ -11,8 +11,8 @@ def crop_image(input_path, output_path, left=0, top=0, right=0, bottom=0):
 
 def move_image(input_path, output_path, x_offset=0, y_offset=0):
     original_image = Image.open(input_path)
-    moved_image = Image.new("RGB", original_image.size)
-    moved_image.paste(original_image, (x_offset, y_offset))
+    moved_image = Image.new("RGB", original_image.size, color = (255, 255, 255))
+    moved_image.paste(original_image, (x_offset, y_offset), mask=original_image)
     moved_image.save(output_path)
 
 def rotate_image(input_path, output_path, angle=0):
