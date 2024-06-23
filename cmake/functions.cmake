@@ -188,6 +188,7 @@ function(convertSVG output_file input_file width height)
 
         add_custom_command(OUTPUT ${output_file}
             COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${input_file} ${output_file} ${resize}
+            DEPENDS ${PROJECT_SOURCE_DIR}/tools/svg2any.py
             DEPENDS ${input_file}
         )
     elseif(A_PB_IMAGE_CONVERTER STREQUAL "MAGICK")
@@ -201,13 +202,14 @@ function(convertSVG output_file input_file width height)
             set(resize -resize ${width}x${height})
         endif()
 
+        set(output_opts)
         get_filename_component(output_file_ext ${output_file} EXT)
-        if(${output_file_ext} STREQUAL "png")
-            set(output_file "png32:${output_file}")
+        if(${output_file_ext} STREQUAL ".png")
+            set(output_opts "PNG24:")
         endif()
 
         add_custom_command(OUTPUT ${output_file}
-            COMMAND ${Magick} convert ${input_file} ${resize} ${output_file}
+            COMMAND ${CMAKE_COMMAND} -E env NO_AT_BRIDGE=1 ${Magick} ${input_file} ${resize} ${output_opts}${output_file}
             DEPENDS ${input_file}
         )
     else()

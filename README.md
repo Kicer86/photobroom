@@ -8,6 +8,7 @@ For build instructions see build.txt file in 'docs' directory.
 Icons used from [www.flaticon.com](https://www.flaticon.com/):
  - [Pixel perfect](https://www.flaticon.com/authors/pixel-perfect)
  - [Freepik](https://www.freepik.com)
+ - [vector_corp on Freepik](https://www.freepik.com/free-vector/hand-sketch-mandala-fox-outline-design_71867692.htm#fromView=search&page=1&position=6&uuid=3db04db9-9b6f-4a72-86bf-ba8891ab88d5)
 
 [![Build-Linux](https://github.com/Kicer86/photobroom/actions/workflows/linux-build.yml/badge.svg)](https://github.com/Kicer86/photobroom/actions/workflows/linux-build.yml)
 [![Build-Windows](https://github.com/Kicer86/photobroom/actions/workflows/windows-build.yml/badge.svg)](https://github.com/Kicer86/photobroom/actions/workflows/windows-build.yml)

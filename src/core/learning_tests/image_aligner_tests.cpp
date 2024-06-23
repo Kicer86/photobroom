@@ -127,7 +127,7 @@ INSTANTIATE_TEST_SUITE_P
                 std::vector<long>{1, 0, 189,   0, 1, -158,  0, 0, 1},
                 std::vector<long>{1, 0, -158,  0, 1, 189,   0, 0, 1},
             },
-            QRect(158, 159, 1631, 1651)
+            QRect(159, 159, 1652, 1652)
         },
         TestParams
         {
@@ -136,13 +136,13 @@ INSTANTIATE_TEST_SUITE_P
                 "alterd_images/img1_.png",
                 "alterd_images/img1_.png",
             },
-            true,
+            strictMode,
             {
                 std::vector<long>{1, 0, 0,  0, 1, 0,  0, 0, 1},
                 std::vector<long>{1, 0, 0,  0, 1, 0,  0, 0, 1},
                 std::vector<long>{1, 0, 0,  0, 1, 0,  0, 0, 1},
             },
-            QRect(0, 0, 1999, 1999)
+            QRect(1, 1, 1999, 1999)
         },
         TestParams
         {
@@ -155,13 +155,13 @@ INSTANTIATE_TEST_SUITE_P
             },
             strictMode,
             {
-                std::vector<long>{1, 0, 0,    0, 1, 0,     0, 0, 1},
-                std::vector<long>{1, 0, -20,  0, 1, 0,     0, 0, 1},
-                std::vector<long>{1, 0, 20,   0, 1, 0,     0, 0, 1},
-                std::vector<long>{1, 0, 112,  0, 1, -139,  0, 0, 1},
-                std::vector<long>{1, 0, -86,  0, 1, 157,   0, 0, 1},
+                std::vector<long>{1, 0, 0,    0, 1, 0,    0, 0, 1},
+                std::vector<long>{1, 0, -20,  0, 1, 0,    0, 0, 1},
+                std::vector<long>{1, 0, 20,   0, 1, 0,    0, 0, 1},
+                std::vector<long>{1, 0, 26,   0, 1, 23,   0, 0, 1},
+                std::vector<long>{1, 0, -28,  0, 1, -22,  0, 0, 1},
             },
-            QRect(86, 140, 1488, 840)
+            QRect(28, 22, 643, 793)
         }
     )
 );

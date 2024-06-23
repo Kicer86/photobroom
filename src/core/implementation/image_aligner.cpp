@@ -9,9 +9,9 @@
 
 namespace
 {
-    cv::Rect rect(const QRect& r)
+    QRect rect(const cv::Rect& r)
     {
-        return cv::Rect(r.left(), r.top(), r.width(), r.height());
+        return QRect(r.x, r.y, r.width, r.height);
     }
 
     QString mat(const cv::Mat& m)
@@ -33,34 +33,62 @@ namespace
         const cv::TermCriteria criteria (cv::TermCriteria::COUNT + cv::TermCriteria::EPS, number_of_iterations, termination_eps);
 
         cv::Mat warp_matrix = cv::Mat::eye(3, 3, CV_32F);
-        cv::findTransformECC(referenceImageGray, imageGray, warp_matrix, cv::MOTION_HOMOGRAPHY, criteria);
+
+        try
+        {
+            cv::findTransformECC(referenceImageGray, imageGray, warp_matrix, cv::MOTION_HOMOGRAPHY, criteria);
+        }
+        catch(const cv::Exception& error)
+        {
+
+        }
 
         return warp_matrix;
     }
 
-    QRect commonPart(QRectF commonPart, const std::vector<cv::Mat>& transformations)
+    cv::Rect calculateCrop(const cv::Rect& imageSize, const std::vector<cv::Mat>& transformations)
     {
+        cv::Rect2d cropSum = imageSize;
+
         for(const auto& transformation: transformations)
         {
-            if (transformation.at<float>(0, 2) < 0)
-                commonPart.setX(static_cast<qreal>(transformation.at<float>(0, 2)) * -1);
+            cv::Rect2d cropped = imageSize;
 
-            if (transformation.at<float>(0, 2) > 0)
-                commonPart.setWidth(commonPart.width() - static_cast<qreal>(transformation.at<float>(0, 2)));
+            const double m02 = static_cast<double>(transformation.at<float>(0, 2));
+            const double m12 = static_cast<double>(transformation.at<float>(1, 2));
 
-            if (transformation.at<float>(1, 2) < 0)
-                commonPart.setY(static_cast<qreal>(transformation.at<float>(1, 2)) * -1);
+            if (m02 < 0)
+            {
+                cropped.x = m02 * -1;
+                cropped.width -= cropped.x;
+            }
 
-            if (transformation.at<float>(1, 2) > 0)
-                commonPart.setHeight(commonPart.height() - static_cast<qreal>(transformation.at<float>(1, 2)));
+            if (m02 > 0)
+                cropped.width -= m02;
+
+            if (m12 < 0)
+            {
+                cropped.y = m12 * -1;
+                cropped.height -= cropped.y;
+            }
+
+            if (m12 > 0)
+                cropped.height -= m12;
+
+            cropSum &= cropped;
         }
 
-        commonPart.setX(std::ceil(commonPart.x()));
-        commonPart.setY(std::ceil(commonPart.y()));
-        commonPart.setWidth(std::floor(commonPart.width()));
-        commonPart.setHeight(std::floor(commonPart.height()));
+        const auto left = std::ceil(cropSum.x);
+        const auto top = std::ceil(cropSum.y);
+        const auto right = std::floor(cropSum.x + cropSum.width);
+        const auto bottom = std::floor(cropSum.y + cropSum.height);
 
-        return commonPart.toRect();
+        cropSum.x = left;
+        cropSum.y = top;
+        cropSum.width = right - left;
+        cropSum.height = bottom - top;
+
+        return cropSum;
     }
 }
 
@@ -87,7 +115,7 @@ public:
     std::function<void(int, int)> m_progress;
 
     std::vector<cv::Mat> m_transformations;
-    QRect m_commonPart;
+    cv::Rect m_commonPart;
 };
 
 
@@ -122,10 +150,10 @@ std::unique_ptr<IAlignedImages> ImageAligner::align()
 
     const auto& first = m_impl->m_photos.front();
     const auto referenceImage = cv::imread(first.toStdString());
-    QRect firstImageSize(0, 0, referenceImage.size().width, referenceImage.size().height);
+    const cv::Rect firstImageSize(0, 0, referenceImage.size().width, referenceImage.size().height);
 
     m_impl->m_transformations = transformations;
-    m_impl->m_commonPart = commonPart(firstImageSize, transformations);
+    m_impl->m_commonPart = calculateCrop(firstImageSize, transformations);
 
     return std::move(m_impl);
 }
@@ -198,7 +226,7 @@ void ImageAligner::Impl::forEachImage(std::function<void(const cv::Mat &)> op) c
             cv::warpPerspective(image, imageAligned, m_transformations[i], image.size(), cv::INTER_LINEAR + cv::WARP_INVERSE_MAP);
 
         // apply crop
-        const auto croppedNextImg = imageAligned(rect(m_commonPart));
+        const auto croppedNextImg = imageAligned(m_commonPart);
 
         // save
         op(croppedNextImg);
@@ -215,5 +243,5 @@ const std::vector<cv::Mat>& ImageAligner::Impl::transformations() const
 
 QRect ImageAligner::Impl::imagesCommonPart() const
 {
-    return m_commonPart;
+    return rect(m_commonPart);
 }

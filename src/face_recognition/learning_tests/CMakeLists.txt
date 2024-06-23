@@ -1,5 +1,5 @@
 
-if(BUILD_LEARNING_TESTS)
+if(FALSE)                                                   # TODO: reenable when dlib-cuda starts working on Arch
     find_program(WGET wget REQUIRED)
 
     find_package(GTest REQUIRED CONFIG)

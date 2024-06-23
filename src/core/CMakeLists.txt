@@ -4,7 +4,6 @@ find_package(exiv2            REQUIRED)
 find_package(FFmpeg           COMPONENTS AVCODEC AVFORMAT AVUTIL REQUIRED)
 find_package(OpenCV           REQUIRED)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui)
-find_package(Threads          REQUIRED)
 
 include(GenerateExportHeader)
 

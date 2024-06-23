@@ -31,11 +31,10 @@ def svg_to_any(input_svg, output_any, desired_size):
     buffer.seek(0)
     img = Image.open(buffer)
 
-    # JPEG does not support alpha, replace it with white color
-    if output_any[-4:].lower() == "jpeg" or output_any[-3:].lower() == "jpg":
-        white_background = Image.new("RGBA", img.size, "WHITE")
-        white_background.paste(img, mask=img)
-        img = white_background.convert('RGB')
+    # replace alpha with white color
+    white_background = Image.new("RGBA", img.size, color=(255, 255, 255, 255))
+    white_background.paste(img, mask=img)
+    img = white_background.convert('RGB')
 
     with open(output_any, 'wb') as output_file:
         img.save(output_file, sizes=[(width, height)])
