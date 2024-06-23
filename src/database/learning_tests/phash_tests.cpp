@@ -22,7 +22,7 @@ TEST(PHashTest, QImageToMatConversion)
     // load image using qt methods, convert it to compatible cv format and calculate hash
     QImage qimage((ImagesPath + "/img1_1000.png").c_str());
 
-    ASSERT_EQ(qimage.format(), QImage::Format_ARGB32);
+    ASSERT_EQ(qimage.format(), QImage::Format_RGB32);
 
     const cv::Mat cvArgbImage(
         qimage.height(),

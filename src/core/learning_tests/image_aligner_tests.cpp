@@ -136,7 +136,7 @@ INSTANTIATE_TEST_SUITE_P
                 "alterd_images/img1_.png",
                 "alterd_images/img1_.png",
             },
-            true,
+            strictMode,
             {
                 std::vector<long>{1, 0, 0,  0, 1, 0,  0, 0, 1},
                 std::vector<long>{1, 0, 0,  0, 1, 0,  0, 0, 1},
@@ -155,13 +155,13 @@ INSTANTIATE_TEST_SUITE_P
             },
             strictMode,
             {
-                std::vector<long>{1, 0, 0,    0, 1, 0,     0, 0, 1},
-                std::vector<long>{1, 0, -20,  0, 1, 0,     0, 0, 1},
-                std::vector<long>{1, 0, 20,   0, 1, 0,     0, 0, 1},
-                std::vector<long>{1, 0, 84,   0, 1, -104,  0, 0, 1},
-                std::vector<long>{1, 0, -64,  0, 1, 118,   0, 0, 1},
+                std::vector<long>{1, 0, 0,    0, 1, 0,    0, 0, 1},
+                std::vector<long>{1, 0, -20,  0, 1, 0,    0, 0, 1},
+                std::vector<long>{1, 0, 20,   0, 1, 0,    0, 0, 1},
+                std::vector<long>{1, 0, 26,   0, 1, 23,   0, 0, 1},
+                std::vector<long>{1, 0, -28,  0, 1, -22,  0, 0, 1},
             },
-            QRect(64, 105, 1132, 630)
+            QRect(28, 22, 643, 793)
         }
     )
 );
