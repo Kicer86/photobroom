@@ -1,5 +1,5 @@
 
-name: Build-Windows
+name: Build-with-CMake
 
 on:
   push:
@@ -11,10 +11,12 @@ env:
   VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
 
 jobs:
-  windows-build:
-    runs-on: windows-2022
+  vcpkg-build:
     strategy:
       fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    runs-on: ${{ matrix.os }}
 
     steps:
     - uses: actions/checkout@v4
@@ -28,6 +30,7 @@ jobs:
         New-Item -ItemType Junction  -Path "out" -Target "c:\build"
         Move-Item -Path vcpkg -Destination c:\build
         New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
+      if: contains(matrix.os, 'windows')
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
@@ -37,7 +40,9 @@ jobs:
         modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
 
     - name: disable debug build for vcpkg
-      run: echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
+      run: |
+        echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-windows.cmake
+        echo 'set(VCPKG_BUILD_TYPE "release")' >> vcpkg/triplets/x64-linux.cmake
 
     - name: Setup ccache
       uses: Chocobo1/setup-ccache-action@v1
@@ -51,6 +56,7 @@ jobs:
 
     - name: Add msbuild to PATH
       uses: ilammy/msvc-dev-cmd@v1.13.0
+      if: contains(matrix.os, 'windows')
 
     - name: Build
       run: |
@@ -59,13 +65,16 @@ jobs:
 
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
+      if: contains(matrix.os, 'windows')
 
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: Installer
         path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
+      if: contains(matrix.os, 'windows')
 
     - name: Verify list of files in installer
       run: |
         7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
+      if: contains(matrix.os, 'windows')
