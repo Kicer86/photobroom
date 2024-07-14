@@ -12,7 +12,7 @@ env:
 
 jobs:
   windows-build:
-    runs-on: windows-2022
+    runs-on: windows-latest
     strategy:
       fail-fast: true
 
@@ -70,12 +70,38 @@ jobs:
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
 
+    - name: Verify list of files in installer
+      run: |
+        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: Installer
         path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
 
-    - name: Verify list of files in installer
-      run: |
-        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
+
+  test_installation:
+    needs: build
+    runs-on: windows-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: Installer
+          path: ./installer
+
+      - name: Install application
+        run: |
+          installer_path=$(ls installer/PhotoBroom-*-win64.exe)
+          start /wait "" "$installer_path" /S
+
+      - name: Run installed application
+        run: |
+          "C:\Program Files\PhotoBroom\PhotoBroom.exe" --version
+
+      - name: Check exit code
+        run: |
+          $exitCode = & "C:\Program Files\PhotoBroom\PhotoBroom.exe"
+          exit $exitCode
+
