@@ -77,7 +77,7 @@ jobs:
         path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
 
 
-  test_installation:
+  test-installation:
     needs: windows-build
     runs-on: windows-latest
     steps:
@@ -94,5 +94,7 @@ jobs:
 
       - name: Check exit code
         run: |
-          $exitCode = & "C:\Program Files\PhotoBroom\Photo_Broom.exe" --version
+          Start-Process -FilePath "C:\Program Files\PhotoBroom\Photo_Broom.exe" -ArgumentList "--version" -Wait -NoNewWindow
+          $exitCode = $LASTEXITCODE
+          Write-Host "Exit Code: $exitCode"
           exit $exitCode
