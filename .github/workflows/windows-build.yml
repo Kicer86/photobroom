@@ -93,8 +93,8 @@ jobs:
 
       - name: Install application
         run: |
-          installer_path=$(ls installer/PhotoBroom-*-win64.exe)
-          start /wait "" "$installer_path" /S
+          $installerPath = Get-ChildItem -Path ./installer -Filter PhotoBroom-*-win64.exe | Select-Object -ExpandProperty FullName
+          Start-Process -FilePath $installerPath -ArgumentList '/S' -Wait
 
       - name: Check exit code
         run: |
