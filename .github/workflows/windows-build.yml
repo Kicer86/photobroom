@@ -94,5 +94,5 @@ jobs:
 
       - name: Check exit code
         run: |
-          $exitCode = & "C:\Program Files\PhotoBroom\PhotoBroom.exe" --version
+          $exitCode = & "C:\Program Files\PhotoBroom\Photo_Broom.exe" --version
           exit $exitCode
