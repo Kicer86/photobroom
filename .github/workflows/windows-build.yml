@@ -94,7 +94,6 @@ jobs:
 
       - name: Check exit code
         run: |
-          Start-Process -FilePath "C:\Program Files\PhotoBroom\Photo_Broom.exe" -ArgumentList "--version" -Wait -NoNewWindow
-          $exitCode = $LASTEXITCODE
-          Write-Host "Exit Code: $exitCode"
-          exit $exitCode
+          "C:\Program Files\PhotoBroom\Photo_Broom.exe" --version
+        shell: cmd
+        timeout-minutes: 1
