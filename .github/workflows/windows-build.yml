@@ -96,12 +96,7 @@ jobs:
           installer_path=$(ls installer/PhotoBroom-*-win64.exe)
           start /wait "" "$installer_path" /S
 
-      - name: Run installed application
-        run: |
-          "C:\Program Files\PhotoBroom\PhotoBroom.exe" --version
-
       - name: Check exit code
         run: |
-          $exitCode = & "C:\Program Files\PhotoBroom\PhotoBroom.exe"
+          $exitCode = & "C:\Program Files\PhotoBroom\PhotoBroom.exe" --version
           exit $exitCode
-
