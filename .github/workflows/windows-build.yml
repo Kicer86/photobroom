@@ -82,7 +82,7 @@ jobs:
 
 
   test_installation:
-    needs: build
+    needs: windows-build
     runs-on: windows-latest
     steps:
       - name: Download artifact
