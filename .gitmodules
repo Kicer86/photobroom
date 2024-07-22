@@ -18,7 +18,7 @@
 	url = https://github.com/getml/reflect-cpp.git
 [submodule "src/core/learning_tests/test-videos"]
 	path = src/core/learning_tests/test-videos
-	url = https://github.com/Kicer86/VOF-media.git
+	url = https://gitlab.com/kicer86/video-files.git
 [submodule "src/third_party/nanobench"]
 	path = src/third_party/nanobench
 	url = https://github.com/martinus/nanobench.git
