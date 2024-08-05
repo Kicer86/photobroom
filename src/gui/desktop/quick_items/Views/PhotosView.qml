@@ -194,6 +194,7 @@ FocusScope {
                     var id = gridView.model.getId(index);
 
                     photosArea.push(faceRecognitionPage, {"photoID": id});
+                    console.log("Face recognition mode for photo: " + gridView.model.getPhotoPath(index));
                 }
             }
 
