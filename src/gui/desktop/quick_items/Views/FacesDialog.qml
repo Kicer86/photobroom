@@ -79,6 +79,7 @@ Item {
 
     MediaViewCtrl {
         id: ctrl
+        core: PhotoBroomProject.coreFactory
     }
 
     FacesModel {

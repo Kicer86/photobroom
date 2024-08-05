@@ -210,22 +210,22 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="167"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="168"/>
         <source>unknown</source>
         <translation>unknown</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="211"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="212"/>
         <source>Mark found faces</source>
         <translation>Mark found faces</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="224"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="225"/>
         <source>Detecting and analyzing faces</source>
         <translation>Detecting and analyzing faces</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="224"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="225"/>
         <source>Could not detect any face.</source>
         <translation>Could not detect any face.</translation>
     </message>
@@ -750,17 +750,17 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="209"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="210"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="222"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="223"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="235"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="236"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>

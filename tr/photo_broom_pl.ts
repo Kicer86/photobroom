@@ -216,7 +216,7 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+167"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+168"/>
         <source>unknown</source>
         <translation>nieznane</translation>
     </message>
@@ -778,7 +778,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+209"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+210"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
     </message>
