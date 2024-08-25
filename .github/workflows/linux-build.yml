@@ -20,7 +20,7 @@ jobs:
       matrix:
         compiler:
           - { compiler: GNU, CC: gcc-14, CXX: g++-14 }
-          - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
+          - { compiler: LLVM, CC: clang, CXX: clang++ }
         build: [Release]
         shared: [TRUE, FALSE]
         os: [ubuntu-24.04]
