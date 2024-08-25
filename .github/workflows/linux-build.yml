@@ -60,7 +60,7 @@ jobs:
 
     - name: Install magic enum
       run: |
-        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
+        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/v0.9.6/include/magic_enum/magic_enum.hpp -O /usr/include/magic_enum.hpp
 
     - name: Install CsLibGuarded
       run: |
