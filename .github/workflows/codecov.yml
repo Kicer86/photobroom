@@ -84,6 +84,8 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Debug
+        cc: clang
+        cxx: clang++
         configure-options:
             -DBUILD_SHARED_LIBS=${{ matrix.shared }}
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
@@ -94,6 +96,7 @@ jobs:
             -DCMAKE_CXX_FLAGS=--coverage
             -DCMAKE_SHARED_LINKER_FLAGS=--coverage
             -DCMAKE_EXE_LINKER_FLAGS=--coverage
+            -G Ninja
         run-test: true
         ctest-options:
             --output-on-failure
