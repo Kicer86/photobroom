@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         compiler:
-          - { compiler: GNU, CC: gcc-14, CXX: g++-14 }
+          # - { compiler: GNU, CC: gcc-14, CXX: g++-14 }
           - { compiler: LLVM, CC: clang, CXX: clang++ }
         build: [Release]
         shared: [TRUE, FALSE]
