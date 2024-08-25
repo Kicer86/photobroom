@@ -106,6 +106,7 @@ jobs:
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
             -Wdev -Werror=dev
+            -G Ninja
         run-test: true
         ctest-options:
             -LE HeavyData
