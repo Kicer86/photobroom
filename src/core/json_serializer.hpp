@@ -93,11 +93,11 @@ namespace JSon
 
                 const auto objView = rfl::to_view(obj);
 
-                const auto process = [&jsonObj]<class... F>(F... _field) {
+                const auto process = [&jsonObj]<typename... F>(F... _field) {
                     (( jsonObj[QString::fromStdString(typename F::Name().str())] = getSerialized(*_field.value()) ), ...);
                 };
 
-                std::apply(process, objView.fields());
+                rfl::apply(process, objView.fields());
 
                 return jsonObj;
             }
@@ -143,11 +143,11 @@ namespace JSon
                 const QJsonObject jsonObj = convertTo<QJsonObject>(json);
                 auto objView = rfl::to_view(r);
 
-                const auto process = [&jsonObj]<class... F>(F... _field) {
+                const auto process = [&jsonObj]<typename... F>(F... _field) {
                     (( *_field.value() = getDeserialized<std::remove_pointer_t<typename F::Type>>(jsonObj[QString::fromStdString(typename F::Name().str())]) ), ...);
                 };
 
-                std::apply(process, objView.fields());
+                rfl::apply(process, objView.fields());
             }
 
             return r;
