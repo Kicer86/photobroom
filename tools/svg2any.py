@@ -29,12 +29,12 @@ def svg_to_any(input_svg, output_any, desired_size):
     buffer = BytesIO()
     cairosvg.svg2png(url=input_svg, write_to=buffer, output_width=width, output_height=height)
     buffer.seek(0)
-    img = Image.open(buffer)
+    img = Image.open(buffer).convert("RGBA")
 
     # replace alpha with white color
-    white_background = Image.new("RGBA", img.size, color=(255, 255, 255, 255))
+    white_background = Image.new("RGB", img.size, color=(255, 255, 255))
     white_background.paste(img, mask=img)
-    img = white_background.convert('RGB')
+    img = white_background
 
     with open(output_any, 'wb') as output_file:
         img.save(output_file, sizes=[(width, height)])
