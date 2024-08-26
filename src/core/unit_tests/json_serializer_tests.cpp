@@ -1,7 +1,7 @@
 
 #include <gtest/gtest.h>
+#include <rfl.hpp>
 
-#include "rfl.hpp"
 #include "json_serializer.hpp"
 #include "json_serializer_tests.hpp"
 
