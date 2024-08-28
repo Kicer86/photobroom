@@ -97,6 +97,7 @@ set(CORE_RESOURCE_FILES     images/images.qrc)
 qt6_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
+target_link_directories(core PUBLIC ${FFMPEG_LIBRARY_DIRS})
 target_link_libraries(core
     PUBLIC
         Qt::Core
@@ -119,6 +120,7 @@ target_include_directories(core
         ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${FFMPEG_INCLUDE_DIRS}
 )
 
 set_target_properties(core PROPERTIES AUTOMOC TRUE)
