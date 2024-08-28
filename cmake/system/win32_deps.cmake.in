@@ -11,13 +11,13 @@ install(CODE [[
             api-ms-.*
             ext-ms-.*
             hvsifiletrust.dll
-            [qQ]t6.*\\.dll                                  #windeployqt will take care about Qt's libs
+            [qQ]t6.*\\.dll                                  # windeployqt will take care about Qt's libs
         POST_EXCLUDE_REGEXES
             ".*/system32/.*\\.dll"
         RESOLVED_DEPENDENCIES_VAR deps
         EXECUTABLES $<TARGET_FILE:photo_broom>
     )
-
+    
     file(INSTALL
         DESTINATION "${CMAKE_INSTALL_PREFIX}/@PATH_BIN@"
         TYPE SHARED_LIBRARY
@@ -30,12 +30,13 @@ install(CODE [[
             --dir "${CMAKE_INSTALL_PREFIX}/@PATH_BIN@"
             --plugindir "${CMAKE_INSTALL_PREFIX}/@PATH_BIN@/qt_plugins"
             $<$<CONFIG:Debug>:--debug>$<$<CONFIG:Release>:--release>
-            --no-compiler-runtime
             --qmldir "@PROJECT_SOURCE_DIR@/src/gui/desktop"
-            $<$<BOOL:@BUILD_SHARED_LIBS@>:$<TARGET_FILE:gui>>                  #include 'gui' target only if it is shared library
+            $<$<BOOL:@BUILD_SHARED_LIBS@>:$<TARGET_FILE:gui>>                  # include 'gui' target only if it is a shared library
             $<TARGET_FILE:photo_broom>
-            $<TARGET_FILE:updater>
+            $<$<BOOL:@BUILD_SHARED_LIBS@>:$<TARGET_FILE:updater>>              # ditto
             $<TARGET_FILE:sql_backend_base>
+            --compiler-runtime
         WORKING_DIRECTORY "@WINDEPLOY_DIR@"
     )
+
 ]])
