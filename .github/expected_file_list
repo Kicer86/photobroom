@@ -8,9 +8,9 @@ $PLUGINSDIR\System.dll
 $PLUGINSDIR\UserInfo.dll
 advapi32.dll
 animatedwebp.dll
-avcodec-60.dll
-avformat-60.dll
-avutil-58.dll
+avcodec-61.dll
+avformat-61.dll
+avutil-59.dll
 bcrypt.dll
 concrt140.dll
 core.dll

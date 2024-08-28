@@ -18,14 +18,6 @@ else()
     set(EXIV2_LIB exiv2lib)
 endif()
 
-# FFmpeg's list of libraries may come with many duplicated entries (with and without absolute paths) which causes
-# havoc on Windows. Remove all duplicates and entries which do not come with absolute path
-list(REMOVE_DUPLICATES FFMPEG_LIBRARIES)
-if(WIN32)
-    list(FILTER FFMPEG_LIBRARIES INCLUDE REGEX "[a-zA-Z]\\:/")
-endif()
-
-
 set(CORE_SOURCES
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
     implementation/configuration_p.hpp
@@ -105,6 +97,7 @@ set(CORE_RESOURCE_FILES     images/images.qrc)
 qt6_add_resources(CORE_RESOURCES ${CORE_RESOURCE_FILES})
 
 add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
+target_link_directories(core PUBLIC ${FFMPEG_LIBRARY_DIRS})
 target_link_libraries(core
     PUBLIC
         Qt::Core
@@ -127,6 +120,7 @@ target_include_directories(core
         ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
+        ${FFMPEG_INCLUDE_DIRS}
 )
 
 set_target_properties(core PROPERTIES AUTOMOC TRUE)
