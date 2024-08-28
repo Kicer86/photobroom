@@ -18,14 +18,6 @@ else()
     set(EXIV2_LIB exiv2lib)
 endif()
 
-# FFmpeg's list of libraries may come with many duplicated entries (with and without absolute paths) which causes
-# havoc on Windows. Remove all duplicates and entries which do not come with absolute path
-list(REMOVE_DUPLICATES FFMPEG_LIBRARIES)
-if(WIN32)
-    list(FILTER FFMPEG_LIBRARIES INCLUDE REGEX "[a-zA-Z]\\:/")
-endif()
-
-
 set(CORE_SOURCES
     implementation/aexif_reader.hpp                         implementation/aexif_reader.cpp
     implementation/configuration_p.hpp
