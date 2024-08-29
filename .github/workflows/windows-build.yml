@@ -8,7 +8,7 @@ on:
   pull_request:
 
 env:
-  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
+  VCPKG_OVERLAY_PORTS: .github\vcpkg_overlays\qt
 
 jobs:
   windows-build:
@@ -55,13 +55,12 @@ jobs:
       with:
         vcpkgJsonGlob: vcpkg.json
 
-    - name: Add msbuild to PATH
-      uses: ilammy/msvc-dev-cmd@v1.13.0
-
     - name: Build
-      run: |
-        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
-        cmake --build --preset "Ninja Release"
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: 'ninja_release_vcpkg'
+        configurePresetAdditionalArgs: "['-DBUILD_SHARED_LIBS=TRUE']"
+        buildPreset: "Ninja Release"
 
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
