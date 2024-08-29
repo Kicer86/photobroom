@@ -20,12 +20,10 @@ core.dll
 cpp_restapi.dll
 crash_catcher.dll
 d3d11.dll
-d3dcompiler_47.dll
+D3Dcompiler_47.dll
 database.dll
 dlib_wrapper.dll
-dxcompiler.dll
 dxgi.dll
-dxil.dll
 exiv2.dll
 face_recognition.dll
 face_recognition_models\dlib_face_recognition_resnet_model_v1.dat
@@ -657,7 +655,6 @@ tr\photo_broom_en.qm
 tr\photo_broom_pl.qm
 updater.dll
 user32.dll
-vc_redist.x64.exe
 vcruntime140_1.dll
 vcruntime140.dll
 ws2_32.dll

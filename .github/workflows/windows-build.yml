@@ -8,13 +8,13 @@ on:
   pull_request:
 
 env:
-  VCPKG_OVERLAY_PORTS: .github\vcpkg_overlays\qt
+  VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
 
 jobs:
   windows-build:
     runs-on: windows-2022
     strategy:
-      fail-fast: false
+      fail-fast: true
 
     steps:
     - uses: actions/checkout@v4
