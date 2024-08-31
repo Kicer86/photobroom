@@ -19,11 +19,8 @@ concrt140.dll
 core.dll
 cpp_restapi.dll
 crash_catcher.dll
-d3d11.dll
-D3Dcompiler_47.dll
 database.dll
 dlib_wrapper.dll
-dxgi.dll
 exiv2.dll
 face_recognition.dll
 face_recognition_models\dlib_face_recognition_resnet_model_v1.dat
@@ -42,8 +39,6 @@ libsharpyuv.dll
 libwebp.dll
 libwebpmux.dll
 libwinpthread-1.dll
-mf.dll
-mfplat.dll
 mfreadwrite.dll
 msvcp140_atomic_wait.dll
 msvcp140.dll
@@ -614,9 +609,6 @@ qt_plugins\styles\qmodernwindowsstyle.dll
 qt_plugins\tls\qcertonlybackend.dll
 qt_plugins\tls\qopensslbackend.dll
 qt_plugins\tls\qschannelbackend.dll
-secur32.dll
-shell32.dll
-shlwapi.dll
 sql_backend_base.dll
 swresample-4.dll
 swscale-7.dll

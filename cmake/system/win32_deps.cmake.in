@@ -13,11 +13,11 @@ install(CODE [[
             hvsifiletrust.dll
             [qQ]t6.*\\.dll                                  # windeployqt will take care about Qt's libs
         POST_EXCLUDE_REGEXES
-            ".*/system32/.*\\.dll"
+            ".*system32.*\\.dll"
         RESOLVED_DEPENDENCIES_VAR deps
         EXECUTABLES $<TARGET_FILE:photo_broom>
     )
-    
+
     file(INSTALL
         DESTINATION "${CMAKE_INSTALL_PREFIX}/@PATH_BIN@"
         TYPE SHARED_LIBRARY
