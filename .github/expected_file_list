@@ -6,7 +6,6 @@ $PLUGINSDIR\NSIS.InstallOptions.ini
 $PLUGINSDIR\StartMenu.dll
 $PLUGINSDIR\System.dll
 $PLUGINSDIR\UserInfo.dll
-advapi32.dll
 AnimatedWebP.dll
 avcodec-60.dll
 avcodec-61.dll
@@ -14,7 +13,6 @@ avformat-60.dll
 avformat-61.dll
 avutil-58.dll
 avutil-59.dll
-bcrypt.dll
 concrt140.dll
 core.dll
 cpp_restapi.dll
@@ -30,7 +28,6 @@ face_recognition_models\shape_predictor_68_face_landmarks.dat
 gui.dll
 icons\svg\photo_broom.svg
 jsoncpp.dll
-kernel32.dll
 libgcc_s_seh-1.dll
 libgfortran-5.dll
 liblapack.dll
@@ -39,12 +36,6 @@ libsharpyuv.dll
 libwebp.dll
 libwebpmux.dll
 libwinpthread-1.dll
-mfreadwrite.dll
-msvcp140_atomic_wait.dll
-msvcp140.dll
-msvcrt.dll
-ole32.dll
-oleaut32.dll
 openblas.dll
 opencv_calib3d4.dll
 opencv_core4.dll
@@ -61,7 +52,6 @@ photo_broom.exe
 photos_crawler.dll
 plugins\database\database_sqlite_plugin.dll
 project_utils.dll
-psapi.dll
 qml\Qt\labs\folderlistmodel\plugins.qmltypes
 qml\Qt\labs\folderlistmodel\qmldir
 qml\Qt\labs\folderlistmodel\qmlfolderlistmodelplugin.dll
@@ -646,8 +636,4 @@ translations\qt_zh_TW.qm
 tr\photo_broom_en.qm
 tr\photo_broom_pl.qm
 updater.dll
-user32.dll
-vcruntime140_1.dll
-vcruntime140.dll
-ws2_32.dll
 zlib1.dll
