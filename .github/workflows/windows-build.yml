@@ -8,13 +8,13 @@ on:
   pull_request:
 
 env:
-  VCPKG_OVERLAY_PORTS: .github/vcpkg_overlays/qt
+  VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
 
 jobs:
   windows-build:
     runs-on: windows-2022
     strategy:
-      fail-fast: false
+      fail-fast: true
 
     steps:
     - uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.4.3'
+        version: '6.7.2'
         cache: 'true'
         modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
 
@@ -55,13 +55,17 @@ jobs:
       with:
         vcpkgJsonGlob: vcpkg.json
 
-    - name: Add msbuild to PATH
-      uses: ilammy/msvc-dev-cmd@v1.13.0
-
     - name: Build
-      run: |
-        cmake --preset "ninja_release_vcpkg" -DBUILD_SHARED_LIBS=TRUE -DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}" -DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"
-        cmake --build --preset "Ninja Release"
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: 'ninja_release_vcpkg'
+        configurePresetAdditionalArgs: |
+            [
+                '-DBUILD_SHARED_LIBS=TRUE',
+                '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
+                '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe'
+            ]
+        buildPreset: "Ninja Release"
 
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'

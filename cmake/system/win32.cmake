@@ -9,7 +9,7 @@ function(addDependenciesInstallStep)
     get_property(qt_moc_path TARGET Qt6::moc PROPERTY LOCATION)
     get_filename_component(qt_bin_dir ${qt_moc_path} DIRECTORY)
 
-    find_program(WINDEPLOY windeployqt
+    find_program(WINDEPLOY windeployqt6
         HINTS ${qt_bin_dir}
         REQUIRED
     )
