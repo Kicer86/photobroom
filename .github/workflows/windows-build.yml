@@ -62,8 +62,8 @@ jobs:
         configurePresetAdditionalArgs: |
             [
                 '-DBUILD_SHARED_LIBS=TRUE',
-                '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=${{ env.ccache_symlinks_path }}',
-                '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=${{ env.ccache_symlinks_path }}'
+                '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"',
+                '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH="${{ env.ccache_symlinks_path }}"'
             ]
         buildPreset: "Ninja Release"
 
