@@ -13,10 +13,10 @@ avformat-60.dll
 avformat-61.dll
 avutil-58.dll
 avutil-59.dll
-concrt140.dll
 core.dll
 cpp_restapi.dll
 crash_catcher.dll
+D3Dcompiler_47.dll
 database.dll
 dlib_wrapper.dll
 exiv2.dll

@@ -9,10 +9,9 @@ install(CODE [[
     file(GET_RUNTIME_DEPENDENCIES
         PRE_EXCLUDE_REGEXES
             api-ms-.*
-            D3Dcompiler_47.dll
             ext-ms-.*
             hvsifiletrust.dll
-            [qQ]t6.*\\.dll                                  # windeployqt will take care about Qt's libs
+            qt6.*\\.dll                                                         # windeployqt will take care about Qt's libs
         POST_EXCLUDE_REGEXES
             ".*system32.*\\.dll"
         RESOLVED_DEPENDENCIES_VAR deps
