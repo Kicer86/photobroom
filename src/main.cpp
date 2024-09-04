@@ -5,10 +5,10 @@
 #include <vector>
 
 #include <QApplication>
-#include <QDir>
-#include <QImageReader>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QDir>
+#include <QImageReader>
 #include <QTimer>
 
 #ifdef OS_WIN
@@ -73,6 +73,7 @@ int main(int argc, char **argv)
 #endif
 
     QApplication app(argc, argv);
+
     app.setApplicationName("photo_broom");                   // without this app name may change when binary name changes
     app.setApplicationVersion(PHOTO_BROOM_VERSION);
 

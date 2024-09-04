@@ -81,7 +81,7 @@ jobs:
         path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
 
 
-  test_installation:
+  test-installation:
     needs: windows-build
     runs-on: windows-latest
     steps:
@@ -96,7 +96,11 @@ jobs:
           $installerPath = Get-ChildItem -Path ./installer -Filter PhotoBroom-*-win64.exe | Select-Object -ExpandProperty FullName
           Start-Process -FilePath $installerPath -ArgumentList '/S' -Wait
 
-      - name: Check exit code
+      - name: Get dependencies checker
         run: |
-          $exitCode = & "C:\Program Files\PhotoBroom\PhotoBroom.exe" --version
-          exit $exitCode
+          curl -L -o dependencies_valdiator.py https://gist.githubusercontent.com/Kicer86/4727b1a1ecb96e717ea1c37866134cf4/raw/d7b6f0bc01515a2ba5c17fedd7832038880f62d6/dependencies_valdiator.py
+
+      - name: Check dependencies
+        run: |
+          pip install pefile
+          python dependencies_valdiator.py "C:\Program Files\PhotoBroom\Photo_Broom.exe"
