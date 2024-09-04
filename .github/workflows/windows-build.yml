@@ -12,7 +12,7 @@ env:
 
 jobs:
   windows-build:
-    runs-on: windows-2022
+    runs-on: windows-latest
     strategy:
       fail-fast: true
 
@@ -70,12 +70,37 @@ jobs:
     - name: Make package
       run: cmake --build --target package --preset 'Ninja Release'
 
+    - name: Verify list of files in installer
+      run: |
+        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
+
     - name: Upload artifact
       uses: actions/upload-artifact@v4
       with:
         name: Installer
         path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
 
-    - name: Verify list of files in installer
-      run: |
-        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
+
+  test-installation:
+    needs: windows-build
+    runs-on: windows-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: Installer
+          path: ./installer
+
+      - name: Install application
+        run: |
+          $installerPath = Get-ChildItem -Path ./installer -Filter PhotoBroom-*-win64.exe | Select-Object -ExpandProperty FullName
+          Start-Process -FilePath $installerPath -ArgumentList '/S' -Wait
+
+      - name: Get dependencies checker
+        run: |
+          curl -L -o dependencies_valdiator.py https://gist.githubusercontent.com/Kicer86/4727b1a1ecb96e717ea1c37866134cf4/raw/d7b6f0bc01515a2ba5c17fedd7832038880f62d6/dependencies_valdiator.py
+
+      - name: Check dependencies
+        run: |
+          pip install pefile
+          python dependencies_valdiator.py "C:\Program Files\PhotoBroom\Photo_Broom.exe"

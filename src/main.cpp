@@ -5,10 +5,10 @@
 #include <vector>
 
 #include <QApplication>
-#include <QDir>
-#include <QImageReader>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QDir>
+#include <QImageReader>
 #include <QTimer>
 
 #ifdef OS_WIN
@@ -30,9 +30,10 @@
 #include <project_utils/project_manager.hpp>
 #include <system/system.hpp>
 
-#include "paths.hpp"
+#include "config.hpp"
 #include "config_storage.hpp"
 #include "features.hpp"
+#include "paths.hpp"
 
 
 namespace
@@ -72,7 +73,9 @@ int main(int argc, char **argv)
 #endif
 
     QApplication app(argc, argv);
+
     app.setApplicationName("photo_broom");                   // without this app name may change when binary name changes
+    app.setApplicationVersion(PHOTO_BROOM_VERSION);
 
     const QString basePath = System::getApplicationConfigDir();
 
