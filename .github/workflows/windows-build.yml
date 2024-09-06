@@ -21,14 +21,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Prepare build dir
-      run: |
-        New-Item -ItemType directory -Path "c:\" -Name "build"
-        compact.exe /C "c:\build\"
-        New-Item -ItemType Junction  -Path "out" -Target "c:\build"
-        Move-Item -Path vcpkg -Destination c:\build
-        New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
-
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
