@@ -21,12 +21,6 @@ jobs:
       with:
         submodules: true
 
-    - name: Cache external tools
-      uses: actions/cache@v4
-      with:
-        path: out/build/ninja_release_vcpkg/tools
-        key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
-
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
       with:
