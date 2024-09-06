@@ -35,8 +35,21 @@ jobs:
   build-photo-broom:
     needs: build-dependencies
     runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - cmake_config: "ninja_debug_vcpkg"
+            cmake_build: "Ninja Debug"
+          - cmake_config: "ninja_release_vcpkg"
+            cmake_build: "Ninja Release"
 
     steps:
+    - name: Print setup
+      run: |
+        echo "config: ${{ matrix.config.cmake_config }}"
+        echo "build: ${{ matrix.config.cmake_build }}"
+
     - uses: actions/checkout@v4
       with:
         submodules: true
@@ -61,17 +74,18 @@ jobs:
     - name: Build
       uses: lukka/run-cmake@v10
       with:
-        configurePreset: 'ninja_release_vcpkg'
+        configurePreset: ${{ matrix.config.cmake_config }}
         configurePresetAdditionalArgs: |
             [
+                '-DBUILD_TESTING=OFF',
                 '-DBUILD_SHARED_LIBS=TRUE',
                 '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
                 '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe'
             ]
-        buildPreset: "Ninja Release"
+        buildPreset: "${{ matrix.config.cmake_build }}"
 
     - name: Make package
-      run: cmake --build --target package --preset 'Ninja Release'
+      run: cmake --build --target package --preset "${{ matrix.config.cmake_build }}"
 
     - name: Verify list of files in installer
       run: |
