@@ -99,6 +99,7 @@ jobs:
 
 
   test-installation:
+    name: "Windows installer verification"
     needs: build-photo-broom
     runs-on: windows-latest
     steps:
