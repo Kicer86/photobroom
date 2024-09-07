@@ -12,6 +12,7 @@ env:
 
 jobs:
   build-dependencies:
+    name: "Build PhotoBroom dependencies for Windows"
     runs-on: windows-latest
     strategy:
       fail-fast: true
@@ -33,6 +34,7 @@ jobs:
 
 
   build-photo-broom:
+    name: "Build PhotoBroom sources on Windows"
     needs: build-dependencies
     runs-on: windows-latest
     strategy:
