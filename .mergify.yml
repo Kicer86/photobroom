@@ -1,8 +1,12 @@
 pull_request_rules:
   - name: Squash and merge (one commit)
     conditions:
-      - check-success=build (ubuntu-24.04)
-      - check-success=windows-build
+      - check-success=Build PhotoBroom sources on Linux (GNU, gcc, g++, Release, false, ubuntu-24.04)
+      - check-success=Build PhotoBroom sources on Linux (GNU, gcc, g++, Release, true, ubuntu-24.04)
+      - check-success=Build PhotoBroom sources on Linux (LLVM, clang-16, clang++-16, Release, false, ubuntu-24.04)
+      - check-success=Build PhotoBroom sources on Linux (LLVM, clang-16, clang++-16, Release, true, ubuntu-24.04)
+      - check-success=Windows installer verification
+      - check-success=Unit tests coverage (ubuntu-24.04)
       - "#commits=1"
       - or:
         - "#approved-reviews-by>0"
@@ -13,8 +17,12 @@ pull_request_rules:
 
   - name: Merge pull request (more than one commit)
     conditions:
-      - check-success=build (ubuntu-24.04)
-      - check-success=windows-build
+      - check-success=Build PhotoBroom sources on Linux (GNU, gcc, g++, Release, false, ubuntu-24.04)
+      - check-success=Build PhotoBroom sources on Linux (GNU, gcc, g++, Release, true, ubuntu-24.04)
+      - check-success=Build PhotoBroom sources on Linux (LLVM, clang-16, clang++-16, Release, false, ubuntu-24.04)
+      - check-success=Build PhotoBroom sources on Linux (LLVM, clang-16, clang++-16, Release, true, ubuntu-24.04)
+      - check-success=Windows installer verification
+      - check-success=Unit tests coverage (ubuntu-24.04)
       - "#commits>1"
       - "#commits-behind=0"
       - or:

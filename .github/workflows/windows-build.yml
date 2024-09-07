@@ -11,7 +11,8 @@ env:
   VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
 
 jobs:
-  windows-build:
+  build-dependencies:
+    name: "Build PhotoBroom dependencies for Windows"
     runs-on: windows-latest
     strategy:
       fail-fast: true
@@ -21,13 +22,41 @@ jobs:
       with:
         submodules: true
 
-    - name: Prepare build dir
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v11.5
+      with:
+        vcpkgJsonGlob: vcpkg.json
+
+    # builded dependencies will be cached and reused in later jobs
+    - name: build dependencies
       run: |
-        New-Item -ItemType directory -Path "c:\" -Name "build"
-        compact.exe /C "c:\build\"
-        New-Item -ItemType Junction  -Path "out" -Target "c:\build"
-        Move-Item -Path vcpkg -Destination c:\build
-        New-Item -ItemType Junction  -Path "vcpkg" -Target "c:\build\vcpkg"
+        vcpkg\vcpkg.exe install
+
+
+  build-photo-broom:
+    name: "Build PhotoBroom sources on Windows"
+    needs: build-dependencies
+    runs-on: windows-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - name: "debug"
+            cmake_config: "ninja_debug_vcpkg"
+            cmake_build: "Ninja Debug"
+          - name: "release"
+            cmake_config: "ninja_release_vcpkg"
+            cmake_build: "Ninja Release"
+
+    steps:
+    - name: Print setup
+      run: |
+        echo "config: ${{ matrix.config.cmake_config }}"
+        echo "build: ${{ matrix.config.cmake_build }}"
+
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
@@ -35,12 +64,6 @@ jobs:
         version: '6.7.2'
         cache: 'true'
         modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
-
-    - name: Cache external tools
-      uses: actions/cache@v4
-      with:
-        path: out/build/ninja_release_vcpkg/tools
-        key: ${{ runner.os }}-externalTools-v1-${{ hashFiles('cmake/system/win32.cmake') }}
 
     - name: Setup ccache
       uses: Chocobo1/setup-ccache-action@v1
@@ -55,23 +78,22 @@ jobs:
     - name: Build
       uses: lukka/run-cmake@v10
       with:
-        configurePreset: 'ninja_release_vcpkg'
+        configurePreset: ${{ matrix.config.cmake_config }}
         configurePresetAdditionalArgs: |
             [
+                '-DBUILD_TESTING=OFF',
                 '-DBUILD_SHARED_LIBS=TRUE',
                 '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
                 '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe'
             ]
-        buildPreset: "Ninja Release"
+        buildPreset: "${{ matrix.config.cmake_build }}"
 
     - name: Make package
-      run: cmake --build --target package --preset 'Ninja Release'
-
-    - name: Verify list of files in installer
-      run: |
-        7z l out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe | python .github/parse7z-l.py | python .github/compare.py
+      if: matrix.config.name == 'release'
+      run: cmake --build --target package --preset "${{ matrix.config.cmake_build }}"
 
     - name: Upload artifact
+      if: matrix.config.name == 'release'
       uses: actions/upload-artifact@v4
       with:
         name: Installer
@@ -79,14 +101,22 @@ jobs:
 
 
   test-installation:
-    needs: windows-build
+    name: "Windows installer verification"
+    needs: build-photo-broom
     runs-on: windows-latest
     steps:
+      - uses: actions/checkout@v4
+
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: Installer
           path: ./installer
+
+      - name: Verify list of files in installer
+        run: |
+          $installerPath = Get-ChildItem -Path ./installer -Filter PhotoBroom-*-win64.exe | Select-Object -ExpandProperty FullName
+          7z l $installerPath | python .github/parse7z-l.py | python .github/compare.py
 
       - name: Install application
         run: |

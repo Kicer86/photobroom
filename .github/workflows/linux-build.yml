@@ -9,6 +9,7 @@ on:
 
 jobs:
   build:
+    name: "Build PhotoBroom sources on Linux"
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
