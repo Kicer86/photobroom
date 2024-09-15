@@ -10,6 +10,7 @@
 #include "containers_utils.hpp"
 #include "image_aligner.hpp"
 
+
 using testing::ElementsAre;
 
 namespace
