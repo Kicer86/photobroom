@@ -59,7 +59,7 @@ INSTANTIATE_TEST_SUITE_P(
         VideoMediaInformationTestParam
         {
             PHOTO_BROOM_SRC_DIR("src/core/learning_tests/test-videos/DSC_8073.MP4"),
-            QDateTime(QDate(2024, 4, 10), QTime(19, 48, 02)),
+            QDateTime(QDate(2024, 4, 10), QTime(17, 48, 02)),
             QSize(3840, 2160),
             std::chrono::milliseconds(3403)
         },
@@ -77,7 +77,7 @@ INSTANTIATE_TEST_SUITE_P(
             //       Therefore as of now, time in UTC (which is valid (with +3sec margin)) is being used
             QDateTime(QDate(2024, 4, 12), QTime(16, 15, 15)),
             QSize(1080, 1920),
-            std::chrono::milliseconds(1673)
+            std::chrono::milliseconds(1666)
         },
         VideoMediaInformationTestParam
         {
@@ -86,7 +86,7 @@ INSTANTIATE_TEST_SUITE_P(
             //       Therefore as of now, time in UTC (which is valid (with +5sec margin)) is being used
             QDateTime(QDate(2024, 4, 12), QTime(16, 15, 31)),
             QSize(1080, 1920),
-            std::chrono::milliseconds(3370)
+            std::chrono::milliseconds(3366)
         }
     ));
 
