@@ -16,11 +16,11 @@ TEST(ImageAlignerTest, progress)
 
     const QStringList photos =
     {
-        "alterd_images/img1_.png",
-        "alterd_images/img1_.png",
-        "alterd_images/img1_.png",
-        "alterd_images/img1_.png",
-        "alterd_images/img1_.png"
+        QString(IMAGES_DIR) + "/alterd_images/img1_.png",
+        QString(IMAGES_DIR) + "/alterd_images/img1_.png",
+        QString(IMAGES_DIR) + "/alterd_images/img1_.png",
+        QString(IMAGES_DIR) + "/alterd_images/img1_.png",
+        QString(IMAGES_DIR) + "/alterd_images/img1_.png"
     };
 
     std::vector<std::pair<int, int>> steps;
