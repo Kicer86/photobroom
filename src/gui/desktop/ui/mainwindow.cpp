@@ -47,8 +47,8 @@
 #include "quick_items/thumbnail_image_provider.hpp"
 
 
-MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr, QWidget *p):
-    QObject(p),
+MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr):
+    QObject(),
     m_logger(coreFactory->getLoggerFactory().get("gui")),
     m_prjManager(nullptr),
     m_pluginLoader(nullptr),
