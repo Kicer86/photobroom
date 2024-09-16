@@ -18,7 +18,7 @@ FocusScope {
 
     PhotosModelController {
         id: photosModelControllerId
-        objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
+        objectName: "photos_model_controller"      // used by c++ part to find this object and set it up
 
         database: PhotoBroomProject.database
 
