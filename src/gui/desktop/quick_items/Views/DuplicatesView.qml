@@ -23,12 +23,12 @@ Internals.ToolsBase
         database: PhotoBroomProject.database
     }
 
-    view: Component { Components.ExListView  {
+    view: Component { ExListView  {
         id: duplicatesList
 
         model: duplicatesModel
 
-        delegate: Components.ExListView {
+        delegate: ExListView {
 
             required property var duplicates
 
