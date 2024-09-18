@@ -2,6 +2,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import QmlItems
+
 
 ListView {
     id: listView
@@ -18,6 +20,12 @@ ListView {
     ScrollBar.horizontal: ScrollBar {
         anchors.bottom: parent.bottom
         visible: listView.contentWidth > listView.width
+    }
+
+    WheelSpeedControler
+    {
+        enabled: listView.orientation == ListView.Vertical
+        flickable: listView
     }
 
     MouseArea {
