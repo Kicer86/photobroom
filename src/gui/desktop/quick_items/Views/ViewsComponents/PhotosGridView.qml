@@ -51,11 +51,6 @@ Components.MultiselectGridView {
 
             onDoubleClicked: {
                 grid.itemDoubleClicked(index)
-                grid.forceActiveFocus();
-            }
-
-            onClicked: {
-                grid.forceActiveFocus();
             }
         }
 
