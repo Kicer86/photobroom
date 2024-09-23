@@ -38,7 +38,7 @@ Internals.ToolsBase {
 
     view: Component { Components.ExListView {
         id: listView
-
+        objectName: "Data Completion List"
 
         spacing: 5
         highlightMoveDuration: 100
@@ -62,6 +62,7 @@ Internals.ToolsBase {
                 anchors.fill: parent
 
                 onClicked: {
+                    listView.forceActiveFocus();
                     listView.currentIndex = index
                 }
             }
