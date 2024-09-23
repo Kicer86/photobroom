@@ -117,12 +117,17 @@ Item {
                 MouseArea {
                     anchors.fill: parent
 
-                    acceptedButtons: Qt.RightButton
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
                     propagateComposedEvents: true
 
                     onClicked: function(mouse) {
-                        contextMenu.selection = gridView.selectedPhotos;
-                        contextMenu.popup(mouse.x, mouse.y);
+                        forceActiveFocus();
+                        mouse.accepted = false;                                 // reject event, so it will be passed down, to particular items
+
+                        if (mouse.button == Qt.RightButton) {
+                            contextMenu.selection = gridView.selectedPhotos;
+                            contextMenu.popup(mouse.x, mouse.y);
+                        }
                     }
                 }
 
