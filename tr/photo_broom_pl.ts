@@ -778,19 +778,19 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+209"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+214"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
