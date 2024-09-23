@@ -169,7 +169,7 @@ Flickable {
                 }
             }
 
-            onClicked: focus = true
+            onClicked: forceActiveFocus();
         }
     }
 }
