@@ -63,4 +63,6 @@ Components.MultiselectGridView {
     WheelSpeedControler {
         flickable: grid
     }
+
+    FocusOnClick { target: grid }
 }
