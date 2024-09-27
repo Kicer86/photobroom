@@ -23,7 +23,6 @@
 #include <QFileInfo>
 #include <opencv2/opencv.hpp>
 
-#include <system/system.hpp>
 #include "constants.hpp"
 #include "iconfiguration.hpp"
 #include "iexif_reader.hpp"
@@ -31,6 +30,8 @@
 #include "image_tools.hpp"
 #include "media_types.hpp"
 #include "video_media_information.hpp"
+
+import system;
 
 
 ThumbnailGenerator::ThumbnailGenerator(ILogger* logger, IExifReaderFactory& exif):

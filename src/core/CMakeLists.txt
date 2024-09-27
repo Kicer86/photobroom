@@ -124,6 +124,7 @@ target_include_directories(core
 )
 
 set_target_properties(core PROPERTIES AUTOMOC TRUE)
+set_target_properties(core PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 generate_export_header(core)
 hideSymbols(core)

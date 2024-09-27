@@ -4,22 +4,22 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="77"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="78"/>
         <source>Photos processing error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="86"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="87"/>
         <source>Preparing photos</source>
         <translation>Preparing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="92"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="93"/>
         <source>Stabilizing photos</source>
         <translation>Stabilizing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="118"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="119"/>
         <source>Saving animated file</source>
         <translation>Saving animated file</translation>
     </message>
@@ -261,7 +261,7 @@
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="174"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="175"/>
         <source>Preparing photos</source>
         <translation type="unfinished">Preparing photos</translation>
     </message>
@@ -269,17 +269,17 @@
 <context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="49"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="50"/>
         <source>Stabilizing photos</source>
         <translation type="unfinished">Stabilizing photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="61"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="62"/>
         <source>Geenrating HDR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="64"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="65"/>
         <source>Saving result</source>
         <translation type="unfinished"></translation>
     </message>
@@ -403,54 +403,54 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="192"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="191"/>
         <source>New version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="193"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="192"/>
         <source>New version of PhotoBroom is available &lt;a href=&quot;%1&quot;&gt;here&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="201"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="200"/>
         <source>Internet connection problem</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="202"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="201"/>
         <source>Could not check if there is new version of PhotoBroom.
 Please check your internet connection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="326"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="325"/>
         <source>Open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="326"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="325"/>
         <source>Photo Broom files (*.bpj)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="364"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="363"/>
         <source>About Photo Broom</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="370"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="369"/>
         <source>About Qt</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="406"/>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="415"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="405"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="414"/>
         <source>Unsupported photo collection version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="407"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="406"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your application is too old to open it.
 
@@ -458,7 +458,7 @@ Please upgrade application to open this collection.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="416"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="415"/>
         <source>Photo collection you are trying to open uses database in version which is not supported.
 It means your database is too old to open it.
 
@@ -466,12 +466,12 @@ It means your database is too old to open it.
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="423"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="422"/>
         <source>Could not open collection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="424"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="423"/>
         <source>Photo collection could not be opened.
 It usually means that collection files are broken
 or you don&apos;t have rights to access them.
@@ -481,23 +481,23 @@ Please check collection files:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="433"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="432"/>
         <source>Collection locked</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="434"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="433"/>
         <source>Photo collection could not be opened.
 It is already opened by another Photo Broom instance.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="441"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="440"/>
         <source>Unexpected error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="442"/>
+        <location filename="../src/gui/desktop/ui/mainwindow.cpp" line="441"/>
         <source>An unexpected error occured while opening photo collection.
 Please report a bug.
 Error code: %1</source>
@@ -561,7 +561,7 @@ Error code: %1</source>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="119"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="120"/>
         <source>Photo(s) location:</source>
         <translation>
             <numerusform>photo location:</numerusform>
@@ -569,7 +569,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="120"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="121"/>
         <source>Photo(s) size:</source>
         <translation>
             <numerusform>Photo size:</numerusform>
@@ -577,7 +577,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="121"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="122"/>
         <source>Photo(s) geometry:</source>
         <translation>
             <numerusform>Photo geometry:</numerusform>
@@ -585,7 +585,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="210"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="211"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n byte</numerusform>
@@ -593,7 +593,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="211"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="212"/>
         <source>%n kbyte(s)</source>
         <translation>
             <numerusform>%n kbyte</numerusform>
@@ -601,7 +601,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="212"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="213"/>
         <source>%n Mbyte(s)</source>
         <translation>
             <numerusform>%n Mbyte</numerusform>
@@ -609,7 +609,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="213"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="214"/>
         <source>%n Gbyte(s)</source>
         <translation>
             <numerusform>%n Gbyte</numerusform>
@@ -703,38 +703,38 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="144"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="268"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="143"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="267"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="144"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="143"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="268"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="267"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="315"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="314"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="350"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="349"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="351"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="350"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="352"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="351"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -816,12 +816,12 @@ Error code: %1</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="35"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="36"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="36"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="37"/>
         <source>?</source>
         <translation>?</translation>
     </message>
