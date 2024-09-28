@@ -21,10 +21,9 @@ GridView {
     MouseArea {
         anchors.fill: parent
 
-        acceptedButtons: Qt.LeftButton
         propagateComposedEvents: true
 
-        onClicked: function(mouse) {
+        onPressed: function(mouse) {
             var ctrl = mouse.modifiers & Qt.ControlModifier;
             var shift = mouse.modifiers & Qt.ShiftModifier;
 
