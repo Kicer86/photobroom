@@ -29,9 +29,20 @@ ListView {
     }
 
     MouseArea {
-        anchors.fill: parent
-
-        acceptedButtons: Qt.NoButton
+        id: exListMouseArea
+        anchors.fill: listView
+        enabled: listView.focusPolicy & Qt.ClickFocus == Qt.ClickFocus
         propagateComposedEvents: true
+
+        onPressed: function(mouse) {
+            mouse.accepted = false;
+
+            if (listView.activeFocus == false)
+                listView.forceActiveFocus();
+
+            var clickedIndex = indexAt(mouse.x, mouse.y);
+            if (clickedIndex != -1)
+                listView.currentIndex = clickedIndex;
+        }
     }
 }
