@@ -43,6 +43,7 @@ Internals.ToolsBase {
         spacing: 5
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
+        focusPolicy: Qt.StrongFocus
 
         model: dataSource
 
@@ -62,7 +63,6 @@ Internals.ToolsBase {
                 anchors.fill: parent
 
                 onClicked: {
-                    listView.forceActiveFocus();
                     listView.currentIndex = index
                 }
             }
