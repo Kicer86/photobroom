@@ -40,7 +40,7 @@ ListView {
             if (listView.activeFocus == false)
                 listView.forceActiveFocus();
 
-            var clickedIndex = indexAt(mouse.x, mouse.y);
+            var clickedIndex = indexAt(mouse.x + contentX, mouse.y + contentY);
             if (clickedIndex != -1)
                 listView.currentIndex = clickedIndex;
         }
