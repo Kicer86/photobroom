@@ -2,14 +2,14 @@
 import QtQuick
 
 MouseArea {
-
     required property Item target
 
     anchors.fill: target
+    enabled: target.focusPolicy & Qt.ClickFocus == Qt.ClickFocus
     propagateComposedEvents: true
 
-    onClicked: function(mouse) {
-        mouse.accepted = false;
+    onPressed: function(mouse) {
         target.forceActiveFocus();
+        mouse.accepted = false;
     }
 }
