@@ -18,6 +18,8 @@ Internals.ToolsBase
     loadedPrompt:  qsTr("Click here to search for duplicates again.")
     emptyPrompt:   qsTr("No duplicates found")
 
+    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
+
     model: DuplicatesModel {
         id: duplicatesModel
         database: PhotoBroomProject.database
@@ -26,10 +28,10 @@ Internals.ToolsBase
     view: Component { ExListView  {
         id: duplicatesList
 
+        focusPolicy: Qt.StrongFocus
         model: duplicatesModel
 
         delegate: ExListView {
-
             required property var duplicates
 
             implicitHeight: contentItem.childrenRect.height
@@ -39,7 +41,6 @@ Internals.ToolsBase
             model: duplicates
 
             delegate: Column {
-
                 required property var modelData
 
                 padding: Components.Constants.defaultThumbnailMargin
@@ -85,6 +86,11 @@ Internals.ToolsBase
                     wrapMode: Text.Wrap
                 }
             }
+        }
+
+        highlight: Rectangle {
+            color: currentPalette.highlight
+            radius: 5
         }
     }}
 }
