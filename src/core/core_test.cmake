@@ -8,8 +8,8 @@ find_package(Qt6     REQUIRED COMPONENTS Core Gui)
 find_package(Qt6Test REQUIRED)
 find_package(OpenCV  REQUIRED)
 
-find_program(PYTHON python REQUIRED)
-find_program(WGET wget REQUIRED)
+find_program(Python python REQUIRED)
+find_program(Wget wget REQUIRED)
 
 foreach(ext png jpeg)
     foreach(img img1 img2)
@@ -21,8 +21,8 @@ add_custom_command(
     OUTPUT
         alterd_images/img1_.png
         alterd_images/img2_.png
-    COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img1.png alterd_images
-    COMMAND ${PYTHON} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img2.png alterd_images
+    COMMAND ${Python} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img1.png alterd_images
+    COMMAND ${Python} ARGS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py img2.png alterd_images
     COMMAND ${CMAKE_COMMAND} -E copy img1.png alterd_images/img1_.png
     COMMAND ${CMAKE_COMMAND} -E copy img2.png alterd_images/img2_.png
     DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/core_test.py
@@ -47,7 +47,7 @@ if (BUILD_LEARNING_TESTS)
     set(hdr_photos_list)
     foreach(N 1 2 3)
         add_custom_command(OUTPUT wadi-rum-sunset${N}.jpg
-                           COMMAND ${WGET} https://www.easyhdr.com/examples/wadi-rum-sunset/wadi-rum-sunset${N}.jpg
+                           COMMAND ${Wget} https://www.easyhdr.com/examples/wadi-rum-sunset/wadi-rum-sunset${N}.jpg
                                            -O ${CMAKE_CURRENT_BINARY_DIR}/wadi-rum-sunset${N}.jpg
         )
 
@@ -63,7 +63,7 @@ if (BUILD_LEARNING_TESTS)
         get_filename_component(fileName ${URL} NAME)
 
         add_custom_command(OUTPUT ${fileName}
-                           COMMAND ${WGET} ${URL} -O ${CMAKE_CURRENT_BINARY_DIR}/${fileName}
+                           COMMAND ${Wget} ${URL} -O ${CMAKE_CURRENT_BINARY_DIR}/${fileName}
         )
 
         list(APPEND hdr_photos_list ${fileName})
@@ -114,7 +114,7 @@ endif()
 
 # for exif testing (https://github.com/golang/go/issues/4341)
 add_custom_command(OUTPUT exif_tests_images.tar
-                   COMMAND ${WGET} https://storage.googleapis.com/go-attachment/4341/0/f.tar -O exif_tests_images.tar
+                   COMMAND ${Wget} https://storage.googleapis.com/go-attachment/4341/0/f.tar -O exif_tests_images.tar
 )
 
 add_custom_command(OUTPUT f/f1.jpg
