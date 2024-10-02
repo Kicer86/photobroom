@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['main_2ecpp_0',['main.cpp',['../df/d0a/main_8cpp.html',1,'(Global Namespace)'],['../d7/db8/gui_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../de/d84/database_2unit__tests__for__backends_2main_8cpp.html',1,'(Global Namespace)'],['../d0/db5/database_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../df/d50/database_2benchmarks_2main_8cpp.html',1,'(Global Namespace)']]],
+  ['main_2ecpp_0',['main.cpp',['../df/d0a/main_8cpp.html',1,'(Global Namespace)'],['../d7/db8/gui_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../df/d50/database_2benchmarks_2main_8cpp.html',1,'(Global Namespace)'],['../d0/db5/database_2unit__tests_2main_8cpp.html',1,'(Global Namespace)'],['../de/d84/database_2unit__tests__for__backends_2main_8cpp.html',1,'(Global Namespace)']]],
   ['main_5ftab_2ecpp_1',['main_tab.cpp',['../d4/df5/main__tab_8cpp.html',1,'']]],
   ['main_5ftab_2ehpp_2',['main_tab.hpp',['../d1/dcc/main__tab_8hpp.html',1,'']]],
   ['mainwindow_2ecpp_3',['mainwindow.cpp',['../d8/dd9/mainwindow_8cpp.html',1,'']]],
@@ -19,7 +19,7 @@ var searchData=
   ['misc_2ecpp_16',['misc.cpp',['../d7/d5f/misc_8cpp.html',1,'']]],
   ['misc_2ehpp_17',['misc.hpp',['../d0/d0e/misc_8hpp.html',1,'']]],
   ['mock_5fbackend_2ehpp_18',['mock_backend.hpp',['../d4/dbd/mock__backend_8hpp.html',1,'']]],
-  ['mock_5fconfiguration_2ehpp_19',['mock_configuration.hpp',['../d0/d2c/gui_2unit__tests_2test__helpers_2mock__configuration_8hpp.html',1,'(Global Namespace)'],['../d2/df4/unit__tests__utils_2mock__configuration_8hpp.html',1,'(Global Namespace)']]],
+  ['mock_5fconfiguration_2ehpp_19',['mock_configuration.hpp',['../d2/df4/unit__tests__utils_2mock__configuration_8hpp.html',1,'(Global Namespace)'],['../d0/d2c/gui_2unit__tests_2test__helpers_2mock__configuration_8hpp.html',1,'(Global Namespace)']]],
   ['mock_5fcore_5ffactory_5faccessor_2ehpp_20',['mock_core_factory_accessor.hpp',['../d0/db4/mock__core__factory__accessor_8hpp.html',1,'']]],
   ['mock_5fdatabase_2ehpp_21',['mock_database.hpp',['../d3/d62/mock__database_8hpp.html',1,'']]],
   ['mock_5fexif_5freader_2ehpp_22',['mock_exif_reader.hpp',['../da/d9a/mock__exif__reader_8hpp.html',1,'']]],
