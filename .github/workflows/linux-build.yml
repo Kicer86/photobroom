@@ -83,7 +83,8 @@ jobs:
         key: ${{ github.job }}-${{ matrix.compiler.compiler }}
 
     - name: Setup environment
-      run: echo "ENABLE_SANITIZERS=$( test ${{ matrix.build }} == "Release" && echo "ON" || echo "OFF" )" >> $GITHUB_ENV
+      run: |
+        echo "ENABLE_SANITIZERS=$( test ${{ matrix.build }} == "Release" && echo "ON" || echo "OFF" )" >> $GITHUB_ENV
 
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
@@ -99,6 +100,7 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
+            -DPython=/usr/bin/python3
         run-test: true
         ctest-options:
             -LE HeavyData
