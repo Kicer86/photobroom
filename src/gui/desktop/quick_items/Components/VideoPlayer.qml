@@ -17,6 +17,8 @@ VideoOutput {
                 mediaPlayer.pause();
             else
                 mediaPlayer.play();
+
+            videoOutputItem.forceActiveFocus();
         }
     }
 

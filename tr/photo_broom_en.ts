@@ -915,12 +915,12 @@ Error code: %1</source>
 <context>
     <name>VideoPlayer</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="86"/>
         <source>Playing</source>
         <translation>Playing</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="86"/>
         <source>Paused</source>
         <translation>Paused</translation>
     </message>
