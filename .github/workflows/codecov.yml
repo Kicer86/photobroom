@@ -55,7 +55,7 @@ jobs:
 
     - name: Install magic enum
       run: |
-        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
+        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/v0.9.6/include/magic_enum/magic_enum.hpp -O /usr/include/magic_enum.hpp
 
     - name: Install CsLibGuarded
       run: |
@@ -88,6 +88,8 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Debug
+        cc: clang
+        cxx: clang++
         configure-options:
             -DBUILD_SHARED_LIBS=${{ matrix.shared }}
             -DLUPDATE=/usr/lib/qt6/bin/lupdate
@@ -100,6 +102,7 @@ jobs:
             -DCMAKE_CXX_FLAGS=--coverage
             -DCMAKE_SHARED_LINKER_FLAGS=--coverage
             -DCMAKE_EXE_LINKER_FLAGS=--coverage
+            -G Ninja
         run-test: true
         ctest-options:
             --output-on-failure

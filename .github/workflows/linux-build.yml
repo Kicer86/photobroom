@@ -15,8 +15,8 @@ jobs:
       fail-fast: false
       matrix:
         compiler:
-          - { compiler: GNU, CC: gcc, CXX: g++ }
-          - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
+          # - { compiler: GNU, CC: gcc-14, CXX: g++-14 }
+          - { compiler: LLVM, CC: clang, CXX: clang++ }
         build: [Release]
         shared: [TRUE, FALSE]
         os: [ubuntu-24.04]
@@ -60,7 +60,7 @@ jobs:
 
     - name: Install magic enum
       run: |
-        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
+        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/v0.9.6/include/magic_enum/magic_enum.hpp -O /usr/include/magic_enum.hpp
 
     - name: Install CsLibGuarded
       run: |
@@ -106,6 +106,7 @@ jobs:
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
             -Wdev -Werror=dev
+            -G Ninja
         run-test: true
         ctest-options:
             -LE HeavyData
