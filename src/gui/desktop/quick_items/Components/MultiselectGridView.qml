@@ -1,5 +1,5 @@
 
-import QtQuick 2.15
+import QtQuick
 import quick_items
 
 // Generic component extending GridView by multiselection.
