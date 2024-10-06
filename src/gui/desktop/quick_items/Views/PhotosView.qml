@@ -43,6 +43,11 @@ Item {
         controller: photosModelControllerId
 
         visible: photosModelControllerId.datesCount > 0
+        height: photosArea.depth == 1? implicitHeight: 0
+
+        Behavior on height {
+            PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
+        }
     }
 
     StackView {
