@@ -99,6 +99,7 @@ Item {
                 SplitView.preferredWidth: parent.width * 3/4
 
                 clip: true
+                focusPolicy: Qt.StrongFocus
 
                 model: photosModelControllerId.photos
                 thumbnailSize: thumbnailSliderId.size
