@@ -6,7 +6,7 @@
     "patch": 0
   },
   "configurePresets": [
-    { "name": "base",  "hidden": true, "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake" },
+    { "name": "base",  "hidden": true, "binaryDir": "${sourceDir}/out/build/${presetName}", "installDir": "${sourceDir}/out/install/${presetName}" },
     { "name": "vcpkg", "hidden": true, "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake" },
     { "name": "ninja", "hidden": true, "generator": "Ninja" },
     { "name": "release", "hidden": true, "cacheVariables": { "CMAKE_BUILD_TYPE":  "Release", "BUILD_TESTING": "OFF" } },
