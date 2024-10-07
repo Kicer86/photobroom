@@ -9,8 +9,8 @@
     { "name": "base",  "hidden": true, "binaryDir": "${sourceDir}/out/build/${presetName}", "installDir": "${sourceDir}/out/install/${presetName}" },
     { "name": "vcpkg", "hidden": true, "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake" },
     { "name": "ninja", "hidden": true, "generator": "Ninja" },
-    { "name": "release", "hidden": true, "cacheVariables": { "CMAKE_BUILD_TYPE":  "Release", "BUILD_TESTING": "OFF" } },
-    { "name": "debug",   "hidden": true, "cacheVariables": { "CMAKE_BUILD_TYPE":  "Debug" } },
+    { "name": "release", "hidden": true, "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "BUILD_TESTING": "OFF" } },
+    { "name": "debug",   "hidden": true, "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" } },
     {
       "name": "ninja_debug_vcpkg",
       "inherits": ["base", "vcpkg", "ninja", "debug"],
