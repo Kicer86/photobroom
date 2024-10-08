@@ -6,30 +6,22 @@
     "patch": 0
   },
   "configurePresets": [
+    { "name": "base",  "hidden": true, "binaryDir": "${sourceDir}/out/build/${presetName}", "installDir": "${sourceDir}/out/install/${presetName}" },
+    { "name": "vcpkg", "hidden": true, "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake" },
+    { "name": "ninja", "hidden": true, "generator": "Ninja" },
+    { "name": "release", "hidden": true, "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "BUILD_TESTING": "OFF" } },
+    { "name": "debug",   "hidden": true, "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" } },
     {
       "name": "ninja_debug_vcpkg",
+      "inherits": ["base", "vcpkg", "ninja", "debug"],
       "displayName": "Ninja Debug Config",
-      "description": "Configure with vcpkg toolchain",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
-      "generator": "Ninja",
-      "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
+      "description": "Configure with vcpkg toolchain"
     },
     {
       "name": "ninja_release_vcpkg",
+      "inherits": ["base", "vcpkg", "ninja", "release"],
       "displayName": "Ninja Release Config",
-      "description": "Configure with vcpkg toolchain",
-      "binaryDir": "${sourceDir}/out/build/${presetName}",
-      "installDir": "${sourceDir}/out/install/${presetName}",
-      "generator": "Ninja",
-      "toolchainFile": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-      "cacheVariables": {
-        "BUILD_TESTING": "OFF",
-        "CMAKE_BUILD_TYPE":  "Release"
-      }
+      "description": "Configure with vcpkg toolchain"
     }
   ],
   "buildPresets": [
