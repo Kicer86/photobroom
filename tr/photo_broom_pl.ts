@@ -559,7 +559,7 @@ Kod błędu: %1</translation>
         <translation>Zapisywanie wyników...</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+59"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
@@ -569,7 +569,7 @@ Kod błędu: %1</translation>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-85"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
@@ -778,19 +778,19 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+210"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+215"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -943,7 +943,7 @@ Kod błędu: %1</translation>
 <context>
     <name>VideoPlayer</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="+84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="+86"/>
         <source>Playing</source>
         <translation>Odtwarzanie</translation>
     </message>

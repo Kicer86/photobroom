@@ -538,12 +538,12 @@ Error code: %1</source>
         <translation>Saving results...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="89"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="90"/>
         <source>Guessed date:</source>
         <translation>Guessed date:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="111"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="112"/>
         <source>Save selected photos</source>
         <translation>Save selected photos</translation>
     </message>
@@ -750,17 +750,17 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="210"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="215"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="223"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="228"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="236"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="241"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -915,12 +915,12 @@ Error code: %1</source>
 <context>
     <name>VideoPlayer</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="86"/>
         <source>Playing</source>
         <translation>Playing</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="86"/>
         <source>Paused</source>
         <translation>Paused</translation>
     </message>

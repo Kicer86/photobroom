@@ -38,11 +38,12 @@ Internals.ToolsBase {
 
     view: Component { Components.ExListView {
         id: listView
-
+        objectName: "Data Completion List"
 
         spacing: 5
         highlightMoveDuration: 100
         highlightMoveVelocity: -1
+        focusPolicy: Qt.StrongFocus
 
         model: dataSource
 
@@ -117,9 +118,3 @@ Internals.ToolsBase {
         }
     } }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/

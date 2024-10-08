@@ -17,8 +17,8 @@ Item {
 
     property var controller
 
-    height: childrenRect.height
-    width: childrenRect.width
+    implicitHeight: childrenRect.height
+    implicitWidth: childrenRect.width
 
     clip: true
 
@@ -122,7 +122,7 @@ Item {
 
             PropertyChanges {
                 target: root
-                height: row.height
+                implicitHeight: row.height
             }
         },
         State {
@@ -131,12 +131,12 @@ Item {
 
             PropertyChanges {
                 target: root
-                height: row.height + row1.height
+                implicitHeight: row.height + row1.height
             }
         }
     ]
 
     transitions: Transition {
-        PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
+        PropertyAnimation { properties: "implicitHeight"; easing.type: Easing.InOutQuad; duration: 200 }
     }
 }

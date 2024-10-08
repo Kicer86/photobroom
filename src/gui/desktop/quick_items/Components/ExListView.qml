@@ -2,6 +2,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import QmlItems
+
 
 ListView {
     id: listView
@@ -20,10 +22,27 @@ ListView {
         visible: listView.contentWidth > listView.width
     }
 
-    MouseArea {
-        anchors.fill: parent
+    WheelSpeedControler
+    {
+        enabled: listView.orientation == ListView.Vertical
+        flickable: listView
+    }
 
-        acceptedButtons: Qt.NoButton
+    MouseArea {
+        id: exListMouseArea
+        anchors.fill: listView
+        enabled: listView.focusPolicy & Qt.ClickFocus == Qt.ClickFocus
         propagateComposedEvents: true
+
+        onPressed: function(mouse) {
+            mouse.accepted = false;
+
+            if (listView.activeFocus == false)
+                listView.forceActiveFocus();
+
+            var clickedIndex = indexAt(mouse.x + contentX, mouse.y + contentY);
+            if (clickedIndex != -1)
+                listView.currentIndex = clickedIndex;
+        }
     }
 }

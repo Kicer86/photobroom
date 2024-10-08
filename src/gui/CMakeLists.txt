@@ -1,5 +1,5 @@
 
-find_package(Qt6 REQUIRED COMPONENTS Widgets QuickControls2)
+find_package(Qt6 6.7 REQUIRED COMPONENTS Widgets QuickControls2)
 
 include(GenerateExportHeader)
 
