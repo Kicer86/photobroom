@@ -174,11 +174,13 @@ target_link_libraries(core_ut
 )
 
 target_include_directories(core_ut
+    SYSTEM PRIVATE
+        ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
+
     PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         ${CMAKE_CURRENT_SOURCE_DIR}
         ${CMAKE_CURRENT_BINARY_DIR}
-        ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
         ${PROJECT_BINARY_DIR}
 )
 
