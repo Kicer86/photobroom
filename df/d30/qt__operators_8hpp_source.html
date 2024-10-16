@@ -96,24 +96,24 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>}</div>
 </div>
 <div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="foldopen" id="foldopen00014" data-start="{" data-end="}">
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno"><a class="line" href="../../df/d30/qt__operators_8hpp.html#ab2e39d574e59b9d9ca9e663de9deda4b">   14</a></span><span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="../../df/d30/qt__operators_8hpp.html#a94b2901389e2be4ae0c80342f73a8cca">operator&lt;=&gt;</a>(<span class="keyword">const</span> QString&amp; lhs, <span class="keyword">const</span> QString&amp; rhs)</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>{</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>    <span class="keywordflow">if</span> (lhs &lt; rhs)</div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>        <span class="keywordflow">return</span> std::strong_ordering::less;</div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lhs &gt; rhs)</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>        <span class="keywordflow">return</span> std::strong_ordering::greater;</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    <span class="keywordflow">else</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordflow">return</span> std::strong_ordering::equal;</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>}</div>
-</div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span> </div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#if QT_VERSION &lt; QT_VERSION_CHECK(6, 8, 0)</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code hl_function" href="../../df/d30/qt__operators_8hpp.html#a94b2901389e2be4ae0c80342f73a8cca">operator&lt;=&gt;</a>(<span class="keyword">const</span> QString&amp; lhs, <span class="keyword">const</span> QString&amp; rhs)</div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>{</div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span>    <span class="keywordflow">if</span> (lhs &lt; rhs)</div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span>        <span class="keywordflow">return</span> std::strong_ordering::less;</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (lhs &gt; rhs)</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>        <span class="keywordflow">return</span> std::strong_ordering::greater;</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>    <span class="keywordflow">else</span></div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>        <span class="keywordflow">return</span> std::strong_ordering::equal;</div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>}</div>
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aqt__operators_8hpp_html_a94b2901389e2be4ae0c80342f73a8cca"><div class="ttname"><a href="../../df/d30/qt__operators_8hpp.html#a94b2901389e2be4ae0c80342f73a8cca">operator&lt;=&gt;</a></div><div class="ttdeci">auto operator&lt;=&gt;(const QRect &amp;lhs, const QRect &amp;rhs)</div><div class="ttdef"><b>Definition</b> qt_operators.hpp:9</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Oct 8 2024 10:40:41 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Wed Oct 16 2024 20:59:39 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>
