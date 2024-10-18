@@ -15,8 +15,6 @@ Internals.ToolsBase {
 
     property var selectedPhoto: []      // selected photo
 
-    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
-
     Components.DelegateState {
         id: delegateState
 
@@ -91,11 +89,6 @@ Internals.ToolsBase {
                     }
                 }
             }
-        }
-
-        highlight: Rectangle {
-            color: currentPalette.highlight
-            radius: 5
         }
 
         onCurrentIndexChanged: {

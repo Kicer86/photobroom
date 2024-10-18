@@ -18,8 +18,6 @@ Internals.ToolsBase
     loadedPrompt:  qsTr("Click here to search for duplicates again.")
     emptyPrompt:   qsTr("No duplicates found")
 
-    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
-
     model: DuplicatesModel {
         id: duplicatesModel
         database: PhotoBroomProject.database
@@ -86,11 +84,6 @@ Internals.ToolsBase
                     wrapMode: Text.Wrap
                 }
             }
-        }
-
-        highlight: Rectangle {
-            color: currentPalette.highlight
-            radius: 5
         }
     }}
 }
