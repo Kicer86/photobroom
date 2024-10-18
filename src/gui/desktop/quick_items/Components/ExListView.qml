@@ -12,6 +12,8 @@ ListView {
     flickDeceleration: 10000
     clip: true
 
+    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
+
     ScrollBar.vertical: ScrollBar {
         anchors.right: parent.right
         visible: listView.contentHeight > listView.height
@@ -20,6 +22,14 @@ ListView {
     ScrollBar.horizontal: ScrollBar {
         anchors.bottom: parent.bottom
         visible: listView.contentWidth > listView.width
+    }
+
+
+    highlight: Rectangle {
+        color: currentPalette.highlight
+        radius: 5
+
+        visible: listView.orientation == ListView.Vertical
     }
 
     WheelSpeedControler
