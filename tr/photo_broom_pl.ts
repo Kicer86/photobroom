@@ -559,7 +559,7 @@ Kod błędu: %1</translation>
         <translation>Zapisywanie wyników...</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+57"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
@@ -569,7 +569,7 @@ Kod błędu: %1</translation>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="-80"/>
+        <location line="-78"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>

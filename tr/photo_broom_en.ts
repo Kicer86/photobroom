@@ -538,12 +538,12 @@ Error code: %1</source>
         <translation>Saving results...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="88"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="86"/>
         <source>Guessed date:</source>
         <translation>Guessed date:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="105"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="103"/>
         <source>Save selected photos</source>
         <translation>Save selected photos</translation>
     </message>
