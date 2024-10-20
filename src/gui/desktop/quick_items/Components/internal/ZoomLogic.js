@@ -1,4 +1,6 @@
 
+.pragma library
+
 /**
  * @arg scaleDelta
  * @arg mouse point on view where zoom occurs

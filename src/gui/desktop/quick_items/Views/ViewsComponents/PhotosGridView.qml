@@ -19,6 +19,7 @@ Components.MultiselectGridView {
 
     signal itemDoubleClicked(int index)
 
+    boundsMovement: Flickable.StopAtBounds
     flickDeceleration: 10000
     cellWidth: thumbnailSize + thumbnailMargin * 2
     cellHeight: thumbnailSize + thumbnailMargin * 2
@@ -59,7 +60,9 @@ Components.MultiselectGridView {
 
     ScrollBar.vertical: ScrollBar { }
 
-    // TODO: without it parent (PhotosView) doesn't get focus and Esc key does not work.
-    // Figure out how to drop this.
-    Focuser { }
+    WheelSpeedControler {
+        flickable: grid
+    }
+
+    FocusOnClick { target: grid }
 }

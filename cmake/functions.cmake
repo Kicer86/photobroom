@@ -1,5 +1,5 @@
 
-find_program(Python python REQUIRED)
+find_program(Python NAMES python3 python REQUIRED)
 
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
@@ -147,13 +147,19 @@ function(determine_image_conversion_tool result)
         if(_result EQUAL 0)        # success
             set(${result} "PYTHON")
             return(PROPAGATE ${result})
+        else()
+            message(DEBUG "Image conversion: Python found but 'svg2any.py --check-requirements _ _' exited with an error")
         endif()
+    else()
+        message(DEBUG "Image conversion: Python not found")
     endif()
 
     find_program(Magick magick)
     if(Magick)
         set(${result} "MAGICK")
         return(PROPAGATE ${result})
+    else()
+        message(DEBUG "Image conversion: Magick not found. No tool for image conversion found")
     endif()
 
     set(${result} "NONE")

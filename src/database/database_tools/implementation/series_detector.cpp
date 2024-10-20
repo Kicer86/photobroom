@@ -295,7 +295,7 @@ namespace
 
                 std::vector<SeriesDetector::ExplicitDelta> members;
 
-                m_logger->debug(QString("Processing group of %1 condidates").arg(std::distance(m_photos.end(), it)));
+                m_logger->debug(QString("Processing group of %1 condidates").arg(std::distance(it, m_photos.end())));
                 for (auto it2 = it; it2 != m_photos.end(); ++it2)
                 {
                     const auto& data = *it2;

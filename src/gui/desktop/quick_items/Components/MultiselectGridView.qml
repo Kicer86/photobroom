@@ -1,5 +1,5 @@
 
-import QtQuick 2.15
+import QtQuick
 import quick_items
 
 // Generic component extending GridView by multiselection.
@@ -21,10 +21,9 @@ GridView {
     MouseArea {
         anchors.fill: parent
 
-        acceptedButtons: Qt.LeftButton
         propagateComposedEvents: true
 
-        onClicked: function(mouse) {
+        onPressed: function(mouse) {
             var ctrl = mouse.modifiers & Qt.ControlModifier;
             var shift = mouse.modifiers & Qt.ShiftModifier;
 
@@ -40,7 +39,6 @@ GridView {
             }
 
             grid.currentIndex = index;
-
             mouse.accepted = false;
         }
     }
@@ -82,9 +80,3 @@ GridView {
         }
     }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/

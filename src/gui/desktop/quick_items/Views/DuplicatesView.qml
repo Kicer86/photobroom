@@ -23,13 +23,13 @@ Internals.ToolsBase
         database: PhotoBroomProject.database
     }
 
-    view: Component { Components.ExListView  {
+    view: Component { ExListView  {
         id: duplicatesList
 
+        focusPolicy: Qt.StrongFocus
         model: duplicatesModel
 
-        delegate: Components.ExListView {
-
+        delegate: ExListView {
             required property var duplicates
 
             implicitHeight: contentItem.childrenRect.height
@@ -39,7 +39,6 @@ Internals.ToolsBase
             model: duplicates
 
             delegate: Column {
-
                 required property var modelData
 
                 padding: Components.Constants.defaultThumbnailMargin

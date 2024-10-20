@@ -15,8 +15,6 @@ Internals.ToolsBase {
 
     property var selectedPhoto: []      // selected photo
 
-    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
-
     Components.DelegateState {
         id: delegateState
 
@@ -38,11 +36,10 @@ Internals.ToolsBase {
 
     view: Component { Components.ExListView {
         id: listView
-
+        objectName: "Data Completion List"
 
         spacing: 5
-        highlightMoveDuration: 100
-        highlightMoveVelocity: -1
+        focusPolicy: Qt.StrongFocus
 
         model: dataSource
 
@@ -92,11 +89,6 @@ Internals.ToolsBase {
             }
         }
 
-        highlight: Rectangle {
-            color: currentPalette.highlight
-            radius: 5
-        }
-
         onCurrentIndexChanged: {
             root.selectedPhoto = dataSource.getId(currentIndex);
         }
@@ -117,9 +109,3 @@ Internals.ToolsBase {
         }
     } }
 }
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
