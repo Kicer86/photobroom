@@ -10,6 +10,8 @@ ListView {
 
     boundsMovement: Flickable.StopAtBounds
     flickDeceleration: 10000
+    highlightMoveDuration: 100
+    highlightMoveVelocity: -1
     clip: true
 
     SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
