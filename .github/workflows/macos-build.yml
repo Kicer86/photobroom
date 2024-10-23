@@ -46,9 +46,6 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
-        configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_CXX_FLAGS=-fexperimental-library -DCMAKE_SHARED_LINKER_FLAGS=-lc++abi
-        cc: /opt/homebrew/opt/llvm/bin/clang
-        cxx: /opt/homebrew/opt/llvm/bin/clang++
-        parallel: 1
+        configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON
       env:
         VERBOSE: 1
