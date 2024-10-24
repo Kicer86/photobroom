@@ -95,7 +95,7 @@ QVariant FacesModel::data(const QModelIndex& index, int role) const
         else if (role == Roles::FaceRectRole)
             return m_faces[row]->rect();
         else if (role == Roles::UncertainRole)
-            return m_isUncertain[row];
+            return QVariant(m_isUncertain[row]);
     }
 
     return {};
