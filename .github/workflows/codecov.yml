@@ -7,9 +7,15 @@ on:
       - master
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+
 jobs:
   build:
     name: "Unit tests coverage"
+
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
