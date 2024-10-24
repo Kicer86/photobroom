@@ -33,7 +33,7 @@ SeriesModel::SeriesModel()
 
 SeriesModel::~SeriesModel()
 {
-    m_work.request_stop();
+
 }
 
 
