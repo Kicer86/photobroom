@@ -10,6 +10,9 @@ on:
 jobs:
   build:
     name: "Build PhotoBroom sources on Linux"
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: false
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

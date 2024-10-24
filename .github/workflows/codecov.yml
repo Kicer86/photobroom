@@ -10,6 +10,11 @@ on:
 jobs:
   build:
     name: "Unit tests coverage"
+
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: false
+
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false

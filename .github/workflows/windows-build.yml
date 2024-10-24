@@ -13,6 +13,9 @@ env:
 jobs:
   build-dependencies:
     name: "Build PhotoBroom dependencies for Windows"
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: false
     runs-on: windows-latest
     strategy:
       fail-fast: true
