@@ -2,8 +2,8 @@
 #pragma once
 
 #include <QObject>
+#include <QFuture>
 
-#include <core/function_wrappers.hpp>
 #include <database/photo_data.hpp>
 #include <database/idatabase.hpp>
 
@@ -21,7 +21,7 @@ class DATABASE_EXPORT PhotoDeltaFetcher: public QObject
         void fetchIds(const std::vector<Photo::Id> &, const std::set<Photo::Field> &);
 
     private:
-        safe_callback_ctrl m_callbackCtrl;
+        QFuture<std::vector<Photo::DataDelta>> m_dataFetchFuture;
         Database::IDatabase& m_db;
 
         void storePhotoData(const std::vector<Photo::DataDelta> &);

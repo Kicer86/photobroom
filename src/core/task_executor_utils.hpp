@@ -310,7 +310,38 @@ class CORE_EXPORT TasksQueue: public ITaskExecutor, public Queue<std::unique_ptr
         void passTaskToExecutor(std::unique_ptr<ITask> &&, const Notifier &) override;
 };
 
+template<typename C>
+class InlineTask: public ITaskExecutor::ITask
+{
+    public:
+        InlineTask(const std::string& name, C&& task)
+            : m_name(name)
+            , m_task(std::forward<C>(task))
+        {
 
-CORE_EXPORT std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()>&& task);
+        }
+
+        std::string name() const override
+        {
+            return m_name;
+        }
+
+        void perform() override
+        {
+            m_task();
+        }
+
+    private:
+        typedef typename std::remove_reference<C>::type C_T;
+        const std::string m_name;
+        C_T m_task;
+};
+
+
+template<typename C>
+std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, C&& task)
+{
+    return std::make_unique<InlineTask<C>>(name, std::forward<C>(task));
+}
 
 #endif
