@@ -7,15 +7,17 @@ on:
       - master
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+
 env:
   VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
 
 jobs:
   build-dependencies:
     name: "Build PhotoBroom dependencies for Windows"
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: false
     runs-on: windows-latest
     strategy:
       fail-fast: true
