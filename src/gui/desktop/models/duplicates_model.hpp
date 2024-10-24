@@ -24,7 +24,7 @@ public:
 private:
     Database::IDatabase* m_db = nullptr;
 
-    void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<std::vector<Photo::DataDelta>>>) override;
+    void loadData(QPromise<DataVector> &&) override;
     void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 
 signals:

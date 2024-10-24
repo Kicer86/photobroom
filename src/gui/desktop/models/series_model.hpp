@@ -47,7 +47,7 @@ private:
     ICoreFactoryAccessor* m_core = nullptr;
     std::stop_source m_work;
 
-    void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>>) override;
+    void loadData(QPromise<DataVector> &&) override;
     void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 };
 
