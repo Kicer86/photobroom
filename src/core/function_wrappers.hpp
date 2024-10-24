@@ -81,6 +81,8 @@ class safe_callback_ctrl final
             // Otherwise owner class may be partialy destructed before
             // safe_callback_ctrl is reseted which will allow
             // callbacks to work on a broken object
+            auto data = m_data.load();
+            assert(data.get() == nullptr || data.use_count() == 2);  // no data, or only one client - us (there are 2 copies of data - `m_data` and `data`)
 
             reset();
         }
@@ -88,8 +90,10 @@ class safe_callback_ctrl final
         template<typename... R, typename T>
         [[nodiscard]] auto make_safe_callback(T&& callback) const
         {
-            std::lock_guard lock(m_data->mutex);
-            safe_callback<R...> callbackPtr(m_data, std::forward<T>(callback));
+            auto data = m_data.load();
+
+            std::lock_guard lock(data->mutex);
+            safe_callback<R...> callbackPtr(data, std::forward<T>(callback));
 
             return callbackPtr;
         }
@@ -106,26 +110,30 @@ class safe_callback_ctrl final
         template<typename...>
         friend class safe_callback;
 
-        std::shared_ptr<safe_callback_data> m_data;
+        std::atomic<std::shared_ptr<safe_callback_data>> m_data;
 
         void setup()
         {
-            m_data.reset();
+            m_data.store(std::make_shared<safe_callback_data>());
         }
 
         void reset()
         {
             // mark all safe callbacks as invalid
             {
+                // make copy of shared_ptr - reset() may be called from any thread, so we cannot operate on the same instance of m_data
+                // as main thread. Operate on a copy instead which is thread safe
+                auto data = m_data.load();
+
                 // lock resource
-                std::lock_guard lock(m_data->mutex);
+                std::lock_guard lock(data->mutex);
 
                 // mark resource as dead
-                m_data->callbackAlive = false;
+                data->callbackAlive = false;
             }
 
             // replace m_data with empty shared_ptr (as result, resetting m_data)
-            m_data.reset();
+            m_data.store(std::shared_ptr<safe_callback_data>());
         }
 };
 
