@@ -68,9 +68,9 @@ Database::IDatabase* DuplicatesModel::db() const
 }
 
 
-void DuplicatesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<std::vector<Photo::DataDelta>>> callback)
+void DuplicatesModel::loadData(QPromise<DataVector>&& promise)
 {
-    m_db->exec([callback](Database::IBackend& backend)
+    m_db->exec([promise = std::move(promise)](Database::IBackend& backend) mutable
     {
         const auto ids = backend.photoOperator().onPhotos(Database::FilterSimilarPhotos{}, Database::Actions::Sort(Database::Actions::Sort::By::PHash));
 
@@ -95,7 +95,8 @@ void DuplicatesModel::loadData(const std::stop_token& stopToken, StoppableTaskCa
             it = nextIt;
         }
 
-        callback(grouped);
+        promise.addResult(grouped);
+        promise.finish();
     },
     "Looking for photo duplicates"
     );

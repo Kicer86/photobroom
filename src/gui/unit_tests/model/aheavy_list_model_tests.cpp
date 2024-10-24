@@ -14,7 +14,7 @@ public:
     MOCK_METHOD(int, rowCount, (const QModelIndex &), (const, override));
     MOCK_METHOD(QVariant, data, (const QModelIndex &, int), (const, override));
 
-    MOCK_METHOD(void, loadData, (const std::stop_token &stopToken, StoppableTaskCallback<std::vector<int>>), (override));
+    MOCK_METHOD(void, loadData, (QPromise<std::vector<int>> &&), (override));
     MOCK_METHOD(void, applyRows, (const QList<int> &, AHeavyListModel::ApplyToken), (override));
 };
 
@@ -32,10 +32,11 @@ TEST(AHeavyListModelTest, process)
     NiceMock<AHeavyListModelMock> model;
     EXPECT_CALL(model, loadData).WillOnce(
         Invoke(
-            [&model](const std::stop_token, auto callback)
+            [&model](QPromise<std::vector<int>>&& promise)
             {
                 EXPECT_EQ(model.state(), AHeavyListModelMock::Fetching);
-                callback(std::vector<int>(555));
+                promise.addResult(std::vector<int>(555));
+                promise.finish();
             }
         )
     );

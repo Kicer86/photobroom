@@ -273,11 +273,11 @@ namespace
         SeriesExtractor(Database::IDatabase& db,
                         const std::deque<SeriesDetector::ExplicitDelta>& photos,
                         std::unique_ptr<ILogger> logger,
-                        const std::stop_token& stop_token)
+                        const QPromise<std::vector<GroupCandidate>>& promise)
             : m_db(db)
             , m_photos(photos)
             , m_logger(std::move(logger))
-            , m_stopToken(stop_token)
+            , m_promise(promise)
         {
 
         }
@@ -288,7 +288,7 @@ namespace
 
             for (auto it = m_photos.begin(); it != m_photos.end();)
             {
-                if (m_stopToken.stop_requested())
+                if (m_promise.isCanceled())
                     throw abort_exception();
 
                 validator.reset();
@@ -342,7 +342,7 @@ namespace
         Database::IDatabase& m_db;
         std::deque<SeriesDetector::ExplicitDelta> m_photos;
         std::unique_ptr<ILogger> m_logger;
-        std::stop_token m_stopToken;
+        const QPromise<std::vector<GroupCandidate>>& m_promise;
     };
 }
 
@@ -355,10 +355,10 @@ SeriesDetector::Rules::Rules(std::chrono::milliseconds gap, bool neighbours)
 }
 
 
-SeriesDetector::SeriesDetector(ILogger& logger, Database::IDatabase& db, IExifReader& exif, const std::stop_token& stopToken)
+SeriesDetector::SeriesDetector(ILogger& logger, Database::IDatabase& db, IExifReader& exif, QPromise<std::vector<GroupCandidate>>& promise)
     : m_logger(logger)
     , m_db(db)
-    , m_stopToken(stopToken)
+    , m_promise(promise)
     , m_exifReader(exif)
 {
 
@@ -424,7 +424,7 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Expli
 
     try
     {
-        SeriesExtractor extractor(m_db, prefiltered, m_logger.subLogger("SeriesExtractor"), m_stopToken);
+        SeriesExtractor extractor(m_db, prefiltered, m_logger.subLogger("SeriesExtractor"), m_promise);
         std::vector<GroupCandidate> sequences;
 
         timer.restart();

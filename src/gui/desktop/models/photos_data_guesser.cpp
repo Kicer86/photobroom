@@ -85,10 +85,10 @@ QHash<int, QByteArray> PhotosDataGuesser::roleNames() const
 }
 
 
-void PhotosDataGuesser::loadData(const std::stop_token &stopToken, StoppableTaskCallback<std::vector<CollectedData>> callback)
+void PhotosDataGuesser::loadData(QPromise<DataVector>&& promise)
 {
     if (m_db != nullptr)
-        m_db->exec([callback, stopToken](Database::IBackend& backend)
+        m_db->exec([promise = std::move(promise)](Database::IBackend& backend) mutable
         {
             const Database::FilterPhotosWithFlags analyzed({ { Photo::FlagsE::ExifLoaded, PhotosAnalyzerConsts::ExifFlagVersion } });
             const Database::FilterPhotosWithTag date(Tag::Types::Date);
@@ -101,7 +101,7 @@ void PhotosDataGuesser::loadData(const std::stop_token &stopToken, StoppableTask
 
             for(const Photo::Id& id: ids)
             {
-                if (stopToken.stop_requested())
+                if (promise.isCanceled())
                     break;
 
                 const auto photoData = backend.getPhotoDelta<Photo::Field::Path>(id);
@@ -126,7 +126,8 @@ void PhotosDataGuesser::loadData(const std::stop_token &stopToken, StoppableTask
                 }
             }
 
-            callback(photos);
+            promise.addResult(photos);
+            promise.finish();
         });
 }
 

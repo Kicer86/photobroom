@@ -149,7 +149,6 @@ add_executable(core_ut
 
     unit_tests/containers_utils_tests.cpp
     unit_tests/data_from_path_extractor_tests.cpp
-    unit_tests/function_wrappers_tests.cpp
     unit_tests/image_aligner_tests.cpp
     unit_tests/json_serializer_tests.cpp
     unit_tests/lazy_ptr_tests.cpp

@@ -5,35 +5,6 @@
 #include "containers_utils.hpp"
 
 
-namespace
-{
-    class InlineTask: public ITaskExecutor::ITask
-    {
-        public:
-            InlineTask(const std::string& name, std::function<void()>&& task)
-                : m_name(name)
-                , m_task(task)
-            {
-
-            }
-
-            std::string name() const override
-            {
-                return m_name;
-            }
-
-            void perform() override
-            {
-                m_task();
-            }
-
-        private:
-            const std::string m_name;
-            std::function<void()> m_task;
-    };
-}
-
-
 void WorkState::abort()
 {
     m_abort = true;
@@ -104,10 +75,4 @@ int TasksQueue::heavyWorkers() const
 void TasksQueue::passTaskToExecutor(std::unique_ptr<ITask>&& task, const Notifier& notifier)
 {
     m_executor.add(std::make_unique<IntTask>(std::move(task), notifier));
-}
-
-
-std::unique_ptr<ITaskExecutor::ITask> inlineTask(const std::string& name, std::function<void()>&& task)
-{
-    return std::make_unique<InlineTask>(name, std::move(task));
 }

@@ -39,7 +39,7 @@ public:
 private:
     Database::IDatabase* m_db;
 
-    void loadData(const std::stop_token &stopToken, StoppableTaskCallback<std::vector<CollectedData>>) override;
+    void loadData(QPromise<DataVector> &&) override;
     void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 };
 

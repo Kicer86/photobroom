@@ -21,10 +21,10 @@
 
 #include <memory>
 #include <optional>
-
 #include <QImage>
+#include <QFuture>
+
 #include <core/task_executor_utils.hpp>
-#include <core/function_wrappers.hpp>
 #include <core/ilogger.hpp>
 #include <core/ithumbnails_generator.hpp>
 #include <core/observable_task_executor.hpp>
@@ -49,7 +49,7 @@ class ThumbnailManager: public IThumbnailsManager
         void setDatabaseCache(Database::IDatabase *) override;
 
     private:
-        safe_callback_ctrl m_callbackCtrl;
+        QFuture<QImage> m_imageFetchFuture;
         ObservableTaskExecutor<TasksQueue> m_tasks;
         std::unique_ptr<ILogger> m_logger;
         IThumbnailsCache& m_cache;

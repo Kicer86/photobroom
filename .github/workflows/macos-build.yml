@@ -1,0 +1,51 @@
+
+name: Build-MacOS
+
+on:
+  push:
+    branches:
+      - master
+      - macos_build
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+
+    - name: Install system dependencies
+      run: |
+        brew install        \
+          llvm              \
+          dlib              \
+          exiv2             \
+          magic_enum        \
+          opencv            \
+          qt6
+
+    - name: Install CsLibGuarded
+      run: |
+        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
+        cd cs_libguarded
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --target all
+        sudo cmake --build . --target install
+
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-dir: ${{ runner.workspace }}/build
+        build-type: Release
+        configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON
+      env:
+        VERBOSE: 1

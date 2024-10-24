@@ -2,11 +2,11 @@
 #ifndef MEDIAVIEWCTRL_HPP
 #define MEDIAVIEWCTRL_HPP
 
+#include <QFuture>
 #include <QQmlEngine>
 #include <QObject>
 #include <QUrl>
 
-#include <core/function_wrappers.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <database/photo_types.hpp>
 
@@ -50,7 +50,7 @@ signals:
     void modeChanged(Mode) const;
 
 private:
-    safe_callback_ctrl m_callbackCtrl;
+    QFuture<QString> m_pathFetchFuture;
     QUrl m_path;
     Mode m_mode = Mode::Unknown;
     ICoreFactoryAccessor* m_core = nullptr;

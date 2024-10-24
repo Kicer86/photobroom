@@ -33,7 +33,7 @@ SeriesModel::SeriesModel()
 
 SeriesModel::~SeriesModel()
 {
-    m_work.request_stop();
+
 }
 
 
@@ -98,18 +98,18 @@ QHash<int, QByteArray> SeriesModel::roleNames() const
 }
 
 
-void SeriesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>> callback)
+void SeriesModel::loadData(QPromise<DataVector>&& promise)
 {
     runOn(
         m_core->getTaskExecutor(),
-        [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach(u"SeriesDetector"_s), callback, stopToken]() mutable
+        [core = m_core, logger = m_logger->subLogger("SeriesDetector"), dbClient = m_project->getDatabase().attach(u"SeriesDetector"_s), promise = std::move(promise)]() mutable
         {
             IExifReaderFactory& exif = core->getExifReaderFactory();
 
             QElapsedTimer timer;
 
             auto detectLogger = logger->subLogger("SeriesDetector");
-            SeriesDetector detector(*detectLogger, dbClient->db(), exif.get(), stopToken);
+            SeriesDetector detector(*detectLogger, dbClient->db(), exif.get(), promise);
 
             timer.start();
             const auto candidates = detector.listCandidates();
@@ -118,7 +118,8 @@ void SeriesModel::loadData(const std::stop_token& stopToken, StoppableTaskCallba
             logger->debug(QString("Photos analysis took %1s").arg(static_cast<double>(elapsed)/1000.0));
             logger->info(QString("Got %1 group canditates").arg(candidates.size()));
 
-            callback(candidates);
+            promise.addResult(candidates);
+            promise.finish();
         },
         "SeriesDetector"
     );
