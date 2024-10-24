@@ -113,7 +113,7 @@ public:
             QPromise<DataVector> promise;
             m_loadDataFuture = promise.future();
 
-            m_loadDataFuture.then([this](const DataVector& data)
+            m_loadDataFuture.then(this, [this](const DataVector& data)
             {
                 updateData(data);
                 setState(State::Loaded);

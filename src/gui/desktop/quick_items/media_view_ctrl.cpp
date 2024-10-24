@@ -31,9 +31,9 @@ void MediaViewCtrl::setSource(const Photo::Id& id)
     {
         QPromise<QString> promise;
         m_pathFetchFuture = promise.future();
-        m_pathFetchFuture.then(std::bind(&MediaViewCtrl::setPath, this, std::placeholders::_1));
+        m_pathFetchFuture.then(this, std::bind(&MediaViewCtrl::setPath, this, std::placeholders::_1));
 
-        auto task = [this, id, promise = std::move(promise)](Database::IBackend& backend) mutable
+        auto task = [id, promise = std::move(promise)](Database::IBackend& backend) mutable
         {
             // MediaViewCtrl may be destroyed here
             const auto data = backend.getPhotoDelta<Photo::Field::Path>(id);

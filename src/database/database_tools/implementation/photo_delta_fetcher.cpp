@@ -30,7 +30,7 @@ void PhotoDeltaFetcher::fetchIds(const std::vector<Photo::Id>& ids, const std::s
     {
         QPromise<std::vector<Photo::DataDelta>> promise;
         m_dataFetchFuture = promise.future();
-        m_dataFetchFuture.then([this](const std::vector<Photo::DataDelta>& data)
+        m_dataFetchFuture.then(this, [this](const std::vector<Photo::DataDelta>& data)
         {
             storePhotoData(data);
         });
