@@ -18,8 +18,6 @@ Internals.ToolsBase
 {
     id: seriesDetectionMainId
 
-    SystemPalette { id: currentPalette; colorGroup: SystemPalette.Active }
-
     Components.DelegateState {
         id: delegateState
 
@@ -47,6 +45,7 @@ Internals.ToolsBase
 
         model: groupsModelId
         spacing: 10
+        focusPolicy: Qt.StrongFocus
 
         delegate: Item {
             id: delegateId
