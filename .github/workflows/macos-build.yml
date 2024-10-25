@@ -30,7 +30,8 @@ jobs:
           magic_enum        \
           opencv            \
           qt6               \
-          googletest
+          googletest        \
+          imagemagick
 
     - name: Install CsLibGuarded
       run: |
