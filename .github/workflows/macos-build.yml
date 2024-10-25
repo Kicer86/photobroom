@@ -29,7 +29,8 @@ jobs:
           exiv2             \
           magic_enum        \
           opencv            \
-          qt6
+          qt6               \
+          googletest
 
     - name: Install CsLibGuarded
       run: |
