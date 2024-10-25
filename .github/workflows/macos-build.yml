@@ -46,6 +46,10 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
-        configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON
-      env:
-        VERBOSE: 1
+        configure-options:
+            -DBUILD_TESTING=ON
+            -DBUILD_SHARED_LIBS=ON
+        run-test: true
+        ctest-options:
+            -LE HeavyData
+            --output-on-failure
