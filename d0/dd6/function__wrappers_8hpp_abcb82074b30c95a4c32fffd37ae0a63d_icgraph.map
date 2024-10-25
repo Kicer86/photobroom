@@ -1,19 +1,17 @@
 <map id="invokeMethod" name="invokeMethod">
-<area shape="rect" id="Node000001" title=" " alt="" coords="272,226,374,252"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="272,193,374,219"/>
 <area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" title=" " alt="" coords="31,5,198,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="311,212,299,177,281,136,255,95,222,60,197,45,200,40,225,56,259,92,285,134,304,175,317,211"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="308,180,275,119,251,87,222,60,197,46,200,41,225,56,255,83,280,116,313,177"/>
 <area shape="rect" id="Node000019" href="$d1/da6/class_flat_model.html#a7b363b60e1ec6b187585a70b748b30f5" title=" " alt="" coords="11,70,218,96"/>
-<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="307,214,273,160,250,133,222,111,198,99,201,94,225,106,253,129,277,157,311,211"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="301,182,267,145,246,126,222,111,194,99,197,94,225,106,249,122,271,141,305,179"/>
 <area shape="rect" id="Node000025" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,120,224,161"/>
-<area shape="poly" id="edge3_Node000001_Node000025" title=" " alt="" coords="291,219,259,197,223,176,192,164,194,159,225,171,262,192,294,214"/>
+<area shape="poly" id="edge3_Node000001_Node000025" title=" " alt="" coords="266,190,223,176,184,164,185,159,224,171,268,185"/>
 <area shape="rect" id="Node000027" href="$dc/d96/class_batch_face_detector.html#a6396595b1c495e452537efb4aba15a02" title=" " alt="" coords="42,185,187,226"/>
-<area shape="poly" id="edge4_Node000001_Node000027" title=" " alt="" coords="256,231,187,220,188,215,257,226"/>
+<area shape="poly" id="edge4_Node000001_Node000027" title=" " alt="" coords="256,208,188,208,188,203,256,203"/>
 <area shape="rect" id="Node000011" href="$d2/d10/class_photos_model_controller_component.html#aa27d6c4f3ce129b777554aeadcc122b2" title=" " alt="" coords="5,251,224,291"/>
-<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="257,252,224,257,224,252,256,247"/>
+<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="268,226,224,240,185,253,184,247,223,235,266,221"/>
 <area shape="rect" id="Node000028" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="43,316,186,357"/>
-<area shape="poly" id="edge6_Node000001_Node000028" title=" " alt="" coords="294,263,262,285,225,305,187,320,185,315,223,301,259,281,291,259"/>
+<area shape="poly" id="edge6_Node000001_Node000028" title=" " alt="" coords="304,233,270,270,225,305,187,323,185,318,222,301,266,266,300,229"/>
 <area shape="rect" id="Node000029" href="$d0/dd6/function__wrappers_8hpp.html#a708f7a554cf400a711aa8fbd58e90d5e" title=" " alt="" coords="69,381,160,407"/>
-<area shape="poly" id="edge7_Node000001_Node000029" title=" " alt="" coords="311,267,277,320,253,348,225,371,194,385,161,393,160,388,192,380,222,366,249,344,273,317,306,264"/>
-<area shape="rect" id="Node000030" href="$d3/d07/class_media_view_ctrl.html#a98d9275bf877422453e14e46d1bbaf09" title=" " alt="" coords="29,430,200,456"/>
-<area shape="poly" id="edge8_Node000001_Node000030" title=" " alt="" coords="317,268,305,303,286,345,260,386,225,421,202,434,199,429,222,417,256,383,281,342,300,301,312,266"/>
+<area shape="poly" id="edge7_Node000001_Node000029" title=" " alt="" coords="315,234,302,266,283,303,257,340,225,371,194,386,161,394,160,388,192,381,222,366,253,336,278,300,297,264,310,232"/>
 </map>

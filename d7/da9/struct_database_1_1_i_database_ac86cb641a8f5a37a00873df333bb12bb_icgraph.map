@@ -15,11 +15,11 @@
 <area shape="rect" id="Node000014" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="39,365,190,391"/>
 <area shape="poly" id="edge7_Node000001_Node000014" title=" " alt="" coords="332,613,319,566,297,509,265,452,245,427,222,405,189,388,192,384,225,401,249,424,270,449,302,507,324,564,337,612"/>
 <area shape="rect" id="Node000015" href="$dc/dc0/class_database_1_1_async_database.html#a836d2e0ec99e3b7aba3084716033f58d" title=" " alt="" coords="28,415,201,455"/>
-<area shape="poly" id="edge8_Node000001_Node000015" title=" " alt="" coords="325,615,308,581,286,542,257,503,222,470,200,458,203,453,225,466,261,500,290,539,313,578,330,613"/>
-<area shape="rect" id="Node000016" href="$d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" title=" " alt="" coords="42,480,187,521"/>
-<area shape="poly" id="edge9_Node000001_Node000016" title=" " alt="" coords="314,618,274,574,249,553,222,535,186,518,188,514,225,530,252,549,277,571,318,614"/>
-<area shape="rect" id="Node000017" href="$d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" title=" " alt="" coords="27,545,202,571"/>
-<area shape="poly" id="edge10_Node000001_Node000017" title=" " alt="" coords="296,622,223,585,185,574,187,569,225,581,298,617"/>
+<area shape="poly" id="edge8_Node000001_Node000015" title=" " alt="" coords="325,615,309,580,286,541,257,502,222,469,200,456,203,452,225,465,261,499,290,538,313,578,330,613"/>
+<area shape="rect" id="Node000016" href="$d3/d94/class_duplicates_model.html#a3b598cbfcf449e0b9163bc9810e17b8c" title=" " alt="" coords="27,480,202,505"/>
+<area shape="poly" id="edge9_Node000001_Node000016" title=" " alt="" coords="318,617,277,566,251,541,222,520,196,508,199,503,225,515,255,537,281,562,322,613"/>
+<area shape="rect" id="Node000017" href="$d4/dd6/class_photos_data_guesser.html#a70ed93be8560cb9d8f83d3192858855b" title=" " alt="" coords="42,529,187,570"/>
+<area shape="poly" id="edge10_Node000001_Node000017" title=" " alt="" coords="294,622,223,585,186,572,188,567,225,581,296,617"/>
 <area shape="rect" id="Node000018" href="$d2/d10/class_photos_model_controller_component.html#a67b32f8b713139eb8aac45654dba63c0" title=" " alt="" coords="5,595,224,635"/>
 <area shape="poly" id="edge11_Node000001_Node000018" title=" " alt="" coords="256,638,224,634,224,628,257,633"/>
 <area shape="rect" id="Node000019" href="$db/d6e/class_collection_scanner.html#adbc3f49aec1203fad1160b5a41a2b0f2" title=" " alt="" coords="48,660,181,701"/>

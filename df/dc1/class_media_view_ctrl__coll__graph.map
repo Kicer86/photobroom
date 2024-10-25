@@ -1,11 +1,9 @@
 <map id="MediaViewCtrl" name="MediaViewCtrl">
-<area shape="rect" id="Node000001" title=" " alt="" coords="190,109,295,135"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="121,109,226,135"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,13,75,39"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,43,218,106,216,111,79,48"/>
-<area shape="rect" id="Node000003" href="$d2/d3a/classsafe__callback__ctrl.html" title=" " alt="" coords="98,13,225,39"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,50,208,83,231,107,227,110,204,87,176,53"/>
-<area shape="rect" id="Node000004" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="249,13,399,39"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="316,55,297,87,267,111,264,106,293,83,312,52"/>
-<area shape="rect" id="Node000005" href="$db/dfb/class_id.html" title=" " alt="" coords="423,5,556,46"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="435,55,357,87,286,111,284,106,355,83,433,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="71,45,158,106,155,111,68,50"/>
+<area shape="rect" id="Node000003" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="98,13,249,39"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,54,176,108,171,108,171,54"/>
+<area shape="rect" id="Node000004" href="$db/dfb/class_id.html" title=" " alt="" coords="273,5,405,46"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="292,56,196,111,194,106,290,52"/>
 </map>

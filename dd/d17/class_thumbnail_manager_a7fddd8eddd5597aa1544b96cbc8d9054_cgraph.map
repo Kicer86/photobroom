@@ -1,7 +1,5 @@
 <map id="ThumbnailManager::setDatabaseCache" name="ThumbnailManager::setDatabaseCache">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,216,68"/>
-<area shape="rect" id="Node000002" href="$d7/ddf/struct_i_thumbnails_cache.html#ac086f8d2f821d178d3f9a1c0a130b0ec" title=" " alt="" coords="264,5,427,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,32,248,28,248,33,216,37"/>
-<area shape="rect" id="Node000003" href="$d2/d3a/classsafe__callback__ctrl.html#a8ba3729a3c90b5a5c4099111c21c8c47" title=" " alt="" coords="282,55,409,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="216,57,267,64,266,69,216,63"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,216,46"/>
+<area shape="rect" id="Node000002" href="$d7/ddf/struct_i_thumbnails_cache.html#ac086f8d2f821d178d3f9a1c0a130b0ec" title=" " alt="" coords="264,13,427,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="216,23,248,23,248,28,216,28"/>
 </map>

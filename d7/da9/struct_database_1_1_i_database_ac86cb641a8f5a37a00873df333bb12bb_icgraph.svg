@@ -208,18 +208,17 @@ var sectionId = 'dynsection-4';
 <g id="edge8_Node000001_Node000015" class="edge">
 <title>Node1&#45;&gt;Node15</title>
 <g id="a_edge8_Node000001_Node000015"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M241.51,-470.96C228.1,-501.4 201.74,-551.58 163.75,-580.25 158.71,-584.06 153.07,-587.29 147.2,-590.03"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="244.58,-472.68 245.27,-462.11 238.14,-469.94 244.58,-472.68"/>
+<path fill="none" stroke="#63b8ff" d="M241.61,-471.22C228.31,-501.96 202.05,-552.59 163.75,-581.25 158.71,-585.02 153.08,-588.21 147.2,-590.89"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="244.73,-472.85 245.35,-462.27 238.27,-470.16 244.73,-472.85"/>
 </a>
 </g>
 </g>
 <!-- Node16 -->
 <g id="Node000016" class="node">
 <title>Node16</title>
-<g id="a_Node000016"><a xlink:href="../../d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="136,-571.5 27.75,-571.5 27.75,-541 136,-541 136,-571.5"/>
-<text text-anchor="start" x="35.75" y="-558" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosDataGuesser::</text>
-<text text-anchor="middle" x="81.88" y="-546.75" font-family="Helvetica,sans-Serif" font-size="10.00">loadData</text>
+<g id="a_Node000016"><a xlink:href="../../d3/d94/class_duplicates_model.html#a3b598cbfcf449e0b9163bc9810e17b8c" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="147.25,-571.88 16.5,-571.88 16.5,-552.62 147.25,-552.62 147.25,-571.88"/>
+<text text-anchor="middle" x="81.88" y="-558.38" font-family="Helvetica,sans-Serif" font-size="10.00">DuplicatesModel::loadData</text>
 </a>
 </g>
 </g>
@@ -227,17 +226,18 @@ var sectionId = 'dynsection-4';
 <g id="edge9_Node000001_Node000016" class="edge">
 <title>Node1&#45;&gt;Node16</title>
 <g id="a_edge9_Node000001_Node000016"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M233.04,-469.46C216.71,-489.03 191.37,-515.92 163.75,-532.25 155.3,-537.25 145.74,-541.27 136.22,-544.49"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="235.54,-471.93 239.13,-461.96 230.11,-467.52 235.54,-471.93"/>
+<path fill="none" stroke="#63b8ff" d="M235.98,-470.14C220.38,-492.68 194.42,-525.07 163.75,-543.25 157.67,-546.85 150.95,-549.77 144.07,-552.14"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="238.7,-472.36 241.37,-462.11 232.89,-468.46 238.7,-472.36"/>
 </a>
 </g>
 </g>
 <!-- Node17 -->
 <g id="Node000017" class="node">
 <title>Node17</title>
-<g id="a_Node000017"><a xlink:href="../../d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="147.25,-522.88 16.5,-522.88 16.5,-503.62 147.25,-503.62 147.25,-522.88"/>
-<text text-anchor="middle" x="81.88" y="-509.38" font-family="Helvetica,sans-Serif" font-size="10.00">DuplicatesModel::loadData</text>
+<g id="a_Node000017"><a xlink:href="../../d4/dd6/class_photos_data_guesser.html#a70ed93be8560cb9d8f83d3192858855b" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="136,-534.5 27.75,-534.5 27.75,-504 136,-504 136,-534.5"/>
+<text text-anchor="start" x="35.75" y="-521" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosDataGuesser::</text>
+<text text-anchor="middle" x="81.88" y="-509.75" font-family="Helvetica,sans-Serif" font-size="10.00">loadData</text>
 </a>
 </g>
 </g>
@@ -245,8 +245,8 @@ var sectionId = 'dynsection-4';
 <g id="edge10_Node000001_Node000017" class="edge">
 <title>Node1&#45;&gt;Node17</title>
 <g id="a_edge10_Node000001_Node000017"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M218.53,-466.63C202.49,-476.19 182.66,-486.93 163.75,-494.25 154.74,-497.74 144.9,-500.7 135.3,-503.18"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="219.97,-469.85 226.69,-461.66 216.33,-463.87 219.97,-469.85"/>
+<path fill="none" stroke="#63b8ff" d="M217.14,-466.72C201.26,-475.99 181.95,-486.47 163.75,-494.25 154.97,-498 145.43,-501.46 136.09,-504.54"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="218.93,-469.73 225.74,-461.61 215.35,-463.71 218.93,-469.73"/>
 </a>
 </g>
 </g>

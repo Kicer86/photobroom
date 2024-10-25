@@ -101,6 +101,8 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-types" name="pub-types"></a>
 Public Types</h2></td></tr>
+<tr class="memitem:a81cb2f589210b26cb621922047bca8cd" id="r_a81cb2f589210b26cb621922047bca8cd"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a81cb2f589210b26cb621922047bca8cd">DataVector</a> = std::vector&lt; T &gt;</td></tr>
+<tr class="separator:a81cb2f589210b26cb621922047bca8cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a412be64a5c2fa3d4410122ba56f8e0bb" id="r_a412be64a5c2fa3d4410122ba56f8e0bb"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a412be64a5c2fa3d4410122ba56f8e0bb">ApplyToken</a> = std::unique_ptr&lt; <a class="el" href="../../d8/d15/struct_a_heavy_list_model_1_1_apply_finisher.html">ApplyFinisher</a> &gt;</td></tr>
 <tr class="separator:a412be64a5c2fa3d4410122ba56f8e0bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="inherit_header pub_types_class_a_heavy_list_model_base"><td colspan="2" onclick="javascript:toggleInherit('pub_types_class_a_heavy_list_model_base')"><img src="../../closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="../../df/d07/class_a_heavy_list_model_base.html">AHeavyListModelBase</a></td></tr>
@@ -135,12 +137,12 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-methods" name="pro-methods"></a>
 Protected Member Functions</h2></td></tr>
-<tr class="memitem:a2780bbb09263e17dd27efe7734098017" id="r_a2780bbb09263e17dd27efe7734098017"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a2780bbb09263e17dd27efe7734098017">loadData</a> (const std::stop_token &amp;stopToken, <a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#ad76586bb432a9f8930e65e8a8bd63db7">StoppableTaskCallback</a>&lt; std::vector&lt; T &gt; &gt;)=0</td></tr>
-<tr class="separator:a2780bbb09263e17dd27efe7734098017"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71bf805a1058cbbcfb28508428e48a2d" id="r_a71bf805a1058cbbcfb28508428e48a2d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a71bf805a1058cbbcfb28508428e48a2d">loadData</a> (QPromise&lt; std::vector&lt; T &gt; &gt; &amp;&amp;)=0</td></tr>
+<tr class="separator:a71bf805a1058cbbcfb28508428e48a2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a87903b98ed92948348932426baeda98d" id="r_a87903b98ed92948348932426baeda98d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a87903b98ed92948348932426baeda98d">applyRows</a> (const QList&lt; int &gt; &amp;, <a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a412be64a5c2fa3d4410122ba56f8e0bb">ApplyToken</a>)=0</td></tr>
 <tr class="separator:a87903b98ed92948348932426baeda98d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae349dd2d37ecf62351edb275c39065d3" id="r_ae349dd2d37ecf62351edb275c39065d3"><td class="memItemLeft" align="right" valign="top">const std::vector&lt; T &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#ae349dd2d37ecf62351edb275c39065d3">internalData</a> () const</td></tr>
-<tr class="separator:ae349dd2d37ecf62351edb275c39065d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7805c377711542356690a7e6c2cfec88" id="r_a7805c377711542356690a7e6c2cfec88"><td class="memItemLeft" align="right" valign="top">const <a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a81cb2f589210b26cb621922047bca8cd">DataVector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a7805c377711542356690a7e6c2cfec88">internalData</a> () const</td></tr>
+<tr class="separator:a7805c377711542356690a7e6c2cfec88"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-methods" name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -157,10 +159,10 @@ Private Member Functions</h2></td></tr>
 Private Attributes</h2></td></tr>
 <tr class="memitem:acbce4ff7e72d6422809fd895a7b8fe5d" id="r_acbce4ff7e72d6422809fd895a7b8fe5d"><td class="memItemLeft" align="right" valign="top">std::vector&lt; T &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#acbce4ff7e72d6422809fd895a7b8fe5d">m_data</a></td></tr>
 <tr class="separator:acbce4ff7e72d6422809fd895a7b8fe5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56df9d4b72fda94888f9f2c08f646d24" id="r_a56df9d4b72fda94888f9f2c08f646d24"><td class="memItemLeft" align="right" valign="top">QFuture&lt; <a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a81cb2f589210b26cb621922047bca8cd">DataVector</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a56df9d4b72fda94888f9f2c08f646d24">m_loadDataFuture</a></td></tr>
+<tr class="separator:a56df9d4b72fda94888f9f2c08f646d24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2a277a648fca2c2cb0cb01e0c4d7d1b9" id="r_a2a277a648fca2c2cb0cb01e0c4d7d1b9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/d07/class_a_heavy_list_model_base.html#a2463c566ed65741746d02d9d2992368e">State</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a2a277a648fca2c2cb0cb01e0c4d7d1b9">m_state</a> = <a class="el" href="../../df/d07/class_a_heavy_list_model_base.html#a2463c566ed65741746d02d9d2992368eaa815894d638ffe553c4ee8816f6dd83d">Idle</a></td></tr>
 <tr class="separator:a2a277a648fca2c2cb0cb01e0c4d7d1b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c9dcbc9d9ff0df3c727fc2238182788" id="r_a0c9dcbc9d9ff0df3c727fc2238182788"><td class="memItemLeft" align="right" valign="top">std::stop_source&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a0c9dcbc9d9ff0df3c727fc2238182788">m_work</a></td></tr>
-<tr class="separator:a0c9dcbc9d9ff0df3c727fc2238182788"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -187,6 +189,22 @@ template&lt;typename T &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">using <a class="el" href="../../de/d3a/class_a_heavy_list_model.html">AHeavyListModel</a>&lt; T &gt;::ApplyToken =  std::unique_ptr&lt;<a class="el" href="../../d8/d15/struct_a_heavy_list_model_1_1_apply_finisher.html">ApplyFinisher</a>&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a81cb2f589210b26cb621922047bca8cd" name="a81cb2f589210b26cb621922047bca8cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a81cb2f589210b26cb621922047bca8cd">&#9670;&#160;</a></span>DataVector</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="../../de/d3a/class_a_heavy_list_model.html">AHeavyListModel</a>&lt; T &gt;::DataVector =  std::vector&lt;T&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -433,8 +451,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="ae349dd2d37ecf62351edb275c39065d3" name="ae349dd2d37ecf62351edb275c39065d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae349dd2d37ecf62351edb275c39065d3">&#9670;&#160;</a></span>internalData()</h2>
+<a id="a7805c377711542356690a7e6c2cfec88" name="a7805c377711542356690a7e6c2cfec88"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7805c377711542356690a7e6c2cfec88">&#9670;&#160;</a></span>internalData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -445,7 +463,7 @@ template&lt;typename T &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">const std::vector&lt; T &gt; &amp; <a class="el" href="../../de/d3a/class_a_heavy_list_model.html">AHeavyListModel</a>&lt; T &gt;::internalData </td>
+          <td class="memname">const <a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a81cb2f589210b26cb621922047bca8cd">DataVector</a> &amp; <a class="el" href="../../de/d3a/class_a_heavy_list_model.html">AHeavyListModel</a>&lt; T &gt;::internalData </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
@@ -460,8 +478,8 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a2780bbb09263e17dd27efe7734098017" name="a2780bbb09263e17dd27efe7734098017"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2780bbb09263e17dd27efe7734098017">&#9670;&#160;</a></span>loadData()</h2>
+<a id="a71bf805a1058cbbcfb28508428e48a2d" name="a71bf805a1058cbbcfb28508428e48a2d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a71bf805a1058cbbcfb28508428e48a2d">&#9670;&#160;</a></span>loadData()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -474,19 +492,9 @@ template&lt;typename T &gt; </div>
         <tr>
           <td class="memname">virtual void <a class="el" href="../../de/d3a/class_a_heavy_list_model.html">AHeavyListModel</a>&lt; T &gt;::loadData </td>
           <td>(</td>
-          <td class="paramtype">const std::stop_token &amp;&#160;</td>
-          <td class="paramname"><em>stopToken</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
+          <td class="paramtype">QPromise&lt; std::vector&lt; T &gt; &gt; &amp;&amp;&#160;</td>
+          <td class="paramname"></td><td>)</td>
           <td></td>
-          <td class="paramtype"><a class="el" href="../../d0/dd6/function__wrappers_8hpp.html#ad76586bb432a9f8930e65e8a8bd63db7">StoppableTaskCallback</a>&lt; std::vector&lt; T &gt; &gt;&#160;</td>
-          <td class="paramname">&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -496,11 +504,11 @@ template&lt;typename T &gt; </div>
 </table>
 </div><div class="memdoc">
 
-<p>Implemented in <a class="el" href="../../d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4">PhotosDataGuesser</a>, <a class="el" href="../../d5/d0f/class_series_model.html#a818d36fd1e63d6b9ee42f340b78b1001">SeriesModel</a>, and <a class="el" href="../../d3/d94/class_duplicates_model.html#ae017138820164092ad713654e554290e">DuplicatesModel</a>.</p>
+<p>Implemented in <a class="el" href="../../d3/d94/class_duplicates_model.html#a3b598cbfcf449e0b9163bc9810e17b8c">DuplicatesModel</a>, <a class="el" href="../../d4/dd6/class_photos_data_guesser.html#a70ed93be8560cb9d8f83d3192858855b">PhotosDataGuesser</a>, and <a class="el" href="../../d5/d0f/class_series_model.html#ae3e0401becf4dace72dcebcb2b7e92a3">SeriesModel</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../de/d3a/class_a_heavy_list_model_a2780bbb09263e17dd27efe7734098017_icgraph.svg" width="406" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../de/d3a/class_a_heavy_list_model_a71bf805a1058cbbcfb28508428e48a2d_icgraph.svg" width="406" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -727,6 +735,30 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
+<a id="a56df9d4b72fda94888f9f2c08f646d24" name="a56df9d4b72fda94888f9f2c08f646d24"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a56df9d4b72fda94888f9f2c08f646d24">&#9670;&#160;</a></span>m_loadDataFuture</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">QFuture&lt;<a class="el" href="../../de/d3a/class_a_heavy_list_model.html#a81cb2f589210b26cb621922047bca8cd">DataVector</a>&gt; <a class="el" href="../../de/d3a/class_a_heavy_list_model.html">AHeavyListModel</a>&lt; T &gt;::m_loadDataFuture</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
 <a id="a2a277a648fca2c2cb0cb01e0c4d7d1b9" name="a2a277a648fca2c2cb0cb01e0c4d7d1b9"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2a277a648fca2c2cb0cb01e0c4d7d1b9">&#9670;&#160;</a></span>m_state</h2>
 
@@ -751,37 +783,13 @@ template&lt;typename T &gt; </div>
 
 </div>
 </div>
-<a id="a0c9dcbc9d9ff0df3c727fc2238182788" name="a0c9dcbc9d9ff0df3c727fc2238182788"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0c9dcbc9d9ff0df3c727fc2238182788">&#9670;&#160;</a></span>m_work</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T &gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::stop_source <a class="el" href="../../de/d3a/class_a_heavy_list_model.html">AHeavyListModel</a>&lt; T &gt;::m_work</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following file:<ul>
 <li>src/gui/desktop/models/<a class="el" href="../../d2/d72/aheavy__list__model_8hpp_source.html">aheavy_list_model.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 24 2024 20:46:05 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Fri Oct 25 2024 06:36:54 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

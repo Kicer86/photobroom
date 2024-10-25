@@ -1,9 +1,11 @@
 <map id="ITaskExecutor::ITask" name="ITaskExecutor::ITask">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,149,88"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,84,149,110"/>
 <area shape="rect" id="Node000002" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html" title=" " alt="" coords="197,5,395,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,56,196,41,242,29,243,34,197,46,142,61"/>
-<area shape="rect" id="Node000005" href="$d0/d1f/class_observable_task_executor_1_1_task.html" title=" " alt="" coords="213,55,379,96"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="164,73,212,73,212,78,164,78"/>
-<area shape="rect" id="Node000006" href="$d6/d86/struct_tasks_queue_1_1_int_task.html" title=" " alt="" coords="223,120,369,146"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="142,90,197,105,243,117,242,122,196,110,141,95"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,74,196,40,231,29,233,34,198,45,118,79"/>
+<area shape="rect" id="Node000005" href="$d8/d8a/class_inline_task.html" title=" " alt="" coords="240,55,352,80"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="164,83,239,72,240,78,165,88"/>
+<area shape="rect" id="Node000006" href="$d0/d1f/class_observable_task_executor_1_1_task.html" title=" " alt="" coords="213,105,379,145"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="164,105,213,112,212,117,164,111"/>
+<area shape="rect" id="Node000007" href="$d6/d86/struct_tasks_queue_1_1_int_task.html" title=" " alt="" coords="223,169,369,195"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="116,115,198,154,235,166,234,171,196,159,113,120"/>
 </map>

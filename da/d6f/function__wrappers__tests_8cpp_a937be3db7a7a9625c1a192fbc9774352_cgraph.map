@@ -1,7 +1,0 @@
-<map id="TEST" name="TEST">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,46,60,72"/>
-<area shape="rect" id="Node000002" href="$d2/d3a/classsafe__callback__ctrl.html#a8ba3729a3c90b5a5c4099111c21c8c47" title=" " alt="" coords="118,5,244,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,50,102,41,103,46,61,56"/>
-<area shape="rect" id="Node000005" href="$d2/d3a/classsafe__callback__ctrl.html#a2782272aba3be1150a5740914ba63f5f" title=" " alt="" coords="108,71,254,111"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="61,62,93,69,92,74,60,67"/>
-</map>

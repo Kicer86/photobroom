@@ -85,8 +85,8 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#pragma once</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span> </div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span> </div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;<a class="code" href="../../d0/dd6/function__wrappers_8hpp.html">core/function_wrappers.hpp</a>&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QFuture&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;<a class="code" href="../../db/d39/photo__data_8hpp.html">database/photo_data.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;<a class="code" href="../../d7/d2b/idatabase_8hpp.html">database/idatabase.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
@@ -105,7 +105,7 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span>        <span class="keywordtype">void</span> fetchIds(<span class="keyword">const</span> std::vector&lt;Photo::Id&gt; &amp;, <span class="keyword">const</span> std::set&lt;Photo::Field&gt; &amp;);</div>
 <div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
 <div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="../../d9/d95/class_photo_delta_fetcher.html#adee600053a78e0c92e45ec2648c4158e">   24</a></span>        <a class="code hl_class" href="../../d2/d3a/classsafe__callback__ctrl.html">safe_callback_ctrl</a> <a class="code hl_variable" href="../../d9/d95/class_photo_delta_fetcher.html#adee600053a78e0c92e45ec2648c4158e">m_callbackCtrl</a>;</div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno"><a class="line" href="../../d9/d95/class_photo_delta_fetcher.html#a252d63416e24b1cd209b3c5da1a5a667">   24</a></span>        QFuture&lt;std::vector&lt;Photo::DataDelta&gt;&gt; <a class="code hl_variable" href="../../d9/d95/class_photo_delta_fetcher.html#a252d63416e24b1cd209b3c5da1a5a667">m_dataFetchFuture</a>;</div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="../../d9/d95/class_photo_delta_fetcher.html#a44ce6d47e5303ec3e3ae8df41a3da185">   25</a></span>        <a class="code hl_struct" href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a>&amp; <a class="code hl_variable" href="../../d9/d95/class_photo_delta_fetcher.html#a44ce6d47e5303ec3e3ae8df41a3da185">m_db</a>;</div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
 <div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        <span class="keywordtype">void</span> storePhotoData(<span class="keyword">const</span> std::vector&lt;Photo::DataDelta&gt; &amp;);</div>
@@ -115,18 +115,16 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>};</div>
 </div>
 <div class="ttc" id="aclass_photo_delta_fetcher_html"><div class="ttname"><a href="../../d9/d95/class_photo_delta_fetcher.html">PhotoDeltaFetcher</a></div><div class="ttdef"><b>Definition</b> photo_delta_fetcher.hpp:14</div></div>
+<div class="ttc" id="aclass_photo_delta_fetcher_html_a252d63416e24b1cd209b3c5da1a5a667"><div class="ttname"><a href="../../d9/d95/class_photo_delta_fetcher.html#a252d63416e24b1cd209b3c5da1a5a667">PhotoDeltaFetcher::m_dataFetchFuture</a></div><div class="ttdeci">QFuture&lt; std::vector&lt; Photo::DataDelta &gt; &gt; m_dataFetchFuture</div><div class="ttdef"><b>Definition</b> photo_delta_fetcher.hpp:24</div></div>
 <div class="ttc" id="aclass_photo_delta_fetcher_html_a44ce6d47e5303ec3e3ae8df41a3da185"><div class="ttname"><a href="../../d9/d95/class_photo_delta_fetcher.html#a44ce6d47e5303ec3e3ae8df41a3da185">PhotoDeltaFetcher::m_db</a></div><div class="ttdeci">Database::IDatabase &amp; m_db</div><div class="ttdef"><b>Definition</b> photo_delta_fetcher.hpp:25</div></div>
 <div class="ttc" id="aclass_photo_delta_fetcher_html_a894a55c80a8063f71ae1b16291db3d7b"><div class="ttname"><a href="../../d9/d95/class_photo_delta_fetcher.html#a894a55c80a8063f71ae1b16291db3d7b">PhotoDeltaFetcher::photoDataDeltaFetched</a></div><div class="ttdeci">void photoDataDeltaFetched(const std::vector&lt; Photo::DataDelta &gt; &amp;) const</div></div>
-<div class="ttc" id="aclass_photo_delta_fetcher_html_adee600053a78e0c92e45ec2648c4158e"><div class="ttname"><a href="../../d9/d95/class_photo_delta_fetcher.html#adee600053a78e0c92e45ec2648c4158e">PhotoDeltaFetcher::m_callbackCtrl</a></div><div class="ttdeci">safe_callback_ctrl m_callbackCtrl</div><div class="ttdef"><b>Definition</b> photo_delta_fetcher.hpp:24</div></div>
-<div class="ttc" id="aclasssafe__callback__ctrl_html"><div class="ttname"><a href="../../d2/d3a/classsafe__callback__ctrl.html">safe_callback_ctrl</a></div><div class="ttdef"><b>Definition</b> function_wrappers.hpp:66</div></div>
-<div class="ttc" id="afunction__wrappers_8hpp_html"><div class="ttname"><a href="../../d0/dd6/function__wrappers_8hpp.html">function_wrappers.hpp</a></div></div>
 <div class="ttc" id="aidatabase_8hpp_html"><div class="ttname"><a href="../../d7/d2b/idatabase_8hpp.html">idatabase.hpp</a></div></div>
 <div class="ttc" id="aphoto__data_8hpp_html"><div class="ttname"><a href="../../db/d39/photo__data_8hpp.html">photo_data.hpp</a></div></div>
 <div class="ttc" id="astruct_database_1_1_i_database_html"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a></div><div class="ttdoc">Base Database interface. A bridge between regular clients and backend.</div><div class="ttdef"><b>Definition</b> idatabase.hpp:72</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 24 2024 20:46:04 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Fri Oct 25 2024 06:36:54 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

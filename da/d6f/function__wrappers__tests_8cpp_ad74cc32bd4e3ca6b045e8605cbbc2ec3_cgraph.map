@@ -1,9 +1,0 @@
-<map id="TEST" name="TEST">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,70,60,96"/>
-<area shape="rect" id="Node000002" href="$d2/d3a/classsafe__callback__ctrl.html#a8ba3729a3c90b5a5c4099111c21c8c47" title=" " alt="" coords="120,5,247,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,70,113,49,115,54,61,75"/>
-<area shape="rect" id="Node000005" href="$d1/d7b/classsafe__callback.html#ad5df65d71a53be2db1a3081c04dfcc4a" title=" " alt="" coords="108,70,259,96"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="60,80,92,80,92,86,60,86"/>
-<area shape="rect" id="Node000006" href="$d2/d3a/classsafe__callback__ctrl.html#a2782272aba3be1150a5740914ba63f5f" title=" " alt="" coords="110,120,257,161"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="61,91,115,112,113,117,59,96"/>
-</map>

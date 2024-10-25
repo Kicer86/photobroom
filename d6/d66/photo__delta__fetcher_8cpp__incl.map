@@ -1,10 +1,12 @@
 <map id="src/database/database_tools/implementation/photo_delta_fetcher.cpp" name="src/database/database_tools/implementation/photo_delta_fetcher.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="108,5,271,61"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="173,5,336,61"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,109,152,135"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,63,108,101,104,97,153,59"/>
-<area shape="rect" id="Node000003" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="167,183,334,208"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,61,206,96,218,134,237,168,232,171,213,136,200,98,192,62"/>
-<area shape="rect" id="Node000030" href="$d7/dfc/photo__delta__fetcher_8hpp.html" title=" " alt="" coords="227,109,397,135"/>
-<area shape="poly" id="edge3_Node000001_Node000030" title=" " alt="" coords="229,59,284,98,281,102,226,64"/>
-<area shape="poly" id="edge4_Node000030_Node000003" title=" " alt="" coords="304,137,273,172,269,169,300,133"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="200,64,118,104,116,99,198,59"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="176,109,256,135"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="245,62,230,96,225,93,240,60"/>
+<area shape="rect" id="Node000004" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="271,183,438,208"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="274,60,341,168,337,171,269,63"/>
+<area shape="rect" id="Node000031" href="$d7/dfc/photo__delta__fetcher_8hpp.html" title=" " alt="" coords="331,109,501,135"/>
+<area shape="poly" id="edge4_Node000001_Node000031" title=" " alt="" coords="306,59,381,99,379,104,304,64"/>
+<area shape="poly" id="edge5_Node000031_Node000004" title=" " alt="" coords="408,137,377,172,373,169,404,133"/>
 </map>

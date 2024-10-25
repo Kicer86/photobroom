@@ -1,3 +1,9 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$d4/da4/class_queue.html" title="Base class for all kind of executor queues." alt="" coords="5,5,116,31"/>
+<area shape="rect" id="Node000000" title=" " alt="" coords="5,55,77,80"/>
+<area shape="rect" id="Node000001" href="$d1/d85/class_main_tab.html" title=" " alt="" coords="148,5,220,31"/>
+<area shape="poly" id="edge173_Node000000_Node000001" title=" " alt="" coords="90,48,147,28,149,33,92,53"/>
+<area shape="rect" id="Node000002" href="$de/d4c/class_media_preview.html" title=" " alt="" coords="132,55,236,80"/>
+<area shape="poly" id="edge174_Node000000_Node000002" title=" " alt="" coords="92,65,132,65,132,70,92,70"/>
+<area shape="rect" id="Node000003" href="$dc/df3/class_qt_ext_choose_file.html" title=" " alt="" coords="125,104,243,130"/>
+<area shape="poly" id="edge175_Node000000_Node000003" title=" " alt="" coords="92,82,145,101,143,106,90,87"/>
 </map>

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['face_5flocations_5ftests_2ecpp_0',['face_locations_tests.cpp',['../dd/dea/face__locations__tests_8cpp.html',1,'']]],
-  ['face_5frecognition_2ecpp_1',['face_recognition.cpp',['../da/dec/face__recognition_8cpp.html',1,'(Global Namespace)'],['../da/d6c/dlib__wrapper_2face__recognition_8cpp.html',1,'(Global Namespace)']]],
+  ['face_5frecognition_2ecpp_1',['face_recognition.cpp',['../da/d6c/dlib__wrapper_2face__recognition_8cpp.html',1,'(Global Namespace)'],['../da/dec/face__recognition_8cpp.html',1,'(Global Namespace)']]],
   ['face_5frecognition_2ehpp_2',['face_recognition.hpp',['../dd/d86/face__recognition_8hpp.html',1,'(Global Namespace)'],['../dd/d21/dlib__wrapper_2face__recognition_8hpp.html',1,'(Global Namespace)']]],
   ['faces_5fmodel_2ecpp_3',['faces_model.cpp',['../d4/df8/faces__model_8cpp.html',1,'']]],
   ['faces_5fmodel_2ehpp_4',['faces_model.hpp',['../da/db1/faces__model_8hpp.html',1,'']]],
@@ -27,6 +27,5 @@ var searchData=
   ['flat_5fmodel_2ecpp_24',['flat_model.cpp',['../da/dff/flat__model_8cpp.html',1,'']]],
   ['flat_5fmodel_2ehpp_25',['flat_model.hpp',['../de/d3d/flat__model_8hpp.html',1,'']]],
   ['flat_5fmodel_5ftests_2ecpp_26',['flat_model_tests.cpp',['../d1/dc2/flat__model__tests_8cpp.html',1,'']]],
-  ['function_5fwrappers_2ehpp_27',['function_wrappers.hpp',['../d0/dd6/function__wrappers_8hpp.html',1,'']]],
-  ['function_5fwrappers_5ftests_2ecpp_28',['function_wrappers_tests.cpp',['../da/d6f/function__wrappers__tests_8cpp.html',1,'']]]
+  ['function_5fwrappers_2ehpp_27',['function_wrappers.hpp',['../d0/dd6/function__wrappers_8hpp.html',1,'']]]
 ];

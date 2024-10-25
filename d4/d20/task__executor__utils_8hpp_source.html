@@ -396,10 +396,58 @@ $(document).ready(function() { init_codefold(1); });
 <div class="line"><a id="l00311" name="l00311"></a><span class="lineno">  311</span>};</div>
 </div>
 <div class="line"><a id="l00312" name="l00312"></a><span class="lineno">  312</span> </div>
-<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span> </div>
-<div class="line"><a id="l00314" name="l00314"></a><span class="lineno">  314</span>CORE_EXPORT std::unique_ptr&lt;ITaskExecutor::ITask&gt; <a class="code hl_function" href="../../d4/d20/task__executor__utils_8hpp.html#ad4995770178142ce5a6f1bb7a1d164ac">inlineTask</a>(<span class="keyword">const</span> std::string&amp; name, std::function&lt;<span class="keywordtype">void</span>()&gt;&amp;&amp; task);</div>
-<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span> </div>
-<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00313" name="l00313"></a><span class="lineno">  313</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> C&gt;</div>
+<div class="foldopen" id="foldopen00314" data-start="{" data-end="};">
+<div class="line"><a id="l00314" name="l00314"></a><span class="lineno"><a class="line" href="../../d8/d8a/class_inline_task.html">  314</a></span><span class="keyword">class </span><a class="code hl_class" href="../../d8/d8a/class_inline_task.html">InlineTask</a>: <span class="keyword">public</span> <a class="code hl_struct" href="../../dd/d9b/struct_i_task_executor_1_1_i_task.html">ITaskExecutor::ITask</a></div>
+<div class="line"><a id="l00315" name="l00315"></a><span class="lineno">  315</span>{</div>
+<div class="line"><a id="l00316" name="l00316"></a><span class="lineno">  316</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00317" data-start="{" data-end="}">
+<div class="line"><a id="l00317" name="l00317"></a><span class="lineno"><a class="line" href="../../d8/d8a/class_inline_task.html#a1ce47cd6a5b78e41eee005954890703f">  317</a></span>        <a class="code hl_function" href="../../d8/d8a/class_inline_task.html#a1ce47cd6a5b78e41eee005954890703f">InlineTask</a>(<span class="keyword">const</span> std::string&amp; <a class="code hl_function" href="../../d8/d8a/class_inline_task.html#ac17c4af85e2540ff2a0314f201bc8297">name</a>, C&amp;&amp; task)</div>
+<div class="line"><a id="l00318" name="l00318"></a><span class="lineno">  318</span>            : <a class="code hl_variable" href="../../d8/d8a/class_inline_task.html#a6aab3f606abae6c597bd6fa699a95028">m_name</a>(<a class="code hl_function" href="../../d8/d8a/class_inline_task.html#ac17c4af85e2540ff2a0314f201bc8297">name</a>)</div>
+<div class="line"><a id="l00319" name="l00319"></a><span class="lineno">  319</span>            , <a class="code hl_variable" href="../../d8/d8a/class_inline_task.html#a7994877677c9bfe67f210b32f950cb2e">m_task</a>(<a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::forward&lt;C&gt;(task))</div>
+<div class="line"><a id="l00320" name="l00320"></a><span class="lineno">  320</span>        {</div>
+<div class="line"><a id="l00321" name="l00321"></a><span class="lineno">  321</span> </div>
+<div class="line"><a id="l00322" name="l00322"></a><span class="lineno">  322</span>        }</div>
+</div>
+<div class="line"><a id="l00323" name="l00323"></a><span class="lineno">  323</span> </div>
+<div class="foldopen" id="foldopen00324" data-start="{" data-end="}">
+<div class="line"><a id="l00324" name="l00324"></a><span class="lineno"><a class="line" href="../../d8/d8a/class_inline_task.html#ac17c4af85e2540ff2a0314f201bc8297">  324</a></span>        std::string <a class="code hl_function" href="../../d8/d8a/class_inline_task.html#ac17c4af85e2540ff2a0314f201bc8297">name</a>()<span class="keyword"> const override</span></div>
+<div class="line"><a id="l00325" name="l00325"></a><span class="lineno">  325</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00326" name="l00326"></a><span class="lineno">  326</span>            <span class="keywordflow">return</span> <a class="code hl_variable" href="../../d8/d8a/class_inline_task.html#a6aab3f606abae6c597bd6fa699a95028">m_name</a>;</div>
+<div class="line"><a id="l00327" name="l00327"></a><span class="lineno">  327</span>        }</div>
+</div>
+<div class="line"><a id="l00328" name="l00328"></a><span class="lineno">  328</span> </div>
+<div class="foldopen" id="foldopen00329" data-start="{" data-end="}">
+<div class="line"><a id="l00329" name="l00329"></a><span class="lineno"><a class="line" href="../../d8/d8a/class_inline_task.html#a66fbf00cd32a371c2556d2243c4c7351">  329</a></span>        <span class="keywordtype">void</span> <a class="code hl_function" href="../../d8/d8a/class_inline_task.html#a66fbf00cd32a371c2556d2243c4c7351">perform</a>()<span class="keyword"> override</span></div>
+<div class="line"><a id="l00330" name="l00330"></a><span class="lineno">  330</span><span class="keyword">        </span>{</div>
+<div class="line"><a id="l00331" name="l00331"></a><span class="lineno">  331</span>            <a class="code hl_variable" href="../../d8/d8a/class_inline_task.html#a7994877677c9bfe67f210b32f950cb2e">m_task</a>();</div>
+<div class="line"><a id="l00332" name="l00332"></a><span class="lineno">  332</span>        }</div>
+</div>
+<div class="line"><a id="l00333" name="l00333"></a><span class="lineno">  333</span> </div>
+<div class="line"><a id="l00334" name="l00334"></a><span class="lineno">  334</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00335" name="l00335"></a><span class="lineno"><a class="line" href="../../d8/d8a/class_inline_task.html#ad0eca0d96ed968e3f462f280db5041ea">  335</a></span>        <span class="keyword">typedef</span> <span class="keyword">typename</span> std::remove_reference&lt;C&gt;::type <a class="code hl_typedef" href="../../d8/d8a/class_inline_task.html#ad0eca0d96ed968e3f462f280db5041ea">C_T</a>;</div>
+<div class="line"><a id="l00336" name="l00336"></a><span class="lineno"><a class="line" href="../../d8/d8a/class_inline_task.html#a6aab3f606abae6c597bd6fa699a95028">  336</a></span>        <span class="keyword">const</span> std::string <a class="code hl_variable" href="../../d8/d8a/class_inline_task.html#a6aab3f606abae6c597bd6fa699a95028">m_name</a>;</div>
+<div class="line"><a id="l00337" name="l00337"></a><span class="lineno"><a class="line" href="../../d8/d8a/class_inline_task.html#a7994877677c9bfe67f210b32f950cb2e">  337</a></span>        <a class="code hl_typedef" href="../../d8/d8a/class_inline_task.html#ad0eca0d96ed968e3f462f280db5041ea">C_T</a> <a class="code hl_variable" href="../../d8/d8a/class_inline_task.html#a7994877677c9bfe67f210b32f950cb2e">m_task</a>;</div>
+<div class="line"><a id="l00338" name="l00338"></a><span class="lineno">  338</span>};</div>
+</div>
+<div class="line"><a id="l00339" name="l00339"></a><span class="lineno">  339</span> </div>
+<div class="line"><a id="l00340" name="l00340"></a><span class="lineno">  340</span> </div>
+<div class="line"><a id="l00341" name="l00341"></a><span class="lineno">  341</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> C&gt;</div>
+<div class="foldopen" id="foldopen00342" data-start="{" data-end="}">
+<div class="line"><a id="l00342" name="l00342"></a><span class="lineno"><a class="line" href="../../d4/d20/task__executor__utils_8hpp.html#ab5e38eaf971d51a70d22530cccbb27eb">  342</a></span>std::unique_ptr&lt;ITaskExecutor::ITask&gt; <a class="code hl_function" href="../../d4/d20/task__executor__utils_8hpp.html#ab5e38eaf971d51a70d22530cccbb27eb">inlineTask</a>(<span class="keyword">const</span> std::string&amp; name, C&amp;&amp; task)</div>
+<div class="line"><a id="l00343" name="l00343"></a><span class="lineno">  343</span>{</div>
+<div class="line"><a id="l00344" name="l00344"></a><span class="lineno">  344</span>    <span class="keywordflow">return</span> std::make_unique&lt;InlineTask&lt;C&gt;&gt;(name, std::forward&lt;C&gt;(task));</div>
+<div class="line"><a id="l00345" name="l00345"></a><span class="lineno">  345</span>}</div>
+</div>
+<div class="line"><a id="l00346" name="l00346"></a><span class="lineno">  346</span> </div>
+<div class="line"><a id="l00347" name="l00347"></a><span class="lineno">  347</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclass_inline_task_html"><div class="ttname"><a href="../../d8/d8a/class_inline_task.html">InlineTask</a></div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:315</div></div>
+<div class="ttc" id="aclass_inline_task_html_a1ce47cd6a5b78e41eee005954890703f"><div class="ttname"><a href="../../d8/d8a/class_inline_task.html#a1ce47cd6a5b78e41eee005954890703f">InlineTask::InlineTask</a></div><div class="ttdeci">InlineTask(const std::string &amp;name, C &amp;&amp;task)</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:317</div></div>
+<div class="ttc" id="aclass_inline_task_html_a66fbf00cd32a371c2556d2243c4c7351"><div class="ttname"><a href="../../d8/d8a/class_inline_task.html#a66fbf00cd32a371c2556d2243c4c7351">InlineTask::perform</a></div><div class="ttdeci">void perform() override</div><div class="ttdoc">perform job</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:329</div></div>
+<div class="ttc" id="aclass_inline_task_html_a6aab3f606abae6c597bd6fa699a95028"><div class="ttname"><a href="../../d8/d8a/class_inline_task.html#a6aab3f606abae6c597bd6fa699a95028">InlineTask::m_name</a></div><div class="ttdeci">const std::string m_name</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:336</div></div>
+<div class="ttc" id="aclass_inline_task_html_a7994877677c9bfe67f210b32f950cb2e"><div class="ttname"><a href="../../d8/d8a/class_inline_task.html#a7994877677c9bfe67f210b32f950cb2e">InlineTask::m_task</a></div><div class="ttdeci">C_T m_task</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:337</div></div>
+<div class="ttc" id="aclass_inline_task_html_ac17c4af85e2540ff2a0314f201bc8297"><div class="ttname"><a href="../../d8/d8a/class_inline_task.html#ac17c4af85e2540ff2a0314f201bc8297">InlineTask::name</a></div><div class="ttdeci">std::string name() const override</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:324</div></div>
+<div class="ttc" id="aclass_inline_task_html_ad0eca0d96ed968e3f462f280db5041ea"><div class="ttname"><a href="../../d8/d8a/class_inline_task.html#ad0eca0d96ed968e3f462f280db5041ea">InlineTask::C_T</a></div><div class="ttdeci">std::remove_reference&lt; C &gt;::type C_T</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:335</div></div>
 <div class="ttc" id="aclass_queue_html"><div class="ttname"><a href="../../d4/da4/class_queue.html">Queue</a></div><div class="ttdoc">Base class for all kind of executor queues.</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:163</div></div>
 <div class="ttc" id="aclass_queue_html_a0cfc7d1a4cc8f53460788120a7357fb0"><div class="ttname"><a href="../../d4/da4/class_queue.html#a0cfc7d1a4cc8f53460788120a7357fb0">Queue::m_executingTasks</a></div><div class="ttdeci">int m_executingTasks</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:241</div></div>
 <div class="ttc" id="aclass_queue_html_a1f682045e1c9c9b18f65d5f4e7b8ea92"><div class="ttname"><a href="../../d4/da4/class_queue.html#a1f682045e1c9c9b18f65d5f4e7b8ea92">Queue::task_finished</a></div><div class="ttdeci">void task_finished()</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:272</div></div>
@@ -442,15 +490,15 @@ $(document).ready(function() { init_codefold(1); });
 <div class="ttc" id="astruct_i_task_executor_html"><div class="ttname"><a href="../../d5/d45/struct_i_task_executor.html">ITaskExecutor</a></div><div class="ttdef"><b>Definition</b> itask_executor.hpp:32</div></div>
 <div class="ttc" id="astruct_i_task_executor_html_a089b5728cdde5a6fa979ff68161fc1d3"><div class="ttname"><a href="../../d5/d45/struct_i_task_executor.html#a089b5728cdde5a6fa979ff68161fc1d3">ITaskExecutor::Process</a></div><div class="ttdeci">std::function&lt; ProcessCoroutine(IProcessSupervisor *)&gt; Process</div><div class="ttdef"><b>Definition</b> itask_executor.hpp:88</div></div>
 <div class="ttc" id="astruct_i_task_executor_html_a52c27a801ca71679f9a8e3dc9c173734"><div class="ttname"><a href="../../d5/d45/struct_i_task_executor.html#a52c27a801ca71679f9a8e3dc9c173734">ITaskExecutor::add</a></div><div class="ttdeci">virtual void add(std::unique_ptr&lt; ITask &gt; &amp;&amp;)=0</div></div>
-<div class="ttc" id="astruct_tasks_queue_1_1_int_task_html"><div class="ttname"><a href="../../d6/d86/struct_tasks_queue_1_1_int_task.html">TasksQueue::IntTask</a></div><div class="ttdef"><b>Definition</b> task_executor_utils.cpp:51</div></div>
+<div class="ttc" id="astruct_tasks_queue_1_1_int_task_html"><div class="ttname"><a href="../../d6/d86/struct_tasks_queue_1_1_int_task.html">TasksQueue::IntTask</a></div><div class="ttdef"><b>Definition</b> task_executor_utils.cpp:22</div></div>
 <div class="ttc" id="atask__executor__utils_8hpp_html_a2ca7a07566bec22218321fdca74d520f"><div class="ttname"><a href="../../d4/d20/task__executor__utils_8hpp.html#a2ca7a07566bec22218321fdca74d520f">runOn</a></div><div class="ttdeci">void runOn(ITaskExecutor &amp;executor, Callable &amp;&amp;callable, const std::string &amp;taskName=std::source_location::current().function_name())</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:79</div></div>
 <div class="ttc" id="atask__executor__utils_8hpp_html_a3f0aa9b30c11096d7aa5e0e982b1c7a5"><div class="ttname"><a href="../../d4/d20/task__executor__utils_8hpp.html#a3f0aa9b30c11096d7aa5e0e982b1c7a5">evaluate</a></div><div class="ttdeci">auto evaluate(E &amp;executor, const T &amp;task)</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:55</div></div>
 <div class="ttc" id="atask__executor__utils_8hpp_html_a865cfc2f4876f4fec6dea07219b07a7d"><div class="ttname"><a href="../../d4/d20/task__executor__utils_8hpp.html#a865cfc2f4876f4fec6dea07219b07a7d">execute</a></div><div class="ttdeci">void execute(E &amp;executor, T &amp;&amp;task)</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:71</div></div>
-<div class="ttc" id="atask__executor__utils_8hpp_html_ad4995770178142ce5a6f1bb7a1d164ac"><div class="ttname"><a href="../../d4/d20/task__executor__utils_8hpp.html#ad4995770178142ce5a6f1bb7a1d164ac">inlineTask</a></div><div class="ttdeci">CORE_EXPORT std::unique_ptr&lt; ITaskExecutor::ITask &gt; inlineTask(const std::string &amp;name, std::function&lt; void()&gt; &amp;&amp;task)</div><div class="ttdef"><b>Definition</b> task_executor_utils.cpp:110</div></div>
+<div class="ttc" id="atask__executor__utils_8hpp_html_ab5e38eaf971d51a70d22530cccbb27eb"><div class="ttname"><a href="../../d4/d20/task__executor__utils_8hpp.html#ab5e38eaf971d51a70d22530cccbb27eb">inlineTask</a></div><div class="ttdeci">std::unique_ptr&lt; ITaskExecutor::ITask &gt; inlineTask(const std::string &amp;name, C &amp;&amp;task)</div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:342</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 24 2024 20:46:04 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Fri Oct 25 2024 06:36:53 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

@@ -50,7 +50,7 @@
 <!-- Node5 -->
 <g id="Node000005" class="node">
 <title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../d4/dd6/class_photos_data_guesser.html#a2a212e85f615e315ebe23624e586a3d4" target="_top" xlink:title=" ">
+<g id="a_Node000005"><a xlink:href="../../d4/dd6/class_photos_data_guesser.html#a70ed93be8560cb9d8f83d3192858855b" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="136,-30.5 27.75,-30.5 27.75,0 136,0 136,-30.5"/>
 <text text-anchor="start" x="35.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosDataGuesser::</text>
 <text text-anchor="middle" x="81.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">loadData</text>

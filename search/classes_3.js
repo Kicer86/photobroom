@@ -22,6 +22,5 @@ var searchData=
   ['deltatypes_3c_20field_3a_3aphash_20_3e_19',['DeltaTypes&lt; Field::PHash &gt;',['../dd/dd2/struct_photo_1_1_delta_types_3_01_field_1_1_p_hash_01_4.html',1,'Photo']]],
   ['deltatypes_3c_20field_3a_3atags_20_3e_20',['DeltaTypes&lt; Field::Tags &gt;',['../d5/d20/struct_photo_1_1_delta_types_3_01_field_1_1_tags_01_4.html',1,'Photo']]],
   ['diskobserver_21',['DiskObserver',['../d7/db0/class_disk_observer.html',1,'']]],
-  ['dummycallback_22',['DummyCallback',['../d2/d92/struct_dummy_callback.html',1,'']]],
-  ['duplicatesmodel_23',['DuplicatesModel',['../d3/d94/class_duplicates_model.html',1,'']]]
+  ['duplicatesmodel_22',['DuplicatesModel',['../d3/d94/class_duplicates_model.html',1,'']]]
 ];
