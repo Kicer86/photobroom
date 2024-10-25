@@ -21,15 +21,10 @@ jobs:
       with:
         submodules: true
 
-    - name: Install system dependencies
-      run: |
-        brew install        \
-          llvm              \
-          dlib              \
-          exiv2             \
-          magic_enum        \
-          opencv            \
-          qt6
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v11.5
+      with:
+        vcpkgJsonGlob: vcpkg.json
 
     - name: Install CsLibGuarded
       run: |
