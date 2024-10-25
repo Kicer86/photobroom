@@ -30,21 +30,13 @@ jobs:
       run: |
         vcpkg/vcpkg install
 
-    - name: Install CsLibGuarded
-      run: |
-        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
-        cd cs_libguarded
-        mkdir build
-        cd build
-        cmake ..
-        cmake --build . --target all
-        sudo cmake --build . --target install
-
     - name: Build
-      uses: ashutoshvarma/action-cmake-build@master
+      uses: lukka/run-cmake@v10
       with:
-        build-dir: ${{ runner.workspace }}/build
-        build-type: Release
-        configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON
-      env:
-        VERBOSE: 1
+        configurePreset: ninja_release_vcpkg
+        configurePresetAdditionalArgs: |
+            [
+                '-DBUILD_TESTING=OFF',
+                '-DBUILD_SHARED_LIBS=TRUE'
+            ]
+        buildPreset: "Ninja Release"
