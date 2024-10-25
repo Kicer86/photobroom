@@ -1,5 +1,6 @@
 
 #include <QFileInfo>
+#include <QPromise>
 
 #include <core/function_wrappers.hpp>
 #include <core/iexif_reader.hpp>
@@ -11,7 +12,8 @@
 
 MediaViewCtrl::~MediaViewCtrl()
 {
-    m_callbackCtrl.invalidate();
+    m_pathFetchFuture.cancel();
+    m_pathFetchFuture.waitForFinished();
 }
 
 
@@ -27,15 +29,20 @@ void MediaViewCtrl::setSource(const Photo::Id& id)
 
     if (db && id.valid())
     {
-        auto task = m_callbackCtrl.make_safe_callback<Database::IBackend &>([this, id](Database::IBackend& backend)
+        QPromise<QString> promise;
+        m_pathFetchFuture = promise.future();
+        m_pathFetchFuture.then(this, std::bind(&MediaViewCtrl::setPath, this, std::placeholders::_1));
+
+        auto task = [id, promise = std::move(promise)](Database::IBackend& backend) mutable
         {
             // MediaViewCtrl may be destroyed here
             const auto data = backend.getPhotoDelta<Photo::Field::Path>(id);
 
-            invokeMethod(this, &MediaViewCtrl::setPath, data.get<Photo::Field::Path>());
-        });
+            promise.addResult(data.get<Photo::Field::Path>());
+            promise.finish();
+        };
 
-        db->exec(task);
+        db->exec(std::move(task));
     }
 }
 

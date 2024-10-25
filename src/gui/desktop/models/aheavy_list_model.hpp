@@ -2,8 +2,10 @@
 #ifndef AHEAVY_LIST_MODEL_HPP_INCLUDED
 #define AHEAVY_LIST_MODEL_HPP_INCLUDED
 
-#include <stop_token>
+
 #include <QAbstractListModel>
+#include <QFuture>
+#include <QPromise>
 
 #include <core/function_wrappers.hpp>
 
@@ -86,11 +88,13 @@ public:
         const qsizetype m_totalRows;
     };
 
+    using DataVector = std::vector<T>;
     using ApplyToken = std::unique_ptr<ApplyFinisher>;
 
     ~AHeavyListModel()
     {
-        m_work.request_stop();
+        m_loadDataFuture.cancel();
+        m_loadDataFuture.waitForFinished();
     }
 
     int rowCount(const QModelIndex& parent = {}) const override
@@ -106,12 +110,17 @@ public:
         {
             clear();
 
-            stoppableTask<std::vector<T>>
-            (
-                m_work,
-                [this](const std::stop_token& stop, StoppableTaskCallback<std::vector<T>> callback) { setState(State::Fetching); loadData(stop, callback); },
-                [this](const std::vector<T>& data) { updateData(data); setState(State::Loaded); }
-            );
+            QPromise<DataVector> promise;
+            m_loadDataFuture = promise.future();
+
+            m_loadDataFuture.then(this, [this](const DataVector& data)
+            {
+                updateData(data);
+                setState(State::Loaded);
+            });
+
+            setState(State::Fetching);
+            loadData(std::move(promise));
         }
     }
 
@@ -142,18 +151,18 @@ public:
     }
 
 protected:
-    virtual void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<T>>) = 0;
+    virtual void loadData(QPromise<std::vector<T>> &&) = 0;
     virtual void applyRows(const QList<int> &, ApplyToken) = 0;
 
-    const std::vector<T>& internalData() const
+    const DataVector& internalData() const
     {
         return m_data;
     }
 
 private:
     std::vector<T> m_data;
+    QFuture<DataVector> m_loadDataFuture;
     State m_state = Idle;
-    std::stop_source m_work;
 
     void setState(AHeavyListModelBase::State state)
     {

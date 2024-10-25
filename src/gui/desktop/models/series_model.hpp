@@ -4,7 +4,6 @@
 
 #include <QAbstractItemModel>
 #include <QFuture>
-#include <stop_token>
 
 #include <core/icore_factory_accessor.hpp>
 #include <core/itasks_view.hpp>
@@ -45,9 +44,8 @@ private:
     std::unique_ptr<ILogger> m_logger;
     Project* m_project = nullptr;
     ICoreFactoryAccessor* m_core = nullptr;
-    std::stop_source m_work;
 
-    void loadData(const std::stop_token& stopToken, StoppableTaskCallback<std::vector<GroupCandidate>>) override;
+    void loadData(QPromise<DataVector> &&) override;
     void applyRows(const QList<int> & , AHeavyListModel::ApplyToken ) override;
 };
 

@@ -17,6 +17,7 @@
  */
 
 #include <QBuffer>
+#include <QPromise>
 
 #include "thumbnail_manager.hpp"
 
@@ -45,7 +46,8 @@ ThumbnailManager::ThumbnailManager(ITaskExecutor& executor, IThumbnailsGenerator
 
 ThumbnailManager::~ThumbnailManager()
 {
-    m_callbackCtrl.invalidate();
+    m_imageFetchFuture.cancel();
+    m_imageFetchFuture.waitForFinished();
 }
 
 
@@ -62,7 +64,11 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
     // not cached in memory, search in db (if possible)
     if (cached.isNull() && m_db)
     {
-        auto task = m_callbackCtrl.make_safe_callback([=, this]()
+        QPromise<QImage> promise;
+        m_imageFetchFuture = promise.future();
+        m_imageFetchFuture.then(callback);
+
+        auto task = [=, this, promise = std::move(promise)]() mutable
         {
             QByteArray dbThumb;
 
@@ -116,10 +122,11 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
             const QImage thumbnail = m_generator.generateFrom(baseThumbnail, params);
 
             cache(id, params, thumbnail);
-            callback(thumbnail);
-        });
+            promise.addResult(thumbnail);
+            promise.finish();
+        };
 
-        m_tasks.add(inlineTask("database thumbnail fetch", task));
+        m_tasks.add(inlineTask("database thumbnail fetch", std::move(task)));
     }
     else
         callback(cached);
@@ -140,7 +147,7 @@ void ThumbnailManager::setDatabaseCache(Database::IDatabase* db)
 {
     std::lock_guard<std::mutex> _(m_cacheMutex);
 
-    m_callbackCtrl.invalidate();
+    m_imageFetchFuture.cancel();
     m_db = db;
     m_cache.clear();
 }
