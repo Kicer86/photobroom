@@ -239,19 +239,18 @@ TYPED_TEST(PhotoOperatorTest, fetchPhotoParts)
     Database::JsonToBackend converter(*this->m_backend);
     converter.append(RichDB::db1);
 
-    for_each<Photo::Field>([&](auto field)
+    for_each<Photo::Field>([&]<auto field>()
     {
-        constexpr auto constexpr_field = decltype(field)::value;
-        std::vector<Photo::ExplicitDelta<constexpr_field>> fromBackendPhotos;
+        std::vector<Photo::ExplicitDelta<field>> fromBackendPhotos;
 
         const auto ids = this->m_backend->photoOperator().getPhotos({});
         for (const auto id: ids)
         {
-            Photo::ExplicitDelta<constexpr_field> fromBackendPhoto = this->m_backend->template getPhotoDelta<constexpr_field>(id);
+            Photo::ExplicitDelta<field> fromBackendPhoto = this->m_backend->template getPhotoDelta<field>(id);
             fromBackendPhotos.push_back(fromBackendPhoto);
         }
 
-        const auto fromOperatorPhotos = this->m_backend->photoOperator().template fetchData<constexpr_field>({});
+        const auto fromOperatorPhotos = this->m_backend->photoOperator().template fetchData<field>({});
 
         EXPECT_THAT(fromBackendPhotos, UnorderedElementsAreArray(fromOperatorPhotos));
     });

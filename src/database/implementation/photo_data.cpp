@@ -52,10 +52,8 @@ namespace Photo
     void DataDelta::clear(Field field)
     {
         // TODO: improve it
-        for_each<Field>([&](auto enum_v)
+        for_each<Field>([&]<auto enum_value>()
         {
-            constexpr auto enum_value = decltype(enum_v)::value;
-
             if (enum_value == field)
                 m_data[field] = typename DeltaTypes<enum_value>::Storage{};
         });
