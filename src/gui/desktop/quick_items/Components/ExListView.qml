@@ -57,4 +57,28 @@ ListView {
                 listView.currentIndex = clickedIndex;
         }
     }
+
+    Keys.onPressed: function (event) {
+        let delegateHeight = listView.contentItem.children[0]?.height || 1;
+
+        switch (event.key) {
+            case Qt.Key_PageDown:
+                listView.positionViewAtIndex(listView.currentIndex + Math.floor(listView.height / delegateHeight), ListView.End);
+                break;
+            case Qt.Key_PageUp:
+                listView.positionViewAtIndex(listView.currentIndex - Math.floor(listView.height / delegateHeight), ListView.Beginning);
+                break;
+            case Qt.Key_Home:
+                listView.positionViewAtBeginning();
+                break;
+            case Qt.Key_End:
+                listView.positionViewAtEnd();
+                break;
+            default:
+                event.ignore();
+                break;
+        }
+
+        event.accepted = true;  // Mark event as handled
+    }
 }
