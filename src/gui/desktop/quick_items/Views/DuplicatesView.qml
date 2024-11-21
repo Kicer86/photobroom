@@ -35,6 +35,7 @@ Internals.ToolsBase
             implicitHeight: contentItem.childrenRect.height
             implicitWidth:  duplicatesList.width
 
+            keyNavigationEnabled: false
             orientation: ListView.Horizontal
             model: duplicates
 

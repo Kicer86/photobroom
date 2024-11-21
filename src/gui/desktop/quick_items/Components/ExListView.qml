@@ -61,6 +61,9 @@ ListView {
     Keys.onPressed: function (event) {
         let delegateHeight = listView.contentItem.children[0]?.height || 1;
 
+        if (listView.keyNavigationEnabled == false)
+            return
+
         event.accepted = true;
         switch (event.key) {
             case Qt.Key_PageDown:
