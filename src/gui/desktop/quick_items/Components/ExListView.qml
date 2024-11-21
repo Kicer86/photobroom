@@ -61,24 +61,22 @@ ListView {
     Keys.onPressed: function (event) {
         let delegateHeight = listView.contentItem.children[0]?.height || 1;
 
+        event.accepted = true;
         switch (event.key) {
             case Qt.Key_PageDown:
-                listView.positionViewAtIndex(listView.currentIndex + Math.floor(listView.height / delegateHeight), ListView.End);
+                listView.currentIndex = listView.currentIndex + Math.floor(listView.height / delegateHeight);
                 break;
             case Qt.Key_PageUp:
-                listView.positionViewAtIndex(listView.currentIndex - Math.floor(listView.height / delegateHeight), ListView.Beginning);
+                listView.currentIndex = listView.currentIndex - Math.floor(listView.height / delegateHeight)
                 break;
             case Qt.Key_Home:
-                listView.positionViewAtBeginning();
+                listView.currentIndex = 0;
                 break;
             case Qt.Key_End:
-                listView.positionViewAtEnd();
+                listView.currentIndex = listView.count - 1;
                 break;
             default:
-                event.ignore();
-                break;
+                event.accepted = false;
         }
-
-        event.accepted = true;  // Mark event as handled
     }
 }
