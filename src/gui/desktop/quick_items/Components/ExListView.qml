@@ -3,6 +3,7 @@ import QtQuick
 import QtQuick.Controls
 
 import QmlItems
+import "internal/ViewLogic.js" as Logic
 
 
 ListView {
@@ -58,28 +59,5 @@ ListView {
         }
     }
 
-    Keys.onPressed: function (event) {
-        let delegateHeight = listView.contentItem.children[0]?.height || 1;
-
-        if (listView.keyNavigationEnabled == false)
-            return
-
-        event.accepted = true;
-        switch (event.key) {
-            case Qt.Key_PageDown:
-                listView.currentIndex = listView.currentIndex + Math.floor(listView.height / delegateHeight);
-                break;
-            case Qt.Key_PageUp:
-                listView.currentIndex = listView.currentIndex - Math.floor(listView.height / delegateHeight);
-                break;
-            case Qt.Key_Home:
-                listView.currentIndex = 0;
-                break;
-            case Qt.Key_End:
-                listView.currentIndex = listView.count - 1;
-                break;
-            default:
-                event.accepted = false;
-        }
-    }
+    Keys.onPressed: Logic.handleKeys(event, listView)
 }
