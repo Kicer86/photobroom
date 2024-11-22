@@ -70,7 +70,7 @@ ListView {
                 listView.currentIndex = listView.currentIndex + Math.floor(listView.height / delegateHeight);
                 break;
             case Qt.Key_PageUp:
-                listView.currentIndex = listView.currentIndex - Math.floor(listView.height / delegateHeight)
+                listView.currentIndex = listView.currentIndex - Math.floor(listView.height / delegateHeight);
                 break;
             case Qt.Key_Home:
                 listView.currentIndex = 0;
