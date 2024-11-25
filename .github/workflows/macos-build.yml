@@ -23,6 +23,7 @@ jobs:
 
     - name: Install system dependencies
       run: |
+        brew unlink pkg-config@0.29.2
         brew install        \
           llvm              \
           dlib              \
