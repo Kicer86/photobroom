@@ -11,4 +11,5 @@ if(BUILD_UPDATER)
     endif()
 endif()
 
+add_subdirectory(magic_enum)
 add_subdirectory(nanobench)

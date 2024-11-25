@@ -2,7 +2,7 @@
 #ifndef PHOTO_DATA_FIELDS_HPP_INCLUDED
 #define PHOTO_DATA_FIELDS_HPP_INCLUDED
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 #include "photo_types.hpp"
 #include "person_data.hpp"

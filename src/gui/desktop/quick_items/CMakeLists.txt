@@ -6,6 +6,10 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS
     QuickWidgets
 )
 
+if(QT_KNOWN_POLICY_QTP0004)
+    qt_policy(SET QTP0004 NEW)
+endif()
+
 set(CMAKE_AUTOMOC ON)
 
 set(QUICK_ITEMS_CPP_SOURCES

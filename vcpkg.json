@@ -26,7 +26,6 @@
     "jsoncpp",
     "libguarded",
     "libwebp",
-    "magic-enum",
     "qtbase",
     "qtsvg",
     {

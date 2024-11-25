@@ -23,11 +23,11 @@ jobs:
 
     - name: Install system dependencies
       run: |
+        brew link --overwrite pkgconf
         brew install        \
           llvm              \
           dlib              \
           exiv2             \
-          magic_enum        \
           opencv            \
           qt6
 

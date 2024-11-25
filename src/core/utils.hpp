@@ -2,7 +2,7 @@
 #ifndef UTILS_HPP_INCLUDED
 #define UTILS_HPP_INCLUDED
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 #include <cmath>
 
 

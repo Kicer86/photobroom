@@ -58,6 +58,7 @@ target_link_libraries(database_backends_ut
         plugins
         sample_dbs
         system
+        magic_enum::magic_enum
         Qt::Core
         Qt::Gui
         Qt::Sql

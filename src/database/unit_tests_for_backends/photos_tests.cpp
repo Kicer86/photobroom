@@ -1,5 +1,5 @@
 
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 #include "database_tools/json_to_backend.hpp"
 #include "unit_tests_utils/rich_db.json.hpp"

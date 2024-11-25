@@ -3,7 +3,6 @@ Before first build update git submodules with:
 git submodule update --init --recursive
 
 or clone whole repo with --recursive option:
-
 git clone --recursive https://github.com/Kicer86/photobroom.git
 
 

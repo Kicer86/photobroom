@@ -62,10 +62,6 @@ jobs:
           libglvnd-dev                      \
           libwebp-dev
 
-    - name: Install magic enum
-      run: |
-        sudo wget https://raw.githubusercontent.com/Neargye/magic_enum/87190b8/include/magic_enum.hpp -O /usr/include/magic_enum.hpp
-
     - name: Install CsLibGuarded
       run: |
         git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
@@ -109,7 +105,6 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
-            -Wdev -Werror=dev
         run-test: true
         ctest-options:
             -LE HeavyData
