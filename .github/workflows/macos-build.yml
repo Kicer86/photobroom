@@ -25,7 +25,7 @@ jobs:
 
     - name: Install system dependencies
       run: |
-        brew link --overwrite pkgconf
+        brew install pkgconf
         brew install        \
           llvm              \
           dlib              \
