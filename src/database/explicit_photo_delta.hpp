@@ -3,11 +3,10 @@
 #define EXPLICIT_PHOTO_DELTA_HPP_INCLUDED
 
 #include <stdexcept>
-#include <magic_enum.hpp>
+
+#include <magic_enum/magic_enum.hpp>
 
 #include <core/generic_concepts.hpp>
-#include <magic_enum.hpp>
-
 #include "photo_data.hpp"
 
 

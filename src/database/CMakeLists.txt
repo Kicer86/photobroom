@@ -10,7 +10,6 @@ add_subdirectory(benchmarks)
 find_package(CsLibGuarded   REQUIRED)
 find_package(Qt6            REQUIRED COMPONENTS Core Gui)
 find_package(Threads        REQUIRED)
-find_package(MagicEnum      REQUIRED)
 find_package(OpenCV         REQUIRED)
 
 set(DATABASE_SOURCES
@@ -76,17 +75,16 @@ target_link_libraries(database
                         PUBLIC
                             CsLibGuarded::CsLibGuarded
                             Qt::Gui
+                            magic_enum::magic_enum
                             core                            # core is being used in some public interfaces (see photo_data.hpp)
 
                         PRIVATE
                             Qt::Core
                             opencv_img_hash                 # do not link all possible libs, just those we will need (opencv_cvv uses Qt5 which causes problems)
-                            ${CMAKE_THREAD_LIBS_INIT}
 )
 
 target_include_directories(database
                             PUBLIC
-                                ${MAGIC_ENUM_INCLUDE_DIR}
                                 ${CMAKE_CURRENT_BINARY_DIR}
                                 ${PROJECT_SOURCE_DIR}/src
 

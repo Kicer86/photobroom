@@ -25,7 +25,7 @@
 #include <vector>
 #include <optional>
 #include <source_location>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 #include <core/tag.hpp>
 

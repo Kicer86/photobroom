@@ -5,7 +5,7 @@
 #include <type_traits>
 #include <QByteArray>
 #include <QHash>
-#include <magic_enum.hpp>
+#include <magic_enum/magic_enum.hpp>
 
 
 #define ENUM_ROLES_SETUP(T)                         \

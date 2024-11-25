@@ -28,7 +28,6 @@ jobs:
           llvm              \
           dlib              \
           exiv2             \
-          magic_enum        \
           opencv            \
           qt6
 
