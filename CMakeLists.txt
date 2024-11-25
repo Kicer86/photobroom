@@ -14,6 +14,10 @@ if(POLICY CMP0160)
     cmake_policy(SET CMP0160 NEW)
 endif()
 
+if(POLICY CMP0174)
+    cmake_policy(SET CMP0174 NEW)
+endif()
+
 if(POLICY CMP0177)
     cmake_policy(SET CMP0177 NEW)
 endif()

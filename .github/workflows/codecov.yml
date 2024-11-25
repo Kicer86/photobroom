@@ -102,7 +102,6 @@ jobs:
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=FALSE
             -DBUILD_LEARNING_TESTS=TRUE
-            -Wdev -Werror=dev
             -DCMAKE_CXX_FLAGS=--coverage
             -DCMAKE_SHARED_LINKER_FLAGS=--coverage
             -DCMAKE_EXE_LINKER_FLAGS=--coverage

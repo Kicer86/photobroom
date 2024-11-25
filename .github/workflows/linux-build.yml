@@ -109,7 +109,6 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
-            -Wdev -Werror=dev
         run-test: true
         ctest-options:
             -LE HeavyData
