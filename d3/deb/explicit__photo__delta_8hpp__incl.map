@@ -1,11 +1,11 @@
 <map id="src/database/explicit_photo_delta.hpp" name="src/database/explicit_photo_delta.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="182,5,322,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,5,381,46"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,94,83,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="201,49,91,91,89,86,199,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="107,94,226,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="233,48,193,85,189,81,229,44"/>
-<area shape="rect" id="Node000004" href="$db/dbd/generic__concepts_8hpp.html" title=" " alt="" coords="251,94,427,120"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="275,44,316,81,312,85,272,48"/>
-<area shape="rect" id="Node000007" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="451,94,560,120"/>
-<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="316,44,452,86,451,91,314,49"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="245,49,98,92,96,87,243,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="107,94,304,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="286,49,235,86,232,82,283,44"/>
+<area shape="rect" id="Node000004" href="$db/dbd/generic__concepts_8hpp.html" title=" " alt="" coords="328,94,504,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="338,44,389,82,386,86,335,49"/>
+<area shape="rect" id="Node000007" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="528,94,637,120"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="379,44,527,87,525,92,378,49"/>
 </map>
