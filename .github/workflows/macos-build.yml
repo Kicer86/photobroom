@@ -28,6 +28,7 @@ jobs:
         brew link --overwrite pkgconf
         brew install        \
           llvm              \
+          ninja             \
           dlib              \
           exiv2             \
           opencv            \
@@ -48,6 +49,9 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
-        configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON
+        configure-options:
+            -DBUILD_TESTING=OFF
+            -DBUILD_SHARED_LIBS=ON
+            -G Ninja
       env:
         VERBOSE: 1
