@@ -31,7 +31,7 @@ namespace details
     template<auto... args, typename F>
     void unfold(F&& op)
     {
-        (op(std::integral_constant<decltype(args), args>{}), ...);
+        (op.template operator()<std::integral_constant<decltype(args), args>{}>(), ...);
     }
 
     template<auto arr, typename IS = decltype(std::make_index_sequence<arr.size()>())> struct Generator;

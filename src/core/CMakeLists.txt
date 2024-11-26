@@ -55,7 +55,6 @@ set(CORE_SOURCES
     imodel_compositor_data_source.hpp
     itask_executor.hpp
     itasks_view.hpp
-    itasks_view_utils.hpp                                   implementation/itasks_view_utils.cpp
     ithumbnails_generator.hpp
     iview_task.hpp
     lazy_ptr.hpp

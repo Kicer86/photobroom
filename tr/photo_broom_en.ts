@@ -523,37 +523,37 @@ Error code: %1</source>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="29"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="27"/>
         <source>Processing done. Click here for rerun.</source>
         <translation>Processing done. Click here for rerun.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="28"/>
         <source>No results.</source>
         <translation>No results.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="29"/>
         <source>Saving results...</source>
         <translation>Saving results...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="89"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="86"/>
         <source>Guessed date:</source>
         <translation>Guessed date:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="111"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="103"/>
         <source>Save selected photos</source>
         <translation>Save selected photos</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="27"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="25"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Click here to scan for additional information about photos from file names and paths.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="28"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="26"/>
         <source>Processing photos...</source>
         <translation>Processing photos...</translation>
     </message>
@@ -750,17 +750,17 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="210"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="215"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="223"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="228"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="236"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="241"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -829,33 +829,33 @@ Error code: %1</source>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="30"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="28"/>
         <source>Click here to scan for photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="125"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="124"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation type="unfinished">Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="34"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="32"/>
         <source>Saving groups...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="29"/>
         <source>Looking for group candidates...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="32"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="30"/>
         <source>Click here to rescan for photo series.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="33"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="31"/>
         <source>There are no group candidates.</source>
         <translation>There are no group candidates.</translation>
     </message>
@@ -863,17 +863,17 @@ Error code: %1</source>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="69"/>
         <source>Photo series</source>
         <translation>Photo series</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="70"/>
         <source>HDR</source>
         <translation>HDR</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="72"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="71"/>
         <source>Photos taken at similar time</source>
         <translation>Photos taken at similar time</translation>
     </message>
@@ -915,12 +915,12 @@ Error code: %1</source>
 <context>
     <name>VideoPlayer</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="86"/>
         <source>Playing</source>
         <translation>Playing</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="86"/>
         <source>Paused</source>
         <translation>Paused</translation>
     </message>

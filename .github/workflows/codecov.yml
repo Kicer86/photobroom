@@ -37,19 +37,6 @@ jobs:
           python3-cairosvg                  \
           python3-defusedxml                \
           python3-pil                       \
-          qt6-base-dev                      \
-          qt6-declarative-dev               \
-          qt6-declarative-dev-tools         \
-          qt6-declarative-private-dev       \
-          qt6-multimedia-dev                \
-          qt6-quick3d-dev                   \
-          qt6-quick3d-dev-tools             \
-          qt6-l10n-tools                    \
-          qml6-module-qtqml-workerscript    \
-          qml6-module-qtquick-window        \
-          libqt6shadertools6-dev            \
-          libqt6svg6-dev                    \
-          libqt6quick3druntimerender6       \
           libboost-dev                      \
           libopencv-dev                     \
           libopenblas-dev                   \
@@ -58,6 +45,13 @@ jobs:
           libgl1-mesa-dev                   \
           libglvnd-dev                      \
           libwebp-dev
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.7.2'
+        cache: 'true'
+        modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
 
     - name: Install CsLibGuarded
       run: |
@@ -71,7 +65,7 @@ jobs:
 
     - name: Install Exiv2
       run: |
-        sudo apt-get install libinih-dev
+        sudo apt-get install libinih-dev libbrotli-dev
         git clone -b v0.28.2 https://github.com/Exiv2/exiv2.git
         cd exiv2
         mkdir build
@@ -92,12 +86,11 @@ jobs:
         build-type: Debug
         configure-options:
             -DBUILD_SHARED_LIBS=${{ matrix.shared }}
-            -DLUPDATE=/usr/lib/qt6/bin/lupdate
-            -DLRELEASE:FILEPATH=/usr/lib/qt6/bin/lrelease
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=FALSE
             -DBUILD_LEARNING_TESTS=TRUE
+            -DPython=/usr/bin/python3
             -DCMAKE_CXX_FLAGS=--coverage
             -DCMAKE_SHARED_LINKER_FLAGS=--coverage
             -DCMAKE_EXE_LINKER_FLAGS=--coverage

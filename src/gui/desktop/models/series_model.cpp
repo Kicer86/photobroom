@@ -3,7 +3,6 @@
 #include <core/iexif_reader.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/itask_executor.hpp>
-#include <core/itasks_view_utils.hpp>
 #include <core/task_executor_utils.hpp>
 #include <core/qmodel_utils.hpp>
 #include <database/database_tools/series_detector.hpp>
@@ -147,6 +146,4 @@ void SeriesModel::applyRows(const QList<int>& rows, AHeavyListModel::ApplyToken 
         GroupsManager::groupIntoUnified(*project, std::move(promise), groups);
     },
     "unified group generation");
-
-    // TasksViewUtils::addFutureTask(m_tasksView, future, tr("Saving groups details."));
 }

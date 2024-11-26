@@ -544,7 +544,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+29"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+27"/>
         <source>Processing done. Click here for rerun.</source>
         <translation>Przetwarzanie zakończone. Kliknij tutaj, aby przeszukać ponownie.</translation>
     </message>
@@ -559,17 +559,17 @@ Kod błędu: %1</translation>
         <translation>Zapisywanie wyników...</translation>
     </message>
     <message>
-        <location line="+58"/>
+        <location line="+57"/>
         <source>Guessed date:</source>
         <translation>Odczytana data:</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+17"/>
         <source>Save selected photos</source>
         <translation>Zapisz zaznaczone zdjęcia</translation>
     </message>
     <message>
-        <location line="-84"/>
+        <location line="-78"/>
         <source>Click here to scan for additional information about photos from file names and paths.</source>
         <translation>Kliknij tutaj aby wyłuskać dodatkowe informacje nt zdjęć z nazw plików oraz ich ścieżek.</translation>
     </message>
@@ -778,19 +778,19 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+210"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+215"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Informacje o pliku&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation>&lt;b&gt;Okno debugowe&lt;/b&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -857,18 +857,18 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+30"/>
+        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+28"/>
         <source>Click here to scan for photo series.</source>
         <translation>Kliknij tutaj aby wyszukać serie zdjęć.</translation>
     </message>
     <message>
-        <location line="+95"/>
+        <location line="+96"/>
         <source>Group</source>
         <comment>used as verb - group photos</comment>
         <translation>Grupuj</translation>
     </message>
     <message>
-        <location line="-91"/>
+        <location line="-92"/>
         <source>Saving groups...</source>
         <translation>Zapisywanie grup...</translation>
     </message>
@@ -891,7 +891,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/series_model.cpp" line="+70"/>
+        <location filename="../src/gui/desktop/models/series_model.cpp" line="+69"/>
         <source>Photo series</source>
         <translation>Seria zdjęć</translation>
     </message>
@@ -943,7 +943,7 @@ Kod błędu: %1</translation>
 <context>
     <name>VideoPlayer</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="+84"/>
+        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="+86"/>
         <source>Playing</source>
         <translation>Odtwarzanie</translation>
     </message>

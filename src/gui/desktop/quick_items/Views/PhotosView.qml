@@ -1,6 +1,6 @@
 
-import QtQuick 2.15
-import QtQuick.Controls 2.15
+import QtQuick
+import QtQuick.Controls
 import photo_broom.singletons
 import quick_items
 import QmlItems
@@ -11,14 +11,14 @@ import "ViewsComponents" as Internals
  * Top level view for diplaying photos from APhotoInfoModel.
  */
 
-FocusScope {
+Item {
     id: photosViewId
 
     state: "gallery"
 
     PhotosModelController {
         id: photosModelControllerId
-        objectName: "photos_model_controller"      // used by c++ part to find this model and set it up
+        objectName: "photos_model_controller"      // used by c++ part to find this object and set it up
 
         database: PhotoBroomProject.database
 
@@ -43,6 +43,11 @@ FocusScope {
         controller: photosModelControllerId
 
         visible: photosModelControllerId.datesCount > 0
+        height: photosArea.depth == 1? implicitHeight: 0
+
+        Behavior on height {
+            PropertyAnimation { properties: "height"; easing.type: Easing.InOutQuad; duration: 200 }
+        }
     }
 
     StackView {
@@ -61,13 +66,6 @@ FocusScope {
         popEnter:  Transition { PropertyAction    { property: "enabled"; value: true} }
         popExit:   Transition { PropertyAnimation { property: "opacity"; to: 0.0} }
 
-        Keys.onPressed: function(event) {
-            if (event.key == Qt.Key_Escape && photosArea.depth > 1) {
-                photosArea.pop();
-                event.accepted = true;
-            }
-        }
-
         // actions on database close/open
         Connections {
             target: PhotoBroomProject
@@ -75,6 +73,14 @@ FocusScope {
             function onProjectOpenChanged(open) {
                 if (open === false)
                     photosArea.pop();
+            }
+        }
+
+        Keys.onPressed: function(event) {
+            if (event.key == Qt.Key_Escape && photosArea.depth > 1) {
+                event.accepted = true;
+                photosArea.pop();
+                console.log("Closing page");
             }
         }
     }
@@ -86,15 +92,14 @@ FocusScope {
 
             StackView.visible: true
 
+            // grid with photos
             Internals.PhotosGridView {
-                // grid with photos
                 id: gridView
 
                 SplitView.preferredWidth: parent.width * 3/4
 
                 clip: true
-                activeFocusOnTab: true
-                keyNavigationEnabled: true
+                focusPolicy: Qt.StrongFocus
 
                 model: photosModelControllerId.photos
                 thumbnailSize: thumbnailSliderId.size
@@ -239,7 +244,6 @@ FocusScope {
                     Internals.DebugWindow { }
                 }
             }
-
         }
     }
 
@@ -274,10 +278,3 @@ FocusScope {
         FacesDialog { }
     }
 }
-
-
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
-##^##*/
