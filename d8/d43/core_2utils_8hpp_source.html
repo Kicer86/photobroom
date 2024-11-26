@@ -120,7 +120,7 @@ $(document).ready(function() { init_codefold(1); });
 <div class="foldopen" id="foldopen00032" data-start="{" data-end="}">
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="../../db/d1b/namespacedetails.html#a5ee877ccf7889783601dad248c335779">   32</a></span>    <span class="keywordtype">void</span> <a class="code hl_function" href="../../db/d1b/namespacedetails.html#a5ee877ccf7889783601dad248c335779">unfold</a>(F&amp;&amp; op)</div>
 <div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    {</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        (op(std::integral_constant&lt;<span class="keyword">decltype</span>(args), args&gt;{}), ...);</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        (op.template operator()&lt;std::integral_constant&lt;<span class="keyword">decltype</span>(args), args&gt;{}&gt;(), ...);</div>
 <div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    }</div>
 </div>
 <div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
@@ -162,7 +162,7 @@ $(document).ready(function() { init_codefold(1); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 26 2024 11:30:23 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
+Generated on Tue Nov 26 2024 13:25:38 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.8
 </small></address>
 </body>
 </html>

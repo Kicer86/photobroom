@@ -1,10 +1,8 @@
 <map id="IViewTask::getProgressBar" name="IViewTask::getProgressBar">
-<area shape="rect" id="Node000001" title=" " alt="" coords="450,63,629,88"/>
-<area shape="rect" id="Node000002" href="$df/d05/namespace_tasks_view_utils.html#ae8ef4428b4fc785fc7c26e80dd3a6156" title=" " alt="" coords="196,5,402,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="467,61,355,34,357,29,468,56"/>
-<area shape="rect" id="Node000003" href="$dd/d10/class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b" title=" " alt="" coords="231,55,367,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="435,78,367,78,367,73,435,73"/>
-<area shape="rect" id="Node000004" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="5,85,148,125"/>
-<area shape="poly" id="edge4_Node000001_Node000004" title=" " alt="" coords="478,95,402,110,344,115,299,115,196,110,148,109,148,104,196,105,299,109,344,109,402,105,477,90"/>
-<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="216,89,149,98,148,93,215,84"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="380,42,559,68"/>
+<area shape="rect" id="Node000002" href="$dd/d10/class_photos_analyzer_impl.html#ab38d0cd8b1d5d3353c34cdc74861aa3b" title=" " alt="" coords="196,5,332,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="365,43,332,38,333,33,365,37"/>
+<area shape="rect" id="Node000003" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="5,35,148,75"/>
+<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="364,60,332,60,196,60,148,60,148,54,196,55,332,55,364,55"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="181,41,148,47,147,41,180,36"/>
 </map>

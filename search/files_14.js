@@ -6,5 +6,6 @@ var searchData=
   ['version_2ehpp_3',['version.hpp',['../d7/dad/version_8hpp.html',1,'']]],
   ['video_5fmedia_5finformation_2ecpp_4',['video_media_information.cpp',['../da/d25/video__media__information_8cpp.html',1,'']]],
   ['video_5fmedia_5finformation_2ehpp_5',['video_media_information.hpp',['../db/d7d/video__media__information_8hpp.html',1,'']]],
-  ['video_5fmetadata_5fextraction_5ftests_2ecpp_6',['video_metadata_extraction_tests.cpp',['../d4/d28/video__metadata__extraction__tests_8cpp.html',1,'']]]
+  ['video_5fmetadata_5fextraction_5ftests_2ecpp_6',['video_metadata_extraction_tests.cpp',['../d4/d28/video__metadata__extraction__tests_8cpp.html',1,'']]],
+  ['viewlogic_2ejs_7',['ViewLogic.js',['../d0/dfa/_view_logic_8js.html',1,'']]]
 ];
