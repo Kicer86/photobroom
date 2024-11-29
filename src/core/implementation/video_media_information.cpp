@@ -50,12 +50,10 @@ namespace
 
         if (creationTimeStr.isEmpty() == false)
         {
-            creationTimeStr.replace('T', ' ');          // some date come with 'T' as separator and some with ' '. Unify this
-            const auto dateTimeSplit = creationTimeStr.split(' ');
-            assert(dateTimeSplit.size() == 2);
-            const auto date = dateTimeSplit.first();
-            const auto time = dateTimeSplit.last().left(8);         // left() for removing any leftovers
-
+            //                             (date + space + time)
+            assert(creationTimeStr.length() >= (10 + 1 + 8) && (creationTimeStr[10] == 'T' || creationTimeStr[10] == ' '));
+            const auto date = creationTimeStr.left(10);
+            const auto time = creationTimeStr.mid(11, 8);
             const auto dateQ = QDate::fromString(date, "yyyy-MM-dd");
             const auto timeQ = QTime::fromString(time, "hh:mm:ss");
 
