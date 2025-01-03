@@ -24,10 +24,11 @@
 #include <database/iphoto_operator.hpp>
 #include <database/photo_utils.hpp>
 #include <project_utils/misc.hpp>
-#include <system/system.hpp>
 
 #include "utils/grouppers/collage_generator.hpp"
 #include "groups_manager.hpp"
+
+import system;
 
 
 QString GroupsManager::includeRepresentatInDatabase(const QString& representativePhoto, Project& project)
