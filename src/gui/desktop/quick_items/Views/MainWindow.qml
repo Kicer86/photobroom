@@ -65,8 +65,7 @@ ApplicationWindow {
                         onTriggered: mainWindow.openProject(modelData)
                     }
 
-                    onObjectAdded: (index, object) => recentsMenu.insertItem(index, object)
-                    onObjectRemoved: (object) => recentsMenu.removeItem(object)
+                    onObjectAdded: (index, object) => recentsMenu.insertItem(index, object);
                 }
             }
             Action { text: qsTr("&Close"); enabled: PhotoBroomProject.projectOpen; icon.name: "window-close"; onTriggered: closeProject(); }
