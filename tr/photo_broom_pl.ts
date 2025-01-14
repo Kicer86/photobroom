@@ -334,7 +334,7 @@
         <translation>O&amp;twórz poprzednią</translation>
     </message>
     <message>
-        <location line="+41"/>
+        <location line="+40"/>
         <source>&amp;Windows</source>
         <translation>O&amp;kna</translation>
     </message>
@@ -379,12 +379,12 @@
         <translation>&amp;Zdjęcia</translation>
     </message>
     <message>
-        <location line="-50"/>
+        <location line="-49"/>
         <source>No collection opened</source>
         <translation>Nie otwarto kolekcji zdjęć</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location line="+43"/>
         <source>&amp;Close</source>
         <translation>&amp;Zamknij</translation>
     </message>
