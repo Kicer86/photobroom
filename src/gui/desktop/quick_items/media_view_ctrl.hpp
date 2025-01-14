@@ -50,13 +50,13 @@ signals:
     void modeChanged(Mode) const;
 
 private:
-    QFuture<QString> m_pathFetchFuture;
+    QFuture<std::pair<QUrl, Mode>> m_pathFetchFuture;
     QUrl m_path;
     Mode m_mode = Mode::Unknown;
     ICoreFactoryAccessor* m_core = nullptr;
     Photo::Id m_id;
 
-    void setPath(const QString &);
+    void setPath(const QUrl &);
     void setMode(Mode);
 };
 
