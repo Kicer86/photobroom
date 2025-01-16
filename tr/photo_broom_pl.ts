@@ -60,7 +60,7 @@
 <context>
     <name>BatchFaceDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/BatchFaceDetection.qml" line="+32"/>
+        <location filename="../src/gui/desktop/quick_items/views/BatchFaceDetection.qml" line="+32"/>
         <source>Discovered faces</source>
         <translation type="unfinished"></translation>
     </message>
@@ -169,7 +169,7 @@
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/DebugWindow.qml" line="+23"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="+23"/>
         <source>Tasks in queue</source>
         <translation>Zadań w kolejce</translation>
     </message>
@@ -193,7 +193,7 @@
 <context>
     <name>DuplicatesView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/DuplicatesView.qml" line="+16"/>
+        <location filename="../src/gui/desktop/quick_items/views/DuplicatesView.qml" line="+16"/>
         <source>Click here to load duplicates.</source>
         <translation>Kliknij tutaj aby załadować duplikaty.</translation>
     </message>
@@ -216,7 +216,7 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+169"/>
+        <location filename="../src/gui/desktop/quick_items/views/FacesDialog.qml" line="+169"/>
         <source>unknown</source>
         <translation>nieznane</translation>
     </message>
@@ -244,7 +244,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="+59"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/Filter.qml" line="+59"/>
         <source>Search:</source>
         <translation>Wyszukaj:</translation>
     </message>
@@ -314,7 +314,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+38"/>
+        <location filename="../src/gui/desktop/quick_items/views/MainWindow.qml" line="+38"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>
@@ -527,7 +527,7 @@ Kod błędu: %1</translation>
 <context>
     <name>NotificationsBar</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/NotificationsBar.qml" line="+97"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/NotificationsBar.qml" line="+97"/>
         <source>Click here to collapse notifications.</source>
         <translation>Kliknij, aby ukryć powiadomienia.</translation>
     </message>
@@ -544,7 +544,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoDataCompletion</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotoDataCompletion.qml" line="+27"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotoDataCompletion.qml" line="+27"/>
         <source>Processing done. Click here for rerun.</source>
         <translation>Przetwarzanie zakończone. Kliknij tutaj, aby przeszukać ponownie.</translation>
     </message>
@@ -778,7 +778,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+218"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="+218"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
@@ -857,7 +857,7 @@ Kod błędu: %1</translation>
 <context>
     <name>SeriesDetection</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/SeriesDetection.qml" line="+28"/>
+        <location filename="../src/gui/desktop/quick_items/views/SeriesDetection.qml" line="+28"/>
         <source>Click here to scan for photo series.</source>
         <translation>Kliknij tutaj aby wyszukać serie zdjęć.</translation>
     </message>
@@ -922,7 +922,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ThumbnailSlider</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/ThumbnailSlider.qml" line="+32"/>
+        <location filename="../src/gui/desktop/quick_items/components/ThumbnailSlider.qml" line="+32"/>
         <source>Thumbnail size:</source>
         <translation>Rozmiar miniaturki:</translation>
     </message>
@@ -930,7 +930,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TimeRange</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/TimeRange.qml" line="+26"/>
+        <location filename="../src/gui/desktop/quick_items/components/TimeRange.qml" line="+26"/>
         <source>Time range:</source>
         <translation>Zakres czasu:</translation>
     </message>
@@ -943,7 +943,7 @@ Kod błędu: %1</translation>
 <context>
     <name>VideoPlayer</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Components/VideoPlayer.qml" line="+86"/>
+        <location filename="../src/gui/desktop/quick_items/components/VideoPlayer.qml" line="+86"/>
         <source>Playing</source>
         <translation>Odtwarzanie</translation>
     </message>
