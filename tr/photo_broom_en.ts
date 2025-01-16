@@ -210,22 +210,22 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="168"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="169"/>
         <source>unknown</source>
         <translation>unknown</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="212"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="213"/>
         <source>Mark found faces</source>
         <translation>Mark found faces</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="225"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="226"/>
         <source>Detecting and analyzing faces</source>
         <translation>Detecting and analyzing faces</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="225"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="226"/>
         <source>Could not detect any face.</source>
         <translation>Could not detect any face.</translation>
     </message>
@@ -233,12 +233,12 @@
 <context>
     <name>Filter</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="58"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="59"/>
         <source>Search:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="74"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="75"/>
         <source>More options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -248,12 +248,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="86"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="87"/>
         <source>Category:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="101"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="102"/>
         <source>Rating:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -750,17 +750,17 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="215"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="218"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="228"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="231"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="241"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="244"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>

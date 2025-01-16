@@ -6,7 +6,7 @@ import photo_broom.utils
 import photo_broom.enums
 import QmlItems
 import quick_items
-import "../../Components" as Components
+import quick_items.components as Components
 
 Item {
     id: editor

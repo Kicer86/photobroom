@@ -7,7 +7,7 @@ import QtQuick.Controls
 import photo_broom.models
 import photo_broom.singletons
 
-import "../../Components" as Components
+import quick_items.components as Components
 
 /**
  * @brief base for tool views
