@@ -1,4 +1,8 @@
 
+if(QT_KNOWN_POLICY_QTP0004)
+    qt_policy(SET QTP0004 NEW)
+endif()
+
 add_subdirectory(Components)
 add_subdirectory(Views)
 
@@ -8,10 +12,6 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS
     Quick3D
     QuickWidgets
 )
-
-if(QT_KNOWN_POLICY_QTP0004)
-    qt_policy(SET QTP0004 OLD)
-endif()
 
 set(CMAKE_AUTOMOC ON)
 
