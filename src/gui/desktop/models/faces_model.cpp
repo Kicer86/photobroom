@@ -26,7 +26,7 @@ ENUM_ROLES_SETUP(FacesModel::Roles);
 FacesModel::FacesModel(QObject *parent):
     QAbstractListModel(parent)
 {
-    QMetaObject::invokeMethod(this, &FacesModel::initialSetup, Qt::QueuedConnection);
+    invokeMethodLater(this, &FacesModel::initialSetup);
 }
 
 
@@ -162,6 +162,12 @@ void FacesModel::updateFaceInformation(std::shared_ptr<std::vector<std::unique_p
 
 void FacesModel::initialSetup()
 {
+    if (not m_id)
+    {
+        invokeMethodLater(this, &FacesModel::initialSetup);
+        return;
+    }
+
     assert(m_id.valid());
     assert(m_database);
     assert(m_core);
