@@ -67,6 +67,7 @@ set(CORE_SOURCES
     observables_registry.hpp                                implementation/observables_registry.cpp
     observable_task_executor.hpp
     oriented_image.hpp                                      implementation/oriented_image.cpp
+    property_awaiter.hpp                                    implementation/property_awaiter.cpp
     qmodelindex_comparator.hpp                              implementation/qmodelindex_comparator.cpp
     qmodelindex_selector.hpp                                implementation/qmodelindex_selector.cpp
     search_expression_evaluator.hpp                         implementation/search_expression_evaluator.cpp
