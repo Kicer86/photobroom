@@ -5,6 +5,7 @@ import QtQuick.Layouts
 
 import photo_broom.singletons
 import quick_items
+import quick_items.views
 
 import "ViewsComponents" as Internals
 import "../Components" as Components

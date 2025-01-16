@@ -314,7 +314,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+37"/>
+        <location filename="../src/gui/desktop/quick_items/Views/MainWindow.qml" line="+38"/>
         <source>&amp;Photo collection</source>
         <translation>&amp;Kolekcja zdjęć</translation>
     </message>

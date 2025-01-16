@@ -1,4 +1,6 @@
 
+add_subdirectory(Views)
+
 find_package(Qt6 6.4 REQUIRED COMPONENTS
     Multimedia
     Quick
@@ -34,7 +36,7 @@ file(GLOB_RECURSE
     QML_SOURCES
     RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
     CONFIGURE_DEPENDS
-    *.qml *.js
+    Components/*.qml Components/*.js
 )
 
 set_source_files_properties(Components/Constants.qml PROPERTIES
@@ -52,6 +54,8 @@ qt6_add_qml_module(quick_items
 
 target_link_libraries(quick_items
     PUBLIC
+        quick_items_views
+
         core
         face_recognition
         gui_models
