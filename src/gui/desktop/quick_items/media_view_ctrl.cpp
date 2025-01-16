@@ -39,6 +39,13 @@ namespace
 }
 
 
+MediaViewCtrl::MediaViewCtrl()
+    : m_initializer(this, {"core", "photoID"}, std::bind(&MediaViewCtrl::process, this))
+{
+
+}
+
+
 MediaViewCtrl::~MediaViewCtrl()
 {
     m_pathFetchFuture.cancel();
@@ -47,46 +54,11 @@ MediaViewCtrl::~MediaViewCtrl()
 
 void MediaViewCtrl::setSource(const Photo::Id& id)
 {
-    if (m_core == nullptr)
-    {
-        invokeMethodLater(this, &MediaViewCtrl::setSource, id);
-        return;
-    }
-
     assert(id.valid());
     m_id = id;
 
     emit sourceChanged(id);
     emit photoIDStringChanged(photoIDString());
-
-    Database::IDatabase* db = ObjectsAccessor::instance().database();
-
-    if (db && id.valid())
-    {
-        QPromise<std::pair<QUrl, Mode>> promise;
-        m_pathFetchFuture = promise.future();
-        m_pathFetchFuture.then(this, [this](const std::pair<QUrl, Mode>& url_and_mode)
-        {
-            setPath(url_and_mode.first);
-            setMode(url_and_mode.second);
-        });
-
-        runOn(m_core->getTaskExecutor(), [db, id, core = m_core, promise = std::move(promise)]() mutable
-        {
-            const auto data = evaluate(*db, [id](Database::IBackend& backend)
-            {
-                return backend.getPhotoDelta<Photo::Field::Path>(id);
-            });
-
-            const auto path = data.get<Photo::Field::Path>();
-            const QFileInfo pathInfo(path);
-            const auto url = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
-            const auto mode = getModeFor(core, path);
-
-            promise.addResult(std::make_pair(url, mode));
-            promise.finish();
-        });
-    }
 }
 
 
@@ -125,4 +97,37 @@ void MediaViewCtrl::setMode(Mode mode)
 {
     m_mode = mode;
     emit modeChanged(m_mode);
+}
+
+
+void MediaViewCtrl::process()
+{
+    Database::IDatabase* db = ObjectsAccessor::instance().database();
+
+    QPromise<std::pair<QUrl, Mode>> promise;
+    m_pathFetchFuture = promise.future();
+    m_pathFetchFuture.then(this, [this](const std::pair<QUrl, Mode>& url_and_mode)
+    {
+        setPath(url_and_mode.first);
+        setMode(url_and_mode.second);
+    });
+
+    assert(m_id.valid());
+    assert(m_core);
+
+    runOn(m_core->getTaskExecutor(), [db, id = m_id, core = m_core, promise = std::move(promise)]() mutable
+    {
+        const auto data = evaluate(*db, [id](Database::IBackend& backend)
+        {
+            return backend.getPhotoDelta<Photo::Field::Path>(id);
+        });
+
+        const auto path = data.get<Photo::Field::Path>();
+        const QFileInfo pathInfo(path);
+        const auto url = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
+        const auto mode = getModeFor(core, path);
+
+        promise.addResult(std::make_pair(url, mode));
+        promise.finish();
+    });
 }
