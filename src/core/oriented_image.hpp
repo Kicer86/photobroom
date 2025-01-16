@@ -39,4 +39,4 @@ class CORE_EXPORT OrientedImage
         QImage m_oriented;
 };
 
-#endif // ORIENTED_IMAGE_HPP
+#endif
