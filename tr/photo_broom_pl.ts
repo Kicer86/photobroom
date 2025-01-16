@@ -216,7 +216,7 @@
 <context>
     <name>FacesDialog</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+168"/>
+        <location filename="../src/gui/desktop/quick_items/Views/FacesDialog.qml" line="+169"/>
         <source>unknown</source>
         <translation>nieznane</translation>
     </message>
@@ -244,7 +244,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="+58"/>
+        <location filename="../src/gui/desktop/quick_items/Views/ViewsComponents/Filter.qml" line="+59"/>
         <source>Search:</source>
         <translation>Wyszukaj:</translation>
     </message>
@@ -778,7 +778,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+215"/>
+        <location filename="../src/gui/desktop/quick_items/Views/PhotosView.qml" line="+218"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
