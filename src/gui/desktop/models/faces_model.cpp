@@ -23,10 +23,11 @@ using namespace std::placeholders;
 ENUM_ROLES_SETUP(FacesModel::Roles);
 
 
-FacesModel::FacesModel(QObject *parent):
-    QAbstractListModel(parent)
+FacesModel::FacesModel(QObject *parent)
+    : QAbstractListModel(parent)
+    , m_initializer(this, {"photoID", "database", "core"}, std::bind(&FacesModel::initialSetup, this))
 {
-    invokeMethodLater(this, &FacesModel::initialSetup);
+
 }
 
 
@@ -44,6 +45,8 @@ void FacesModel::setDatabase(Database::IDatabase* db)
         apply();
 
     m_database = db;
+
+    emit databaseChanged();
 }
 
 
@@ -162,12 +165,6 @@ void FacesModel::updateFaceInformation(std::shared_ptr<std::vector<std::unique_p
 
 void FacesModel::initialSetup()
 {
-    if (not m_id)
-    {
-        invokeMethodLater(this, &FacesModel::initialSetup);
-        return;
-    }
-
     assert(m_id.valid());
     assert(m_database);
     assert(m_core);
@@ -188,6 +185,7 @@ void FacesModel::initialSetup()
 
 void FacesModel::updateDetectionState(int state)
 {
+    m_state = state;
     emit stateChanged(state);
 }
 
