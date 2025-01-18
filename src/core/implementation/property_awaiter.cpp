@@ -3,7 +3,7 @@
 #include "property_awaiter.hpp"
 
 
-PropertyAwaiter::PropertyAwaiter(QObject *object, const QStringList &propertiesToAwait, std::function<void()> callback)
+PropertyAwaiter::PropertyAwaiter(QObject *object, const std::vector<const char *>& propertiesToAwait, std::function<void()> callback)
     : QObject()
     , m_callback(callback)
 {
@@ -13,9 +13,9 @@ PropertyAwaiter::PropertyAwaiter(QObject *object, const QStringList &propertiesT
     const QMetaMethod targetSlot = metaObject()->method(targetSlotIndex);
 
     const QMetaObject* metaObject = object->metaObject();
-    for (const QString& property: propertiesToAwait)
+    for (const auto& property: propertiesToAwait)
     {
-        const int propertyIndex = metaObject->indexOfProperty(property.toUtf8().constData());
+        const int propertyIndex = metaObject->indexOfProperty(property);
         assert(propertyIndex >= 0);
 
         const QMetaProperty metaProperty = metaObject->property(propertyIndex);

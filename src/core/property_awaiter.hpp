@@ -15,7 +15,7 @@ class CORE_EXPORT PropertyAwaiter: public QObject
     Q_OBJECT
 
 public:
-    explicit PropertyAwaiter(QObject* object, const QStringList& propertiesToAwait, std::function<void()> callback);
+    explicit PropertyAwaiter(QObject* object, const std::vector<const char *>& propertiesToAwait, std::function<void()> callback);
     virtual ~PropertyAwaiter() = default;
 
 private:
