@@ -19,7 +19,6 @@ if(FALSE)                                                   # TODO: reenable whe
 
     add_executable(dlib_behaviour_tests
                    face_locations_tests.cpp
-                   issues.cpp
                    person_recognition_tests.cpp
                    scaled_face_similarity_tests.cpp
                    utils.cpp
