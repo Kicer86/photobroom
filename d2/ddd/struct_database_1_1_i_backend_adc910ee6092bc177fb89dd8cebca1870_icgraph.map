@@ -1,18 +1,18 @@
 <map id="Database::IBackend::photoOperator" name="Database::IBackend::photoOperator">
-<area shape="rect" id="Node000001" title="get photo operator" alt="" coords="272,253,409,293"/>
+<area shape="rect" id="Node000001" title="get photo operator" alt="" coords="272,252,409,293"/>
 <area shape="rect" id="Node000002" href="$db/d64/photo__fetch__benchmarks_8cpp.html#a0066cd03844a82e50cb4d46af16e6a6c" title=" " alt="" coords="39,5,190,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="329,238,316,193,294,140,263,88,244,65,222,44,189,28,192,23,225,40,248,61,268,85,299,138,321,191,334,237"/>
 <area shape="rect" id="Node000004" href="$db/d64/photo__fetch__benchmarks_8cpp.html#aca4d30221ea7fd35935a36be798e4128" title=" " alt="" coords="44,55,185,80"/>
 <area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="324,240,308,205,286,166,257,127,222,95,204,85,184,78,186,73,206,80,225,91,261,124,290,163,313,202,329,237"/>
-<area shape="rect" id="Node000005" href="$d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" title=" " alt="" coords="31,105,198,145"/>
+<area shape="rect" id="Node000005" href="$d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" title=" " alt="" coords="31,104,198,145"/>
 <area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="312,242,272,200,222,160,197,148,199,143,225,156,276,196,316,238"/>
-<area shape="rect" id="Node000022" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,170,224,211"/>
+<area shape="rect" id="Node000022" href="$d2/d10/class_photos_model_controller_component.html#a3114b0d3595d4d6d72bf5015738f6bbb" title=" " alt="" coords="5,170,224,210"/>
 <area shape="poly" id="edge4_Node000001_Node000022" title=" " alt="" coords="281,248,223,225,190,214,191,208,225,220,283,243"/>
 <area shape="rect" id="Node000024" href="$d3/df6/class_series_detector.html#a7fb133fe47e82c32db512738a9e02742" title=" " alt="" coords="17,235,212,260"/>
 <area shape="poly" id="edge5_Node000001_Node000024" title=" " alt="" coords="256,266,213,261,213,256,257,261"/>
 <area shape="rect" id="Node000032" href="$d3/d94/class_duplicates_model.html#a3b598cbfcf449e0b9163bc9810e17b8c" title=" " alt="" coords="27,284,202,310"/>
 <area shape="poly" id="edge6_Node000001_Node000032" title=" " alt="" coords="257,284,202,290,202,285,256,279"/>
-<area shape="rect" id="Node000033" href="$d4/dd6/class_photos_data_guesser.html#a70ed93be8560cb9d8f83d3192858855b" title=" " alt="" coords="42,334,187,375"/>
+<area shape="rect" id="Node000033" href="$d4/dd6/class_photos_data_guesser.html#a70ed93be8560cb9d8f83d3192858855b" title=" " alt="" coords="42,334,187,374"/>
 <area shape="poly" id="edge7_Node000001_Node000033" title=" " alt="" coords="281,302,225,325,188,337,186,332,223,320,279,297"/>
 <area shape="rect" id="Node000034" href="$dd/d10/class_photos_analyzer_impl.html#a6e3e7a3cbef37ad4d8f2ad872d8c06a5" title=" " alt="" coords="43,399,186,440"/>
 <area shape="poly" id="edge8_Node000001_Node000034" title=" " alt="" coords="316,307,276,349,225,388,187,406,185,401,222,384,272,345,312,303"/>

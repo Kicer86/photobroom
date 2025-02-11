@@ -1,7 +1,9 @@
 <map id="Database::MemoryBackend::getPhotoDelta" name="Database::MemoryBackend::getPhotoDelta">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,185,68"/>
-<area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="247,5,404,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="185,33,231,27,232,33,185,39"/>
-<area shape="rect" id="Node000003" href="$da/dba/class_database_1_1_memory_backend.html#abf8aee9449839ceacd659cc249f0d26f" title=" " alt="" coords="233,55,418,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,56,217,60,217,65,185,61"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,47,185,88"/>
+<area shape="rect" id="Node000002" href="$d8/d43/core_2utils_8hpp.html#afec1680b56cf147617c9618913c8fb12" title="call op for each value of enum E" alt="" coords="290,5,361,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="184,46,274,26,275,32,186,51"/>
+<area shape="rect" id="Node000003" href="$d7/d1e/class_photo_1_1_data_delta.html#a4e20dab36867e0c89032b534c963029f" title=" " alt="" coords="247,55,404,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,65,232,65,232,70,185,70"/>
+<area shape="rect" id="Node000004" href="$da/dba/class_database_1_1_memory_backend.html#abf8aee9449839ceacd659cc249f0d26f" title=" " alt="" coords="233,104,418,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="180,86,227,98,225,103,179,91"/>
 </map>

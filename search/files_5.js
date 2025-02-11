@@ -2,7 +2,7 @@ var searchData=
 [
   ['face_5flocations_5ftests_2ecpp_0',['face_locations_tests.cpp',['../dd/dea/face__locations__tests_8cpp.html',1,'']]],
   ['face_5frecognition_2ecpp_1',['face_recognition.cpp',['../da/d6c/dlib__wrapper_2face__recognition_8cpp.html',1,'(Global Namespace)'],['../da/dec/face__recognition_8cpp.html',1,'(Global Namespace)']]],
-  ['face_5frecognition_2ehpp_2',['face_recognition.hpp',['../dd/d86/face__recognition_8hpp.html',1,'(Global Namespace)'],['../dd/d21/dlib__wrapper_2face__recognition_8hpp.html',1,'(Global Namespace)']]],
+  ['face_5frecognition_2ehpp_2',['face_recognition.hpp',['../dd/d21/dlib__wrapper_2face__recognition_8hpp.html',1,'(Global Namespace)'],['../dd/d86/face__recognition_8hpp.html',1,'(Global Namespace)']]],
   ['faces_5fmodel_2ecpp_3',['faces_model.cpp',['../d4/df8/faces__model_8cpp.html',1,'']]],
   ['faces_5fmodel_2ehpp_4',['faces_model.hpp',['../da/db1/faces__model_8hpp.html',1,'']]],
   ['fake_5ftask_5fexecutor_2ehpp_5',['fake_task_executor.hpp',['../d1/dff/fake__task__executor_8hpp.html',1,'']]],

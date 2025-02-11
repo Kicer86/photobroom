@@ -1,7 +1,9 @@
 <map id="PhotoDataQml::isGroup" name="PhotoDataQml::isGroup">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,163,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,163,80"/>
 <area shape="rect" id="Node000002" href="$d7/d1e/class_photo_1_1_data_delta.html#a8dbb1d880f0c0b37a9629fae8d098413" title=" " alt="" coords="211,5,364,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="163,31,195,27,196,32,163,36"/>
-<area shape="rect" id="Node000003" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="255,55,320,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,50,240,59,239,65,163,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,51,216,33,217,38,141,57"/>
+<area shape="rect" id="Node000003" href="$d4/d50/namespace_photo.html#a0fd396899fa831f05e9bbd635bba04a5" title=" " alt="" coords="252,55,323,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,65,236,65,236,70,163,70"/>
+<area shape="rect" id="Node000005" href="$db/dfb/class_id.html#aa535d6564e027b5889869dcb10093bed" title=" " alt="" coords="255,104,320,130"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="141,78,240,103,239,108,140,84"/>
 </map>

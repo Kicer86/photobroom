@@ -2,12 +2,12 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="241,169,425,210"/>
 <area shape="rect" id="Node000002" href="$da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" title=" " alt="" coords="16,5,182,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="303,159,253,109,223,84,191,61,167,49,170,44,194,57,227,80,257,105,306,156"/>
-<area shape="rect" id="Node000004" href="$db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" title="Store person&#39;s fingerprint in db." alt="" coords="5,71,193,111"/>
+<area shape="rect" id="Node000004" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="18,71,180,111"/>
 <area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="275,165,192,127,160,114,162,109,194,122,278,160"/>
-<area shape="rect" id="Node000005" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,136,193,177"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="225,177,193,172,194,167,226,172"/>
-<area shape="rect" id="Node000006" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a6142dabb29720404ce3b6765eb2441a5" title="add tag to photo" alt="" coords="18,201,180,242"/>
-<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="225,207,181,213,180,208,225,202"/>
+<area shape="rect" id="Node000006" href="$db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" title="Store person&#39;s fingerprint in db." alt="" coords="5,136,193,177"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="225,177,193,172,194,167,226,172"/>
+<area shape="rect" id="Node000007" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,201,193,242"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="226,207,194,211,193,206,225,202"/>
 <area shape="rect" id="Node000008" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="5,267,193,307"/>
 <area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="276,219,194,256,162,269,160,264,192,251,274,215"/>
 <area shape="rect" id="Node000009" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="18,332,180,373"/>

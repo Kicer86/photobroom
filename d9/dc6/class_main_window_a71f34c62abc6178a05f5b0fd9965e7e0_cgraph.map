@@ -1,5 +1,5 @@
 <map id="MainWindow::on_actionNew_collection_triggered" name="MainWindow::on_actionNew_collection_triggered">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,74,190,115"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,74,190,114"/>
 <area shape="rect" id="Node000002" href="$d3/d16/class_project_creator.html#ac44110bce200c391b2e2c70d6c2ad177" title=" " alt="" coords="250,5,396,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,71,267,34,269,39,161,76"/>
 <area shape="rect" id="Node000014" href="$da/df4/struct_project_info.html#a781e4f7abfbb6dce848bc1f0e6e46c55" title=" " alt="" coords="456,81,591,107"/>

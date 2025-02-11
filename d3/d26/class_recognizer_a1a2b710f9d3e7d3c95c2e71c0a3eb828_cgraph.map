@@ -1,9 +1,11 @@
 <map id="Recognizer::recognize" name="Recognizer::recognize">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,70,152,96"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,96,152,121"/>
 <area shape="rect" id="Node000002" href="$da/d2c/class_person_fingerprint.html#ac43a7e13307c7744e92bfd94bdb470f8" title=" " alt="" coords="225,5,354,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,67,209,45,210,50,129,72"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,93,199,55,214,49,216,54,201,60,111,97"/>
 <area shape="rect" id="Node000003" href="$db/de4/class_person_name.html#aee0d4971d8f4ed356107c4b635830e6d" title=" " alt="" coords="222,70,357,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,80,206,80,206,86,152,86"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="152,97,206,90,207,96,152,102"/>
 <area shape="rect" id="Node000004" href="$de/d37/class_face_recognition.html#a6b09c1e615b11e94b621919cc52b846d" title=" " alt="" coords="200,120,379,145"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="137,94,217,113,216,118,136,99"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="152,114,184,118,184,123,152,119"/>
+<area shape="rect" id="Node000006" href="$dd/d59/cast_8hpp.html#a4ab231772fdd02605116f60945987016" title=" " alt="" coords="250,169,328,194"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="110,119,201,155,236,166,235,171,199,160,108,124"/>
 </map>

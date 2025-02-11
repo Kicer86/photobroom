@@ -1,0 +1,13 @@
+<map id="make_lazy_ptr" name="make_lazy_ptr">
+<area shape="rect" id="Node000001" title="Construct lazy_ptr&lt;T&gt; which will be initialized with result of C() called on first use." alt="" coords="158,104,262,130"/>
+<area shape="rect" id="Node000002" href="$d6/dd3/lazy__ptr_8hpp.html#a6e37041d8650b1f63c30371ae24b7e11" title="Construct lazy_ptr&lt;T&gt; which will be initialized (on first use) with values of Qt&#39;s properties passed ..." alt="" coords="5,5,110,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,96,108,44,89,34,91,29,111,40,183,92"/>
+<area shape="rect" id="Node000003" href="$d2/d4b/lazy__ptr__tests_8cpp.html#abf728fd64eef0063baf3c5ff8cebdf30" title=" " alt="" coords="30,55,85,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="153,101,84,79,86,74,154,96"/>
+<area shape="rect" id="Node000004" href="$d2/d4b/lazy__ptr__tests_8cpp.html#ab157dd3c3fb2c4935a376bc83c8ee969" title=" " alt="" coords="30,104,85,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="142,120,85,120,85,114,142,114"/>
+<area shape="rect" id="Node000005" href="$d2/d4b/lazy__ptr__tests_8cpp.html#aa2ef3692fe12b2e6082cae4436f52a20" title=" " alt="" coords="30,153,85,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="154,137,86,160,84,155,153,132"/>
+<area shape="rect" id="Node000006" href="$d2/d4b/lazy__ptr__tests_8cpp.html#a7b8ef58ca17db635ebed3c9b77c6a441" title=" " alt="" coords="30,203,85,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="183,142,111,194,86,207,84,202,108,189,180,137"/>
+</map>

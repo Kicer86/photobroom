@@ -10,13 +10,13 @@
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="847,37,637,60,383,97,364,100,363,95,382,91,636,54,847,31"/>
 <area shape="rect" id="Node000017" href="$d9/dfc/image__tools_8hpp.html" title=" " alt="" coords="395,102,539,127"/>
 <area shape="poly" id="edge5_Node000001_Node000017" title=" " alt="" coords="847,43,551,97,534,100,533,95,550,91,846,37"/>
-<area shape="rect" id="Node000020" href="$d5/df1/logger__factory_8hpp.html" title=" " alt="" coords="563,102,718,127"/>
+<area shape="rect" id="Node000020" href="$d5/df1/logger__factory_8hpp.html" title=" " alt="" coords="562,102,718,127"/>
 <area shape="poly" id="edge6_Node000001_Node000020" title=" " alt="" coords="861,49,696,99,694,94,860,44"/>
 <area shape="rect" id="Node000027" href="$d5/d1f/model__compositor_8hpp.html" title=" " alt="" coords="742,102,922,127"/>
 <area shape="poly" id="edge7_Node000001_Node000027" title=" " alt="" coords="906,48,858,93,854,89,903,45"/>
-<area shape="rect" id="Node000031" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="947,102,1094,127"/>
+<area shape="rect" id="Node000031" href="$d8/dda/qmodel__utils_8hpp.html" title=" " alt="" coords="946,102,1094,127"/>
 <area shape="poly" id="edge8_Node000001_Node000031" title=" " alt="" coords="949,45,998,89,994,93,945,48"/>
-<area shape="rect" id="Node000036" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="1119,94,1250,135"/>
+<area shape="rect" id="Node000036" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="1118,94,1250,135"/>
 <area shape="poly" id="edge9_Node000001_Node000036" title=" " alt="" coords="985,44,1112,86,1110,91,983,49"/>
 <area shape="rect" id="Node000046" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="1274,102,1441,127"/>
 <area shape="poly" id="edge10_Node000001_Node000046" title=" " alt="" coords="1005,40,1282,95,1281,101,1004,45"/>
@@ -26,7 +26,7 @@
 <area shape="poly" id="edge12_Node000001_Node000076" title=" " alt="" coords="1004,29,1283,52,1459,69,1635,91,1662,96,1661,101,1634,97,1458,75,1283,57,1004,35"/>
 <area shape="rect" id="Node000077" href="$d0/d41/qml__utils_8hpp.html" title=" " alt="" coords="1850,102,1975,127"/>
 <area shape="poly" id="edge13_Node000001_Node000077" title=" " alt="" coords="1004,25,1158,30,1366,41,1601,61,1838,91,1856,95,1855,100,1837,97,1600,66,1366,46,1158,35,1004,31"/>
-<area shape="rect" id="Node000080" href="$da/db1/faces__model_8hpp.html" title=" " alt="" coords="1999,102,2119,127"/>
+<area shape="rect" id="Node000080" href="$da/db1/faces__model_8hpp.html" title=" " alt="" coords="1999,102,2118,127"/>
 <area shape="poly" id="edge14_Node000001_Node000080" title=" " alt="" coords="1004,24,1181,27,1425,36,1705,56,1848,72,1987,91,2004,95,2003,100,1986,97,1847,77,1704,61,1425,41,1181,32,1004,29"/>
 <area shape="poly" id="edge15_Node000080_Node000004" title=" " alt="" coords="2019,130,1987,137,1765,168,1545,187,1349,198,1203,203,1203,198,1349,193,1544,182,1765,162,1986,132,2017,125"/>
 </map>

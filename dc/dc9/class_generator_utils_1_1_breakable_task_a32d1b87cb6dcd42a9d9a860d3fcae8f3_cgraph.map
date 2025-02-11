@@ -1,12 +1,12 @@
 <map id="GeneratorUtils::BreakableTask::preparePhotos" name="GeneratorUtils::BreakableTask::preparePhotos">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,97,175,137"/>
-<area shape="rect" id="Node000002" href="$d5/db6/class_oriented_image.html#a1b407afa9fabdcd03a5964a54ccfa6b5" title=" " alt="" coords="242,5,373,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,96,175,137"/>
+<area shape="rect" id="Node000002" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="230,5,384,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,94,168,66,222,40,237,34,239,39,224,45,171,71,125,98"/>
-<area shape="rect" id="Node000003" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="230,55,385,80"/>
+<area shape="rect" id="Node000003" href="$d5/db6/class_oriented_image.html#a1b407afa9fabdcd03a5964a54ccfa6b5" title=" " alt="" coords="242,55,372,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,95,232,82,234,87,176,100"/>
 <area shape="rect" id="Node000004" href="$d5/dab/namespace_image.html#ac3d1e76edb2d4aedafbee5c8745fcdee" title=" " alt="" coords="245,104,370,130"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,114,229,114,229,120,175,120"/>
-<area shape="rect" id="Node000005" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a942a17c818a3d5f88dd2428d8b82d611" title=" " alt="" coords="223,154,392,195"/>
+<area shape="rect" id="Node000005" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a942a17c818a3d5f88dd2428d8b82d611" title=" " alt="" coords="223,154,392,194"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="170,135,214,147,212,152,169,140"/>
 <area shape="rect" id="Node000006" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a9ff152425e4a7563a10b24f2c37de1a8" title=" " alt="" coords="223,219,392,260"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="120,136,167,169,224,204,236,210,234,215,221,209,165,174,117,140"/>

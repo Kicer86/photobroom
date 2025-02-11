@@ -1,5 +1,7 @@
 <map id="TYPED_TEST" name="TYPED_TEST">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,110,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,110,68"/>
 <area shape="rect" id="Node000002" href="$d6/db9/class_database_1_1_json_to_backend.html#ab744bf1c43927230180e91b5f7ab599d" title=" " alt="" coords="158,5,334,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,23,142,23,142,28,110,28"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="110,44,142,39,142,44,110,50"/>
+<area shape="rect" id="Node000004" href="$d0/d76/namespace_database.html#a1ceaa5be1b158295b6b4f1f9ad393931" title=" " alt="" coords="164,70,328,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="110,60,149,66,148,71,110,65"/>
 </map>

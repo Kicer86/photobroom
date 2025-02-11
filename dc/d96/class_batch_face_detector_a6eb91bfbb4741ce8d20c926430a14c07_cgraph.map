@@ -1,5 +1,7 @@
 <map id="BatchFaceDetector::accept" name="BatchFaceDetector::accept">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,145,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,35,145,75"/>
 <area shape="rect" id="Node000002" href="$dc/d96/class_batch_face_detector.html#a24566c297d01db5132487d9cd409be0c" title=" " alt="" coords="193,5,332,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,23,177,23,177,28,145,28"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="145,41,177,36,178,42,146,47"/>
+<area shape="rect" id="Node000003" href="$dd/d59/cast_8hpp.html#a4ab231772fdd02605116f60945987016" title=" " alt="" coords="223,70,302,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="145,63,208,72,207,78,145,68"/>
 </map>

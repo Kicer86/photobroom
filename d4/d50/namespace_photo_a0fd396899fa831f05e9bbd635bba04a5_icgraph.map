@@ -1,7 +1,9 @@
 <map id="Photo::is" name="Photo::is">
-<area shape="rect" id="Node000001" title=" " alt="" coords="213,31,284,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="213,55,284,80"/>
 <area shape="rect" id="Node000002" href="$db/d29/class_photo_1_1_explicit_delta.html#a28783fc8b1bda6ef17794e5ad23b0a73" title=" " alt="" coords="5,5,165,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,38,165,33,166,28,197,33"/>
-<area shape="rect" id="Node000006" href="$db/d29/class_photo_1_1_explicit_delta.html#acac3a734d9c10410e7d1615a3416a310" title=" " alt="" coords="5,55,165,80"/>
-<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="197,54,166,58,165,53,197,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,55,164,45,129,34,131,29,165,40,199,50"/>
+<area shape="rect" id="Node000020" href="$db/d29/class_photo_1_1_explicit_delta.html#acac3a734d9c10410e7d1615a3416a310" title=" " alt="" coords="5,55,165,80"/>
+<area shape="poly" id="edge2_Node000001_Node000020" title=" " alt="" coords="197,70,165,70,165,65,197,65"/>
+<area shape="rect" id="Node000021" href="$d7/ddf/class_photo_data_qml.html#ab1034364057bf340170712083e0d2c83" title=" " alt="" coords="6,104,164,130"/>
+<area shape="poly" id="edge3_Node000001_Node000021" title=" " alt="" coords="199,85,165,95,131,106,129,101,164,90,197,80"/>
 </map>

@@ -10,21 +10,21 @@
 <area shape="poly" id="edge4_Node000001_Node000022" title=" " alt="" coords="791,43,493,96,492,91,790,38"/>
 <area shape="rect" id="Node000023" title=" " alt="" coords="502,94,642,120"/>
 <area shape="poly" id="edge5_Node000001_Node000023" title=" " alt="" coords="800,49,634,92,633,87,798,44"/>
-<area shape="rect" id="Node000024" href="$dd/d90/system_8hpp.html" title=" " alt="" coords="667,94,800,120"/>
+<area shape="rect" id="Node000024" href="$dd/d90/system_8hpp.html" title=" " alt="" coords="666,94,800,120"/>
 <area shape="poly" id="edge6_Node000001_Node000024" title=" " alt="" coords="840,49,769,88,767,84,838,44"/>
 <area shape="rect" id="Node000026" href="$d3/dad/constants_8hpp.html" title=" " alt="" coords="823,94,926,120"/>
 <area shape="poly" id="edge7_Node000001_Node000026" title=" " alt="" coords="877,46,877,78,872,78,872,46"/>
 <area shape="rect" id="Node000028" href="$df/dfe/iconfiguration_8hpp.html" title=" " alt="" coords="950,94,1071,120"/>
 <area shape="poly" id="edge8_Node000001_Node000028" title=" " alt="" coords="910,44,978,84,976,88,907,49"/>
 <area shape="rect" id="Node000008" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="1122,168,1233,193"/>
-<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="959,43,1021,63,1084,92,1126,122,1159,154,1155,158,1122,126,1081,96,1020,68,957,48"/>
+<area shape="poly" id="edge9_Node000001_Node000008" title=" " alt="" coords="959,42,1022,63,1085,92,1126,122,1159,154,1156,158,1123,126,1082,96,1020,68,957,47"/>
 <area shape="rect" id="Node000030" href="$d7/dfc/ilogger_8hpp.html" title=" " alt="" coords="1262,168,1346,193"/>
 <area shape="poly" id="edge10_Node000001_Node000030" title=" " alt="" coords="958,26,1136,30,1347,42,1447,50,1532,61,1596,75,1618,83,1631,92,1637,107,1631,121,1613,136,1586,148,1514,165,1433,175,1361,180,1360,175,1433,169,1513,159,1584,143,1610,131,1627,118,1632,107,1627,96,1615,88,1594,80,1531,66,1446,55,1347,47,1136,36,958,31"/>
 <area shape="rect" id="Node000032" href="$d9/dfc/image__tools_8hpp.html" title=" " alt="" coords="1360,94,1475,120"/>
 <area shape="poly" id="edge11_Node000001_Node000032" title=" " alt="" coords="958,36,1344,91,1343,96,958,41"/>
 <area shape="rect" id="Node000034" href="$db/ddc/media__types_8hpp.html" title=" " alt="" coords="1499,94,1618,120"/>
 <area shape="poly" id="edge12_Node000001_Node000034" title=" " alt="" coords="959,32,1191,56,1484,91,1484,96,1190,61,958,38"/>
-<area shape="rect" id="Node000035" href="$db/d7d/video__media__information_8hpp.html" title=" " alt="" coords="1147,94,1336,120"/>
+<area shape="rect" id="Node000035" href="$db/d7d/video__media__information_8hpp.html" title=" " alt="" coords="1146,94,1336,120"/>
 <area shape="poly" id="edge13_Node000001_Node000035" title=" " alt="" coords="959,42,1170,88,1169,93,958,48"/>
 <area shape="poly" id="edge15_Node000035_Node000008" title=" " alt="" coords="1233,122,1200,158,1196,154,1229,118"/>
 <area shape="poly" id="edge14_Node000035_Node000030" title=" " alt="" coords="1254,118,1285,154,1281,157,1250,122"/>

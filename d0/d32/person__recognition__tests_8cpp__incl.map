@@ -2,9 +2,9 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="234,5,385,61"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,124,99,150"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,64,112,111,92,120,90,115,110,107,232,59"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="123,124,211,150"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="122,124,211,150"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="273,64,198,117,195,112,270,59"/>
-<area shape="rect" id="Node000004" href="$d9/d0f/empty__logger_8hpp.html" title=" " alt="" coords="235,117,384,157"/>
+<area shape="rect" id="Node000004" href="$d9/d0f/empty__logger_8hpp.html" title=" " alt="" coords="235,116,384,157"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="312,62,312,101,307,101,307,62"/>
 <area shape="rect" id="Node000010" href="$d2/d99/face__recognition_2learning__tests_2utils_8hpp.html" title=" " alt="" coords="408,124,477,150"/>
 <area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="347,59,416,112,413,116,343,64"/>

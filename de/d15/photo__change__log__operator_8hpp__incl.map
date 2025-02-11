@@ -1,8 +1,8 @@
 <map id="src/database/backends/sql_backends/photo_change_log_operator.hpp" name="src/database/backends/sql_backends/photo_change_log_operator.hpp">
 <area shape="rect" id="Node000001" title=" " alt="" coords="83,5,273,61"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,117,71,142"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,116,71,142"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,64,70,110,67,106,136,59"/>
-<area shape="rect" id="Node000003" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="95,117,261,142"/>
+<area shape="rect" id="Node000003" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="95,116,261,142"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,62,181,101,175,101,175,62"/>
 <area shape="rect" id="Node000029" href="$d8/d47/aphoto__change__log__operator_8hpp.html" title=" " alt="" coords="286,109,452,150"/>
 <area shape="poly" id="edge3_Node000001_Node000029" title=" " alt="" coords="234,59,316,99,314,104,232,64"/>

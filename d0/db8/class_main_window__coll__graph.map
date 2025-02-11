@@ -1,27 +1,27 @@
 <map id="MainWindow" name="MainWindow">
-<area shape="rect" id="Node000001" title=" " alt="" coords="456,254,552,280"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,57,75,83"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,48,157,24,201,13,249,5,297,3,346,7,392,20,434,44,457,66,475,93,488,123,496,153,505,212,506,254,501,254,500,212,491,155,483,124,470,95,453,70,431,48,390,25,345,13,297,8,249,11,202,18,158,29,86,53"/>
-<area shape="rect" id="Node000012" href="$d6/d62/class_completer_factory.html" title="Factory for QCompleters." alt="" coords="138,57,261,83"/>
-<area shape="poly" id="edge10_Node000012_Node000002" title=" " alt="" coords="90,67,137,67,137,73,90,73"/>
-<area shape="rect" id="Node000023" href="$dd/dde/class_features_observer.html" title=" " alt="" coords="137,106,262,132"/>
-<area shape="poly" id="edge13_Node000023_Node000002" title=" " alt="" coords="91,83,156,103,155,109,89,88"/>
-<area shape="rect" id="Node000003" href="$da/dbc/class_tasks_model.html" title=" " alt="" coords="153,156,245,181"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="261,168,345,179,390,190,434,206,467,228,493,252,489,256,464,233,431,211,388,195,344,184,260,173"/>
-<area shape="rect" id="Node000006" href="$d7/dc8/class_i_project_manager.html" title=" " alt="" coords="141,205,257,231"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="273,222,350,231,433,245,460,251,459,257,432,250,349,236,272,227"/>
-<area shape="rect" id="Node000007" href="$d5/d64/struct_i_plugin_loader.html" title=" " alt="" coords="149,254,250,280"/>
-<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="265,265,456,265,456,270,265,270"/>
-<area shape="rect" id="Node000008" href="$d7/db4/struct_i_configuration.html" title=" " alt="" coords="149,304,249,329"/>
-<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="265,309,345,299,432,285,460,278,461,283,433,290,345,305,265,314"/>
-<area shape="rect" id="Node000009" href="$df/dcf/struct_i_updater.html" title=" " alt="" coords="164,353,235,379"/>
-<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="250,363,337,354,385,344,431,327,465,304,490,279,494,282,468,308,434,331,387,349,338,360,250,369"/>
-<area shape="rect" id="Node000010" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="124,402,274,428"/>
-<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="289,417,362,408,398,397,431,380,455,358,474,330,496,280,501,282,479,333,459,361,434,385,400,402,363,413,290,423"/>
-<area shape="rect" id="Node000011" href="$dd/dfb/struct_i_thumbnails_manager.html" title=" " alt="" coords="128,452,270,477"/>
-<area shape="poly" id="edge8_Node000001_Node000011" title=" " alt="" coords="286,473,323,473,361,468,398,457,431,439,449,422,463,402,483,357,494,313,499,280,504,281,500,314,488,359,468,405,453,426,434,443,400,462,362,473,323,478,286,479"/>
-<area shape="poly" id="edge9_Node000001_Node000012" title=" " alt="" coords="276,62,315,64,357,71,397,84,434,105,451,121,465,140,486,182,498,223,504,253,498,254,493,224,481,184,461,143,447,125,431,109,395,89,356,76,315,69,276,67"/>
-<area shape="rect" id="Node000019" href="$d3/d28/class_notifications_model.html" title=" " alt="" coords="135,501,263,527"/>
-<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="278,526,317,527,357,524,396,513,431,494,453,471,470,443,483,413,491,382,500,323,501,280,506,280,505,323,496,383,488,415,475,446,457,474,434,498,398,518,358,529,317,533,278,531"/>
-<area shape="poly" id="edge12_Node000001_Node000023" title=" " alt="" coords="278,122,367,133,406,142,434,153,459,176,478,203,501,253,496,255,474,206,455,179,431,158,405,147,367,138,277,127"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="456,255,552,281"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,58,75,84"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="83,49,156,24,200,13,248,5,297,3,345,7,392,20,434,43,457,66,475,93,488,123,497,154,505,213,506,255,501,255,500,213,492,155,483,125,470,95,453,69,431,48,390,25,344,12,297,8,248,11,201,18,157,29,85,54"/>
+<area shape="rect" id="Node000012" href="$d6/d62/class_completer_factory.html" title="Factory for QCompleters." alt="" coords="138,58,261,84"/>
+<area shape="poly" id="edge10_Node000012_Node000002" title=" " alt="" coords="90,68,137,68,137,73,90,73"/>
+<area shape="rect" id="Node000023" href="$dd/dde/class_features_observer.html" title=" " alt="" coords="136,107,262,133"/>
+<area shape="poly" id="edge13_Node000023_Node000002" title=" " alt="" coords="91,84,156,104,155,109,89,89"/>
+<area shape="rect" id="Node000003" href="$da/dbc/class_tasks_model.html" title=" " alt="" coords="153,157,245,182"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="261,168,345,178,390,189,434,206,468,228,493,253,489,257,464,232,431,211,389,195,344,184,260,173"/>
+<area shape="rect" id="Node000006" href="$d7/dc8/class_i_project_manager.html" title=" " alt="" coords="141,206,257,232"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="273,222,350,232,433,246,460,252,459,257,432,251,349,237,272,228"/>
+<area shape="rect" id="Node000007" href="$d5/d64/struct_i_plugin_loader.html" title=" " alt="" coords="148,255,250,281"/>
+<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="265,265,456,265,456,271,265,271"/>
+<area shape="rect" id="Node000008" href="$d7/db4/struct_i_configuration.html" title=" " alt="" coords="149,305,249,330"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="265,310,345,300,432,286,460,279,461,284,433,291,345,306,265,315"/>
+<area shape="rect" id="Node000009" href="$df/dcf/struct_i_updater.html" title=" " alt="" coords="164,354,235,380"/>
+<area shape="poly" id="edge6_Node000001_Node000009" title=" " alt="" coords="250,364,337,354,385,343,431,326,464,304,489,280,493,284,468,308,434,331,387,348,338,359,250,369"/>
+<area shape="rect" id="Node000010" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="124,403,274,429"/>
+<area shape="poly" id="edge7_Node000001_Node000010" title=" " alt="" coords="289,418,362,408,398,397,431,380,455,357,474,330,496,280,501,282,479,333,459,361,434,384,400,402,363,413,290,423"/>
+<area shape="rect" id="Node000011" href="$dd/dfb/struct_i_thumbnails_manager.html" title=" " alt="" coords="128,453,270,478"/>
+<area shape="poly" id="edge8_Node000001_Node000011" title=" " alt="" coords="286,474,323,473,361,468,398,457,431,438,448,422,463,402,483,357,494,314,499,281,504,282,500,315,488,359,467,405,452,425,434,443,400,462,362,473,323,478,286,479"/>
+<area shape="poly" id="edge9_Node000001_Node000012" title=" " alt="" coords="276,62,315,64,357,71,397,84,434,105,451,121,465,140,486,182,498,223,504,254,499,255,493,224,481,184,461,143,447,124,431,109,395,88,356,76,315,69,276,67"/>
+<area shape="rect" id="Node000019" href="$d3/d28/class_notifications_model.html" title=" " alt="" coords="135,502,263,528"/>
+<area shape="poly" id="edge11_Node000001_Node000019" title=" " alt="" coords="278,527,317,528,357,525,396,514,431,494,453,471,470,444,483,414,491,383,500,324,501,281,506,281,505,324,496,384,488,416,475,446,457,475,434,499,398,519,358,530,317,533,278,532"/>
+<area shape="poly" id="edge12_Node000001_Node000023" title=" " alt="" coords="278,122,367,133,406,141,434,153,459,176,479,204,501,254,496,256,474,206,455,179,431,157,405,146,367,138,277,127"/>
 </map>

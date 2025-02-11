@@ -1,5 +1,7 @@
 <map id="TEST_P" name="TEST_P">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,76,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,76,56"/>
 <area shape="rect" id="Node000002" href="$dd/d14/class_image_aligner.html#acf23df65750753534764a6156b6e3722" title="create object providing access to aligned photos. After this method is called, ImageAligner becomes i..." alt="" coords="124,5,254,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,16,108,16,108,21,76,21"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="76,35,108,29,109,35,76,40"/>
+<area shape="rect" id="Node000003" href="$de/d87/containers__utils_8hpp.html#a8470d21b7bd0152bb7072719dda9348d" title=" " alt="" coords="153,55,224,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="76,46,138,57,137,62,76,52"/>
 </map>

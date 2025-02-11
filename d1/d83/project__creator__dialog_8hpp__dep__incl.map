@@ -1,7 +1,7 @@
 <map id="src/gui/desktop/widgets/project_creator/project_creator_dialog.hpp" name="src/gui/desktop/widgets/project_creator/project_creator_dialog.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="71,5,230,61"/>
-<area shape="rect" id="Node000002" href="$d8/dd9/mainwindow_8cpp.html" title=" " alt="" coords="5,117,130,157"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="70,5,230,61"/>
+<area shape="rect" id="Node000002" href="$d8/dd9/mainwindow_8cpp.html" title=" " alt="" coords="5,116,130,157"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,75,85,118,81,115,117,71"/>
-<area shape="rect" id="Node000003" href="$d0/df0/project__creator__dialog_8cpp.html" title=" " alt="" coords="153,109,313,165"/>
+<area shape="rect" id="Node000003" href="$d0/df0/project__creator__dialog_8cpp.html" title=" " alt="" coords="153,109,312,165"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="184,72,213,107,209,110,180,75"/>
 </map>

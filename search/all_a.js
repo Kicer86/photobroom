@@ -14,5 +14,5 @@ var searchData=
   ['json_5fto_5fbackend_2ecpp_11',['json_to_backend.cpp',['../d0/d1b/json__to__backend_8cpp.html',1,'']]],
   ['json_5fto_5fbackend_2ehpp_12',['json_to_backend.hpp',['../d3/dcf/json__to__backend_8hpp.html',1,'']]],
   ['json_5fto_5fbackend_5ftests_2ecpp_13',['json_to_backend_tests.cpp',['../d7/de6/json__to__backend__tests_8cpp.html',1,'']]],
-  ['jsontobackend_14',['jsontobackend',['../d6/db9/class_database_1_1_json_to_backend.html',1,'Database::JsonToBackend'],['../d6/db9/class_database_1_1_json_to_backend.html#ae6b30df1268c35a40ff05296328ca0a9',1,'Database::JsonToBackend::JsonToBackend()']]]
+  ['jsontobackend_14',['JsonToBackend',['../d6/db9/class_database_1_1_json_to_backend.html',1,'Database::JsonToBackend'],['../d6/db9/class_database_1_1_json_to_backend.html#ae6b30df1268c35a40ff05296328ca0a9',1,'Database::JsonToBackend::JsonToBackend()']]]
 ];

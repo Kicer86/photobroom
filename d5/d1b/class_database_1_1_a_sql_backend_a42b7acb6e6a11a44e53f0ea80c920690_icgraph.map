@@ -1,12 +1,12 @@
 <map id="Database::ASqlBackend::updateOrInsert" name="Database::ASqlBackend::updateOrInsert">
-<area shape="rect" id="Node000001" title="insert data to database or upgrade existing entries." alt="" coords="239,121,400,161"/>
+<area shape="rect" id="Node000001" title="insert data to database or upgrade existing entries." alt="" coords="239,120,400,161"/>
 <area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a82939c363f70dc3c14243b7d51f1f33a" title="set flag for photo to given value" alt="" coords="5,5,191,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="283,112,240,77,189,46,160,34,161,29,192,41,243,73,287,108"/>
 <area shape="rect" id="Node000005" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a0ff78d8d57a9eae0213f2f837ddfc6b8" title="store photo&#39;s flags" alt="" coords="17,55,179,96"/>
 <area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="233,118,169,99,170,94,235,113"/>
-<area shape="rect" id="Node000007" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a5e2dade3290d318258ea503ee1e409cc" title="store photo&#39;s dimensions" alt="" coords="17,121,179,161"/>
+<area shape="rect" id="Node000007" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a5e2dade3290d318258ea503ee1e409cc" title="store photo&#39;s dimensions" alt="" coords="17,120,179,161"/>
 <area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="223,144,179,144,179,138,223,138"/>
-<area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235" title="store photo&#39;s group details" alt="" coords="17,186,179,227"/>
+<area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235" title="store photo&#39;s group details" alt="" coords="17,186,179,226"/>
 <area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="235,169,170,188,169,183,233,163"/>
 <area shape="rect" id="Node000009" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a23e52466215b03d13e6955a466bc27a1" title="Write blob of type bt." alt="" coords="17,251,179,292"/>
 <area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="285,174,242,208,192,240,165,253,163,248,189,236,239,204,282,170"/>

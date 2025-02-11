@@ -1,5 +1,5 @@
 <map id="Database::NotificationsAccumulator::fireChanges" name="Database::NotificationsAccumulator::fireChanges">
-<area shape="rect" id="Node000001" title=" " alt="" coords="211,146,438,187"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="211,146,438,186"/>
 <area shape="rect" id="Node000002" href="$dc/d83/class_sql_transaction.html#a277b010bf1b57bc10ec0e4faf50b43d2" title=" " alt="" coords="5,5,163,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="288,137,231,90,161,45,136,34,139,29,164,40,235,85,292,133"/>
 <area shape="rect" id="Node000003" href="$d7/d64/notifications__accumulator__tests_8cpp.html#a02ed24c72b3cb6ac497c2c01c5dcafe3" title=" " alt="" coords="57,55,111,80"/>

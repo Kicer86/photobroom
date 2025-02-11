@@ -1,9 +1,9 @@
 <map id="AnimationGenerator" name="AnimationGenerator">
 <area shape="rect" id="Node000001" title=" " alt="" coords="228,109,365,135"/>
-<area shape="rect" id="Node000002" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html" title=" " alt="" coords="5,13,204,39"/>
+<area shape="rect" id="Node000002" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html" title=" " alt="" coords="5,13,204,38"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="144,43,273,106,271,111,142,48"/>
 <area shape="rect" id="Node000007" href="$d5/da4/struct_animation_generator_1_1_data.html" title=" " alt="" coords="228,5,365,46"/>
 <area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="299,61,299,109,294,109,294,61"/>
-<area shape="rect" id="Node000008" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="389,13,455,39"/>
+<area shape="rect" id="Node000008" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="389,13,454,38"/>
 <area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="398,50,350,87,316,111,313,106,347,83,394,46"/>
 </map>

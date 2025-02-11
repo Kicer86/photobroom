@@ -1,21 +1,21 @@
 <map id="src/database/database_tools/implementation/photos_analyzer.cpp" name="src/database/database_tools/implementation/photos_analyzer.cpp">
 <area shape="rect" id="Node000001" title=" " alt="" coords="738,5,891,61"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,117,160,142"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,116,160,142"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="738,44,486,69,329,89,172,112,151,116,150,110,171,106,329,83,485,64,737,38"/>
-<area shape="rect" id="Node000003" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="184,117,365,142"/>
+<area shape="rect" id="Node000003" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="184,116,365,142"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="738,50,376,112,353,116,353,111,375,106,737,45"/>
 <area shape="rect" id="Node000011" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="388,109,513,150"/>
 <area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="738,57,528,111,527,106,737,52"/>
-<area shape="rect" id="Node000012" href="$d5/d80/itask__executor_8hpp.html" title=" " alt="" coords="537,117,695,142"/>
+<area shape="rect" id="Node000012" href="$d5/d80/itask__executor_8hpp.html" title=" " alt="" coords="537,116,695,142"/>
 <area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="758,64,656,112,654,107,756,59"/>
-<area shape="rect" id="Node000016" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="719,117,910,142"/>
+<area shape="rect" id="Node000016" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="719,116,910,142"/>
 <area shape="poly" id="edge5_Node000001_Node000016" title=" " alt="" coords="817,62,817,101,812,101,812,62"/>
-<area shape="rect" id="Node000052" href="$de/de4/general__flags_8hpp.html" title=" " alt="" coords="935,117,1113,142"/>
+<area shape="rect" id="Node000052" href="$de/de4/general__flags_8hpp.html" title=" " alt="" coords="935,116,1113,142"/>
 <area shape="poly" id="edge6_Node000001_Node000052" title=" " alt="" coords="876,59,984,108,982,112,874,64"/>
 <area shape="rect" id="Node000053" href="$da/d9f/photo__flags__values_8hpp.html" title=" " alt="" coords="1137,109,1281,150"/>
 <area shape="poly" id="edge7_Node000001_Node000053" title=" " alt="" coords="892,50,1123,105,1122,110,891,55"/>
-<area shape="rect" id="Node000054" href="$d2/d25/photos__analyzer__p_8hpp.html" title=" " alt="" coords="1305,117,1457,142"/>
+<area shape="rect" id="Node000054" href="$d2/d25/photos__analyzer__p_8hpp.html" title=" " alt="" coords="1305,116,1457,142"/>
 <area shape="poly" id="edge8_Node000001_Node000054" title=" " alt="" coords="892,42,1075,70,1294,106,1313,110,1312,115,1293,112,1074,75,891,48"/>
-<area shape="rect" id="Node000080" href="$d5/dfe/photos__analyzer_8hpp.html" title=" " alt="" coords="1482,117,1630,142"/>
+<area shape="rect" id="Node000080" href="$d5/dfe/photos__analyzer_8hpp.html" title=" " alt="" coords="1482,116,1630,142"/>
 <area shape="poly" id="edge9_Node000001_Node000080" title=" " alt="" coords="892,38,1149,63,1309,83,1470,106,1490,110,1489,115,1469,112,1308,88,1148,68,891,43"/>
 </map>

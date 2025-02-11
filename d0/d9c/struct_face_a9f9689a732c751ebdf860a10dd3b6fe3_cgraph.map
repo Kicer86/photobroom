@@ -1,6 +1,7 @@
 <map id="Face::store" name="Face::store">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,29,91,55"/>
-<area shape="poly" id="edge2_Node000001_Node000001" title=" " alt="" coords="17,30,11,21,15,11,27,5,48,3,70,5,82,12,79,16,69,10,48,8,29,10,19,15,16,20,22,27"/>
-<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html#a222cff3bd2b3381069cdd58b275d426d" title=" " alt="" coords="139,22,324,63"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,40,123,40,123,45,91,45"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,46,91,72"/>
+<area shape="rect" id="Node000002" href="$d2/ddd/struct_database_1_1_i_backend.html#a222cff3bd2b3381069cdd58b275d426d" title=" " alt="" coords="142,5,327,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,49,126,42,127,48,91,54"/>
+<area shape="rect" id="Node000003" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#abb54529676bde61cbbdc6333bd1b45f8" title="Store or update person." alt="" coords="139,71,330,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="91,64,124,69,123,74,91,69"/>
 </map>

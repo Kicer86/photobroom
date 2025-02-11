@@ -1,5 +1,7 @@
 <map id="Photo::getPath" name="Photo::getPath">
-<area shape="rect" id="Node000001" title=" " alt="" coords="251,5,357,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="251,35,357,60"/>
 <area shape="rect" id="Node000002" href="$d3/df6/class_series_detector.html#a6e234a1e8721233612cf4db84bf9dad5" title=" " alt="" coords="5,5,203,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,21,203,21,203,16,235,16"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="235,40,196,34,196,29,236,35"/>
+<area shape="rect" id="Node000011" href="$de/db3/class_context_menu_manager.html#ae6cff95d57472c72bfc4b576f507fe6c" title=" " alt="" coords="30,55,178,96"/>
+<area shape="poly" id="edge2_Node000001_Node000011" title=" " alt="" coords="236,60,179,68,178,62,235,54"/>
 </map>

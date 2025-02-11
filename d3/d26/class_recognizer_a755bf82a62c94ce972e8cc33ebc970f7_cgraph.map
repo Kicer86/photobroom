@@ -1,9 +1,11 @@
 <map id="Recognizer::fetchPeopleAndFingerprints" name="Recognizer::fetchPeopleAndFingerprints">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,189,96"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,88,189,129"/>
 <area shape="rect" id="Node000002" href="$d4/d20/task__executor__utils_8hpp.html#a3f0aa9b30c11096d7aa5e0e982b1c7a5" title=" " alt="" coords="297,5,368,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="182,52,281,28,283,33,184,57"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="136,86,236,41,281,27,283,32,238,46,139,90"/>
 <area shape="rect" id="Node000003" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#a141df89784a9eed74c15f755d59e8aec" title=" " alt="" coords="237,55,428,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,73,221,73,221,78,189,78"/>
-<area shape="rect" id="Node000004" href="$d2/ddd/struct_database_1_1_i_backend.html#a222cff3bd2b3381069cdd58b275d426d" title=" " alt="" coords="240,121,425,161"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="173,94,242,113,241,118,172,99"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="189,93,221,89,222,94,190,98"/>
+<area shape="rect" id="Node000004" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html#aeb14220779523b736ed934ba9d0e7f29" title="list all people names" alt="" coords="237,120,428,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="190,119,222,123,221,128,189,124"/>
+<area shape="rect" id="Node000005" href="$d2/ddd/struct_database_1_1_i_backend.html#a222cff3bd2b3381069cdd58b275d426d" title=" " alt="" coords="240,186,425,226"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="142,127,238,170,256,178,254,183,236,175,140,132"/>
 </map>

@@ -2,7 +2,7 @@
 <area shape="rect" id="Node000001" title=" " alt="" coords="152,183,237,208"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,94,147,120"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="106,127,179,180,176,184,103,131"/>
-<area shape="rect" id="Node000003" href="$d8/d67/class_tags_operator.html" title=" " alt="" coords="293,94,393,120"/>
+<area shape="rect" id="Node000003" href="$d8/d67/class_tags_operator.html" title=" " alt="" coords="292,94,393,120"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="310,130,217,184,214,180,308,125"/>
 <area shape="rect" id="Node000005" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="145,5,287,31"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="215,47,209,94,199,183,193,182,203,94,210,46"/>

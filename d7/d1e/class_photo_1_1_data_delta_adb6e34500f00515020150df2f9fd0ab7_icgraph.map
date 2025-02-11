@@ -1,37 +1,38 @@
 <map id="Photo::DataDelta::get" name="Photo::DataDelta::get">
-<area shape="rect" id="Node000001" title=" " alt="" coords="668,384,811,410"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="668,381,811,407"/>
 <area shape="rect" id="Node000002" href="$dd/d17/class_thumbnail_manager.html#a23c27b8332708a2e59a6a5ac0c3962fd" title=" " alt="" coords="454,5,620,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="735,369,728,303,710,215,695,169,676,124,650,81,619,44,604,34,607,29,622,40,654,78,680,121,700,167,715,214,733,302,740,368"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="735,366,728,300,710,214,695,168,675,123,650,81,619,44,604,34,607,29,622,40,654,78,680,120,700,166,715,212,733,299,740,365"/>
 <area shape="rect" id="Node000003" href="$db/d29/class_photo_1_1_explicit_delta.html#a798c20babb6f45b46348df7bb7facd14" title=" " alt="" coords="459,55,615,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="733,369,724,311,704,237,689,198,670,160,647,124,619,94,603,83,606,79,622,89,651,121,675,157,694,196,709,235,729,310,738,368"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="733,366,723,309,703,235,688,197,670,159,646,124,619,94,603,83,606,79,622,89,651,121,674,156,693,195,708,234,728,308,738,365"/>
 <area shape="rect" id="Node000004" href="$db/d29/class_photo_1_1_explicit_delta.html#aa17dc0e526caaa840d26a44e3b0d9b40" title=" " alt="" coords="459,104,615,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="729,369,716,322,694,264,662,204,642,176,619,151,589,133,592,128,622,147,646,172,666,201,699,262,721,321,735,368"/>
-<area shape="rect" id="Node000011" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" title=" " alt="" coords="215,141,406,181"/>
-<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="728,370,713,331,691,284,660,239,640,219,619,202,569,177,514,162,458,156,406,155,406,149,459,150,515,157,570,172,622,197,644,215,664,235,696,282,718,329,733,368"/>
-<area shape="rect" id="Node000012" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="5,170,167,211"/>
-<area shape="poly" id="edge15_Node000001_Node000012" title=" " alt="" coords="724,371,707,341,684,306,654,272,619,246,595,238,552,231,431,217,167,197,167,192,432,211,553,225,596,233,622,241,658,268,688,303,712,338,729,369"/>
-<area shape="rect" id="Node000013" href="$d7/ddf/class_photo_data_qml.html#a0d12bcb6ffdad1cc29f4e9cea53ec47f" title="access to flags as a QML compatible map" alt="" coords="456,256,618,282"/>
-<area shape="poly" id="edge6_Node000001_Node000013" title=" " alt="" coords="715,374,673,334,619,295,595,285,597,280,622,291,676,330,719,371"/>
-<area shape="rect" id="Node000015" href="$d4/d50/namespace_photo.html#a4f56c419b3674bafac3f5c360192b1e8" title=" " alt="" coords="484,305,590,331"/>
-<area shape="poly" id="edge7_Node000001_Node000015" title=" " alt="" coords="698,379,619,345,588,334,590,329,621,340,700,375"/>
-<area shape="rect" id="Node000025" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="462,355,613,380"/>
-<area shape="poly" id="edge8_Node000001_Node000025" title=" " alt="" coords="652,387,613,381,614,376,653,382"/>
-<area shape="rect" id="Node000026" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="457,405,618,445"/>
-<area shape="poly" id="edge9_Node000001_Node000026" title=" " alt="" coords="653,411,619,416,618,411,653,406"/>
-<area shape="rect" id="Node000029" href="$d4/d50/namespace_photo.html#a0fd396899fa831f05e9bbd635bba04a5" title=" " alt="" coords="502,469,573,495"/>
-<area shape="poly" id="edge10_Node000001_Node000029" title=" " alt="" coords="703,420,621,459,574,475,572,470,619,454,700,415"/>
-<area shape="rect" id="Node000035" href="$dc/d8c/namespace_photo_delta.html#ac7ba92966e8e0b99eb0dea6bed6a925d" title=" " alt="" coords="487,519,588,544"/>
-<area shape="poly" id="edge11_Node000001_Node000035" title=" " alt="" coords="720,424,678,467,651,490,622,510,590,523,587,518,619,505,648,486,674,464,716,420"/>
-<area shape="rect" id="Node000036" href="$d4/d50/namespace_photo.html#acfa4c22bb2d186512596cbe74c290e7a" title=" " alt="" coords="487,568,587,594"/>
-<area shape="poly" id="edge12_Node000001_Node000036" title=" " alt="" coords="728,425,687,492,657,528,622,559,589,574,586,570,619,555,653,525,682,489,723,422"/>
-<area shape="rect" id="Node000037" href="$dc/d8c/namespace_photo_delta.html#a83857616ed7cd6f258d72d9442ff4037" title=" " alt="" coords="472,617,602,643"/>
-<area shape="poly" id="edge13_Node000001_Node000037" title=" " alt="" coords="733,425,718,466,695,515,663,565,622,608,604,619,601,614,619,604,659,562,690,513,713,464,728,423"/>
-<area shape="rect" id="Node000038" href="$d7/ddf/class_photo_data_qml.html#a36de9c664118b798d1871c7effd2a20b" title=" " alt="" coords="469,667,606,692"/>
-<area shape="poly" id="edge14_Node000001_Node000038" title=" " alt="" coords="736,425,724,475,702,538,669,602,647,632,622,658,605,668,602,664,619,653,643,628,665,599,697,535,719,474,731,424"/>
-<area shape="rect" id="Node000039" href="$d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" title=" " alt="" coords="510,716,564,742"/>
-<area shape="poly" id="edge17_Node000001_Node000039" title=" " alt="" coords="738,426,729,484,709,560,694,600,675,639,651,675,622,707,594,723,565,730,564,725,592,718,619,703,647,672,670,636,689,598,704,558,724,483,733,425"/>
-<area shape="rect" id="Node000040" href="$de/db3/class_context_menu_manager.html#ae6cff95d57472c72bfc4b576f507fe6c" title=" " alt="" coords="464,766,611,807"/>
-<area shape="poly" id="edge18_Node000001_Node000040" title=" " alt="" coords="739,425,732,491,713,579,698,626,679,673,653,717,622,756,608,767,605,763,618,752,649,714,674,670,693,625,708,578,727,491,734,425"/>
-<area shape="poly" id="edge4_Node000004_Node000011" title=" " alt="" coords="453,136,407,145,406,140,452,131"/>
-<area shape="poly" id="edge5_Node000011_Node000012" title=" " alt="" coords="200,178,167,182,167,177,199,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="729,367,716,321,694,263,662,203,641,175,619,151,589,132,591,128,622,147,646,172,666,200,699,261,721,319,734,365"/>
+<area shape="rect" id="Node000012" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" title=" " alt="" coords="215,140,406,181"/>
+<area shape="poly" id="edge17_Node000001_Node000012" title=" " alt="" coords="728,367,713,329,690,283,659,238,640,218,619,202,569,177,514,163,458,156,406,155,406,149,459,151,515,157,570,172,622,197,644,214,663,234,695,280,718,326,733,365"/>
+<area shape="rect" id="Node000013" href="$d5/d1b/class_database_1_1_a_sql_backend.html#ae7ba3709fe28b703826257947ea891b6" title=" " alt="" coords="5,170,167,210"/>
+<area shape="poly" id="edge16_Node000001_Node000013" title=" " alt="" coords="723,369,707,339,683,304,654,272,619,246,595,238,552,231,431,217,167,197,167,192,432,212,553,225,596,233,622,241,658,268,688,301,711,336,728,366"/>
+<area shape="rect" id="Node000014" href="$d7/ddf/class_photo_data_qml.html#a0d12bcb6ffdad1cc29f4e9cea53ec47f" title="access to flags as a QML compatible map" alt="" coords="456,256,618,282"/>
+<area shape="poly" id="edge6_Node000001_Node000014" title=" " alt="" coords="714,372,672,333,619,295,595,285,597,280,622,291,676,328,718,368"/>
+<area shape="rect" id="Node000016" href="$d4/d50/namespace_photo.html#a4f56c419b3674bafac3f5c360192b1e8" title=" " alt="" coords="484,305,590,331"/>
+<area shape="poly" id="edge7_Node000001_Node000016" title=" " alt="" coords="688,378,573,334,575,329,690,373"/>
+<area shape="rect" id="Node000026" href="$de/db3/class_context_menu_manager.html#ae6cff95d57472c72bfc4b576f507fe6c" title=" " alt="" coords="237,323,384,364"/>
+<area shape="poly" id="edge19_Node000001_Node000026" title=" " alt="" coords="652,387,384,355,385,349,653,381"/>
+<area shape="rect" id="Node000028" href="$df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b" title=" " alt="" coords="462,407,613,432"/>
+<area shape="poly" id="edge9_Node000001_Node000028" title=" " alt="" coords="653,408,614,413,613,407,652,402"/>
+<area shape="rect" id="Node000029" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a218cc7555092910cf6c33cab849cc0fb" title="create new entry for photo in database" alt="" coords="456,456,618,497"/>
+<area shape="poly" id="edge10_Node000001_Node000029" title=" " alt="" coords="695,416,621,447,594,458,592,453,619,442,693,411"/>
+<area shape="rect" id="Node000032" href="$d4/d50/namespace_photo.html#a0fd396899fa831f05e9bbd635bba04a5" title=" " alt="" coords="502,521,573,547"/>
+<area shape="poly" id="edge11_Node000001_Node000032" title=" " alt="" coords="720,421,678,467,651,491,622,511,598,522,574,530,573,525,596,517,619,507,648,486,674,463,717,418"/>
+<area shape="rect" id="Node000042" href="$dc/d8c/namespace_photo_delta.html#ac7ba92966e8e0b99eb0dea6bed6a925d" title=" " alt="" coords="486,571,588,596"/>
+<area shape="poly" id="edge12_Node000001_Node000042" title=" " alt="" coords="728,423,688,492,658,530,622,562,589,577,587,572,619,557,654,526,683,489,724,420"/>
+<area shape="rect" id="Node000043" href="$d4/d50/namespace_photo.html#acfa4c22bb2d186512596cbe74c290e7a" title=" " alt="" coords="487,620,587,646"/>
+<area shape="poly" id="edge13_Node000001_Node000043" title=" " alt="" coords="733,423,718,465,696,515,664,567,644,590,622,611,589,627,587,623,619,607,640,587,659,564,691,513,713,463,728,421"/>
+<area shape="rect" id="Node000050" href="$dc/d8c/namespace_photo_delta.html#a83857616ed7cd6f258d72d9442ff4037" title=" " alt="" coords="472,669,602,695"/>
+<area shape="poly" id="edge14_Node000001_Node000050" title=" " alt="" coords="736,423,724,474,703,537,670,603,648,634,622,660,604,672,601,667,619,656,644,630,665,601,698,535,719,472,731,422"/>
+<area shape="rect" id="Node000052" href="$d7/ddf/class_photo_data_qml.html#a36de9c664118b798d1871c7effd2a20b" title=" " alt="" coords="468,719,606,744"/>
+<area shape="poly" id="edge15_Node000001_Node000052" title=" " alt="" coords="738,423,730,482,710,559,695,600,676,640,651,677,622,710,606,720,603,716,619,705,647,674,671,637,690,598,705,558,724,481,733,422"/>
+<area shape="rect" id="Node000053" href="$d6/dc3/data__delta__tests_8cpp.html#a05a42cc2572de1ebf095ad0009785202" title=" " alt="" coords="510,768,564,794"/>
+<area shape="poly" id="edge18_Node000001_Node000053" title=" " alt="" coords="740,423,734,491,716,581,701,629,681,676,655,720,622,759,595,775,566,782,564,777,593,770,619,755,651,717,676,674,696,627,711,580,729,490,735,423"/>
+<area shape="poly" id="edge4_Node000004_Node000012" title=" " alt="" coords="453,136,407,145,406,140,452,131"/>
+<area shape="poly" id="edge5_Node000012_Node000013" title=" " alt="" coords="200,178,167,182,167,177,199,173"/>
+<area shape="poly" id="edge8_Node000016_Node000026" title=" " alt="" coords="469,328,385,338,384,333,468,323"/>
 </map>

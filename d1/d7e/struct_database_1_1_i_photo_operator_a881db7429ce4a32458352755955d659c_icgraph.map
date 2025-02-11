@@ -1,7 +1,9 @@
 <map id="Database::IPhotoOperator::fetchData" name="Database::IPhotoOperator::fetchData">
-<area shape="rect" id="Node000001" title="fetch photos data" alt="" coords="224,35,394,75"/>
-<area shape="rect" id="Node000002" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#a226a39f6bab6a190c4ff78d4d20aa2a9" title="fetch photos data" alt="" coords="5,5,176,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="208,44,176,40,177,35,209,39"/>
-<area shape="rect" id="Node000003" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="10,70,171,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="209,71,171,75,171,70,208,65"/>
+<area shape="rect" id="Node000001" title="fetch photos data" alt="" coords="224,55,394,96"/>
+<area shape="rect" id="Node000002" href="$db/d64/photo__fetch__benchmarks_8cpp.html#a0066cd03844a82e50cb4d46af16e6a6c" title=" " alt="" coords="15,5,166,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="214,53,142,34,143,29,215,48"/>
+<area shape="rect" id="Node000004" href="$d1/d7e/struct_database_1_1_i_photo_operator.html#a226a39f6bab6a190c4ff78d4d20aa2a9" title="fetch photos data" alt="" coords="5,55,176,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="208,78,176,78,176,73,208,73"/>
+<area shape="rect" id="Node000005" href="$db/d6e/class_collection_scanner.html#a7d7efea2e0e976663465a01f8831ac4a" title=" " alt="" coords="10,120,171,146"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="215,103,143,122,142,117,214,98"/>
 </map>

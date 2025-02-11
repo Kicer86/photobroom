@@ -1,5 +1,5 @@
 <map id="ProjectCreatorDialog" name="ProjectCreatorDialog">
-<area shape="rect" id="Node000001" title=" " alt="" coords="86,94,227,120"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="86,94,226,120"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,5,73,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="69,38,141,91,138,96,66,43"/>
 <area shape="rect" id="Node000003" href="$dc/df3/class_qt_ext_choose_file.html" title=" " alt="" coords="97,5,216,31"/>

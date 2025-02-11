@@ -1,7 +1,9 @@
 <map id="Database::PhotoOperator::getTags" name="Database::PhotoOperator::getTags">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,172,64"/>
-<area shape="rect" id="Node000002" href="$df/d7c/class_tag_value.html#a23a09559a3f5de9a89b8a237fc2af081" title=" " alt="" coords="220,5,354,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,30,204,26,204,31,173,35"/>
-<area shape="rect" id="Node000007" href="$de/dd4/class_base_tags.html#a440585d38153e073f47134a7f04e6f5e" title="Get structure describing tag." alt="" coords="221,55,353,80"/>
-<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="173,51,206,55,205,60,172,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,172,96"/>
+<area shape="rect" id="Node000002" href="$df/d7c/class_tag_value.html#a23a09559a3f5de9a89b8a237fc2af081" title=" " alt="" coords="236,5,370,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,52,236,33,238,38,168,57"/>
+<area shape="rect" id="Node000007" href="$da/dd9/class_database_1_1_photo_operator.html#a97a04c554ea0e4b9fbadbcc3036a9456" title=" " alt="" coords="220,55,386,96"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="172,73,204,73,204,78,172,78"/>
+<area shape="rect" id="Node000011" href="$de/dd4/class_base_tags.html#a440585d38153e073f47134a7f04e6f5e" title="Get structure describing tag." alt="" coords="237,120,369,146"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="168,94,238,113,236,118,166,99"/>
 </map>

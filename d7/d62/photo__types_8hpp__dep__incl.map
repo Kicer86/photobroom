@@ -1,5 +1,5 @@
 <map id="src/database/photo_types.hpp" name="src/database/photo_types.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="520,5,653,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="520,5,652,46"/>
 <area shape="rect" id="Node000002" href="$d9/d8f/igroup__operator_8hpp.html" title=" " alt="" coords="5,94,141,135"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="505,41,345,65,160,97,142,100,141,95,159,91,344,60,504,36"/>
 <area shape="rect" id="Node000040" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="261,360,397,401"/>
@@ -8,9 +8,9 @@
 <area shape="poly" id="edge3_Node000001_Node000052" title=" " alt="" coords="507,54,367,96,365,91,506,48"/>
 <area shape="rect" id="Node000057" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="410,94,549,135"/>
 <area shape="poly" id="edge4_Node000001_Node000057" title=" " alt="" coords="552,58,505,96,502,91,549,54"/>
-<area shape="rect" id="Node000147" href="$d5/dab/photo__data__fields_8hpp.html" title=" " alt="" coords="440,183,573,223"/>
+<area shape="rect" id="Node000147" href="$d5/dab/photo__data__fields_8hpp.html" title=" " alt="" coords="440,183,572,223"/>
 <area shape="poly" id="edge9_Node000001_Node000147" title=" " alt="" coords="585,62,577,98,563,136,547,162,528,184,524,181,543,159,559,133,572,97,580,61"/>
-<area shape="rect" id="Node000148" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="440,271,573,312"/>
+<area shape="rect" id="Node000148" href="$db/d39/photo__data_8hpp.html" title=" " alt="" coords="440,271,572,312"/>
 <area shape="poly" id="edge8_Node000001_Node000148" title=" " alt="" coords="597,61,602,96,605,138,601,182,587,225,568,252,542,273,539,269,564,248,583,222,595,181,599,138,597,97,592,62"/>
 <area shape="rect" id="Node000169" href="$d9/d3b/media__view__ctrl_8hpp.html" title=" " alt="" coords="674,94,856,135"/>
 <area shape="poly" id="edge10_Node000001_Node000169" title=" " alt="" coords="642,51,726,91,723,96,639,55"/>

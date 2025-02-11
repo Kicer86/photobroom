@@ -1,5 +1,5 @@
 <map id="ol::TS_Queue::pop_for" name="ol::TS_Queue::pop_for">
-<area shape="rect" id="Node000001" title="Get data." alt="" coords="5,37,154,63"/>
+<area shape="rect" id="Node000001" title="Get data." alt="" coords="5,37,154,62"/>
 <area shape="rect" id="Node000002" href="$d2/d36/classol_1_1_t_s___queue.html#af589d6326c0fe024cae643c3f80160b9" title="Wait until data is available." alt="" coords="202,29,331,70"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="154,47,186,47,186,52,154,52"/>
 <area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="231,29,229,19,235,10,247,5,266,3,287,5,299,11,296,16,285,10,266,8,249,10,238,15,234,20,236,28"/>

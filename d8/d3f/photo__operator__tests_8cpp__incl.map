@@ -1,8 +1,8 @@
 <map id="src/database/unit_tests_for_backends/photo_operator_tests.cpp" name="src/database/unit_tests_for_backends/photo_operator_tests.cpp">
 <area shape="rect" id="Node000001" title=" " alt="" coords="536,5,733,61"/>
-<area shape="rect" id="Node000002" href="$d8/d43/core_2utils_8hpp.html" title=" " alt="" coords="5,117,104,142"/>
+<area shape="rect" id="Node000002" href="$d8/d43/core_2utils_8hpp.html" title=" " alt="" coords="5,116,104,142"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="536,46,340,71,227,89,115,112,104,114,103,109,114,106,226,84,340,65,536,41"/>
-<area shape="rect" id="Node000005" href="$d3/dcf/json__to__backend_8hpp.html" title=" " alt="" coords="127,109,265,150"/>
+<area shape="rect" id="Node000005" href="$d3/dcf/json__to__backend_8hpp.html" title=" " alt="" coords="127,109,264,150"/>
 <area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="536,57,280,111,279,106,535,52"/>
 <area shape="rect" id="Node000034" title=" " alt="" coords="289,109,444,150"/>
 <area shape="poly" id="edge3_Node000001_Node000034" title=" " alt="" coords="558,64,438,106,436,101,556,59"/>
@@ -12,8 +12,8 @@
 <area shape="poly" id="edge5_Node000001_Node000036" title=" " alt="" coords="662,60,696,96,692,100,658,63"/>
 <area shape="rect" id="Node000037" title=" " alt="" coords="821,109,955,150"/>
 <area shape="poly" id="edge6_Node000001_Node000037" title=" " alt="" coords="709,59,821,101,820,106,707,64"/>
-<area shape="rect" id="Node000038" href="$d6/dae/ut__printers_8hpp.html" title=" " alt="" coords="980,117,1143,142"/>
+<area shape="rect" id="Node000038" href="$d6/dae/ut__printers_8hpp.html" title=" " alt="" coords="980,116,1143,142"/>
 <area shape="poly" id="edge7_Node000001_Node000038" title=" " alt="" coords="733,53,991,110,990,115,732,59"/>
-<area shape="rect" id="Node000040" href="$dd/d3a/common_8hpp.html" title=" " alt="" coords="1167,117,1262,142"/>
+<area shape="rect" id="Node000040" href="$dd/d3a/common_8hpp.html" title=" " alt="" coords="1167,116,1262,142"/>
 <area shape="poly" id="edge8_Node000001_Node000040" title=" " alt="" coords="733,41,929,65,1043,84,1155,106,1166,109,1165,114,1154,112,1042,89,929,71,733,46"/>
 </map>

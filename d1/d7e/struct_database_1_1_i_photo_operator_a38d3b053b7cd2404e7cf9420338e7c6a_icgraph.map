@@ -1,7 +1,9 @@
 <map id="Database::IPhotoOperator::onPhotos" name="Database::IPhotoOperator::onPhotos">
-<area shape="rect" id="Node000001" title=" " alt="" coords="249,35,419,75"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="249,63,419,103"/>
 <area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" title=" " alt="" coords="20,5,186,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,45,186,39,187,34,234,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="234,61,186,49,187,44,236,56"/>
 <area shape="rect" id="Node000019" href="$d3/df6/class_series_detector.html#a7fb133fe47e82c32db512738a9e02742" title=" " alt="" coords="5,70,201,96"/>
-<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="234,70,201,74,201,68,233,65"/>
+<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="233,86,201,86,201,80,233,80"/>
+<area shape="rect" id="Node000027" href="$d3/d94/class_duplicates_model.html#a3b598cbfcf449e0b9163bc9810e17b8c" title=" " alt="" coords="16,120,190,145"/>
+<area shape="poly" id="edge3_Node000001_Node000027" title=" " alt="" coords="234,107,167,121,166,116,233,102"/>
 </map>

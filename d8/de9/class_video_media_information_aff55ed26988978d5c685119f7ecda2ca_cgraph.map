@@ -1,7 +1,7 @@
 <map id="VideoMediaInformation::getInformation" name="VideoMediaInformation::getInformation">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,23,160,64"/>
-<area shape="rect" id="Node000002" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="208,5,362,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,31,192,27,193,32,160,36"/>
-<area shape="rect" id="Node000003" href="$d5/dd5/struct_i_exif_reader.html#adb056ee84526c248059ae528b57c47d2" title=" " alt="" coords="229,55,341,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,50,214,56,214,62,160,55"/>
+<area shape="rect" id="Node000002" href="$d5/dd5/struct_i_exif_reader.html#adb056ee84526c248059ae528b57c47d2" title=" " alt="" coords="229,5,340,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="160,31,214,24,214,30,160,36"/>
+<area shape="rect" id="Node000003" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="208,55,362,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="160,50,193,54,192,59,160,55"/>
 </map>

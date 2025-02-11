@@ -1,6 +1,8 @@
 <map id="range_to" name="range_to">
-<area shape="rect" id="Node000001" title=" " alt="" coords="165,29,236,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="165,55,236,80"/>
 <area shape="rect" id="Node000002" href="$d3/d6f/namespace_h_d_r.html#a13092d6bb1fbae14e314f076d5add541" title=" " alt="" coords="5,29,117,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,45,117,45,117,40,149,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="149,61,117,55,118,50,150,56"/>
+<area shape="rect" id="Node000006" href="$d6/d87/learning__tests_2image__aligner__tests_8cpp.html#a049e4a84796ed69fc4a3f66ba8a8f4b0" title=" " alt="" coords="26,79,96,104"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="150,79,97,88,96,83,149,74"/>
 <area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="84,16,76,10,61,8,47,10,39,14,38,20,42,28,37,30,32,21,35,11,45,5,61,3,78,5,87,12"/>
 </map>

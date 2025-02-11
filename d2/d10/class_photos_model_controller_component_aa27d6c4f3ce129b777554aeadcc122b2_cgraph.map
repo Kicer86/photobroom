@@ -1,9 +1,9 @@
 <map id="PhotosModelControllerComponent::markPhotosAsReviewed" name="PhotosModelControllerComponent::markPhotosAsReviewed">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,55,224,96"/>
-<area shape="rect" id="Node000002" href="$d0/dd6/function__wrappers_8hpp.html#abcb82074b30c95a4c32fffd37ae0a63d" title=" " alt="" coords="330,5,432,31"/>
+<area shape="rect" id="Node000002" href="$d0/dd6/function__wrappers_8hpp.html#a5f90b58c659182d0119e425fd74cb344" title=" " alt="" coords="330,5,432,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,52,314,30,315,35,213,57"/>
 <area shape="rect" id="Node000003" href="$d2/ddd/struct_database_1_1_i_backend.html#a3ebec55f1e5c7f5f1ae193f7cd2ae9e9" title="mark all staged photos as reviewed." alt="" coords="296,55,466,96"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,73,280,73,280,78,224,78"/>
-<area shape="rect" id="Node000004" href="$d2/d10/class_photos_model_controller_component.html#a94d710b210a425a062186efe0bf04238" title=" " alt="" coords="272,121,490,161"/>
+<area shape="rect" id="Node000004" href="$d2/d10/class_photos_model_controller_component.html#a94d710b210a425a062186efe0bf04238" title=" " alt="" coords="272,120,490,161"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="201,94,281,114,280,119,200,99"/>
 </map>

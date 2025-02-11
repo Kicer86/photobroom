@@ -1,13 +1,13 @@
 <map id="PhotosAnalyzerImpl" name="PhotosAnalyzerImpl">
 <area shape="rect" id="Node000001" title=" " alt="" coords="269,109,406,135"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,13,75,39"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,13,75,38"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="84,42,88,43,197,79,292,106,291,111,196,84,86,49,82,47"/>
-<area shape="rect" id="Node000003" href="$d5/d65/class_observable_task_executor.html" title=" " alt="" coords="98,5,265,46"/>
+<area shape="rect" id="Node000003" href="$d5/d65/class_observable_task_executor.html" title=" " alt="" coords="98,5,264,46"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="212,54,249,83,300,106,297,111,247,87,209,59"/>
-<area shape="rect" id="Node000008" href="$d8/d50/class_media_information.html" title=" " alt="" coords="289,13,410,39"/>
+<area shape="rect" id="Node000008" href="$d8/d50/class_media_information.html" title=" " alt="" coords="289,13,410,38"/>
 <area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="345,54,342,70,340,109,334,108,336,70,339,53"/>
-<area shape="rect" id="Node000010" href="$d6/d44/struct_i_tasks_view.html" title=" " alt="" coords="444,13,535,39"/>
+<area shape="rect" id="Node000010" href="$d6/d44/struct_i_tasks_view.html" title=" " alt="" coords="444,13,534,38"/>
 <area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="484,55,475,72,462,87,435,103,407,114,405,109,433,98,458,83,470,69,479,52"/>
-<area shape="rect" id="Node000011" href="$da/d69/struct_i_view_task.html" title=" " alt="" coords="561,13,644,39"/>
+<area shape="rect" id="Node000011" href="$da/d69/struct_i_view_task.html" title=" " alt="" coords="561,13,644,38"/>
 <area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="592,54,579,72,561,87,534,98,495,107,406,118,405,113,494,101,532,93,559,83,575,68,588,51"/>
 </map>

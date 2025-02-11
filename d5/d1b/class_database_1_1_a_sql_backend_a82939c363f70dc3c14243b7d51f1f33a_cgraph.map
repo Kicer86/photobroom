@@ -1,14 +1,14 @@
 <map id="Database::ASqlBackend::set" name="Database::ASqlBackend::set">
-<area shape="rect" id="Node000001" title="set flag for photo to given value" alt="" coords="5,177,191,203"/>
+<area shape="rect" id="Node000001" title="set flag for photo to given value" alt="" coords="5,177,191,202"/>
 <area shape="rect" id="Node000002" href="$d7/dee/class_database_1_1_update_query_data.html#a442190800f635dc51c4fec6faf02b2b2" title=" " alt="" coords="260,5,445,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,175,159,118,196,85,237,57,250,50,252,55,240,61,200,89,163,122,112,178"/>
 <area shape="rect" id="Node000003" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a4311855344703cfc5f8a044e1a0303d2" title="begin transaction" alt="" coords="272,71,433,111"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="124,174,176,148,238,122,260,114,261,119,240,127,178,153,126,179"/>
 <area shape="rect" id="Node000005" href="$d2/deb/class_database_1_1_notifications_accumulator.html#a51f4c9699c114aeb027fea408670c6a8" title=" " alt="" coords="239,136,466,177"/>
 <area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="191,175,223,171,224,176,192,180"/>
-<area shape="rect" id="Node000006" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="264,201,441,242"/>
+<area shape="rect" id="Node000006" href="$d4/df7/class_database_1_1_insert_query_data.html#ad5559c694413325527ab752c01dd1ca8" title=" " alt="" coords="264,201,440,242"/>
 <area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="192,199,249,206,248,211,191,204"/>
-<area shape="rect" id="Node000007" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="264,267,441,307"/>
+<area shape="rect" id="Node000007" href="$d4/df7/class_database_1_1_insert_query_data.html#a5140196bba75c14512d5f967bd6ee152" title=" " alt="" coords="264,267,440,307"/>
 <area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="127,201,240,251,261,259,260,264,238,256,124,206"/>
 <area shape="rect" id="Node000008" href="$d5/d1b/class_database_1_1_a_sql_backend.html#a42b7acb6e6a11a44e53f0ea80c920690" title="insert data to database or upgrade existing entries." alt="" coords="272,332,433,373"/>
 <area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="112,201,163,257,200,289,240,317,258,326,256,330,237,321,196,293,159,261,108,205"/>

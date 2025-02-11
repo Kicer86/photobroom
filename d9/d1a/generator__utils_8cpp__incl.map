@@ -4,13 +4,13 @@
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="627,41,383,62,228,83,68,112,67,106,227,78,382,57,626,36"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="77,109,170,135"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="627,46,432,73,186,111,185,106,432,68,626,41"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="195,109,333,135"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="194,109,333,135"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="627,51,340,108,339,103,626,46"/>
 <area shape="rect" id="Node000005" title=" " alt="" coords="356,109,518,135"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="627,60,489,106,487,101,625,55"/>
 <area shape="rect" id="Node000006" href="$df/d6f/iexif__reader_8hpp.html" title=" " alt="" coords="542,109,682,135"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="672,63,636,100,632,96,669,59"/>
-<area shape="rect" id="Node000019" href="$d6/d1d/image__aligner_8hpp.html" title=" " alt="" coords="707,109,861,135"/>
+<area shape="rect" id="Node000019" href="$d6/d1d/image__aligner_8hpp.html" title=" " alt="" coords="706,109,861,135"/>
 <area shape="poly" id="edge6_Node000001_Node000019" title=" " alt="" coords="726,59,763,96,759,100,722,63"/>
 <area shape="rect" id="Node000025" href="$d9/dfc/image__tools_8hpp.html" title=" " alt="" coords="885,109,1029,135"/>
 <area shape="poly" id="edge7_Node000001_Node000025" title=" " alt="" coords="769,55,907,101,905,106,767,60"/>

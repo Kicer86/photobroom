@@ -1,9 +1,9 @@
 <map id="src/core/ifeatures_manager.hpp" name="src/core/ifeatures_manager.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="91,5,213,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="90,5,213,46"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,94,93,120"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,49,78,86,75,82,125,44"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="117,94,186,120"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="154,46,154,78,149,78,149,46"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="211,94,309,120"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="210,94,309,120"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="180,44,233,82,229,87,177,49"/>
 </map>

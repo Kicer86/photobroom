@@ -1,6 +1,6 @@
 <map id="lazy_connect" name="lazy_connect">
 <area shape="rect" id="Node000001" title="Create lazy Qt connection between signal and slot." alt="" coords="5,55,102,80"/>
-<area shape="rect" id="Node000002" href="$df/d97/class_signal_postponer.html#a1e89012203ce98b0f866087510ea5bf3" title=" " alt="" coords="165,5,319,31"/>
+<area shape="rect" id="Node000002" href="$df/d97/class_signal_postponer.html#a1e89012203ce98b0f866087510ea5bf3" title=" " alt="" coords="165,5,318,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,52,149,40,175,33,176,38,150,45,103,57"/>
 <area shape="rect" id="Node000003" href="$df/d97/class_signal_postponer.html#a2407134540561c3bac49039e4dda8442" title=" " alt="" coords="156,55,328,80"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="102,65,140,65,140,70,102,70"/>

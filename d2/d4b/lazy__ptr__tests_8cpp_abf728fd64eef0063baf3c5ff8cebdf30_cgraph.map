@@ -1,0 +1,5 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,60,31"/>
+<area shape="rect" id="Node000002" href="$d6/dd3/lazy__ptr_8hpp.html#a5dd422b3c0f1ccc1708a81788f5e48e4" title="Construct lazy_ptr&lt;T&gt; which will be initialized with result of C() called on first use." alt="" coords="108,5,212,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,16,92,16,92,21,60,21"/>
+</map>

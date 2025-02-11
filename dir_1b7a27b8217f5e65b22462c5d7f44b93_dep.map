@@ -1,6 +1,6 @@
 <map id="src/gui/desktop/utils" name="src/gui/desktop/utils">
 <area shape="rect" id="node1" href="dir_9f2afc37bbee63264d7dee120a37359d.html" title="quick_items" alt="" coords="598,137,689,162"/>
-<area shape="rect" id="node2" href="dir_eedf6bf7af32f88c96a361dd896f2edf.html" title="models" alt="" coords="713,137,777,162"/>
+<area shape="rect" id="node2" href="dir_eedf6bf7af32f88c96a361dd896f2edf.html" title="models" alt="" coords="713,137,776,162"/>
 <area shape="poly" id="edge6" href="dir_000054_000038.html" alt="" coords="499,84,602,128,600,133,497,89"/>
 <area shape="rect" id="edge6-headlabel" href="dir_000054_000038.html" title="1" alt="" coords="598,114,605,129"/>
 <area shape="poly" id="edge10" href="dir_000054_000031.html" alt="" coords="499,81,699,133,697,138,497,86"/>
@@ -26,7 +26,7 @@
 <area shape="rect" id="node10" href="dir_cd4256b70439b2dfe0a5064303101a2f.html" title="photos_crawler" alt="" coords="801,137,910,162"/>
 <area shape="poly" id="edge8" href="dir_000054_000033.html" alt="" coords="499,79,786,132,785,138,498,84"/>
 <area shape="rect" id="edge8-headlabel" href="dir_000054_000033.html" title="4" alt="" coords="780,119,787,134"/>
-<area shape="rect" id="node11" href="dir_d501334aeb1b78ad67cd3c72c37b1e87.html" title="system" alt="" coords="553,210,617,236"/>
+<area shape="rect" id="node11" href="dir_d501334aeb1b78ad67cd3c72c37b1e87.html" title="system" alt="" coords="553,210,616,236"/>
 <area shape="poly" id="edge9" href="dir_000054_000042.html" alt="" coords="498,76,732,95,857,112,900,123,924,135,932,147,935,160,932,173,924,186,909,194,882,200,803,211,632,223,632,217,803,206,881,195,907,189,920,182,928,171,930,160,927,149,920,139,898,128,856,117,732,100,498,81"/>
 <area shape="rect" id="edge9-headlabel" href="dir_000054_000042.html" title="4" alt="" coords="632,221,639,236"/>
 <area shape="poly" id="edge11" href="dir_000013_000004.html" alt="" coords="528,164,502,199,498,196,523,161"/>

@@ -14,43 +14,43 @@
 <area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="563,712,550,644,526,557,508,511,485,466,458,425,426,388,410,375,413,371,430,384,463,421,490,464,513,509,531,555,555,642,568,711"/>
 <area shape="rect" id="Node000008" href="$da/dd9/class_database_1_1_photo_operator.html#a97a04c554ea0e4b9fbadbcc3036a9456" title=" " alt="" coords="251,397,418,438"/>
 <area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="559,712,543,656,517,586,478,515,454,482,426,453,409,441,412,436,430,449,458,479,483,512,521,584,548,654,564,711"/>
-<area shape="rect" id="Node000009" href="$da/dd9/class_database_1_1_photo_operator.html#afb2efaf2200feb697c51bf35dad19e3d" title=" " alt="" coords="251,463,418,503"/>
-<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="554,713,535,669,507,617,471,564,426,518,407,506,410,502,430,514,475,561,512,614,540,667,559,711"/>
-<area shape="rect" id="Node000016" href="$da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0" title="find all photos matching filters" alt="" coords="251,528,418,569"/>
-<area shape="poly" id="edge9_Node000001_Node000016" title=" " alt="" coords="545,715,494,652,462,619,426,589,395,571,398,567,430,585,466,615,498,649,549,712"/>
-<area shape="rect" id="Node000019" href="$da/dd9/class_database_1_1_photo_operator.html#ab246a44fbe0bef5f8eab10150b74c7c8" title=" " alt="" coords="251,5,418,46"/>
-<area shape="poly" id="edge10_Node000001_Node000019" title=" " alt="" coords="564,711,550,570,523,375,504,276,482,186,456,112,441,83,426,61,412,49,415,45,430,57,446,80,461,109,487,184,510,275,528,374,555,569,569,711"/>
-<area shape="rect" id="Node000020" href="$da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" title=" " alt="" coords="16,296,182,337"/>
-<area shape="poly" id="edge23_Node000001_Node000020" title=" " alt="" coords="527,720,480,688,427,657,374,637,329,627,286,614,263,601,239,582,211,554,186,521,147,452,120,387,103,338,109,336,125,385,152,450,191,518,215,550,242,578,266,597,288,609,330,622,375,632,429,653,483,684,530,715"/>
-<area shape="rect" id="Node000022" href="$d5/d6b/class_database_1_1_group_operator.html#a7769ec373316878bf78bf5c8615438cf" title=" " alt="" coords="251,693,418,734"/>
-<area shape="poly" id="edge12_Node000001_Node000022" title=" " alt="" coords="460,734,418,728,419,723,461,729"/>
-<area shape="rect" id="Node000023" href="$db/dd9/class_database_1_1_people_information_accessor.html#a2fbbd2e205b5ea165f13d6990cce5acd" title="list all people names" alt="" coords="241,759,428,799"/>
-<area shape="poly" id="edge13_Node000001_Node000023" title=" " alt="" coords="461,765,429,769,428,764,460,759"/>
-<area shape="rect" id="Node000024" href="$db/dd9/class_database_1_1_people_information_accessor.html#a176ddb886b5d84ba4714f5f317713499" title="list people on photo" alt="" coords="241,824,428,865"/>
-<area shape="poly" id="edge14_Node000001_Node000024" title=" " alt="" coords="513,777,429,813,396,826,395,821,427,809,511,772"/>
-<area shape="rect" id="Node000025" href="$d5/d6b/class_database_1_1_group_operator.html#a6bbdf8576bf3ee2b776b83145de18f6a" title=" " alt="" coords="251,1093,418,1134"/>
-<area shape="poly" id="edge15_Node000001_Node000025" title=" " alt="" coords="566,783,552,847,527,927,509,969,487,1010,461,1048,430,1082,412,1095,409,1091,426,1078,456,1045,482,1007,504,966,522,925,547,845,561,782"/>
-<area shape="rect" id="Node000026" href="$d5/d6b/class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315" title=" " alt="" coords="15,1036,183,1077"/>
-<area shape="poly" id="edge21_Node000001_Node000026" title=" " alt="" coords="559,782,540,825,512,875,475,925,430,968,382,994,340,1004,296,1008,241,1019,174,1038,172,1033,240,1014,295,1003,339,999,380,989,426,964,471,922,507,872,535,823,554,780"/>
-<area shape="rect" id="Node000027" href="$da/dd9/class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8" title=" " alt="" coords="251,1028,418,1069"/>
-<area shape="poly" id="edge17_Node000001_Node000027" title=" " alt="" coords="561,783,543,833,516,894,478,956,455,986,430,1012,403,1030,400,1025,426,1008,451,982,474,953,511,891,538,831,556,781"/>
-<area shape="rect" id="Node000028" href="$db/dd9/class_database_1_1_people_information_accessor.html#a68e4ff266d1c8a9b2ada19811c972ea7" title="get person name for given person id" alt="" coords="241,1469,428,1510"/>
-<area shape="poly" id="edge18_Node000001_Node000028" title=" " alt="" coords="569,783,556,928,530,1130,511,1232,488,1326,462,1404,446,1434,430,1458,415,1471,412,1467,426,1455,442,1432,457,1402,483,1325,506,1231,524,1129,551,928,564,783"/>
-<area shape="rect" id="Node000029" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,1256,193,1297"/>
-<area shape="poly" id="edge25_Node000001_Node000029" title=" " alt="" coords="570,783,561,859,538,957,520,1009,496,1059,467,1106,430,1148,406,1166,384,1176,341,1183,295,1185,270,1190,242,1199,183,1228,133,1258,130,1253,180,1223,240,1194,268,1185,294,1180,340,1178,382,1171,404,1161,426,1144,462,1103,492,1057,515,1007,533,956,555,858,565,783"/>
-<area shape="rect" id="Node000030" href="$db/dd9/class_database_1_1_people_information_accessor.html#aee53756b81c637299211ed693d54583a" title="get person name structure for person name" alt="" coords="241,1208,428,1249"/>
-<area shape="poly" id="edge20_Node000001_Node000030" title=" " alt="" coords="570,783,562,865,539,973,521,1031,498,1088,467,1143,430,1192,406,1210,403,1205,426,1188,463,1140,493,1086,516,1029,534,972,556,864,565,783"/>
-<area shape="rect" id="Node000031" href="$da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" title=" " alt="" coords="251,1273,418,1314"/>
-<area shape="poly" id="edge22_Node000001_Node000031" title=" " alt="" coords="573,783,569,877,562,938,550,1005,532,1073,507,1141,473,1205,430,1262,414,1275,411,1271,426,1258,469,1202,502,1139,527,1072,545,1003,556,937,563,877,567,783"/>
-<area shape="rect" id="Node000033" href="$db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" title="Store person&#39;s fingerprint in db." alt="" coords="241,1339,428,1379"/>
-<area shape="poly" id="edge24_Node000001_Node000033" title=" " alt="" coords="568,783,551,904,521,1066,503,1148,481,1223,457,1285,430,1327,415,1340,411,1336,426,1324,452,1282,476,1221,497,1147,516,1065,545,903,562,782"/>
-<area shape="rect" id="Node000034" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="241,1404,428,1445"/>
-<area shape="poly" id="edge26_Node000001_Node000034" title=" " alt="" coords="569,783,553,916,526,1098,507,1190,485,1275,459,1344,445,1372,430,1393,415,1406,411,1402,426,1389,441,1369,454,1342,480,1273,502,1189,520,1097,548,916,563,782"/>
-<area shape="rect" id="Node000035" href="$d5/d6b/class_database_1_1_group_operator.html#a2055bf7c5525db5b31eef31573816f16" title=" " alt="" coords="251,913,418,954"/>
-<area shape="poly" id="edge27_Node000001_Node000035" title=" " alt="" coords="541,780,490,828,430,878,374,915,371,911,426,874,486,824,537,776"/>
-<area shape="poly" id="edge11_Node000019_Node000020" title=" " alt="" coords="248,56,242,61,215,88,191,119,152,185,125,248,109,296,104,295,120,246,147,183,187,116,211,85,239,57,245,52"/>
-<area shape="poly" id="edge16_Node000025_Node000026" title=" " alt="" coords="235,1092,183,1079,184,1074,236,1087"/>
-<area shape="poly" id="edge19_Node000028_Node000029" title=" " alt="" coords="247,1464,239,1458,196,1420,159,1376,109,1299,114,1296,163,1373,200,1416,242,1454,250,1460"/>
-<area shape="poly" id="edge28_Node000035_Node000002" title=" " alt="" coords="281,908,136,826,139,822,284,903"/>
-<area shape="poly" id="edge29_Node000035_Node000035" title=" " alt="" coords="373,900,358,894,334,892,312,894,298,899,293,905,295,912,290,913,288,903,295,894,311,889,334,887,360,889,375,895"/>
+<area shape="rect" id="Node000017" href="$da/dd9/class_database_1_1_photo_operator.html#afb2efaf2200feb697c51bf35dad19e3d" title=" " alt="" coords="251,463,418,503"/>
+<area shape="poly" id="edge8_Node000001_Node000017" title=" " alt="" coords="554,713,535,669,507,617,471,564,426,518,407,506,410,502,430,514,475,561,512,614,540,667,559,711"/>
+<area shape="rect" id="Node000024" href="$da/dd9/class_database_1_1_photo_operator.html#a24e714e7dd4bd6cd962c8231ce1081f0" title="find all photos matching filters" alt="" coords="251,528,418,569"/>
+<area shape="poly" id="edge9_Node000001_Node000024" title=" " alt="" coords="545,715,494,652,462,619,426,589,395,571,398,567,430,585,466,615,498,649,549,712"/>
+<area shape="rect" id="Node000026" href="$da/dd9/class_database_1_1_photo_operator.html#ab246a44fbe0bef5f8eab10150b74c7c8" title=" " alt="" coords="251,5,418,46"/>
+<area shape="poly" id="edge10_Node000001_Node000026" title=" " alt="" coords="564,711,550,570,523,375,504,276,482,186,456,112,441,83,426,61,412,49,415,45,430,57,446,80,461,109,487,184,510,275,528,374,555,569,569,711"/>
+<area shape="rect" id="Node000027" href="$da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7" title=" " alt="" coords="16,296,182,337"/>
+<area shape="poly" id="edge23_Node000001_Node000027" title=" " alt="" coords="528,720,480,687,427,656,374,636,329,626,286,614,263,601,239,582,211,554,186,521,147,452,120,387,103,338,109,336,125,385,152,450,191,518,215,550,242,578,266,597,288,609,330,621,375,631,429,651,483,683,531,715"/>
+<area shape="rect" id="Node000029" href="$d5/d6b/class_database_1_1_group_operator.html#a7769ec373316878bf78bf5c8615438cf" title=" " alt="" coords="251,693,418,734"/>
+<area shape="poly" id="edge12_Node000001_Node000029" title=" " alt="" coords="460,734,418,728,419,723,461,729"/>
+<area shape="rect" id="Node000030" href="$db/dd9/class_database_1_1_people_information_accessor.html#a2fbbd2e205b5ea165f13d6990cce5acd" title="list all people names" alt="" coords="241,759,428,799"/>
+<area shape="poly" id="edge13_Node000001_Node000030" title=" " alt="" coords="461,765,429,769,428,764,460,759"/>
+<area shape="rect" id="Node000031" href="$db/dd9/class_database_1_1_people_information_accessor.html#a176ddb886b5d84ba4714f5f317713499" title="list people on photo" alt="" coords="241,824,428,865"/>
+<area shape="poly" id="edge14_Node000001_Node000031" title=" " alt="" coords="513,777,429,813,396,826,395,821,427,809,511,772"/>
+<area shape="rect" id="Node000032" href="$d5/d6b/class_database_1_1_group_operator.html#a6bbdf8576bf3ee2b776b83145de18f6a" title=" " alt="" coords="251,1093,418,1134"/>
+<area shape="poly" id="edge15_Node000001_Node000032" title=" " alt="" coords="566,783,552,847,527,927,509,969,487,1010,461,1048,430,1082,412,1095,409,1091,426,1078,456,1045,482,1007,504,966,522,925,547,845,561,782"/>
+<area shape="rect" id="Node000033" href="$d5/d6b/class_database_1_1_group_operator.html#a44f76a88b5837cadec2a921400d33315" title=" " alt="" coords="15,1032,183,1073"/>
+<area shape="poly" id="edge21_Node000001_Node000033" title=" " alt="" coords="559,782,540,825,512,875,475,925,429,968,182,1034,180,1029,427,963,471,922,507,872,535,823,554,780"/>
+<area shape="rect" id="Node000034" href="$da/dd9/class_database_1_1_photo_operator.html#a11ebda997af505db297a41f52b3678b8" title=" " alt="" coords="251,1028,418,1069"/>
+<area shape="poly" id="edge17_Node000001_Node000034" title=" " alt="" coords="561,783,543,833,516,894,478,956,455,986,430,1012,403,1030,400,1025,426,1008,451,982,474,953,511,891,538,831,556,781"/>
+<area shape="rect" id="Node000035" href="$db/dd9/class_database_1_1_people_information_accessor.html#a68e4ff266d1c8a9b2ada19811c972ea7" title="get person name for given person id" alt="" coords="241,1469,428,1510"/>
+<area shape="poly" id="edge18_Node000001_Node000035" title=" " alt="" coords="569,783,556,928,530,1130,511,1232,488,1326,462,1404,446,1434,430,1458,415,1471,412,1467,426,1455,442,1432,457,1402,483,1325,506,1231,524,1129,551,928,564,783"/>
+<area shape="rect" id="Node000036" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,1252,193,1293"/>
+<area shape="poly" id="edge25_Node000001_Node000036" title=" " alt="" coords="570,783,561,859,538,957,520,1009,496,1059,467,1106,430,1148,406,1166,384,1176,341,1184,295,1186,270,1190,242,1199,184,1226,135,1254,132,1249,182,1221,240,1194,268,1185,295,1181,340,1178,382,1171,404,1161,426,1144,462,1103,492,1057,515,1007,533,956,555,858,565,783"/>
+<area shape="rect" id="Node000037" href="$db/dd9/class_database_1_1_people_information_accessor.html#aee53756b81c637299211ed693d54583a" title="get person name structure for person name" alt="" coords="241,1208,428,1249"/>
+<area shape="poly" id="edge20_Node000001_Node000037" title=" " alt="" coords="570,783,562,865,539,973,521,1031,498,1088,467,1143,430,1192,406,1210,403,1205,426,1188,463,1140,493,1086,516,1029,534,972,556,864,565,783"/>
+<area shape="rect" id="Node000038" href="$da/dd9/class_database_1_1_photo_operator.html#aa20daa3c872e4ad5967ab436e93b42c1" title=" " alt="" coords="251,1273,418,1314"/>
+<area shape="poly" id="edge22_Node000001_Node000038" title=" " alt="" coords="573,783,569,877,562,938,550,1005,532,1073,507,1141,473,1205,430,1262,414,1275,411,1271,426,1258,469,1202,502,1139,527,1072,545,1003,556,937,563,877,567,783"/>
+<area shape="rect" id="Node000040" href="$db/dd9/class_database_1_1_people_information_accessor.html#a8be620fc54575a4fc1c7134df636a64a" title="Store person&#39;s fingerprint in db." alt="" coords="241,1339,428,1379"/>
+<area shape="poly" id="edge24_Node000001_Node000040" title=" " alt="" coords="568,783,551,904,521,1066,503,1148,481,1223,457,1285,430,1327,415,1340,411,1336,426,1324,452,1282,476,1221,497,1147,516,1065,545,903,562,782"/>
+<area shape="rect" id="Node000041" href="$db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd" title="store or update person details in database" alt="" coords="241,1404,428,1445"/>
+<area shape="poly" id="edge26_Node000001_Node000041" title=" " alt="" coords="569,783,553,916,526,1098,507,1190,485,1275,459,1344,445,1372,430,1393,415,1406,411,1402,426,1389,441,1369,454,1342,480,1273,502,1189,520,1097,548,916,563,782"/>
+<area shape="rect" id="Node000042" href="$d5/d6b/class_database_1_1_group_operator.html#a2055bf7c5525db5b31eef31573816f16" title=" " alt="" coords="251,913,418,954"/>
+<area shape="poly" id="edge27_Node000001_Node000042" title=" " alt="" coords="541,780,490,828,430,878,374,915,371,911,426,874,486,824,537,776"/>
+<area shape="poly" id="edge11_Node000026_Node000027" title=" " alt="" coords="248,56,242,61,215,88,191,119,152,185,125,248,109,296,104,295,120,246,147,183,187,116,211,85,239,57,245,52"/>
+<area shape="poly" id="edge16_Node000032_Node000033" title=" " alt="" coords="238,1091,179,1076,180,1071,239,1086"/>
+<area shape="poly" id="edge19_Node000035_Node000036" title=" " alt="" coords="247,1464,239,1458,195,1419,158,1373,129,1330,109,1294,113,1292,133,1327,162,1370,199,1415,242,1454,250,1460"/>
+<area shape="poly" id="edge28_Node000042_Node000002" title=" " alt="" coords="281,908,136,826,139,822,284,903"/>
+<area shape="poly" id="edge29_Node000042_Node000042" title=" " alt="" coords="373,900,358,894,334,892,312,894,298,899,293,905,295,912,290,913,288,903,295,894,311,889,334,887,360,889,375,895"/>
 </map>

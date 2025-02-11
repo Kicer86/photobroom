@@ -1,6 +1,6 @@
 <map id="QModelIndexSelectorTest" name="QModelIndexSelectorTest">
-<area shape="rect" id="Node000001" title=" " alt="" coords="51,109,223,135"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,13,98,39"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="51,109,222,135"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,13,98,38"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="74,48,128,107,124,110,70,52"/>
 <area shape="rect" id="Node000003" title=" " alt="" coords="122,5,325,46"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="197,59,150,111,146,107,193,55"/>

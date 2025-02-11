@@ -1,9 +1,9 @@
 <map id="ol::TS_Queue::wait_for_data" name="ol::TS_Queue::wait_for_data">
 <area shape="rect" id="Node000001" title="Wait until data is available." alt="" coords="374,29,503,70"/>
 <area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="469,16,458,10,439,8,421,10,410,15,406,20,408,28,403,29,401,19,407,10,420,5,439,3,459,5,471,11"/>
-<area shape="rect" id="Node000002" href="$de/d64/struct_task_executor.html#af4d3c0895333064d125202402bfe924e" title=" " alt="" coords="5,37,130,63"/>
+<area shape="rect" id="Node000002" href="$de/d64/struct_task_executor.html#af4d3c0895333064d125202402bfe924e" title=" " alt="" coords="5,37,130,62"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="358,32,326,27,252,21,178,27,117,39,116,34,177,22,252,16,326,22,359,27"/>
-<area shape="rect" id="Node000004" href="$d2/d36/classol_1_1_t_s___queue.html#af04d57c2821371b697f828444adfb762" title="Get data." alt="" coords="189,37,315,63"/>
+<area shape="rect" id="Node000004" href="$d2/d36/classol_1_1_t_s___queue.html#af04d57c2821371b697f828444adfb762" title="Get data." alt="" coords="189,37,315,62"/>
 <area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="359,52,315,52,315,47,359,47"/>
 <area shape="rect" id="Node000005" href="$d2/d36/classol_1_1_t_s___queue.html#a84aa50c15e60d6b0cc74a7c91b4854bc" title="Get data." alt="" coords="178,86,326,112"/>
 <area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="360,73,304,88,302,83,358,68"/>

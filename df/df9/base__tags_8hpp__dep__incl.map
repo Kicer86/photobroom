@@ -1,29 +1,29 @@
 <map id="src/core/base_tags.hpp" name="src/core/base_tags.hpp">
 <area shape="rect" id="Node000001" title=" " alt="" coords="1162,5,1318,31"/>
-<area shape="rect" id="Node000002" href="$d0/d68/aexif__reader_8cpp.html" title=" " alt="" coords="5,87,166,127"/>
+<area shape="rect" id="Node000002" href="$d0/d68/aexif__reader_8cpp.html" title=" " alt="" coords="5,86,166,127"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1147,25,648,44,376,60,263,70,178,82,147,88,146,83,177,76,263,65,375,55,647,39,1146,19"/>
-<area shape="rect" id="Node000003" href="$d7/dcd/base__tags_8cpp.html" title=" " alt="" coords="189,87,350,127"/>
+<area shape="rect" id="Node000003" href="$d7/dcd/base__tags_8cpp.html" title=" " alt="" coords="189,86,350,127"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1147,22,996,25,800,34,581,52,470,65,362,82,332,88,330,83,361,76,470,60,581,46,800,28,996,19,1147,17"/>
-<area shape="rect" id="Node000004" href="$d1/df4/exiv2__exif__reader_8cpp.html" title=" " alt="" coords="373,87,534,127"/>
+<area shape="rect" id="Node000004" href="$d1/df4/exiv2__exif__reader_8cpp.html" title=" " alt="" coords="373,86,534,127"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="1147,24,1026,30,876,40,711,57,546,82,516,88,515,83,545,76,710,51,875,35,1026,24,1146,19"/>
-<area shape="rect" id="Node000005" href="$dd/d72/tag_8cpp.html" title=" " alt="" coords="557,87,718,127"/>
+<area shape="rect" id="Node000005" href="$dd/d72/tag_8cpp.html" title=" " alt="" coords="557,86,718,127"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="1146,29,954,47,842,62,731,82,702,88,701,83,730,76,841,57,953,42,1146,23"/>
 <area shape="rect" id="Node000006" href="$d4/dad/actions_8hpp.html" title=" " alt="" coords="742,94,909,120"/>
 <area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="1151,37,922,82,867,96,866,91,921,76,1150,31"/>
-<area shape="rect" id="Node000034" href="$da/d74/sql__backend_8cpp.html" title=" " alt="" coords="933,87,1139,127"/>
+<area shape="rect" id="Node000034" href="$da/d74/sql__backend_8cpp.html" title=" " alt="" coords="933,86,1139,127"/>
 <area shape="poly" id="edge6_Node000001_Node000034" title=" " alt="" coords="1198,40,1084,88,1081,84,1196,35"/>
 <area shape="rect" id="Node000051" href="$d8/d41/tag__info__collector_8cpp.html" title=" " alt="" coords="1164,79,1317,135"/>
 <area shape="poly" id="edge7_Node000001_Node000051" title=" " alt="" coords="1243,47,1243,78,1238,78,1238,47"/>
-<area shape="rect" id="Node000052" href="$d3/dde/aphoto__change__log__operator_8cpp.html" title=" " alt="" coords="1341,87,1556,127"/>
+<area shape="rect" id="Node000052" href="$d3/dde/aphoto__change__log__operator_8cpp.html" title=" " alt="" coords="1340,86,1556,127"/>
 <area shape="poly" id="edge8_Node000001_Node000052" title=" " alt="" coords="1284,35,1402,84,1400,88,1282,40"/>
-<area shape="rect" id="Node000048" href="$dd/d27/tag__info__collector__tests_8cpp.html" title=" " alt="" coords="1580,87,1767,127"/>
+<area shape="rect" id="Node000048" href="$dd/d27/tag__info__collector__tests_8cpp.html" title=" " alt="" coords="1580,86,1767,127"/>
 <area shape="poly" id="edge9_Node000001_Node000048" title=" " alt="" coords="1331,32,1569,76,1599,83,1598,89,1568,82,1330,37"/>
 <area shape="rect" id="Node000022" href="$d7/d06/photos__change__log__tests_8cpp.html" title=" " alt="" coords="1792,79,1990,135"/>
 <area shape="poly" id="edge10_Node000001_Node000022" title=" " alt="" coords="1334,24,1539,43,1659,58,1779,76,1792,79,1791,84,1778,82,1659,63,1538,49,1333,29"/>
-<area shape="rect" id="Node000053" href="$db/d3f/tags__model_8cpp.html" title=" " alt="" coords="2014,87,2170,127"/>
+<area shape="rect" id="Node000053" href="$db/d3f/tags__model_8cpp.html" title=" " alt="" coords="2014,86,2170,127"/>
 <area shape="poly" id="edge11_Node000001_Node000053" title=" " alt="" coords="1334,18,1466,22,1633,32,1817,49,2002,76,2032,83,2031,89,2001,82,1817,55,1632,37,1466,28,1334,23"/>
-<area shape="rect" id="Node000054" href="$de/d58/tag__value__model_8cpp.html" title=" " alt="" coords="2195,87,2342,127"/>
+<area shape="rect" id="Node000054" href="$de/d58/tag__value__model_8cpp.html" title=" " alt="" coords="2194,86,2342,127"/>
 <area shape="poly" id="edge12_Node000001_Node000054" title=" " alt="" coords="1334,20,1775,40,2011,56,2183,76,2212,83,2211,89,2182,82,2011,61,1775,45,1334,25"/>
-<area shape="rect" id="Node000055" href="$db/d98/project__manager_8cpp.html" title=" " alt="" coords="2366,87,2571,127"/>
+<area shape="rect" id="Node000055" href="$db/d98/project__manager_8cpp.html" title=" " alt="" coords="2366,86,2571,127"/>
 <area shape="poly" id="edge13_Node000001_Node000055" title=" " alt="" coords="1334,16,1522,18,1775,27,2063,45,2210,59,2354,76,2393,83,2392,89,2353,82,2210,64,2063,50,1775,32,1522,24,1334,22"/>
 </map>

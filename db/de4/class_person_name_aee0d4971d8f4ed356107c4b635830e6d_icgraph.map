@@ -1,17 +1,17 @@
 <map id="PersonName::name" name="PersonName::name">
-<area shape="rect" id="Node000001" title=" " alt="" coords="241,177,376,203"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="241,177,376,202"/>
 <area shape="rect" id="Node000002" href="$da/dba/class_database_1_1_memory_backend.html#a9d9d28d5c6ca50aec66b845a364124a2" title="Add photos to database." alt="" coords="9,5,189,46"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="289,166,248,112,221,84,191,60,171,49,174,44,194,55,225,80,252,109,293,162"/>
 <area shape="rect" id="Node000003" href="$d0/d9c/struct_face.html#ae7024cf8d5fd6eb1e3bc37d0a75699d3" title=" " alt="" coords="55,70,143,96"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="280,169,240,138,192,109,143,93,145,88,194,105,243,134,283,165"/>
 <area shape="rect" id="Node000005" href="$d3/d26/class_recognizer.html#a1a2b710f9d3e7d3c95c2e71c0a3eb828" title=" " alt="" coords="26,120,172,145"/>
 <area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="244,175,192,160,149,148,150,143,193,155,245,170"/>
-<area shape="rect" id="Node000006" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,169,193,210"/>
-<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="225,192,193,192,193,187,225,187"/>
-<area shape="rect" id="Node000007" href="$da/dba/class_database_1_1_memory_backend.html#a563165a3d8a9bc0e8279caaa15ac3f93" title="Store or update person." alt="" coords="9,235,189,275"/>
+<area shape="rect" id="Node000006" href="$da/dba/class_database_1_1_memory_backend.html#a563165a3d8a9bc0e8279caaa15ac3f93" title="Store or update person." alt="" coords="9,169,189,210"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="225,192,189,192,189,187,225,187"/>
+<area shape="rect" id="Node000007" href="$db/dd9/class_database_1_1_people_information_accessor.html#af10e7de8ef1a429f012b226665005c91" title="Store or update person." alt="" coords="5,235,193,275"/>
 <area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="251,210,167,237,166,232,249,205"/>
 <area shape="rect" id="Node000008" href="$d1/de3/people__tests_8cpp.html#aaa177c56d8fb1e37af5836354e47175e" title=" " alt="" coords="47,300,151,325"/>
 <area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="287,216,246,254,194,289,153,305,151,300,191,285,243,249,283,212"/>
-<area shape="rect" id="Node000009" href="$d1/de3/people__tests_8cpp.html#a97345afb0f60799babf73c6a1e822e9e" title=" " alt="" coords="47,349,151,375"/>
+<area shape="rect" id="Node000009" href="$d1/de3/people__tests_8cpp.html#a97345afb0f60799babf73c6a1e822e9e" title=" " alt="" coords="47,349,151,374"/>
 <area shape="poly" id="edge7_Node000001_Node000009" title=" " alt="" coords="296,218,256,280,228,312,194,340,174,350,153,357,151,352,172,345,191,335,224,308,252,276,291,215"/>
 </map>

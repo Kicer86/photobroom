@@ -1,7 +1,7 @@
 <map id="CoreFactoryAccessor" name="CoreFactoryAccessor">
 <area shape="rect" id="Node000001" title=" " alt="" coords="297,94,443,120"/>
 <area shape="rect" id="Node000002" href="$d5/da9/struct_i_core_factory_accessor.html" title=" " alt="" coords="5,5,156,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,34,247,67,327,91,326,96,245,73,133,39"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,33,248,67,329,91,327,96,246,73,133,38"/>
 <area shape="rect" id="Node000003" href="$d1/d78/struct_i_logger_factory.html" title=" " alt="" coords="180,5,288,31"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="247,43,267,68,289,81,313,91,311,96,286,86,264,72,243,46"/>
 <area shape="rect" id="Node000004" href="$db/d10/struct_i_exif_reader_factory.html" title=" " alt="" coords="313,5,443,31"/>

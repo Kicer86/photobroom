@@ -1,6 +1,6 @@
 <map id="src/face_recognition/learning_tests" name="src/face_recognition/learning_tests">
-<area shape="rect" id="node1" href="dir_0750a411ff79567b31244e4f1cffe06d.html" title="dlib_wrapper" alt="" coords="30,126,125,152"/>
-<area shape="rect" id="node2" href="dir_7162f29db8f0349467d1883b396b0cfd.html" title="learning_tests" alt="" coords="26,52,129,78"/>
+<area shape="rect" id="node1" href="dir_0750a411ff79567b31244e4f1cffe06d.html" title="dlib_wrapper" alt="" coords="30,126,124,152"/>
+<area shape="rect" id="node2" href="dir_7162f29db8f0349467d1883b396b0cfd.html" title="learning_tests" alt="" coords="26,52,128,78"/>
 <area shape="poly" id="edge1" href="dir_000028_000011.html" alt="" coords="80,78,80,110,75,110,75,78"/>
 <area shape="rect" id="edge1-headlabel" href="dir_000028_000011.html" title="3" alt="" coords="82,100,89,115"/>
 <area shape="rect" id="node3" href="dir_7650dacaa557a89ea1c633e1722b48a3.html" title="unit_tests_utils" alt="" coords="149,126,259,152"/>

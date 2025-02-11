@@ -1,15 +1,15 @@
 <map id="Database::PhotoOperator" name="Database::PhotoOperator">
 <area shape="rect" id="Node000001" title=" " alt="" coords="390,141,556,167"/>
 <area shape="rect" id="Node000002" href="$d1/d7e/struct_database_1_1_i_photo_operator.html" title=" " alt="" coords="34,5,204,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,28,293,45,367,72,420,105,459,139,456,143,417,109,364,77,292,50,219,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="220,27,293,43,367,69,395,85,421,104,460,139,457,143,417,108,392,89,365,74,292,48,219,32"/>
 <area shape="rect" id="Node000003" href="$d9/d1b/struct_database_1_1_i_sql_query_executor.html" title=" " alt="" coords="24,55,214,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="213,81,366,116,436,138,435,143,365,121,212,86"/>
-<area shape="rect" id="Node000004" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html" title=" " alt="" coords="27,105,211,145"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="218,81,366,114,438,138,437,143,365,119,217,86"/>
+<area shape="rect" id="Node000004" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html" title=" " alt="" coords="27,104,211,145"/>
 <area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="227,131,389,145,389,150,227,136"/>
 <area shape="rect" id="Node000005" href="$df/ddd/struct_i_logger.html" title=" " alt="" coords="86,169,152,195"/>
 <area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="167,178,365,167,389,164,390,169,366,172,167,184"/>
 <area shape="rect" id="Node000006" href="$d2/ddd/struct_database_1_1_i_backend.html" title="Low level database interface." alt="" coords="50,219,188,244"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="203,223,282,213,365,196,407,181,444,165,446,170,409,186,366,201,283,218,203,228"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="203,222,282,212,365,195,406,181,443,165,445,170,408,186,366,200,283,217,203,228"/>
 <area shape="rect" id="Node000008" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="5,268,233,294"/>
-<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="247,270,307,257,365,237,393,221,419,202,458,165,462,169,422,206,396,226,367,242,308,262,248,275"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="247,269,307,256,365,236,393,221,418,202,457,166,461,169,422,206,395,225,367,241,308,261,248,274"/>
 </map>

@@ -1,7 +1,7 @@
 <map id="Database::MySqlBackend" name="Database::MySqlBackend">
 <area shape="rect" id="Node000001" title=" " alt="" coords="99,94,268,120"/>
-<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html" title=" " alt="" coords="5,13,167,39"/>
+<area shape="rect" id="Node000002" href="$d5/d1b/class_database_1_1_a_sql_backend.html" title=" " alt="" coords="5,13,167,38"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,46,170,91,167,96,111,50"/>
-<area shape="rect" id="Node000005" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html" title=" " alt="" coords="191,5,371,46"/>
+<area shape="rect" id="Node000005" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html" title=" " alt="" coords="190,5,371,46"/>
 <area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="247,58,200,95,197,91,243,54"/>
 </map>

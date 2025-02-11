@@ -1,9 +1,9 @@
 <map id="Database::NotificationsAccumulator::photosModifiedSignal" name="Database::NotificationsAccumulator::photosModifiedSignal">
-<area shape="rect" id="Node000001" title=" " alt="" coords="383,177,610,217"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="383,176,610,217"/>
 <area shape="rect" id="Node000002" href="$d2/deb/class_database_1_1_notifications_accumulator.html#add8fa9f57c069ec1f5710088b72d4b12" title=" " alt="" coords="108,147,335,188"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="367,186,335,182,336,177,368,180"/>
 <area shape="rect" id="Node000004" href="$d7/d64/notifications__accumulator__tests_8cpp.html#a02ed24c72b3cb6ac497c2c01c5dcafe3" title=" " alt="" coords="5,5,60,31"/>
-<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="461,168,404,122,370,99,334,81,259,54,181,37,112,27,60,22,60,17,112,22,182,32,260,49,336,76,373,95,407,118,464,164"/>
+<area shape="poly" id="edge9_Node000001_Node000004" title=" " alt="" coords="462,168,405,121,370,98,334,79,259,53,181,36,112,26,60,22,60,17,112,21,182,31,260,48,336,74,373,94,408,117,465,164"/>
 <area shape="rect" id="Node000005" href="$d7/d64/notifications__accumulator__tests_8cpp.html#a08f763b018eac5d9330011721d9c84aa" title=" " alt="" coords="5,64,60,90"/>
 <area shape="poly" id="edge10_Node000001_Node000005" title=" " alt="" coords="450,170,396,141,334,115,258,97,181,86,60,79,60,74,181,81,259,92,336,110,398,136,453,166"/>
 <area shape="rect" id="Node000006" href="$d7/d64/notifications__accumulator__tests_8cpp.html#ad6b422e8a242b30e94ad177e48cb6ad1" title=" " alt="" coords="5,129,60,155"/>

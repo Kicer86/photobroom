@@ -1,5 +1,15 @@
 <map id="Photo::ExplicitDelta::has" name="Photo::ExplicitDelta::has">
-<area shape="rect" id="Node000001" title=" " alt="" coords="186,13,345,39"/>
-<area shape="rect" id="Node000002" href="$db/d29/class_photo_1_1_explicit_delta.html#a95d074f58abb01db61cc054f5555eda9" title=" " alt="" coords="5,5,138,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,28,138,28,138,23,170,23"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="210,149,369,174"/>
+<area shape="rect" id="Node000002" href="$db/d29/class_photo_1_1_explicit_delta.html#a1517d37189a750df063e7bbc7a831d77" title=" " alt="" coords="17,5,150,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="262,140,217,100,160,60,139,49,142,44,163,55,220,96,266,136"/>
+<area shape="rect" id="Node000003" href="$db/d29/class_photo_1_1_explicit_delta.html#a798c20babb6f45b46348df7bb7facd14" title=" " alt="" coords="5,70,162,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="244,144,161,109,130,99,131,94,163,105,246,139"/>
+<area shape="rect" id="Node000004" href="$db/d29/class_photo_1_1_explicit_delta.html#aa17dc0e526caaa840d26a44e3b0d9b40" title=" " alt="" coords="5,120,162,145"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="194,151,162,146,163,141,195,146"/>
+<area shape="rect" id="Node000014" href="$db/d29/class_photo_1_1_explicit_delta.html#a408a410342d25abd2215cc1f4a960d28" title=" " alt="" coords="17,169,150,210"/>
+<area shape="poly" id="edge4_Node000001_Node000014" title=" " alt="" coords="195,177,150,183,150,178,194,172"/>
+<area shape="rect" id="Node000015" href="$db/d29/class_photo_1_1_explicit_delta.html#aa6f46f8207069282cf9e636a5499af89" title=" " alt="" coords="17,235,150,275"/>
+<area shape="poly" id="edge5_Node000001_Node000015" title=" " alt="" coords="248,184,163,224,135,237,133,232,161,219,246,179"/>
+<area shape="rect" id="Node000016" href="$db/d29/class_photo_1_1_explicit_delta.html#a95d074f58abb01db61cc054f5555eda9" title=" " alt="" coords="17,300,150,341"/>
+<area shape="poly" id="edge6_Node000001_Node000016" title=" " alt="" coords="270,189,224,238,163,289,141,302,139,297,160,285,220,234,266,185"/>
 </map>

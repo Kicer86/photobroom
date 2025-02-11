@@ -10,7 +10,7 @@
 <area shape="poly" id="edge16_Node000054_Node000055" title=" " alt="" coords="158,1901,299,1928,298,1933,157,1906"/>
 <area shape="rect" id="Node000053" href="$d4/d11/class_main_tab_controller.html" title=" " alt="" coords="295,1831,422,1856"/>
 <area shape="poly" id="edge17_Node000054_Node000053" title=" " alt="" coords="157,1879,294,1853,295,1858,158,1885"/>
-<area shape="rect" id="Node000014" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html" title=" " alt="" coords="266,2619,451,2660"/>
+<area shape="rect" id="Node000014" href="$d1/d71/struct_database_1_1_i_generic_sql_query_generator.html" title=" " alt="" coords="266,2619,450,2660"/>
 <area shape="rect" id="Node000011" href="$d0/d6d/class_database_1_1_generic_sql_query_constructor.html" title=" " alt="" coords="544,2619,724,2660"/>
 <area shape="poly" id="edge18_Node000014_Node000011" title=" " alt="" coords="466,2637,543,2637,543,2642,466,2642"/>
 <area shape="rect" id="Node000010" href="$de/db1/class_database_1_1_my_sql_backend.html" title=" " alt="" coords="817,1747,987,1772"/>
@@ -20,21 +20,21 @@
 <area shape="rect" id="Node000013" href="$d1/dff/struct_generic_sql_query_constructor_impl.html" title=" " alt="" coords="796,2627,1008,2652"/>
 <area shape="poly" id="edge21_Node000011_Node000013" title=" " alt="" coords="740,2637,796,2637,796,2642,740,2642"/>
 <area shape="rect" id="Node000016" href="$d8/d5e/struct_database_1_1_i_group_operator.html" title=" " alt="" coords="273,2307,444,2332"/>
-<area shape="rect" id="Node000017" href="$d5/d6b/class_database_1_1_group_operator.html" title=" " alt="" coords="551,2307,718,2332"/>
+<area shape="rect" id="Node000017" href="$d5/d6b/class_database_1_1_group_operator.html" title=" " alt="" coords="550,2307,718,2332"/>
 <area shape="poly" id="edge22_Node000016_Node000017" title=" " alt="" coords="460,2317,550,2317,550,2322,460,2322"/>
-<area shape="rect" id="Node000015" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="545,2356,724,2382"/>
+<area shape="rect" id="Node000015" href="$da/dba/class_database_1_1_memory_backend.html" title="memory based backend" alt="" coords="544,2356,724,2382"/>
 <area shape="poly" id="edge23_Node000016_Node000015" title=" " alt="" coords="450,2333,559,2353,558,2358,449,2338"/>
 <area shape="rect" id="Node000080" href="$d2/d3e/struct_i_media_notification.html" title=" " alt="" coords="38,1781,164,1807"/>
 <area shape="rect" id="Node000079" href="$d3/d3d/class_photos_collector.html" title=" " alt="" coords="302,1781,415,1807"/>
 <area shape="poly" id="edge24_Node000080_Node000079" title=" " alt="" coords="179,1792,301,1792,301,1797,179,1797"/>
-<area shape="rect" id="Node000020" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html" title=" " alt="" coords="5,2249,197,2289"/>
-<area shape="rect" id="Node000018" href="$db/d61/class_database_1_1_a_people_information_accessor.html" title=" " alt="" coords="260,2242,457,2283"/>
+<area shape="rect" id="Node000020" href="$d1/d8a/class_database_1_1_i_people_information_accessor.html" title=" " alt="" coords="5,2248,197,2289"/>
+<area shape="rect" id="Node000018" href="$db/d61/class_database_1_1_a_people_information_accessor.html" title=" " alt="" coords="260,2242,456,2282"/>
 <area shape="poly" id="edge25_Node000020_Node000018" title=" " alt="" coords="212,2263,259,2262,260,2267,212,2269"/>
 <area shape="poly" id="edge26_Node000018_Node000015" title=" " alt="" coords="465,2287,474,2292,489,2305,498,2318,507,2331,521,2343,545,2353,543,2358,519,2347,503,2335,494,2321,485,2309,470,2296,462,2292"/>
-<area shape="rect" id="Node000019" href="$db/dd9/class_database_1_1_people_information_accessor.html" title=" " alt="" coords="541,2242,728,2283"/>
+<area shape="rect" id="Node000019" href="$db/dd9/class_database_1_1_people_information_accessor.html" title=" " alt="" coords="540,2242,728,2282"/>
 <area shape="poly" id="edge27_Node000018_Node000019" title=" " alt="" coords="472,2260,540,2260,540,2265,472,2265"/>
-<area shape="rect" id="Node000023" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html" title=" " alt="" coords="8,2505,194,2545"/>
-<area shape="rect" id="Node000021" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html" title=" " alt="" coords="263,2505,454,2545"/>
+<area shape="rect" id="Node000023" href="$db/d6b/struct_database_1_1_i_photo_change_log_operator.html" title=" " alt="" coords="8,2504,194,2545"/>
+<area shape="rect" id="Node000021" href="$d0/d89/class_database_1_1_a_photo_change_log_operator.html" title=" " alt="" coords="263,2504,454,2545"/>
 <area shape="poly" id="edge28_Node000023_Node000021" title=" " alt="" coords="210,2522,262,2522,262,2528,210,2528"/>
 <area shape="poly" id="edge29_Node000021_Node000015" title=" " alt="" coords="462,2495,471,2491,485,2479,495,2468,518,2442,565,2407,608,2380,611,2384,568,2411,522,2445,499,2471,489,2483,473,2495,464,2500"/>
 <area shape="rect" id="Node000022" href="$d7/dfc/class_database_1_1_photo_change_log_operator.html" title=" " alt="" coords="543,2455,725,2496"/>
@@ -48,9 +48,9 @@
 <area shape="rect" id="Node000038" href="$dd/d9b/struct_i_task_executor_1_1_i_task.html" title=" " alt="" coords="29,2065,173,2091"/>
 <area shape="rect" id="Node000035" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html" title=" " alt="" coords="259,1979,458,2004"/>
 <area shape="poly" id="edge34_Node000038_Node000035" title=" " alt="" coords="142,2056,190,2035,244,2014,287,2002,289,2007,245,2019,192,2039,144,2061"/>
-<area shape="rect" id="Node000039" href="$d8/d8a/class_inline_task.html" title=" " alt="" coords="302,2143,415,2168"/>
+<area shape="rect" id="Node000039" href="$d8/d8a/class_inline_task.html" title=" " alt="" coords="302,2143,414,2168"/>
 <area shape="poly" id="edge37_Node000038_Node000039" title=" " alt="" coords="149,2095,245,2129,302,2143,301,2148,244,2134,147,2100"/>
-<area shape="rect" id="Node000040" href="$d0/d1f/class_observable_task_executor_1_1_task.html" title=" " alt="" coords="275,2029,442,2069"/>
+<area shape="rect" id="Node000040" href="$d0/d1f/class_observable_task_executor_1_1_task.html" title=" " alt="" coords="275,2028,442,2069"/>
 <area shape="poly" id="edge38_Node000038_Node000040" title=" " alt="" coords="188,2066,274,2056,275,2061,189,2071"/>
 <area shape="rect" id="Node000041" href="$d6/d86/struct_tasks_queue_1_1_int_task.html" title=" " alt="" coords="286,2093,431,2119"/>
 <area shape="poly" id="edge39_Node000038_Node000041" title=" " alt="" coords="189,2085,285,2096,285,2101,188,2090"/>
@@ -63,7 +63,7 @@
 <area shape="poly" id="edge40_Node000062_Node000063" title=" " alt="" coords="152,2410,245,2441,294,2453,292,2458,244,2446,151,2415"/>
 <area shape="rect" id="Node000064" href="$dc/d3f/struct_internal_task_executor.html" title=" " alt="" coords="287,2356,430,2382"/>
 <area shape="poly" id="edge41_Node000062_Node000064" title=" " alt="" coords="168,2385,286,2373,287,2379,168,2390"/>
-<area shape="rect" id="Node000065" href="$de/d64/struct_task_executor.html" title=" " alt="" coords="308,2405,409,2431"/>
+<area shape="rect" id="Node000065" href="$de/d64/struct_task_executor.html" title=" " alt="" coords="308,2405,408,2431"/>
 <area shape="poly" id="edge42_Node000062_Node000065" title=" " alt="" coords="168,2398,308,2411,308,2416,168,2403"/>
 <area shape="rect" id="Node000061" href="$d6/d2e/class_tasks_queue.html" title="A subqueue for ITaskExecutor." alt="" coords="311,2192,406,2218"/>
 <area shape="poly" id="edge43_Node000062_Node000061" title=" " alt="" coords="127,2369,195,2299,208,2279,216,2261,225,2244,243,2228,276,2213,310,2205,311,2210,277,2218,246,2232,229,2248,220,2264,212,2282,199,2303,131,2372"/>
@@ -90,21 +90,21 @@
 <area shape="poly" id="edge57_Node000002_Node000028" title=" " alt="" coords="131,953,182,992,246,1028,298,1043,296,1048,244,1033,179,996,127,957"/>
 <area shape="rect" id="Node000031" href="$d2/deb/class_database_1_1_notifications_accumulator.html" title=" " alt="" coords="245,943,472,968"/>
 <area shape="poly" id="edge60_Node000002_Node000031" title=" " alt="" coords="152,933,245,942,244,948,151,939"/>
-<area shape="rect" id="Node000032" href="$d7/db0/class_disk_observer.html" title=" " alt="" coords="308,992,409,1018"/>
+<area shape="rect" id="Node000032" href="$d7/db0/class_disk_observer.html" title=" " alt="" coords="308,992,408,1018"/>
 <area shape="poly" id="edge61_Node000002_Node000032" title=" " alt="" coords="151,947,245,978,309,993,307,998,244,983,149,952"/>
 <area shape="rect" id="Node000033" href="$dd/dde/class_features_observer.html" title=" " alt="" coords="296,1091,421,1116"/>
 <area shape="poly" id="edge62_Node000002_Node000033" title=" " alt="" coords="121,955,172,1018,207,1050,246,1077,270,1088,296,1095,294,1100,268,1093,243,1082,204,1054,168,1021,117,959"/>
-<area shape="rect" id="Node000034" href="$d0/da1/class_file_info.html" title=" " alt="" coords="326,1140,391,1166"/>
+<area shape="rect" id="Node000034" href="$d0/da1/class_file_info.html" title=" " alt="" coords="326,1140,390,1166"/>
 <area shape="poly" id="edge63_Node000002_Node000034" title=" " alt="" coords="116,957,136,996,164,1042,201,1088,246,1127,286,1143,326,1149,325,1155,285,1148,243,1131,197,1092,160,1045,131,999,112,960"/>
 <area shape="rect" id="Node000042" href="$d2/d05/class_generator_utils_1_1_generic_analyzer.html" title=" " alt="" coords="256,1189,461,1215"/>
 <area shape="poly" id="edge65_Node000002_Node000042" title=" " alt="" coords="113,959,130,1007,157,1066,196,1126,219,1153,246,1176,265,1186,262,1191,243,1180,216,1157,191,1129,152,1069,125,1009,108,960"/>
-<area shape="rect" id="Node000043" href="$dd/da4/class_generator_utils_1_1_process_runner.html" title=" " alt="" coords="258,1239,459,1264"/>
+<area shape="rect" id="Node000043" href="$dd/da4/class_generator_utils_1_1_process_runner.html" title=" " alt="" coords="258,1239,458,1264"/>
 <area shape="poly" id="edge66_Node000002_Node000043" title=" " alt="" coords="110,959,124,1016,150,1089,168,1126,190,1163,216,1197,246,1225,263,1236,261,1240,243,1230,212,1200,185,1166,163,1129,145,1091,119,1017,105,960"/>
 <area shape="rect" id="Node000044" href="$d1/db4/class_i_features_manager.html" title=" " alt="" coords="295,1288,422,1314"/>
 <area shape="poly" id="edge67_Node000002_Node000044" title=" " alt="" coords="108,960,119,1025,143,1111,161,1156,184,1200,212,1240,246,1275,269,1288,295,1296,294,1301,267,1293,243,1279,208,1244,179,1203,156,1158,138,1113,114,1026,103,960"/>
 <area shape="rect" id="Node000047" href="$d2/d8b/class_i_model_compositor_data_source.html" title=" " alt="" coords="261,1337,456,1363"/>
 <area shape="poly" id="edge70_Node000002_Node000047" title=" " alt="" coords="106,960,114,1034,136,1133,154,1185,178,1236,209,1284,246,1324,262,1335,259,1339,243,1328,204,1287,173,1239,149,1187,131,1134,109,1035,101,960"/>
-<area shape="rect" id="Node000051" href="$de/d63/struct_i_tag_info_collector.html" title=" " alt="" coords="298,1387,419,1412"/>
+<area shape="rect" id="Node000051" href="$de/d63/struct_i_tag_info_collector.html" title=" " alt="" coords="298,1387,418,1412"/>
 <area shape="poly" id="edge74_Node000002_Node000051" title=" " alt="" coords="105,960,110,1042,118,1096,130,1154,147,1214,172,1273,205,1327,246,1373,271,1388,299,1396,297,1401,269,1393,243,1378,201,1330,167,1275,142,1216,124,1155,112,1096,105,1042,100,960"/>
 <area shape="rect" id="Node000056" href="$d9/dc6/class_main_window.html" title=" " alt="" coords="311,1485,406,1511"/>
 <area shape="poly" id="edge77_Node000002_Node000056" title=" " alt="" coords="108,959,125,1072,154,1227,173,1305,195,1376,220,1434,247,1472,260,1482,276,1489,311,1496,310,1502,275,1495,258,1487,243,1476,215,1437,190,1378,168,1307,149,1228,120,1073,103,960"/>
@@ -124,11 +124,11 @@
 <area shape="poly" id="edge87_Node000002_Node000076" title=" " alt="" coords="101,903,113,763,139,563,158,460,181,367,209,290,225,260,243,238,266,222,292,214,294,219,268,227,246,241,230,263,214,292,186,368,163,461,144,564,119,763,107,903"/>
 <area shape="rect" id="Node000077" href="$d8/dbd/class_photos_analyzer.html" title=" " alt="" coords="303,252,414,278"/>
 <area shape="poly" id="edge88_Node000002_Node000077" title=" " alt="" coords="102,903,115,771,142,586,161,492,184,406,211,335,226,308,243,287,271,270,302,262,303,267,273,274,246,291,231,311,216,337,189,407,166,493,147,587,121,772,107,903"/>
-<area shape="rect" id="Node000078" href="$dd/d10/class_photos_analyzer_impl.html" title=" " alt="" coords="290,301,427,327"/>
+<area shape="rect" id="Node000078" href="$dd/d10/class_photos_analyzer_impl.html" title=" " alt="" coords="290,301,426,327"/>
 <area shape="poly" id="edge89_Node000002_Node000078" title=" " alt="" coords="103,903,117,781,145,611,164,524,187,445,213,380,227,355,243,336,264,322,289,314,291,319,267,326,246,340,232,358,218,383,192,447,170,525,151,612,123,782,108,904"/>
 <area shape="rect" id="Node000081" href="$d2/d10/class_photos_model_controller_component.html" title=" " alt="" coords="249,351,468,376"/>
 <area shape="poly" id="edge91_Node000002_Node000081" title=" " alt="" coords="103,903,120,790,149,634,168,555,190,484,215,425,243,386,257,375,261,379,247,389,220,428,195,486,173,557,154,635,125,791,108,904"/>
-<area shape="rect" id="Node000082" href="$dd/d23/class_receiver.html" title=" " alt="" coords="322,400,395,426"/>
+<area shape="rect" id="Node000082" href="$dd/d23/class_receiver.html" title=" " alt="" coords="322,400,394,426"/>
 <area shape="poly" id="edge92_Node000002_Node000082" title=" " alt="" coords="99,903,101,813,107,752,118,686,136,618,161,551,197,489,243,435,261,423,281,415,321,409,322,414,282,420,263,427,246,439,201,492,166,553,141,620,123,687,112,753,106,813,104,904"/>
 <area shape="rect" id="Node000083" href="$d2/de4/class_selection_manager_component.html" title=" " alt="" coords="263,449,454,475"/>
 <area shape="poly" id="edge93_Node000002_Node000083" title=" " alt="" coords="100,903,105,820,112,766,124,707,142,646,167,587,200,532,243,484,261,472,264,476,246,488,205,535,172,589,147,648,130,708,117,767,110,821,105,903"/>
@@ -136,11 +136,11 @@
 <area shape="poly" id="edge94_Node000002_Node000084" title=" " alt="" coords="101,903,109,828,131,728,149,675,173,623,204,575,243,533,273,516,307,509,308,514,275,521,246,538,208,578,178,626,154,677,136,730,114,829,106,903"/>
 <area shape="rect" id="Node000085" href="$d1/dec/class_signal_filter.html" title=" " alt="" coords="315,548,402,574"/>
 <area shape="poly" id="edge95_Node000002_Node000085" title=" " alt="" coords="103,903,114,837,138,750,156,704,179,659,208,618,243,583,259,572,278,565,314,558,315,563,279,570,262,577,246,587,212,622,184,662,161,706,143,752,119,838,108,904"/>
-<area shape="rect" id="Node000086" href="$df/d97/class_signal_postponer.html" title="Helper for lazy_connect. Not meant to be used directly." alt="" coords="300,597,417,623"/>
+<area shape="rect" id="Node000086" href="$df/d97/class_signal_postponer.html" title="Helper for lazy_connect. Not meant to be used directly." alt="" coords="300,597,416,623"/>
 <area shape="poly" id="edge96_Node000002_Node000086" title=" " alt="" coords="105,903,119,845,145,772,163,733,185,696,212,662,243,632,270,617,299,610,300,615,272,622,246,636,216,665,190,699,168,736,150,774,124,847,110,904"/>
-<area shape="rect" id="Node000087" href="$d1/df2/class_updater_impl.html" title=" " alt="" coords="312,647,405,672"/>
+<area shape="rect" id="Node000087" href="$d1/df2/class_updater_impl.html" title=" " alt="" coords="312,647,404,672"/>
 <area shape="poly" id="edge97_Node000002_Node000087" title=" " alt="" coords="108,903,125,854,152,794,191,733,216,705,243,681,276,665,311,658,312,663,278,670,246,686,219,709,195,736,157,796,129,856,113,904"/>
-<area shape="rect" id="Node000088" href="$d5/df1/class_utils.html" title=" " alt="" coords="334,696,383,722"/>
+<area shape="rect" id="Node000088" href="$d5/df1/class_utils.html" title=" " alt="" coords="334,696,382,722"/>
 <area shape="poly" id="edge98_Node000002_Node000088" title=" " alt="" coords="111,903,131,864,160,817,197,770,243,731,266,719,290,712,333,706,334,712,291,717,268,724,246,735,201,774,164,820,136,866,116,905"/>
 <area shape="rect" id="Node000089" href="$d8/d58/class_variant.html" title=" " alt="" coords="327,745,390,771"/>
 <area shape="poly" id="edge99_Node000002_Node000089" title=" " alt="" coords="117,904,168,841,204,808,243,780,286,764,326,757,327,762,287,769,246,785,207,812,172,845,121,907"/>
@@ -153,7 +153,7 @@
 <area shape="poly" id="edge54_Node000009_Node000012" title=" " alt="" coords="731,1506,750,1520,775,1552,789,1582,794,1612,794,1643,790,1707,791,1744,799,1784,824,1866,853,1944,897,2054,892,2057,848,1946,819,1867,794,1785,786,1744,785,1707,789,1642,789,1613,784,1584,771,1555,746,1524,728,1511"/>
 <area shape="rect" id="Node000029" href="$de/d7a/class_database_1_1_my_sql_plugin.html" title=" " alt="" coords="557,1017,711,1043"/>
 <area shape="poly" id="edge58_Node000028_Node000029" title=" " alt="" coords="435,1045,556,1034,557,1040,435,1050"/>
-<area shape="rect" id="Node000030" href="$d4/db1/class_database_1_1_s_q_lite_plugin.html" title=" " alt="" coords="555,1067,714,1092"/>
+<area shape="rect" id="Node000030" href="$d4/db1/class_database_1_1_s_q_lite_plugin.html" title=" " alt="" coords="554,1067,714,1092"/>
 <area shape="poly" id="edge59_Node000028_Node000030" title=" " alt="" coords="435,1058,554,1070,554,1075,435,1064"/>
 <area shape="rect" id="Node000045" href="$d6/deb/class_features_manager.html" title=" " alt="" coords="573,1189,695,1215"/>
 <area shape="poly" id="edge68_Node000044_Node000045" title=" " alt="" coords="436,1288,471,1275,485,1263,494,1250,503,1237,519,1224,545,1213,572,1206,573,1211,546,1218,521,1228,507,1240,498,1253,489,1266,473,1279,438,1293"/>
@@ -163,7 +163,7 @@
 <area shape="poly" id="edge71_Node000047_Node000048" title=" " alt="" coords="449,1331,558,1312,559,1317,450,1337"/>
 <area shape="rect" id="Node000049" href="$de/d4e/class_people_list_model.html" title=" " alt="" coords="575,1337,693,1363"/>
 <area shape="poly" id="edge72_Node000047_Node000049" title=" " alt="" coords="471,1348,575,1348,575,1353,471,1353"/>
-<area shape="rect" id="Node000050" href="$df/da1/class_tag_value_model.html" title=" " alt="" coords="579,1387,690,1412"/>
+<area shape="rect" id="Node000050" href="$df/da1/class_tag_value_model.html" title=" " alt="" coords="578,1387,690,1412"/>
 <area shape="poly" id="edge73_Node000047_Node000050" title=" " alt="" coords="450,1364,579,1387,578,1392,449,1369"/>
 <area shape="rect" id="Node000052" href="$d6/d99/class_tag_info_collector.html" title=" " alt="" coords="576,1436,692,1462"/>
 <area shape="poly" id="edge75_Node000051_Node000052" title=" " alt="" coords="434,1410,576,1436,575,1441,433,1415"/>
@@ -178,6 +178,6 @@
 <area shape="poly" id="edge101_Node000068_Node000069" title=" " alt="" coords="394,1594,434,1600,455,1607,474,1619,486,1631,493,1644,500,1669,505,1694,511,1707,522,1719,547,1737,576,1749,574,1754,545,1741,518,1723,507,1710,500,1696,494,1670,488,1646,482,1634,470,1623,453,1612,433,1605,393,1599"/>
 <area shape="poly" id="edge102_Node000068_Node000067" title=" " alt="" coords="393,1596,433,1603,473,1619,489,1631,498,1645,507,1658,521,1669,549,1681,547,1686,519,1674,503,1661,494,1648,485,1635,471,1623,431,1608,393,1601"/>
 <area shape="poly" id="edge103_Node000068_Node000071" title=" " alt="" coords="394,1600,559,1630,558,1635,393,1605"/>
-<area shape="rect" id="Node000072" href="$dc/da9/class_roles_expansion.html" title=" " alt="" coords="563,1584,706,1610"/>
+<area shape="rect" id="Node000072" href="$dc/da9/class_roles_expansion.html" title=" " alt="" coords="562,1584,706,1610"/>
 <area shape="poly" id="edge104_Node000068_Node000072" title=" " alt="" coords="393,1594,562,1594,562,1600,393,1600"/>
 </map>

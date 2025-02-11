@@ -1,8 +1,6 @@
 <map id="Database::ASqlBackend::doesPhotoExist" name="Database::ASqlBackend::doesPhotoExist">
-<area shape="rect" id="Node000001" title="check if" alt="" coords="5,59,167,99"/>
+<area shape="rect" id="Node000001" title="check if" alt="" coords="5,29,167,70"/>
 <area shape="rect" id="Node000002" href="$d3/d47/class_database_1_1_sql_query_executor.html#a92b20d0dac92b5fa49b9184f8e341a94" title=" " alt="" coords="215,29,400,70"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,66,199,61,200,67,167,71"/>
-<area shape="rect" id="Node000003" href="$db/dfb/class_id.html#ae90d3cdcd4103e44499e82622a27e4cb" title=" " alt="" coords="273,94,342,120"/>
-<area shape="poly" id="edge3_Node000001_Node000003" title=" " alt="" coords="167,87,258,98,257,103,167,92"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="167,47,199,47,199,52,167,52"/>
 <area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="266,29,263,19,270,10,285,5,307,3,331,5,346,11,343,16,330,10,307,8,286,10,273,15,269,21,271,28"/>
 </map>

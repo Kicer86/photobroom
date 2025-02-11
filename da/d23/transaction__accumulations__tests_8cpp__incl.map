@@ -1,13 +1,13 @@
 <map id="src/database/unit_tests_for_backends/transaction_accumulations_tests.cpp" name="src/database/unit_tests_for_backends/transaction_accumulations_tests.cpp">
 <area shape="rect" id="Node000001" title=" " alt="" coords="219,5,393,61"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,117,95,142"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,116,95,142"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="233,64,98,113,96,108,231,59"/>
-<area shape="rect" id="Node000003" href="$dd/d3a/common_8hpp.html" title=" " alt="" coords="118,117,214,142"/>
+<area shape="rect" id="Node000003" href="$dd/d3a/common_8hpp.html" title=" " alt="" coords="118,116,214,142"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="267,64,198,110,195,106,264,59"/>
 <area shape="rect" id="Node000085" href="$d3/dcf/json__to__backend_8hpp.html" title=" " alt="" coords="237,109,375,150"/>
 <area shape="poly" id="edge3_Node000001_Node000085" title=" " alt="" coords="309,62,309,94,303,94,303,62"/>
 <area shape="rect" id="Node000088" title=" " alt="" coords="399,109,554,150"/>
 <area shape="poly" id="edge4_Node000001_Node000088" title=" " alt="" coords="357,59,429,99,427,104,354,64"/>
-<area shape="rect" id="Node000089" title=" " alt="" coords="578,109,749,150"/>
+<area shape="rect" id="Node000089" title=" " alt="" coords="578,109,748,150"/>
 <area shape="poly" id="edge5_Node000001_Node000089" title=" " alt="" coords="394,55,574,102,573,107,393,60"/>
 </map>

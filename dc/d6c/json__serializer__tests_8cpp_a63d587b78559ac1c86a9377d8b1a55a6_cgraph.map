@@ -1,5 +1,7 @@
 <map id="TEST" name="TEST">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,60,31"/>
-<area shape="rect" id="Node000002" href="$d0/d6a/namespace_j_son.html#acab4f30a60bb78813255af11b7c4b58d" title=" " alt="" coords="108,5,212,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,16,92,16,92,21,60,21"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$d0/d6a/namespace_j_son.html#a482519a0f80fe8f66402fb8e6acbb877" title=" " alt="" coords="108,5,226,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,36,92,30,93,35,60,41"/>
+<area shape="rect" id="Node000006" href="$d0/d6a/namespace_j_son.html#acab4f30a60bb78813255af11b7c4b58d" title=" " alt="" coords="115,55,219,80"/>
+<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="60,46,100,53,99,58,59,51"/>
 </map>
