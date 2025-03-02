@@ -1,6 +1,13 @@
 
-add_executable(backends_benchmark
+add_executable(backends_benchmark)
+
+target_sources(backends_benchmark
+  PUBLIC
     main.cpp
+)
+
+target_sources(backends_benchmark
+  PUBLIC FILE_SET CXX_MODULES FILES
     photo_fetch_benchmarks.cpp
 )
 
