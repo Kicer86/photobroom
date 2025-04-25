@@ -66,5 +66,5 @@ Components.MultiselectGridView {
 
     FocusOnClick { target: grid }
 
-    Keys.onPressed: Components.handleKeys(event, grid)
+    Keys.onPressed: (event) => Components.handleKeys(event, grid)
 }
