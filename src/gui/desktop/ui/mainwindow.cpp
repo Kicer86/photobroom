@@ -26,7 +26,6 @@
 #include <database/database_executor_traits.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/project.hpp>
-#include <system/system.hpp>
 #include <features.hpp>
 
 #include "config.hpp"
