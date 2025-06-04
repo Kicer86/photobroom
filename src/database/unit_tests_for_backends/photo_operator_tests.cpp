@@ -7,6 +7,7 @@
 #include "unit_tests_utils/phash_db.json.hpp"
 #include "unit_tests_utils/rich_db.json.hpp"
 #include "database/ut_printers.hpp"
+#include <QSignalSpy>
 
 #include "common.hpp"
 

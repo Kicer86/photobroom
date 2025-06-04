@@ -3,6 +3,7 @@
 #include "unit_tests_utils/rich_db.json.hpp"
 #include "unit_tests_utils/sample_db.json.hpp"
 
+#include <QSignalSpy>
 #include "common.hpp"
 
 
