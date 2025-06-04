@@ -40,6 +40,9 @@ namespace Database
         std::vector<LogEntry> m_logEntries;
         std::map<std::pair<Photo::Id, QString>, QByteArray> m_blobs;
 
+        std::map<PersonFingerprint::Id, PersonFingerprint> m_fingerprints;
+        int m_nextFingerprintId = 0;
+
         int m_nextPhotoId = 0;
         int m_nextPersonName = 0;
         int m_nextGroup = 0;
@@ -361,9 +364,9 @@ namespace Database
     }
 
 
-    int MemoryBackend::getPhotosCount(const Filter &)
+    int MemoryBackend::getPhotosCount(const Filter &filter)
     {
-        return 0;
+        return getPhotos(filter).size();
     }
 
 
@@ -428,6 +431,31 @@ namespace Database
     std::vector<Photo::Id> MemoryBackend::markStagedAsReviewed()
     {
         std::vector<Photo::Id> ids;
+
+        for(auto it = m_db->m_photos.begin(); it != m_db->m_photos.end(); )
+        {
+            const auto& flags = it->get<Photo::Field::Flags>();
+            auto fit = flags.find(Photo::FlagsE::StagingArea);
+
+            if (fit != flags.end() && fit->second != 0)
+            {
+                auto updated = *it;
+                auto newFlags = flags;
+                newFlags[Photo::FlagsE::StagingArea] = 0;
+                updated.insert<Photo::Field::Flags>(newFlags);
+
+                const auto id = updated.getId();
+                it = m_db->m_photos.erase(it);
+                m_db->m_photos.insert(updated);
+
+                ids.push_back(id);
+            }
+            else
+                ++it;
+        }
+
+        if (!ids.empty())
+            emit photosMarkedAsReviewed(ids);
 
         return ids;
     }
@@ -509,17 +537,38 @@ namespace Database
     }
 
 
-    std::vector<PersonFingerprint> MemoryBackend::fingerprintsFor(const Person::Id &)
+    std::vector<PersonFingerprint> MemoryBackend::fingerprintsFor(const Person::Id &id)
     {
         std::vector<PersonFingerprint> fingerprints;
+
+        for(const auto& pi: m_db->m_peopleInfo)
+        {
+            if (pi.p_id == id && pi.f_id.valid())
+            {
+                auto fit = m_db->m_fingerprints.find(pi.f_id);
+                if (fit != m_db->m_fingerprints.end())
+                    fingerprints.push_back(fit->second);
+            }
+        }
 
         return fingerprints;
     }
 
 
-    std::map<PersonInfo::Id, PersonFingerprint> MemoryBackend::fingerprintsFor(const std::vector<PersonInfo::Id> &)
+    std::map<PersonInfo::Id, PersonFingerprint> MemoryBackend::fingerprintsFor(const std::vector<PersonInfo::Id> &ids)
     {
         std::map<PersonInfo::Id, PersonFingerprint> fingerprints;
+
+        for(const auto& id: ids)
+        {
+            auto it = m_db->m_peopleInfo.find(id);
+            if (it != m_db->m_peopleInfo.end() && it->f_id.valid())
+            {
+                auto fit = m_db->m_fingerprints.find(it->f_id);
+                if (fit != m_db->m_fingerprints.end())
+                    fingerprints.emplace(id, fit->second);
+            }
+        }
 
         return fingerprints;
     }
@@ -562,9 +611,22 @@ namespace Database
     }
 
 
-    PersonFingerprint::Id MemoryBackend::store(const PersonFingerprint &)
+    PersonFingerprint::Id MemoryBackend::store(const PersonFingerprint &fp)
     {
-        PersonFingerprint::Id id;
+        PersonFingerprint::Id id = fp.id();
+
+        if (id.valid())
+        {
+            if (fp.fingerprint().empty())
+                m_db->m_fingerprints.erase(id);
+            else
+                m_db->m_fingerprints[id] = fp;
+        }
+        else if (!fp.fingerprint().empty())
+        {
+            id = PersonFingerprint::Id(m_db->m_nextFingerprintId++);
+            m_db->m_fingerprints.emplace(id, PersonFingerprint(id, fp.fingerprint()));
+        }
 
         return id;
     }
@@ -684,11 +746,11 @@ namespace Database
     }
 
 
-    Group::Type MemoryBackend::type(const Group::Id &) const
+    Group::Type MemoryBackend::type(const Group::Id &gid) const
     {
-        Group::Type t = Group::Type::Invalid;
+        auto it = m_db->m_groups.find(gid);
 
-        return t;
+        return it == m_db->m_groups.end()? Group::Type::Invalid: it->second.second;
     }
 
 
@@ -726,15 +788,27 @@ namespace Database
     }
 
 
-    bool MemoryBackend::removePhoto(const Photo::Id &)
+    bool MemoryBackend::removePhoto(const Photo::Id &id)
     {
-        return false;
+        FilterPhotosWithId filter;
+        filter.filter = id;
+
+        return removePhotos(filter);
     }
 
 
-    bool MemoryBackend::removePhotos(const Filter &)
+    bool MemoryBackend::removePhotos(const Filter &filter)
     {
-        return false;
+        auto tr = openTransaction();
+        const auto ids = getPhotos(filter);
+
+        for(const auto& id: ids)
+            setBits(id, CommonGeneralFlags::State, static_cast<int>(CommonGeneralFlags::StateType::Delete));
+
+        if(!ids.empty())
+            m_impl->m_notifications.photosRemoved(ids);
+
+        return true;
     }
 
 

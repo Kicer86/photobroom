@@ -255,3 +255,50 @@ TYPED_TEST(PhotoOperatorTest, fetchPhotoParts)
         EXPECT_THAT(fromBackendPhotos, UnorderedElementsAreArray(fromOperatorPhotos));
     });
 }
+
+
+TYPED_TEST(PhotoOperatorTest, photosCountMatchesGetPhotos)
+{
+    Database::JsonToBackend converter(*this->m_backend);
+    converter.append(SampleDB::db2);
+
+    const auto filter = Database::FilterPhotosWithTag(Tag::Types::Time, QTime(10, 0, 0));
+
+    const auto count = this->m_backend->getPhotosCount(filter);
+    const auto ids = this->m_backend->photoOperator().getPhotos(filter);
+
+    EXPECT_EQ(count, static_cast<int>(ids.size()));
+}
+
+
+TYPED_TEST(PhotoOperatorTest, deletionMarksAndNotifies)
+{
+    Photo::DataDelta pd1, pd2;
+    pd1.insert<Photo::Field::Path>("photo1.jpeg");
+    pd2.insert<Photo::Field::Path>("photo2.jpeg");
+
+    std::vector<Photo::DataDelta> photos{pd1, pd2};
+    this->m_backend->addPhotos(photos);
+
+    const auto id1 = photos[0].getId();
+    const auto id2 = photos[1].getId();
+
+    QSignalSpy spy(this->m_backend.get(), &Database::IBackend::photosRemoved);
+
+    this->m_backend->photoOperator().removePhoto(id1);
+    ASSERT_EQ(spy.size(), 1);
+    EXPECT_THAT(spy.at(0).at(0).value<std::vector<Photo::Id>>(), ElementsAre(id1));
+    auto state = this->m_backend->get(id1, Database::CommonGeneralFlags::State);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, static_cast<int>(Database::CommonGeneralFlags::StateType::Delete));
+
+    spy.clear();
+
+    Database::FilterPhotosWithId filter; filter.filter = id2;
+    this->m_backend->photoOperator().removePhotos(filter);
+    ASSERT_EQ(spy.size(), 1);
+    EXPECT_THAT(spy.at(0).at(0).value<std::vector<Photo::Id>>(), ElementsAre(id2));
+    state = this->m_backend->get(id2, Database::CommonGeneralFlags::State);
+    ASSERT_TRUE(state.has_value());
+    EXPECT_EQ(*state, static_cast<int>(Database::CommonGeneralFlags::StateType::Delete));
+}

@@ -580,3 +580,33 @@ TYPED_TEST(PeopleTest, readPeopleViaDataDelta)
 
     EXPECT_THAT(peopleNames, UnorderedElementsAre("person 1", "person 2", "person 3", "person 4", "person 5"));
 }
+
+
+TYPED_TEST(PeopleTest, fingerprintsStoreAndFetch)
+{
+    Photo::DataDelta pd; pd.insert<Photo::Field::Path>("photo.jpeg");
+    std::vector<Photo::DataDelta> photos{pd};
+    ASSERT_TRUE(this->m_backend->addPhotos(photos));
+
+    auto& accessor = this->m_backend->peopleInformationAccessor();
+
+    const PersonName pn("Person");
+    const Person::Id p_id = accessor.store(pn);
+
+    Person::Fingerprint fpvec{1.0, 2.0};
+    PersonFingerprint fp(fpvec);
+    const auto f_id = accessor.store(fp);
+    fp = PersonFingerprint(f_id, fpvec);
+
+    PersonInfo pi(p_id, photos[0].getId(), f_id, QRect());
+    const auto pi_id = accessor.store(pi);
+
+    const auto fps = accessor.fingerprintsFor(p_id);
+    ASSERT_EQ(fps.size(), 1);
+    EXPECT_EQ(fps.front(), fp);
+
+    const auto map = accessor.fingerprintsFor(std::vector<PersonInfo::Id>{pi_id});
+    ASSERT_EQ(map.size(), 1);
+    EXPECT_EQ(map.begin()->first, pi_id);
+    EXPECT_EQ(map.begin()->second, fp);
+}

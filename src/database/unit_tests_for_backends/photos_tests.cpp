@@ -84,3 +84,33 @@ TYPED_TEST(PhotosTest, retrievingPartialDataInDelta)
         EXPECT_TRUE(photoDelta.has(Photo::Field::Geometry));
     }
 }
+
+
+TYPED_TEST(PhotosTest, markStagedPhotosAsReviewed)
+{
+    Photo::DataDelta pd1, pd2;
+    pd1.insert<Photo::Field::Path>("p1.jpg");
+    pd2.insert<Photo::Field::Path>("p2.jpg");
+
+    Photo::FlagValues flags{{Photo::FlagsE::StagingArea, 1}};
+    pd1.insert<Photo::Field::Flags>(flags);
+    pd2.insert<Photo::Field::Flags>(flags);
+
+    std::vector<Photo::DataDelta> photos{pd1, pd2};
+    ASSERT_TRUE(this->m_backend->addPhotos(photos));
+
+    QSignalSpy spy(this->m_backend.get(), &Database::IBackend::photosMarkedAsReviewed);
+
+    const auto ids = this->m_backend->markStagedAsReviewed();
+
+    ASSERT_EQ(spy.size(), 1);
+    EXPECT_EQ(spy.at(0).at(0).value<std::vector<Photo::Id>>(), ids);
+    EXPECT_EQ(ids.size(), 2u);
+
+    for(const auto& id: ids)
+    {
+        const auto delta = this->m_backend->template getPhotoDelta<Photo::Field::Flags>(id);
+        auto it = delta.get<Photo::Field::Flags>().find(Photo::FlagsE::StagingArea);
+        EXPECT_TRUE(it == delta.get<Photo::Field::Flags>().end() || it->second == 0);
+    }
+}

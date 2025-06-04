@@ -80,3 +80,17 @@ TYPED_TEST(GroupsTest, groupRemoval)
     // expect all photos to be modified
     ASSERT_EQ(modified_photos.size(), 3);
 }
+
+
+TYPED_TEST(GroupsTest, groupType)
+{
+    Photo::DataDelta pd;
+    pd.insert<Photo::Field::Path>("photo.jpeg");
+    std::vector<Photo::DataDelta> photos{pd};
+    ASSERT_TRUE(this->m_backend->addPhotos(photos));
+
+    const Group::Id gid = this->m_backend->groupOperator().addGroup(photos[0].getId(), Group::Type::HDR);
+    const auto type = this->m_backend->groupOperator().type(gid);
+
+    EXPECT_EQ(type, Group::Type::HDR);
+}
