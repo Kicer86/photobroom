@@ -24,7 +24,8 @@
 #include <QDir>
 #include <QFileInfo>
 
-#include <system/filesystem.hpp>
+
+import system;
 
 
 namespace

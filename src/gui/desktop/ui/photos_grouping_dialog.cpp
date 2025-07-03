@@ -10,7 +10,6 @@
 #include <core/containers_utils.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/tags_utils.hpp>
-#include <system/system.hpp>
 #include <project_utils/project.hpp>
 #include <project_utils/misc.hpp>
 
