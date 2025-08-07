@@ -5,60 +5,30 @@ import QtQuick
  * Item displays a provided busy indicator until `embeddedItem` (needs to be `Image` based) is ready to be shown
  */
 
-Item {
 
-    default required property var embeddedItem
-    required property var busyIndicator
+Item {
+    id: rootId
+    default required property Image embeddedItem
+
+    // Use our interface for the busy‐indicator so it has a `running` property:
+    required property Item busyIndicator
 
     Component.onCompleted: {
-        embeddedItem.opacity = 0;
-        children.push(embeddedItem);
+        // hide until ready
+        embeddedItem.opacity = 0
+
+        children.push(embeddedItem)
+
+        embeddedItem.statusChanged.connect(onImageStatusChanged)
+
+        onImageStatusChanged()
     }
 
-    states: [
-        State {
-            name: "unknown"
-            when: embeddedItem.status === Image.Null
-        },
-        State {
-            name: "loading"
-            when: embeddedItem.status === Image.Loading
-            PropertyChanges {
-                target: busyId
-                running: true
-            }
-        },
-        State {
-            name: "done"
-            when: embeddedItem.status === Image.Ready
-            PropertyChanges {
-                target: busyId
-                running: false
-            }
-        }
-    ]
+    function onImageStatusChanged() {
+        busyIndicator.running = (embeddedItem.status === Image.Loading)
 
-    transitions: [
-        Transition {
-            from: "loading"
-            to: "done"
-            PropertyAnimation {
-                target: embeddedItem
-                properties: "opacity"
-                from: 0
-                to: 1
-            }
-        },
-        Transition {
-            from: "unknown"
-            to: "done"
-            PropertyAnimation {
-                target: embeddedItem
-                properties: "opacity"
-                from: 0
-                to: 1
-                duration: 0
-            }
+        if (embeddedItem.status === Image.Ready) {
+            embeddedItem.opacity = 1
         }
-    ]
+    }
 }
