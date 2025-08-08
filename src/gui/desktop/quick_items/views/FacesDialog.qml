@@ -2,11 +2,12 @@
 import QtQuick 2.15
 import QtQuick.Controls 2.15
 import QmlItems
+
 import quick_items
+import quick_items.components as Components
 import photo_broom.models
 import photo_broom.singletons
 import photo_broom.utils
-import "../Components" as Components
 
 
 Item {
