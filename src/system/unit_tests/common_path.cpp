@@ -1,8 +1,10 @@
 
 #include <gmock/gmock.h>
 
-#include "../filesystem.hpp"
 #include "unit_tests_utils/printers.hpp"
+
+import system;
+
 
 TEST(FileSystemTest, EqualFilePaths)
 {
