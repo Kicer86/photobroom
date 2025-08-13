@@ -18,7 +18,8 @@ Required tools and libraries:
  - cs-libguarded*
  - ImageMagick**
 
- Optional libraries:
+Optional libraries:
+ - Breakpad (for crash catching)
  - KCrash + drkonqi (for crash catching)
 
  Packages, libraries and other components kept as git submodules:
