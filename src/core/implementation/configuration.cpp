@@ -27,9 +27,9 @@
 #include <QFileInfo>
 #include <QVariant>
 
-#include <system/system.hpp>
-
 #include "constants.hpp"
+
+import system;
 
 
 ConfigurationPrivate::ConfigurationPrivate(IConfigStorage& configStorage):
