@@ -23,8 +23,6 @@ ApplicationWindow {
     signal newProject()
     signal closeProject()
     signal scanCollection()
-    signal configuration()
-
     title: PhotoBroomProject.projectOpen? "Photo broom: " + projectName : qsTr("No collection opened")
 
     visible: true
@@ -95,7 +93,7 @@ ApplicationWindow {
         Menu {
             id: settingsMenu
             title: qsTr("&Settings")
-            Action { text: qsTr("&Configuration"); icon.name: "applications-system"; onTriggered: { settingsMenu.dismiss(); configuration(); } }
+            Action { text: qsTr("&Configuration"); icon.name: "applications-system"; onTriggered: { settingsMenu.dismiss(); configurationDialog.open(); } }
         }
     }
 
@@ -215,5 +213,9 @@ ApplicationWindow {
                 }
             }
         }
+    }
+
+    ConfigurationDialog {
+        id: configurationDialog
     }
 }
