@@ -1,0 +1,111 @@
+name: Build-Linux-Fedora
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: "Build PhotoBroom sources on Fedora"
+    runs-on: ubuntu-latest
+    container: fedora:39
+    strategy:
+      fail-fast: false
+      matrix:
+        compiler:
+          - { compiler: GNU, CC: gcc, CXX: g++ }
+        build: [Release]
+        shared: [TRUE, FALSE]
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        submodules: true
+        lfs: false
+
+    - name: Install system dependencies
+      run: |
+        dnf -y update &&              \
+        dnf -y install                \
+          git                         \
+          cmake                       \
+          make                        \
+          gcc                         \
+          gcc-c++                     \
+          ninja-build                 \
+          python3-cairosvg            \
+          python3-defusedxml          \
+          python3-pillow              \
+          ffmpeg-devel                \
+          boost-devel                 \
+          opencv-devel                \
+          openblas-devel              \
+          dlib-devel                  \
+          gtest-devel                 \
+          mesa-libGL-devel            \
+          libglvnd-devel              \
+          libwebp-devel               \
+          inih-devel                  \
+          brotli-devel
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: '6.7.2'
+        cache: 'true'
+        modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
+
+    - name: Install CsLibGuarded
+      run: |
+        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
+        cd cs_libguarded
+        mkdir build
+        cd build
+        cmake ..
+        cmake --build . --target all
+        cmake --build . --target install
+
+    - name: Install Exiv2
+      run: |
+        git clone -b v0.28.2 https://github.com/Exiv2/exiv2.git
+        cd exiv2
+        mkdir build
+        cd build
+        cmake .. -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_BUILD_EXIV2_COMMAND=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_SAMPLES=OFF
+        cmake --build . --target all
+        cmake --build . --target install
+
+    - name: Setup ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+
+    - name: Setup environment
+      run: |
+        echo "ENABLE_SANITIZERS=$( test ${{ matrix.build }} == \"Release\" && echo \"ON\" || echo \"OFF\" )" >> $GITHUB_ENV
+
+    - name: Build
+      uses: ashutoshvarma/action-cmake-build@master
+      with:
+        build-dir: ${{ runner.workspace }}/build
+        build-type: ${{ matrix.build }}
+        cc: ${{ matrix.compiler.CC }}
+        cxx: ${{ matrix.compiler.CXX }}
+        configure-options: |
+            -DBUILD_SHARED_LIBS=${{ matrix.shared }}
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
+            -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
+            -DPython=/usr/bin/python3
+        run-test: true
+        ctest-options: |
+            -LE HeavyData
+            --output-on-failure
+      env:
+        TSAN_OPTIONS: "suppressions:${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt"
