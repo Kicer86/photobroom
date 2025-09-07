@@ -23,7 +23,7 @@ jobs:
       fail-fast: true
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: true
 
@@ -59,7 +59,7 @@ jobs:
         echo "config: ${{ matrix.config.cmake_config }}"
         echo "build: ${{ matrix.config.cmake_build }}"
 
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: true
 
@@ -110,7 +110,7 @@ jobs:
     needs: build-photo-broom
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Download artifact
         uses: actions/download-artifact@v4
