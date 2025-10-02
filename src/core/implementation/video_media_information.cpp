@@ -68,7 +68,6 @@ namespace
 }
 
 
-
 VideoMediaInformation::VideoMediaInformation(IExifReaderFactory& exif, const ILogger& logger)
     : m_logger(logger.subLogger("VideoMediaInformation"))
     , m_exif(exif)
@@ -107,8 +106,8 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
             auto videoStream = findVideoStream(formatContext);
 
             double rotation = 0.0;
-            for (int i = 0; videoStream && i < videoStream->nb_side_data; ++i) {
-                AVPacketSideData *sideData = &videoStream->side_data[i];
+            for (int i = 0; videoStream && i < videoStream->codecpar->nb_coded_side_data; ++i) {
+                AVPacketSideData *sideData = &videoStream->codecpar->coded_side_data[i];
                 if (sideData->type == AV_PKT_DATA_DISPLAYMATRIX)
                 {
                     rotation = av_display_rotation_get(reinterpret_cast<int32_t*>(sideData->data));
