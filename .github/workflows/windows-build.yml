@@ -27,16 +27,12 @@ jobs:
       with:
         submodules: true
 
+    # built dependencies will be cached and reused in later jobs
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
       with:
         vcpkgJsonGlob: vcpkg.json
-
-    # builded dependencies will be cached and reused in later jobs
-    - name: build dependencies
-      run: |
-        vcpkg\vcpkg.exe install
-
+        runVcpkgInstall: true
 
   build-photo-broom:
     name: "Build PhotoBroom sources on Windows"
