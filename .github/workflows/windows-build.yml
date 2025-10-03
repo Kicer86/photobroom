@@ -19,8 +19,6 @@ jobs:
   build-dependencies:
     name: "Build PhotoBroom dependencies for Windows"
     runs-on: windows-latest
-    env:
-      VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\\vcpkg-binary-cache
     strategy:
       fail-fast: true
 
@@ -31,14 +29,18 @@ jobs:
 
     - name: Prepare vcpkg binary cache
       shell: pwsh
+      env:
+        VCPKG_BINARY_CACHE: ${{ runner.temp }}\\vcpkg-binary-cache
       run: |
         # TODO: Remove the manual cache once GitHub cache regression is fixed.
-        New-Item -ItemType Directory -Force -Path "${{ env.VCPKG_DEFAULT_BINARY_CACHE }}" | Out-Null
+        New-Item -ItemType Directory -Force -Path "$env:VCPKG_BINARY_CACHE" | Out-Null
 
     - name: Cache vcpkg artifacts
       uses: actions/cache@v4
+      env:
+        VCPKG_BINARY_CACHE: ${{ runner.temp }}\\vcpkg-binary-cache
       with:
-        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        path: ${{ env.VCPKG_BINARY_CACHE }}
         key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
         restore-keys: |
           vcpkg-binary-${{ runner.os }}-
@@ -46,6 +48,8 @@ jobs:
     # built dependencies will be cached and reused in later jobs
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
+      env:
+        VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\\vcpkg-binary-cache
       with:
         vcpkgJsonGlob: vcpkg.json
         runVcpkgInstall: true
@@ -54,8 +58,6 @@ jobs:
     name: "Build PhotoBroom sources on Windows"
     needs: build-dependencies
     runs-on: windows-latest
-    env:
-      VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\\vcpkg-binary-cache
     strategy:
       fail-fast: false
       matrix:
@@ -79,14 +81,18 @@ jobs:
 
     - name: Prepare vcpkg binary cache
       shell: pwsh
+      env:
+        VCPKG_BINARY_CACHE: ${{ runner.temp }}\\vcpkg-binary-cache
       run: |
         # TODO: Remove the manual cache once GitHub cache regression is fixed.
-        New-Item -ItemType Directory -Force -Path "${{ env.VCPKG_DEFAULT_BINARY_CACHE }}" | Out-Null
+        New-Item -ItemType Directory -Force -Path "$env:VCPKG_BINARY_CACHE" | Out-Null
 
     - name: Cache vcpkg artifacts
       uses: actions/cache@v4
+      env:
+        VCPKG_BINARY_CACHE: ${{ runner.temp }}\\vcpkg-binary-cache
       with:
-        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        path: ${{ env.VCPKG_BINARY_CACHE }}
         key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
         restore-keys: |
           vcpkg-binary-${{ runner.os }}-
@@ -105,6 +111,8 @@ jobs:
 
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
+      env:
+        VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\\vcpkg-binary-cache
       with:
         vcpkgJsonGlob: vcpkg.json
 
