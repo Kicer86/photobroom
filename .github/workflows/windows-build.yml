@@ -76,6 +76,10 @@ jobs:
       with:
         vcpkgJsonGlob: vcpkg.json
 
+    - name: Install NSIS
+      if: matrix.config.name == 'release'
+      run: choco install nsis --no-progress -y
+
     - name: Build
       uses: lukka/run-cmake@v10
       with:
