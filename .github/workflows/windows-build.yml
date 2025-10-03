@@ -91,7 +91,9 @@ jobs:
 
     - name: Make package
       if: matrix.config.name == 'release'
-      run: cmake --build --target package --preset "${{ matrix.config.cmake_build }}"
+      run: |
+        choco install nsis --no-progress -y
+        cmake --build --target package --preset "${{ matrix.config.cmake_build }}"
 
     - name: Upload artifact
       if: matrix.config.name == 'release'
