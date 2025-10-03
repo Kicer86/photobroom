@@ -7,7 +7,6 @@ if(NOT BUILD_SHARED_LIBS)
     add_definitions(-DGUI_STATIC)
 endif()
 
-add_subdirectory(desktop/config_tabs)
 add_subdirectory(desktop/models)
 add_subdirectory(desktop/QmlItems)
 add_subdirectory(desktop/quick_items)
@@ -40,7 +39,6 @@ add_library(gui
 
 target_link_libraries(gui
     PRIVATE
-        gui_config_tabs
         gui_models
         gui_utils
         gui_ui
