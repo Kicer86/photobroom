@@ -28,8 +28,19 @@ jobs:
         submodules: true
 
     # built dependencies will be cached and reused in later jobs
+    - name: Cache vcpkg binary cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}\vcpkg-binary-cache
+        key: vcpkg-binary-cache-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          vcpkg-binary-cache-${{ runner.os }}-
+
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
+      env:
+        VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-binary-cache
+        VCPKG_BINARY_SOURCES: clear;files,${{ runner.temp }}\vcpkg-binary-cache,readwrite
       with:
         vcpkgJsonGlob: vcpkg.json
         runVcpkgInstall: true
@@ -71,8 +82,19 @@ jobs:
       with:
         windows_compile_environment: msvc
 
+    - name: Cache vcpkg binary cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ runner.temp }}\vcpkg-binary-cache
+        key: vcpkg-binary-cache-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
+        restore-keys: |
+          vcpkg-binary-cache-${{ runner.os }}-
+
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
+      env:
+        VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-binary-cache
+        VCPKG_BINARY_SOURCES: clear;files,${{ runner.temp }}\vcpkg-binary-cache,readwrite
       with:
         vcpkgJsonGlob: vcpkg.json
 
