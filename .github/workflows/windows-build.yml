@@ -29,7 +29,7 @@ jobs:
         submodules: true
 
     - name: Set up binary cache
-      uses: actions/cache@4
+      uses: actions/cache@v4
       with:
         path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
         key: ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
@@ -82,7 +82,7 @@ jobs:
         windows_compile_environment: msvc
 
     - name: Set up binary cache
-      uses: actions/cache@4
+      uses: actions/cache@v4
       with:
         path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
         key: ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
