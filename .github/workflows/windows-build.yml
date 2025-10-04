@@ -42,7 +42,7 @@ jobs:
         vcpkgJsonGlob: vcpkg.json
         runVcpkgInstall: true
       env:
-        VCPKG_BINARY_SOURCES: default,rw
+        VCPKG_BINARY_SOURCES: default,readwrite
 
   build-photo-broom:
     name: "Build PhotoBroom sources on Windows"
@@ -93,7 +93,7 @@ jobs:
       with:
         vcpkgJsonGlob: vcpkg.json
       env:
-        VCPKG_BINARY_SOURCES: default,rw
+        VCPKG_BINARY_SOURCES: default,readwrite
 
     - name: Build
       uses: lukka/run-cmake@v10
