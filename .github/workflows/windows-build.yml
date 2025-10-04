@@ -14,7 +14,6 @@ concurrency:
 
 env:
   VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
-  VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}\vcpkg-binary-cache
 
 jobs:
   build-dependencies:
@@ -31,7 +30,7 @@ jobs:
     - name: Set up binary cache
       uses: actions/cache@v4
       with:
-        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        path: ${{ env.VCPKG_ROOT }}\installed
         key: ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
         restore-keys: ${{ runner.os }}-vcpkg-binary-cache-
 
@@ -48,7 +47,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: vcpkg-binary-cache
-        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        path: ${{ env.VCPKG_ROOT }}\installed
         retention-days: 1
 
   build-photo-broom:
@@ -76,16 +75,16 @@ jobs:
       with:
         submodules: true
 
-    - name: Download vcpkg cache from previous job 🔹
+    - name: Download vcpkg cache from previous job
       uses: actions/download-artifact@v4
       with:
         name: vcpkg-binary-cache
-        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        path: ${{ env.VCPKG_ROOT }}\installed
 
     - name: Set up binary cache
       uses: actions/cache@v4
       with:
-        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        path: ${{ env.VCPKG_ROOT }}\installed
         key: ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
         restore-keys: ${{ runner.os }}-vcpkg-binary-cache-
 
