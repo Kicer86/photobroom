@@ -14,6 +14,7 @@ concurrency:
 
 env:
   VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
+  VCPKG_BINARY_CACHE_DIR: ${{ github.workspace }}\..\vcpkg-binary-cache
 
 jobs:
   build-dependencies:
@@ -31,7 +32,7 @@ jobs:
     - name: Cache vcpkg binary cache
       uses: actions/cache@v4
       with:
-        path: ${{ runner.temp }}\vcpkg-binary-cache
+        path: ${{ env.VCPKG_BINARY_CACHE_DIR }}
         key: vcpkg-binary-cache-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
         restore-keys: |
           vcpkg-binary-cache-${{ runner.os }}-
@@ -39,8 +40,8 @@ jobs:
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
       env:
-        VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-binary-cache
-        VCPKG_BINARY_SOURCES: clear;files,${{ runner.temp }}\vcpkg-binary-cache,readwrite
+        VCPKG_DEFAULT_BINARY_CACHE: ${{ env.VCPKG_BINARY_CACHE_DIR }}
+        VCPKG_BINARY_SOURCES: clear;files,${{ env.VCPKG_BINARY_CACHE_DIR }},readwrite
       with:
         vcpkgJsonGlob: vcpkg.json
         runVcpkgInstall: true
@@ -85,7 +86,7 @@ jobs:
     - name: Cache vcpkg binary cache
       uses: actions/cache@v4
       with:
-        path: ${{ runner.temp }}\vcpkg-binary-cache
+        path: ${{ env.VCPKG_BINARY_CACHE_DIR }}
         key: vcpkg-binary-cache-${{ runner.os }}-${{ hashFiles('vcpkg.json') }}
         restore-keys: |
           vcpkg-binary-cache-${{ runner.os }}-
@@ -93,8 +94,8 @@ jobs:
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
       env:
-        VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-binary-cache
-        VCPKG_BINARY_SOURCES: clear;files,${{ runner.temp }}\vcpkg-binary-cache,readwrite
+        VCPKG_DEFAULT_BINARY_CACHE: ${{ env.VCPKG_BINARY_CACHE_DIR }}
+        VCPKG_BINARY_SOURCES: clear;files,${{ env.VCPKG_BINARY_CACHE_DIR }},readwrite
       with:
         vcpkgJsonGlob: vcpkg.json
 
