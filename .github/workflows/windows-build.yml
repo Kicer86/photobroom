@@ -28,11 +28,19 @@ jobs:
       with:
         submodules: true
 
+    - name: Set up binary cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
+        restore-keys: |
+          ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
+
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
       env:
         VCPKG_DEFAULT_BINARY_CACHE: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-        VCPKG_BINARY_SOURCES: clear;files,${{ env.VCPKG_DEFAULT_BINARY_CACHE }},readwrite;gha,readwrite
+        VCPKG_BINARY_SOURCES: default,rw
       with:
         vcpkgJsonGlob: vcpkg.json
         runVcpkgInstall: true
@@ -74,11 +82,19 @@ jobs:
       with:
         windows_compile_environment: msvc
 
+    - name: Set up binary cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
+        restore-keys: |
+          ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
+
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
       env:
         VCPKG_DEFAULT_BINARY_CACHE: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
-        VCPKG_BINARY_SOURCES: clear;files,${{ env.VCPKG_DEFAULT_BINARY_CACHE }},readwrite;gha,readwrite
+        VCPKG_BINARY_SOURCES: default,rw
       with:
         vcpkgJsonGlob: vcpkg.json
 
