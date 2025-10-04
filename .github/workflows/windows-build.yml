@@ -14,6 +14,7 @@ concurrency:
 
 env:
   VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
+  VCPKG_DEFAULT_BINARY_CACHE: ${{ runner.temp }}\vcpkg-binary-cache
 
 jobs:
   build-dependencies:
@@ -27,12 +28,21 @@ jobs:
       with:
         submodules: true
 
+    - name: Set up binary cache
+      uses: actions/cache@4
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
+        restore-keys: ${{ runner.os }}-vcpkg-binary-cache-
+
     # built dependencies will be cached and reused in later jobs
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
       with:
         vcpkgJsonGlob: vcpkg.json
         runVcpkgInstall: true
+      env:
+        VCPKG_BINARY_SOURCES: default,rw
 
   build-photo-broom:
     name: "Build PhotoBroom sources on Windows"
@@ -71,10 +81,19 @@ jobs:
       with:
         windows_compile_environment: msvc
 
+    - name: Set up binary cache
+      uses: actions/cache@4
+      with:
+        path: ${{ env.VCPKG_DEFAULT_BINARY_CACHE }}
+        key: ${{ runner.os }}-vcpkg-binary-cache-${{ hashFiles('vcpkg*.json') }}
+        restore-keys: ${{ runner.os }}-vcpkg-binary-cache-
+
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.5
       with:
         vcpkgJsonGlob: vcpkg.json
+      env:
+        VCPKG_BINARY_SOURCES: default,rw
 
     - name: Build
       uses: lukka/run-cmake@v10
