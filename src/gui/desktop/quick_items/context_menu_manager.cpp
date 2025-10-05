@@ -15,6 +15,7 @@
 #include "ui/photos_grouping_dialog.hpp"
 #include "utils/groups_manager.hpp"
 #include "context_menu_manager.hpp"
+#include "gui/desktop/utils/photo_delta_fetcher_setup.hpp"
 
 
 ContextMenuManager::ContextMenuManager()
@@ -67,14 +68,9 @@ void ContextMenuManager::setSelection(const QList<QVariant>& selection)
 void ContextMenuManager::setProject(Project* prj)
 {
     m_project = prj;
-    m_translator.reset();
+    auto* database = m_project? &m_project->getDatabase(): nullptr;
 
-    if (m_project)
-    {
-        m_translator = std::make_unique<PhotoDeltaFetcher>(m_project->getDatabase());
-        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched,
-                this, &ContextMenuManager::updateModel);
-    }
+    Gui::Utils::resetPhotoDeltaFetcher(m_translator, database, this, &ContextMenuManager::updateModel);
 }
 
 

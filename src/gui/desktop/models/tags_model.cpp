@@ -27,6 +27,8 @@
 #include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
 
+#include "gui/desktop/utils/photo_delta_fetcher_setup.hpp"
+
 
 using namespace std::chrono;
 using namespace std::placeholders;
@@ -51,14 +53,7 @@ void TagsModel::set(Database::IDatabase* database)
     m_database = database;
     m_tagsOperator.setDb(database);
 
-    if (m_database)
-    {
-        m_translator = std::make_unique<PhotoDeltaFetcher>(*m_database);
-
-        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched, this, &TagsModel::loadPhotos);
-    }
-    else
-        m_translator.reset();
+    Gui::Utils::resetPhotoDeltaFetcher(m_translator, m_database, this, &TagsModel::loadPhotos);
 }
 
 
