@@ -60,10 +60,10 @@ void TagsModel::set(Database::IDatabase* database)
 
 void TagsModel::setPhotos(const std::vector<Photo::Id>& photos)
 {
-    if (m_translator)
+    if (m_database)
     {
         setBusy(true);
-        m_translator->fetchIds(photos, {Photo::Field::Tags});
+        m_translator.fetchIds(photos, {Photo::Field::Tags});
     }
 }
 

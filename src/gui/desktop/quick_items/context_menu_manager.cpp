@@ -59,8 +59,7 @@ void ContextMenuManager::setSelection(const QList<QVariant>& selection)
         return item.value<Photo::Id>();
     });
 
-    if (m_translator)
-        m_translator->fetchIds({selectedIds.begin(), selectedIds.end()}, {Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags});
+    m_translator.fetchIds({selectedIds.begin(), selectedIds.end()}, {Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags});
 
     emit selectionChanged(m_selection);
 }

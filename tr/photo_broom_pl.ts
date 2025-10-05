@@ -141,7 +141,7 @@
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+104"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+103"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>

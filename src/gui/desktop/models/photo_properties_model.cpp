@@ -78,10 +78,10 @@ void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 
 void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
 {
-    if (m_translator)
+    if (m_db)
     {
         setBusy(true);
-        m_translator->fetchIds(ids, {Photo::Field::Path, Photo::Field::Geometry});
+        m_translator.fetchIds(ids, {Photo::Field::Path, Photo::Field::Geometry});
     }
 }
 
