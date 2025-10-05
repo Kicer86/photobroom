@@ -26,7 +26,7 @@
 
 #include <system/filesystem.hpp>
 
-#include "gui/desktop/utils/photo_delta_fetcher_setup.hpp"
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 
 namespace
@@ -56,6 +56,7 @@ namespace
 
 PhotoPropertiesModel::PhotoPropertiesModel(QObject* p):
     QStandardItemModel(p)
+    , m_translator(*this, &PhotoPropertiesModel::gotPhotoData)
 {
 
 }
@@ -71,7 +72,7 @@ void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 {
     m_db = db;
 
-    Gui::Utils::resetPhotoDeltaFetcher(m_translator, m_db, this, &PhotoPropertiesModel::gotPhotoData);
+    m_translator.setDatabase(m_db);
 }
 
 

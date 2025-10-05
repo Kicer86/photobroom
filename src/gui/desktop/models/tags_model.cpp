@@ -27,7 +27,7 @@
 #include <core/signal_postponer.hpp>
 #include <database/idatabase.hpp>
 
-#include "gui/desktop/utils/photo_delta_fetcher_setup.hpp"
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 
 using namespace std::chrono;
@@ -36,6 +36,7 @@ using namespace std::placeholders;
 
 TagsModel::TagsModel(QObject* p):
     QAbstractItemModel(p),
+    m_translator(*this, &TagsModel::loadPhotos),
     m_database(nullptr)
 {
     connect(this, &TagsModel::dataChanged, this, &TagsModel::syncData);
@@ -53,7 +54,7 @@ void TagsModel::set(Database::IDatabase* database)
     m_database = database;
     m_tagsOperator.setDb(database);
 
-    Gui::Utils::resetPhotoDeltaFetcher(m_translator, m_database, this, &TagsModel::loadPhotos);
+    m_translator.setDatabase(m_database);
 }
 
 

@@ -22,7 +22,7 @@
 #include <database/idatabase.hpp>
 #include <database/iphoto_operator.hpp>
 
-#include "gui/desktop/utils/photo_delta_fetcher_setup.hpp"
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 
 namespace
@@ -65,6 +65,7 @@ using namespace std::placeholders;
 FlatModel::FlatModel(QObject* p)
     : APhotoDataModel(p)
     , m_db(nullptr)
+    , m_translator(*this, &FlatModel::gotPhotoData)
 {
 }
 
@@ -99,7 +100,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                 this, &FlatModel::invalidatePhotos);
     }
 
-    Gui::Utils::resetPhotoDeltaFetcher(m_translator, m_db, this, &FlatModel::gotPhotoData);
+    m_translator.setDatabase(m_db);
 
     reloadPhotos();
 }
