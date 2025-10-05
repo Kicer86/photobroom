@@ -18,123 +18,129 @@
 #ifndef FLATMODEL_HPP
 #define FLATMODEL_HPP
 
+#include <map>
+#include <memory>
+#include <mutex>
 #include <QDate>
 #include <QUrl>
-#include <map>
-#include <mutex>
 
-#include "aphoto_data_model.hpp"
 #include <database/database_tools/photo_delta_fetcher.hpp>
 #include <database/filter.hpp>
+#include "aphoto_data_model.hpp"
 
-namespace Database {
-struct IDatabase;
-struct IBackend;
-} // namespace Database
 
-class FlatModel : public APhotoDataModel {
-  Q_OBJECT
+namespace Database
+{
+    struct IDatabase;
+    struct IBackend;
+}
 
-public:
-  Q_PROPERTY(const Database::Filter &filter READ filter WRITE setFilter)
+class FlatModel: public APhotoDataModel
+{
+    Q_OBJECT
 
-  explicit FlatModel(QObject * = nullptr);
+    public:
+        Q_PROPERTY(const Database::Filter& filter READ filter WRITE setFilter)
 
-  void setDatabase(Database::IDatabase *);
-  void setFilter(const Database::Filter &);
-  const std::vector<Photo::Id> &photos() const;
-  const Database::Filter &filter() const;
-  Database::IDatabase *database() const;
+        explicit FlatModel(QObject* = nullptr);
 
-  const ExplicitDelta &getPhotoData(const QModelIndex &) const override;
-  QVariant data(const QModelIndex &index, int role) const override;
-  int rowCount(const QModelIndex &parent) const override;
-  int columnCount(const QModelIndex &parent) const override;
-  QModelIndex parent(const QModelIndex &) const override;
-  QModelIndex index(int, int, const QModelIndex &) const override;
+        void setDatabase(Database::IDatabase *);
+        void setFilter(const Database::Filter &);
+        const std::vector<Photo::Id>& photos() const;
+        const Database::Filter& filter() const;
+        Database::IDatabase* database() const;
 
-  Q_INVOKABLE QUrl getPhotoPath(int row) const;
-  Q_INVOKABLE Photo::Id getId(int row) const;
+        const ExplicitDelta& getPhotoData(const QModelIndex &) const override;
+        QVariant data(const QModelIndex& index, int role) const override;
+        int rowCount(const QModelIndex& parent) const override;
+        int columnCount(const QModelIndex & parent) const override;
+        QModelIndex parent(const QModelIndex&) const override;
+        QModelIndex index(int, int, const QModelIndex&) const override;
 
-private:
-  Database::Filter m_filters;
-  std::vector<Photo::Id> m_photos;
-  mutable std::mutex m_filtersMutex;
-  mutable std::map<Photo::Id, int> m_idToRow;
-  mutable std::map<Photo::Id, ExplicitDelta> m_properties;
-  Database::IDatabase *m_db;
-  std::unique_ptr<PhotoDeltaFetcher> m_translator;
+        Q_INVOKABLE QUrl getPhotoPath(int row) const;
+        Q_INVOKABLE Photo::Id getId(int row) const;
 
-  void reloadPhotos();
-  void updatePhotos();
-  void removeAllPhotos();
-  void resetModel();
-  void removePhotos(const std::vector<Photo::Id> &);
-  void invalidatePhotos(const std::set<Photo::Id> &);
-  const Database::Filter &filters() const;
+    private:
+        Database::Filter m_filters;
+        std::vector<Photo::Id> m_photos;
+        mutable std::mutex m_filtersMutex;
+        mutable std::map<Photo::Id, int> m_idToRow;
+        mutable std::map<Photo::Id, ExplicitDelta> m_properties;
+        Database::IDatabase* m_db;
+        mutable std::unique_ptr<PhotoDeltaFetcher> m_translator;
 
-  const ExplicitDelta &photoData(const Photo::Id &) const;
-  void fetchPhotoData(const Photo::Id &) const;
+        void reloadPhotos();
+        void updatePhotos();
+        void removeAllPhotos();
+        void resetModel();
+        void removePhotos(const std::vector<Photo::Id> &);
+        void invalidatePhotos(const std::set<Photo::Id> &);
+        const Database::Filter& filters() const;
 
-  // methods working on backend
-  void fetchMatchingPhotos(Database::IBackend &);
+        const ExplicitDelta& photoData(const Photo::Id &) const;
+        void fetchPhotoData(const Photo::Id &) const;
 
-  // results from backend
-  void fetchedPhotos(const std::vector<Photo::Id> &);
-  void gotPhotoData(const std::vector<Photo::DataDelta> &);
-  void fetchedPhotoProperties(const Photo::Id &, const ExplicitDelta &);
+        // methods working on backend
+        void fetchMatchingPhotos(Database::IBackend &);
 
-  // altering model
-  template <typename T>
-  decltype(m_photos)::iterator
-  insertPhotos(decltype(m_photos)::iterator position_it, T first, T last) {
-    if (first == last)
-      return position_it;
+        // results from backend
+        void fetchedPhotos(const std::vector<Photo::Id> &);
+        void gotPhotoData(const std::vector<Photo::DataDelta> &);
+        void fetchedPhotoProperties(const Photo::Id &, const ExplicitDelta &);
 
-    const auto items = static_cast<int>(std::distance(first, last));
-    const auto position =
-        static_cast<int>(std::distance(m_photos.begin(), position_it));
+        // altering model
+        template<typename T>
+        decltype(m_photos)::iterator insertPhotos(decltype(m_photos)::iterator position_it, T first, T last)
+        {
+            if (first == last)
+                return position_it;
 
-    beginInsertRows({}, position, position + items - 1);
-    auto r = m_photos.insert(position_it, first, last);
-    endInsertRows();
+            const auto items = static_cast<int>(std::distance(first, last));
+            const auto position = static_cast<int>(std::distance(m_photos.begin(), position_it));
 
-    return r;
-  }
+            beginInsertRows({}, position, position + items - 1);
+            auto r = m_photos.insert(position_it, first, last);
+            endInsertRows();
 
-  decltype(m_photos)::iterator erasePhotos(decltype(m_photos)::iterator first,
-                                           decltype(m_photos)::iterator last) {
-    if (first == last)
-      return first;
+            return r;
+        }
 
-    const auto items = static_cast<int>(std::distance(first, last));
-    const auto position =
-        static_cast<int>(std::distance(m_photos.begin(), first));
+        decltype(m_photos)::iterator erasePhotos(decltype(m_photos)::iterator first, decltype(m_photos)::iterator last)
+        {
+            if (first == last)
+                return first;
 
-    beginRemoveRows({}, position, position + items - 1);
+            const auto items = static_cast<int>(std::distance(first, last));
+            const auto position = static_cast<int>(std::distance(m_photos.begin(), first));
 
-    std::for_each(first, last, [this](auto &id) { m_properties.erase(id); });
+            beginRemoveRows({}, position, position + items - 1);
 
-    auto r = m_photos.erase(first, last);
-    endRemoveRows();
+            std::for_each(first, last, [this](auto& id){
+                m_properties.erase(id);
+            });
 
-    return r;
-  }
+            auto r = m_photos.erase(first, last);
+            endRemoveRows();
 
-  // helpers
-  template <std::forward_iterator InputIt, typename OutputIt>
-  void rowsOfIds(InputIt first, InputIt last, OutputIt output) {
-    while (first != last) {
-      const Photo::Id &id = *first++;
+            return r;
+        }
 
-      auto it = m_idToRow.find(id);
+        // helpers
+        template<std::forward_iterator InputIt, typename OutputIt>
+        void rowsOfIds(InputIt first, InputIt last, OutputIt output)
+        {
+            while(first != last)
+            {
+                const Photo::Id& id = *first++;
 
-      if (it != m_idToRow.end())
-        *output++ = it->second;
-    }
-  }
+                auto it = m_idToRow.find(id);
 
-  QModelIndex indexForRow(int r) const;
+                if (it != m_idToRow.end())
+                    *output++ = it->second;
+            }
+        }
+
+        QModelIndex indexForRow(int r) const;
 };
 
 #endif // FLATMODEL_HPP
