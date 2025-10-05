@@ -26,6 +26,8 @@
 
 #include <system/filesystem.hpp>
 
+#include "gui/desktop/utils/photo_delta_fetcher_setup.hpp"
+
 
 namespace
 {
@@ -68,14 +70,8 @@ PhotoPropertiesModel::~PhotoPropertiesModel()
 void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 {
     m_db = db;
-    if (m_db)
-    {
-        m_translator = std::make_unique<PhotoDeltaFetcher>(*db);
 
-        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched, this, &PhotoPropertiesModel::gotPhotoData);
-    }
-    else
-        m_translator.reset();
+    Gui::Utils::resetPhotoDeltaFetcher(m_translator, m_db, this, &PhotoPropertiesModel::gotPhotoData);
 }
 
 

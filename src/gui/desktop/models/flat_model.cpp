@@ -22,6 +22,8 @@
 #include <database/idatabase.hpp>
 #include <database/iphoto_operator.hpp>
 
+#include "gui/desktop/utils/photo_delta_fetcher_setup.hpp"
+
 
 namespace
 {
@@ -83,7 +85,6 @@ void FlatModel::setDatabase(Database::IDatabase* db)
     }
 
     m_db = db;
-    m_translator.reset();
 
     if (m_db != nullptr)
     {
@@ -96,11 +97,9 @@ void FlatModel::setDatabase(Database::IDatabase* db)
 
         connect(&backend, &Database::IBackend::photosModified,
                 this, &FlatModel::invalidatePhotos);
-
-        m_translator = std::make_unique<PhotoDeltaFetcher>(*m_db);
-        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched,
-                this, &FlatModel::gotPhotoData);
     }
+
+    Gui::Utils::resetPhotoDeltaFetcher(m_translator, m_db, this, &FlatModel::gotPhotoData);
 
     reloadPhotos();
 }
