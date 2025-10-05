@@ -25,6 +25,7 @@
 
 #include <database/filter.hpp>
 #include "aphoto_data_model.hpp"
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 
 namespace Database
@@ -65,6 +66,7 @@ class FlatModel: public APhotoDataModel
         mutable std::map<Photo::Id, int> m_idToRow;
         mutable std::map<Photo::Id, ExplicitDelta> m_properties;
         Database::IDatabase* m_db;
+        mutable Gui::Utils::PhotoDeltaFetcherBinding<FlatModel, void (FlatModel::*)(const std::vector<Photo::DataDelta>&)> m_fetcher;
 
         void reloadPhotos();
         void updatePhotos();
@@ -79,10 +81,10 @@ class FlatModel: public APhotoDataModel
 
         // methods working on backend
         void fetchMatchingPhotos(Database::IBackend &);
-        void fetchPhotoProperties(Database::IBackend &, const Photo::Id &) const;
 
         // results from backend
         void fetchedPhotos(const std::vector<Photo::Id> &);
+        void gotPhotoData(const std::vector<Photo::DataDelta> &);
         void fetchedPhotoProperties(const Photo::Id &, const ExplicitDelta &);
 
         // altering model
