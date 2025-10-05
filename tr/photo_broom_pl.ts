@@ -141,7 +141,7 @@
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+107"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+104"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -582,7 +582,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+119"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+116"/>
         <source>Photo(s) location:</source>
         <translation>
             <numerusform>lokalizacja zdjęcia:</numerusform>
@@ -844,7 +844,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-178"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-173"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
@@ -909,7 +909,7 @@ Kod błędu: %1</translation>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/tags_model.cpp" line="+236"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="+232"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
