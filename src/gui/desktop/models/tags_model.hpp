@@ -76,7 +76,7 @@ class TagsModel: public QAbstractItemModel
         std::vector<ItemData> m_keys,
                               m_values;
         TagsOperator m_tagsOperator;
-        Gui::Utils::PhotoDeltaFetcherBinding<TagsModel, void (TagsModel::*)(const std::vector<Photo::DataDelta>&)> m_translator;
+        Gui::Utils::PhotoDeltaFetcherBinding<TagsModel, void (TagsModel::*)(const std::vector<Photo::DataDelta>&)> m_fetcher;
         Database::IDatabase* m_database;
         bool m_busy = false;
 

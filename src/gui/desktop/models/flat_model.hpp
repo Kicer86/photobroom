@@ -66,7 +66,7 @@ class FlatModel: public APhotoDataModel
         mutable std::map<Photo::Id, int> m_idToRow;
         mutable std::map<Photo::Id, ExplicitDelta> m_properties;
         Database::IDatabase* m_db;
-        mutable Gui::Utils::PhotoDeltaFetcherBinding<FlatModel, void (FlatModel::*)(const std::vector<Photo::DataDelta>&)> m_translator;
+        mutable Gui::Utils::PhotoDeltaFetcherBinding<FlatModel, void (FlatModel::*)(const std::vector<Photo::DataDelta>&)> m_fetcher;
 
         void reloadPhotos();
         void updatePhotos();

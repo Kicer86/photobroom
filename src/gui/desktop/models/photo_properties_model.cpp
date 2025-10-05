@@ -56,7 +56,7 @@ namespace
 
 PhotoPropertiesModel::PhotoPropertiesModel(QObject* p):
     QStandardItemModel(p)
-    , m_translator(*this, &PhotoPropertiesModel::gotPhotoData)
+    , m_fetcher(*this, &PhotoPropertiesModel::gotPhotoData)
 {
 
 }
@@ -72,7 +72,7 @@ void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 {
     m_db = db;
 
-    m_translator.setDatabase(m_db);
+    m_fetcher.setDatabase(m_db);
 }
 
 
@@ -81,7 +81,7 @@ void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
     if (m_db)
     {
         setBusy(true);
-        m_translator.fetchIds(ids, {Photo::Field::Path, Photo::Field::Geometry});
+        m_fetcher.fetchIds(ids, {Photo::Field::Path, Photo::Field::Geometry});
     }
 }
 
