@@ -19,7 +19,7 @@
 
 
 ContextMenuManager::ContextMenuManager()
-    : m_translator(*this, &ContextMenuManager::updateModel)
+    : m_fetcher(*this, &ContextMenuManager::updateModel)
     , m_enableFaceRecognition(FaceRecognition::checkSystem())
 {
 
@@ -59,7 +59,7 @@ void ContextMenuManager::setSelection(const QList<QVariant>& selection)
         return item.value<Photo::Id>();
     });
 
-    m_translator.fetchIds({selectedIds.begin(), selectedIds.end()}, {Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags});
+    m_fetcher.fetchIds({selectedIds.begin(), selectedIds.end()}, {Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags});
 
     emit selectionChanged(m_selection);
 }
@@ -70,7 +70,7 @@ void ContextMenuManager::setProject(Project* prj)
     m_project = prj;
     auto* database = m_project? &m_project->getDatabase(): nullptr;
 
-    m_translator.setDatabase(database);
+    m_fetcher.setDatabase(database);
 }
 
 

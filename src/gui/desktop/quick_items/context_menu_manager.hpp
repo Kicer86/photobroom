@@ -46,7 +46,7 @@ signals:
 private:
     using ExplicitDelta = Photo::ExplicitDelta<Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags>;
 
-    Gui::Utils::PhotoDeltaFetcherBinding<ContextMenuManager, void (ContextMenuManager::*)(const std::vector<Photo::DataDelta>&)> m_translator;
+    Gui::Utils::PhotoDeltaFetcherBinding<ContextMenuManager, void (ContextMenuManager::*)(const std::vector<Photo::DataDelta>&)> m_fetcher;
     std::vector<ExplicitDelta> m_photos;
     ActionsModel m_model;
     QList<QVariant> m_selection;

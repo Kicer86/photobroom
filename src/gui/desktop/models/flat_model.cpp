@@ -65,7 +65,7 @@ using namespace std::placeholders;
 FlatModel::FlatModel(QObject* p)
     : APhotoDataModel(p)
     , m_db(nullptr)
-    , m_translator(*this, &FlatModel::gotPhotoData)
+    , m_fetcher(*this, &FlatModel::gotPhotoData)
 {
 }
 
@@ -100,7 +100,7 @@ void FlatModel::setDatabase(Database::IDatabase* db)
                 this, &FlatModel::invalidatePhotos);
     }
 
-    m_translator.setDatabase(m_db);
+    m_fetcher.setDatabase(m_db);
 
     reloadPhotos();
 }
@@ -318,7 +318,7 @@ const APhotoDataModel::ExplicitDelta& FlatModel::photoData(const Photo::Id& id) 
 
 void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
-    m_translator.fetchIds({id}, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
+    m_fetcher.fetchIds({id}, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
 }
 
 
