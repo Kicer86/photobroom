@@ -318,8 +318,7 @@ const APhotoDataModel::ExplicitDelta& FlatModel::photoData(const Photo::Id& id) 
 
 void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
-    if (m_translator)
-        m_translator->fetchIds({id}, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
+    m_translator.fetchIds({id}, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
 }
 
 

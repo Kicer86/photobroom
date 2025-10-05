@@ -135,27 +135,27 @@
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="104"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="103"/>
         <source>Group</source>
         <translation>Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="105"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="104"/>
         <source>Manage group...</source>
         <translation>Manage group...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="106"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="105"/>
         <source>Ungroup</source>
         <translation>Ungroup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="107"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="106"/>
         <source>Open photo location</source>
         <translation>Open photo location</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="108"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="107"/>
         <source>Recognize people...</source>
         <translation>Recognize people...</translation>
     </message>
