@@ -135,27 +135,27 @@
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="107"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="104"/>
         <source>Group</source>
         <translation>Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="108"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="105"/>
         <source>Manage group...</source>
         <translation>Manage group...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="109"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="106"/>
         <source>Ungroup</source>
         <translation>Ungroup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="110"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="107"/>
         <source>Open photo location</source>
         <translation>Open photo location</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="111"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="108"/>
         <source>Recognize people...</source>
         <translation>Recognize people...</translation>
     </message>
@@ -561,7 +561,7 @@ Error code: %1</source>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="119"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="116"/>
         <source>Photo(s) location:</source>
         <translation>
             <numerusform>photo location:</numerusform>
@@ -569,7 +569,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="120"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="117"/>
         <source>Photo(s) size:</source>
         <translation>
             <numerusform>Photo size:</numerusform>
@@ -577,7 +577,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="121"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="118"/>
         <source>Photo(s) geometry:</source>
         <translation>
             <numerusform>Photo geometry:</numerusform>
@@ -585,7 +585,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="210"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="207"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n byte</numerusform>
@@ -593,7 +593,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="211"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="208"/>
         <source>%n kbyte(s)</source>
         <translation>
             <numerusform>%n kbyte</numerusform>
@@ -601,7 +601,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="212"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="209"/>
         <source>%n Mbyte(s)</source>
         <translation>
             <numerusform>%n Mbyte</numerusform>
@@ -609,7 +609,7 @@ Error code: %1</source>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="213"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="210"/>
         <source>%n Gbyte(s)</source>
         <translation>
             <numerusform>%n Gbyte</numerusform>
@@ -816,12 +816,12 @@ Error code: %1</source>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="35"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="37"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="36"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="38"/>
         <source>?</source>
         <translation>?</translation>
     </message>
@@ -881,12 +881,12 @@ Error code: %1</source>
 <context>
     <name>TagsModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/tags_model.cpp" line="236"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="232"/>
         <source>Name</source>
         <translation>Name</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/tags_model.cpp" line="237"/>
+        <location filename="../src/gui/desktop/models/tags_model.cpp" line="233"/>
         <source>Value</source>
         <translation>Value</translation>
     </message>
