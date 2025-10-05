@@ -15,11 +15,12 @@
 #include "ui/photos_grouping_dialog.hpp"
 #include "utils/groups_manager.hpp"
 #include "context_menu_manager.hpp"
-#include "gui/desktop/utils/photo_delta_fetcher_setup.hpp"
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 
 ContextMenuManager::ContextMenuManager()
-    : m_enableFaceRecognition(FaceRecognition::checkSystem())
+    : m_translator(*this, &ContextMenuManager::updateModel)
+    , m_enableFaceRecognition(FaceRecognition::checkSystem())
 {
 
 }
@@ -70,7 +71,7 @@ void ContextMenuManager::setProject(Project* prj)
     m_project = prj;
     auto* database = m_project? &m_project->getDatabase(): nullptr;
 
-    Gui::Utils::resetPhotoDeltaFetcher(m_translator, database, this, &ContextMenuManager::updateModel);
+    m_translator.setDatabase(database);
 }
 
 

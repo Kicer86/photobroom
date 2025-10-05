@@ -19,14 +19,13 @@
 #define FLATMODEL_HPP
 
 #include <map>
-#include <memory>
 #include <mutex>
 #include <QDate>
 #include <QUrl>
 
-#include <database/database_tools/photo_delta_fetcher.hpp>
 #include <database/filter.hpp>
 #include "aphoto_data_model.hpp"
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 
 namespace Database
@@ -67,7 +66,7 @@ class FlatModel: public APhotoDataModel
         mutable std::map<Photo::Id, int> m_idToRow;
         mutable std::map<Photo::Id, ExplicitDelta> m_properties;
         Database::IDatabase* m_db;
-        mutable std::unique_ptr<PhotoDeltaFetcher> m_translator;
+        mutable Gui::Utils::PhotoDeltaFetcherBinding<FlatModel, void (FlatModel::*)(const std::vector<Photo::DataDelta>&)> m_translator;
 
         void reloadPhotos();
         void updatePhotos();
