@@ -32,10 +32,8 @@
 #include "config.hpp"
 
 #include "config_keys.hpp"
-#include "config_tabs/main_tab.hpp"
 #include "models/flat_model.hpp"
 #include "widgets/project_creator/project_creator_dialog.hpp"
-#include "ui_utils/config_dialog_manager.hpp"
 #include "utils/collection_scanner.hpp"
 #include "utils/groups_manager.hpp"
 #include "utils/grouppers/collage_generator.hpp"
@@ -57,8 +55,6 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     m_updater(nullptr),
     m_coreAccessor(coreFactory),
     m_thumbnailsManager(thbMgr),
-    m_configDialogManager(new ConfigDialogManager),
-    m_mainTabCtrl(new MainTabController),
     m_completerFactory(*m_logger),
     m_featuresObserver(featuresManager, m_notifications)
 {
@@ -66,14 +62,11 @@ MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* 
     setupConfig();
     setupQmlView();
     updateGui();
-    registerConfigTab();
 
     connect(this, &MainWindow::currentDatabaseChanged,
             &m_completerFactory, qOverload<Database::IDatabase *>(&CompleterFactory::set));
     connect(this, &MainWindow::currentProjectChanged,
             &ObjectsAccessor::instance(), &ObjectsAccessor::setProject);
-
-    m_mainTabCtrl->set(&m_configuration);
 }
 
 
@@ -115,7 +108,6 @@ void MainWindow::setupQmlView()
     connect(mainWindow, SIGNAL(openProject(QString)), this, SLOT(openProject(QString)));
     connect(mainWindow, SIGNAL(closeProject()), this, SLOT(on_actionClose_triggered()));
     connect(mainWindow, SIGNAL(scanCollection()), this, SLOT(on_actionScan_collection_triggered()));
-    connect(mainWindow, SIGNAL(configuration()), this, SLOT(on_actionConfiguration_triggered()));
 
     QmlUtils::registerImageProviders(m_mainView, *m_thumbnailsManager);
     PhotosModelControllerComponent* controller
@@ -295,12 +287,6 @@ void MainWindow::updateProjectProperties()
 }
 
 
-void MainWindow::registerConfigTab()
-{
-    m_configDialogManager->registerTab(m_mainTabCtrl.get());
-}
-
-
 void MainWindow::loadRecentCollections()
 {
     // recent collections
@@ -368,12 +354,6 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionAbout_Qt_triggered()
 {
     QMessageBox::aboutQt(nullptr, tr("About Qt"));
-}
-
-
-void MainWindow::on_actionConfiguration_triggered()
-{
-    m_configDialogManager->run();
 }
 
 

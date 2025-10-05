@@ -17,9 +17,6 @@
 #include "utils/features_observer.hpp"
 
 
-class ConfigDialogManager;
-class LookTabController;
-class MainTabController;
 class PhotosAnalyzer;
 struct ICoreFactoryAccessor;
 struct ILoggerFactory;
@@ -62,8 +59,6 @@ class MainWindow: public QObject
         QPointer<QObject>         m_collectionScanner;
         QQmlApplicationEngine     m_mainView;
         std::unique_ptr<PhotosAnalyzer> m_photosAnalyzer;
-        std::unique_ptr<ConfigDialogManager> m_configDialogManager;
-        std::unique_ptr<MainTabController> m_mainTabCtrl;
         CompleterFactory          m_completerFactory;
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;
@@ -73,8 +68,6 @@ class MainWindow: public QObject
         void updateGui();
         void updateTools();
         void updateProjectProperties();
-        void registerConfigTab();
-
         void loadRecentCollections();
 
         void setupQmlView();
@@ -93,9 +86,6 @@ class MainWindow: public QObject
         void on_actionHelp_triggered();
         void on_actionAbout_triggered();
         void on_actionAbout_Qt_triggered();
-
-        // settings menu
-        void on_actionConfiguration_triggered();
 
         //internal slots
         void projectOpened(bool);
