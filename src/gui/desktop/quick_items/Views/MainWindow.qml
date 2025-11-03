@@ -62,7 +62,8 @@ ApplicationWindow {
 
                         text: modelData
 
-                        onTriggered: mainWindow.openProject(modelData)
+                        // modelData is of QVariant type, ensure QString is passed to C++ slot
+                        onTriggered: mainWindow.openProject(modelData.toString())
                     }
 
                     onObjectAdded: (index, object) => recentsMenu.insertItem(index, object)
