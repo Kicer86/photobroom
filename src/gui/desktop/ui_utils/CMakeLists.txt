@@ -1,15 +1,11 @@
 
 set(UTILS_SOURCES
     completer_factory.cpp
-    config_dialog_manager.cpp
-    iconfig_dialog_manager.cpp
 )
 
 set(UTILS_HEADERS
     completer_factory.hpp
-    config_dialog_manager.hpp
     icompleter_factory.hpp
-    iconfig_dialog_manager.hpp
 )
 
 add_library(gui_ui_utils OBJECT ${UTILS_SOURCES} ${UTILS_HEADERS})
