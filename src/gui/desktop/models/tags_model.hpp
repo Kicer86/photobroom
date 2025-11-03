@@ -23,7 +23,7 @@
 #include <QAbstractItemModel>
 
 #include <database/idatabase.hpp>
-#include <database/database_tools/photo_delta_fetcher.hpp>
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 #include "tags_operator.hpp"
 
@@ -76,7 +76,7 @@ class TagsModel: public QAbstractItemModel
         std::vector<ItemData> m_keys,
                               m_values;
         TagsOperator m_tagsOperator;
-        std::unique_ptr<PhotoDeltaFetcher> m_translator;
+        Gui::Utils::PhotoDeltaFetcherBinding<TagsModel, void (TagsModel::*)(const std::vector<Photo::DataDelta>&)> m_fetcher;
         Database::IDatabase* m_database;
         bool m_busy = false;
 
