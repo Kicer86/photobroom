@@ -1,6 +1,8 @@
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS
     Quick
+    QmlPrivate
+    QuickPrivate
 )
 
 set(CMAKE_AUTOMOC ON)
