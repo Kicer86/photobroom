@@ -20,6 +20,7 @@
 #include <unordered_set>
 #include <functional>
 #include <QDateTime>
+#include <QElapsedTimer>
 
 #include <core/iexif_reader.hpp>
 #include <core/media_types.hpp>
