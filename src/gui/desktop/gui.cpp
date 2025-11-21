@@ -31,14 +31,18 @@
 #include "utils/thumbnail_manager.hpp"
 #include "utils/qml_setup.hpp"
 
+
+Q_IMPORT_QML_PLUGIN(QmlItemsPlugin);
+Q_IMPORT_QML_PLUGIN(quick_itemsPlugin);
+
+
 Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAccessor& coreFactory, IFeaturesManager& features)
     : m_prjManager(prjMgr)
     , m_pluginLoader(pluginLoader)
     , m_coreFactory(coreFactory)
     , m_featuresManager(features)
 {
-    Q_IMPORT_QML_PLUGIN(QmlItemsPlugin)
-    Q_IMPORT_QML_PLUGIN(quick_itemsPlugin)
+
     register_qml_types();
 
     qRegisterMetaType<QVector<QRect>>("QVector<QRect>");
