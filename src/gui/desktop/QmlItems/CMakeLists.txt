@@ -1,6 +1,9 @@
 
 find_package(Qt6 6.4 REQUIRED COMPONENTS
     Quick
+)
+
+find_package(Qt6 6.4  COMPONENTS
     QmlPrivate
     QuickPrivate
 )
