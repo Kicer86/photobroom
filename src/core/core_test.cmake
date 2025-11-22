@@ -113,13 +113,8 @@ endif()
 
 
 # for exif testing (https://github.com/golang/go/issues/4341)
-add_custom_command(OUTPUT exif_tests_images.tar
-                   COMMAND ${Wget} https://storage.googleapis.com/go-attachment/4341/0/f.tar -O exif_tests_images.tar
-)
-
 add_custom_command(OUTPUT f/f1.jpg
-                   COMMAND ${CMAKE_COMMAND} -E tar xf exif_tests_images.tar
-                   DEPENDS exif_tests_images.tar
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/image-files/f ${CMAKE_CURRENT_BINARY_DIR}/f
 )
 
 add_custom_target(exif_tests_images
