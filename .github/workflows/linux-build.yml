@@ -100,7 +100,6 @@ jobs:
             -DPython=/usr/bin/python3
         run-test: true
         ctest-options:
-            -LE HeavyData
             --output-on-failure
       env:
         TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
