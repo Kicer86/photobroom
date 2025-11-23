@@ -26,10 +26,9 @@ jobs:
         os: [ubuntu-24.04]
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: nschloe/action-cached-lfs-checkout@v1
       with:
         submodules: true
-        lfs: false
 
     - name: Install system dependencies
       run: |
