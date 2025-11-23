@@ -1,14 +1,17 @@
 <map id="src/gui/desktop/models/flat_model.cpp" name="src/gui/desktop/models/flat_model.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="274,5,430,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="261,5,417,46"/>
 <area shape="rect" id="Node000002" href="$de/d3d/flat__model_8hpp.html" title=" " alt="" coords="5,94,110,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="279,49,118,92,117,87,278,44"/>
-<area shape="rect" id="Node000042" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="134,94,314,120"/>
-<area shape="poly" id="edge2_Node000001_Node000042" title=" " alt="" coords="322,49,258,88,255,83,319,44"/>
-<area shape="rect" id="Node000048" href="$da/d2a/ibackend_8hpp.html" title=" " alt="" coords="332,168,487,193"/>
-<area shape="poly" id="edge3_Node000001_Node000048" title=" " alt="" coords="359,46,380,119,397,153,392,155,375,121,354,47"/>
-<area shape="rect" id="Node000055" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="389,94,547,120"/>
-<area shape="poly" id="edge4_Node000001_Node000055" title=" " alt="" coords="382,44,439,83,436,87,379,49"/>
-<area shape="rect" id="Node000057" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="571,94,762,120"/>
-<area shape="poly" id="edge6_Node000001_Node000057" title=" " alt="" coords="431,44,604,87,603,92,430,49"/>
-<area shape="poly" id="edge5_Node000055_Node000048" title=" " alt="" coords="461,122,431,157,427,154,456,118"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="269,49,116,92,115,87,268,44"/>
+<area shape="rect" id="Node000042" href="$d3/d0f/photo__delta__fetcher__binding_8hpp.html" title=" " alt="" coords="15,168,190,208"/>
+<area shape="poly" id="edge8_Node000001_Node000042" title=" " alt="" coords="267,49,219,69,174,96,145,125,123,156,119,153,141,121,171,92,217,64,265,44"/>
+<area shape="rect" id="Node000056" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="185,94,365,120"/>
+<area shape="poly" id="edge3_Node000001_Node000056" title=" " alt="" coords="325,48,296,83,292,80,321,45"/>
+<area shape="rect" id="Node000052" href="$da/d2a/ibackend_8hpp.html" title=" " alt="" coords="412,175,509,201"/>
+<area shape="poly" id="edge4_Node000001_Node000052" title=" " alt="" coords="356,45,444,161,440,164,352,48"/>
+<area shape="rect" id="Node000047" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="440,94,598,120"/>
+<area shape="poly" id="edge5_Node000001_Node000047" title=" " alt="" coords="385,44,479,85,476,90,383,49"/>
+<area shape="rect" id="Node000061" href="$d4/d3c/iphoto__operator_8hpp.html" title=" " alt="" coords="622,94,813,120"/>
+<area shape="poly" id="edge7_Node000001_Node000061" title=" " alt="" coords="418,41,645,88,644,93,417,46"/>
+<area shape="poly" id="edge2_Node000002_Node000042" title=" " alt="" coords="67,119,86,153,82,156,62,121"/>
+<area shape="poly" id="edge6_Node000047_Node000052" title=" " alt="" coords="512,122,480,164,476,161,508,118"/>
 </map>

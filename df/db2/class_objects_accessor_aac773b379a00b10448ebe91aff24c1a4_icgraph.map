@@ -1,5 +1,6 @@
 <map id="ObjectsAccessor::setCoreFactory" name="ObjectsAccessor::setCoreFactory">
-<area shape="rect" id="Node000001" title=" " alt="" coords="121,5,293,46"/>
-<area shape="rect" id="Node000002" href="$d6/dd6/struct_gui.html#a081e29e8e0411580fff4aba85760efc7" title=" " alt="" coords="5,13,73,38"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,28,73,28,73,23,105,23"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="121,22,293,62"/>
+<area shape="rect" id="Node000002" href="$d6/dd6/struct_gui.html#a081e29e8e0411580fff4aba85760efc7" title=" " alt="" coords="5,29,73,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,45,73,45,73,40,105,40"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="67,16,58,10,39,8,22,10,12,15,10,20,15,28,10,30,5,21,8,11,20,5,39,3,59,5,70,12"/>
 </map>

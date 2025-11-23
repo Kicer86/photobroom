@@ -1,5 +1,6 @@
 <map id="FileSystem::getTranslationsPath" name="FileSystem::getTranslationsPath">
-<area shape="rect" id="Node000001" title=" " alt="" coords="119,5,327,31"/>
-<area shape="rect" id="Node000002" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="5,5,71,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,21,71,21,71,16,103,16"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="121,29,329,55"/>
+<area shape="rect" id="Node000002" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="8,29,73,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,45,74,45,74,40,105,40"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="72,16,61,10,40,8,21,10,11,15,8,20,14,27,9,30,3,21,7,11,20,5,40,3,63,5,74,12"/>
 </map>

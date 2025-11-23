@@ -1,0 +1,12 @@
+<map id="src/gui/desktop/utils/photo_delta_fetcher_binding.hpp" name="src/gui/desktop/utils/photo_delta_fetcher_binding.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="84,5,223,61"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,116,73,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,64,67,109,63,105,119,59"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="97,116,149,142"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="147,62,134,103,129,101,142,61"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="211,198,280,223"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="169,60,213,148,233,183,228,186,209,151,164,62"/>
+<area shape="rect" id="Node000005" href="$d7/dfc/photo__delta__fetcher_8hpp.html" title=" " alt="" coords="222,109,389,150"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="199,59,263,98,260,103,196,64"/>
+<area shape="poly" id="edge5_Node000005_Node000004" title=" " alt="" coords="293,152,266,187,262,183,289,148"/>
+</map>

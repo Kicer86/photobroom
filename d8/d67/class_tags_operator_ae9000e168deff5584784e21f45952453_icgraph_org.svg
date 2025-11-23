@@ -35,19 +35,19 @@
 </a>
 </g>
 </g>
-<!-- Node6 -->
-<g id="Node000006" class="node">
-<title>Node6</title>
-<g id="a_Node000006"><a xlink:href="../../d8/d67/class_tags_operator.html#a82c3d0e84247e0fa74d8bda06d994fb8" target="_top" xlink:title=" ">
+<!-- Node4 -->
+<g id="Node000004" class="node">
+<title>Node4</title>
+<g id="a_Node000004"><a xlink:href="../../d8/d67/class_tags_operator.html#a82c3d0e84247e0fa74d8bda06d994fb8" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="103.75,-19.25 0,-19.25 0,0 103.75,0 103.75,-19.25"/>
 <text text-anchor="middle" x="51.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">TagsOperator::insert</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
-<g id="edge2_Node000001_Node000006" class="edge">
-<title>Node1&#45;&gt;Node6</title>
-<g id="a_edge2_Node000001_Node000006"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node4 -->
+<g id="edge2_Node000001_Node000004" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<g id="a_edge2_Node000001_Node000004"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M128.17,-19.08C120.04,-18.06 111.85,-17.03 104.01,-16.04"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="127.72,-22.55 138.08,-20.32 128.6,-15.6 127.72,-22.55"/>
 </a>

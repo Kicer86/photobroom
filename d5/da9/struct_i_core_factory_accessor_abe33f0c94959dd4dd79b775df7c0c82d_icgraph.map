@@ -1,13 +1,14 @@
 <map id="ICoreFactoryAccessor::getLoggerFactory" name="ICoreFactoryAccessor::getLoggerFactory">
-<area shape="rect" id="Node000001" title=" " alt="" coords="253,120,403,161"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="253,144,403,185"/>
 <area shape="rect" id="Node000002" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="29,5,181,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,113,248,85,203,60,178,49,180,44,206,55,251,81,290,108"/>
-<area shape="rect" id="Node000005" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="72,70,138,96"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="237,120,204,111,138,94,139,89,205,106,239,114"/>
-<area shape="rect" id="Node000007" href="$dc/d96/class_batch_face_detector.html#afc9c0ac81bcce9e2d4aba88e84b4e330" title=" " alt="" coords="35,120,175,161"/>
-<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="238,143,175,143,175,138,238,138"/>
-<area shape="rect" id="Node000008" href="$d5/d0f/class_series_model.html#ae62432984c4a5ebd4394b3c6161efc15" title=" " alt="" coords="5,185,205,210"/>
-<area shape="poly" id="edge4_Node000001_Node000008" title=" " alt="" coords="239,166,205,175,160,187,158,182,204,170,237,161"/>
-<area shape="rect" id="Node000009" href="$de/db3/class_context_menu_manager.html#a378b0d542be360a79ddeb05235ded1d9" title=" " alt="" coords="31,235,179,275"/>
-<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="290,172,251,200,206,225,180,237,178,232,203,221,248,195,287,168"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="296,135,254,96,203,60,180,49,182,44,206,55,257,92,299,131"/>
+<area shape="rect" id="Node000004" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="72,94,138,120"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="237,144,204,135,138,118,139,113,205,130,239,138"/>
+<area shape="rect" id="Node000005" href="$dc/d96/class_batch_face_detector.html#afc9c0ac81bcce9e2d4aba88e84b4e330" title=" " alt="" coords="35,144,175,185"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="238,167,175,167,175,162,238,162"/>
+<area shape="rect" id="Node000006" href="$d5/d0f/class_series_model.html#ae62432984c4a5ebd4394b3c6161efc15" title=" " alt="" coords="5,209,205,234"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="239,190,205,199,160,211,158,206,204,194,237,185"/>
+<area shape="rect" id="Node000007" href="$de/db3/class_context_menu_manager.html#a378b0d542be360a79ddeb05235ded1d9" title=" " alt="" coords="31,259,179,299"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="290,196,251,224,206,249,180,261,178,256,203,245,248,219,287,192"/>
+<area shape="poly" id="edge3_Node000004_Node000004" title=" " alt="" coords="145,85,134,76,105,73,81,75,68,80,66,86,74,93,70,97,61,87,64,76,80,70,105,68,136,71,148,80"/>
 </map>

@@ -1,7 +1,10 @@
 <map id="FlatModel" name="FlatModel">
-<area shape="rect" id="Node000001" title=" " alt="" coords="108,94,186,120"/>
-<area shape="rect" id="Node000002" href="$de/de3/class_a_photo_data_model.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,41,138,92,134,95,87,44"/>
-<area shape="rect" id="Node000004" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="155,5,296,31"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="207,44,160,95,156,92,203,41"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="230,31,308,56"/>
+<area shape="rect" id="Node000005" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html" title=" " alt="" coords="423,8,623,79"/>
+<area shape="poly" id="edge4_Node000005_Node000001" title=" " alt="" coords="324,41,423,41,423,46,324,46"/>
+<area shape="rect" id="Node000002" href="$de/de3/class_a_photo_data_model.html" title=" " alt="" coords="13,5,139,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,26,230,36,229,41,154,31"/>
+<area shape="rect" id="Node000004" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="5,55,147,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="162,55,205,49,229,46,230,51,206,54,163,60"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="408,70,369,71,332,68,301,59,302,54,332,63,370,66,407,64"/>
 </map>

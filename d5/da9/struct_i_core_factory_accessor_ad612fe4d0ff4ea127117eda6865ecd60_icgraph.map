@@ -1,12 +1,13 @@
 <map id="ICoreFactoryAccessor::getExifReaderFactory" name="ICoreFactoryAccessor::getExifReaderFactory">
-<area shape="rect" id="Node000001" title=" " alt="" coords="216,84,366,125"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="216,96,366,137"/>
 <area shape="rect" id="Node000002" href="$dd/d0a/class_face_editor.html#adf8745e7dc160e0a546a6137a05f2878" title=" " alt="" coords="5,5,168,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="237,79,167,46,133,34,135,29,169,41,239,74"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,90,167,46,136,34,138,29,169,41,248,85"/>
 <area shape="rect" id="Node000004" href="$de/db3/class_context_menu_manager.html#a6e73f66bfc406adf3a1676fb0237fde3" title=" " alt="" coords="10,55,163,96"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="200,95,163,89,164,84,201,89"/>
-<area shape="rect" id="Node000007" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="54,120,119,146"/>
-<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="201,120,120,131,119,126,200,115"/>
-<area shape="rect" id="Node000009" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="8,193,165,219"/>
-<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="236,135,115,195,113,191,233,130"/>
-<area shape="poly" id="edge5_Node000009_Node000009" title=" " alt="" coords="122,181,110,174,86,172,65,174,53,179,51,184,57,191,52,195,46,185,50,175,64,169,87,167,112,169,124,176"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="200,101,163,94,164,88,201,96"/>
+<area shape="rect" id="Node000006" href="$d6/dd6/struct_gui.html#a225eb7edaace31eb6cc4ec3173b2a703" title=" " alt="" coords="54,144,119,170"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="201,137,120,153,119,148,200,132"/>
+<area shape="rect" id="Node000007" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="8,217,165,243"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="241,147,113,219,110,215,238,143"/>
+<area shape="poly" id="edge4_Node000006_Node000006" title=" " alt="" coords="122,132,110,125,86,123,65,125,53,129,51,135,57,142,52,145,46,135,50,126,64,119,87,117,112,120,124,127"/>
+<area shape="poly" id="edge6_Node000007_Node000007" title=" " alt="" coords="122,205,110,198,86,196,65,198,53,203,51,208,57,215,52,219,46,209,50,199,64,193,87,191,112,193,124,200"/>
 </map>

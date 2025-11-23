@@ -1,15 +1,17 @@
 <map id="src/gui/desktop/models/flat_model.hpp" name="src/gui/desktop/models/flat_model.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="146,5,303,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,52,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="177,49,67,93,65,88,175,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="76,94,133,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="196,49,137,88,134,83,193,44"/>
-<area shape="rect" id="Node000004" title=" " alt="" coords="157,94,215,120"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="217,48,201,81,196,79,213,45"/>
-<area shape="rect" id="Node000005" title=" " alt="" coords="239,94,287,120"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="236,45,253,79,248,81,232,48"/>
-<area shape="rect" id="Node000006" href="$d1/dd2/filter_8hpp.html" title=" " alt="" coords="312,94,438,120"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="263,44,340,84,337,89,261,49"/>
-<area shape="rect" id="Node000029" href="$db/dc4/aphoto__data__model_8hpp.html" title=" " alt="" coords="463,94,621,120"/>
-<area shape="poly" id="edge6_Node000001_Node000029" title=" " alt="" coords="304,44,479,87,478,92,302,49"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="185,5,341,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,102,52,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="197,49,133,70,66,96,65,97,63,92,63,92,131,65,196,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="76,102,133,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="228,49,141,96,139,91,226,44"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="157,102,215,127"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="248,48,209,92,205,88,244,45"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="239,102,287,127"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="266,47,266,86,260,86,260,47"/>
+<area shape="rect" id="Node000006" href="$d1/dd2/filter_8hpp.html" title=" " alt="" coords="312,102,438,127"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="290,44,349,90,346,94,287,49"/>
+<area shape="rect" id="Node000029" href="$db/dc4/aphoto__data__model_8hpp.html" title=" " alt="" coords="463,102,621,127"/>
+<area shape="poly" id="edge6_Node000001_Node000029" title=" " alt="" coords="328,44,489,94,488,99,326,49"/>
+<area shape="rect" id="Node000041" href="$d3/d0f/photo__delta__fetcher__binding_8hpp.html" title=" " alt="" coords="645,94,820,135"/>
+<area shape="poly" id="edge7_Node000001_Node000041" title=" " alt="" coords="342,38,630,91,629,96,341,44"/>
 </map>

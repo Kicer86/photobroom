@@ -65,39 +65,39 @@
 </a>
 </g>
 </g>
-<!-- Node8 -->
-<g id="Node000008" class="node">
-<title>Node8</title>
-<g id="a_Node000008"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#ab5f22fc2d7d4f85f6e133e5a88e82ef9" target="_top" xlink:title=" ">
+<!-- Node7 -->
+<g id="Node000007" class="node">
+<title>Node7</title>
+<g id="a_Node000007"><a xlink:href="../../da/dba/class_database_1_1_memory_backend.html#ab5f22fc2d7d4f85f6e133e5a88e82ef9" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="139,-79.5 4.5,-79.5 4.5,-49 139,-49 139,-79.5"/>
 <text text-anchor="start" x="12.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::MemoryBackend</text>
 <text text-anchor="middle" x="71.75" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::removeGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node8 -->
-<g id="edge3_Node000001_Node000008" class="edge">
-<title>Node1&#45;&gt;Node8</title>
-<g id="a_edge3_Node000001_Node000008"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node7 -->
+<g id="edge3_Node000001_Node000007" class="edge">
+<title>Node1&#45;&gt;Node7</title>
+<g id="a_edge3_Node000001_Node000007"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M167.85,-78.13C158.44,-76.76 148.8,-75.35 139.44,-73.99"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="167.27,-81.59 177.67,-79.57 168.29,-74.66 167.27,-81.59"/>
 </a>
 </g>
 </g>
-<!-- Node9 -->
-<g id="Node000009" class="node">
-<title>Node9</title>
-<g id="a_Node000009"><a xlink:href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" target="_top" xlink:title=" ">
+<!-- Node8 -->
+<g id="Node000008" class="node">
+<title>Node8</title>
+<g id="a_Node000008"><a xlink:href="../../d0/d89/class_database_1_1_a_photo_change_log_operator.html#a2553f497a5bdffdc081ed06c048921ef" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="143.5,-30.5 0,-30.5 0,0 143.5,0 143.5,-30.5"/>
 <text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::APhotoChangeLog</text>
 <text text-anchor="middle" x="71.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">Operator::storeDifference</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node9 -->
-<g id="edge4_Node000001_Node000009" class="edge">
-<title>Node1&#45;&gt;Node9</title>
-<g id="a_edge4_Node000001_Node000009"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node8 -->
+<g id="edge4_Node000001_Node000008" class="edge">
+<title>Node1&#45;&gt;Node8</title>
+<g id="a_edge4_Node000001_Node000008"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M209.16,-72.66C190.79,-62.74 166.08,-49.97 143.5,-40.25 135.96,-37 127.85,-33.84 119.9,-30.92"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="207.39,-75.69 217.84,-77.41 210.75,-69.54 207.39,-75.69"/>
 </a>

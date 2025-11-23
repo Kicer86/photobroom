@@ -1,18 +1,18 @@
 <map id="src/gui/desktop/quick_items/context_menu_manager.hpp" name="src/gui/desktop/quick_items/context_menu_manager.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="336,5,563,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="186,183,255,208"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="336,31,244,36,149,48,68,67,38,80,18,96,9,114,12,129,26,143,49,155,109,174,171,185,170,191,107,179,46,160,23,147,8,132,4,113,14,92,36,76,66,62,148,42,243,31,336,26"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="28,102,194,127"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="373,49,174,100,173,95,372,44"/>
-<area shape="rect" id="Node000004" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="218,94,342,135"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="412,49,333,89,331,84,410,44"/>
-<area shape="rect" id="Node000005" href="$d7/dfc/photo__delta__fetcher_8hpp.html" title=" " alt="" coords="366,94,533,135"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="452,47,452,78,447,78,447,47"/>
-<area shape="rect" id="Node000044" href="$d8/d0e/explicit__photo__delta_8hpp.html" title=" " alt="" coords="557,102,716,127"/>
-<area shape="poly" id="edge6_Node000001_Node000044" title=" " alt="" coords="493,44,598,92,595,97,491,49"/>
-<area shape="rect" id="Node000050" href="$d1/d8e/project_8hpp.html" title=" " alt="" coords="740,102,898,127"/>
-<area shape="poly" id="edge7_Node000001_Node000050" title=" " alt="" coords="535,44,753,95,751,100,533,49"/>
-<area shape="rect" id="Node000054" href="$dc/db5/actions__model_8hpp.html" title=" " alt="" coords="922,102,1097,127"/>
-<area shape="poly" id="edge8_Node000001_Node000054" title=" " alt="" coords="564,40,910,91,934,96,933,101,909,97,563,45"/>
-<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="393,138,270,180,269,175,391,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="330,5,557,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="367,183,437,208"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="330,31,239,37,145,48,65,67,36,80,16,96,10,105,8,114,10,123,16,133,38,149,73,162,115,173,164,180,265,189,352,192,352,197,265,194,163,185,114,178,71,167,36,154,12,136,5,125,3,114,5,103,12,92,33,76,64,62,144,43,238,31,330,26"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="26,102,191,127"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="368,49,171,100,170,95,366,44"/>
+<area shape="rect" id="Node000004" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="216,94,340,135"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="407,49,330,89,328,84,405,44"/>
+<area shape="rect" id="Node000005" href="$d8/d0e/explicit__photo__delta_8hpp.html" title=" " alt="" coords="365,94,522,135"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="446,47,446,78,441,78,441,47"/>
+<area shape="rect" id="Node000036" href="$d1/d8e/project_8hpp.html" title=" " alt="" coords="546,102,704,127"/>
+<area shape="poly" id="edge5_Node000001_Node000036" title=" " alt="" coords="486,44,587,92,585,97,483,49"/>
+<area shape="rect" id="Node000052" href="$d3/d0f/photo__delta__fetcher__binding_8hpp.html" title=" " alt="" coords="728,94,903,135"/>
+<area shape="poly" id="edge6_Node000001_Node000052" title=" " alt="" coords="529,44,717,87,715,93,528,49"/>
+<area shape="rect" id="Node000056" href="$dc/db5/actions__model_8hpp.html" title=" " alt="" coords="928,102,1103,127"/>
+<area shape="poly" id="edge8_Node000001_Node000056" title=" " alt="" coords="558,39,916,91,940,96,939,101,915,97,557,44"/>
+<area shape="poly" id="edge7_Node000052_Node000002" title=" " alt="" coords="728,135,716,137,453,187,452,182,715,132,727,130"/>
 </map>

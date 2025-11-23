@@ -96,7 +96,7 @@ var searchData=
   ['getwidget_93',['getWidget',['../d5/de9/struct_media_preview_1_1_i_internal.html#af0f4381d2b630a2faacbcbafc604c03e',1,'MediaPreview::IInternal']]],
   ['gotdbphotos_94',['gotDBPhotos',['../db/d6e/class_collection_scanner.html#a6b68507f00dc1b05db6de8c9e368a302',1,'CollectionScanner']]],
   ['gotdiskphoto_95',['gotDiskPhoto',['../db/d6e/class_collection_scanner.html#ab0b44dadf7d37b2eab5472d9813297c9',1,'CollectionScanner']]],
-  ['gotphotodata_96',['gotPhotoData',['../d2/dbb/class_photo_properties_model.html#a7bd2e4c9a2287916636b0f8ea74aff0e',1,'PhotoPropertiesModel']]],
+  ['gotphotodata_96',['gotPhotoData',['../d1/da6/class_flat_model.html#a61bc149b096363862dbe1369d8bf4865',1,'FlatModel::gotPhotoData()'],['../d2/dbb/class_photo_properties_model.html#a7bd2e4c9a2287916636b0f8ea74aff0e',1,'PhotoPropertiesModel::gotPhotoData()']]],
   ['gottagvalues_97',['gotTagValues',['../d6/d99/class_tag_info_collector.html#abf40d1de87194feee9c0b1a23172ff12',1,'TagInfoCollector']]],
   ['group_98',['group',['../df/d40/namespace_groups_manager.html#aedfbeedbd41e72859f20937b21e139a2',1,'GroupsManager::group(Database::IDatabase &amp;, const std::vector&lt; Photo::Id &gt; &amp;, const QString &amp;representativePath, Group::Type)'],['../df/d40/namespace_groups_manager.html#a36d06be40255e8a0134e20f37a9da47b',1,'GroupsManager::group(Database::IDatabase &amp;, QPromise&lt; void &gt; &amp;&amp;, const std::vector&lt; GroupDetails &gt; &amp;)']]],
   ['groupaction_99',['GroupAction',['../dc/d5f/struct_database_1_1_actions_1_1_group_action.html#a97ccc13200e4756393a60903c2834f61',1,'Database::Actions::GroupAction']]],

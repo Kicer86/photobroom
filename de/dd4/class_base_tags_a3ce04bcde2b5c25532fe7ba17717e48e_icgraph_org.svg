@@ -21,7 +21,7 @@
 <g id="Node000002" class="node">
 <title>Node2</title>
 <g id="a_Node000002"><a xlink:href="../../d0/d5d/class_tags_model.html#a005b3a8e153bcc5222505a189bcf95b5" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="119.12,-104.88 1.88,-104.88 1.88,-85.62 119.12,-85.62 119.12,-104.88"/>
+<polygon fill="white" stroke="#666666" points="119.12,-104.88 1.88,-104.88 1.88,-85.62 119.12,-85.62 119.12,-104.88"/>
 <text text-anchor="middle" x="60.5" y="-91.38" font-family="Helvetica,sans-Serif" font-size="10.00">TagsModel::loadPhotos</text>
 </a>
 </g>
@@ -35,38 +35,38 @@
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="Node000005" class="node">
-<title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../dd/d27/tag__info__collector__tests_8cpp.html#a88b608606734f79fc818bfc70989565a" target="_top" xlink:title=" ">
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:href="../../dd/d27/tag__info__collector__tests_8cpp.html#a88b608606734f79fc818bfc70989565a" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="86.5,-67.88 34.5,-67.88 34.5,-48.62 86.5,-48.62 86.5,-67.88"/>
 <text text-anchor="middle" x="60.5" y="-54.38" font-family="Helvetica,sans-Serif" font-size="10.00">TEST_F</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge2_Node000001_Node000005" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M145.3,-58.25C124.99,-58.25 102.99,-58.25 86.64,-58.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="145.18,-61.75 155.18,-58.25 145.18,-54.75 145.18,-61.75"/>
 </a>
 </g>
 </g>
-<!-- Node6 -->
-<g id="Node000006" class="node">
-<title>Node6</title>
-<g id="a_Node000006"><a xlink:href="../../d6/d99/class_tag_info_collector.html#aa99a183e321edaa603824bd547fafeb1" target="_top" xlink:title=" ">
+<!-- Node4 -->
+<g id="Node000004" class="node">
+<title>Node4</title>
+<g id="a_Node000004"><a xlink:href="../../d6/d99/class_tag_info_collector.html#aa99a183e321edaa603824bd547fafeb1" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="121,-30.5 0,-30.5 0,0 121,0 121,-30.5"/>
 <text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">TagInfoCollector::update</text>
 <text text-anchor="middle" x="60.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">AllTags</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
-<g id="edge3_Node000001_Node000006" class="edge">
-<title>Node1&#45;&gt;Node6</title>
-<g id="a_edge3_Node000001_Node000006"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node4 -->
+<g id="edge3_Node000001_Node000004" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<g id="a_edge3_Node000001_Node000004"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M157.15,-44.79C142.98,-40.41 127.13,-35.52 112.47,-30.99"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="156.07,-48.12 166.66,-47.72 158.13,-41.43 156.07,-48.12"/>
 </a>

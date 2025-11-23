@@ -1,9 +1,7 @@
 <map id="ContextMenuManager::setProject" name="ContextMenuManager::setProject">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,55,153,96"/>
-<area shape="rect" id="Node000002" href="$d9/d6e/class_project.html#a6d94d817c1233702908c063886bb5701" title=" " alt="" coords="209,5,350,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="152,52,216,33,218,38,153,57"/>
-<area shape="rect" id="Node000003" href="$d9/d95/class_photo_delta_fetcher.html#a894a55c80a8063f71ae1b16291db3d7b" title=" " alt="" coords="201,55,358,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="153,73,185,73,185,78,153,78"/>
-<area shape="rect" id="Node000004" href="$de/db3/class_context_menu_manager.html#ae6cff95d57472c72bfc4b576f507fe6c" title=" " alt="" coords="206,120,353,161"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="144,94,201,113,199,118,143,99"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,153,68"/>
+<area shape="rect" id="Node000002" href="$d9/d6e/class_project.html#a6d94d817c1233702908c063886bb5701" title=" " alt="" coords="224,5,366,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,35,208,27,209,33,153,40"/>
+<area shape="rect" id="Node000003" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a9e0255b182c915ce27b75039acaf3dbb" title=" " alt="" coords="201,55,389,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="153,54,186,59,185,64,153,60"/>
 </map>

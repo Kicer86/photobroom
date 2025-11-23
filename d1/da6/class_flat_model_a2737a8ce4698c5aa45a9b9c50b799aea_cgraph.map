@@ -1,20 +1,22 @@
 <map id="FlatModel::setDatabase" name="FlatModel::setDatabase">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,212,163,237"/>
-<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#a0b95fea80210ee6657d79a0f8a266aa7" title=" " alt="" coords="230,5,372,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="90,210,133,137,168,94,209,56,215,52,218,56,212,60,171,97,137,140,94,212"/>
-<area shape="rect" id="Node000003" href="$d1/da6/class_flat_model.html#aca8c6652eb792b0e2658ba35c85c85a0" title=" " alt="" coords="211,70,391,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="95,209,142,163,175,136,209,113,237,99,239,104,212,117,178,141,146,167,99,213"/>
-<area shape="rect" id="Node000006" href="$d1/da6/class_flat_model.html#ab787f239714891d0dbea80843b519bf2" title=" " alt="" coords="439,96,603,121"/>
-<area shape="poly" id="edge9_Node000001_Node000006" title=" " alt="" coords="104,209,151,182,210,156,264,141,320,129,423,113,424,119,320,134,265,146,212,162,154,187,107,213"/>
-<area shape="rect" id="Node000019" href="$d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92" title="emited after new photos were added to database" alt="" coords="232,171,370,211"/>
-<area shape="poly" id="edge4_Node000001_Node000019" title=" " alt="" coords="163,210,216,201,217,207,164,215"/>
-<area shape="rect" id="Node000020" href="$d2/ddd/struct_database_1_1_i_backend.html#a5d5cd941849fe3dcc48b738414b14190" title="emited after photos removal" alt="" coords="232,236,370,277"/>
-<area shape="poly" id="edge5_Node000001_Node000020" title=" " alt="" coords="164,233,217,241,216,247,163,239"/>
-<area shape="rect" id="Node000021" href="$d2/ddd/struct_database_1_1_i_backend.html#aa465f3d4f7e0f238701a19edfb2b30e1" title="emited when done with photos marking" alt="" coords="232,301,370,342"/>
-<area shape="poly" id="edge6_Node000001_Node000021" title=" " alt="" coords="111,235,212,286,228,293,226,298,210,291,108,240"/>
-<area shape="rect" id="Node000022" href="$d1/da6/class_flat_model.html#ad7e7b563526a60acc35ccbf1d2491ba3" title=" " alt="" coords="221,366,381,392"/>
-<area shape="poly" id="edge7_Node000001_Node000022" title=" " alt="" coords="96,236,142,292,175,324,212,351,224,357,221,362,209,356,171,328,138,295,92,239"/>
-<area shape="rect" id="Node000025" href="$d1/da6/class_flat_model.html#ab9fb6e274371e14fefea22b94235d657" title=" " alt="" coords="217,416,385,441"/>
-<area shape="poly" id="edge8_Node000001_Node000025" title=" " alt="" coords="93,236,109,270,134,315,169,362,212,402,219,406,216,411,209,406,165,366,130,318,104,273,88,239"/>
-<area shape="poly" id="edge3_Node000003_Node000006" title=" " alt="" coords="392,91,424,94,423,100,391,96"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,244,163,269"/>
+<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#a0b95fea80210ee6657d79a0f8a266aa7" title=" " alt="" coords="234,5,376,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="88,242,103,205,128,155,164,102,185,77,209,56,219,49,222,53,212,60,189,81,168,105,133,158,108,208,93,244"/>
+<area shape="rect" id="Node000003" href="$d1/da6/class_flat_model.html#aca8c6652eb792b0e2658ba35c85c85a0" title=" " alt="" coords="215,70,395,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="92,241,137,180,170,144,209,113,234,99,237,104,212,117,174,148,141,184,96,245"/>
+<area shape="rect" id="Node000006" href="$d1/da6/class_flat_model.html#ab787f239714891d0dbea80843b519bf2" title=" " alt="" coords="447,96,611,121"/>
+<area shape="poly" id="edge10_Node000001_Node000006" title=" " alt="" coords="96,241,143,199,175,175,210,157,265,137,323,123,431,109,432,114,324,128,266,142,212,161,178,180,146,203,100,245"/>
+<area shape="rect" id="Node000019" href="$d2/ddd/struct_database_1_1_i_backend.html#a009667e29a73bb7772829d8dcf208a92" title="emited after new photos were added to database" alt="" coords="236,171,374,211"/>
+<area shape="poly" id="edge4_Node000001_Node000019" title=" " alt="" coords="129,240,220,213,222,218,131,246"/>
+<area shape="rect" id="Node000020" href="$d2/ddd/struct_database_1_1_i_backend.html#a5d5cd941849fe3dcc48b738414b14190" title="emited after photos removal" alt="" coords="236,236,374,277"/>
+<area shape="poly" id="edge5_Node000001_Node000020" title=" " alt="" coords="163,254,221,254,221,259,163,259"/>
+<area shape="rect" id="Node000021" href="$d2/ddd/struct_database_1_1_i_backend.html#aa465f3d4f7e0f238701a19edfb2b30e1" title="emited when done with photos marking" alt="" coords="236,301,374,342"/>
+<area shape="poly" id="edge6_Node000001_Node000021" title=" " alt="" coords="131,267,222,294,220,300,129,272"/>
+<area shape="rect" id="Node000022" href="$d1/da6/class_flat_model.html#ad7e7b563526a60acc35ccbf1d2491ba3" title=" " alt="" coords="225,366,385,392"/>
+<area shape="poly" id="edge7_Node000001_Node000022" title=" " alt="" coords="100,268,147,309,179,332,212,351,227,358,225,363,209,356,176,336,144,313,97,272"/>
+<area shape="rect" id="Node000025" href="$d1/da6/class_flat_model.html#ab9fb6e274371e14fefea22b94235d657" title=" " alt="" coords="221,416,389,441"/>
+<area shape="poly" id="edge8_Node000001_Node000025" title=" " alt="" coords="95,268,139,333,173,370,212,402,220,407,218,411,209,407,169,374,135,336,91,271"/>
+<area shape="rect" id="Node000026" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a9e0255b182c915ce27b75039acaf3dbb" title=" " alt="" coords="211,465,399,506"/>
+<area shape="poly" id="edge9_Node000001_Node000026" title=" " alt="" coords="93,269,108,305,133,354,168,406,189,430,212,452,217,455,214,459,209,456,185,434,164,409,128,357,103,307,88,271"/>
+<area shape="poly" id="edge3_Node000003_Node000006" title=" " alt="" coords="395,91,432,95,431,100,395,96"/>
 </map>

@@ -1,7 +1,10 @@
 <map id="PhotoPropertiesModel" name="PhotoPropertiesModel">
-<area shape="rect" id="Node000001" title=" " alt="" coords="86,94,235,120"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,5,150,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,41,151,92,147,95,98,44"/>
-<area shape="rect" id="Node000003" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="174,5,315,31"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="224,44,174,96,170,92,220,41"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="233,35,382,61"/>
+<area shape="rect" id="Node000004" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html" title=" " alt="" coords="497,5,704,91"/>
+<area shape="poly" id="edge4_Node000004_Node000001" title=" " alt="" coords="397,46,497,46,497,51,397,51"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,10,150,36"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="165,30,233,37,232,43,165,35"/>
+<area shape="rect" id="Node000003" href="$d7/da9/struct_database_1_1_i_database.html" title="Base Database interface. A bridge between regular clients and backend." alt="" coords="7,59,148,85"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="163,61,232,53,233,59,163,66"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="482,72,444,74,406,72,359,64,360,59,406,67,444,69,481,67"/>
 </map>

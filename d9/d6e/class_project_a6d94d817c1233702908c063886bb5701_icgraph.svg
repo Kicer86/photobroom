@@ -83,48 +83,48 @@
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="Node000007" class="node">
-<title>Node7</title>
-<g id="a_Node000007"><a xlink:href="../../de/db3/class_context_menu_manager.html#a5db0c9d95a29a7a3b0d387a0227f8d1d" target="_top" xlink:title=" ">
+<!-- Node6 -->
+<g id="Node000006" class="node">
+<title>Node6</title>
+<g id="a_Node000006"><a xlink:href="../../de/db3/class_context_menu_manager.html#a5db0c9d95a29a7a3b0d387a0227f8d1d" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="273.12,-79.5 162.62,-79.5 162.62,-49 273.12,-49 273.12,-79.5"/>
 <text text-anchor="start" x="170.62" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">ContextMenuManager</text>
 <text text-anchor="middle" x="217.88" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::removeGroupOf</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge4_Node000001_Node000007" class="edge">
-<title>Node1&#45;&gt;Node7</title>
-<g id="a_edge4_Node000001_Node000007"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node6 -->
+<g id="edge4_Node000001_Node000006" class="edge">
+<title>Node1&#45;&gt;Node6</title>
+<g id="a_edge4_Node000001_Node000006"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M326.59,-94.2C309.81,-89.54 290.75,-84.24 273.38,-79.41"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="325.22,-97.46 335.79,-96.76 327.09,-90.71 325.22,-97.46"/>
 </a>
 </g>
 </g>
-<!-- Node6 -->
-<g id="Node000006" class="node">
-<title>Node6</title>
-<g id="a_Node000006"><a xlink:href="../../de/db3/class_context_menu_manager.html#afee82226d8b74d2bd56c575f7c6f10a4" target="_top" xlink:title=" ">
+<!-- Node8 -->
+<g id="Node000008" class="node">
+<title>Node8</title>
+<g id="a_Node000008"><a xlink:href="../../de/db3/class_context_menu_manager.html#afee82226d8b74d2bd56c575f7c6f10a4" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="273.12,-30.5 162.62,-30.5 162.62,0 273.12,0 273.12,-30.5"/>
 <text text-anchor="start" x="170.62" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">ContextMenuManager</text>
 <text text-anchor="middle" x="217.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::setProject</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
-<g id="edge6_Node000001_Node000006" class="edge">
-<title>Node1&#45;&gt;Node6</title>
-<g id="a_edge6_Node000001_Node000006"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node8 -->
+<g id="edge6_Node000001_Node000008" class="edge">
+<title>Node1&#45;&gt;Node8</title>
+<g id="a_edge6_Node000001_Node000008"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M354.05,-89.77C336.94,-75.07 310.88,-54.28 285.5,-40.25 279.34,-36.84 272.61,-33.72 265.89,-30.91"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="351.6,-92.28 361.43,-96.23 356.21,-87.01 351.6,-92.28"/>
 </a>
 </g>
 </g>
-<!-- Node7&#45;&gt;Node4 -->
-<g id="edge5_Node000007_Node000004" class="edge">
-<title>Node7&#45;&gt;Node4</title>
-<g id="a_edge5_Node000007_Node000004"><a xlink:title=" ">
+<!-- Node6&#45;&gt;Node4 -->
+<g id="edge5_Node000006_Node000004" class="edge">
+<title>Node6&#45;&gt;Node4</title>
+<g id="a_edge5_Node000006_Node000004"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M150.9,-72.98C138.89,-74.57 126.46,-76.21 114.75,-77.76"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="151.29,-76.46 160.74,-71.68 150.37,-69.52 151.29,-76.46"/>
 </a>

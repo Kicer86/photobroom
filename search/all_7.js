@@ -115,7 +115,7 @@ var searchData=
   ['getwidget_112',['getWidget',['../d5/de9/struct_media_preview_1_1_i_internal.html#af0f4381d2b630a2faacbcbafc604c03e',1,'MediaPreview::IInternal']]],
   ['gotdbphotos_113',['gotDBPhotos',['../db/d6e/class_collection_scanner.html#a6b68507f00dc1b05db6de8c9e368a302',1,'CollectionScanner']]],
   ['gotdiskphoto_114',['gotDiskPhoto',['../db/d6e/class_collection_scanner.html#ab0b44dadf7d37b2eab5472d9813297c9',1,'CollectionScanner']]],
-  ['gotphotodata_115',['gotPhotoData',['../d2/dbb/class_photo_properties_model.html#a7bd2e4c9a2287916636b0f8ea74aff0e',1,'PhotoPropertiesModel']]],
+  ['gotphotodata_115',['gotPhotoData',['../d1/da6/class_flat_model.html#a61bc149b096363862dbe1369d8bf4865',1,'FlatModel::gotPhotoData()'],['../d2/dbb/class_photo_properties_model.html#a7bd2e4c9a2287916636b0f8ea74aff0e',1,'PhotoPropertiesModel::gotPhotoData()']]],
   ['gottagvalues_116',['gotTagValues',['../d6/d99/class_tag_info_collector.html#abf40d1de87194feee9c0b1a23172ff12',1,'TagInfoCollector']]],
   ['greater_117',['Greater',['../d0/d76/namespace_database.html#a07331544e1f883d05a954e9681abbcc7a8768a6821cd735aea4f5b0df88c1fc6a',1,'Database']]],
   ['greaterorequal_118',['GreaterOrEqual',['../d0/d76/namespace_database.html#a07331544e1f883d05a954e9681abbcc7a6f2f0aefb3d22da0f3839453add5f937',1,'Database']]],
@@ -146,9 +146,10 @@ var searchData=
   ['groupstest_143',['GroupsTest',['../d5/d67/struct_groups_test.html',1,'']]],
   ['grouptype_144',['groupType',['../d0/d4e/class_photos_grouping_dialog.html#a4208af7d085128a924814d92b8ebfb02',1,'PhotosGroupingDialog']]],
   ['grouptyperole_145',['GroupTypeRole',['../d5/d0f/class_series_model.html#a93666d35ec67f7a8fe335060865fb202a6bf0faf4868d8c437105545a572671d0',1,'SeriesModel']]],
-  ['gui_146',['Gui',['../d6/dd6/struct_gui.html',1,'Gui'],['../d6/dd6/struct_gui.html#a081e29e8e0411580fff4aba85760efc7',1,'Gui::Gui(IProjectManager &amp;, IPluginLoader &amp;, ICoreFactoryAccessor &amp;, IFeaturesManager &amp;)'],['../d6/dd6/struct_gui.html#a44c388011fc5c959f029ee192afbc7e3',1,'Gui::Gui(const Gui &amp;)=delete']]],
+  ['gui_146',['Gui',['../d6/dd6/struct_gui.html',1,'Gui'],['../de/da5/namespace_gui.html',1,'Gui'],['../d6/dd6/struct_gui.html#a081e29e8e0411580fff4aba85760efc7',1,'Gui::Gui(IProjectManager &amp;, IPluginLoader &amp;, ICoreFactoryAccessor &amp;, IFeaturesManager &amp;)'],['../d6/dd6/struct_gui.html#a44c388011fc5c959f029ee192afbc7e3',1,'Gui::Gui(const Gui &amp;)=delete']]],
   ['gui_147',['gui',['../d7/dc4/namespacegui.html',1,'']]],
   ['gui_2ecpp_148',['gui.cpp',['../d4/d46/gui_8cpp.html',1,'']]],
   ['gui_2ehpp_149',['gui.hpp',['../dc/d7c/gui_8hpp.html',1,'']]],
-  ['gui_3a_3afeatures_150',['features',['../da/dda/namespacegui_1_1features.html',1,'gui']]]
+  ['gui_3a_3afeatures_150',['features',['../da/dda/namespacegui_1_1features.html',1,'gui']]],
+  ['gui_3a_3autils_151',['Utils',['../dd/db9/namespace_gui_1_1_utils.html',1,'Gui']]]
 ];

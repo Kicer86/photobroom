@@ -1,7 +1,5 @@
 <map id="PhotoPropertiesModel::setDatabase" name="PhotoPropertiesModel::setDatabase">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,155,79"/>
-<area shape="rect" id="Node000002" href="$d2/dbb/class_photo_properties_model.html#a7bd2e4c9a2287916636b0f8ea74aff0e" title=" " alt="" coords="207,5,356,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,44,191,38,192,43,156,49"/>
-<area shape="rect" id="Node000014" href="$d9/d95/class_photo_delta_fetcher.html#a894a55c80a8063f71ae1b16291db3d7b" title=" " alt="" coords="203,71,360,111"/>
-<area shape="poly" id="edge2_Node000001_Node000014" title=" " alt="" coords="156,68,188,73,187,79,155,74"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,155,46"/>
+<area shape="rect" id="Node000002" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a9e0255b182c915ce27b75039acaf3dbb" title=" " alt="" coords="203,5,391,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="155,23,187,23,187,28,155,28"/>
 </map>

@@ -1,9 +1,7 @@
 <map id="TagsModel::set" name="TagsModel::set">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,63,115,88"/>
-<area shape="rect" id="Node000002" href="$d0/d5d/class_tags_model.html#a005b3a8e153bcc5222505a189bcf95b5" title=" " alt="" coords="163,5,320,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="102,60,183,34,185,39,104,65"/>
-<area shape="rect" id="Node000019" href="$d9/d95/class_photo_delta_fetcher.html#a894a55c80a8063f71ae1b16291db3d7b" title=" " alt="" coords="163,55,320,96"/>
-<area shape="poly" id="edge2_Node000001_Node000019" title=" " alt="" coords="115,73,147,73,147,78,115,78"/>
-<area shape="rect" id="Node000020" href="$d8/d67/class_tags_operator.html#a4ffcdc60d3bebdbf3ce882e94042ab16" title=" " alt="" coords="171,120,312,146"/>
-<area shape="poly" id="edge3_Node000001_Node000020" title=" " alt="" coords="104,86,185,112,183,117,102,91"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,115,68"/>
+<area shape="rect" id="Node000002" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a9e0255b182c915ce27b75039acaf3dbb" title=" " alt="" coords="163,5,351,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,44,147,39,148,45,115,50"/>
+<area shape="rect" id="Node000004" href="$d8/d67/class_tags_operator.html#a4ffcdc60d3bebdbf3ce882e94042ab16" title=" " alt="" coords="187,70,327,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="115,60,171,68,171,73,115,65"/>
 </map>

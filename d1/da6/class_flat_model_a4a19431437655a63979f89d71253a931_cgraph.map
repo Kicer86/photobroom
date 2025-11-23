@@ -1,7 +1,5 @@
 <map id="FlatModel::fetchPhotoData" name="FlatModel::fetchPhotoData">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,180,68"/>
-<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="260,5,402,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,42,244,34,245,39,181,47"/>
-<area shape="rect" id="Node000005" href="$d1/da6/class_flat_model.html#a7b363b60e1ec6b187585a70b748b30f5" title=" " alt="" coords="228,70,434,96"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="181,63,212,66,212,72,180,68"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,13,180,38"/>
+<area shape="rect" id="Node000002" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a01ab0a4a9d67d4822f17a7c758826c5d" title=" " alt="" coords="228,5,416,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="180,23,212,23,212,28,180,28"/>
 </map>

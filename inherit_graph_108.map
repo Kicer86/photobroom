@@ -1,5 +1,37 @@
 <map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="Node000000" href="$d9/dc6/struct_i_recognize_person.html" title=" " alt="" coords="5,5,132,31"/>
-<area shape="rect" id="Node000001" href="$d3/d26/class_recognizer.html" title=" " alt="" coords="180,5,265,31"/>
-<area shape="poly" id="edge146_Node000000_Node000001" title=" " alt="" coords="148,16,179,16,179,21,148,21"/>
+<area shape="rect" id="Node000000" href="$d2/d43/class_i_notifications.html" title=" " alt="" coords="25,29,123,55"/>
+<area shape="rect" id="Node000001" href="$d3/d28/class_notifications_model.html" title=" " alt="" coords="218,29,346,55"/>
+<area shape="poly" id="edge126_Node000000_Node000001" title=" " alt="" coords="138,40,218,40,218,45,138,45"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,168,143,194"/>
+<area shape="poly" id="edge142_Node000002_Node000001" title=" " alt="" coords="92,154,134,109,160,85,189,65,217,53,219,58,192,70,164,89,137,112,96,157"/>
+<area shape="rect" id="Node000003" href="$dc/da9/class_roles_expansion.html" title=" " alt="" coords="191,79,374,120"/>
+<area shape="poly" id="edge127_Node000002_Node000003" title=" " alt="" coords="118,159,190,129,219,118,221,123,192,134,120,164"/>
+<area shape="rect" id="Node000005" href="$df/d07/class_a_heavy_list_model_base.html" title="Qt interface of AHeavyListModel." alt="" coords="205,144,360,170"/>
+<area shape="poly" id="edge129_Node000002_Node000005" title=" " alt="" coords="158,169,204,163,205,168,159,174"/>
+<area shape="rect" id="Node000015" href="$dc/d96/class_batch_face_detector.html" title=" " alt="" coords="216,193,349,219"/>
+<area shape="poly" id="edge139_Node000002_Node000015" title=" " alt="" coords="159,188,216,195,215,201,158,194"/>
+<area shape="rect" id="Node000016" href="$d6/de2/class_faces_model.html" title=" " alt="" coords="236,243,328,268"/>
+<area shape="poly" id="edge140_Node000002_Node000016" title=" " alt="" coords="117,198,192,229,236,242,235,247,190,234,115,203"/>
+<area shape="rect" id="Node000017" href="$d5/d2c/class_model_compositor.html" title="Unite many data sources into one." alt="" coords="221,292,344,318"/>
+<area shape="poly" id="edge141_Node000002_Node000017" title=" " alt="" coords="99,203,140,242,192,278,222,290,220,295,189,283,136,246,95,207"/>
+<area shape="rect" id="Node000004" href="$d4/d3d/class_actions_model.html" title=" " alt="" coords="492,5,592,31"/>
+<area shape="poly" id="edge128_Node000003_Node000004" title=" " alt="" coords="359,71,373,65,397,52,421,40,490,22,492,28,423,45,399,57,375,70,361,76"/>
+<area shape="rect" id="Node000006" href="$de/d3a/class_a_heavy_list_model.html" title=" " alt="" coords="462,55,622,80"/>
+<area shape="poly" id="edge130_Node000005_Node000006" title=" " alt="" coords="358,136,373,129,387,120,396,110,406,100,421,90,460,77,462,82,423,95,409,104,400,114,390,124,375,134,360,141"/>
+<area shape="rect" id="Node000008" href="$de/d3a/class_a_heavy_list_model.html" title=" " alt="" coords="445,104,638,145"/>
+<area shape="poly" id="edge132_Node000005_Node000008" title=" " alt="" coords="374,143,444,134,445,139,375,148"/>
+<area shape="rect" id="Node000010" href="$de/d3a/class_a_heavy_list_model.html" title=" " alt="" coords="447,170,636,210"/>
+<area shape="poly" id="edge134_Node000005_Node000010" title=" " alt="" coords="375,166,447,175,446,181,375,171"/>
+<area shape="rect" id="Node000012" href="$de/d3a/class_a_heavy_list_model.html" title=" " alt="" coords="422,235,661,260"/>
+<area shape="poly" id="edge136_Node000005_Node000012" title=" " alt="" coords="364,173,375,179,390,189,400,200,409,210,423,220,454,232,452,237,421,225,406,214,396,204,387,193,373,183,362,178"/>
+<area shape="rect" id="Node000014" href="$de/d3a/class_a_heavy_list_model.html" title=" " alt="" coords="464,284,619,310"/>
+<area shape="poly" id="edge138_Node000005_Node000014" title=" " alt="" coords="371,175,376,179,387,190,394,202,400,227,406,250,413,260,424,271,443,282,465,289,463,294,441,287,420,275,409,264,402,252,395,228,389,204,383,194,372,183,368,180"/>
+<area shape="rect" id="Node000007" href="$d6/db7/class_a_heavy_list_model_mock.html" title=" " alt="" coords="709,55,866,80"/>
+<area shape="poly" id="edge131_Node000006_Node000007" title=" " alt="" coords="638,65,709,65,709,70,638,70"/>
+<area shape="rect" id="Node000009" href="$d3/d94/class_duplicates_model.html" title=" " alt="" coords="729,112,846,138"/>
+<area shape="poly" id="edge133_Node000008_Node000009" title=" " alt="" coords="654,122,728,122,728,128,654,128"/>
+<area shape="rect" id="Node000011" href="$d4/dd6/class_photos_data_guesser.html" title="class provides photos with extra information guessed from filename, content etc." alt="" coords="718,177,857,203"/>
+<area shape="poly" id="edge135_Node000010_Node000011" title=" " alt="" coords="651,188,718,188,718,193,651,193"/>
+<area shape="rect" id="Node000013" href="$d5/d0f/class_series_model.html" title=" " alt="" coords="741,235,834,260"/>
+<area shape="poly" id="edge137_Node000012_Node000013" title=" " alt="" coords="677,245,740,245,740,250,677,250"/>
 </map>

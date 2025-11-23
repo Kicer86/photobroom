@@ -1,0 +1,10 @@
+<map id="FlatModel::gotPhotoData" name="FlatModel::gotPhotoData">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,79,169,104"/>
+<area shape="rect" id="Node000002" href="$d1/da6/class_flat_model.html#a2fc0d267fad3b42f6696fed5e392d443" title=" " alt="" coords="272,29,382,55"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="153,75,256,54,257,59,154,81"/>
+<area shape="rect" id="Node000009" href="$d4/d50/namespace_photo.html#a594c3d326153119c0f9358f4277d62b9" title=" " alt="" coords="283,79,370,104"/>
+<area shape="poly" id="edge3_Node000001_Node000009" title=" " alt="" coords="169,89,268,89,268,94,169,94"/>
+<area shape="rect" id="Node000010" href="$d1/da6/class_flat_model.html#a10e9daef6f559197140e219b1ffbd36c" title=" " alt="" coords="217,128,437,154"/>
+<area shape="poly" id="edge4_Node000001_Node000010" title=" " alt="" coords="154,102,246,122,245,127,153,108"/>
+<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="287,31,279,21,284,11,300,5,327,3,357,5,371,13,369,17,355,11,327,8,301,10,288,15,285,20,291,27"/>
+</map>
