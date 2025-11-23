@@ -24,7 +24,7 @@
 
 #include <database/idatabase.hpp>
 #include <database/explicit_photo_delta.hpp>
-#include <database/database_tools/photo_delta_fetcher.hpp>
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 
 class PhotoPropertiesModel: public QStandardItemModel
@@ -47,7 +47,7 @@ class PhotoPropertiesModel: public QStandardItemModel
 
     private:
         Database::IDatabase* m_db = nullptr;
-        std::unique_ptr<PhotoDeltaFetcher> m_translator;
+        Gui::Utils::PhotoDeltaFetcherBinding<PhotoPropertiesModel, void (PhotoPropertiesModel::*)(const std::vector<Photo::DataDelta>&)> m_fetcher;
         bool m_busy = false;
 
         void gotPhotoData(const std::vector<Photo::DataDelta> &);

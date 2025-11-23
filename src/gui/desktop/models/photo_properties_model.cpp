@@ -26,6 +26,8 @@
 
 #include <system/filesystem.hpp>
 
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
+
 
 namespace
 {
@@ -54,6 +56,7 @@ namespace
 
 PhotoPropertiesModel::PhotoPropertiesModel(QObject* p):
     QStandardItemModel(p)
+    , m_fetcher(*this, &PhotoPropertiesModel::gotPhotoData)
 {
 
 }
@@ -68,23 +71,17 @@ PhotoPropertiesModel::~PhotoPropertiesModel()
 void PhotoPropertiesModel::setDatabase(Database::IDatabase* db)
 {
     m_db = db;
-    if (m_db)
-    {
-        m_translator = std::make_unique<PhotoDeltaFetcher>(*db);
 
-        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched, this, &PhotoPropertiesModel::gotPhotoData);
-    }
-    else
-        m_translator.reset();
+    m_fetcher.setDatabase(m_db);
 }
 
 
 void PhotoPropertiesModel::setPhotos(const std::vector<Photo::Id>& ids)
 {
-    if (m_translator)
+    if (m_db)
     {
         setBusy(true);
-        m_translator->fetchIds(ids, {Photo::Field::Path, Photo::Field::Geometry});
+        m_fetcher.fetchIds(ids, {Photo::Field::Path, Photo::Field::Geometry});
     }
 }
 

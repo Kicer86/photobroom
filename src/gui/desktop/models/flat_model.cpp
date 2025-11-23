@@ -22,6 +22,8 @@
 #include <database/idatabase.hpp>
 #include <database/iphoto_operator.hpp>
 
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
+
 
 namespace
 {
@@ -63,6 +65,7 @@ using namespace std::placeholders;
 FlatModel::FlatModel(QObject* p)
     : APhotoDataModel(p)
     , m_db(nullptr)
+    , m_fetcher(*this, &FlatModel::gotPhotoData)
 {
 }
 
@@ -96,6 +99,8 @@ void FlatModel::setDatabase(Database::IDatabase* db)
         connect(&backend, &Database::IBackend::photosModified,
                 this, &FlatModel::invalidatePhotos);
     }
+
+    m_fetcher.setDatabase(m_db);
 
     reloadPhotos();
 }
@@ -311,14 +316,9 @@ const APhotoDataModel::ExplicitDelta& FlatModel::photoData(const Photo::Id& id) 
 }
 
 
-//TODO: consider grouping queries
 void FlatModel::fetchPhotoData(const Photo::Id& id) const
 {
-    if (m_db)
-    {
-        auto b = std::bind(qOverload<Database::IBackend &, const Photo::Id &>(&FlatModel::fetchPhotoProperties), this, _1, id);
-        m_db->exec(b);
-    }
+    m_fetcher.fetchIds({id}, {Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo});
 }
 
 
@@ -333,14 +333,6 @@ void FlatModel::fetchMatchingPhotos(Database::IBackend& backend)
     const auto photos = backend.photoOperator().onPhotos(view_filters, sort_action);
 
     invokeMethod(this, &FlatModel::fetchedPhotos, photos);
-}
-
-
-void FlatModel::fetchPhotoProperties(Database::IBackend& backend, const Photo::Id& id) const
-{
-    auto photo = backend.getPhotoDelta<Photo::Field::Path, Photo::Field::Flags, Photo::Field::GroupInfo>(id);
-
-    invokeMethod(const_cast<FlatModel*>(this), &FlatModel::fetchedPhotoProperties, id, photo);
 }
 
 
@@ -425,6 +417,15 @@ void FlatModel::fetchedPhotos(const std::vector<Photo::Id>& photos)
         m_idToRow.emplace(m_photos[i], i);
 
     assert(m_idToRow.size() == m_photos.size());
+}
+
+
+void FlatModel::gotPhotoData(const std::vector<Photo::DataDelta>& data)
+{
+    const auto deltas = Photo::EDV<ExplicitDelta>(data);
+
+    for (const auto& delta: deltas)
+        fetchedPhotoProperties(delta.getId(), delta);
 }
 
 

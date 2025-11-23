@@ -15,10 +15,12 @@
 #include "ui/photos_grouping_dialog.hpp"
 #include "utils/groups_manager.hpp"
 #include "context_menu_manager.hpp"
+#include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 
 
 ContextMenuManager::ContextMenuManager()
-    : m_enableFaceRecognition(FaceRecognition::checkSystem())
+    : m_fetcher(*this, &ContextMenuManager::updateModel)
+    , m_enableFaceRecognition(FaceRecognition::checkSystem())
 {
 
 }
@@ -57,8 +59,7 @@ void ContextMenuManager::setSelection(const QList<QVariant>& selection)
         return item.value<Photo::Id>();
     });
 
-    if (m_translator)
-        m_translator->fetchIds({selectedIds.begin(), selectedIds.end()}, {Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags});
+    m_fetcher.fetchIds({selectedIds.begin(), selectedIds.end()}, {Photo::Field::Path, Photo::Field::GroupInfo, Photo::Field::Tags});
 
     emit selectionChanged(m_selection);
 }
@@ -67,14 +68,9 @@ void ContextMenuManager::setSelection(const QList<QVariant>& selection)
 void ContextMenuManager::setProject(Project* prj)
 {
     m_project = prj;
-    m_translator.reset();
+    auto* database = m_project? &m_project->getDatabase(): nullptr;
 
-    if (m_project)
-    {
-        m_translator = std::make_unique<PhotoDeltaFetcher>(m_project->getDatabase());
-        connect(m_translator.get(), &PhotoDeltaFetcher::photoDataDeltaFetched,
-                this, &ContextMenuManager::updateModel);
-    }
+    m_fetcher.setDatabase(database);
 }
 
 
