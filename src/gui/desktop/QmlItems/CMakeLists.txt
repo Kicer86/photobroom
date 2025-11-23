@@ -3,6 +3,11 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS
     Quick
 )
 
+find_package(Qt6 6.4  COMPONENTS
+    QmlPrivate
+    QuickPrivate
+)
+
 set(CMAKE_AUTOMOC ON)
 
 set(CPP_SOURCES

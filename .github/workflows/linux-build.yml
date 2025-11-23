@@ -26,10 +26,9 @@ jobs:
         os: [ubuntu-24.04]
 
     steps:
-    - uses: actions/checkout@v5
+    - uses: nschloe/action-cached-lfs-checkout@v1
       with:
         submodules: true
-        lfs: false
 
     - name: Install system dependencies
       run: |
@@ -101,7 +100,6 @@ jobs:
             -DPython=/usr/bin/python3
         run-test: true
         ctest-options:
-            -LE HeavyData
             --output-on-failure
       env:
         TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
