@@ -24,6 +24,7 @@
 #endif
 
 #include "ui/mainwindow.hpp"
+#include "quick_items/media_view_ctrl.hpp"
 #include "quick_items/objects_accessor.hpp"
 #include "utils/features_manager.hpp"
 #include "utils/thumbnails_cache.hpp"
@@ -52,6 +53,7 @@ Gui::Gui(IProjectManager& prjMgr, IPluginLoader& pluginLoader, ICoreFactoryAcces
     qRegisterMetaType<std::vector<Photo::Id>>("std::vector<Photo::Id>");
     qRegisterMetaType<std::set<Photo::Id>>("std::set<Photo::Id>");
     qRegisterMetaType<Photo::Id>("Photo::Id");
+    qRegisterMetaType<MediaViewCtrl::Mode>();
 
     ObjectsAccessor::instance().setCoreFactory(&coreFactory);
 }
