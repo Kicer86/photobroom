@@ -49,7 +49,7 @@ signals:
     void sourceChanged(const Photo::Id &) const;
     void photoIDStringChanged(const QString &) const;
     void pathChanged(const QUrl &) const;
-    void modeChanged(Mode) const;
+    void modeChanged(MediaViewCtrl::Mode) const;
 
 private:
     PropertyAwaiter m_initializer;
@@ -63,6 +63,8 @@ private:
     void setMode(Mode);
     void process();
 };
+
+Q_DECLARE_METATYPE(MediaViewCtrl::Mode)
 
 #endif
 
