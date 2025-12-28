@@ -29,12 +29,12 @@ public:
 
     enum class Mode
     {
-        Unknown,
-        Error,
-        StaticImage,
-        AnimatedImage,
-        EquirectangularProjectionImage,
-        Video,
+        Unknown                             = 0,
+        Error                               = 1,
+        StaticImage                         = 2,
+        AnimatedImage                       = 3,
+        EquirectangularProjectionImage      = 4,
+        Video                               = 5,
     };
 
     void setSource(const Photo::Id &);
