@@ -4,6 +4,7 @@
 
 #include <core/function_wrappers.hpp>
 #include <core/iexif_reader.hpp>
+#include <core/itask_executor.hpp>
 #include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
 #include <database/database_executor_traits.hpp>
@@ -14,12 +15,8 @@
 namespace
 {
     const QString MultimediaType("multimedia_type");
-}
 
-
-namespace
-{
-    MediaViewCtrl::Mode getModeFor(ICoreFactoryAccessor* core, const QString& path)
+    MediaViewCtrl::Mode getFileType(ICoreFactoryAccessor& core, const QString& path)
     {
         MediaViewCtrl::Mode mode = MediaViewCtrl::Mode::Unknown;
 
@@ -27,7 +24,7 @@ namespace
             mode = MediaViewCtrl::Mode::AnimatedImage;
         else if (MediaTypes::isImageFile(path))
         {
-            auto& exifReader = core->getExifReaderFactory().get();
+            auto& exifReader = core.getExifReaderFactory().get();
             const auto projection = exifReader.get(path, IExifReader::TagType::Projection);
             if (projection && std::any_cast<std::string>(*projection) == "equirectangular")
                 mode = MediaViewCtrl::Mode::EquirectangularProjectionImage;
@@ -132,10 +129,14 @@ void MediaViewCtrl::process()
         if (state)
             mode = static_cast<Mode>(*state);
         else
-        {
-            mode = getModeFor(core, path);
-            backend.set(id, MultimediaType, mode);
-        }
+            runOn(core->getTaskExecutor(), [core, db, id, path]
+            {
+                const auto calculated_mode = getFileType(*core, path);
+                db->exec([id, calculated_mode](Database::IBackend& storage_backend)
+                {
+                    storage_backend.set(id, MultimediaType, calculated_mode);
+                });
+            });
 
         promise.addResult(std::make_pair(url, mode));
         promise.finish();
