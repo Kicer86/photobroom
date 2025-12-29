@@ -65,15 +65,6 @@ auto evaluate(E& executor, const T& task)
 }
 
 
-// Helper function.
-// Run a task and do not wait for it to be finished.
-template<typename E, typename T>
-void execute(E& executor, T&& task)
-{
-    ExecutorTraits<E, T>::exec(executor, std::move(task));
-}
-
-
 // Run callable as a task
 template<typename Callable>
 void runOn(ITaskExecutor& executor, Callable&& callable, const std::string& taskName = std::source_location::current().function_name())
