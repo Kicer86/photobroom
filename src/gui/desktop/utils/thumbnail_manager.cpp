@@ -100,7 +100,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                     QBuffer buf(&dbThumb);
                     baseThumbnail.save(&buf, "JPG");
 
-                    execute<Database::IDatabase>(*m_db, [id, dbThumb](Database::IBackend& backend)
+                    m_db->exec([id, dbThumb](Database::IBackend& backend)
                     {
                         backend.writeBlob(id, BlobType, dbThumb);
                     });
