@@ -16,8 +16,9 @@ namespace
 {
     const QString MultimediaType("multimedia_type");
 
-    MediaViewCtrl::Mode getFileType(ICoreFactoryAccessor& core, const QString& path)
+    MediaViewCtrl::Mode getFileType(ICoreFactoryAccessor& core, const QUrl& url)
     {
+        const auto path = url.toLocalFile();
         MediaViewCtrl::Mode mode = MediaViewCtrl::Mode::Unknown;
 
         if (MediaTypes::isAnimatedImageFile(path))
@@ -122,24 +123,29 @@ void MediaViewCtrl::process()
         const auto path = data.get<Photo::Field::Path>();
         const QFileInfo pathInfo(path);
         const auto url = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
-
-        Mode mode = Mode::Unknown;
         const auto state = backend.get(id, MultimediaType);
 
         if (state)
-            mode = static_cast<Mode>(*state);
-        else
-            runOn(core->getTaskExecutor(), [core, db, id, path]
-            {
-                const auto calculated_mode = getFileType(*core, path);
-                db->exec([id, calculated_mode](Database::IBackend& storage_backend)
-                {
-                    storage_backend.set(id, MultimediaType, calculated_mode);
-                });
-            });
+        {
+            const Mode mode = static_cast<Mode>(*state);
 
-        promise.addResult(std::make_pair(url, mode));
-        promise.finish();
+            promise.addResult(std::make_pair(url, mode));
+            promise.finish();
+        }
+        else
+        {
+            runOn(core->getTaskExecutor(), [core, db, id, url, promise = std::move(promise)]() mutable
+            {
+                const Mode mode = getFileType(*core, url);
+                db->exec([id, mode](Database::IBackend& backend)
+                {
+                    backend.set(id, MultimediaType, mode);
+                });
+
+                promise.addResult(std::make_pair(url, mode));
+                promise.finish();
+            });
+        }
     };
 
     db->exec(std::move(task));
