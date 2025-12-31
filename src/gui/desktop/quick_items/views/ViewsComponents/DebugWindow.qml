@@ -10,7 +10,6 @@ Item {
 
     Column {
         Repeater {
-            id: repeater
             model: ObservablesRegistry.executors
 
             Column {
@@ -24,11 +23,27 @@ Item {
                 }
 
                 Text {
-                    text: qsTr("Tasks executed")+ ": " + modelData.tasksExecuted
+                    text: qsTr("Tasks executed") + ": " + modelData.tasksExecuted
                 }
 
                 Text {
-                    text: qsTr("Execution speed")+ ": " + modelData.executionSpeed + " " + qsTr("tps", "tasks per second");
+                    text: qsTr("Execution speed") + ": " + modelData.executionSpeed + " " + qsTr("tps", "tasks per second");
+                }
+
+                Text {
+                    text: qsTr("Tasks:");
+                    font.italic: true
+                }
+
+                Repeater {
+                    model: modelData.tasks
+
+                    delegate: Text {
+                        required property string name
+                        required property int count
+
+                        text: " " + name + " " + count
+                    }
                 }
             }
         }

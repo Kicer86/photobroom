@@ -169,7 +169,7 @@
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="+23"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="+22"/>
         <source>Tasks in queue</source>
         <translation>Zadań w kolejce</translation>
     </message>
@@ -188,6 +188,11 @@
         <source>tps</source>
         <comment>tasks per second</comment>
         <translation>zadań/sekundę</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>Tasks:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

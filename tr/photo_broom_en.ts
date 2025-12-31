@@ -163,25 +163,30 @@
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="23"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="22"/>
         <source>Tasks in queue</source>
         <translation>Tasks in queue</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="27"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="26"/>
         <source>Tasks executed</source>
         <translation>Tasks executed</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="30"/>
         <source>Execution speed</source>
         <translation>Execution speed</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="30"/>
         <source>tps</source>
         <comment>tasks per second</comment>
         <translation>tps</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="34"/>
+        <source>Tasks:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
