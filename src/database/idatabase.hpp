@@ -121,7 +121,7 @@ namespace Database
                     return m_name;
                 }
 
-                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
+                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of an object, not a reference or something
                 Callable_T m_f;
                 std::string m_name;
             };
