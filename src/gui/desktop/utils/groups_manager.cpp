@@ -131,7 +131,8 @@ void GroupsManager::group(Database::IDatabase& database, QPromise<void>&& promis
         }
 
         db_promise.finish();
-    });
+    },
+    "GroupsManager: group");
 }
 
 
@@ -146,5 +147,5 @@ void GroupsManager::ungroup(Database::IDatabase& db, const Group::Id& gid)
 
         // remove representative from db
         backend.photoOperator().removePhoto(repId);
-    });
+    }, "GroupsManager: ungroup");
 }

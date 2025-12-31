@@ -133,7 +133,7 @@ void MediaViewCtrl::process()
                 db->exec([id, mode](Database::IBackend& storage_backend)
                 {
                     storage_backend.set(id, MultimediaType, mode);
-                });
+                }, "MediaViewCtrl: set file type");
 
                 promise.addResult(std::make_pair(url, mode));
                 promise.finish();
@@ -141,5 +141,5 @@ void MediaViewCtrl::process()
         }
     };
 
-    db->exec(std::move(task));
+    db->exec(std::move(task), "MediaViewCtrl: update mode");
 }

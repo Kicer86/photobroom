@@ -76,7 +76,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 dbThumb = evaluate(*m_db, [id](Database::IBackend& backend)
                 {
                     return backend.readBlob(id, BlobType);
-                });
+                }, "ThumbnailManager: fetch blob");
 
             QImage baseThumbnail;
 
@@ -87,7 +87,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 const Photo::DataDelta photoData = evaluate(*m_db, [id](Database::IBackend& backend)
                 {
                     return backend.getPhotoDelta<Photo::Field::Path>(id);
-                });
+                }, "ThumbnailManager: fetch path");
 
                 // generate base thumbnail
                 baseThumbnail = m_generator.generate(photoData.get<Photo::Field::Path>(), IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize));
@@ -103,7 +103,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                     m_db->exec([id, dbThumb](Database::IBackend& backend)
                     {
                         backend.writeBlob(id, BlobType, dbThumb);
-                    });
+                    }, "ThumbnailManager: store blob");
                 }
             }
             else

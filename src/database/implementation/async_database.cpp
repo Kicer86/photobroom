@@ -181,11 +181,13 @@ namespace Database
     void AsyncDatabase::init(const ProjectInfo& prjInfo, const Callback<const BackendStatus &>& callback)
     {
         exec([prjInfo, callback](IBackend& backend)
-        {
-             const Database::BackendStatus status = backend.init(prjInfo);
+            {
+                const Database::BackendStatus status = backend.init(prjInfo);
 
-             callback(status);
-        });
+                callback(status);
+            },
+            "AsyncDatabase: init"
+        );
     }
 
 

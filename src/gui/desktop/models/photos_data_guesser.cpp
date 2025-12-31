@@ -128,7 +128,7 @@ void PhotosDataGuesser::loadData(QPromise<DataVector>&& promise)
 
             promise.addResult(photos);
             promise.finish();
-        });
+        }, "PhotosDataGuesser: mark no faces");
 }
 
 
@@ -165,5 +165,7 @@ void PhotosDataGuesser::applyRows(const QList<int>& included, AHeavyListModel::A
 
         if (deltasToStore.empty() == false)
             backend.update(deltasToStore);
-    });
+    },
+    "PhotosDataGuesser: update photos"
+    );
 }

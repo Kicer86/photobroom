@@ -63,7 +63,7 @@ struct Face: public IFace
         m_dbClient->db().exec([id = m_id, pfi = m_faceInfo](Database::IBackend& backend)
         {
             backend.peopleInformationAccessor().store(id, pfi);
-        });
+        }, "Face: store");
     }
 
     PersonFullInfo m_faceInfo;

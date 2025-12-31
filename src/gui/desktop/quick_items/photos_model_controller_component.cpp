@@ -238,7 +238,7 @@ QDate PhotosModelControllerComponent::dateFor(unsigned int idx) const
 
 void PhotosModelControllerComponent::markNewAsReviewed()
 {
-    m_db->exec(std::bind(&PhotosModelControllerComponent::markPhotosAsReviewed, this, _1));
+    m_db->exec(std::bind(&PhotosModelControllerComponent::markPhotosAsReviewed, this, _1), "PhotosModelControllerComponent: mark reviewed");
 }
 
 
@@ -277,7 +277,7 @@ void PhotosModelControllerComponent::setAvailableDates(const std::vector<TagValu
 
 void PhotosModelControllerComponent::updateTimeRange()
 {
-    m_db->exec(std::bind(&PhotosModelControllerComponent::getTimeRangeForFilters, this, _1));
+    m_db->exec(std::bind(&PhotosModelControllerComponent::getTimeRangeForFilters, this, _1), "PhotosModelControllerComponent: fetch time range");
 }
 
 

@@ -372,28 +372,29 @@ std::vector<GroupCandidate> SeriesDetector::listCandidates(const Rules& rules) c
     QElapsedTimer timer;
     timer.start();
 
-    const std::deque<ExplicitDelta> candidates =
-        evaluate(m_db, [](Database::IBackend& backend)
-    {
-        std::vector<GroupCandidate> result;
-
-        // find photos which are not part of any group
-        const Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
-
-        // and are valid
-        const auto valid_photos_filter = Database::getValidPhotosFilter();
-
-        // photos - candidates for series/groups
-        const auto photos = backend.photoOperator().onPhotos( Database::GroupFilter{group_filter, valid_photos_filter}, Database::Actions::Sort(Database::Actions::Sort::By::Timestamp) );
-
-        std::deque<ExplicitDelta> deltas;
-        std::ranges::transform(photos, std::back_inserter(deltas), [&backend](const Photo::Id& id)
+    const std::deque<ExplicitDelta> candidates = evaluate(m_db, [](Database::IBackend& backend)
         {
-            return backend.getPhotoDelta<Photo::Field::Tags, Photo::Field::Path>(id);
-        });
+            std::vector<GroupCandidate> result;
 
-        return deltas;
-    });
+            // find photos which are not part of any group
+            const Database::FilterPhotosWithRole group_filter(Database::FilterPhotosWithRole::Role::Regular);
+
+            // and are valid
+            const auto valid_photos_filter = Database::getValidPhotosFilter();
+
+            // photos - candidates for series/groups
+            const auto photos = backend.photoOperator().onPhotos( Database::GroupFilter{group_filter, valid_photos_filter}, Database::Actions::Sort(Database::Actions::Sort::By::Timestamp) );
+
+            std::deque<ExplicitDelta> deltas;
+            std::ranges::transform(photos, std::back_inserter(deltas), [&backend](const Photo::Id& id)
+            {
+                return backend.getPhotoDelta<Photo::Field::Tags, Photo::Field::Path>(id);
+            });
+
+            return deltas;
+        },
+        "SeriesDetector: list candidates"
+    );
 
     const QString log = QString("Collecting photos for grouping took %1s").arg(timer.elapsed() / 1000);
 

@@ -656,7 +656,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+296"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+298"/>
         <source>Extracting data from new photos</source>
         <translation>Wczytywanie danych z nowych zdjęć</translation>
     </message>

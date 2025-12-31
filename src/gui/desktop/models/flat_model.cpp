@@ -213,14 +213,14 @@ void FlatModel::reloadPhotos()
     resetModel();
 
     if (m_db != nullptr)
-        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1), "FlatModel: reload");
 }
 
 
 void FlatModel::updatePhotos()
 {
     if (m_db != nullptr)
-        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1));
+        m_db->exec(std::bind(&FlatModel::fetchMatchingPhotos, this, _1), "FlatModel: update");
 }
 
 
