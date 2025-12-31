@@ -54,8 +54,6 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
                 std::unique_ptr<ITaskExecutor::ITask> m_task;
                 ObservableTaskExecutor& m_executor;
         };
-
-        friend class Task;
 };
 
 
