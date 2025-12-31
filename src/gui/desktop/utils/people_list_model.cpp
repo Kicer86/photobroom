@@ -64,7 +64,9 @@ void PeopleListModel::setDB(Database::IDatabase* db)
                 namesList.append(name.name());
 
             f(namesList);
-        });
+        },
+        "PeopleListModel: collect names"
+        );
     }
 }
 

@@ -8,11 +8,11 @@
 template<typename T>
 struct ExecutorTraits<Database::IDatabase, T>
 {
-    static void exec(Database::IDatabase& db, T&& t)
+    static void exec(Database::IDatabase& db, T&& t, std::string_view name)
     {
-        db.exec(std::forward<T>(t));
+        db.exec(std::forward<T>(t), name);
     }
 };
 
 
-#endif // DATABASE_EXECUTOR_TRAITS_HPP_INCLUDED
+#endif

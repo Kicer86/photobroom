@@ -82,9 +82,11 @@ void TagInfoCollector::updateValuesFor(const Tag::Types& tagType, SignalBlocker:
         using namespace std::placeholders;
         auto result = std::bind(&TagInfoCollector::gotTagValues, this, _1, _2);
         m_database->exec([tagType, result, locker](Database::IBackend& backend)
-        {
-            const auto values = backend.listTagValues(tagType, {});
-            result(tagType, values);
-        });
+            {
+                const auto values = backend.listTagValues(tagType, {});
+                result(tagType, values);
+            },
+            "TagInfoCollector: fetch tag values"
+        );
     }
 }

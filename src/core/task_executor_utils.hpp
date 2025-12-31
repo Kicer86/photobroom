@@ -18,7 +18,7 @@
 template<typename T, typename E>
 struct ExecutorTraits
 {
-    static void exec(E &, T &&);
+    static void exec(E &, T &&, std::string_view name);
 };
 
 
@@ -52,12 +52,12 @@ class CORE_EXPORT WorkState
 // Run a task and wait for it to be finished.
 template<typename E, typename T>
 [[nodiscard]]
-auto evaluate(E& executor, const T& task)
+auto evaluate(E& executor, const T& task, std::string_view name)
 {
     std::packaged_task p_task(task);
 
     auto result_future = p_task.get_future();
-    ExecutorTraits<E, decltype(p_task)>::exec(executor, std::move(p_task));
+    ExecutorTraits<E, decltype(p_task)>::exec(executor, std::move(p_task), name);
 
     result_future.wait();
 

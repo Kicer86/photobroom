@@ -83,7 +83,7 @@ void CollectionScanner::scan()
         const auto missingPhotos = backend.photoOperator().fetchData<Photo::Field::Path>(Database::GroupFilter( {notDeleted, filterMissing} ));
 
         db_callback(photos, missingPhotos);
-    });
+    }, "CollectionScanner: collect all photos");
 }
 
 
@@ -133,7 +133,7 @@ void CollectionScanner::performAnalysis()
         m_database.exec([pureNewPhotos](Database::IBackend& backend) mutable
         {
             backend.addPhotos(pureNewPhotos);
-        });
+        }, "CollectionScanner: add new photos");
 
     // mark removed photos as missing
     if (removedPhotos.empty() == false)
@@ -146,7 +146,7 @@ void CollectionScanner::performAnalysis()
                                 Database::CommonGeneralFlags::State,
                                 static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
             }
-        });
+        }, "CollectionScanner: mark photos as missing");
 
     // restore photos
     if (restoredPhotos.empty() == false)
@@ -159,7 +159,7 @@ void CollectionScanner::performAnalysis()
                                   Database::CommonGeneralFlags::State,
                                   static_cast<int>(Database::CommonGeneralFlags::StateType::Missing));
             }
-        });
+        }, "CollectionScanner: restore missing photos");
 
     // finalization
     addNotification(pureNewPhotos.size(), removedPhotos.size(), restoredPhotos.size());
