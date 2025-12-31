@@ -103,8 +103,8 @@ void MediaViewCtrl::process()
     assert(db);
 
     QPromise<std::pair<QUrl, Mode>> promise;
-    m_pathFetchFuture = promise.future();
-    m_pathFetchFuture.then(this, [this](const std::pair<QUrl, Mode>& url_and_mode)
+    auto feature = promise.future();
+    feature.then(this, [this](const std::pair<QUrl, Mode>& url_and_mode)
     {
         setPath(url_and_mode.first);
         setMode(url_and_mode.second);

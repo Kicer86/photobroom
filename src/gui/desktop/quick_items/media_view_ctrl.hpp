@@ -52,7 +52,6 @@ signals:
 
 private:
     PropertyAwaiter m_initializer;
-    QFuture<std::pair<QUrl, Mode>> m_pathFetchFuture;
     QUrl m_path;
     Mode m_mode = Mode::Unknown;
     ICoreFactoryAccessor* m_core = nullptr;
