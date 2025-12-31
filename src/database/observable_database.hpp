@@ -2,6 +2,8 @@
 #ifndef OBSERVABLE_DATABASE_HPP_INCLUDED
 #define OBSERVABLE_DATABASE_HPP_INCLUDED
 
+#include <boost/type_index.hpp>
+
 #include <core/observable_executor.hpp>
 #include <database/idatabase.hpp>
 
@@ -15,7 +17,7 @@ class ObservableDatabase: public ObservableExecutor, public T
 
         QString name() const override
         {
-            return typeid(T).name();
+            return boost::typeindex::type_id<T>().pretty_name().c_str();
         }
 
     private:

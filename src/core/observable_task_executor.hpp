@@ -2,6 +2,8 @@
 #ifndef OBSERVABLE_TASK_EXECUTOR_HPP_INCLUDED
 #define OBSERVABLE_TASK_EXECUTOR_HPP_INCLUDED
 
+#include <boost/type_index.hpp>
+
 #include <core/itask_executor.hpp>
 #include <core/observable_executor.hpp>
 
@@ -22,7 +24,7 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 
         QString name() const override
         {
-            return typeid(T).name();
+            return boost::typeindex::type_id<T>().pretty_name().c_str();
         }
 
     private:
