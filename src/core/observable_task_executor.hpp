@@ -35,7 +35,7 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
                     : m_task(std::move(task))
                     , m_executor(executor)
                 {
-                    m_executor.newTaskInQueue();
+                    m_executor.newTaskInQueue(name());
                 }
 
                 std::string name() const override
@@ -45,9 +45,9 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 
                 void perform() override
                 {
-                    m_executor.taskMovedToExecution();
+                    m_executor.taskMovedToExecution(name());
                     m_task->perform();
-                    m_executor.taskExecuted();
+                    m_executor.taskExecuted(name());
                 }
 
             private:

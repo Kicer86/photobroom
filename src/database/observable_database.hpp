@@ -28,14 +28,14 @@ class ObservableDatabase: public ObservableExecutor, public T
                     : m_task(std::move(task))
                     , m_executor(executor)
                 {
-                    m_executor.newTaskInQueue();
+                    m_executor.newTaskInQueue(name());
                 }
 
                 void run(Database::IBackend& backend) override
                 {
-                    m_executor.taskMovedToExecution();
+                    m_executor.taskMovedToExecution(name());
                     m_task->run(backend);
-                    m_executor.taskExecuted();
+                    m_executor.taskExecuted(name());
                 }
 
                 std::string name() override
