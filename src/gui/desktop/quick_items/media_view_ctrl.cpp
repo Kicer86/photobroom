@@ -49,13 +49,6 @@ MediaViewCtrl::MediaViewCtrl()
 }
 
 
-MediaViewCtrl::~MediaViewCtrl()
-{
-    m_pathFetchFuture.cancel();
-    m_pathFetchFuture.waitForFinished();
-}
-
-
 void MediaViewCtrl::setSource(const Photo::Id& id)
 {
     assert(id.valid());
@@ -137,9 +130,9 @@ void MediaViewCtrl::process()
             runOn(core->getTaskExecutor(), [core, db, id, url, promise = std::move(promise)]() mutable
             {
                 const Mode mode = getFileType(*core, url);
-                db->exec([id, mode](Database::IBackend& backend)
+                db->exec([id, mode](Database::IBackend& storage_backend)
                 {
-                    backend.set(id, MultimediaType, mode);
+                    storage_backend.set(id, MultimediaType, mode);
                 });
 
                 promise.addResult(std::make_pair(url, mode));

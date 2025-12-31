@@ -25,7 +25,6 @@ class MediaViewCtrl: public QObject
 
 public:
     MediaViewCtrl();
-    ~MediaViewCtrl();
 
     enum class Mode
     {
