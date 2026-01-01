@@ -78,13 +78,6 @@ Item {
                             }
                         }
                     }
-
-                    Rectangle {
-                        width: parent.width
-                        height: 1
-                        color: "#303030"
-                        opacity: 0.5
-                    }
                 }
             }
         }
