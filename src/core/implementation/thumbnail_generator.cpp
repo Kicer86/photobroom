@@ -21,7 +21,17 @@
 #include <QElapsedTimer>
 #include <QFile>
 #include <QFileInfo>
-#include <opencv2/opencv.hpp>
+
+extern "C"
+{
+#include <libavcodec/avcodec.h>
+#include <libavformat/avformat.h>
+#include <libavutil/display.h>
+#include <libavutil/error.h>
+#include <libavutil/mathematics.h>
+#include <libavutil/rational.h>
+#include <libswscale/swscale.h>
+}
 
 #include <system/system.hpp>
 #include "constants.hpp"
@@ -31,6 +41,215 @@
 #include "image_tools.hpp"
 #include "media_types.hpp"
 #include "video_media_information.hpp"
+
+namespace
+{
+    struct FormatContextGuard
+    {
+        AVFormatContext* context = nullptr;
+
+        ~FormatContextGuard()
+        {
+            if (context != nullptr)
+                avformat_close_input(&context);
+        }
+    };
+
+    struct CodecContextGuard
+    {
+        AVCodecContext* context = nullptr;
+
+        ~CodecContextGuard()
+        {
+            if (context != nullptr)
+                avcodec_free_context(&context);
+        }
+    };
+
+    struct PacketGuard
+    {
+        AVPacket* packet = av_packet_alloc();
+
+        ~PacketGuard()
+        {
+            if (packet != nullptr)
+                av_packet_free(&packet);
+        }
+    };
+
+    struct FrameGuard
+    {
+        AVFrame* frame = av_frame_alloc();
+
+        ~FrameGuard()
+        {
+            if (frame != nullptr)
+                av_frame_free(&frame);
+        }
+    };
+
+    struct SwsContextGuard
+    {
+        SwsContext* context = nullptr;
+
+        ~SwsContextGuard()
+        {
+            if (context != nullptr)
+                sws_freeContext(context);
+        }
+    };
+
+    bool seekToPosition(AVFormatContext* formatContext, AVCodecContext* codecContext, AVStream* stream, int streamIndex, int64_t positionMs)
+    {
+        if (formatContext == nullptr || codecContext == nullptr || stream == nullptr)
+            return false;
+
+        const AVRational millisecondsBase{1, 1000};
+        const int64_t targetTimestamp = av_rescale_q(positionMs, millisecondsBase, stream->time_base);
+
+        if (av_seek_frame(formatContext, streamIndex, targetTimestamp, AVSEEK_FLAG_BACKWARD) >= 0)
+        {
+            avcodec_flush_buffers(codecContext);
+            return true;
+        }
+
+        return false;
+    }
+
+    bool decodeFrame(AVFormatContext* formatContext, AVCodecContext* codecContext, int streamIndex, AVFrame* frame)
+    {
+        PacketGuard packet;
+
+        if (formatContext == nullptr || codecContext == nullptr || frame == nullptr || packet.packet == nullptr)
+            return false;
+
+        while (av_read_frame(formatContext, packet.packet) >= 0)
+        {
+            if (packet.packet->stream_index != streamIndex)
+            {
+                av_packet_unref(packet.packet);
+                continue;
+            }
+
+            const int sendResult = avcodec_send_packet(codecContext, packet.packet);
+            av_packet_unref(packet.packet);
+
+            if (sendResult < 0)
+                continue;
+
+            while (true)
+            {
+                const int receiveResult = avcodec_receive_frame(codecContext, frame);
+
+                if (receiveResult == AVERROR(EAGAIN) || receiveResult == AVERROR_EOF)
+                    break;
+
+                if (receiveResult < 0)
+                    return false;
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    QImage frameToQImage(const AVFrame* frame)
+    {
+        if (frame == nullptr || frame->width <= 0 || frame->height <= 0)
+            return {};
+
+        QImage image(frame->width, frame->height, QImage::Format_RGB888);
+
+        if (image.isNull())
+            return {};
+
+        SwsContextGuard swsContext;
+        swsContext.context = sws_getContext(
+            frame->width,
+            frame->height,
+            static_cast<AVPixelFormat>(frame->format),
+            frame->width,
+            frame->height,
+            AV_PIX_FMT_RGB24,
+            SWS_BILINEAR,
+            nullptr,
+            nullptr,
+            nullptr);
+
+        if (swsContext.context == nullptr)
+            return {};
+
+        uint8_t* dstData[4] = { image.bits(), nullptr, nullptr, nullptr };
+        int dstLinesize[4] = { static_cast<int>(image.bytesPerLine()), 0, 0, 0 };
+
+        sws_scale(swsContext.context, frame->data, frame->linesize, 0, frame->height, dstData, dstLinesize);
+
+        return image;
+    }
+
+    QImage readVideoFrame(const QString& absolutePath, const QString& logPath, int64_t positionMs, ILogger* logger)
+    {
+        FormatContextGuard formatContext;
+        const int openResult = avformat_open_input(&formatContext.context, absolutePath.toStdString().c_str(), nullptr, nullptr);
+
+        if (openResult != 0)
+        {
+            logger->warning(QString("Error while opening video file %1 to read frame for thumbnail").arg(logPath));
+            return {};
+        }
+
+        if (avformat_find_stream_info(formatContext.context, nullptr) < 0)
+        {
+            logger->warning(QString("Error while reading stream info for %1").arg(logPath));
+            return {};
+        }
+
+        const int videoStreamIndex = av_find_best_stream(formatContext.context, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+
+        if (videoStreamIndex < 0)
+        {
+            logger->warning(QString("No video stream found in %1").arg(logPath));
+            return {};
+        }
+
+        AVStream* const stream = formatContext.context->streams[videoStreamIndex];
+        const AVCodec* const codec = avcodec_find_decoder(stream->codecpar->codec_id);
+
+        if (codec == nullptr)
+        {
+            logger->warning(QString("No decoder found for video file %1").arg(logPath));
+            return {};
+        }
+
+        CodecContextGuard codecContext;
+        codecContext.context = avcodec_alloc_context3(codec);
+
+        if (codecContext.context == nullptr)
+            return {};
+
+        const bool opened = avcodec_parameters_to_context(codecContext.context, stream->codecpar) == 0 &&
+            avcodec_open2(codecContext.context, codec, nullptr) == 0;
+
+        if (!opened)
+        {
+            logger->warning(QString("Error while opening video stream %1 to read frame for thumbnail").arg(logPath));
+            return {};
+        }
+
+        logger->trace("Stream opened successfully");
+        seekToPosition(formatContext.context, codecContext.context, stream, videoStreamIndex, positionMs);
+
+        FrameGuard frame;
+        if (frame.frame == nullptr)
+            return {};
+
+        if (!decodeFrame(formatContext.context, codecContext.context, videoStreamIndex, frame.frame))
+            return {};
+
+        return frameToQImage(frame.frame);
+    }
+}
 
 
 ThumbnailGenerator::ThumbnailGenerator(ILogger* logger, IExifReaderFactory& exif):
@@ -102,9 +321,9 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
     if (pathInfo.exists())
     {
         m_logger->trace(QString("Opening video file %1 to read frame for thumbnail").arg(path));
-        const QString absolute_path = pathInfo.absoluteFilePath();
+        const QString absolutePath = pathInfo.absoluteFilePath();
         const VideoMediaInformation videoMediaInfo(m_exif, *m_logger);
-        const auto fileInfo = videoMediaInfo.getInformation(absolute_path);
+        const auto fileInfo = videoMediaInfo.getInformation(absolutePath);
 
         if (std::holds_alternative<VideoFile>(fileInfo.details))
         {
@@ -115,23 +334,8 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
 
             if (milliseconds > 0)
             {
-                cv::VideoCapture video(absolute_path.toStdString(), cv::CAP_FFMPEG);
-
-                if (video.isOpened())
-                {
-                    m_logger->trace("Stream opened successfully");
-                    const double position = static_cast<double>(milliseconds) / 10.0;
-                    video.set(cv::CAP_PROP_POS_MSEC, position);
-
-                    cv::Mat frame;
-                    video >> frame;
-
-                    assert(frame.type() == CV_8UC3);
-
-                    result = QImage(static_cast<uchar*>(frame.data), frame.cols, frame.rows, static_cast<qsizetype>(frame.step), QImage::Format_RGB888).rgbSwapped();
-                }
-                else
-                    m_logger->warning(QString("Error while ppening video file %1 to read frame for thumbnail").arg(path));
+                const int64_t positionMs = milliseconds / 10;
+                result = readVideoFrame(absolutePath, path, positionMs, m_logger);
             }
         }
     }
