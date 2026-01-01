@@ -197,7 +197,7 @@ namespace
 
 
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
-    m_taskQueue(coreFactory->getTaskExecutor()),
+    m_taskQueue("PhotosAnalyzer", coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
     m_database(database.attach(u"Photos Analyzer"_s)),
     m_tasksView(nullptr),

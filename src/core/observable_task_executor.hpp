@@ -13,7 +13,12 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 {
     public:
         template<typename ...Args>
-        explicit ObservableTaskExecutor(Args&&... args): T(std::forward<Args>(args)...) {}
+        explicit ObservableTaskExecutor(std::string_view name_prefix, Args&&... args)
+            : T(std::forward<Args>(args)...)
+            , m_name_prefix(name_prefix)
+        {
+
+        }
 
         void add(std::unique_ptr<ITaskExecutor::ITask>&& task) override
         {
@@ -24,10 +29,16 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 
         QString name() const override
         {
-            return boost::typeindex::type_id<T>().pretty_name().c_str();
+            const auto prefix = m_name_prefix.empty()? m_name_prefix : m_name_prefix + "::";
+            const auto name = boost::typeindex::type_id<T>().pretty_name();
+            const auto full_name = prefix + name;
+
+            return QString::fromStdString(full_name);
         }
 
     private:
+        std::string m_name_prefix;
+
         class Task final: public ITaskExecutor::ITask
         {
             public:
