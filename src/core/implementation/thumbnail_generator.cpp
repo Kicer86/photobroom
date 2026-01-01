@@ -181,8 +181,8 @@ namespace
         if (swsContext.context == nullptr)
             return {};
 
-        uint8_t* dstData[4] = { image.bits(), nullptr, nullptr, nullptr };
-        int dstLinesize[4] = { static_cast<int>(image.bytesPerLine()), 0, 0, 0 };
+        uint8_t* const dstData[4] = { image.bits(), nullptr, nullptr, nullptr };
+        const int dstLinesize[4] = { static_cast<int>(image.bytesPerLine()), 0, 0, 0 };
 
         sws_scale(swsContext.context, frame->data, frame->linesize, 0, frame->height, dstData, dstLinesize);
 
