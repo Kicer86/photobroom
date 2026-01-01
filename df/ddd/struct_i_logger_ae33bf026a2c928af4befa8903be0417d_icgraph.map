@@ -1,10 +1,8 @@
 <map id="ILogger::warning" name="ILogger::warning">
-<area shape="rect" id="Node000001" title=" " alt="" coords="211,78,327,104"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="211,58,327,84"/>
 <area shape="rect" id="Node000002" href="$de/d2a/class_image_media_information.html#af34ec756e2754554b1692b713a432b19" title=" " alt="" coords="5,5,163,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,75,143,49,145,44,217,70"/>
-<area shape="rect" id="Node000004" href="$d7/d27/class_thumbnail_generator.html#a2b3ef9191a1a9b06f39b5207125dc4de" title=" " alt="" coords="8,71,160,111"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="195,94,160,94,160,88,195,88"/>
-<area shape="rect" id="Node000007" href="$de/d2a/class_image_media_information.html#ae1f3ce6893b7b33d7c30449e0c481301" title=" " alt="" coords="5,160,163,201"/>
-<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="228,113,129,162,127,157,226,109"/>
-<area shape="poly" id="edge4_Node000007_Node000007" title=" " alt="" coords="114,147,103,141,84,139,67,141,56,145,52,151,54,159,49,160,47,150,53,141,65,135,84,133,104,136,116,142"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="198,56,163,48,164,42,199,51"/>
+<area shape="rect" id="Node000004" href="$de/d2a/class_image_media_information.html#ae1f3ce6893b7b33d7c30449e0c481301" title=" " alt="" coords="5,95,163,135"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="198,91,164,99,162,94,196,85"/>
+<area shape="poly" id="edge3_Node000004_Node000004" title=" " alt="" coords="114,81,103,76,84,73,67,75,56,80,52,86,54,94,49,95,47,85,53,76,65,70,84,68,104,70,116,77"/>
 </map>
