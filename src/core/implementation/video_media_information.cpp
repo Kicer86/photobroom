@@ -46,11 +46,12 @@ namespace
     std::optional<QDateTime> getCreationTime(AVFormatContext* context)
     {
         const auto creationTimeEntry = context->metadata? av_dict_get(context->metadata, "creation_time", nullptr, 0) : nullptr;
-        const QString creationTimeStr = creationTimeEntry? creationTimeEntry->value: nullptr;
+        QString creationTimeStr = creationTimeEntry? creationTimeEntry->value: nullptr;
 
         if (creationTimeStr.isEmpty() == false)
         {
-            const auto dateTimeSplit = creationTimeStr.split('T');
+            creationTimeStr.replace('T', ' ');          // some date come with 'T' as separator and some with ' '. Unify this
+            const auto dateTimeSplit = creationTimeStr.split(' ');
             assert(dateTimeSplit.size() == 2);
             const auto date = dateTimeSplit.first();
             const auto time = dateTimeSplit.last().left(8);         // left() for removing any leftovers
