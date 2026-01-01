@@ -199,7 +199,7 @@ int main(int argc, char **argv)
     pluginLoader.set(&logger_factory);
 
     auto taskExecutorLogger = logger_factory.get("TaskExecutor");
-    ObservableTaskExecutor<TaskExecutor> taskExecutor(*taskExecutorLogger, threadsToUse);
+    ObservableTaskExecutor<TaskExecutor> taskExecutor("", *taskExecutorLogger, threadsToUse);
 
     Database::Builder database_builder;
     database_builder.set(&pluginLoader);

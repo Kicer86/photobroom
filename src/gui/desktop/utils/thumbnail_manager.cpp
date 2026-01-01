@@ -35,7 +35,7 @@ using namespace std::placeholders;
 
 
 ThumbnailManager::ThumbnailManager(ITaskExecutor& executor, IThumbnailsGenerator& gen, IThumbnailsCache& cache, const ILogger& logger, Database::IDatabase* db):
-    m_tasks(executor, TasksQueue::Mode::Lifo),
+    m_tasks("ThumbnailManager", executor, TasksQueue::Mode::Lifo),
     m_logger(logger.subLogger("ThumbnailManager")),
     m_cache(cache),
     m_generator(gen),
