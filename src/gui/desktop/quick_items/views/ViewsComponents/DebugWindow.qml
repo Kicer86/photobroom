@@ -1,48 +1,89 @@
 
-import QtQuick 2.0
-import quick_items
+import QtQuick
+import QtQuick.Controls
+import QmlItems
+
 import photo_broom.singletons
+import quick_items.components as Components
 
 
 Item {
-    implicitWidth: childrenRect.width
-    implicitHeight: childrenRect.height
+    id: root
 
-    Column {
-        Repeater {
-            model: ObservablesRegistry.executors
+    implicitWidth: 300
+    implicitHeight: Math.min(contentColumn.implicitHeight, maxHeight)
 
-            Column {
-                Text {
-                    text: modelData.name
-                    font.bold: true
-                }
+    property int maxHeight: 280
+    property int maxTasksViewHeight: 220
 
-                Text {
-                    text: qsTr("Tasks in queue") + ": " + modelData.awaitingTasks
-                }
+    ScrollView {
+        id: scrollView
+        anchors.fill: parent
+        clip: true
 
-                Text {
-                    text: qsTr("Tasks executed") + ": " + modelData.tasksExecuted
-                }
+        Column {
+            id: contentColumn
+            width: scrollView.availableWidth
+            spacing: 8
 
-                Text {
-                    text: qsTr("Execution speed") + ": " + modelData.executionSpeed + " " + qsTr("tps", "tasks per second");
-                }
+            Repeater {
+                model: ObservablesRegistry.executors
 
-                Text {
-                    text: qsTr("Tasks:");
-                    font.italic: true
-                }
+                Column {
+                    width: parent.width
+                    spacing: 4
 
-                Repeater {
-                    model: modelData.tasks
+                    Text {
+                        text: modelData.name
+                        font.bold: true
+                    }
 
-                    delegate: Text {
-                        required property string name
-                        required property int count
+                    Text {
+                        text: qsTr("Tasks in queue") + ": " + modelData.awaitingTasks
+                    }
 
-                        text: " " + name + " " + count
+                    Text {
+                        text: qsTr("Tasks executed") + ": " + modelData.tasksExecuted
+                    }
+
+                    Text {
+                        text: qsTr("Execution speed") + ": " + modelData.executionSpeed + " " + qsTr("tps", "tasks per second");
+                    }
+
+                    Components.CollapsibleGroupBox {
+                        width: parent.width
+                        title: qsTr("<b>Tasks</b>")
+                        background: Item {}
+                        clip: true
+                        collapsed: true
+
+                        ListView {
+                            width: parent.width
+                            clip: true
+
+                            model: modelData.tasks
+                            implicitHeight: Math.min(contentHeight, root.maxTasksViewHeight)
+                            height: implicitHeight
+                            interactive: contentHeight > height
+
+                            delegate: Row {
+                                required property string name
+                                required property int count
+
+                                width: ListView.view.width
+                                spacing: 10
+
+                                Text { text: name }
+                                Text { text: count }
+                            }
+                        }
+                    }
+
+                    Rectangle {
+                        width: parent.width
+                        height: 1
+                        color: "#303030"
+                        opacity: 0.5
                     }
                 }
             }

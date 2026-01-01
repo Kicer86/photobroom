@@ -169,7 +169,7 @@
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="+22"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="+42"/>
         <source>Tasks in queue</source>
         <translation>Zadań w kolejce</translation>
     </message>
@@ -190,8 +190,8 @@
         <translation>zadań/sekundę</translation>
     </message>
     <message>
-        <location line="+4"/>
-        <source>Tasks:</source>
+        <location line="+5"/>
+        <source>&lt;b&gt;Tasks&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -786,7 +786,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="+218"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="+219"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
     </message>
@@ -796,7 +796,7 @@ Kod błędu: %1</translation>
         <translation>&lt;b&gt;Informacje o mediach&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation>&lt;b&gt;Okno debugowania&lt;/b&gt;</translation>
     </message>
