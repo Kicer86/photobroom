@@ -24,7 +24,7 @@ var searchData=
   ['database_5fstatus_2ehpp_21',['database_status.hpp',['../dd/d23/database__status_8hpp.html',1,'']]],
   ['database_5ftag_5fname_5flen_22',['database_tag_name_len',['../d9/db9/struct_config_consts_1_1_constraints.html#a22c6e7602cb4ec39b3b00e623528ff4d',1,'ConfigConsts::Constraints']]],
   ['database_5ftag_5fvalue_5flen_23',['database_tag_value_len',['../d9/db9/struct_config_consts_1_1_constraints.html#ac777579eda98b0447159924b59fd2580',1,'ConfigConsts::Constraints']]],
-  ['databasechanged_24',['databaseChanged',['../df/db2/class_objects_accessor.html#a8d88727890e81f773a869ad4b97de266',1,'ObjectsAccessor']]],
+  ['databasechanged_24',['databaseChanged',['../d6/de2/class_faces_model.html#adf63eca62335811c1c2027a7fd796e36',1,'FacesModel::databaseChanged()'],['../df/db2/class_objects_accessor.html#a8d88727890e81f773a869ad4b97de266',1,'ObjectsAccessor::databaseChanged()']]],
   ['databaselocation_25',['databaseLocation',['../dd/d52/struct_database_1_1_project_info.html#a652345d6388a9b5ee27aa0d83e88f6e6',1,'Database::ProjectInfo::databaseLocation'],['../d0/d76/namespace_database.html#a6abe11d2c3cbef03d64536b16b041e88',1,'Database::databaseLocation']]],
   ['databasemock_26',['DatabaseMock',['../dc/d07/struct_database_mock.html',1,'']]],
   ['databaseplugininterface_5fiid_27',['DatabasePluginInterface_iid',['../da/d21/idatabase__plugin_8hpp.html#ada194ee36323c594fe5dfb2d578ee0ee',1,'idatabase_plugin.hpp']]],

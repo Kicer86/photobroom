@@ -1,21 +1,23 @@
 <map id="src/gui/desktop/models/faces_model.hpp" name="src/gui/desktop/models/faces_model.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="364,5,520,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="465,5,622,46"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,102,143,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="364,48,141,100,140,95,363,43"/>
-<area shape="rect" id="Node000003" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="148,190,328,216"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="364,42,270,64,231,79,208,96,201,115,203,136,211,157,222,176,217,179,206,159,197,137,195,114,204,92,229,74,268,59,363,36"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="465,43,162,97,144,100,143,95,162,91,464,37"/>
+<area shape="rect" id="Node000003" href="$d0/dd6/function__wrappers_8hpp.html" title=" " alt="" coords="245,190,426,216"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="465,34,392,41,315,53,248,71,224,83,208,96,201,108,201,120,207,132,218,144,250,165,286,182,284,187,247,169,214,148,203,135,196,122,196,107,204,92,221,78,247,66,313,48,391,36,465,29"/>
 <area shape="rect" id="Node000011" href="$d6/d1f/icore__factory__accessor_8hpp.html" title=" " alt="" coords="218,94,343,135"/>
-<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="407,49,332,89,329,84,404,44"/>
-<area shape="rect" id="Node000012" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="410,190,568,216"/>
-<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="483,44,510,65,531,93,536,116,532,139,522,161,510,180,506,177,518,159,527,138,531,116,526,95,506,69,480,49"/>
-<area shape="rect" id="Node000032" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="546,271,663,297"/>
-<area shape="poly" id="edge6_Node000001_Node000032" title=" " alt="" coords="490,44,523,65,552,92,576,133,592,177,601,220,606,255,601,256,596,221,587,179,571,135,548,96,519,69,487,49"/>
-<area shape="rect" id="Node000054" href="$dd/d86/face__recognition_8hpp.html" title=" " alt="" coords="643,183,788,223"/>
-<area shape="poly" id="edge7_Node000001_Node000054" title=" " alt="" coords="522,44,574,64,625,92,666,129,697,168,693,172,662,133,622,96,572,69,520,49"/>
-<area shape="rect" id="Node000057" href="$d9/d19/people__editor_8hpp.html" title=" " alt="" coords="367,102,517,127"/>
-<area shape="poly" id="edge9_Node000001_Node000057" title=" " alt="" coords="445,47,445,86,439,86,439,47"/>
-<area shape="poly" id="edge5_Node000012_Node000032" title=" " alt="" coords="508,214,576,260,573,265,505,218"/>
-<area shape="poly" id="edge8_Node000054_Node000032" title=" " alt="" coords="690,226,636,264,633,260,686,222"/>
-<area shape="poly" id="edge10_Node000057_Node000003" title=" " alt="" coords="414,130,281,186,279,181,412,125"/>
-<area shape="poly" id="edge11_Node000057_Node000012" title=" " alt="" coords="451,126,477,175,473,178,446,129"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="485,49,356,91,354,86,483,44"/>
+<area shape="rect" id="Node000012" href="$dc/de1/property__awaiter_8hpp.html" title=" " alt="" coords="367,102,536,127"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="524,48,477,93,473,89,521,45"/>
+<area shape="rect" id="Node000017" href="$d7/d2b/idatabase_8hpp.html" title=" " alt="" coords="603,190,761,216"/>
+<area shape="poly" id="edge5_Node000001_Node000017" title=" " alt="" coords="623,33,651,42,679,54,704,70,724,93,732,115,728,138,718,161,704,180,700,177,713,158,723,137,726,115,720,95,700,74,676,58,649,47,621,39"/>
+<area shape="rect" id="Node000034" href="$d9/d0f/person__data_8hpp.html" title=" " alt="" coords="740,271,856,297"/>
+<area shape="poly" id="edge7_Node000001_Node000034" title=" " alt="" coords="623,33,688,53,719,70,747,92,774,131,790,175,798,219,801,255,795,256,793,220,785,177,769,133,743,96,716,75,686,58,621,38"/>
+<area shape="rect" id="Node000056" href="$dd/d86/face__recognition_8hpp.html" title=" " alt="" coords="836,183,981,223"/>
+<area shape="poly" id="edge8_Node000001_Node000056" title=" " alt="" coords="622,31,669,38,719,50,770,68,818,92,840,108,860,128,891,168,887,171,856,131,837,112,815,96,768,73,718,55,668,43,621,36"/>
+<area shape="rect" id="Node000059" href="$d9/d19/people__editor_8hpp.html" title=" " alt="" coords="560,102,710,127"/>
+<area shape="poly" id="edge10_Node000001_Node000059" title=" " alt="" coords="566,45,613,89,610,93,562,48"/>
+<area shape="poly" id="edge6_Node000017_Node000034" title=" " alt="" coords="701,214,769,260,766,265,698,218"/>
+<area shape="poly" id="edge9_Node000056_Node000034" title=" " alt="" coords="883,226,829,264,826,260,880,222"/>
+<area shape="poly" id="edge11_Node000059_Node000003" title=" " alt="" coords="594,130,393,188,391,183,592,125"/>
+<area shape="poly" id="edge12_Node000059_Node000017" title=" " alt="" coords="644,126,671,175,666,178,639,129"/>
 </map>

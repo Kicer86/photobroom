@@ -294,20 +294,20 @@ var sectionId = 'dynsection-1';
 </a>
 </g>
 </g>
-<!-- Node86 -->
-<g id="Node000086" class="node">
-<title>Node86</title>
-<g id="a_Node000086"><a xlink:href="../../d4/df8/faces__model_8cpp.html" target="_top" xlink:title=" ">
+<!-- Node87 -->
+<g id="Node000087" class="node">
+<title>Node87</title>
+<g id="a_Node000087"><a xlink:href="../../d4/df8/faces__model_8cpp.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="1476,-180.38 1358.75,-180.38 1358.75,-149.88 1476,-149.88 1476,-180.38"/>
 <text text-anchor="start" x="1366.75" y="-166.88" font-family="Helvetica,sans-Serif" font-size="10.00">src/gui/desktop/models</text>
 <text text-anchor="middle" x="1417.38" y="-155.62" font-family="Helvetica,sans-Serif" font-size="10.00">/faces_model.cpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node86 -->
-<g id="edge16_Node000001_Node000086" class="edge">
-<title>Node1&#45;&gt;Node86</title>
-<g id="a_edge16_Node000001_Node000086"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node87 -->
+<g id="edge16_Node000001_Node000087" class="edge">
+<title>Node1&#45;&gt;Node87</title>
+<g id="a_edge16_Node000001_Node000087"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M859.66,-234.62C962.12,-231.01 1174.29,-219.79 1350.38,-186 1357.52,-184.63 1365,-182.81 1372.26,-180.82"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="859.7,-231.11 849.83,-234.95 859.94,-238.11 859.7,-231.11"/>
 </a>

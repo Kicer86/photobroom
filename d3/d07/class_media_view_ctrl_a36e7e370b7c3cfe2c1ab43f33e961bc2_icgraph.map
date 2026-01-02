@@ -1,6 +1,5 @@
 <map id="MediaViewCtrl::setMode" name="MediaViewCtrl::setMode">
-<area shape="rect" id="Node000001" title=" " alt="" coords="210,29,371,55"/>
-<area shape="rect" id="Node000002" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="5,29,162,55"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="194,45,162,45,162,40,194,40"/>
-<area shape="poly" id="edge2_Node000002_Node000002" title=" " alt="" coords="119,17,107,10,83,8,62,10,50,15,47,20,53,27,49,31,42,21,46,11,60,5,84,3,109,5,122,12"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="211,5,372,31"/>
+<area shape="rect" id="Node000002" href="$d3/d07/class_media_view_ctrl.html#a3825dd5a7b855a664633fc56e1eeabc2" title=" " alt="" coords="5,5,163,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="195,21,163,21,163,16,195,16"/>
 </map>

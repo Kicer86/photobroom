@@ -73,7 +73,7 @@ var searchData=
   ['setmode_70',['setMode',['../d3/d07/class_media_view_ctrl.html#a36e7e370b7c3cfe2c1ab43f33e961bc2',1,'MediaViewCtrl']]],
   ['setname_71',['setName',['../d0/d9c/struct_face.html#add08cccb430b251a5cab24fcade5e81a',1,'Face::setName()'],['../d2/d1d/class_i_face.html#a6f6084f44fe6b576dd7c6543f3614ca9',1,'IFace::setName()']]],
   ['setofvalueschanged_72',['setOfValuesChanged',['../de/d63/struct_i_tag_info_collector.html#aa05b1f6a82ab6d7e4b0f0251d73bbe8a',1,'ITagInfoCollector']]],
-  ['setpath_73',['setPath',['../d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f',1,'MediaViewCtrl']]],
+  ['setpath_73',['setPath',['../d3/d07/class_media_view_ctrl.html#a08ede93cff01b73d9b551d7fe7f6efae',1,'MediaViewCtrl']]],
   ['setpatiece_74',['setPatiece',['../df/d97/class_signal_postponer.html#ad6b41649280a5a744fd9b8a32950fdf0',1,'SignalPostponer']]],
   ['setphash_75',['setPHash',['../da/dba/class_database_1_1_memory_backend.html#a8f3126e4d21b1b3925d1c2785e0103ed',1,'Database::MemoryBackend::setPHash()'],['../da/dd9/class_database_1_1_photo_operator.html#adf53bf4b4937460792849dbede9d7dd7',1,'Database::PhotoOperator::setPHash()'],['../d1/d7e/struct_database_1_1_i_photo_operator.html#a7531438d3e85963a717123e150c6de67',1,'Database::IPhotoOperator::setPHash()']]],
   ['setphotodata_76',['setPhotoData',['../d7/ddf/class_photo_data_qml.html#a5a6883aaeb5705e29c447b6d0bfa01fe',1,'PhotoDataQml']]],

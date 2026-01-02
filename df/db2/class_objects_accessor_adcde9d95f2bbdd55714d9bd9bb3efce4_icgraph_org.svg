@@ -110,9 +110,9 @@
 <!-- Node10 -->
 <g id="Node000010" class="node">
 <title>Node10</title>
-<g id="a_Node000010"><a xlink:href="../../d3/d07/class_media_view_ctrl.html#a98d9275bf877422453e14e46d1bbaf09" target="_top" xlink:title=" ">
-<polygon fill="white" stroke="#666666" points="493.5,-56.25 365.75,-56.25 365.75,-37 493.5,-37 493.5,-56.25"/>
-<text text-anchor="middle" x="429.62" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">MediaViewCtrl::setSource</text>
+<g id="a_Node000010"><a xlink:href="../../d3/d07/class_media_view_ctrl.html#a3825dd5a7b855a664633fc56e1eeabc2" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="488.62,-56.25 370.62,-56.25 370.62,-37 488.62,-37 488.62,-56.25"/>
+<text text-anchor="middle" x="429.62" y="-42.75" font-family="Helvetica,sans-Serif" font-size="10.00">MediaViewCtrl::process</text>
 </a>
 </g>
 </g>

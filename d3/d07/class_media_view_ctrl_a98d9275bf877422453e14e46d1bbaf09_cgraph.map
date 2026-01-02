@@ -1,14 +1,7 @@
 <map id="MediaViewCtrl::setSource" name="MediaViewCtrl::setSource">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,128,176,153"/>
-<area shape="rect" id="Node000002" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="254,5,395,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="108,125,158,91,222,55,238,49,240,53,225,60,161,95,111,129"/>
-<area shape="rect" id="Node000005" href="$df/db2/class_objects_accessor.html#adcde9d95f2bbdd55714d9bd9bb3efce4" title=" " alt="" coords="236,70,412,96"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="145,124,253,98,255,103,147,129"/>
-<area shape="rect" id="Node000006" href="$d3/d07/class_media_view_ctrl.html#ab1791c3721f7d2e9de94c996ce4209b5" title=" " alt="" coords="229,120,420,161"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="176,138,213,138,213,143,176,143"/>
-<area shape="rect" id="Node000007" href="$d3/d07/class_media_view_ctrl.html#aa24ae0b96b7ddfdd731a382f759d429f" title=" " alt="" coords="246,209,402,234"/>
-<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="131,151,271,201,270,206,129,156"/>
-<area shape="rect" id="Node000018" href="$d3/d07/class_media_view_ctrl.html#a6d9dd3297875e9a652d8e7282675761e" title=" " alt="" coords="224,258,425,284"/>
-<area shape="poly" id="edge6_Node000001_Node000018" title=" " alt="" coords="106,152,155,198,189,223,225,245,237,250,235,255,222,249,186,227,152,202,102,156"/>
-<area shape="poly" id="edge5_Node000007_Node000007" title=" " alt="" coords="286,210,278,200,283,190,298,184,324,182,353,185,367,192,365,196,351,190,324,187,300,190,286,194,283,200,290,207"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,42,176,68"/>
+<area shape="rect" id="Node000002" href="$d3/d07/class_media_view_ctrl.html#ab1791c3721f7d2e9de94c996ce4209b5" title=" " alt="" coords="229,5,420,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="176,42,214,37,214,42,176,47"/>
+<area shape="rect" id="Node000003" href="$d3/d07/class_media_view_ctrl.html#a6d9dd3297875e9a652d8e7282675761e" title=" " alt="" coords="224,70,425,96"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="176,63,208,66,208,72,176,68"/>
 </map>

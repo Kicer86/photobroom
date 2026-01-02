@@ -63,5 +63,7 @@ var searchData=
   ['project_5fcreator_5fdialog_2ehpp_60',['project_creator_dialog.hpp',['../db/d06/project__creator__dialog_8hpp.html',1,'']]],
   ['project_5finfo_2ehpp_61',['project_info.hpp',['../d3/d41/project__info_8hpp.html',1,'']]],
   ['project_5fmanager_2ecpp_62',['project_manager.cpp',['../db/d98/project__manager_8cpp.html',1,'']]],
-  ['project_5fmanager_2ehpp_63',['project_manager.hpp',['../d1/d9a/project__manager_8hpp.html',1,'']]]
+  ['project_5fmanager_2ehpp_63',['project_manager.hpp',['../d1/d9a/project__manager_8hpp.html',1,'']]],
+  ['property_5fawaiter_2ecpp_64',['property_awaiter.cpp',['../d4/de0/property__awaiter_8cpp.html',1,'']]],
+  ['property_5fawaiter_2ehpp_65',['property_awaiter.hpp',['../dc/de1/property__awaiter_8hpp.html',1,'']]]
 ];
