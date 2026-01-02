@@ -149,6 +149,7 @@ add_executable(core_ut
     unit_tests/lazy_ptr_tests.cpp
     unit_tests/model_compositor_tests.cpp
     unit_tests/oriented_image_tests.cpp
+    unit_tests/property_awaiter_tests.cpp
     unit_tests/qmodelindex_comparator_tests.cpp
     unit_tests/qmodelindex_selector_tests.cpp
     unit_tests/status_tests.cpp
