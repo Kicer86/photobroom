@@ -34,10 +34,12 @@ add_library(system)
 target_sources(system
     PUBLIC FILE_SET CXX_MODULES FILES
         system.cxx
-        implementation/filesystem.cpp
-        implementation/system.cpp
+        implementation/filesystem.cppm
+        implementation/system.cppm
 
     PRIVATE
+        implementation/filesystem.cpp
+        implementation/system.cpp
         ${SYSTEM_SOURCES}
 )
 

@@ -6,6 +6,8 @@
 #include <QStandardItemModel>
 #include <QSortFilterProxyModel>
 
+#include <memory>
+
 #include <database/explicit_photo_delta.hpp>
 #include "utils/grouppers/generator_utils.hpp"
 
@@ -16,8 +18,6 @@ struct IConfiguration;
 struct IExifReaderFactory;
 struct ILogger;
 struct ITaskExecutor;
-struct ITmpDir;
-
 namespace Ui
 {
     class PhotosGroupingDialog;
@@ -77,19 +77,8 @@ class PhotosGroupingDialog: public QDialog
         void reject() override;
 
     private:
-        QStandardItemModel m_model;
-        std::shared_ptr<ITmpDir> m_tmpDir;
-        SortingProxy m_sortProxy;
-        QString m_representativeFile;
-        std::vector<ExplicitDelta> m_photos;
-        Group::Type m_representativeType;
-        Ui::PhotosGroupingDialog *ui;
-        MediaPreview* m_preview;
-        IExifReaderFactory& m_exifReaderFactory;
-        IConfiguration& m_config;
-        ILogger* m_logger;
-        ITaskExecutor& m_executor;
-        bool m_workInProgress;
+        struct Impl;
+        std::unique_ptr<Impl> m_impl;
 
         void generationTitle(const QString &);
         void generationProgress(int);
