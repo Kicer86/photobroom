@@ -14,7 +14,7 @@ module;
 
 #include <unit_tests_utils/empty_logger.hpp>
 
-export module photoDeltaFetchingBenchmarks;
+module photoDeltaFetchingBenchmarks;
 
 namespace
 {
@@ -103,7 +103,7 @@ namespace
 }
 
 
-export void BM_get_photo_delta()
+void BM_get_photo_delta()
 {
     for_each_backend(fillBackendWithData, [](Database::IBackend& backend)
     {
@@ -120,7 +120,7 @@ export void BM_get_photo_delta()
 }
 
 
-export void BM_fetch_photo_delta()
+void BM_fetch_photo_delta()
 {
     for_each_backend(fillBackendWithData, [](Database::IBackend& backend)
     {
