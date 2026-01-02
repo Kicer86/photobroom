@@ -4,7 +4,7 @@ import photo_broom.enums
 import photo_broom.utils
 import QmlItems
 import quick_items
-import "../../Components" as Components
+import quick_items.components as Components
 
 
 Item {

@@ -3,8 +3,7 @@ import QtQuick 2.15
 import QtQuick.Controls 2.15
 
 import QmlItems
-import "../../Components" as Components
-import "../../Components/internal/ViewLogic.js" as Logic
+import quick_items.components as Components
 
 
 /*
@@ -67,5 +66,5 @@ Components.MultiselectGridView {
 
     FocusOnClick { target: grid }
 
-    Keys.onPressed: Logic.handleKeys(event, grid)
+    Keys.onPressed: (event) => Components.handleKeys(event, grid)
 }

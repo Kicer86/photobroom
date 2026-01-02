@@ -23,10 +23,11 @@ using namespace std::placeholders;
 ENUM_ROLES_SETUP(FacesModel::Roles);
 
 
-FacesModel::FacesModel(QObject *parent):
-    QAbstractListModel(parent)
+FacesModel::FacesModel(QObject *parent)
+    : QAbstractListModel(parent)
+    , m_initializer(this, {"photoID", "database", "core"}, std::bind(&FacesModel::initialSetup, this))
 {
-    QMetaObject::invokeMethod(this, &FacesModel::initialSetup, Qt::QueuedConnection);
+
 }
 
 
@@ -44,6 +45,8 @@ void FacesModel::setDatabase(Database::IDatabase* db)
         apply();
 
     m_database = db;
+
+    emit databaseChanged();
 }
 
 
@@ -182,6 +185,7 @@ void FacesModel::initialSetup()
 
 void FacesModel::updateDetectionState(int state)
 {
+    m_state = state;
     emit stateChanged(state);
 }
 

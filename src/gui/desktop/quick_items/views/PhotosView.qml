@@ -1,11 +1,14 @@
 
 import QtQuick
 import QtQuick.Controls
+
 import photo_broom.singletons
 import quick_items
+import quick_items.components as Components
 import QmlItems
-import "../Components" as Components
+
 import "ViewsComponents" as Internals
+
 
 /*
  * Top level view for diplaying photos from APhotoInfoModel.
@@ -208,7 +211,7 @@ Item {
 
                 spacing: 10
 
-                CollapsibleGroupBox {
+                Components.CollapsibleGroupBox {
                     id: tagEditor
 
                     width: parent.width
@@ -221,7 +224,7 @@ Item {
                     }
                 }
 
-                CollapsibleGroupBox {
+                Components.CollapsibleGroupBox {
                     id: propertiesWindow
 
                     width: parent.width
@@ -233,7 +236,7 @@ Item {
                     }
                 }
 
-                CollapsibleGroupBox {
+                Components.CollapsibleGroupBox {
                     id: debugWindow
 
                     width: parent.width

@@ -6,6 +6,7 @@
 
 #include <core/function_wrappers.hpp>
 #include <core/icore_factory_accessor.hpp>
+#include <core/property_awaiter.hpp>
 #include <database/idatabase.hpp>
 #include <database/person_data.hpp>
 #include <face_recognition/face_recognition.hpp>
@@ -16,9 +17,9 @@ class FacesModel: public QAbstractListModel
 {
         Q_OBJECT
 
-        Q_PROPERTY(Photo::Id photoID MEMBER m_id REQUIRED)
-        Q_PROPERTY(Database::IDatabase* database WRITE setDatabase READ database REQUIRED)
-        Q_PROPERTY(ICoreFactoryAccessor* core MEMBER m_core REQUIRED)
+        Q_PROPERTY(Photo::Id photoID MEMBER m_id REQUIRED NOTIFY photoIDChanged)
+        Q_PROPERTY(Database::IDatabase* database WRITE setDatabase READ database REQUIRED NOTIFY databaseChanged)
+        Q_PROPERTY(ICoreFactoryAccessor* core MEMBER m_core REQUIRED NOTIFY coreChanged)
         Q_PROPERTY(int state READ state NOTIFY stateChanged)
         Q_PROPERTY(QList<QVariant> facesMask READ facesMask NOTIFY facesMaskChanged)
 
@@ -47,6 +48,7 @@ class FacesModel: public QAbstractListModel
         bool setData(const QModelIndex &, const QVariant &, int role) override;
 
     private:
+        PropertyAwaiter m_initializer;
         Photo::Id m_id;
         Database::IDatabase* m_database = nullptr;
         ICoreFactoryAccessor* m_core = nullptr;
@@ -63,6 +65,9 @@ class FacesModel: public QAbstractListModel
         void apply();
 
     signals:
+        void photoIDChanged() const;
+        void databaseChanged() const;
+        void coreChanged() const;
         void stateChanged(int) const;
         void facesMaskChanged(const QList<QVariant> &) const;
 };

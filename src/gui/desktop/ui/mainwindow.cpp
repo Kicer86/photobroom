@@ -107,7 +107,7 @@ void MainWindow::setupQmlView()
     qmlRegisterSingletonInstance("photo_broom.singletons", 1, 0, "ObservablesRegistry", &ObservablesRegistry::instance());
 
     m_mainView.addImportPath(":/photo_broom");
-    m_mainView.load(QUrl("qrc:///photo_broom/quick_items/Views/MainWindow.qml"));
+    m_mainView.load(QUrl("qrc:///photo_broom/quick_items/views/MainWindow.qml"));
 
     QObject* mainWindow = QmlUtils::findQmlObject(m_mainView, "MainWindow");
     connect(mainWindow, SIGNAL(newProject()), this, SLOT(on_actionNew_collection_triggered()));

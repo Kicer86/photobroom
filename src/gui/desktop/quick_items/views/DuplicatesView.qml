@@ -7,7 +7,7 @@ import photo_broom.models
 import photo_broom.singletons
 import QmlItems
 
-import "../Components" as Components
+import quick_items.components as Components
 import "ViewsComponents" as Internals
 
 
@@ -23,13 +23,13 @@ Internals.ToolsBase
         database: PhotoBroomProject.database
     }
 
-    view: Component { ExListView  {
+    view: Component { Components.ExListView  {
         id: duplicatesList
 
         focusPolicy: Qt.StrongFocus
         model: duplicatesModel
 
-        delegate: ExListView {
+        delegate: Components.ExListView {
             required property var duplicates
 
             implicitHeight: contentItem.childrenRect.height

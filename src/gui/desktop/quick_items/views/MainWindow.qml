@@ -5,9 +5,10 @@ import QtQuick.Layouts
 
 import photo_broom.singletons
 import quick_items
+import quick_items.components as Components
+import quick_items.views
 
 import "ViewsComponents" as Internals
-import "../Components" as Components
 
 
 ApplicationWindow {
@@ -65,8 +66,7 @@ ApplicationWindow {
                         onTriggered: mainWindow.openProject(modelData)
                     }
 
-                    onObjectAdded: (index, object) => recentsMenu.insertItem(index, object)
-                    onObjectRemoved: (object) => recentsMenu.removeItem(object)
+                    onObjectAdded: (index, object) => recentsMenu.insertItem(index, object);
                 }
             }
             Action { text: qsTr("&Close"); enabled: PhotoBroomProject.projectOpen; icon.name: "window-close"; onTriggered: closeProject(); }

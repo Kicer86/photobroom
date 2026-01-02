@@ -1,7 +1,7 @@
 
 import QtQuick 2.15
 import QtTest 1.0
-import "../../desktop/quick_items/Components/internal/ZoomLogic.js" as ZoomLogic
+import "../../desktop/quick_items/components/internal/ZoomLogic.js" as ZoomLogic
 
 TestCase {
     name: "ZoomLogic tests"
