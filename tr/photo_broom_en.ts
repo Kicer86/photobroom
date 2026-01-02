@@ -261,7 +261,7 @@
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="175"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="183"/>
         <source>Preparing photos</source>
         <translation type="unfinished">Preparing photos</translation>
     </message>
@@ -928,42 +928,42 @@ Error code: %1</source>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="91"/>
+        <location filename="../src/main.cpp" line="92"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="92"/>
+        <location filename="../src/main.cpp" line="93"/>
         <source>loging level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="97"/>
+        <location filename="../src/main.cpp" line="98"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</source>
         <translation>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="98"/>
+        <location filename="../src/main.cpp" line="99"/>
         <source>flag</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="104"/>
+        <location filename="../src/main.cpp" line="105"/>
         <source>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="105"/>
+        <location filename="../src/main.cpp" line="106"/>
         <source>image memory limit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="111"/>
+        <location filename="../src/main.cpp" line="112"/>
         <source>Limit for working threads count. Photo broom will not use more working threads than specified here. Another limitation is number of available CPU cores which won&apos;t be exceeded either.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="114"/>
+        <location filename="../src/main.cpp" line="115"/>
         <source>threads count</source>
         <translation type="unfinished"></translation>
     </message>

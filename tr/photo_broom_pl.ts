@@ -267,7 +267,7 @@
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+175"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+183"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -956,7 +956,7 @@ Kod błędu: %1</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+91"/>
+        <location filename="../src/main.cpp" line="+92"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
     </message>
