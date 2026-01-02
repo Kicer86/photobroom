@@ -10,7 +10,6 @@
 #include <core/containers_utils.hpp>
 #include <core/iexif_reader.hpp>
 #include <core/tags_utils.hpp>
-#include <system/system.hpp>
 #include <project_utils/project.hpp>
 #include <project_utils/misc.hpp>
 
@@ -22,6 +21,7 @@
 #include "utils/grouppers/collage_generator.hpp"
 #include "widgets/media_preview.hpp"
 
+import system;
 
 namespace
 {
@@ -70,7 +70,7 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<ExplicitDelta>& pho
                                            Group::Type type,
                                            QWidget *parent):
     QDialog(parent),
-    m_tmpDir(System::createTmpDir("PGD_wd", System::Confidential | System::BigFiles)),
+    m_tmpDir(System::createTmpDir("PGD_wd", QFlags<System::TmpOption>{System::Confidential, System::BigFiles})),
     m_sortProxy(),
     m_representativeFile(),
     m_photos(photos),
