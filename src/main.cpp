@@ -28,13 +28,14 @@
 #include <gui/gui.hpp>
 #include <plugins/plugin_loader.hpp>
 #include <project_utils/project_manager.hpp>
-#include <system/system.hpp>
 
 #include "config.hpp"
 #include "config_storage.hpp"
 #include "features.hpp"
 #include "paths.hpp"
 
+
+import system;
 
 namespace
 {
