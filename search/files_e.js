@@ -65,5 +65,7 @@ var searchData=
   ['project_5fmanager_2ecpp_62',['project_manager.cpp',['../db/d98/project__manager_8cpp.html',1,'']]],
   ['project_5fmanager_2ehpp_63',['project_manager.hpp',['../d1/d9a/project__manager_8hpp.html',1,'']]],
   ['property_5fawaiter_2ecpp_64',['property_awaiter.cpp',['../d4/de0/property__awaiter_8cpp.html',1,'']]],
-  ['property_5fawaiter_2ehpp_65',['property_awaiter.hpp',['../dc/de1/property__awaiter_8hpp.html',1,'']]]
+  ['property_5fawaiter_2ehpp_65',['property_awaiter.hpp',['../dc/de1/property__awaiter_8hpp.html',1,'']]],
+  ['property_5fawaiter_5ftest_5fobject_2ehpp_66',['property_awaiter_test_object.hpp',['../db/d3d/property__awaiter__test__object_8hpp.html',1,'']]],
+  ['property_5fawaiter_5ftests_2ecpp_67',['property_awaiter_tests.cpp',['../dc/de9/property__awaiter__tests_8cpp.html',1,'']]]
 ];

@@ -212,12 +212,14 @@ var searchData=
   ['promise_5ftype_209',['promise_type',['../d9/d1e/struct_i_task_executor_1_1_process_coroutine_1_1promise__type.html',1,'ITaskExecutor::ProcessCoroutine']]],
   ['property_5fawaiter_2ecpp_210',['property_awaiter.cpp',['../d4/de0/property__awaiter_8cpp.html',1,'']]],
   ['property_5fawaiter_2ehpp_211',['property_awaiter.hpp',['../dc/de1/property__awaiter_8hpp.html',1,'']]],
-  ['propertyawaiter_212',['PropertyAwaiter',['../d8/d6f/class_property_awaiter.html',1,'PropertyAwaiter'],['../d8/d6f/class_property_awaiter.html#a93a87c1db75982990b271fda2bb3e97b',1,'PropertyAwaiter::PropertyAwaiter(QObject *object, const std::vector&lt; const char * &gt; &amp;propertiesToAwait, std::function&lt; void()&gt; callback)']]],
-  ['propertychanged_213',['propertyChanged',['../d8/d6f/class_property_awaiter.html#a4b94a1f5ec29fbeb239ee5926388d178',1,'PropertyAwaiter']]],
-  ['prune_214',['prune',['../d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e',1,'Database::ASqlBackend']]],
-  ['purpose_215',['Purpose',['../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208a',1,'Database::ColDefinition']]],
-  ['purpose_216',['purpose',['../d6/d76/struct_database_1_1_col_definition.html#a08d94545e3180108635cbb803bea67c8',1,'Database::ColDefinition']]],
-  ['push_217',['push',['../df/d8a/class_accumulative_queue.html#a90063ec4effe547b013576c0dce532b2',1,'AccumulativeQueue::push()'],['../d4/da4/class_queue.html#a9c6a1d0575f7d678f7c374988377d847',1,'Queue::push()'],['../d2/d36/classol_1_1_t_s___queue.html#aa938934d5d6302372454104214113d64',1,'ol::TS_Queue::push(const T &amp;item)'],['../d2/d36/classol_1_1_t_s___queue.html#a007b9487e1a019b625c2963c9739c89d',1,'ol::TS_Queue::push(T &amp;&amp;item)']]],
-  ['pushpackibletask_218',['pushPackibleTask',['../d0/d37/class_database_1_1_database_queue.html#a54ab13b393f13e53c72d2bb9a4077eac',1,'Database::DatabaseQueue']]],
-  ['pushtask_219',['pushTask',['../d0/d37/class_database_1_1_database_queue.html#a986bb6cbf5feb18300106de60e39dc74',1,'Database::DatabaseQueue']]]
+  ['property_5fawaiter_5ftest_5fobject_2ehpp_212',['property_awaiter_test_object.hpp',['../db/d3d/property__awaiter__test__object_8hpp.html',1,'']]],
+  ['property_5fawaiter_5ftests_2ecpp_213',['property_awaiter_tests.cpp',['../dc/de9/property__awaiter__tests_8cpp.html',1,'']]],
+  ['propertyawaiter_214',['PropertyAwaiter',['../d8/d6f/class_property_awaiter.html',1,'PropertyAwaiter'],['../d8/d6f/class_property_awaiter.html#a93a87c1db75982990b271fda2bb3e97b',1,'PropertyAwaiter::PropertyAwaiter(QObject *object, const std::vector&lt; const char * &gt; &amp;propertiesToAwait, std::function&lt; void()&gt; callback)']]],
+  ['propertychanged_215',['propertyChanged',['../d8/d6f/class_property_awaiter.html#a4b94a1f5ec29fbeb239ee5926388d178',1,'PropertyAwaiter']]],
+  ['prune_216',['prune',['../d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e',1,'Database::ASqlBackend']]],
+  ['purpose_217',['Purpose',['../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208a',1,'Database::ColDefinition']]],
+  ['purpose_218',['purpose',['../d6/d76/struct_database_1_1_col_definition.html#a08d94545e3180108635cbb803bea67c8',1,'Database::ColDefinition']]],
+  ['push_219',['push',['../df/d8a/class_accumulative_queue.html#a90063ec4effe547b013576c0dce532b2',1,'AccumulativeQueue::push()'],['../d4/da4/class_queue.html#a9c6a1d0575f7d678f7c374988377d847',1,'Queue::push()'],['../d2/d36/classol_1_1_t_s___queue.html#aa938934d5d6302372454104214113d64',1,'ol::TS_Queue::push(const T &amp;item)'],['../d2/d36/classol_1_1_t_s___queue.html#a007b9487e1a019b625c2963c9739c89d',1,'ol::TS_Queue::push(T &amp;&amp;item)']]],
+  ['pushpackibletask_220',['pushPackibleTask',['../d0/d37/class_database_1_1_database_queue.html#a54ab13b393f13e53c72d2bb9a4077eac',1,'Database::DatabaseQueue']]],
+  ['pushtask_221',['pushTask',['../d0/d37/class_database_1_1_database_queue.html#a986bb6cbf5feb18300106de60e39dc74',1,'Database::DatabaseQueue']]]
 ];
