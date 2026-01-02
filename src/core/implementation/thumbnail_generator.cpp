@@ -33,7 +33,6 @@ extern "C"
 #include <libswscale/swscale.h>
 }
 
-#include <system/system.hpp>
 #include "constants.hpp"
 #include "iconfiguration.hpp"
 #include "iexif_reader.hpp"
@@ -41,6 +40,8 @@ extern "C"
 #include "image_tools.hpp"
 #include "media_types.hpp"
 #include "video_media_information.hpp"
+
+import system;
 
 namespace
 {

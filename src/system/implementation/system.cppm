@@ -1,22 +1,23 @@
-
-#ifndef SYSTEM_HPP
-#define SYSTEM_HPP
+module;
 
 #include <memory>
+#include <string>
 
-#include <QString>
+class QString;
 
-#include "system_export.h"
+template <typename Enum>
+class QFlags;
 
-struct ITmpDir
+export module system:system;
+
+export struct ITmpDir
 {
     virtual ~ITmpDir() = default;
 
     virtual QString path() const = 0;
 };
 
-
-struct SYSTEM_EXPORT System
+export struct System
 {
     /**
      * Flags to be used for temporary directory creation.
@@ -28,6 +29,8 @@ struct SYSTEM_EXPORT System
         Persistent   = 4,       ///< use persistent location which will be reused when called for the same util name.
         BigFiles     = 8,       ///< big files will be stored in tmp dir. RAM tmp dirs won't be used.
     };
+
+    using TmpOptions = QFlags<TmpOption>;
 
     /**
      * \brief get dir for config files
@@ -65,16 +68,10 @@ struct SYSTEM_EXPORT System
      * Some temporary directories may be shared and won't\n
      * be deleted until last client releases it.
      */
-    static std::shared_ptr<ITmpDir> createTmpDir(const QString& utility, QFlags<TmpOption> flags = Generic);
+    static std::shared_ptr<ITmpDir> createTmpDir(const QString& utility, QFlags<TmpOption> flags);
 
     /**
      * \brief remove all temporary files
      */
     static void cleanTemporaries();
-
-    Q_DECLARE_FLAGS(TmpOptions, TmpOption)
 };
-
-Q_DECLARE_OPERATORS_FOR_FLAGS(System::TmpOptions)
-
-#endif

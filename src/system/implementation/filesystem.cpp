@@ -17,11 +17,14 @@
  *
  */
 
-#include "filesystem.hpp"
+module;
 
 #include <QDir>
 
 #include "paths.hpp"
+
+module system;
+import :filesystem;
 
 QString FileSystem::getPluginsPath() const
 {

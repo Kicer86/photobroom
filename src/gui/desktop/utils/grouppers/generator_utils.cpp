@@ -25,7 +25,8 @@
 #include <core/image_aligner.hpp>
 #include <core/image_tools.hpp>
 #include <core/utils.hpp>
-#include <system/system.hpp>
+
+import system;
 
 #include "generator_utils.hpp"
 
@@ -42,6 +43,11 @@ namespace
 
 namespace GeneratorUtils
 {
+    struct BreakableTask::Impl
+    {
+        std::shared_ptr<ITmpDir> tmpDir;
+        QString tmpDirPath;
+    };
 
     GenericAnalyzer::GenericAnalyzer(ILogger* logger, int tailLenght):
         QObject(),
@@ -135,11 +141,14 @@ namespace GeneratorUtils
 
     BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory& exif):
         QObject(),
-        m_tmpDir(System::createTmpDir("BT_tmp", System::Confidential | System::BigFiles)),
+        m_impl(std::make_unique<Impl>()),
         m_storage(storage),
         m_runner(),
         m_exif(exif)
     {
+        m_impl->tmpDir = System::createTmpDir("BT_tmp", QFlags<System::TmpOption>{System::Confidential, System::BigFiles});
+        m_impl->tmpDirPath = m_impl->tmpDir->path();
+
         connect(this, &BreakableTask::canceled,
                 &m_runner, &GeneratorUtils::ProcessRunner::cancel);
     }
@@ -185,7 +194,7 @@ namespace GeneratorUtils
         {
             const QString& photo = photos[i];
             const QString location = QString("%1/%2.tiff")
-                                    .arg(m_tmpDir->path())
+                                    .arg(tmpDirPath())
                                     .arg(photo_index);
 
             const OrientedImage normalized = Image::normalized(photo, exif);
@@ -202,6 +211,12 @@ namespace GeneratorUtils
         }
 
         return prepared_photos;
+    }
+
+
+    const QString& BreakableTask::tmpDirPath() const
+    {
+        return m_impl->tmpDirPath;
     }
 
 

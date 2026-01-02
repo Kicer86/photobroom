@@ -4,7 +4,7 @@
 <context>
     <name>AnimationGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+77"/>
+        <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+78"/>
         <source>Photos processing error</source>
         <translation type="unfinished"></translation>
     </message>
@@ -267,7 +267,7 @@
 <context>
     <name>GeneratorUtils::BreakableTask</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+174"/>
+        <location filename="../src/gui/desktop/utils/grouppers/generator_utils.cpp" line="+183"/>
         <source>Preparing photos</source>
         <translation>Przygotowywanie zdjęć</translation>
     </message>
@@ -275,7 +275,7 @@
 <context>
     <name>HDRGenerator</name>
     <message>
-        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+49"/>
+        <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+50"/>
         <source>Stabilizing photos</source>
         <translation type="unfinished">Stabilizowanie zdjęć</translation>
     </message>
@@ -582,7 +582,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotoPropertiesModel</name>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+116"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+117"/>
         <source>Photo(s) location:</source>
         <translation>
             <numerusform>lokalizacja zdjęcia:</numerusform>
@@ -726,7 +726,7 @@ Kod błędu: %1</translation>
         <translation>Podgląd:</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+144"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="+174"/>
         <location line="+124"/>
         <source>Cancel operation?</source>
         <translation>Anulować operację?</translation>
@@ -956,7 +956,7 @@ Kod błędu: %1</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+91"/>
+        <location filename="../src/main.cpp" line="+92"/>
         <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
     </message>
