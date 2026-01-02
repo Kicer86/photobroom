@@ -6,6 +6,7 @@ pull_request_rules:
       - check-success=Build PhotoBroom sources on Linux (LLVM, clang-16, clang++-16, Release, false, ubuntu-24.04)
       - check-success=Build PhotoBroom sources on Linux (LLVM, clang-16, clang++-16, Release, true, ubuntu-24.04)
       - check-success=Build PhotoBroom sources on MacOS (macos-15)
+      - check-success=Build PhotoBroom sources on MacOS (macos-26)
       - check-success=Unit tests coverage (ubuntu-24.04)
       - "#commits=1"
       - or:
@@ -24,6 +25,7 @@ pull_request_rules:
       - check-success=Build PhotoBroom sources on Linux (LLVM, clang-16, clang++-16, Release, false, ubuntu-24.04)
       - check-success=Build PhotoBroom sources on Linux (LLVM, clang-16, clang++-16, Release, true, ubuntu-24.04)
       - check-success=Build PhotoBroom sources on MacOS (macos-15)
+      - check-success=Build PhotoBroom sources on MacOS (macos-26)
       - check-success=Unit tests coverage (ubuntu-24.04)
       - "#commits>1"
       - "#commits-behind=0"
