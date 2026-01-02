@@ -135,12 +135,14 @@ add_executable(core_ut
     implementation/media_information.cpp
     implementation/media_types.cpp
     implementation/model_compositor.cpp
+    implementation/property_awaiter.cpp
     implementation/qmodelindex_selector.cpp
     implementation/qmodelindex_comparator.cpp
     implementation/video_media_information.cpp
     implementation/tag.cpp
     implementation/task_executor_utils.cpp
     imodel_compositor_data_source.hpp
+    property_awaiter.hpp
 
     unit_tests/containers_utils_tests.cpp
     unit_tests/data_from_path_extractor_tests.cpp
@@ -149,6 +151,7 @@ add_executable(core_ut
     unit_tests/lazy_ptr_tests.cpp
     unit_tests/model_compositor_tests.cpp
     unit_tests/oriented_image_tests.cpp
+    unit_tests/property_awaiter_test_object.hpp
     unit_tests/property_awaiter_tests.cpp
     unit_tests/qmodelindex_comparator_tests.cpp
     unit_tests/qmodelindex_selector_tests.cpp
