@@ -20,6 +20,7 @@
 #define GENERATORUTILS_HPP
 
 #include <functional>
+#include <memory>
 
 #include <QProcess>
 #include <QStringList>
@@ -28,7 +29,6 @@
 #include <core/itask_executor.hpp>
 
 struct IExifReaderFactory;
-struct ITmpDir;
 
 namespace GeneratorUtils
 {
@@ -138,7 +138,6 @@ namespace GeneratorUtils
             void cancel();
 
         protected:
-            std::shared_ptr<ITmpDir> m_tmpDir;
             const QString m_storage;
             ProcessRunner m_runner;
             IExifReaderFactory& m_exif;
@@ -146,6 +145,7 @@ namespace GeneratorUtils
             virtual void run() = 0;
 
             QStringList preparePhotos(const QStringList& photos, int scale);
+            const QString& tmpDirPath() const;
 
         signals:
             void operation(const QString &) const;
@@ -153,6 +153,10 @@ namespace GeneratorUtils
             void finished(const QString &) const;
             void canceled() const;
             void error(const QString &, const QStringList &) const;
+
+        private:
+            struct Impl;
+            std::unique_ptr<Impl> m_impl;
     };
 
 
