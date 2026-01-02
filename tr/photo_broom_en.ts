@@ -703,38 +703,38 @@ Error code: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="144"/>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="268"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="174"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="298"/>
         <source>Cancel operation?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="144"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="174"/>
         <source>Do you really want to stop current work and quit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="268"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="298"/>
         <source>Do you really want to stop current work?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="315"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="345"/>
         <source>Error during collage generation. Possibly too many images, or height to small or too big.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="350"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="380"/>
         <source>photo path</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="351"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="381"/>
         <source>sequence number</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="352"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="382"/>
         <source>exposure (EV)</source>
         <translation type="unfinished"></translation>
     </message>

@@ -61,6 +61,47 @@ namespace
 
 ///////////////////////////////////////////////////////////////////////////////
 
+struct PhotosGroupingDialog::Impl
+{
+    using ExplicitDelta = PhotosGroupingDialog::ExplicitDelta;
+
+    Impl(const std::vector<ExplicitDelta>& photos_,
+         IExifReaderFactory& exifReaderFactory_,
+         IConfiguration& config_,
+         ILogger* logger_,
+         ITaskExecutor& executor_,
+         QWidget* parent):
+        model(),
+        tmpDir(System::createTmpDir("PGD_wd", QFlags<System::TmpOption>{System::Confidential, System::BigFiles})),
+        sortProxy(),
+        representativeFile(),
+        photos(photos_),
+        representativeType(Group::Invalid),
+        ui(new Ui::PhotosGroupingDialog),
+        preview(new MediaPreview(parent)),
+        exifReaderFactory(exifReaderFactory_),
+        config(config_),
+        logger(logger_),
+        executor(executor_),
+        workInProgress(false)
+    {
+    }
+
+    QStandardItemModel model;
+    std::shared_ptr<ITmpDir> tmpDir;
+    SortingProxy sortProxy;
+    QString representativeFile;
+    std::vector<ExplicitDelta> photos;
+    Group::Type representativeType;
+    Ui::PhotosGroupingDialog* ui;
+    MediaPreview* preview;
+    IExifReaderFactory& exifReaderFactory;
+    IConfiguration& config;
+    ILogger* logger;
+    ITaskExecutor& executor;
+    bool workInProgress;
+};
+
 
 PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<ExplicitDelta>& photos,
                                            IExifReaderFactory& exifReader,
@@ -70,76 +111,65 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<ExplicitDelta>& pho
                                            Group::Type type,
                                            QWidget *parent):
     QDialog(parent),
-    m_tmpDir(System::createTmpDir("PGD_wd", QFlags<System::TmpOption>{System::Confidential, System::BigFiles})),
-    m_sortProxy(),
-    m_representativeFile(),
-    m_photos(photos),
-    m_representativeType(Group::Invalid),
-    ui(new Ui::PhotosGroupingDialog),
-    m_preview(new MediaPreview(this)),
-    m_exifReaderFactory(exifReader),
-    m_config(configuration),
-    m_logger(logger),
-    m_executor(executor),
-    m_workInProgress(false)
+    m_impl(std::make_unique<Impl>(photos, exifReader, configuration, logger, executor, this))
 {
     assert(photos.size() >= 2);
 
     fillModel(photos);
 
-    ui->setupUi(this);
-    ui->resultPreview->setWidget(m_preview);
+    m_impl->ui->setupUi(this);
+    m_impl->ui->resultPreview->setWidget(m_impl->preview);
 
-    m_sortProxy.setSourceModel(&m_model);
+    m_impl->sortProxy.setSourceModel(&m_impl->model);
 
-    ui->photosList->setModel(&m_sortProxy);
-    ui->photosList->setSortingEnabled(true);
-    ui->photosList->sortByColumn(0, Qt::AscendingOrder);
-    ui->photosList->resizeColumnsToContents();
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
-    ui->generationProgressBar->reset();
-    ui->speedSpinBox->setValue(calculateFPS());
+    m_impl->ui->photosList->setModel(&m_impl->sortProxy);
+    m_impl->ui->photosList->setSortingEnabled(true);
+    m_impl->ui->photosList->sortByColumn(0, Qt::AscendingOrder);
+    m_impl->ui->photosList->resizeColumnsToContents();
+    m_impl->ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
+    m_impl->ui->generationProgressBar->reset();
+    m_impl->ui->speedSpinBox->setValue(calculateFPS());
 
     QIntValidator* heightValidator = new QIntValidator(this);
     heightValidator->setBottom(100);
     heightValidator->setTop(65536);
-    ui->collageHeight->setValidator(heightValidator);
+    m_impl->ui->collageHeight->setValidator(heightValidator);
 
     if (type != Group::Type::Invalid)
-        ui->groupingType->setCurrentIndex(groupTypeToCombobox(type));
+        m_impl->ui->groupingType->setCurrentIndex(groupTypeToCombobox(type));
 
-    connect(ui->previewScaleSlider, &QSlider::sliderMoved, this, &PhotosGroupingDialog::scalePreview);
-    connect(ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
-    connect(ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
-    connect(m_preview, &MediaPreview::scalableContentAvailable, [this](bool av)
+    connect(m_impl->ui->previewScaleSlider, &QSlider::sliderMoved, this, &PhotosGroupingDialog::scalePreview);
+    connect(m_impl->ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
+    connect(m_impl->ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
+    connect(m_impl->preview, &MediaPreview::scalableContentAvailable, [this](bool av)
     {
-        ui->previewScaleSlider->setEnabled(av);                          // enable only when content available
-        ui->previewScaleSlider->triggerAction(QSlider::SliderToMaximum); // reset slider's position
+        m_impl->ui->previewScaleSlider->setEnabled(av);                          // enable only when content available
+        m_impl->ui->previewScaleSlider->triggerAction(QSlider::SliderToMaximum); // reset slider's position
     });
 }
 
 
 PhotosGroupingDialog::~PhotosGroupingDialog()
 {
-    delete ui;
+    delete m_impl->ui;
 }
 
 
 QString PhotosGroupingDialog::getRepresentative() const
 {
-    return m_representativeFile;
+    return m_impl->representativeFile;
 }
 
 
 Group::Type PhotosGroupingDialog::groupType() const
 {
-    return m_representativeType;
+    return m_impl->representativeType;
 }
 
 
 void PhotosGroupingDialog::reject()
 {
-    if (m_workInProgress)
+    if (m_impl->workInProgress)
     {
         const QMessageBox::StandardButton result = QMessageBox::question(this, tr("Cancel operation?"), tr("Do you really want to stop current work and quit?"));
 
@@ -156,32 +186,32 @@ void PhotosGroupingDialog::reject()
 
 void PhotosGroupingDialog::generationTitle(const QString& title)
 {
-    ui->generationProgressBar->setValue(0);
-    ui->operationName->setText(title);
+    m_impl->ui->generationProgressBar->setValue(0);
+    m_impl->ui->operationName->setText(title);
 }
 
 
 void PhotosGroupingDialog::generationProgress(int v)
 {
     if (v == -1)
-        ui->generationProgressBar->setMaximum(0);
+        m_impl->ui->generationProgressBar->setMaximum(0);
     else
     {
-        ui->generationProgressBar->setMaximum(100);
-        ui->generationProgressBar->setValue(v);
+        m_impl->ui->generationProgressBar->setMaximum(100);
+        m_impl->ui->generationProgressBar->setValue(v);
     }
 }
 
 
 void PhotosGroupingDialog::generationDone(const QString& location)
 {
-    m_representativeFile = location;
-    m_representativeType = comboboxToGroupType(ui->optionsWidget->currentIndex());
+    m_impl->representativeFile = location;
+    m_impl->representativeType = comboboxToGroupType(m_impl->ui->optionsWidget->currentIndex());
 
-    m_workInProgress = false;
+    m_impl->workInProgress = false;
 
-    if (m_representativeFile.isEmpty() == false)
-        m_preview->setMedia(m_representativeFile);
+    if (m_impl->representativeFile.isEmpty() == false)
+        m_impl->preview->setMedia(m_impl->representativeFile);
 
     switchUiToGenerationFinished();
 }
@@ -230,7 +260,7 @@ void PhotosGroupingDialog::generationError(const QString& info, const QStringLis
 
 void PhotosGroupingDialog::refreshDialogButtons()
 {
-    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_representativeFile.isEmpty() == false);
+    m_impl->ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_impl->representativeFile.isEmpty() == false);
 }
 
 
@@ -238,7 +268,7 @@ void PhotosGroupingDialog::previewPressed()
 {
     switchUiToGeneration();
 
-    const int tool_page = ui->optionsWidget->currentIndex();
+    const int tool_page = m_impl->ui->optionsWidget->currentIndex();
     auto type = comboboxToGroupType(tool_page);
 
     switch(type)
@@ -269,7 +299,7 @@ void PhotosGroupingDialog::previewCancelPressed()
 
     if (result == QMessageBox::StandardButton::Yes)
     {
-        ui->previewButtons->setCurrentIndex(0);
+        m_impl->ui->previewButtons->setCurrentIndex(0);
         emit cancel();
     }
 }
@@ -279,14 +309,14 @@ void PhotosGroupingDialog::makeAnimation()
 {
     AnimationGenerator::Data generator_data;
 
-    generator_data.storage = m_tmpDir->path();
+    generator_data.storage = m_impl->tmpDir->path();
     generator_data.photos = getPhotos();
-    generator_data.fps = ui->speedSpinBox->value();
-    generator_data.scale = ui->scaleSpinBox->value();
-    generator_data.delay = ui->delaySpinBox->value();
-    generator_data.stabilize = ui->stabilizationCheckBox->isChecked();
+    generator_data.fps = m_impl->ui->speedSpinBox->value();
+    generator_data.scale = m_impl->ui->scaleSpinBox->value();
+    generator_data.delay = m_impl->ui->delaySpinBox->value();
+    generator_data.stabilize = m_impl->ui->stabilizationCheckBox->isChecked();
 
-    auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_logger, m_exifReaderFactory);
+    auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_impl->logger, m_impl->exifReaderFactory);
 
     startTask(std::move(animation_task));
 }
@@ -296,10 +326,10 @@ void PhotosGroupingDialog::makeHDR()
 {
     HDRGenerator::Data generator_data;
 
-    generator_data.storage = m_tmpDir->path();
+    generator_data.storage = m_impl->tmpDir->path();
     generator_data.photos = getPhotos();
 
-    auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_logger, m_exifReaderFactory);
+    auto hdr_task = std::make_unique<HDRGenerator>(generator_data, m_impl->logger, m_impl->exifReaderFactory);
 
     startTask(std::move(hdr_task));
 }
@@ -307,15 +337,15 @@ void PhotosGroupingDialog::makeHDR()
 
 void PhotosGroupingDialog::makeCollage()
 {
-    CollageGenerator generator(m_exifReaderFactory.get());
-    const int height = ui->collageHeight->text().toInt();
+    CollageGenerator generator(m_impl->exifReaderFactory.get());
+    const int height = m_impl->ui->collageHeight->text().toInt();
     const QImage collage = generator.generateCollage(getPhotos(), height);
 
     if (collage.isNull())
         generationError(tr("Error during collage generation. Possibly too many images, or height to small or too big."), {});
     else
     {
-        const QString collagePath = System::getUniqueFileName(m_tmpDir->path(), "jpeg");
+        const QString collagePath = System::getUniqueFileName(m_impl->tmpDir->path(), "jpeg");
 
         collage.save(collagePath);
         generationDone(collagePath);
@@ -325,9 +355,9 @@ void PhotosGroupingDialog::makeCollage()
 
 void PhotosGroupingDialog::fillModel(const std::vector<ExplicitDelta>& photos)
 {
-    m_model.clear();
+    m_impl->model.clear();
 
-    IExifReader& exif = m_exifReaderFactory.get();
+    IExifReader& exif = m_impl->exifReaderFactory.get();
 
     const QRegularExpression burstRE(".*BURST([0-9]+).*");
 
@@ -346,10 +376,10 @@ void PhotosGroupingDialog::fillModel(const std::vector<ExplicitDelta>& photos)
         QStandardItem* sequenceItem = new QStandardItem(sequence_str);
         QStandardItem* exposureItem = new QStandardItem(exposure_str);
 
-        m_model.appendRow({pathItem, sequenceItem, exposureItem});
-        m_model.setHeaderData(0, Qt::Horizontal, tr("photo path"));
-        m_model.setHeaderData(1, Qt::Horizontal, tr("sequence number"));
-        m_model.setHeaderData(2, Qt::Horizontal, tr("exposure (EV)"));
+        m_impl->model.appendRow({pathItem, sequenceItem, exposureItem});
+        m_impl->model.setHeaderData(0, Qt::Horizontal, tr("photo path"));
+        m_impl->model.setHeaderData(1, Qt::Horizontal, tr("sequence number"));
+        m_impl->model.setHeaderData(2, Qt::Horizontal, tr("exposure (EV)"));
     }
 }
 
@@ -358,7 +388,7 @@ double PhotosGroupingDialog::calculateFPS() const
 {
     std::set<std::chrono::milliseconds> timestamps;
 
-    for(const auto& photo: m_photos)
+    for(const auto& photo: m_impl->photos)
     {
         const auto timestamp = Tag::timestamp(photo.get<Photo::Field::Tags>());
         timestamps.insert(timestamp);
@@ -366,7 +396,7 @@ double PhotosGroupingDialog::calculateFPS() const
 
     const auto diff = back(timestamps) - front(timestamps);
 
-    return diff.count() > 0? (static_cast<double>(m_photos.size()) * 1000.0 / static_cast<double>(diff.count())): 10.0;
+    return diff.count() > 0? (static_cast<double>(m_impl->photos.size()) * 1000.0 / static_cast<double>(diff.count())): 10.0;
 }
 
 
@@ -379,19 +409,19 @@ void PhotosGroupingDialog::startTask(std::unique_ptr<GeneratorUtils::BreakableTa
     connect(task.get(), &AnimationGenerator::canceled,  this, &PhotosGroupingDialog::generationCanceled);
     connect(task.get(), &AnimationGenerator::error,     this, &PhotosGroupingDialog::generationError);
 
-    m_executor.add(std::move(task));
+    m_impl->executor.add(std::move(task));
 }
 
 
 void PhotosGroupingDialog::switchUiToGeneration()
 {
-    ui->previewButtons->setCurrentIndex(1);
+    m_impl->ui->previewButtons->setCurrentIndex(1);
 
-    ui->generationProgressBar->setEnabled(true);
-    ui->optionsWidget->setEnabled(false);
-    m_preview->clean();
-    m_workInProgress = true;
-    m_representativeFile.clear();
+    m_impl->ui->generationProgressBar->setEnabled(true);
+    m_impl->ui->optionsWidget->setEnabled(false);
+    m_impl->preview->clean();
+    m_impl->workInProgress = true;
+    m_impl->representativeFile.clear();
 
     refreshDialogButtons();
 }
@@ -399,12 +429,12 @@ void PhotosGroupingDialog::switchUiToGeneration()
 
 void PhotosGroupingDialog::switchUiToGenerationFinished()
 {
-    ui->previewButtons->setCurrentIndex(0);
+    m_impl->ui->previewButtons->setCurrentIndex(0);
 
-    ui->generationProgressBar->reset();
-    ui->generationProgressBar->setDisabled(true);
-    ui->operationName->setText("");
-    ui->optionsWidget->setEnabled(true);
+    m_impl->ui->generationProgressBar->reset();
+    m_impl->ui->generationProgressBar->setDisabled(true);
+    m_impl->ui->operationName->setText("");
+    m_impl->ui->optionsWidget->setEnabled(true);
 
     refreshDialogButtons();
 }
@@ -414,9 +444,9 @@ QStringList PhotosGroupingDialog::getPhotos() const
 {
     QStringList result;
 
-    for(int r = 0; r < m_sortProxy.rowCount(); r++)
+    for(int r = 0; r < m_impl->sortProxy.rowCount(); r++)
     {
-        const QModelIndex pathItemIdx = m_sortProxy.index(r, 0);
+        const QModelIndex pathItemIdx = m_impl->sortProxy.index(r, 0);
         const QVariant pathRaw = pathItemIdx.data(Qt::DisplayRole);
         const QString path = pathRaw.toString();
         const QFileInfo fileInfo(path);
@@ -431,8 +461,8 @@ QStringList PhotosGroupingDialog::getPhotos() const
 
 void PhotosGroupingDialog::scalePreview()
 {
-    const int scale = ui->previewScaleSlider->value();
+    const int scale = m_impl->ui->previewScaleSlider->value();
     const double scaleFactor = scale/100.0;
 
-    m_preview->scale(scaleFactor);
+    m_impl->preview->scale(scaleFactor);
 }
