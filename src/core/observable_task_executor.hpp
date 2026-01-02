@@ -2,6 +2,8 @@
 #ifndef OBSERVABLE_TASK_EXECUTOR_HPP_INCLUDED
 #define OBSERVABLE_TASK_EXECUTOR_HPP_INCLUDED
 
+#include <boost/type_index.hpp>
+
 #include <core/itask_executor.hpp>
 #include <core/observable_executor.hpp>
 
@@ -11,7 +13,12 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 {
     public:
         template<typename ...Args>
-        explicit ObservableTaskExecutor(Args&&... args): T(std::forward<Args>(args)...) {}
+        explicit ObservableTaskExecutor(std::string_view name_prefix, Args&&... args)
+            : T(std::forward<Args>(args)...)
+            , m_name_prefix(name_prefix)
+        {
+
+        }
 
         void add(std::unique_ptr<ITaskExecutor::ITask>&& task) override
         {
@@ -22,10 +29,16 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 
         QString name() const override
         {
-            return typeid(T).name();
+            const auto prefix = m_name_prefix.empty()? m_name_prefix : m_name_prefix + "::";
+            const auto name = boost::typeindex::type_id<T>().pretty_name();
+            const auto full_name = prefix + name;
+
+            return QString::fromStdString(full_name);
         }
 
     private:
+        std::string m_name_prefix;
+
         class Task final: public ITaskExecutor::ITask
         {
             public:
@@ -33,7 +46,7 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
                     : m_task(std::move(task))
                     , m_executor(executor)
                 {
-                    m_executor.newTaskInQueue();
+                    m_executor.newTaskInQueue(name());
                 }
 
                 std::string name() const override
@@ -43,17 +56,15 @@ class ObservableTaskExecutor: public ObservableExecutor, public T
 
                 void perform() override
                 {
-                    m_executor.taskMovedToExecution();
+                    m_executor.taskMovedToExecution(name());
                     m_task->perform();
-                    m_executor.taskExecuted();
+                    m_executor.taskExecuted(name());
                 }
 
             private:
                 std::unique_ptr<ITaskExecutor::ITask> m_task;
                 ObservableTaskExecutor& m_executor;
         };
-
-        friend class Task;
 };
 
 

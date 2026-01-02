@@ -93,9 +93,11 @@ void TagsOperator::setTag(const Tag::Types& name, const TagValue& values)
     }
 
     m_db->exec([deltas = m_diffs](Database::IBackend& backend)
-    {
-        backend.update(deltas);
-    });
+        {
+            backend.update(deltas);
+        },
+        "TagsOperator: update photos"
+    );
 }
 
 

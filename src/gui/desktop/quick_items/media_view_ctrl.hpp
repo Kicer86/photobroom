@@ -25,16 +25,15 @@ class MediaViewCtrl: public QObject
 
 public:
     MediaViewCtrl();
-    ~MediaViewCtrl();
 
     enum class Mode
     {
-        Unknown,
-        Error,
-        StaticImage,
-        AnimatedImage,
-        EquirectangularProjectionImage,
-        Video,
+        Unknown                             = 0,
+        Error                               = 1,
+        StaticImage                         = 2,
+        AnimatedImage                       = 3,
+        EquirectangularProjectionImage      = 4,
+        Video                               = 5,
     };
 
     void setSource(const Photo::Id &);
@@ -49,11 +48,10 @@ signals:
     void sourceChanged(const Photo::Id &) const;
     void photoIDStringChanged(const QString &) const;
     void pathChanged(const QUrl &) const;
-    void modeChanged(Mode) const;
+    void modeChanged(MediaViewCtrl::Mode) const;
 
 private:
     PropertyAwaiter m_initializer;
-    QFuture<std::pair<QUrl, Mode>> m_pathFetchFuture;
     QUrl m_path;
     Mode m_mode = Mode::Unknown;
     ICoreFactoryAccessor* m_core = nullptr;
@@ -63,6 +61,8 @@ private:
     void setMode(Mode);
     void process();
 };
+
+Q_DECLARE_METATYPE(MediaViewCtrl::Mode)
 
 #endif
 

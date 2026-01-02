@@ -7,10 +7,10 @@ GroupBox {
     id: groupBox
 
     default property alias d: groupBox.contentItem
-    property bool _collapsed: false
+    property bool collapsed: false
 
     clip: true
-    height: _collapsed? implicitLabelHeight: implicitHeight
+    height: collapsed? implicitLabelHeight: implicitHeight
 
     Behavior on height { PropertyAnimation{} }
 
@@ -19,8 +19,8 @@ GroupBox {
             width: titleText.height
             height: titleText.height
             flat: true
-            text: groupBox._collapsed ? "+" : "-"
-            onClicked: groupBox._collapsed = !groupBox._collapsed
+            text: groupBox.collapsed ? "+" : "-"
+            onClicked: groupBox.collapsed = !groupBox.collapsed
         }
 
         Text {

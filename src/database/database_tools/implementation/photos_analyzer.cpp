@@ -140,10 +140,12 @@ namespace
         void perform() override
         {
             auto data = evaluate(*m_storage, [this](Database::IBackend& backend)
-            {
-                using namespace Photo;
-                return backend.getPhotoDelta<Field::Flags, Field::PHash, Field::Path, Field::Geometry, Field::Tags>(m_id);
-            });
+                {
+                    using namespace Photo;
+                    return backend.getPhotoDelta<Field::Flags, Field::PHash, Field::Path, Field::Geometry, Field::Tags>(m_id);
+                },
+                "UpdatePhoto: fetch photo data"
+            );
 
             std::vector<std::tuple<Photo::Id, QString, int>> bitsToSet;
 
@@ -195,7 +197,7 @@ namespace
 
 
 PhotosAnalyzerImpl::PhotosAnalyzerImpl(ICoreFactoryAccessor* coreFactory, Database::IDatabase& database):
-    m_taskQueue(coreFactory->getTaskExecutor()),
+    m_taskQueue("PhotosAnalyzer", coreFactory->getTaskExecutor()),
     m_mediaInformation(coreFactory),
     m_database(database.attach(u"Photos Analyzer"_s)),
     m_tasksView(nullptr),

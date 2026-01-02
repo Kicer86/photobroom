@@ -163,25 +163,30 @@
 <context>
     <name>DebugWindow</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="23"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="42"/>
         <source>Tasks in queue</source>
         <translation>Tasks in queue</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="27"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="46"/>
         <source>Tasks executed</source>
         <translation>Tasks executed</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="50"/>
         <source>Execution speed</source>
         <translation>Execution speed</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="31"/>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="50"/>
         <source>tps</source>
         <comment>tasks per second</comment>
         <translation>tps</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="55"/>
+        <source>&lt;b&gt;Tasks&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -620,7 +625,7 @@ Error code: %1</source>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="296"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="298"/>
         <source>Extracting data from new photos</source>
         <translation type="unfinished"></translation>
     </message>
@@ -750,17 +755,17 @@ Error code: %1</source>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="218"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="219"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="231"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="232"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="244"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="246"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
