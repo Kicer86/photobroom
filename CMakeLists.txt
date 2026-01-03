@@ -1,5 +1,5 @@
 
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.28)
 project(PhotoBroom VERSION 1.7.0 LANGUAGES CXX)
 
 if(POLICY CMP0140)
@@ -28,7 +28,7 @@ set(CMAKE_MODULE_PATH
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 set(CMAKE_FIND_PACKAGE_PREFER_CONFIG TRUE)
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
@@ -61,6 +61,7 @@ endif()
 
 #options:
 option(BUILD_LEARNING_TESTS "Build learning tests" OFF)
+option(BUILD_BENCHMARKS "Build benchmarks" ON)
 option(RUN_TESTS_AFTER_BUILD "Run unit tests after build.")
 option(BUILD_UPDATER "Enable 'updater' module" ${WIN32})
 option(STATIC_PLUGINS "Build plugins as static" OFF)

@@ -1,4 +1,6 @@
 
+module;
+
 #include <QDir>
 #include <QTime>
 #include <QTemporaryDir>
@@ -11,6 +13,8 @@
 #include <database/project_info.hpp>
 
 #include <unit_tests_utils/empty_logger.hpp>
+
+module photoDeltaFetchingBenchmarks;
 
 namespace
 {

@@ -89,11 +89,13 @@ jobs:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=FALSE
+            -DBUILD_BENCHMARKS=OFF
             -DBUILD_LEARNING_TESTS=TRUE
             -DPython=/usr/bin/python3
             -DCMAKE_CXX_FLAGS=--coverage
             -DCMAKE_SHARED_LINKER_FLAGS=--coverage
             -DCMAKE_EXE_LINKER_FLAGS=--coverage
+            -G Ninja
         run-test: true
         ctest-options:
             --output-on-failure
