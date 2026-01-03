@@ -106,8 +106,8 @@ jobs:
 
     - name: Generate lcov raports
       run: |
-        lcov --capture --ignore-errors mismatch --directory ${{ runner.workspace }}/build --output-file coverage.info
-        lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --capture --gcov-tool gcov-14 --ignore-errors mismatch --directory ${{ runner.workspace }}/build --output-file coverage.info
+        lcov --gcov-tool gcov-14 --remove coverage.info '/usr/*' --output-file coverage.info
         lcov --list coverage.info
 
     - name: Upload coverage reports to Codecov
