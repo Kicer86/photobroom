@@ -32,6 +32,8 @@ jobs:
       run: |
         sudo apt-get update &&              \
         sudo apt-get install                \
+          gcc-14                            \
+          g++-14                            \
           lcov                              \
           ninja-build                       \
           python3-cairosvg                  \
@@ -84,6 +86,8 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Debug
+        cc: gcc-14
+        cxx: g++-14
         configure-options:
             -DBUILD_SHARED_LIBS=${{ matrix.shared }}
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
