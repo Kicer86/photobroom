@@ -32,6 +32,7 @@ jobs:
       run: |
         sudo apt-get update &&              \
         sudo apt-get install                \
+          gdb                               \
           lcov                              \
           ninja-build                       \
           python3-cairosvg                  \
@@ -116,6 +117,23 @@ jobs:
       working-directory: ${{ runner.workspace }}/build
       run: |
         ctest -C Debug --output-on-failure -VV -R "database|database_backends|gui"
+
+    - name: Debug failing tests with gdb
+      if: failure()
+      working-directory: ${{ runner.workspace }}/build
+      run: |
+        for test_bin in src/database/database_ut src/database/database_backends_ut src/gui/gui_ut; do
+          if [ -x "${test_bin}" ]; then
+            echo "::group::gdb ${test_bin}"
+            gdb -q -batch \
+              -ex "set pagination off" \
+              -ex "run" \
+              -ex "bt" \
+              -ex "thread apply all bt" \
+              --args "${test_bin}" || true
+            echo "::endgroup::"
+          fi
+        done
 
     - name: Generate lcov raports
       run: |
