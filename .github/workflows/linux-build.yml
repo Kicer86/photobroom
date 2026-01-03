@@ -19,8 +19,8 @@ jobs:
       fail-fast: false
       matrix:
         compiler:
-          - { compiler: GNU, CC: gcc, CXX: g++ }
-          - { compiler: LLVM, CC: clang-16, CXX: clang++-16 }
+          - { compiler: GNU, CC: gcc-14, CXX: g++-14 }
+          - { compiler: LLVM, CC: clang, CXX: clang++ }
         build: [Release]
         shared: [TRUE, FALSE]
         os: [ubuntu-24.04]
@@ -98,6 +98,7 @@ jobs:
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=${{ env.ENABLE_SANITIZERS }}
             -DPython=/usr/bin/python3
+            -G Ninja
         run-test: true
         ctest-options:
             --output-on-failure

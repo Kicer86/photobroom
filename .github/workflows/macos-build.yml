@@ -28,10 +28,30 @@ jobs:
         brew link --overwrite pkgconf
         brew install        \
           llvm              \
+          ninja             \
           dlib              \
           exiv2             \
           opencv            \
           qt6
+
+    - name: Configure LLVM toolchain
+      run: |
+        LLVM_PREFIX="$(brew --prefix llvm)"
+        echo "LLVM_PREFIX=${LLVM_PREFIX}" >> "${GITHUB_ENV}"
+        LLVM_CXX_LIBDIR="${LLVM_PREFIX}/lib/c++"
+        if [ ! -d "${LLVM_CXX_LIBDIR}" ]; then
+          LLVM_CXX_LIBDIR="${LLVM_PREFIX}/lib"
+        fi
+        echo "PATH=${LLVM_PREFIX}/bin:${PATH}" >> "${GITHUB_ENV}"
+        echo "CC=${LLVM_PREFIX}/bin/clang" >> "${GITHUB_ENV}"
+        echo "CXX=${LLVM_PREFIX}/bin/clang++" >> "${GITHUB_ENV}"
+        echo "CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS=${LLVM_PREFIX}/bin/clang-scan-deps" >> "${GITHUB_ENV}"
+        SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+        echo "SDKROOT=${SDKROOT}" >> "${GITHUB_ENV}"
+        echo "CMAKE_OSX_SYSROOT=${SDKROOT}" >> "${GITHUB_ENV}"
+        echo "LDFLAGS=-L${LLVM_CXX_LIBDIR} -Wl,-rpath,${LLVM_CXX_LIBDIR} -L${LLVM_PREFIX}/lib -Wl,-rpath,${LLVM_PREFIX}/lib -lc++ -lc++abi" >> "${GITHUB_ENV}"
+        echo "CPPFLAGS=-I${LLVM_PREFIX}/include" >> "${GITHUB_ENV}"
+        echo "CXXFLAGS=-nostdlib++ -stdlib=libc++" >> "${GITHUB_ENV}"
 
     - name: Install CsLibGuarded
       run: |
@@ -48,6 +68,13 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
-        configure-options: -DBUILD_TESTING=OFF -DBUILD_SHARED_LIBS=ON
+        configure-options:
+            -DCMAKE_C_COMPILER=${{ env.CC }}
+            -DCMAKE_CXX_COMPILER=${{ env.CXX }}
+            -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS=${{ env.CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS }}
+            -DCMAKE_OSX_SYSROOT=${{ env.CMAKE_OSX_SYSROOT }}
+            -DBUILD_TESTING=OFF
+            -DBUILD_SHARED_LIBS=ON
+            -G Ninja
       env:
         VERBOSE: 1
