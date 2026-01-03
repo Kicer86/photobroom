@@ -37,6 +37,7 @@ jobs:
     - name: Configure LLVM toolchain
       run: |
         LLVM_PREFIX="$(brew --prefix llvm)"
+        echo "LLVM_PREFIX=${LLVM_PREFIX}" >> "${GITHUB_ENV}"
         echo "PATH=${LLVM_PREFIX}/bin:${PATH}" >> "${GITHUB_ENV}"
         echo "CC=${LLVM_PREFIX}/bin/clang" >> "${GITHUB_ENV}"
         echo "CXX=${LLVM_PREFIX}/bin/clang++" >> "${GITHUB_ENV}"
@@ -44,6 +45,8 @@ jobs:
         SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
         echo "SDKROOT=${SDKROOT}" >> "${GITHUB_ENV}"
         echo "CMAKE_OSX_SYSROOT=${SDKROOT}" >> "${GITHUB_ENV}"
+        echo "LDFLAGS=-L${LLVM_PREFIX}/lib -Wl,-rpath,${LLVM_PREFIX}/lib" >> "${GITHUB_ENV}"
+        echo "CPPFLAGS=-I${LLVM_PREFIX}/include" >> "${GITHUB_ENV}"
 
     - name: Install CsLibGuarded
       run: |
