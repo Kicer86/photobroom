@@ -41,6 +41,9 @@ jobs:
         echo "CC=${LLVM_PREFIX}/bin/clang" >> "${GITHUB_ENV}"
         echo "CXX=${LLVM_PREFIX}/bin/clang++" >> "${GITHUB_ENV}"
         echo "CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS=${LLVM_PREFIX}/bin/clang-scan-deps" >> "${GITHUB_ENV}"
+        SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
+        echo "SDKROOT=${SDKROOT}" >> "${GITHUB_ENV}"
+        echo "CMAKE_OSX_SYSROOT=${SDKROOT}" >> "${GITHUB_ENV}"
 
     - name: Install CsLibGuarded
       run: |
@@ -61,6 +64,7 @@ jobs:
             -DCMAKE_C_COMPILER=${{ env.CC }}
             -DCMAKE_CXX_COMPILER=${{ env.CXX }}
             -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS=${{ env.CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS }}
+            -DCMAKE_OSX_SYSROOT=${{ env.CMAKE_OSX_SYSROOT }}
             -DBUILD_TESTING=OFF
             -DBUILD_SHARED_LIBS=ON
             -G Ninja
