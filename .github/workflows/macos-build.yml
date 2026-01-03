@@ -34,6 +34,14 @@ jobs:
           opencv            \
           qt6
 
+    - name: Configure LLVM toolchain
+      run: |
+        LLVM_PREFIX="$(brew --prefix llvm)"
+        echo "PATH=${LLVM_PREFIX}/bin:${PATH}" >> "${GITHUB_ENV}"
+        echo "CC=${LLVM_PREFIX}/bin/clang" >> "${GITHUB_ENV}"
+        echo "CXX=${LLVM_PREFIX}/bin/clang++" >> "${GITHUB_ENV}"
+        echo "CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS=${LLVM_PREFIX}/bin/clang-scan-deps" >> "${GITHUB_ENV}"
+
     - name: Install CsLibGuarded
       run: |
         git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
@@ -50,6 +58,9 @@ jobs:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release
         configure-options:
+            -DCMAKE_C_COMPILER=${{ env.CC }}
+            -DCMAKE_CXX_COMPILER=${{ env.CXX }}
+            -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS=${{ env.CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS }}
             -DBUILD_TESTING=OFF
             -DBUILD_SHARED_LIBS=ON
             -G Ninja
