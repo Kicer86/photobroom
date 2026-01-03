@@ -95,8 +95,8 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Debug
-        cc: clang
-        cxx: clang++
+        cc: gcc-14
+        cxx: g++-14
         configure-options:
             -DBUILD_SHARED_LIBS=${{ matrix.shared }}
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
