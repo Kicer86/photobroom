@@ -5,7 +5,9 @@ if(BUILD_LEARNING_TESTS)
     add_subdirectory(learning_tests)
 endif()
 
-add_subdirectory(benchmarks)
+if(BUILD_BENCHMARKS)
+    add_subdirectory(benchmarks)
+endif()
 
 find_package(CsLibGuarded   REQUIRED)
 find_package(Qt6            REQUIRED COMPONENTS Core Gui)
