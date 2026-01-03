@@ -32,7 +32,6 @@ jobs:
       run: |
         sudo apt-get update &&              \
         sudo apt-get install                \
-          gdb                               \
           lcov                              \
           ninja-build                       \
           python3-cairosvg                  \
@@ -53,16 +52,6 @@ jobs:
         version: '6.7.2'
         cache: 'true'
         modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
-
-    - name: Configure Qt runtime for headless tests
-      run: |
-        QT_PLUGINS="$(qmake6 -query QT_INSTALL_PLUGINS)"
-        echo "QT_PLUGIN_PATH=${QT_PLUGINS}" >> "${GITHUB_ENV}"
-        echo "QT_QPA_PLATFORM=offscreen" >> "${GITHUB_ENV}"
-        echo "QT_OPENGL=software" >> "${GITHUB_ENV}"
-        echo "QT_QUICK_BACKEND=software" >> "${GITHUB_ENV}"
-        echo "LIBGL_ALWAYS_SOFTWARE=1" >> "${GITHUB_ENV}"
-        echo "QT_DEBUG_PLUGINS=1" >> "${GITHUB_ENV}"
 
     - name: Install CsLibGuarded
       run: |
@@ -95,8 +84,6 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Debug
-        cc: gcc-14
-        cxx: g++-14
         configure-options:
             -DBUILD_SHARED_LIBS=${{ matrix.shared }}
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
@@ -111,29 +98,6 @@ jobs:
         run-test: true
         ctest-options:
             --output-on-failure
-
-    - name: Re-run failing tests with verbose output
-      if: failure()
-      working-directory: ${{ runner.workspace }}/build
-      run: |
-        ctest -C Debug --output-on-failure -VV -R "database|database_backends|gui"
-
-    - name: Debug failing tests with gdb
-      if: failure()
-      working-directory: ${{ runner.workspace }}/build
-      run: |
-        for test_bin in src/database/database_ut src/database/database_backends_ut src/gui/gui_ut; do
-          if [ -x "${test_bin}" ]; then
-            echo "::group::gdb ${test_bin}"
-            gdb -q -batch \
-              -ex "set pagination off" \
-              -ex "run" \
-              -ex "bt" \
-              -ex "thread apply all bt" \
-              --args "${test_bin}" || true
-            echo "::endgroup::"
-          fi
-        done
 
     - name: Generate lcov raports
       run: |
