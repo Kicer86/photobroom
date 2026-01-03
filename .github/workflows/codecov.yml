@@ -53,6 +53,16 @@ jobs:
         cache: 'true'
         modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
 
+    - name: Configure Qt runtime for headless tests
+      run: |
+        QT_PLUGINS="$(qmake6 -query QT_INSTALL_PLUGINS)"
+        echo "QT_PLUGIN_PATH=${QT_PLUGINS}" >> "${GITHUB_ENV}"
+        echo "QT_QPA_PLATFORM=offscreen" >> "${GITHUB_ENV}"
+        echo "QT_OPENGL=software" >> "${GITHUB_ENV}"
+        echo "QT_QUICK_BACKEND=software" >> "${GITHUB_ENV}"
+        echo "LIBGL_ALWAYS_SOFTWARE=1" >> "${GITHUB_ENV}"
+        echo "QT_DEBUG_PLUGINS=1" >> "${GITHUB_ENV}"
+
     - name: Install CsLibGuarded
       run: |
         git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
@@ -100,6 +110,12 @@ jobs:
         run-test: true
         ctest-options:
             --output-on-failure
+
+    - name: Re-run failing tests with verbose output
+      if: failure()
+      working-directory: ${{ runner.workspace }}/build
+      run: |
+        ctest -C Debug --output-on-failure -VV -R "database|database_backends|gui"
 
     - name: Generate lcov raports
       run: |
