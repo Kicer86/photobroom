@@ -38,6 +38,10 @@ jobs:
       run: |
         LLVM_PREFIX="$(brew --prefix llvm)"
         echo "LLVM_PREFIX=${LLVM_PREFIX}" >> "${GITHUB_ENV}"
+        LLVM_CXX_LIBDIR="${LLVM_PREFIX}/lib/c++"
+        if [ ! -d "${LLVM_CXX_LIBDIR}" ]; then
+          LLVM_CXX_LIBDIR="${LLVM_PREFIX}/lib"
+        fi
         echo "PATH=${LLVM_PREFIX}/bin:${PATH}" >> "${GITHUB_ENV}"
         echo "CC=${LLVM_PREFIX}/bin/clang" >> "${GITHUB_ENV}"
         echo "CXX=${LLVM_PREFIX}/bin/clang++" >> "${GITHUB_ENV}"
@@ -45,8 +49,9 @@ jobs:
         SDKROOT="$(xcrun --sdk macosx --show-sdk-path)"
         echo "SDKROOT=${SDKROOT}" >> "${GITHUB_ENV}"
         echo "CMAKE_OSX_SYSROOT=${SDKROOT}" >> "${GITHUB_ENV}"
-        echo "LDFLAGS=-L${LLVM_PREFIX}/lib -Wl,-rpath,${LLVM_PREFIX}/lib" >> "${GITHUB_ENV}"
+        echo "LDFLAGS=-L${LLVM_CXX_LIBDIR} -Wl,-rpath,${LLVM_CXX_LIBDIR} -L${LLVM_PREFIX}/lib -Wl,-rpath,${LLVM_PREFIX}/lib -lc++ -lc++abi" >> "${GITHUB_ENV}"
         echo "CPPFLAGS=-I${LLVM_PREFIX}/include" >> "${GITHUB_ENV}"
+        echo "CXXFLAGS=-nostdlib++ -stdlib=libc++" >> "${GITHUB_ENV}"
 
     - name: Install CsLibGuarded
       run: |
