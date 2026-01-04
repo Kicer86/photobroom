@@ -26,6 +26,5 @@ var searchData=
   ['updatetimerange_23',['updateTimeRange',['../d2/d10/class_photos_model_controller_component.html#a95928dce8f42102f559369e1021598ad',1,'PhotosModelControllerComponent']]],
   ['updatetools_24',['updateTools',['../d9/dc6/class_main_window.html#a0bd9037aa9dfc9175c949ebdff8315a7',1,'MainWindow']]],
   ['updatevaluesfor_25',['updateValuesFor',['../d6/d99/class_tag_info_collector.html#ac9a9d5cb67ed21da76ad389a5de0f565',1,'TagInfoCollector']]],
-  ['upsize_26',['upsize',['../d6/d84/namespaceutils.html#ad1b037751326ea08d5723ec2ad8c13aa',1,'utils']]],
-  ['username_27',['userName',['../dc/ddb/struct_system.html#a05c501fa1704fd2c48008d14fe9bda42',1,'System']]]
+  ['upsize_26',['upsize',['../d6/d84/namespaceutils.html#ad1b037751326ea08d5723ec2ad8c13aa',1,'utils']]]
 ];

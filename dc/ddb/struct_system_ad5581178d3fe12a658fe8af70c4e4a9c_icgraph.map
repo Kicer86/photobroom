@@ -1,9 +1,0 @@
-<map id="System::getUniqueFileName" name="System::getUniqueFileName">
-<area shape="rect" id="Node000001" title="generate unique file name" alt="" coords="204,78,390,104"/>
-<area shape="rect" id="Node000002" href="$d6/d1f/class_animation_generator.html#a322f031d4781fc24c3e669bd77c642b9" title=" " alt="" coords="12,5,149,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="236,76,148,49,150,44,238,71"/>
-<area shape="rect" id="Node000004" href="$d0/d4e/class_photos_grouping_dialog.html#af6b9b5bf838e92f74c539d4972cabc38" title=" " alt="" coords="5,71,156,111"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="188,94,156,94,156,88,188,88"/>
-<area shape="rect" id="Node000007" href="$de/def/class_h_d_r_generator.html#a9e42f118789e311753bf6e3d4ce66682" title=" " alt="" coords="15,136,146,161"/>
-<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="232,111,133,137,131,132,230,106"/>
-</map>

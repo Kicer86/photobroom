@@ -1,16 +1,12 @@
 <map id="PhotosGroupingDialog::makeCollage" name="PhotosGroupingDialog::makeCollage">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,149,156,190"/>
-<area shape="rect" id="Node000002" href="$db/d56/class_collage_generator.html#ae4ffed5e6d77e4f918afb46140f6529c" title=" " alt="" coords="208,5,386,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,147,145,105,202,62,223,51,226,55,205,67,148,109,104,151"/>
-<area shape="rect" id="Node000004" href="$d0/d4e/class_photos_grouping_dialog.html#aadab8ff1bdd21245d089ed650e98210a" title=" " alt="" coords="438,92,588,133"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="112,147,154,124,203,106,259,96,317,93,423,97,423,102,317,98,260,102,204,111,156,129,114,151"/>
-<area shape="rect" id="Node000012" href="$d0/d4e/class_photos_grouping_dialog.html#ab537e3929d675260043bfe111c4afdda" title=" " alt="" coords="222,120,372,161"/>
-<area shape="poly" id="edge3_Node000001_Node000012" title=" " alt="" coords="156,157,206,150,206,155,156,162"/>
-<area shape="rect" id="Node000013" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="220,185,374,210"/>
-<area shape="poly" id="edge5_Node000001_Node000013" title=" " alt="" coords="156,177,204,183,204,188,156,182"/>
-<area shape="rect" id="Node000014" href="$d0/d4e/class_photos_grouping_dialog.html#aa8e8193829d9490df1fcd4aec2273ab5" title=" " alt="" coords="222,235,372,275"/>
-<area shape="poly" id="edge6_Node000001_Node000014" title=" " alt="" coords="128,188,205,221,220,226,218,231,203,225,126,193"/>
-<area shape="rect" id="Node000015" href="$dc/ddb/struct_system.html#ad5581178d3fe12a658fe8af70c4e4a9c" title="generate unique file name" alt="" coords="204,300,390,325"/>
-<area shape="poly" id="edge7_Node000001_Node000015" title=" " alt="" coords="100,188,144,237,173,263,205,285,218,291,215,296,202,289,170,267,140,241,96,192"/>
-<area shape="poly" id="edge4_Node000012_Node000004" title=" " alt="" coords="372,128,422,121,423,127,373,133"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,92,156,133"/>
+<area shape="rect" id="Node000002" href="$db/d56/class_collage_generator.html#ae4ffed5e6d77e4f918afb46140f6529c" title=" " alt="" coords="204,5,381,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="131,89,226,50,228,55,133,94"/>
+<area shape="rect" id="Node000004" href="$d0/d4e/class_photos_grouping_dialog.html#aadab8ff1bdd21245d089ed650e98210a" title=" " alt="" coords="429,92,579,133"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="156,107,204,106,381,106,413,106,413,112,381,111,204,111,156,112"/>
+<area shape="rect" id="Node000007" href="$d0/d4e/class_photos_grouping_dialog.html#ab537e3929d675260043bfe111c4afdda" title=" " alt="" coords="217,120,368,161"/>
+<area shape="poly" id="edge3_Node000001_Node000007" title=" " alt="" coords="157,120,202,126,201,131,156,125"/>
+<area shape="rect" id="Node000008" href="$d0/d4e/class_photos_grouping_dialog.html#aa8e8193829d9490df1fcd4aec2273ab5" title=" " alt="" coords="217,185,368,226"/>
+<area shape="poly" id="edge5_Node000001_Node000008" title=" " alt="" coords="123,131,205,170,221,177,219,182,203,175,121,136"/>
+<area shape="poly" id="edge4_Node000007_Node000004" title=" " alt="" coords="368,128,413,122,414,127,368,133"/>
 </map>

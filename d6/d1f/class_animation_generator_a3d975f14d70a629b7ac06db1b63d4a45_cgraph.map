@@ -1,7 +1,9 @@
 <map id="AnimationGenerator::stabilize" name="AnimationGenerator::stabilize">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,142,79"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,142,111"/>
 <area shape="rect" id="Node000002" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a942a17c818a3d5f88dd2428d8b82d611" title=" " alt="" coords="190,5,359,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,45,174,40,175,45,142,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,68,194,49,196,54,139,73"/>
 <area shape="rect" id="Node000003" href="$de/de4/namespace_generator_utils.html#adebf1af3c026b5fd867309f44e9b273c" title=" " alt="" coords="195,71,354,111"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,67,180,73,179,79,141,72"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="142,88,179,88,179,94,142,94"/>
+<area shape="rect" id="Node000006" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a1ee903cd64deb4d6d26867a72d8ca8f9" title=" " alt="" coords="190,136,359,177"/>
+<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="139,109,196,128,194,133,137,114"/>
 </map>

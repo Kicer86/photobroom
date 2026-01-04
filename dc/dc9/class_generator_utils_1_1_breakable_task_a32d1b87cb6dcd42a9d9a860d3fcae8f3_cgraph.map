@@ -1,13 +1,15 @@
 <map id="GeneratorUtils::BreakableTask::preparePhotos" name="GeneratorUtils::BreakableTask::preparePhotos">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,96,175,137"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,126,175,166"/>
 <area shape="rect" id="Node000002" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="230,5,384,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,94,168,66,222,40,237,34,239,39,224,45,171,71,125,98"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="111,123,159,81,221,40,233,35,235,39,224,44,162,85,114,127"/>
 <area shape="rect" id="Node000003" href="$d5/db6/class_oriented_image.html#a1b407afa9fabdcd03a5964a54ccfa6b5" title=" " alt="" coords="242,55,372,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="174,95,232,82,234,87,176,100"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="137,123,222,89,240,83,242,88,224,94,139,128"/>
 <area shape="rect" id="Node000004" href="$d5/dab/namespace_image.html#ac3d1e76edb2d4aedafbee5c8745fcdee" title=" " alt="" coords="245,104,370,130"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,114,229,114,229,120,175,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="175,132,229,125,229,130,175,137"/>
 <area shape="rect" id="Node000005" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a942a17c818a3d5f88dd2428d8b82d611" title=" " alt="" coords="223,154,392,194"/>
-<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="170,135,214,147,212,152,169,140"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="175,154,208,159,207,164,175,160"/>
 <area shape="rect" id="Node000006" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a9ff152425e4a7563a10b24f2c37de1a8" title=" " alt="" coords="223,219,392,260"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="120,136,167,169,224,204,236,210,234,215,221,209,165,174,117,140"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="137,165,224,204,239,210,237,215,222,209,134,169"/>
+<area shape="rect" id="Node000007" href="$dc/dc9/class_generator_utils_1_1_breakable_task.html#a1ee903cd64deb4d6d26867a72d8ca8f9" title=" " alt="" coords="223,284,392,325"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="110,165,159,216,190,244,224,269,234,275,231,280,221,274,187,248,155,220,107,169"/>
 </map>

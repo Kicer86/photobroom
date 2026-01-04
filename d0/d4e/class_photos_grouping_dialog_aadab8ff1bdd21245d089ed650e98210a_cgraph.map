@@ -1,7 +1,5 @@
 <map id="PhotosGroupingDialog::generationDone" name="PhotosGroupingDialog::generationDone">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,27,156,68"/>
-<area shape="rect" id="Node000002" href="$de/d4c/class_media_preview.html#a4aa614d60c4c1c0858ed4cc44016bba3" title=" " alt="" coords="225,5,388,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,35,210,28,210,33,156,40"/>
-<area shape="rect" id="Node000007" href="$d0/d4e/class_photos_grouping_dialog.html#a4697e96057f2fb7ad4b3e2a2a257a7b2" title=" " alt="" coords="204,55,409,96"/>
-<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="156,54,189,58,188,64,156,59"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,156,46"/>
+<area shape="rect" id="Node000002" href="$d0/d4e/class_photos_grouping_dialog.html#a4697e96057f2fb7ad4b3e2a2a257a7b2" title=" " alt="" coords="204,5,409,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,23,188,23,188,28,156,28"/>
 </map>

@@ -1,7 +1,5 @@
 <map id="MediaPreview::setMedia" name="MediaPreview::setMedia">
-<area shape="rect" id="Node000001" title=" " alt="" coords="204,35,366,60"/>
-<area shape="rect" id="Node000002" href="$de/d4c/class_media_preview.html#a479c256007563f64a836b8eef3b235c3" title=" " alt="" coords="10,5,151,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="188,36,150,31,151,26,189,31"/>
-<area shape="rect" id="Node000006" href="$d0/d4e/class_photos_grouping_dialog.html#aadab8ff1bdd21245d089ed650e98210a" title=" " alt="" coords="5,55,156,96"/>
-<area shape="poly" id="edge2_Node000001_Node000006" title=" " alt="" coords="188,63,156,68,156,63,188,58"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="194,5,356,31"/>
+<area shape="rect" id="Node000002" href="$de/d4c/class_media_preview.html#a479c256007563f64a836b8eef3b235c3" title=" " alt="" coords="5,5,146,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,21,146,21,146,16,178,16"/>
 </map>

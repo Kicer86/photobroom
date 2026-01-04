@@ -42,7 +42,7 @@ var searchData=
   ['imediainformation_39',['IMediaInformation',['../d4/d3a/struct_i_media_information.html',1,'']]],
   ['imedianotification_40',['IMediaNotification',['../d2/d3e/struct_i_media_notification.html',1,'']]],
   ['imodelcompositordatasource_41',['IModelCompositorDataSource',['../d2/d8b/class_i_model_compositor_data_source.html',1,'']]],
-  ['impl_42',['Impl',['../db/d51/struct_database_1_1_builder_1_1_impl.html',1,'Database::Builder::Impl'],['../dc/d73/struct_database_1_1_memory_backend_1_1_impl.html',1,'Database::MemoryBackend::Impl'],['../de/ddb/class_image_aligner_1_1_impl.html',1,'ImageAligner::Impl'],['../d2/d03/struct_media_information_1_1_impl.html',1,'MediaInformation::Impl'],['../d0/d73/struct_photo_crawler_1_1_impl.html',1,'PhotoCrawler::Impl'],['../d3/d69/struct_plugin_loader_1_1_impl.html',1,'PluginLoader::Impl']]],
+  ['impl_42',['Impl',['../db/d51/struct_database_1_1_builder_1_1_impl.html',1,'Database::Builder::Impl'],['../dc/d73/struct_database_1_1_memory_backend_1_1_impl.html',1,'Database::MemoryBackend::Impl'],['../d8/d20/struct_generator_utils_1_1_breakable_task_1_1_impl.html',1,'GeneratorUtils::BreakableTask::Impl'],['../de/ddb/class_image_aligner_1_1_impl.html',1,'ImageAligner::Impl'],['../d2/d03/struct_media_information_1_1_impl.html',1,'MediaInformation::Impl'],['../d0/d73/struct_photo_crawler_1_1_impl.html',1,'PhotoCrawler::Impl'],['../d7/ddc/struct_photos_grouping_dialog_1_1_impl.html',1,'PhotosGroupingDialog::Impl'],['../d3/d69/struct_plugin_loader_1_1_impl.html',1,'PluginLoader::Impl']]],
   ['inlinetask_43',['InlineTask',['../d8/d8a/class_inline_task.html',1,'']]],
   ['inotifications_44',['INotifications',['../d2/d43/class_i_notifications.html',1,'']]],
   ['insertquerydata_45',['InsertQueryData',['../d4/df7/class_database_1_1_insert_query_data.html',1,'Database']]],
@@ -71,8 +71,7 @@ var searchData=
   ['ithumbnailscache_68',['IThumbnailsCache',['../d7/ddf/struct_i_thumbnails_cache.html',1,'']]],
   ['ithumbnailsgenerator_69',['IThumbnailsGenerator',['../df/d64/class_i_thumbnails_generator.html',1,'']]],
   ['ithumbnailsmanager_70',['IThumbnailsManager',['../dd/dfb/struct_i_thumbnails_manager.html',1,'']]],
-  ['itmpdir_71',['ITmpDir',['../d3/dc3/struct_i_tmp_dir.html',1,'']]],
-  ['itransaction_72',['ITransaction',['../d3/de0/class_database_1_1_i_transaction.html',1,'Database']]],
-  ['iupdater_73',['IUpdater',['../df/dcf/struct_i_updater.html',1,'']]],
-  ['iviewtask_74',['IViewTask',['../da/d69/struct_i_view_task.html',1,'']]]
+  ['itransaction_71',['ITransaction',['../d3/de0/class_database_1_1_i_transaction.html',1,'Database']]],
+  ['iupdater_72',['IUpdater',['../df/dcf/struct_i_updater.html',1,'']]],
+  ['iviewtask_73',['IViewTask',['../da/d69/struct_i_view_task.html',1,'']]]
 ];

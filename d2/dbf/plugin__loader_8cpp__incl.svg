@@ -47,7 +47,7 @@
   </g>
 </defs>
 <script type="application/ecmascript">
-var viewWidth = 805;
+var viewWidth = 741;
 var viewHeight = 160;
 var sectionId = 'dynsection-0';
 </script>
@@ -194,9 +194,10 @@ var sectionId = 'dynsection-0';
 <!-- Node17 -->
 <g id="Node000017" class="node">
 <title>Node17</title>
-<g id="a_Node000017"><a xlink:href="../../d1/d85/filesystem_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="678.5,-80.12 566.5,-80.12 566.5,-60.88 678.5,-60.88 678.5,-80.12"/>
-<text text-anchor="middle" x="622.5" y="-66.62" font-family="Helvetica,sans-Serif" font-size="10.00">system/filesystem.hpp</text>
+<g id="a_Node000017"><a xlink:href="../../da/d21/idatabase__plugin_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="667.88,-85.75 567.12,-85.75 567.12,-55.25 667.88,-55.25 667.88,-85.75"/>
+<text text-anchor="start" x="575.12" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">database/idatabase</text>
+<text text-anchor="middle" x="617.5" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">_plugin.hpp</text>
 </a>
 </g>
 </g>
@@ -204,27 +205,26 @@ var sectionId = 'dynsection-0';
 <g id="edge10_Node000001_Node000017" class="edge">
 <title>Node1&#45;&gt;Node17</title>
 <g id="a_edge10_Node000001_Node000017"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M419.51,-121.28C466.41,-109.78 530.74,-94 574.32,-83.32"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="575.13,-86.72 584,-80.94 573.46,-79.92 575.13,-86.72"/>
+<path fill="none" stroke="#63b8ff" d="M418.37,-121.28C459.37,-111.03 513.96,-97.38 555.61,-86.97"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="556.4,-90.38 565.26,-84.56 554.71,-83.59 556.4,-90.38"/>
 </a>
 </g>
 </g>
-<!-- Node19 -->
-<g id="Node000019" class="node">
-<title>Node19</title>
-<g id="a_Node000019"><a xlink:href="../../da/d21/idatabase__plugin_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="796.88,-85.75 696.12,-85.75 696.12,-55.25 796.88,-55.25 796.88,-85.75"/>
-<text text-anchor="start" x="704.12" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">database/idatabase</text>
-<text text-anchor="middle" x="746.5" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">_plugin.hpp</text>
+<!-- Node58 -->
+<g id="Node000058" class="node">
+<title>Node58</title>
+<g id="a_Node000058"><a xlink:title=" ">
+<polygon fill="#e0e0e0" stroke="#999999" points="733.25,-80.12 685.75,-80.12 685.75,-60.88 733.25,-60.88 733.25,-80.12"/>
+<text text-anchor="middle" x="709.5" y="-66.62" font-family="Helvetica,sans-Serif" font-size="10.00">system</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node19 -->
-<g id="edge11_Node000001_Node000019" class="edge">
-<title>Node1&#45;&gt;Node19</title>
-<g id="a_edge11_Node000001_Node000019"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M426.07,-127.49C490.01,-118.94 589.55,-104.62 684.46,-86.26"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="685.08,-89.7 694.23,-84.35 683.74,-82.83 685.08,-89.7"/>
+<!-- Node1&#45;&gt;Node58 -->
+<g id="edge11_Node000001_Node000058" class="edge">
+<title>Node1&#45;&gt;Node58</title>
+<g id="a_edge11_Node000001_Node000058"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M425.82,-130.36C490.69,-123.72 591.81,-110.32 676.5,-85.75 677.67,-85.41 678.85,-85.04 680.04,-84.65"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="681.09,-87.99 689.19,-81.16 678.6,-81.45 681.09,-87.99"/>
 </a>
 </g>
 </g>

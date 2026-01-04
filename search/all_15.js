@@ -1,7 +1,7 @@
 var searchData=
 [
   ['ui_0',['Ui',['../dc/df0/namespace_ui.html',1,'']]],
-  ['ui_1',['ui',['../d1/d85/class_main_tab.html#a466697ab66f8a7115bec09636b8afa6e',1,'MainTab::ui'],['../de/d11/class_configuration_dialog.html#a81c92f06b69a24f6506e0b30a894f925',1,'ConfigurationDialog::ui'],['../d0/d4e/class_photos_grouping_dialog.html#a63010be52c587c4bc8c9d3acfe56ddc1',1,'PhotosGroupingDialog::ui']]],
+  ['ui_1',['ui',['../d1/d85/class_main_tab.html#a466697ab66f8a7115bec09636b8afa6e',1,'MainTab::ui'],['../de/d11/class_configuration_dialog.html#a81c92f06b69a24f6506e0b30a894f925',1,'ConfigurationDialog::ui'],['../d7/ddc/struct_photos_grouping_dialog_1_1_impl.html#a67b10009220288344a1ee6a77531ac65',1,'PhotosGroupingDialog::Impl::ui']]],
   ['uncertainrole_2',['UncertainRole',['../d6/de2/class_faces_model.html#a070dbb8e24f4d5805d7f014abc8c30fea8bf60b2c3d3d4b9a401012d33fcf4c1d',1,'FacesModel']]],
   ['unfold_3',['unfold',['../db/d1b/namespacedetails.html#a5ee877ccf7889783601dad248c335779',1,'details']]],
   ['ungroup_4',['ungroup',['../df/d40/namespace_groups_manager.html#ab262024260dcb1a060e7756e1e315e1c',1,'GroupsManager']]],
@@ -40,10 +40,9 @@ var searchData=
   ['upsize_37',['upsize',['../d6/d84/namespaceutils.html#ad1b037751326ea08d5723ec2ad8c13aa',1,'utils']]],
   ['uptodate_38',['UpToDate',['../d8/dc4/struct_i_updater_1_1_online_version.html#a358a85afdec5a2c329ffe9e904059ce4a2cc105545a29bc45f9d932fa16311400',1,'IUpdater::OnlineVersion']]],
   ['url_39',['url',['../d8/dc4/struct_i_updater_1_1_online_version.html#a2333fd44b2351b44a07c813a8a36f404',1,'IUpdater::OnlineVersion']]],
-  ['username_40',['userName',['../dc/ddb/struct_system.html#a05c501fa1704fd2c48008d14fe9bda42',1,'System']]],
-  ['ut_5fprinters_2ehpp_41',['ut_printers.hpp',['../d6/dae/ut__printers_8hpp.html',1,'']]],
-  ['utils_42',['Utils',['../d5/df1/class_utils.html',1,'']]],
-  ['utils_43',['utils',['../d6/d84/namespaceutils.html',1,'']]],
-  ['utils_2ecpp_44',['utils.cpp',['../da/d98/database_2backends_2sql__backends_2utils_8cpp.html',1,'(Global Namespace)'],['../d1/db9/face__recognition_2learning__tests_2utils_8cpp.html',1,'(Global Namespace)'],['../d1/d1c/gui_2desktop_2_qml_items_2utils_8cpp.html',1,'(Global Namespace)']]],
-  ['utils_2ehpp_45',['utils.hpp',['../d8/d43/core_2utils_8hpp.html',1,'(Global Namespace)'],['../d2/dbb/database_2backends_2sql__backends_2utils_8hpp.html',1,'(Global Namespace)'],['../d2/d99/face__recognition_2learning__tests_2utils_8hpp.html',1,'(Global Namespace)'],['../db/d61/gui_2desktop_2_qml_items_2utils_8hpp.html',1,'(Global Namespace)']]]
+  ['ut_5fprinters_2ehpp_40',['ut_printers.hpp',['../d6/dae/ut__printers_8hpp.html',1,'']]],
+  ['utils_41',['Utils',['../d5/df1/class_utils.html',1,'']]],
+  ['utils_42',['utils',['../d6/d84/namespaceutils.html',1,'']]],
+  ['utils_2ecpp_43',['utils.cpp',['../da/d98/database_2backends_2sql__backends_2utils_8cpp.html',1,'(Global Namespace)'],['../d1/db9/face__recognition_2learning__tests_2utils_8cpp.html',1,'(Global Namespace)'],['../d1/d1c/gui_2desktop_2_qml_items_2utils_8cpp.html',1,'(Global Namespace)']]],
+  ['utils_2ehpp_44',['utils.hpp',['../d8/d43/core_2utils_8hpp.html',1,'(Global Namespace)'],['../d2/dbb/database_2backends_2sql__backends_2utils_8hpp.html',1,'(Global Namespace)'],['../d2/d99/face__recognition_2learning__tests_2utils_8hpp.html',1,'(Global Namespace)'],['../db/d61/gui_2desktop_2_qml_items_2utils_8hpp.html',1,'(Global Namespace)']]]
 ];

@@ -1,20 +1,18 @@
 <map id="Gui::run" name="Gui::run">
-<area shape="rect" id="Node000001" title=" " alt="" coords="8,211,74,236"/>
-<area shape="poly" id="edge8_Node000001_Node000001" title=" " alt="" coords="9,212,3,202,7,192,20,186,41,184,64,187,76,193,73,198,62,192,41,189,21,191,11,196,8,201,14,209"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="8,177,74,203"/>
+<area shape="poly" id="edge7_Node000001_Node000001" title=" " alt="" coords="9,178,3,169,7,159,20,153,41,151,64,153,76,160,73,164,62,158,41,156,21,158,11,163,8,168,14,175"/>
 <area shape="rect" id="Node000002" href="$da/dd5/class_features_manager_compositor.html#a8d150d040f70afe266184fb650ce6d91" title=" " alt="" coords="122,5,337,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="41,210,48,175,62,129,85,81,101,59,120,40,124,37,127,41,123,44,105,63,90,84,67,131,53,177,47,211"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="43,176,51,148,67,111,89,72,120,40,125,37,128,41,123,44,93,76,71,113,56,150,48,178"/>
 <area shape="rect" id="Node000004" href="$d1/d78/struct_i_logger_factory.html#aca982aa12ae7cad04f1a90a5e48caa63" title=" " alt="" coords="163,55,295,80"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="44,209,69,152,91,119,120,91,147,77,150,81,123,95,95,122,74,154,49,211"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="47,175,75,133,96,110,120,91,148,78,150,83,123,95,99,114,79,137,52,178"/>
 <area shape="rect" id="Node000005" href="$d5/da9/struct_i_core_factory_accessor.html#afef28c2451d73dd1aa4ac1704114c055" title=" " alt="" coords="154,104,304,145"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="53,208,83,182,120,156,139,147,141,152,123,160,86,186,57,212"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="73,174,121,156,143,148,145,153,123,161,75,179"/>
 <area shape="rect" id="Node000006" href="$d5/da9/struct_i_core_factory_accessor.html#ad612fe4d0ff4ea127117eda6865ecd60" title=" " alt="" coords="154,170,304,210"/>
-<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="74,215,138,204,139,209,75,220"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="74,188,139,188,139,193,74,193"/>
 <area shape="rect" id="Node000007" href="$d5/da9/struct_i_core_factory_accessor.html#abe33f0c94959dd4dd79b775df7c0c82d" title=" " alt="" coords="154,235,304,276"/>
-<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="75,226,139,237,138,243,74,232"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="75,201,123,220,145,227,143,232,121,225,73,206"/>
 <area shape="rect" id="Node000008" href="$d5/da9/struct_i_core_factory_accessor.html#a12bdf68322c9355be7d4351064c2973f" title=" " alt="" coords="154,300,304,341"/>
-<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="57,235,86,260,123,285,141,294,139,299,120,290,83,264,53,239"/>
-<area shape="rect" id="Node000009" href="$de/d1b/struct_file_system.html#afc6327a98a490e309ff334de35e8cbd5" title=" " alt="" coords="125,365,333,391"/>
-<area shape="poly" id="edge7_Node000001_Node000009" title=" " alt="" coords="49,236,74,292,96,324,123,351,131,356,128,360,120,355,92,327,70,295,44,238"/>
-<area shape="rect" id="Node000011" href="$d9/dc6/class_main_window.html#a06e44e731a8d7b3d4c8913ad956f42f3" title=" " alt="" coords="170,415,289,440"/>
-<area shape="poly" id="edge9_Node000001_Node000011" title=" " alt="" coords="47,236,53,270,67,315,90,362,105,383,123,401,156,418,154,423,120,406,101,387,85,365,62,317,48,271,41,237"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="52,202,80,243,100,266,123,285,142,296,139,300,120,290,96,270,76,247,48,205"/>
+<area shape="rect" id="Node000009" href="$d9/dc6/class_main_window.html#a06e44e731a8d7b3d4c8913ad956f42f3" title=" " alt="" coords="170,365,289,391"/>
+<area shape="poly" id="edge8_Node000001_Node000009" title=" " alt="" coords="47,203,55,234,70,274,92,316,123,351,156,367,153,372,120,355,87,319,65,276,50,235,42,204"/>
 </map>

@@ -25,7 +25,8 @@ var searchData=
   ['columns_22',['columns',['../da/dc1/struct_database_1_1_table_definition.html#a1ec178355b2830a61878cc449068489c',1,'Database::TableDefinition']]],
   ['common_23',['common',['../dc/dd7/struct_file_information.html#ac5e3a7ac4f31dcccbda5aeb56dfb3294',1,'FileInformation']]],
   ['comparison_24',['comparison',['../db/deb/struct_database_1_1_filter_photos_with_flags.html#a6696acb20a88a990235b1998ada783e1',1,'Database::FilterPhotosWithFlags']]],
-  ['creation_5ftime_25',['creation_time',['../d9/d72/struct_video_media_information_test_param.html#aef23ef7ced32218a5288bd3beda26197',1,'VideoMediaInformationTestParam']]],
-  ['creationtime_26',['creationTime',['../dd/d5e/struct_media_file.html#ae946daf5cb43038e95c1544cb6fbb489',1,'MediaFile']]],
-  ['cuda_5favailable_27',['cuda_available',['../da/d22/structdlib__api_1_1_face_locator_1_1_data.html#ac3411f5e4e11a0e828f5c1b177d6b229',1,'dlib_api::FaceLocator::Data']]]
+  ['config_25',['config',['../d7/ddc/struct_photos_grouping_dialog_1_1_impl.html#ac616124d4b93bd5f3bde78b37f80b79c',1,'PhotosGroupingDialog::Impl']]],
+  ['creation_5ftime_26',['creation_time',['../d9/d72/struct_video_media_information_test_param.html#aef23ef7ced32218a5288bd3beda26197',1,'VideoMediaInformationTestParam']]],
+  ['creationtime_27',['creationTime',['../dd/d5e/struct_media_file.html#ae946daf5cb43038e95c1544cb6fbb489',1,'MediaFile']]],
+  ['cuda_5favailable_28',['cuda_available',['../da/d22/structdlib__api_1_1_face_locator_1_1_data.html#ac3411f5e4e11a0e828f5c1b177d6b229',1,'dlib_api::FaceLocator::Data']]]
 ];

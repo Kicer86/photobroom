@@ -18,6 +18,5 @@ var searchData=
   ['sqlqueryexecutor_15',['SqlQueryExecutor',['../d3/d47/class_database_1_1_sql_query_executor.html',1,'Database']]],
   ['sqltransaction_16',['SqlTransaction',['../dc/d83/class_sql_transaction.html',1,'']]],
   ['status_17',['Status',['../d0/de5/class_status.html',1,'']]],
-  ['stubqabstractitemmodel_18',['StubQAbstractItemModel',['../dc/d03/struct_stub_q_abstract_item_model.html',1,'']]],
-  ['system_19',['System',['../dc/ddb/struct_system.html',1,'']]]
+  ['stubqabstractitemmodel_18',['StubQAbstractItemModel',['../dc/d03/struct_stub_q_abstract_item_model.html',1,'']]]
 ];

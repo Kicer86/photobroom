@@ -1,7 +1,5 @@
 <map id="PhotosGroupingDialog::fillModel" name="PhotosGroupingDialog::fillModel">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,23,156,64"/>
-<area shape="rect" id="Node000002" href="$d5/dd5/struct_i_exif_reader.html#adb056ee84526c248059ae528b57c47d2" title=" " alt="" coords="225,5,336,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,31,209,24,210,30,156,37"/>
-<area shape="rect" id="Node000003" href="$db/d10/struct_i_exif_reader_factory.html#a6f4cc75439d6811b6a1d16adde249c48" title=" " alt="" coords="204,55,358,80"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="156,50,189,54,188,59,156,55"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,156,46"/>
+<area shape="rect" id="Node000002" href="$d5/dd5/struct_i_exif_reader.html#adb056ee84526c248059ae528b57c47d2" title=" " alt="" coords="204,13,315,38"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="156,23,188,23,188,28,156,28"/>
 </map>

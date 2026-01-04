@@ -1,22 +1,18 @@
 <map id="main" name="main">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,243,55,268"/>
-<area shape="rect" id="Node000002" href="$dc/ddb/struct_system.html#a18622f40287a5336ac165d6cd97f4495" title="remove all temporary files" alt="" coords="118,5,292,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="29,242,32,203,43,149,64,91,80,65,101,42,106,38,109,42,105,45,85,68,69,94,48,150,38,204,34,242"/>
-<area shape="rect" id="Node000003" href="$de/d60/class_observables_registry.html#a84f31b01181a9828b7d7c5c010be4449" title=" " alt="" coords="135,55,276,96"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="31,242,39,213,52,177,73,139,101,106,119,93,122,98,104,109,77,142,57,179,44,215,37,243"/>
-<area shape="rect" id="Node000006" href="$d8/d06/class_logger_factory.html#a2226f917a8cef745cd09d0320dc4ff5c" title=" " alt="" coords="141,144,270,170"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="38,241,64,209,101,179,126,168,128,173,104,183,68,213,42,244"/>
-<area shape="rect" id="Node000007" href="$dc/ddb/struct_system.html#a2a859fbff26a7ec69a263639f347d25e" title="get dir for config files" alt="" coords="103,193,308,219"/>
-<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="54,244,102,228,127,221,129,226,103,233,56,249"/>
-<area shape="rect" id="Node000008" href="$df/d0d/class_crash_catcher.html#a37ec71708879a1e684894884e66671c8" title=" " alt="" coords="144,243,267,268"/>
-<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="55,253,128,253,128,258,55,258"/>
-<area shape="rect" id="Node000011" href="$de/d60/class_observables_registry.html#acfb967f2868cb5d40475756aeb3be6ae" title=" " alt="" coords="135,292,276,333"/>
-<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="56,262,104,278,123,285,121,290,102,283,54,267"/>
-<area shape="rect" id="Node000012" href="$dd/dc1/struct_database_1_1_builder.html#a565fdb7b80ab1e284f84def5d1e07047" title=" " alt="" coords="132,357,278,383"/>
-<area shape="poly" id="edge8_Node000001_Node000012" title=" " alt="" coords="40,267,65,305,83,326,104,343,119,351,116,355,101,347,79,329,61,308,36,270"/>
-<area shape="rect" id="Node000013" href="$d5/d53/class_plugin_loader.html#a2caedcf4bb71a03fd7b49e9b4bf88e8a" title=" " alt="" coords="145,407,266,432"/>
-<area shape="poly" id="edge9_Node000001_Node000013" title=" " alt="" coords="37,268,44,295,57,329,77,364,104,393,131,408,129,412,101,398,73,367,53,331,39,296,32,269"/>
-<area shape="rect" id="Node000014" href="$d8/d06/class_logger_factory.html#a1039b2fa8cf3644a3319a1383441e23f" title=" " alt="" coords="122,456,289,497"/>
-<area shape="poly" id="edge10_Node000001_Node000014" title=" " alt="" coords="35,268,40,303,52,350,72,400,87,423,105,443,110,448,107,452,101,447,83,426,68,402,47,352,35,304,30,269"/>
-<area shape="poly" id="edge4_Node000006_Node000006" title=" " alt="" coords="176,145,170,135,173,126,186,120,205,117,227,120,238,127,235,131,225,125,205,123,187,125,177,129,175,135,180,142"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,201,55,226"/>
+<area shape="rect" id="Node000002" href="$de/d60/class_observables_registry.html#a84f31b01181a9828b7d7c5c010be4449" title=" " alt="" coords="116,5,257,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="31,200,52,132,72,92,101,56,103,53,107,57,105,59,77,94,57,134,36,201"/>
+<area shape="rect" id="Node000005" href="$d8/d06/class_logger_factory.html#a2226f917a8cef745cd09d0320dc4ff5c" title=" " alt="" coords="122,94,250,120"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="37,199,63,164,81,145,101,129,109,124,112,129,104,133,84,149,67,167,41,202"/>
+<area shape="rect" id="Node000006" href="$df/d0d/class_crash_catcher.html#a37ec71708879a1e684894884e66671c8" title=" " alt="" coords="125,144,248,169"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="54,200,102,179,122,172,124,177,104,184,56,205"/>
+<area shape="rect" id="Node000009" href="$de/d60/class_observables_registry.html#acfb967f2868cb5d40475756aeb3be6ae" title=" " alt="" coords="116,193,257,234"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="55,211,100,211,100,216,55,216"/>
+<area shape="rect" id="Node000010" href="$dd/dc1/struct_database_1_1_builder.html#a565fdb7b80ab1e284f84def5d1e07047" title=" " alt="" coords="113,258,260,284"/>
+<area shape="poly" id="edge6_Node000001_Node000010" title=" " alt="" coords="56,223,104,243,124,250,122,255,102,248,54,228"/>
+<area shape="rect" id="Node000011" href="$d5/d53/class_plugin_loader.html#a2caedcf4bb71a03fd7b49e9b4bf88e8a" title=" " alt="" coords="126,308,247,333"/>
+<area shape="poly" id="edge7_Node000001_Node000011" title=" " alt="" coords="41,225,67,260,84,278,104,294,113,299,110,304,101,299,81,282,63,263,37,229"/>
+<area shape="rect" id="Node000012" href="$d8/d06/class_logger_factory.html#a1039b2fa8cf3644a3319a1383441e23f" title=" " alt="" coords="103,357,270,398"/>
+<area shape="poly" id="edge8_Node000001_Node000012" title=" " alt="" coords="38,226,60,282,79,315,105,344,108,346,104,350,101,348,75,318,55,285,33,228"/>
+<area shape="poly" id="edge3_Node000005_Node000005" title=" " alt="" coords="160,95,154,86,158,76,169,70,186,68,205,70,216,77,213,81,204,75,186,73,170,75,162,79,160,85,164,92"/>
 </map>

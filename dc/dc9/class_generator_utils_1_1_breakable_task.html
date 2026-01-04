@@ -89,10 +89,12 @@ $(function(){ initResizable(false); });
 <div id="doc-content">
 <div class="header">
   <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
 <a href="#signals">Signals</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pro-methods">Protected Member Functions</a> &#124;
 <a href="#pro-attribs">Protected Attributes</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
 <a href="../../de/d67/class_generator_utils_1_1_breakable_task-members.html">List of all members</a>  </div>
   <div class="headertitle"><div class="title">GeneratorUtils::BreakableTask Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
@@ -110,6 +112,11 @@ Collaboration diagram for GeneratorUtils::BreakableTask:</div>
 <div class="center"><iframe scrolling="no" frameborder="0" src="../../d3/dc6/class_generator_utils_1_1_breakable_task__coll__graph.svg" width="590" height="200"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 <center><span class="legend">[<a href="../../graph_legend.html">legend</a>]</span></center></div>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/d20/struct_generator_utils_1_1_breakable_task_1_1_impl.html">Impl</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="signals" name="signals"></a>
 Signals</h2></td></tr>
 <tr class="memitem:a942a17c818a3d5f88dd2428d8b82d611" id="r_a942a17c818a3d5f88dd2428d8b82d611"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a942a17c818a3d5f88dd2428d8b82d611">operation</a> (const QString &amp;) const</td></tr>
@@ -146,17 +153,22 @@ Protected Member Functions</h2></td></tr>
 <tr class="separator:adb5c7ab11b9fb5b45c8eed48068327a8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32d1b87cb6dcd42a9d9a860d3fcae8f3" id="r_a32d1b87cb6dcd42a9d9a860d3fcae8f3"><td class="memItemLeft" align="right" valign="top">QStringList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a32d1b87cb6dcd42a9d9a860d3fcae8f3">preparePhotos</a> (const QStringList &amp;photos, int scale)</td></tr>
 <tr class="separator:a32d1b87cb6dcd42a9d9a860d3fcae8f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1ee903cd64deb4d6d26867a72d8ca8f9" id="r_a1ee903cd64deb4d6d26867a72d8ca8f9"><td class="memItemLeft" align="right" valign="top">const QString &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a1ee903cd64deb4d6d26867a72d8ca8f9">tmpDirPath</a> () const</td></tr>
+<tr class="separator:a1ee903cd64deb4d6d26867a72d8ca8f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pro-attribs" name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
-<tr class="memitem:a11225db2895d2ad650b7645f3b6b7517" id="r_a11225db2895d2ad650b7645f3b6b7517"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="../../d3/dc3/struct_i_tmp_dir.html">ITmpDir</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a11225db2895d2ad650b7645f3b6b7517">m_tmpDir</a></td></tr>
-<tr class="separator:a11225db2895d2ad650b7645f3b6b7517"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a119cbe86bb4c21813e1d3f147f2f94a9" id="r_a119cbe86bb4c21813e1d3f147f2f94a9"><td class="memItemLeft" align="right" valign="top">const QString&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a119cbe86bb4c21813e1d3f147f2f94a9">m_storage</a></td></tr>
 <tr class="separator:a119cbe86bb4c21813e1d3f147f2f94a9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0baed8f6d56925307be216b70a8bab25" id="r_a0baed8f6d56925307be216b70a8bab25"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../dd/da4/class_generator_utils_1_1_process_runner.html">ProcessRunner</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0baed8f6d56925307be216b70a8bab25">m_runner</a></td></tr>
 <tr class="separator:a0baed8f6d56925307be216b70a8bab25"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a74995be57c7c2efb42d46101ee4f6ce1" id="r_a74995be57c7c2efb42d46101ee4f6ce1"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../db/d10/struct_i_exif_reader_factory.html">IExifReaderFactory</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a74995be57c7c2efb42d46101ee4f6ce1">m_exif</a></td></tr>
 <tr class="separator:a74995be57c7c2efb42d46101ee4f6ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pri-attribs" name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:ad35a24116d9036c7511aa3d5b1ab13d0" id="r_ad35a24116d9036c7511aa3d5b1ab13d0"><td class="memItemLeft" align="right" valign="top">std::unique_ptr&lt; <a class="el" href="../../d8/d20/struct_generator_utils_1_1_breakable_task_1_1_impl.html">Impl</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ad35a24116d9036c7511aa3d5b1ab13d0">m_impl</a></td></tr>
+<tr class="separator:ad35a24116d9036c7511aa3d5b1ab13d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="ac22bf1913360d3f058683ebd903dd338" name="ac22bf1913360d3f058683ebd903dd338"></a>
@@ -425,7 +437,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dc9/class_generator_utils_1_1_breakable_task_a32d1b87cb6dcd42a9d9a860d3fcae8f3_cgraph.svg" width="398" height="266"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dc9/class_generator_utils_1_1_breakable_task_a32d1b87cb6dcd42a9d9a860d3fcae8f3_cgraph.svg" width="398" height="331"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
@@ -497,6 +509,36 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
+<a id="a1ee903cd64deb4d6d26867a72d8ca8f9" name="a1ee903cd64deb4d6d26867a72d8ca8f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1ee903cd64deb4d6d26867a72d8ca8f9">&#9670;&#160;</a></span>tmpDirPath()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">const QString &amp; GeneratorUtils::BreakableTask::tmpDirPath </td>
+          <td>(</td>
+          <td class="paramname"><span class="paramname"><em></em></span></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dc9/class_generator_utils_1_1_breakable_task_a1ee903cd64deb4d6d26867a72d8ca8f9_icgraph.svg" width="398" height="118"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
 <h2 class="groupheader">Member Data Documentation</h2>
 <a id="a74995be57c7c2efb42d46101ee4f6ce1" name="a74995be57c7c2efb42d46101ee4f6ce1"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a74995be57c7c2efb42d46101ee4f6ce1">&#9670;&#160;</a></span>m_exif</h2>
@@ -514,6 +556,28 @@ Here is the caller graph for this function:</div>
   </td>
   <td class="mlabels-right">
 <span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="ad35a24116d9036c7511aa3d5b1ab13d0" name="ad35a24116d9036c7511aa3d5b1ab13d0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad35a24116d9036c7511aa3d5b1ab13d0">&#9670;&#160;</a></span>m_impl</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::unique_ptr&lt;<a class="el" href="../../d8/d20/struct_generator_utils_1_1_breakable_task_1_1_impl.html">Impl</a>&gt; GeneratorUtils::BreakableTask::m_impl</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -564,28 +628,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a11225db2895d2ad650b7645f3b6b7517" name="a11225db2895d2ad650b7645f3b6b7517"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a11225db2895d2ad650b7645f3b6b7517">&#9670;&#160;</a></span>m_tmpDir</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::shared_ptr&lt;<a class="el" href="../../d3/dc3/struct_i_tmp_dir.html">ITmpDir</a>&gt; GeneratorUtils::BreakableTask::m_tmpDir</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>src/gui/desktop/utils/grouppers/<a class="el" href="../../de/da5/generator__utils_8hpp_source.html">generator_utils.hpp</a></li>
 <li>src/gui/desktop/utils/grouppers/<a class="el" href="../../d2/df7/generator__utils_8cpp.html">generator_utils.cpp</a></li>
@@ -593,7 +635,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 3 2026 21:56:23 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sun Jan 4 2026 09:02:34 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

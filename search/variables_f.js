@@ -9,11 +9,12 @@ var searchData=
   ['ph_5fid_6',['ph_id',['../dd/dc4/class_person_info.html#ae997fe94486f3961061ed28540f87dcb',1,'PersonInfo']]],
   ['photodata_7',['photoData',['../d5/d1f/struct_collected_data.html#a138fc399b5bcfac050e13d66afe533c5',1,'CollectedData']]],
   ['photooperator_8',['photoOperator',['../d6/d32/class_flat_model_test.html#a708646cdbfb02602b3d4f9248be34a9a',1,'FlatModelTest']]],
-  ['photos_9',['photos',['../d5/da4/struct_animation_generator_1_1_data.html#a044bdb67463854fe8453dfd65d57b444',1,'AnimationGenerator::Data::photos'],['../d0/d4b/struct_h_d_r_generator_1_1_data.html#ab20df77119157b5a26b4b503dd4225bc',1,'HDRGenerator::Data::photos']]],
+  ['photos_9',['photos',['../d7/ddc/struct_photos_grouping_dialog_1_1_impl.html#a5a428360cfe78a914525598ba62053f4',1,'PhotosGroupingDialog::Impl::photos'],['../d5/da4/struct_animation_generator_1_1_data.html#a044bdb67463854fe8453dfd65d57b444',1,'AnimationGenerator::Data::photos'],['../d0/d4b/struct_h_d_r_generator_1_1_data.html#ab20df77119157b5a26b4b503dd4225bc',1,'HDRGenerator::Data::photos']]],
   ['pi_5fid_10',['pi_id',['../da/dbb/class_person_full_info.html#a6881fd03881d99988d3c085395324301',1,'PersonFullInfo']]],
   ['pluginloader_11',['pluginLoader',['../db/d51/struct_database_1_1_builder_1_1_impl.html#ae62f0b3cb8111d755369dbde7cc0c0a8',1,'Database::Builder::Impl']]],
   ['position_12',['position',['../da/dbb/class_person_full_info.html#a6818f6d5557d58d348a38c155dbb6099',1,'PersonFullInfo']]],
   ['predictor_5f5_5fpoint_13',['predictor_5_point',['../d8/dad/structdlib__api_1_1_face_encoder_1_1_data.html#aba96c75dc3e4bd89c0d517924969696b',1,'dlib_api::FaceEncoder::Data']]],
   ['predictor_5f68_5fpoint_14',['predictor_68_point',['../d8/dad/structdlib__api_1_1_face_encoder_1_1_data.html#a304112a5adeaddb81bc8ccd44d3f4d1d',1,'dlib_api::FaceEncoder::Data']]],
-  ['purpose_15',['purpose',['../d6/d76/struct_database_1_1_col_definition.html#a08d94545e3180108635cbb803bea67c8',1,'Database::ColDefinition']]]
+  ['preview_15',['preview',['../d7/ddc/struct_photos_grouping_dialog_1_1_impl.html#a87e7abde9d8a2f2ac0cd6a87ac48f113',1,'PhotosGroupingDialog::Impl']]],
+  ['purpose_16',['purpose',['../d6/d76/struct_database_1_1_col_definition.html#a08d94545e3180108635cbb803bea67c8',1,'Database::ColDefinition']]]
 ];
