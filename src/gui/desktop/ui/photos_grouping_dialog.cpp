@@ -77,7 +77,7 @@ struct PhotosGroupingDialog::Impl
         representativeFile(),
         photos(photos_),
         representativeType(Group::Invalid),
-        ui(new Ui::PhotosGroupingDialog),
+        ui(),
         preview(new MediaPreview(parent)),
         exifReaderFactory(exifReaderFactory_),
         config(config_),
@@ -93,7 +93,7 @@ struct PhotosGroupingDialog::Impl
     QString representativeFile;
     std::vector<ExplicitDelta> photos;
     Group::Type representativeType;
-    Ui::PhotosGroupingDialog* ui;
+    Ui::PhotosGroupingDialog ui;
     MediaPreview* preview;
     IExifReaderFactory& exifReaderFactory;
     IConfiguration& config;
@@ -117,41 +117,41 @@ PhotosGroupingDialog::PhotosGroupingDialog(const std::vector<ExplicitDelta>& pho
 
     fillModel(photos);
 
-    m_impl->ui->setupUi(this);
-    m_impl->ui->resultPreview->setWidget(m_impl->preview);
+    m_impl->ui.setupUi(this);
+    m_impl->ui.resultPreview->setWidget(m_impl->preview);
 
     m_impl->sortProxy.setSourceModel(&m_impl->model);
 
-    m_impl->ui->photosList->setModel(&m_impl->sortProxy);
-    m_impl->ui->photosList->setSortingEnabled(true);
-    m_impl->ui->photosList->sortByColumn(0, Qt::AscendingOrder);
-    m_impl->ui->photosList->resizeColumnsToContents();
-    m_impl->ui->buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
-    m_impl->ui->generationProgressBar->reset();
-    m_impl->ui->speedSpinBox->setValue(calculateFPS());
+    m_impl->ui.photosList->setModel(&m_impl->sortProxy);
+    m_impl->ui.photosList->setSortingEnabled(true);
+    m_impl->ui.photosList->sortByColumn(0, Qt::AscendingOrder);
+    m_impl->ui.photosList->resizeColumnsToContents();
+    m_impl->ui.buttonBox->button(QDialogButtonBox::Ok)->setDisabled(true);
+    m_impl->ui.generationProgressBar->reset();
+    m_impl->ui.speedSpinBox->setValue(calculateFPS());
 
     QIntValidator* heightValidator = new QIntValidator(this);
     heightValidator->setBottom(100);
     heightValidator->setTop(65536);
-    m_impl->ui->collageHeight->setValidator(heightValidator);
+    m_impl->ui.collageHeight->setValidator(heightValidator);
 
     if (type != Group::Type::Invalid)
-        m_impl->ui->groupingType->setCurrentIndex(groupTypeToCombobox(type));
+        m_impl->ui.groupingType->setCurrentIndex(groupTypeToCombobox(type));
 
-    connect(m_impl->ui->previewScaleSlider, &QSlider::sliderMoved, this, &PhotosGroupingDialog::scalePreview);
-    connect(m_impl->ui->previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
-    connect(m_impl->ui->cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
+    connect(m_impl->ui.previewScaleSlider, &QSlider::sliderMoved, this, &PhotosGroupingDialog::scalePreview);
+    connect(m_impl->ui.previewButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewPressed);
+    connect(m_impl->ui.cancelButton, &QPushButton::clicked, this, &PhotosGroupingDialog::previewCancelPressed);
     connect(m_impl->preview, &MediaPreview::scalableContentAvailable, [this](bool av)
     {
-        m_impl->ui->previewScaleSlider->setEnabled(av);                          // enable only when content available
-        m_impl->ui->previewScaleSlider->triggerAction(QSlider::SliderToMaximum); // reset slider's position
+        m_impl->ui.previewScaleSlider->setEnabled(av);                          // enable only when content available
+        m_impl->ui.previewScaleSlider->triggerAction(QSlider::SliderToMaximum); // reset slider's position
     });
 }
 
 
 PhotosGroupingDialog::~PhotosGroupingDialog()
 {
-    delete m_impl->ui;
+
 }
 
 
@@ -186,19 +186,19 @@ void PhotosGroupingDialog::reject()
 
 void PhotosGroupingDialog::generationTitle(const QString& title)
 {
-    m_impl->ui->generationProgressBar->setValue(0);
-    m_impl->ui->operationName->setText(title);
+    m_impl->ui.generationProgressBar->setValue(0);
+    m_impl->ui.operationName->setText(title);
 }
 
 
 void PhotosGroupingDialog::generationProgress(int v)
 {
     if (v == -1)
-        m_impl->ui->generationProgressBar->setMaximum(0);
+        m_impl->ui.generationProgressBar->setMaximum(0);
     else
     {
-        m_impl->ui->generationProgressBar->setMaximum(100);
-        m_impl->ui->generationProgressBar->setValue(v);
+        m_impl->ui.generationProgressBar->setMaximum(100);
+        m_impl->ui.generationProgressBar->setValue(v);
     }
 }
 
@@ -206,7 +206,7 @@ void PhotosGroupingDialog::generationProgress(int v)
 void PhotosGroupingDialog::generationDone(const QString& location)
 {
     m_impl->representativeFile = location;
-    m_impl->representativeType = comboboxToGroupType(m_impl->ui->optionsWidget->currentIndex());
+    m_impl->representativeType = comboboxToGroupType(m_impl->ui.optionsWidget->currentIndex());
 
     m_impl->workInProgress = false;
 
@@ -260,7 +260,7 @@ void PhotosGroupingDialog::generationError(const QString& info, const QStringLis
 
 void PhotosGroupingDialog::refreshDialogButtons()
 {
-    m_impl->ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_impl->representativeFile.isEmpty() == false);
+    m_impl->ui.buttonBox->button(QDialogButtonBox::Ok)->setEnabled(m_impl->representativeFile.isEmpty() == false);
 }
 
 
@@ -268,7 +268,7 @@ void PhotosGroupingDialog::previewPressed()
 {
     switchUiToGeneration();
 
-    const int tool_page = m_impl->ui->optionsWidget->currentIndex();
+    const int tool_page = m_impl->ui.optionsWidget->currentIndex();
     auto type = comboboxToGroupType(tool_page);
 
     switch(type)
@@ -299,7 +299,7 @@ void PhotosGroupingDialog::previewCancelPressed()
 
     if (result == QMessageBox::StandardButton::Yes)
     {
-        m_impl->ui->previewButtons->setCurrentIndex(0);
+        m_impl->ui.previewButtons->setCurrentIndex(0);
         emit cancel();
     }
 }
@@ -311,10 +311,10 @@ void PhotosGroupingDialog::makeAnimation()
 
     generator_data.storage = m_impl->tmpDir->path();
     generator_data.photos = getPhotos();
-    generator_data.fps = m_impl->ui->speedSpinBox->value();
-    generator_data.scale = m_impl->ui->scaleSpinBox->value();
-    generator_data.delay = m_impl->ui->delaySpinBox->value();
-    generator_data.stabilize = m_impl->ui->stabilizationCheckBox->isChecked();
+    generator_data.fps = m_impl->ui.speedSpinBox->value();
+    generator_data.scale = m_impl->ui.scaleSpinBox->value();
+    generator_data.delay = m_impl->ui.delaySpinBox->value();
+    generator_data.stabilize = m_impl->ui.stabilizationCheckBox->isChecked();
 
     auto animation_task = std::make_unique<AnimationGenerator>(generator_data, m_impl->logger, m_impl->exifReaderFactory);
 
@@ -338,7 +338,7 @@ void PhotosGroupingDialog::makeHDR()
 void PhotosGroupingDialog::makeCollage()
 {
     CollageGenerator generator(m_impl->exifReaderFactory.get());
-    const int height = m_impl->ui->collageHeight->text().toInt();
+    const int height = m_impl->ui.collageHeight->text().toInt();
     const QImage collage = generator.generateCollage(getPhotos(), height);
 
     if (collage.isNull())
@@ -415,10 +415,10 @@ void PhotosGroupingDialog::startTask(std::unique_ptr<GeneratorUtils::BreakableTa
 
 void PhotosGroupingDialog::switchUiToGeneration()
 {
-    m_impl->ui->previewButtons->setCurrentIndex(1);
+    m_impl->ui.previewButtons->setCurrentIndex(1);
 
-    m_impl->ui->generationProgressBar->setEnabled(true);
-    m_impl->ui->optionsWidget->setEnabled(false);
+    m_impl->ui.generationProgressBar->setEnabled(true);
+    m_impl->ui.optionsWidget->setEnabled(false);
     m_impl->preview->clean();
     m_impl->workInProgress = true;
     m_impl->representativeFile.clear();
@@ -429,12 +429,12 @@ void PhotosGroupingDialog::switchUiToGeneration()
 
 void PhotosGroupingDialog::switchUiToGenerationFinished()
 {
-    m_impl->ui->previewButtons->setCurrentIndex(0);
+    m_impl->ui.previewButtons->setCurrentIndex(0);
 
-    m_impl->ui->generationProgressBar->reset();
-    m_impl->ui->generationProgressBar->setDisabled(true);
-    m_impl->ui->operationName->setText("");
-    m_impl->ui->optionsWidget->setEnabled(true);
+    m_impl->ui.generationProgressBar->reset();
+    m_impl->ui.generationProgressBar->setDisabled(true);
+    m_impl->ui.operationName->setText("");
+    m_impl->ui.optionsWidget->setEnabled(true);
 
     refreshDialogButtons();
 }
@@ -461,7 +461,7 @@ QStringList PhotosGroupingDialog::getPhotos() const
 
 void PhotosGroupingDialog::scalePreview()
 {
-    const int scale = m_impl->ui->previewScaleSlider->value();
+    const int scale = m_impl->ui.previewScaleSlider->value();
     const double scaleFactor = scale/100.0;
 
     m_impl->preview->scale(scaleFactor);
