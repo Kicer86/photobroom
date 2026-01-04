@@ -32,6 +32,8 @@ jobs:
       run: |
         sudo apt-get update &&              \
         sudo apt-get install                \
+          gcc-14                            \
+          g++-14                            \
           lcov                              \
           ninja-build                       \
           python3-cairosvg                  \
@@ -84,12 +86,13 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Debug
+        cc: gcc-14
+        cxx: g++-14
         configure-options:
             -DBUILD_SHARED_LIBS=${{ matrix.shared }}
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=FALSE
-            -DBUILD_BENCHMARKS=OFF
             -DBUILD_LEARNING_TESTS=TRUE
             -DPython=/usr/bin/python3
             -DCMAKE_CXX_FLAGS=--coverage
@@ -102,8 +105,8 @@ jobs:
 
     - name: Generate lcov raports
       run: |
-        lcov --capture --ignore-errors mismatch --directory ${{ runner.workspace }}/build --output-file coverage.info
-        lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --capture --gcov-tool gcov-14 --ignore-errors mismatch --directory ${{ runner.workspace }}/build --output-file coverage.info
+        lcov --gcov-tool gcov-14 --remove coverage.info '/usr/*' --output-file coverage.info
         lcov --list coverage.info
 
     - name: Upload coverage reports to Codecov

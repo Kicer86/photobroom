@@ -1,5 +1,5 @@
 
-#include "../system.hpp"
+module;
 
 #include <mutex>
 
@@ -8,6 +8,9 @@
 #include <QDir>
 #include <QStandardPaths>
 #include <QTemporaryDir>
+
+module system;
+import :system;
 
 
 namespace

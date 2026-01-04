@@ -27,7 +27,8 @@
 #include <webp_generator.hpp>
 
 #include <core/function_wrappers.hpp>
-#include <system/system.hpp>
+
+import system;
 
 using std::placeholders::_1;
 
@@ -90,7 +91,7 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
 
     // generate aligned files
     emit operation(tr("Stabilizing photos"));
-    const QString outputDir = m_tmpDir->path() + "/stabilized/";
+    const QString outputDir = tmpDirPath() + "/stabilized/";
     const bool status = GeneratorUtils::stabilizeImages(this, photos, *m_logger, outputDir);
 
     if (status == false)

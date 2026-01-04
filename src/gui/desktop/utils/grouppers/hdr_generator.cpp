@@ -19,11 +19,12 @@
 #include <QImage>
 #include <opencv2/imgcodecs.hpp>
 
-#include "hdr_generator.hpp"
-
 #include <core/image_aligner.hpp>
 #include <core/hdr_assembler.hpp>
-#include <system/system.hpp>
+
+#include "hdr_generator.hpp"
+
+import system;
 
 
 HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):

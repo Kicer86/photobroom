@@ -32,4 +32,3 @@ target_link_libraries(plugins
 )
 
 generate_export_header(plugins)
-hideSymbols(plugins)

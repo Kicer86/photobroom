@@ -22,25 +22,27 @@ elseif(UNIX)
 
 endif(WIN32)
 
-
-# common stuff
-set(SYSTEM_SOURCES ${SYSTEM_SOURCES}
-                   implementation/filesystem.cpp
-                   implementation/system.cpp
-)
-
-set(SYSTEM_HEADERS
-        system.hpp
-        filesystem.hpp
-)
-
 if(WIN32)
     configure_file(paths_win.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 else()
     configure_file(paths_unix.hpp.cmake ${CMAKE_BINARY_DIR}/paths.hpp @ONLY)
 endif()
 
-add_library(system ${SYSTEM_SOURCES} ${SYSTEM_HEADERS})
+
+add_library(system)
+
+target_sources(system
+    PUBLIC FILE_SET CXX_MODULES FILES
+        system.cxx
+        implementation/filesystem.cppm
+        implementation/system.cppm
+
+    PRIVATE
+        implementation/filesystem.cpp
+        implementation/system.cpp
+        ${SYSTEM_SOURCES}
+)
+
 target_include_directories(system
                             PUBLIC
                                 ${CMAKE_CURRENT_BINARY_DIR}
@@ -48,10 +50,8 @@ target_include_directories(system
                             PRIVATE
                                 ${CMAKE_CURRENT_SOURCE_DIR}
 )
-target_link_libraries(system PRIVATE Qt::Core)
 
-hideSymbols(system)
-generate_export_header(system)
+target_link_libraries(system PRIVATE Qt::Core)
 
 if(BUILD_SHARED_LIBS)
     install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}

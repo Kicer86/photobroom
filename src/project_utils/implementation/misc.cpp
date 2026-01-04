@@ -8,7 +8,8 @@
 #include <QTemporaryFile>
 
 #include "project.hpp"
-#include <system/system.hpp>
+
+import system;
 
 
 namespace

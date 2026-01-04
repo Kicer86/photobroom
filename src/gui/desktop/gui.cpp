@@ -18,7 +18,6 @@
 #include <core/itask_executor.hpp>
 #include <core/ilogger_factory.hpp>
 #include <core/thumbnail_generator.hpp>
-#include <system/filesystem.hpp>
 
 #ifdef UPDATER_ENABLED
 #include <updater/updater.hpp>
@@ -30,6 +29,9 @@
 #include "utils/thumbnails_cache.hpp"
 #include "utils/thumbnail_manager.hpp"
 #include "utils/qml_setup.hpp"
+
+
+import system;
 
 
 Q_IMPORT_QML_PLUGIN(QmlItemsPlugin);

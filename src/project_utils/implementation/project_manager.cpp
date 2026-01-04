@@ -31,9 +31,10 @@
 #include <database/project_info.hpp>
 #include <database/idatabase.hpp>
 #include <plugins/iplugin_loader.hpp>
-#include <system/system.hpp>
 
 #include "project.hpp"
+
+import system;
 
 
 ProjectManager::ProjectManager(Database::IBuilder& builder): m_dbBuilder(builder)

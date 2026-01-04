@@ -26,7 +26,6 @@
 #include <database/database_executor_traits.hpp>
 #include <project_utils/iproject_manager.hpp>
 #include <project_utils/project.hpp>
-#include <system/system.hpp>
 #include <features.hpp>
 
 #include "config.hpp"
@@ -46,6 +45,7 @@
 #include "quick_items/selection_manager_component.hpp"
 #include "quick_items/thumbnail_image_provider.hpp"
 
+import system;
 
 MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr):
     QObject(),
