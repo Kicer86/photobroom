@@ -19,7 +19,7 @@
     {
       "name": "ffmpeg",
       "default-features": false,
-      "features": [ "avcodec", "avformat" ]
+      "features": [ "avcodec", "avformat", "swscale" ]
     },
     "boost-multi-index",
     "exiv2",
