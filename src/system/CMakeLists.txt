@@ -53,6 +53,10 @@ target_include_directories(system
 
 target_link_libraries(system PRIVATE Qt::Core)
 
+# MSVC needs explicit exports for shared libs; ensure system.lib is generated for dependents.
+generate_export_header(system)
+hideSymbols(system)
+
 if(BUILD_SHARED_LIBS)
     install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
                            LIBRARY DESTINATION ${PATH_LIBS})
