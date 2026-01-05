@@ -6,8 +6,35 @@
   "homepage": "https://github.com/Kicer86/photobroom",
   "description": "Photo Broom is a tool for managing your photos.",
   "dependencies": [
+    {
+      "name": "dlib",
+      "default-features": false,
+      "features": [ "fftw3" ]
+    },
+    {
+      "name": "opencv4",
+      "default-features": false,
+      "features": [ "contrib" ]
+    },
+    {
+      "name": "ffmpeg",
+      "default-features": false,
+      "features": [ "avcodec", "avformat" ]
+    },
+    "boost-multi-index",
+    "exiv2",
     "jsoncpp",
     "libguarded",
-    "libwebp"
+    "libwebp",
+    "qtbase",
+    "qtsvg",
+    {
+      "name": "qttools",
+      "default-features": false,
+      "features": [ "linguist", "qml" ]
+    },
+    "qtdeclarative",
+    "qtmultimedia",
+    "qtquick3d"
   ]
 }
