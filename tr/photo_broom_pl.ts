@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/animation_generator.cpp" line="+78"/>
         <source>Photos processing error</source>
-        <translation type="unfinished"></translation>
+        <translation>Błąd przetwarzania zdjęć</translation>
     </message>
     <message>
         <location line="+9"/>
@@ -62,12 +62,12 @@
     <message>
         <location filename="../src/gui/desktop/quick_items/views/BatchFaceDetection.qml" line="+32"/>
         <source>Discovered faces</source>
-        <translation type="unfinished"></translation>
+        <translation>Wykryte twarze</translation>
     </message>
     <message>
         <location line="+97"/>
         <source>Photos to be analyzed</source>
-        <translation type="unfinished"></translation>
+        <translation>Zdjęcia do analizy</translation>
     </message>
 </context>
 <context>
@@ -75,7 +75,7 @@
     <message>
         <location filename="../src/gui/desktop/utils/batch_face_detector.cpp" line="+69"/>
         <source>Batch face detector</source>
-        <translation type="unfinished"></translation>
+        <translation>Detektor twarzy</translation>
     </message>
 </context>
 <context>
@@ -277,12 +277,12 @@
     <message>
         <location filename="../src/gui/desktop/utils/grouppers/hdr_generator.cpp" line="+50"/>
         <source>Stabilizing photos</source>
-        <translation type="unfinished">Stabilizowanie zdjęć</translation>
+        <translation>Stabilizowanie zdjęć</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Geenrating HDR</source>
-        <translation type="unfinished"></translation>
+        <translation>Generowanie HDR</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -581,32 +581,35 @@ Kod błędu: %1</translation>
 </context>
 <context>
     <name>PhotoPropertiesModel</name>
-    <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+117"/>
-        <source>Photo(s) location:</source>
-        <translation>
-            <numerusform>lokalizacja zdjęcia:</numerusform>
-            <numerusform>lokalizacja zdjęć:</numerusform>
-            <numerusform>lokalizacja zdjęć:</numerusform>
-        </translation>
+    <message>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="+119"/>
+        <source>Photo location:</source>
+        <translation>Lokalizacja zdjęcia:</translation>
     </message>
-    <message numerus="yes">
-        <location line="+1"/>
-        <source>Photo(s) size:</source>
-        <translation>
-            <numerusform>Rozmiar zdjęcia:</numerusform>
-            <numerusform>Rozmiar zdjęć:</numerusform>
-            <numerusform>Rozmiar zdjęć:</numerusform>
-        </translation>
+    <message>
+        <location line="+0"/>
+        <source>Photos location:</source>
+        <translation>Lokalizacja zdjęć:</translation>
     </message>
-    <message numerus="yes">
-        <location line="+1"/>
-        <source>Photo(s) geometry:</source>
-        <translation>
-            <numerusform>Wymiary zdjęcia:</numerusform>
-            <numerusform>Wymiary zdjęć:</numerusform>
-            <numerusform>Wymiary zdjęć:</numerusform>
-        </translation>
+    <message>
+        <location line="+2"/>
+        <source>Photo size:</source>
+        <translation>Rozmiar zdjęcia:</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Photos size:</source>
+        <translation>Rozmiar zdjęć:</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Photo geometry:</source>
+        <translation>Wymiary zdjęcia:</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Photos geometry:</source>
+        <translation>Wymiary zdjęć:</translation>
     </message>
     <message numerus="yes">
         <location line="+89"/>
@@ -650,7 +653,7 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+296"/>
         <source>Extracting data from new photos</source>
-        <translation type="unfinished"></translation>
+        <translation>Wczytywanie danych z nowych zdjęć</translation>
     </message>
 </context>
 <context>
@@ -780,17 +783,17 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="+218"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Informacje o mediach&lt;/b&gt;</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Okno debugowania&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -844,7 +847,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-173"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-177"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>
