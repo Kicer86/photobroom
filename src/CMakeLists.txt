@@ -13,7 +13,6 @@ endif()
 
 add_subdirectory(third_party)
 
-add_subdirectory(system)
 add_subdirectory(core)
 add_subdirectory(crash_catcher)
 add_subdirectory(photos_crawler)
@@ -23,6 +22,7 @@ add_subdirectory(gui)
 add_subdirectory(plugins)
 add_subdirectory(project_utils)
 add_subdirectory(unit_tests_utils)
+add_subdirectory(system)
 
 add_executable(photo_broom
     config_storage.cpp
