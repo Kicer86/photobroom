@@ -119,6 +119,11 @@ jobs:
             ]
         buildPreset: "${{ matrix.config.cmake_build }}"
 
+    - name: Install NSIS (for CPack)
+      if: matrix.config.name == 'release'
+      # CPack NSIS generator requires makensis on PATH.
+      run: choco install -y nsis
+
     - name: Make package
       if: matrix.config.name == 'release'
       run: cmake --build --target package --preset "${{ matrix.config.cmake_build }}"
