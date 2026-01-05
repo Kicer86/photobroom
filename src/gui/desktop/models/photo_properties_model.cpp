@@ -114,9 +114,13 @@ void PhotoPropertiesModel::refreshLabels(const std::vector<PhotoDelta>& photos)
 {
     const int s = static_cast<int>(photos.size());
 
-    QStandardItem* locItem  = new QStandardItem(tr("Photo(s) location:", "", s));
-    QStandardItem* sizeItem = new QStandardItem(tr("Photo(s) size:", "", s));
-    QStandardItem* geomItem = new QStandardItem(tr("Photo(s) geometry:", "", s));
+    const bool single = (s == 1);
+    QStandardItem* locItem = new QStandardItem(
+        single ? tr("Photo location:") : tr("Photos location:"));
+    QStandardItem* sizeItem = new QStandardItem(
+        single ? tr("Photo size:") : tr("Photos size:"));
+    QStandardItem* geomItem = new QStandardItem(
+        single ? tr("Photo geometry:") : tr("Photos geometry:"));
 
     setItem(0, 0, locItem);
     setItem(1, 0, sizeItem);
