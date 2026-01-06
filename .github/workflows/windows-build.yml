@@ -131,7 +131,11 @@ jobs:
       with:
         configurePreset: ${{ matrix.config.cmake_config }}
         buildPreset: "${{ matrix.config.cmake_build }}"
-        buildPresetAdditionalArgs: "--target package"
+        buildPresetAdditionalArgs: |
+            [
+                "--target",
+                "package"
+            ]
 
     - name: Upload artifact
       if: matrix.config.name == 'release'
