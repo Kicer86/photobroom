@@ -126,7 +126,12 @@ jobs:
 
     - name: Make package
       if: matrix.config.name == 'release'
-      run: cmake --build --target package --preset "${{ matrix.config.cmake_build }}"
+      # Workaround: run-cmake sets up the MSVC env; a raw cmake --build doesn't.
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: ${{ matrix.config.cmake_config }}
+        buildPreset: "${{ matrix.config.cmake_build }}"
+        buildPresetAdditionalArgs: "--target package"
 
     - name: Upload artifact
       if: matrix.config.name == 'release'
