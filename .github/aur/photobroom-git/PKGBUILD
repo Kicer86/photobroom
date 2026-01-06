@@ -1,6 +1,6 @@
 # Maintainer: Michał Walenciak <kicer86@gmail.com>
 pkgname=photobroom-git
-pkgver=v1.6.0.r928.gc72ef3bc0a
+pkgver=v1.6.0.r1140.g5c0a37d3b8
 pkgrel=1
 pkgdesc="Photos managing tool"
 arch=('i686' 'x86_64')
@@ -8,7 +8,7 @@ url="https://github.com/Kicer86/photobroom"
 license=('GPL3')
 groups=()
 depends=('exiv2' 'qt6-base' 'qt6-multimedia' 'qt6-declarative' 'qt6-svg' 'qt6-quick3d' 'dlib' 'opencv' 'jsoncpp')
-makedepends=('cmake' 'ffmpeg' 'qt6-tools' 'imagemagick' 'libwebp' 'cs-libguarded' 'boost' 'openmp')
+makedepends=('cmake' 'ninja' 'ffmpeg' 'qt6-tools' 'imagemagick' 'libwebp' 'cs-libguarded' 'boost' 'openmp')
 optdepends=()
 provides=('photobroom')
 conflicts=('photobroom')
@@ -60,13 +60,13 @@ build()
     cd "$pkgname"
     mkdir -p build
     cd build
-    cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTING=OFF -DBUILD_UPDATER=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=None -Wno-dev
-    make
+    cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -DBUILD_TESTING=OFF -DBUILD_UPDATER=OFF -DBUILD_SHARED_LIBS=ON -DCMAKE_BUILD_TYPE=None -Wno-dev
+    ninja
 }
 
 package()
 {
     cd "$pkgname"
     cd build
-    make DESTDIR="$pkgdir/" install
+    DESTDIR="$pkgdir" ninja install
 }
