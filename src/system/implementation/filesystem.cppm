@@ -1,10 +1,11 @@
 module;
 
 class QString;
+#include "system_export.h"
 
 export module system:filesystem;
 
-export struct FileSystem
+export struct SYSTEM_EXPORT FileSystem
 {
     QString getPluginsPath() const;
     QString getTranslationsPath() const;

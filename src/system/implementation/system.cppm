@@ -2,6 +2,7 @@ module;
 
 #include <memory>
 #include <string>
+#include "system_export.h"
 
 class QString;
 
@@ -10,14 +11,14 @@ class QFlags;
 
 export module system:system;
 
-export struct ITmpDir
+export struct SYSTEM_EXPORT ITmpDir
 {
     virtual ~ITmpDir() = default;
 
     virtual QString path() const = 0;
 };
 
-export struct System
+export struct SYSTEM_EXPORT System
 {
     /**
      * Flags to be used for temporary directory creation.
