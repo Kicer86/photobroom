@@ -15,7 +15,6 @@ import :system;
 
 namespace
 {
-
     std::mutex g_dir_creation;
     std::map<QString, std::shared_ptr<ITmpDir>> g_persistentTmps;
     QString g_systemTmp;

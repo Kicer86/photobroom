@@ -1,12 +1,12 @@
+
 module;
 
 #include <memory>
 #include <string>
 
+#include <QFlags>
 #include <QString>
 
-template <typename Enum>
-class QFlags;
 
 export module system:system;
 
