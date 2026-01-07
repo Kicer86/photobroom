@@ -44,11 +44,11 @@ target_sources(system
 )
 
 target_include_directories(system
-                            PUBLIC
-                                ${CMAKE_CURRENT_BINARY_DIR}
-                                ${CMAKE_BINARY_DIR}
-                            PRIVATE
-                                ${CMAKE_CURRENT_SOURCE_DIR}
+    PUBLIC
+        ${CMAKE_CURRENT_BINARY_DIR}
+        ${CMAKE_BINARY_DIR}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_link_libraries(system PRIVATE Qt::Core)
