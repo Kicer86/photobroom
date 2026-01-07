@@ -2,23 +2,22 @@ module;
 
 #include <memory>
 #include <string>
-#include "system_export.h"
 
-class QString;
+#include <QString>
 
 template <typename Enum>
 class QFlags;
 
 export module system:system;
 
-export struct SYSTEM_EXPORT ITmpDir
+export struct ITmpDir
 {
     virtual ~ITmpDir() = default;
 
     virtual QString path() const = 0;
 };
 
-export struct SYSTEM_EXPORT System
+export struct System
 {
     /**
      * Flags to be used for temporary directory creation.

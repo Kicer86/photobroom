@@ -33,9 +33,9 @@ add_library(system)
 
 target_sources(system
     PUBLIC FILE_SET CXX_MODULES FILES
-        system.cxx
-        implementation/filesystem.cppm
-        implementation/system.cppm
+        main.cppm
+        system.cppm
+        filesystem.cppm
 
     PRIVATE
         implementation/filesystem.cpp
@@ -52,10 +52,6 @@ target_include_directories(system
 )
 
 target_link_libraries(system PRIVATE Qt::Core)
-
-# MSVC needs explicit exports for shared libs; ensure system.lib is generated for dependents.
-generate_export_header(system)
-hideSymbols(system)
 
 if(BUILD_SHARED_LIBS)
     install(TARGETS system RUNTIME DESTINATION ${PATH_LIBS}
