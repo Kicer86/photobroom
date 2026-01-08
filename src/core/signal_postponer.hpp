@@ -24,8 +24,8 @@
 #include <optional>
 
 #include <QObject>
-#include <QTimer>
 #include <QSharedPointer>
+#include <QTimer>
 
 #include "core_export.h"
 
