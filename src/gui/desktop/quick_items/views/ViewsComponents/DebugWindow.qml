@@ -1,10 +1,11 @@
 
 import QtQuick
 import QtQuick.Controls
-import QmlItems
 
-import photo_broom.singletons
 import quick_items.components as Components
+
+import photo_broom.models
+import photo_broom.singletons
 
 
 Item {
@@ -29,54 +30,55 @@ Item {
             Repeater {
                 model: ObservablesRegistry.executors
 
-                Column {
+                Components.CollapsibleGroupBox {
+                    id: executorGroup
+
                     width: parent.width
-                    spacing: 4
+                    clip: true
 
-                    Text {
-                        text: modelData.name
-                        font.bold: true
+                    readonly property ObservableExecutorModel executorModel: ObservableExecutorModel {
+                        executor: modelData
                     }
 
-                    Text {
-                        text: qsTr("Tasks in queue") + ": " + modelData.awaitingTasks
-                    }
+                    title: "<b>" + executorModel.title + "</b>"
 
-                    Text {
-                        text: qsTr("Tasks executed") + ": " + modelData.tasksExecuted
-                    }
-
-                    Text {
-                        text: qsTr("Execution speed") + ": " + modelData.executionSpeed + " " + qsTr("tps", "tasks per second");
-                    }
-
-                    Components.CollapsibleGroupBox {
+                    TreeView {
                         width: parent.width
-                        title: qsTr("<b>Tasks</b>")
-                        background: Item {}
                         clip: true
-                        collapsed: true
+                        model: executorModel
+                        delegate: TreeViewDelegate {
+                            id: treeDelegate
 
-                        ListView {
-                            width: parent.width
-                            clip: true
+                            contentItem: Item {
+                                implicitHeight: Math.max(labelText.implicitHeight, valueText.implicitHeight)
+                                implicitWidth: labelText.implicitWidth + (valueText.visible ? valueText.implicitWidth + 12 : 0)
 
-                            model: modelData.tasks
-                            implicitHeight: Math.min(contentHeight, root.maxTasksViewHeight)
-                            height: implicitHeight
-                            interactive: contentHeight > height
+                                Text {
+                                    id: labelText
+                                    anchors.left: parent.left
+                                    anchors.right: valueText.left
+                                    anchors.rightMargin: valueText.visible ? 12 : 0
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    elide: Text.ElideRight
+                                    color: treeDelegate.highlighted ? treeDelegate.palette.highlightedText : treeDelegate.palette.buttonText
+                                    text: model.label !== undefined ? model.label : model.display
+                                }
 
-                            delegate: Row {
-                                required property string name
-                                required property int count
-
-                                width: ListView.view.width
-                                spacing: 10
-
-                                Text { text: name }
-                                Text { text: count }
+                                Text {
+                                    id: valueText
+                                    anchors.right: parent.right
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: visible ? implicitWidth : 0
+                                    color: treeDelegate.highlighted ? treeDelegate.palette.highlightedText : treeDelegate.palette.buttonText
+                                    text: model.value !== undefined ? model.value : ""
+                                    visible: model.value !== undefined
+                                }
                             }
                         }
+
+                        implicitHeight: Math.min(contentHeight, root.maxTasksViewHeight)
+                        height: implicitHeight
+                        interactive: contentHeight > height
                     }
                 }
             }

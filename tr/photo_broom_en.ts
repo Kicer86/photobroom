@@ -161,35 +161,6 @@
     </message>
 </context>
 <context>
-    <name>DebugWindow</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="42"/>
-        <source>Tasks in queue</source>
-        <translation>Tasks in queue</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="46"/>
-        <source>Tasks executed</source>
-        <translation>Tasks executed</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="50"/>
-        <source>Execution speed</source>
-        <translation>Execution speed</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="50"/>
-        <source>tps</source>
-        <comment>tasks per second</comment>
-        <translation>tps</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="55"/>
-        <source>&lt;b&gt;Tasks&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>DuplicatesView</name>
     <message>
         <location filename="../src/gui/desktop/quick_items/views/DuplicatesView.qml" line="16"/>
@@ -538,6 +509,40 @@ Error code: %1</translation>
             <numerusform>There is %n notification. Click here to read.</numerusform>
             <numerusform>There are %n notifications. Click here to read.</numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>ObservableExecutorModel</name>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="136"/>
+        <source>Tasks in queue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="138"/>
+        <source>Tasks executed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="140"/>
+        <source>Execution speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="142"/>
+        <source>Tasks</source>
+        <translation type="unfinished">Tasks</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="157"/>
+        <source>%1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="159"/>
+        <source>tps</source>
+        <comment>tasks per second</comment>
+        <translation type="unfinished">tps</translation>
     </message>
 </context>
 <context>

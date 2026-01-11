@@ -4,10 +4,12 @@
 
 #include <array>
 #include <atomic>
-#include <memory>
 #include <string>
+#include <vector>
 
-#include <QAbstractItemModel>
+#include <QHash>
+#include <QObject>
+#include <QString>
 #include <QTimer>
 
 #include <core_export.h>
@@ -18,26 +20,30 @@ class CORE_EXPORT ObservableExecutor: public QObject
     Q_OBJECT
 
     public:
+        struct TaskEntry
+        {
+            QString name;
+            int count = 0;
+        };
+
         ObservableExecutor();
         virtual ~ObservableExecutor();
 
-        Q_PROPERTY(int awaitingTasks READ awaitingTasks NOTIFY awaitingTasksChanged)
-        Q_PROPERTY(int tasksExecuted READ tasksExecuted NOTIFY tasksExecutedChanged)
-        Q_PROPERTY(double executionSpeed READ executionSpeed NOTIFY executionSpeedChanged)
-        Q_PROPERTY(QAbstractItemModel* tasks READ tasks CONSTANT)
-        Q_PROPERTY(QString name READ name NOTIFY nameChanged)
+        virtual QString name() const = 0;
 
         int awaitingTasks() const;
         int tasksExecuted() const;
-        virtual QString name() const = 0;
         double executionSpeed() const;
-        QAbstractItemModel* tasks() const;
+
+        const std::vector<TaskEntry>& tasks() const;
 
     signals:
-        void awaitingTasksChanged(int) const;
-        void tasksExecutedChanged(int) const;
-        void nameChanged(QString) const;
-        void executionSpeedChanged(double) const;
+        void awaitingTasksChanged(int awaitingTasks) const;
+        void tasksExecutedChanged(int tasksExecuted) const;
+        void executionSpeedChanged(double speed) const;
+        void taskAboutToBeInserted(int row) const;
+        void taskInserted(int row, const QString& name, int count) const;
+        void taskUpdated(int row, const QString& name, int count) const;
 
     protected:
         void newTaskInQueue(const std::string& name);
@@ -45,9 +51,6 @@ class CORE_EXPORT ObservableExecutor: public QObject
         void taskExecuted(const std::string& name);
 
     private:
-        class TasksModel;
-        std::unique_ptr<TasksModel> m_tasksModel;
-
         std::atomic<int> m_awaitingTasks = 0;
         std::atomic<int> m_tasksExecuted = 0;
 
@@ -57,7 +60,13 @@ class CORE_EXPORT ObservableExecutor: public QObject
         std::size_t m_executionSpeedBufferPos = 0;
         double m_executionSpeed = 0.0;
 
+        std::vector<TaskEntry> m_taskEntries;
+        QHash<QString, int> m_taskRowForText;
+
         void updateExecutionSpeed();
+        void notifyAwaitingTasksChanged();
+        void notifyTasksExecutedChanged();
+        void adjustTask(const QString& name, int delta);
 };
 
 

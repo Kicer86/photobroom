@@ -167,35 +167,6 @@
     </message>
 </context>
 <context>
-    <name>DebugWindow</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="+42"/>
-        <source>Tasks in queue</source>
-        <translation>Zadań w kolejce</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Tasks executed</source>
-        <translation>Zadań wykonywanych</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Execution speed</source>
-        <translation>Prędkość wykonywania</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>tps</source>
-        <comment>tasks per second</comment>
-        <translation>zadań/sekundę</translation>
-    </message>
-    <message>
-        <location line="+5"/>
-        <source>&lt;b&gt;Tasks&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>DuplicatesView</name>
     <message>
         <location filename="../src/gui/desktop/quick_items/views/DuplicatesView.qml" line="+16"/>
@@ -544,6 +515,40 @@ Kod błędu: %1</translation>
             <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
             <numerusform>Kliknij tutaj aby wyświetlić listę %n powiadomień.</numerusform>
         </translation>
+    </message>
+</context>
+<context>
+    <name>ObservableExecutorModel</name>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="+136"/>
+        <source>Tasks in queue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tasks executed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Execution speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tasks</source>
+        <translation type="unfinished">Operacje</translation>
+    </message>
+    <message>
+        <location line="+15"/>
+        <source>%1 %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>tps</source>
+        <comment>tasks per second</comment>
+        <translation type="unfinished">zadań/sekundę</translation>
     </message>
 </context>
 <context>
