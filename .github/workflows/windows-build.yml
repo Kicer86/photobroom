@@ -63,10 +63,10 @@ jobs:
         config:
           - name: "debug"
             cmake_config: "ninja_debug_vcpkg"
-            cmake_build: "Ninja Debug"
+            cmake_build: "Ninja Vcpkg Debug"
           - name: "release"
             cmake_config: "ninja_release_vcpkg"
-            cmake_build: "Ninja Release"
+            cmake_build: "Ninja Vcpkg Release"
 
     steps:
     - name: Print setup
