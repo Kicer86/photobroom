@@ -75,7 +75,7 @@ QModelIndex ObservableExecutorModel::index(int row, int column, const QModelInde
 
     if (isTasksRootIndex(parent))
     {
-        if (!m_executor || row >= m_executor->tasks().size())
+        if (!m_executor || row >= m_taskEntries.size())
             return {};
 
         return createIndex(row, column, kTaskChildId);
@@ -109,7 +109,7 @@ int ObservableExecutorModel::rowCount(const QModelIndex& parent) const
         return kTopLevelRowCount;
 
     if (isTasksRootIndex(parent))
-        return m_executor->tasks().size();
+        return m_taskEntries.size();
 
     return 0;
 }
@@ -158,7 +158,7 @@ QVariant ObservableExecutorModel::data(const QModelIndex& index, int role) const
                         .arg(m_executor->executionSpeed())
                         .arg(tr("tps", "tasks per second"));
                 case kRowTasks:
-                    return static_cast<int>(m_executor->tasks().size());
+                    return m_taskEntries.size();
                 default:
                     return {};
             }
@@ -169,13 +169,11 @@ QVariant ObservableExecutorModel::data(const QModelIndex& index, int role) const
 
     if (index.internalId() == kTaskChildId)
     {
-        const auto& tasks = m_executor->tasks();
-
         if (role == static_cast<int>(Role::LabelRole) || role == Qt::DisplayRole)
-            return tasks[index.row()].name;
+            return m_taskEntries[index.row()].name;
 
         if (role == static_cast<int>(Role::ValueRole))
-            return tasks[index.row()].count;
+            return m_taskEntries[index.row()].count;
 
         return {};
     }
@@ -219,11 +217,30 @@ void ObservableExecutorModel::notifyRowChanged(int row)
                                     static_cast<int>(Role::ValueRole)});
 }
 
+void ObservableExecutorModel::syncTasksFromExecutor()
+{
+    m_taskEntries.clear();
+    m_taskRowForText.clear();
+
+    if (!m_executor)
+        return;
+
+    const auto& tasks = m_executor->tasks();
+    m_taskEntries.reserve(static_cast<int>(tasks.size()));
+    for (int row = 0; row < static_cast<int>(tasks.size()); ++row)
+    {
+        m_taskEntries.push_back(tasks[static_cast<std::size_t>(row)]);
+        m_taskRowForText.insert(m_taskEntries.back().name, row);
+    }
+}
+
 
 void ObservableExecutorModel::connectExecutor()
 {
     if (!m_executor)
         return;
+
+    syncTasksFromExecutor();
 
     connect(m_executor, &ObservableExecutor::awaitingTasksChanged, this,
             [this](int) { notifyRowChanged(kRowAwaiting); });
@@ -231,30 +248,33 @@ void ObservableExecutorModel::connectExecutor()
             [this](int) { notifyRowChanged(kRowExecuted); });
     connect(m_executor, &ObservableExecutor::executionSpeedChanged, this,
             [this](double) { notifyRowChanged(kRowSpeed); });
-    connect(m_executor, &ObservableExecutor::taskAboutToBeInserted, this,
-            [this](int row)
+    connect(m_executor, &ObservableExecutor::taskEntryChanged, this,
+            [this](const QString& name, int count)
             {
-                const QModelIndex parentIndex = tasksRootIndex();
-                if (!parentIndex.isValid())
-                    return;
-
-                beginInsertRows(parentIndex, row, row);
-                m_pendingTaskInsert = true;
-            });
-    connect(m_executor, &ObservableExecutor::taskInserted, this,
-            [this](int, const QString&, int)
-            {
-                if (m_pendingTaskInsert)
+                const auto it = m_taskRowForText.constFind(name);
+                if (it == m_taskRowForText.constEnd())
                 {
+                    const QModelIndex parentIndex = tasksRootIndex();
+                    if (!parentIndex.isValid())
+                        return;
+
+                    const int row = m_taskEntries.size();
+                    beginInsertRows(parentIndex, row, row);
+                    m_taskEntries.push_back(ObservableExecutor::TaskEntry{.name = name, .count = count});
+                    m_taskRowForText.insert(name, row);
                     endInsertRows();
-                    m_pendingTaskInsert = false;
+
+                    notifyRowChanged(kRowTasks);
+                    return;
                 }
 
-                notifyRowChanged(kRowTasks);
-            });
-    connect(m_executor, &ObservableExecutor::taskUpdated, this,
-            [this](int row, const QString&, int)
-            {
+                const int row = *it;
+                if (row < 0 || row >= m_taskEntries.size())
+                    return;
+
+                ObservableExecutor::TaskEntry& entry = m_taskEntries[row];
+                entry.count = count;
+
                 const QModelIndex parentIndex = tasksRootIndex();
                 const QModelIndex idx = index(row, 0, parentIndex);
                 if (idx.isValid())
@@ -277,5 +297,6 @@ void ObservableExecutorModel::disconnectExecutor()
         return;
 
     disconnect(m_executor, nullptr, this, nullptr);
-    m_pendingTaskInsert = false;
+    m_taskEntries.clear();
+    m_taskRowForText.clear();
 }

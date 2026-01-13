@@ -125,16 +125,15 @@ void ObservableExecutor::adjustTask(const QString& name, int delta)
         assert(delta >= 0);
         const int row = m_taskEntries.size();
 
-        emit taskAboutToBeInserted(row);
         m_taskEntries.push_back(TaskEntry{.name = name, .count = delta});
         m_taskRowForText.insert(name, row);
-        emit taskInserted(row, name, delta);
+        emit taskEntryChanged(name, delta);
     }
     else
     {
         TaskEntry& entry = m_taskEntries[existingRow];
         entry.count += delta;
         assert(entry.count >= 0);
-        emit taskUpdated(existingRow, entry.name, entry.count);
+        emit taskEntryChanged(entry.name, entry.count);
     }
 }

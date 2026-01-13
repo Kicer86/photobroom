@@ -41,9 +41,7 @@ class CORE_EXPORT ObservableExecutor: public QObject
         void awaitingTasksChanged(int awaitingTasks) const;
         void tasksExecutedChanged(int tasksExecuted) const;
         void executionSpeedChanged(double speed) const;
-        void taskAboutToBeInserted(int row) const;
-        void taskInserted(int row, const QString& name, int count) const;
-        void taskUpdated(int row, const QString& name, int count) const;
+        void taskEntryChanged(const QString& name, int count) const;
 
     protected:
         void newTaskInQueue(const std::string& name);

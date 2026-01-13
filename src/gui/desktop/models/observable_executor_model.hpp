@@ -3,7 +3,9 @@
 #define OBSERVABLE_EXECUTOR_MODEL_HPP_INCLUDED
 
 #include <QAbstractItemModel>
+#include <QHash>
 #include <QPointer>
+#include <QVector>
 
 #include <core/observable_executor.hpp>
 
@@ -51,10 +53,12 @@ class ObservableExecutorModel: public QAbstractItemModel
 
     private:
         QPointer<ObservableExecutor> m_executor;
-        bool m_pendingTaskInsert = false;
+        QVector<ObservableExecutor::TaskEntry> m_taskEntries;
+        QHash<QString, int> m_taskRowForText;
 
         QModelIndex tasksRootIndex() const;
         void notifyRowChanged(int row);
+        void syncTasksFromExecutor();
         void connectExecutor();
         void disconnectExecutor();
 };
