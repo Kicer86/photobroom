@@ -186,10 +186,10 @@ QVariant ObservableExecutorModel::data(const QModelIndex& index, int role) const
 
 Qt::ItemFlags ObservableExecutorModel::flags(const QModelIndex& index) const
 {
-    if (!index.isValid())
+    if (index.isValid())
+        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
+    else
         return Qt::NoItemFlags;
-
-    return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
 }
 
 
@@ -199,6 +199,7 @@ QHash<int, QByteArray> ObservableExecutorModel::roleNames() const
     roles.insert(Qt::DisplayRole, "display");
     roles.insert(static_cast<int>(Role::LabelRole), "label");
     roles.insert(static_cast<int>(Role::ValueRole), "value");
+
     return roles;
 }
 
@@ -213,11 +214,9 @@ void ObservableExecutorModel::notifyRowChanged(int row)
 {
     const QModelIndex idx = index(row, 0);
     if (idx.isValid())
-    {
         emit dataChanged(idx, idx, {Qt::DisplayRole,
                                     static_cast<int>(Role::LabelRole),
                                     static_cast<int>(Role::ValueRole)});
-    }
 }
 
 
