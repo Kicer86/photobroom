@@ -12,10 +12,7 @@ Item {
     id: root
 
     implicitWidth: 300
-    implicitHeight: Math.min(contentColumn.implicitHeight, maxHeight)
-
-    property int maxHeight: 280
-    property int maxTasksViewHeight: 220
+    implicitHeight: contentColumn.implicitHeight
 
     ScrollView {
         id: scrollView
@@ -76,9 +73,8 @@ Item {
                             }
                         }
 
-                        implicitHeight: Math.min(contentHeight, root.maxTasksViewHeight)
+                        implicitHeight: contentHeight
                         height: implicitHeight
-                        interactive: contentHeight > height
                     }
                 }
             }
