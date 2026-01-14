@@ -242,52 +242,58 @@ void ObservableExecutorModel::connectExecutor()
 
     syncTasksFromExecutor();
 
-    connect(m_executor, &ObservableExecutor::awaitingTasksChanged, this,
-            [this](int) { notifyRowChanged(kRowAwaiting); });
-    connect(m_executor, &ObservableExecutor::tasksExecutedChanged, this,
-            [this](int) { notifyRowChanged(kRowExecuted); });
-    connect(m_executor, &ObservableExecutor::executionSpeedChanged, this,
-            [this](double) { notifyRowChanged(kRowSpeed); });
+    connect(m_executor, &ObservableExecutor::awaitingTasksChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowAwaiting));
+    connect(m_executor, &ObservableExecutor::tasksExecutedChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowExecuted));
+    connect(m_executor, &ObservableExecutor::executionSpeedChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowSpeed));
     connect(m_executor, &ObservableExecutor::taskEntryChanged, this,
-            [this](const QString& name, int count)
+            [this](const QString&, int)
             {
-                const auto it = m_taskRowForText.constFind(name);
-                if (it == m_taskRowForText.constEnd())
+                if (!m_executor)
+                    return;
+
+                const auto& tasks = m_executor->tasks();
+                const int tasksCount = static_cast<int>(tasks.size());
+
+                bool structureChanged = tasksCount != m_taskEntries.size();
+                if (!structureChanged)
+                {
+                    for (int row = 0; row < tasksCount; ++row)
+                        if (m_taskEntries[row].name != tasks[static_cast<std::size_t>(row)].name)
+                        {
+                            structureChanged = true;
+                            break;
+                        }
+                }
+
+                if (structureChanged)
+                {
+                    beginResetModel();
+                    syncTasksFromExecutor();
+                    endResetModel();
+                }
+                else
                 {
                     const QModelIndex parentIndex = tasksRootIndex();
                     if (!parentIndex.isValid())
                         return;
 
-                    const int row = m_taskEntries.size();
-                    beginInsertRows(parentIndex, row, row);
-                    m_taskEntries.push_back(ObservableExecutor::TaskEntry{.name = name, .count = count});
-                    m_taskRowForText.insert(name, row);
-                    endInsertRows();
+                    for (int row = 0; row < tasksCount; ++row)
+                    {
+                        const auto& task = tasks[static_cast<std::size_t>(row)];
+                        if (m_taskEntries[row].count == task.count)
+                            continue;
 
-                    notifyRowChanged(kRowTasks);
-                    return;
-                }
+                        m_taskEntries[row].count = task.count;
 
-                const int row = *it;
-                if (row < 0 || row >= m_taskEntries.size())
-                    return;
-
-                ObservableExecutor::TaskEntry& entry = m_taskEntries[row];
-                entry.count = count;
-
-                const QModelIndex parentIndex = tasksRootIndex();
-                const QModelIndex idx = index(row, 0, parentIndex);
-                if (idx.isValid())
-                {
-                    emit dataChanged(idx, idx, {Qt::DisplayRole,
-                                                static_cast<int>(Role::LabelRole),
-                                                static_cast<int>(Role::ValueRole)});
+                        const QModelIndex idx = index(row, 0, parentIndex);
+                        if (idx.isValid())
+                            emit dataChanged(idx, idx, {Qt::DisplayRole,
+                                                        static_cast<int>(Role::LabelRole),
+                                                        static_cast<int>(Role::ValueRole)});
+                    }
                 }
             });
-    connect(m_executor, &QObject::destroyed, this, [this]()
-            {
-                setExecutor(nullptr);
-            });
+    connect(m_executor, &QObject::destroyed, this, std::bind(&ObservableExecutorModel::setExecutor, this, nullptr));
 }
 
 
