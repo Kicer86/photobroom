@@ -104,19 +104,19 @@ void lazy_connect(SrcObj* src, Signal sig,
     SignalPostponer* postponer = nullptr;
 
     if constexpr (std::is_invocable_v<Slot>)
-        postponer = new SignalPostponer([dst, slot]()
+        postponer = new SignalPostponer([slot]()
         {
             // launch destination slot
             slot();
         },
-        src);
+        dst);
     else if constexpr (std::is_invocable_v<Slot, Dst>)
         postponer = new SignalPostponer([dst, slot]()
         {
             // launch destination slot
             (dst->*slot)();
         },
-        src);
+        dst);
 
     postponer->setDelay(delay);
     postponer->setPatiece(patience);
