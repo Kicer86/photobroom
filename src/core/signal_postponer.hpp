@@ -29,6 +29,7 @@
 
 #include "core_export.h"
 
+
 /** @brief Helper for @ref lazy_connect. Not meant to be used directly. */
 class CORE_EXPORT SignalPostponer: public QObject
 {
@@ -92,18 +93,30 @@ class CORE_EXPORT SignalPostponer: public QObject
  * @param patience maximal delay between signal emission and slot invocation.
  */
 template<typename SrcObj, typename Signal, typename Dst, typename Slot>
+requires (std::is_invocable_v<Slot> || std::is_invocable_v<Slot, Dst>)
 void lazy_connect(SrcObj* src, Signal sig,
                   Dst* dst, Slot slot,
                   const std::chrono::milliseconds& delay = std::chrono::milliseconds(250),
                   const std::chrono::milliseconds& patience = std::chrono::milliseconds(1000),
                   Qt::ConnectionType type = Qt::AutoConnection)
 {
-    SignalPostponer* postponer = new SignalPostponer([dst, slot]()
-    {
-        // launch destination slot
-        (dst->*slot)();
-    },
-    src);
+
+    SignalPostponer* postponer = nullptr;
+
+    if constexpr (std::is_invocable_v<Slot>)
+        postponer = new SignalPostponer([dst, slot]()
+        {
+            // launch destination slot
+            slot();
+        },
+        src);
+    else if constexpr (std::is_invocable_v<Slot, Dst>)
+        postponer = new SignalPostponer([dst, slot]()
+        {
+            // launch destination slot
+            (dst->*slot)();
+        },
+        src);
 
     postponer->setDelay(delay);
     postponer->setPatiece(patience);
@@ -111,6 +124,28 @@ void lazy_connect(SrcObj* src, Signal sig,
     QObject::connect(src, sig, postponer, &SignalPostponer::notify, type);
 }
 
+
+/** @brief Convenience overload for QPointer sources.
+ *
+ * Forwards to pointer-based @ref lazy_connect using @p src.data().
+ *
+ * @param src source object as QPointer.
+ * @param sig signal.
+ * @param dst destination object.
+ * @param slot slot.
+ * @param delay minimal delay between signal emission and slot invocation.
+ * @param patience maximal delay between signal emission and slot invocation.
+ * @param type connection type.
+ */
+template<typename SrcObj, typename Signal, typename Dst, typename Slot>
+void lazy_connect(QPointer<SrcObj>& src, Signal sig,
+                  Dst* dst, Slot slot,
+                  const std::chrono::milliseconds& delay = std::chrono::milliseconds(250),
+                  const std::chrono::milliseconds& patience = std::chrono::milliseconds(1000),
+                  Qt::ConnectionType type = Qt::AutoConnection)
+{
+    lazy_connect(src.data(), sig, dst, slot, delay, patience, type);
+}
 
 /** @brief Helper class for @ref blocked_connect. Not meant to be use directly. */
 class CORE_EXPORT SignalBlocker: public QObject
