@@ -516,33 +516,28 @@ Error code: %1</translation>
     <message>
         <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="138"/>
         <source>Tasks in queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Tasks in queue</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="140"/>
         <source>Tasks executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Tasks executed</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="142"/>
         <source>Execution speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Execution speed</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="144"/>
         <source>Tasks</source>
-        <translation type="unfinished">Tasks</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="159"/>
-        <source>%1 %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Tasks</translation>
     </message>
     <message>
         <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="161"/>
         <source>tps</source>
         <comment>tasks per second</comment>
-        <translation type="unfinished">tps</translation>
+        <translation>tps</translation>
     </message>
 </context>
 <context>

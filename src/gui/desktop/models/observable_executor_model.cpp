@@ -156,7 +156,7 @@ QVariant ObservableExecutorModel::data(const QModelIndex& index, int role) const
                 case kRowExecuted:
                     return m_executor->tasksExecuted();
                 case kRowSpeed:
-                    return tr("%1 %2")
+                    return QString("%1 %2")
                         .arg(m_executor->executionSpeed())
                         .arg(tr("tps", "tasks per second"));
                 case kRowTasks:

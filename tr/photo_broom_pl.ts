@@ -522,33 +522,28 @@ Kod błędu: %1</translation>
     <message>
         <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="+138"/>
         <source>Tasks in queue</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadań w kolejce</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Tasks executed</source>
-        <translation type="unfinished"></translation>
+        <translation>Zadań wykonywanych</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Execution speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Prędkość wykonywania</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Tasks</source>
-        <translation type="unfinished">Operacje</translation>
+        <translation>Operacje</translation>
     </message>
     <message>
-        <location line="+15"/>
-        <source>%1 %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+2"/>
+        <location line="+17"/>
         <source>tps</source>
         <comment>tasks per second</comment>
-        <translation type="unfinished">zadań/sekundę</translation>
+        <translation>zadań/sekundę</translation>
     </message>
 </context>
 <context>
