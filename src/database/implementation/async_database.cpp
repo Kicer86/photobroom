@@ -39,7 +39,7 @@ namespace Database
     struct Executor
     {
         Executor(Database::IBackend& backend, ILogger* logger):
-            m_tasks(1024),
+            m_tasks(10240),
             m_backend(backend),
             m_logger(logger->subLogger("Executor"))
         {
