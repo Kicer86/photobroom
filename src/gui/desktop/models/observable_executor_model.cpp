@@ -1,4 +1,6 @@
 
+#include <core/signal_postponer.hpp>
+
 #include "observable_executor_model.hpp"
 
 
@@ -242,11 +244,11 @@ void ObservableExecutorModel::connectExecutor()
 
     syncTasksFromExecutor();
 
-    connect(m_executor, &ObservableExecutor::awaitingTasksChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowAwaiting));
-    connect(m_executor, &ObservableExecutor::tasksExecutedChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowExecuted));
-    connect(m_executor, &ObservableExecutor::executionSpeedChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowSpeed));
-    connect(m_executor, &ObservableExecutor::taskEntryChanged, this,
-            [this](const QString&, int)
+    lazy_connect(m_executor, &ObservableExecutor::awaitingTasksChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowAwaiting));
+    lazy_connect(m_executor, &ObservableExecutor::tasksExecutedChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowExecuted));
+    lazy_connect(m_executor, &ObservableExecutor::executionSpeedChanged, this, std::bind(&ObservableExecutorModel::notifyRowChanged, this, kRowSpeed));
+    lazy_connect(m_executor, &ObservableExecutor::taskEntryChanged, this,
+            [this]()
             {
                 if (!m_executor)
                     return;

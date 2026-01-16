@@ -514,32 +514,32 @@ Error code: %1</translation>
 <context>
     <name>ObservableExecutorModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="136"/>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="138"/>
         <source>Tasks in queue</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="138"/>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="140"/>
         <source>Tasks executed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="140"/>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="142"/>
         <source>Execution speed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="142"/>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="144"/>
         <source>Tasks</source>
         <translation type="unfinished">Tasks</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="157"/>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="159"/>
         <source>%1 %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="159"/>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="161"/>
         <source>tps</source>
         <comment>tasks per second</comment>
         <translation type="unfinished">tps</translation>

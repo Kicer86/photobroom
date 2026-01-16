@@ -520,7 +520,7 @@ Kod błędu: %1</translation>
 <context>
     <name>ObservableExecutorModel</name>
     <message>
-        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="+136"/>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="+138"/>
         <source>Tasks in queue</source>
         <translation type="unfinished"></translation>
     </message>
