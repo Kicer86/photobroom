@@ -103,27 +103,27 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno"><a class="line" href="../../d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html">    9</a></span><span class="keyword">struct </span><a class="code hl_struct" href="../../d5/d0a/struct_executor_traits.html">ExecutorTraits</a>&lt;<a class="code hl_namespace" href="../../d0/d76/namespace_database.html">Database</a>::IDatabase, T&gt;</div>
 <div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span>{</div>
 <div class="foldopen" id="foldopen00011" data-start="{" data-end="}">
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html#a7dcc57585506ca5a142812a3ba16250c">   11</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html#a7dcc57585506ca5a142812a3ba16250c">exec</a>(<a class="code hl_struct" href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a>&amp; db, T&amp;&amp; t)</div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html#a46ffcb75d77163d64b3f4e26ed2a9396">   11</a></span>    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code hl_function" href="../../d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html#a46ffcb75d77163d64b3f4e26ed2a9396">exec</a>(<a class="code hl_struct" href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a>&amp; db, T&amp;&amp; t, std::string_view name)</div>
 <div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    {</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        db.<a class="code hl_function" href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb">exec</a>(std::forward&lt;T&gt;(t));</div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span>        db.<a class="code hl_function" href="../../d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0">exec</a>(std::forward&lt;T&gt;(t), name);</div>
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    }</div>
 </div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>};</div>
 </div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#endif </span><span class="comment">// DATABASE_EXECUTOR_TRAITS_HPP_INCLUDED</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aidatabase_8hpp_html"><div class="ttname"><a href="../../d7/d2b/idatabase_8hpp.html">idatabase.hpp</a></div></div>
 <div class="ttc" id="anamespace_database_html"><div class="ttname"><a href="../../d0/d76/namespace_database.html">Database</a></div><div class="ttdef"><b>Definition</b> actions.hpp:10</div></div>
 <div class="ttc" id="astruct_database_1_1_i_database_html"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html">Database::IDatabase</a></div><div class="ttdoc">Base Database interface. A bridge between regular clients and backend.</div><div class="ttdef"><b>Definition</b> idatabase.hpp:72</div></div>
-<div class="ttc" id="astruct_database_1_1_i_database_html_ac86cb641a8f5a37a00873df333bb12bb"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb">Database::IDatabase::exec</a></div><div class="ttdeci">void exec(Callable &amp;&amp;f, const std::string &amp;name=std::source_location::current().function_name())</div><div class="ttdef"><b>Definition</b> idatabase.hpp:78</div></div>
-<div class="ttc" id="astruct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4_html_a7dcc57585506ca5a142812a3ba16250c"><div class="ttname"><a href="../../d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html#a7dcc57585506ca5a142812a3ba16250c">ExecutorTraits&lt; Database::IDatabase, T &gt;::exec</a></div><div class="ttdeci">static void exec(Database::IDatabase &amp;db, T &amp;&amp;t)</div><div class="ttdef"><b>Definition</b> database_executor_traits.hpp:11</div></div>
+<div class="ttc" id="astruct_database_1_1_i_database_html_aa3790cf001a3f456414294820a5109b0"><div class="ttname"><a href="../../d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0">Database::IDatabase::exec</a></div><div class="ttdeci">void exec(Callable &amp;&amp;f, std::string_view name)</div><div class="ttdef"><b>Definition</b> idatabase.hpp:78</div></div>
+<div class="ttc" id="astruct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4_html_a46ffcb75d77163d64b3f4e26ed2a9396"><div class="ttname"><a href="../../d7/d14/struct_executor_traits_3_01_database_1_1_i_database_00_01_t_01_4.html#a46ffcb75d77163d64b3f4e26ed2a9396">ExecutorTraits&lt; Database::IDatabase, T &gt;::exec</a></div><div class="ttdeci">static void exec(Database::IDatabase &amp;db, T &amp;&amp;t, std::string_view name)</div><div class="ttdef"><b>Definition</b> database_executor_traits.hpp:11</div></div>
 <div class="ttc" id="astruct_executor_traits_html"><div class="ttname"><a href="../../d5/d0a/struct_executor_traits.html">ExecutorTraits</a></div><div class="ttdef"><b>Definition</b> task_executor_utils.hpp:20</div></div>
 <div class="ttc" id="atask__executor__utils_8hpp_html"><div class="ttname"><a href="../../d4/d20/task__executor__utils_8hpp.html">task_executor_utils.hpp</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 6 2026 20:55:47 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Jan 17 2026 16:34:30 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

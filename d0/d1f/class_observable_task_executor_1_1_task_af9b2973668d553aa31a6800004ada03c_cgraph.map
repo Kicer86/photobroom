@@ -1,7 +1,9 @@
 <map id="ObservableTaskExecutor::Task::perform" name="ObservableTaskExecutor::Task::perform">
-<area shape="rect" id="Node000001" title="perform job" alt="" coords="5,39,172,79"/>
-<area shape="rect" id="Node000002" href="$d5/d20/class_observable_executor.html#a204f6bfdc8d818f11bbd81ac2f1b1cd2" title=" " alt="" coords="232,5,370,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="172,43,216,36,217,41,173,49"/>
-<area shape="rect" id="Node000004" href="$d5/d20/class_observable_executor.html#a21881159755709fdae96a9afaf55194a" title=" " alt="" coords="220,71,382,111"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="172,69,205,74,204,79,172,74"/>
+<area shape="rect" id="Node000001" title="perform job" alt="" coords="5,71,172,111"/>
+<area shape="rect" id="Node000002" href="$d0/d1f/class_observable_task_executor_1_1_task.html#a5ab89f544321290acc9fede9cb95d0c5" title=" " alt="" coords="220,5,386,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="157,68,218,49,220,54,158,73"/>
+<area shape="rect" id="Node000003" href="$d5/d20/class_observable_executor.html#ac4484c7c17b00d84c7c940081088ca12" title=" " alt="" coords="234,71,372,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="172,88,219,88,219,94,172,94"/>
+<area shape="rect" id="Node000010" href="$d5/d20/class_observable_executor.html#af1e7364f6d3adc7c9e681e1e8a7329a7" title=" " alt="" coords="222,136,384,177"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="158,109,220,128,218,133,157,114"/>
 </map>

@@ -1,7 +1,7 @@
 var searchData=
 [
   ['last_0',['last',['../d6/d84/namespaceutils.html#acd3b5c301050895cccf206a7393fbe17',1,'utils']]],
-  ['lazy_5fconnect_1',['lazy_connect',['../dc/dfa/signal__postponer_8hpp.html#abe66cbd029d63c7ed5b45b8b8e29ebd1',1,'signal_postponer.hpp']]],
+  ['lazy_5fconnect_1',['lazy_connect',['../dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd',1,'lazy_connect(SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;delay=std::chrono::milliseconds(250), const std::chrono::milliseconds &amp;patience=std::chrono::milliseconds(1000), Qt::ConnectionType type=Qt::AutoConnection):&#160;signal_postponer.hpp'],['../dc/dfa/signal__postponer_8hpp.html#abb6a0177870a2a9bc886ddfda4110618',1,'lazy_connect(QPointer&lt; SrcObj &gt; &amp;src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;delay=std::chrono::milliseconds(250), const std::chrono::milliseconds &amp;patience=std::chrono::milliseconds(1000), Qt::ConnectionType type=Qt::AutoConnection):&#160;signal_postponer.hpp']]],
   ['lazy_5fptr_2',['lazy_ptr',['../da/db9/classlazy__ptr.html#a8067d4abb926381d2112c94e38f23f47',1,'lazy_ptr::lazy_ptr()'],['../da/db9/classlazy__ptr.html#a80753deb417f69fd3df95e06235ca4ce',1,'lazy_ptr::lazy_ptr(const C &amp;constructor)']]],
   ['lessthan_3',['lessThan',['../d4/d03/class_sorting_proxy.html#a4471fbed9e56dfbaf81b0fb42db92d79',1,'SortingProxy']]],
   ['listallbetween_4',['listAllBetween',['../d1/dbb/namespace_q_model_index_selector.html#a938f61338ad7ab3917a14f99e942dbbf',1,'QModelIndexSelector']]],

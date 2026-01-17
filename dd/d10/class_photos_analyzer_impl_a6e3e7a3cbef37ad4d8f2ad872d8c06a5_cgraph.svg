@@ -105,7 +105,7 @@ var sectionId = 'dynsection-2';
 <!-- Node7 -->
 <g id="Node000007" class="node">
 <title>Node7</title>
-<g id="a_Node000007"><a xlink:href="../../d5/d20/class_observable_executor.html#afbefb81c6c79693e2e59d3fc23d3b145" target="_top" xlink:title=" ">
+<g id="a_Node000007"><a xlink:href="../../d5/d20/class_observable_executor.html#a9b15700f579bd2d6899bba3e83fd4df1" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="282.88,-398.5 161.12,-398.5 161.12,-368 282.88,-368 282.88,-398.5"/>
 <text text-anchor="start" x="169.12" y="-385" font-family="Helvetica,sans-Serif" font-size="10.00">ObservableExecutor</text>
 <text text-anchor="middle" x="222" y="-373.75" font-family="Helvetica,sans-Serif" font-size="10.00">::awaitingTasksChanged</text>

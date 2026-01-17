@@ -1,10 +1,9 @@
 var searchData=
 [
-  ['path_0',['path',['../d3/d07/class_media_view_ctrl.html#ae43071814a7e7e21e0ec5a19a3c7ec61',1,'MediaViewCtrl::path'],['../d7/ddf/class_photo_data_qml.html#a971b42c28c179d12c120fcc26acbe099',1,'PhotoDataQml::path']]],
-  ['photoid_1',['photoID',['../d6/de2/class_faces_model.html#abaafc599aa4552d4d7cd272782d8dba8',1,'FacesModel::photoID'],['../d3/d07/class_media_view_ctrl.html#abc2688a4baf7280f8d57192829e0f8dd',1,'MediaViewCtrl::photoID']]],
-  ['photoidstring_2',['photoIDString',['../d3/d07/class_media_view_ctrl.html#ac83d796fb9d7f85ff45892753ff37017',1,'MediaViewCtrl']]],
-  ['photos_3',['photos',['../d2/d10/class_photos_model_controller_component.html#a8b158c1bc720166b4d60a434971ede78',1,'PhotosModelControllerComponent']]],
-  ['photos_5fmodel_4',['photos_model',['../dc/d96/class_batch_face_detector.html#a7a60164a890f7a913812335941bc3f55',1,'BatchFaceDetector']]],
-  ['project_5',['project',['../d5/d0f/class_series_model.html#a93a84eb5494ccff58945eab24b5162e1',1,'SeriesModel::project'],['../de/db3/class_context_menu_manager.html#ad670019b7596316bd186d836daaf7945',1,'ContextMenuManager::project'],['../df/db2/class_objects_accessor.html#a5d6dea4f10e8c7acdff48496aa1d7477',1,'ObjectsAccessor::project']]],
-  ['projectopen_6',['projectOpen',['../df/db2/class_objects_accessor.html#a18c6fb147eec0a13be455b7158bd4606',1,'ObjectsAccessor']]]
+  ['searchexpression_0',['searchExpression',['../d2/d10/class_photos_model_controller_component.html#a9c342b4d2777af71ea877f8775dd125a',1,'PhotosModelControllerComponent']]],
+  ['second_1',['second',['../d8/dda/class_test_object.html#a1f9bd4b0ff4f4f4ea232f6cb400781d1',1,'TestObject']]],
+  ['selected_2',['selected',['../d2/de4/class_selection_manager_component.html#a5050cd999751d5bef7ffd17dbc03e0b3',1,'SelectionManagerComponent']]],
+  ['selection_3',['selection',['../de/db3/class_context_menu_manager.html#adbe75a93341a10207574ec6320b81ae9',1,'ContextMenuManager']]],
+  ['source_4',['source',['../de/d75/class_picture_item.html#a9e5e7e3494ea8c8afbf29c20104463a5',1,'PictureItem']]],
+  ['state_5',['state',['../df/d07/class_a_heavy_list_model_base.html#abc28e6e3e4a6a95876654b2fcfcbcfb0',1,'AHeavyListModelBase::state'],['../d6/de2/class_faces_model.html#aa1bb213d60079da031c6839b2dadea46',1,'FacesModel::state']]]
 ];

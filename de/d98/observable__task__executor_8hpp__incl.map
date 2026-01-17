@@ -1,7 +1,9 @@
 <map id="src/core/observable_task_executor.hpp" name="src/core/observable_task_executor.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="117,5,252,46"/>
-<area shape="rect" id="Node000002" href="$d5/d80/itask__executor_8hpp.html" title=" " alt="" coords="5,94,164,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="161,49,113,86,110,82,158,44"/>
-<area shape="rect" id="Node000008" href="$d2/de0/observable__executor_8hpp.html" title=" " alt="" coords="188,94,381,120"/>
-<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="211,44,259,82,256,86,208,49"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="184,5,319,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,148,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="209,49,118,90,116,85,206,44"/>
+<area shape="rect" id="Node000003" href="$d5/d80/itask__executor_8hpp.html" title=" " alt="" coords="172,94,330,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="254,46,254,78,248,78,248,46"/>
+<area shape="rect" id="Node000009" href="$d2/de0/observable__executor_8hpp.html" title=" " alt="" coords="354,94,548,120"/>
+<area shape="poly" id="edge3_Node000001_Node000009" title=" " alt="" coords="302,44,407,85,406,90,300,49"/>
 </map>

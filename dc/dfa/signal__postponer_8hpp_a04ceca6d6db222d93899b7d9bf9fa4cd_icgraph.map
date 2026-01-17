@@ -1,0 +1,9 @@
+<map id="lazy_connect" name="lazy_connect">
+<area shape="rect" id="Node000001" title="Create lazy Qt connection between signal and slot." alt="" coords="226,70,322,96"/>
+<area shape="rect" id="Node000002" href="$d2/dd2/class_observable_executor_model.html#a76308dd5126d67db058e2a400a415e44" title=" " alt="" coords="5,5,178,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,68,158,49,159,44,217,63"/>
+<area shape="rect" id="Node000004" href="$d0/dc9/init_8cpp.html#a688e5e76f4625cd287663fd6bc48c10a" title=" " alt="" coords="45,70,138,96"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="210,86,138,86,138,80,210,80"/>
+<area shape="rect" id="Node000005" href="$dc/dfa/signal__postponer_8hpp.html#abb6a0177870a2a9bc886ddfda4110618" title="Convenience overload for QPointer sources." alt="" coords="43,120,140,145"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="211,103,140,122,139,117,210,97"/>
+</map>

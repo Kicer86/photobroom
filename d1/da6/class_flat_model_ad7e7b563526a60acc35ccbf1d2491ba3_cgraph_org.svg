@@ -20,8 +20,8 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="271.62,-116.88 165.62,-116.88 165.62,-86.38 271.62,-86.38 271.62,-116.88"/>
+<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="271.62,-116.88 165.62,-116.88 165.62,-86.38 271.62,-86.38 271.62,-116.88"/>
 <text text-anchor="start" x="173.62" y="-103.38" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 <text text-anchor="middle" x="218.62" y="-92.12" font-family="Helvetica,sans-Serif" font-size="10.00">::exec</text>
 </a>
@@ -36,38 +36,38 @@
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="Node000005" class="node">
-<title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" target="_top" xlink:title=" ">
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:href="../../d1/da6/class_flat_model.html#acc2c349e5c72dd41696538dbb93c92f0" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="281,-67.88 156.25,-67.88 156.25,-37.38 281,-37.38 281,-67.88"/>
 <text text-anchor="start" x="164.25" y="-54.38" font-family="Helvetica,sans-Serif" font-size="10.00">FlatModel::fetchMatching</text>
 <text text-anchor="middle" x="218.62" y="-43.12" font-family="Helvetica,sans-Serif" font-size="10.00">Photos</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge2_Node000001_Node000005" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M120.74,-52.62C128.46,-52.62 136.43,-52.62 144.34,-52.62"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="144.33,-56.13 154.33,-52.63 144.33,-49.13 144.33,-56.13"/>
 </a>
 </g>
 </g>
-<!-- Node14 -->
-<g id="Node000014" class="node">
-<title>Node14</title>
-<g id="a_Node000014"><a xlink:href="../../d1/da6/class_flat_model.html#a5ce433459915d582a8a2db6ad1b8066b" target="_top" xlink:title=" ">
+<!-- Node12 -->
+<g id="Node000012" class="node">
+<title>Node12</title>
+<g id="a_Node000012"><a xlink:href="../../d1/da6/class_flat_model.html#a5ce433459915d582a8a2db6ad1b8066b" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="274.25,-19.25 163,-19.25 163,0 274.25,0 274.25,-19.25"/>
 <text text-anchor="middle" x="218.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">FlatModel::resetModel</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node14 -->
-<g id="edge3_Node000001_Node000014" class="edge">
-<title>Node1&#45;&gt;Node14</title>
-<g id="a_edge3_Node000001_Node000014"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node12 -->
+<g id="edge3_Node000001_Node000012" class="edge">
+<title>Node1&#45;&gt;Node12</title>
+<g id="a_edge3_Node000001_Node000012"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M97.82,-42.54C119.32,-36.63 146.73,-29.1 169.9,-22.74"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="170.72,-26.14 179.43,-20.12 168.86,-19.39 170.72,-26.14"/>
 </a>

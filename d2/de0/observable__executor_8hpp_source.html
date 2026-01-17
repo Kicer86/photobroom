@@ -95,62 +95,93 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#ifndef OBSERVABLE_EXECUTOR_HPP_INCLUDED</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define OBSERVABLE_EXECUTOR_HPP_INCLUDED</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;QTimer&gt;</span></div>
-<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
-<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;core_export.h&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span> </div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;array&gt;</span></div>
+<div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;atomic&gt;</span></div>
+<div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="foldopen" id="foldopen00010" data-start="{" data-end="};">
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html">   10</a></span><span class="keyword">class </span>CORE_EXPORT <a class="code hl_class" href="../../d5/d20/class_observable_executor.html">ObservableExecutor</a>: <span class="keyword">public</span> QObject</div>
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span>{</div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span>    Q_OBJECT</div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span> </div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span>        <a class="code hl_class" href="../../d5/d20/class_observable_executor.html">ObservableExecutor</a>();</div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span>        <span class="keyword">virtual</span> <a class="code hl_class" href="../../d5/d20/class_observable_executor.html">~ObservableExecutor</a>();</div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#include &lt;QHash&gt;</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#include &lt;QString&gt;</span></div>
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">#include &lt;QTimer&gt;</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span> </div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;core_export.h&gt;</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
 <div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#aa5036c839acfac73e65670e2e50810ec">   18</a></span>        Q_PROPERTY(<span class="keywordtype">int</span> awaitingTasks READ awaitingTasks NOTIFY awaitingTasksChanged)</div>
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#af4e7642f308e21fc21972971ec67e307">   19</a></span>        Q_PROPERTY(<span class="keywordtype">int</span> tasksExecuted READ tasksExecuted NOTIFY tasksExecutedChanged)</div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#abe35e4bf74a2dca5f8eb2db9b549cc82">   20</a></span>        Q_PROPERTY(<span class="keywordtype">double</span> executionSpeed READ executionSpeed NOTIFY executionSpeedChanged)</div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#af7027e100edf8016190ba120eab43a66">   21</a></span>        Q_PROPERTY(QString name READ name NOTIFY nameChanged)</div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span> </div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span>        <span class="keywordtype">int</span> awaitingTasks() const;</div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        <span class="keywordtype">int</span> tasksExecuted() const;</div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a16bc9810659c31691bba6a4cf1c085be">   25</a></span>        virtual QString name() const = 0;</div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span>        <span class="keywordtype">double</span> executionSpeed() const;</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> </div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    signals:</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#afbefb81c6c79693e2e59d3fc23d3b145">   29</a></span>        <span class="keywordtype">void</span> awaitingTasksChanged(<span class="keywordtype">int</span>) const;</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a7a5341f489268eace7d1e068ea187525">   30</a></span>        <span class="keywordtype">void</span> tasksExecutedChanged(<span class="keywordtype">int</span>) const;</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a3117eadc863467901d761cfe71123031">   31</a></span>        <span class="keywordtype">void</span> nameChanged(QString) const;</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a73c037d40f5ae415719b64676e151395">   32</a></span>        <span class="keywordtype">void</span> executionSpeedChanged(<span class="keywordtype">double</span>) const;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    protected:</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordtype">void</span> newTaskInQueue();</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordtype">void</span> taskMovedToExecution();</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordtype">void</span> taskExecuted();</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    private:</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#ab63470dd0f11e4b1ffb27cc28260890b">   40</a></span>        QTimer m_executionSpeedTimer;</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#aa51a06cac147482cbee42aa049071f6d">   41</a></span>        <a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::atomic&lt;<span class="keywordtype">int</span>&gt; m_awaitingTasks = 0;</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#ada805dfd6b517056eb74a07ff6de2e54">   42</a></span>        <a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::atomic&lt;<span class="keywordtype">int</span>&gt; m_tasksExecuted = 0;</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#aaadf98202ff99f32ff7d1b1a7246a9ae">   44</a></span>        <a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::atomic&lt;<span class="keywordtype">int</span>&gt; m_executionSpeedCounter = 0;</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a0d500c743d7516deccffd44fac893ee1">   45</a></span>        <a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::array&lt;<span class="keywordtype">int</span>, 5&gt; m_executionSpeedBuffer;</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#ab887e3e3c0d8e86a0f2dd3125c6f1d32">   46</a></span>        <a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::<span class="keywordtype">size_t</span> m_executionSpeedBufferPos = 0;</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a625139a3bee1365f805ea33cd06fa987">   47</a></span>        <span class="keywordtype">double</span> m_executionSpeed = 0.0;</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span> </div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordtype">void</span> updateExecutionSpeed();</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>};</div>
+<div class="foldopen" id="foldopen00018" data-start="{" data-end="};">
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html">   18</a></span><span class="keyword">class </span>CORE_EXPORT <a class="code hl_class" href="../../d5/d20/class_observable_executor.html">ObservableExecutor</a>: <span class="keyword">public</span> QObject</div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span>{</div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span>    Q_OBJECT</div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span>    <span class="keyword">public</span>:</div>
+<div class="foldopen" id="foldopen00023" data-start="{" data-end="};">
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno"><a class="line" href="../../df/d7e/struct_observable_executor_1_1_task_entry.html">   23</a></span>        <span class="keyword">struct </span><a class="code hl_struct" href="../../df/d7e/struct_observable_executor_1_1_task_entry.html">TaskEntry</a></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span>        {</div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno"><a class="line" href="../../df/d7e/struct_observable_executor_1_1_task_entry.html#a6c3c8d84d90f7bb3aafc435f102b51d5">   25</a></span>            QString <a class="code hl_variable" href="../../df/d7e/struct_observable_executor_1_1_task_entry.html#a6c3c8d84d90f7bb3aafc435f102b51d5">name</a>;</div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno"><a class="line" href="../../df/d7e/struct_observable_executor_1_1_task_entry.html#a35230dd5ae08ed578512050bd3b2bfed">   26</a></span>            <span class="keywordtype">int</span> count = 0;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>        };</div>
 </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span><span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclass_observable_executor_html"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html">ObservableExecutor</a></div><div class="ttdef"><b>Definition</b> observable_executor.hpp:11</div></div>
-<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition</b> general.hpp:13</div></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>        <a class="code hl_class" href="../../d5/d20/class_observable_executor.html">ObservableExecutor</a>();</div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>        <span class="keyword">virtual</span> <a class="code hl_class" href="../../d5/d20/class_observable_executor.html">~ObservableExecutor</a>();</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a16bc9810659c31691bba6a4cf1c085be">   32</a></span>        <span class="keyword">virtual</span> QString <a class="code hl_function" href="../../d5/d20/class_observable_executor.html#a16bc9810659c31691bba6a4cf1c085be">name</a>() <span class="keyword">const</span> = 0;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>        <span class="keywordtype">int</span> awaitingTasks() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        <span class="keywordtype">int</span> tasksExecuted() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>        <span class="keywordtype">double</span> executionSpeed() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keyword">const</span> std::vector&lt;TaskEntry&gt;&amp; tasks() <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    signals:</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a9b15700f579bd2d6899bba3e83fd4df1">   41</a></span>        <span class="keywordtype">void</span> <a class="code hl_signal" href="../../d5/d20/class_observable_executor.html#a9b15700f579bd2d6899bba3e83fd4df1">awaitingTasksChanged</a>(<span class="keywordtype">int</span> awaitingTasks) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#aa4f35846e735ab1391f56d018753a465">   42</a></span>        <span class="keywordtype">void</span> <a class="code hl_signal" href="../../d5/d20/class_observable_executor.html#aa4f35846e735ab1391f56d018753a465">tasksExecutedChanged</a>(<span class="keywordtype">int</span> tasksExecuted) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a33461e90f5d19e9649bd469bb3f4e795">   43</a></span>        <span class="keywordtype">void</span> <a class="code hl_signal" href="../../d5/d20/class_observable_executor.html#a33461e90f5d19e9649bd469bb3f4e795">executionSpeedChanged</a>(<span class="keywordtype">double</span> speed) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a0397dcf5264d057e8b36186902fe0432">   44</a></span>        <span class="keywordtype">void</span> <a class="code hl_signal" href="../../d5/d20/class_observable_executor.html#a0397dcf5264d057e8b36186902fe0432">taskEntryChanged</a>(<span class="keyword">const</span> QString&amp; name, <span class="keywordtype">int</span> count) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span> </div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>    <span class="keyword">protected</span>:</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>        <span class="keywordtype">void</span> newTaskInQueue(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>        <span class="keywordtype">void</span> taskMovedToExecution(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>        <span class="keywordtype">void</span> taskExecuted(<span class="keyword">const</span> std::string&amp; name);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#aa51a06cac147482cbee42aa049071f6d">   52</a></span>        std::atomic&lt;int&gt; m_awaitingTasks = 0;</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#ada805dfd6b517056eb74a07ff6de2e54">   53</a></span>        std::atomic&lt;int&gt; m_tasksExecuted = 0;</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#ab63470dd0f11e4b1ffb27cc28260890b">   55</a></span>        QTimer <a class="code hl_variable" href="../../d5/d20/class_observable_executor.html#ab63470dd0f11e4b1ffb27cc28260890b">m_executionSpeedTimer</a>;</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#aaadf98202ff99f32ff7d1b1a7246a9ae">   56</a></span>        std::atomic&lt;int&gt; m_executionSpeedCounter = 0;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a0d500c743d7516deccffd44fac893ee1">   57</a></span>        std::array&lt;int, 5&gt; <a class="code hl_variable" href="../../d5/d20/class_observable_executor.html#a0d500c743d7516deccffd44fac893ee1">m_executionSpeedBuffer</a>;</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#ab887e3e3c0d8e86a0f2dd3125c6f1d32">   58</a></span>        std::size_t m_executionSpeedBufferPos = 0;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a625139a3bee1365f805ea33cd06fa987">   59</a></span>        <span class="keywordtype">double</span> m_executionSpeed = 0.0;</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a5683f6813cf95f205851a4b390c3ac26">   61</a></span>        std::vector&lt;TaskEntry&gt; <a class="code hl_variable" href="../../d5/d20/class_observable_executor.html#a5683f6813cf95f205851a4b390c3ac26">m_taskEntries</a>;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="../../d5/d20/class_observable_executor.html#a839053ca64903479c36ceaa9f7de5a6d">   62</a></span>        QHash&lt;QString, int&gt; <a class="code hl_variable" href="../../d5/d20/class_observable_executor.html#a839053ca64903479c36ceaa9f7de5a6d">m_taskRowForText</a>;</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span>        <span class="keywordtype">void</span> updateExecutionSpeed();</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno">   65</span>        <span class="keywordtype">void</span> notifyAwaitingTasksChanged();</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span>        <span class="keywordtype">void</span> notifyTasksExecutedChanged();</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordtype">void</span> adjustTask(<span class="keyword">const</span> QString&amp; name, <span class="keywordtype">int</span> delta);</div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>};</div>
+</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
+<div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span><span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclass_observable_executor_html"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html">ObservableExecutor</a></div><div class="ttdef"><b>Definition</b> observable_executor.hpp:19</div></div>
+<div class="ttc" id="aclass_observable_executor_html_a0397dcf5264d057e8b36186902fe0432"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#a0397dcf5264d057e8b36186902fe0432">ObservableExecutor::taskEntryChanged</a></div><div class="ttdeci">void taskEntryChanged(const QString &amp;name, int count) const</div></div>
+<div class="ttc" id="aclass_observable_executor_html_a0d500c743d7516deccffd44fac893ee1"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#a0d500c743d7516deccffd44fac893ee1">ObservableExecutor::m_executionSpeedBuffer</a></div><div class="ttdeci">std::array&lt; int, 5 &gt; m_executionSpeedBuffer</div><div class="ttdef"><b>Definition</b> observable_executor.hpp:57</div></div>
+<div class="ttc" id="aclass_observable_executor_html_a16bc9810659c31691bba6a4cf1c085be"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#a16bc9810659c31691bba6a4cf1c085be">ObservableExecutor::name</a></div><div class="ttdeci">virtual QString name() const =0</div></div>
+<div class="ttc" id="aclass_observable_executor_html_a33461e90f5d19e9649bd469bb3f4e795"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#a33461e90f5d19e9649bd469bb3f4e795">ObservableExecutor::executionSpeedChanged</a></div><div class="ttdeci">void executionSpeedChanged(double speed) const</div></div>
+<div class="ttc" id="aclass_observable_executor_html_a5683f6813cf95f205851a4b390c3ac26"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#a5683f6813cf95f205851a4b390c3ac26">ObservableExecutor::m_taskEntries</a></div><div class="ttdeci">std::vector&lt; TaskEntry &gt; m_taskEntries</div><div class="ttdef"><b>Definition</b> observable_executor.hpp:61</div></div>
+<div class="ttc" id="aclass_observable_executor_html_a839053ca64903479c36ceaa9f7de5a6d"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#a839053ca64903479c36ceaa9f7de5a6d">ObservableExecutor::m_taskRowForText</a></div><div class="ttdeci">QHash&lt; QString, int &gt; m_taskRowForText</div><div class="ttdef"><b>Definition</b> observable_executor.hpp:62</div></div>
+<div class="ttc" id="aclass_observable_executor_html_a9b15700f579bd2d6899bba3e83fd4df1"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#a9b15700f579bd2d6899bba3e83fd4df1">ObservableExecutor::awaitingTasksChanged</a></div><div class="ttdeci">void awaitingTasksChanged(int awaitingTasks) const</div></div>
+<div class="ttc" id="aclass_observable_executor_html_aa4f35846e735ab1391f56d018753a465"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#aa4f35846e735ab1391f56d018753a465">ObservableExecutor::tasksExecutedChanged</a></div><div class="ttdeci">void tasksExecutedChanged(int tasksExecuted) const</div></div>
+<div class="ttc" id="aclass_observable_executor_html_ab63470dd0f11e4b1ffb27cc28260890b"><div class="ttname"><a href="../../d5/d20/class_observable_executor.html#ab63470dd0f11e4b1ffb27cc28260890b">ObservableExecutor::m_executionSpeedTimer</a></div><div class="ttdeci">QTimer m_executionSpeedTimer</div><div class="ttdef"><b>Definition</b> observable_executor.hpp:55</div></div>
+<div class="ttc" id="astruct_observable_executor_1_1_task_entry_html"><div class="ttname"><a href="../../df/d7e/struct_observable_executor_1_1_task_entry.html">ObservableExecutor::TaskEntry</a></div><div class="ttdef"><b>Definition</b> observable_executor.hpp:24</div></div>
+<div class="ttc" id="astruct_observable_executor_1_1_task_entry_html_a6c3c8d84d90f7bb3aafc435f102b51d5"><div class="ttname"><a href="../../df/d7e/struct_observable_executor_1_1_task_entry.html#a6c3c8d84d90f7bb3aafc435f102b51d5">ObservableExecutor::TaskEntry::name</a></div><div class="ttdeci">QString name</div><div class="ttdef"><b>Definition</b> observable_executor.hpp:25</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 6 2026 20:55:46 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Jan 17 2026 16:34:30 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

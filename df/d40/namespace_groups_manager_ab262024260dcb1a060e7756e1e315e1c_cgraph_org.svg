@@ -20,8 +20,8 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="277.25,-275.5 171.25,-275.5 171.25,-245 277.25,-245 277.25,-275.5"/>
+<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="277.25,-275.5 171.25,-275.5 171.25,-245 277.25,-245 277.25,-275.5"/>
 <text text-anchor="start" x="179.25" y="-262" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 <text text-anchor="middle" x="224.25" y="-250.75" font-family="Helvetica,sans-Serif" font-size="10.00">::exec</text>
 </a>
@@ -36,96 +36,96 @@
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="Node000005" class="node">
-<title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a2ccfb5b341b8063562b4c28d48ed94e5" target="_top" xlink:title="get group operator">
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a2ccfb5b341b8063562b4c28d48ed94e5" target="_top" xlink:title="get group operator">
 <polygon fill="white" stroke="#666666" points="275.75,-226.5 172.75,-226.5 172.75,-196 275.75,-196 275.75,-226.5"/>
 <text text-anchor="start" x="180.75" y="-213" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="224.25" y="-201.75" font-family="Helvetica,sans-Serif" font-size="10.00">::groupOperator</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge2_Node000001_Node000005" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M81.71,-147.34C101.07,-157.63 132.29,-173.81 160,-186.25 163.72,-187.92 167.59,-189.59 171.49,-191.24"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="169.88,-194.36 180.46,-194.94 172.55,-187.89 169.88,-194.36"/>
 </a>
 </g>
 </g>
-<!-- Node6 -->
-<g id="Node000006" class="node">
-<title>Node6</title>
-<g id="a_Node000006"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" target="_top" xlink:title="begin transaction">
+<!-- Node4 -->
+<g id="Node000004" class="node">
+<title>Node4</title>
+<g id="a_Node000004"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" target="_top" xlink:title="begin transaction">
 <polygon fill="white" stroke="#666666" points="275.75,-177.5 172.75,-177.5 172.75,-147 275.75,-147 275.75,-177.5"/>
 <text text-anchor="start" x="180.75" y="-164" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="224.25" y="-152.75" font-family="Helvetica,sans-Serif" font-size="10.00">::openTransaction</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
-<g id="edge3_Node000001_Node000006" class="edge">
-<title>Node1&#45;&gt;Node6</title>
-<g id="a_edge3_Node000001_Node000006"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node4 -->
+<g id="edge3_Node000001_Node000004" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<g id="a_edge3_Node000001_Node000004"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M124.5,-146.84C136.47,-148.71 149.03,-150.67 161.03,-152.54"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="160.4,-155.99 170.82,-154.07 161.48,-149.07 160.4,-155.99"/>
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="Node000007" class="node">
-<title>Node7</title>
-<g id="a_Node000007"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" target="_top" xlink:title="get photo operator">
+<!-- Node5 -->
+<g id="Node000005" class="node">
+<title>Node5</title>
+<g id="a_Node000005"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#adc910ee6092bc177fb89dd8cebca1870" target="_top" xlink:title="get photo operator">
 <polygon fill="white" stroke="#666666" points="275.75,-128.5 172.75,-128.5 172.75,-98 275.75,-98 275.75,-128.5"/>
 <text text-anchor="start" x="180.75" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="224.25" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::photoOperator</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge4_Node000001_Node000007" class="edge">
-<title>Node1&#45;&gt;Node7</title>
-<g id="a_edge4_Node000001_Node000007"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node5 -->
+<g id="edge4_Node000001_Node000005" class="edge">
+<title>Node1&#45;&gt;Node5</title>
+<g id="a_edge4_Node000001_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M124.5,-128.04C136.47,-126.25 149.03,-124.37 161.03,-122.57"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="161.45,-126.04 170.82,-121.1 160.41,-119.12 161.45,-126.04"/>
 </a>
 </g>
 </g>
-<!-- Node8 -->
-<g id="Node000008" class="node">
-<title>Node8</title>
-<g id="a_Node000008"><a xlink:href="../../d8/d5e/struct_database_1_1_i_group_operator.html#aa4c397b90fdf82eb3866ce973677d0e0" target="_top" xlink:title=" ">
+<!-- Node6 -->
+<g id="Node000006" class="node">
+<title>Node6</title>
+<g id="a_Node000006"><a xlink:href="../../d8/d5e/struct_database_1_1_i_group_operator.html#aa4c397b90fdf82eb3866ce973677d0e0" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="288.5,-79.5 160,-79.5 160,-49 288.5,-49 288.5,-79.5"/>
 <text text-anchor="start" x="168" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IGroupOperator</text>
 <text text-anchor="middle" x="224.25" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::removeGroup</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node8 -->
-<g id="edge5_Node000001_Node000008" class="edge">
-<title>Node1&#45;&gt;Node8</title>
-<g id="a_edge5_Node000001_Node000008"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node6 -->
+<g id="edge5_Node000001_Node000006" class="edge">
+<title>Node1&#45;&gt;Node6</title>
+<g id="a_edge5_Node000001_Node000006"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M82.1,-127.21C101.5,-117.15 132.52,-101.45 160,-89.25 163.78,-87.57 167.72,-85.88 171.69,-84.22"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="172.89,-87.51 180.81,-80.47 170.23,-81.03 172.89,-87.51"/>
 </a>
 </g>
 </g>
-<!-- Node9 -->
-<g id="Node000009" class="node">
-<title>Node9</title>
-<g id="a_Node000009"><a xlink:href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#a7d2dcf1771ee2c02323e94800a2de583" target="_top" xlink:title=" ">
+<!-- Node7 -->
+<g id="Node000007" class="node">
+<title>Node7</title>
+<g id="a_Node000007"><a xlink:href="../../d1/d7e/struct_database_1_1_i_photo_operator.html#a7d2dcf1771ee2c02323e94800a2de583" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="288.12,-30.5 160.38,-30.5 160.38,0 288.12,0 288.12,-30.5"/>
 <text text-anchor="start" x="168.38" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IPhotoOperator</text>
 <text text-anchor="middle" x="224.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::removePhoto</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node9 -->
-<g id="edge6_Node000001_Node000009" class="edge">
-<title>Node1&#45;&gt;Node9</title>
-<g id="a_edge6_Node000001_Node000009"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node7 -->
+<g id="edge6_Node000001_Node000007" class="edge">
+<title>Node1&#45;&gt;Node7</title>
+<g id="a_edge6_Node000001_Node000007"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M70.52,-127.4C85.59,-108.24 121.38,-65.61 160,-40.25 162.25,-38.77 164.6,-37.36 167.01,-36.02"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="168.52,-39.17 175.86,-31.53 165.36,-32.93 168.52,-39.17"/>
 </a>

@@ -1,5 +1,7 @@
 <map id="ObservableDatabase::Task::Task" name="ObservableDatabase::Task::Task">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,5,148,46"/>
-<area shape="rect" id="Node000002" href="$d5/d20/class_observable_executor.html#aa26f0785583b5574136c3e8b909363c2" title=" " alt="" coords="196,5,333,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,23,180,23,180,28,148,28"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,148,79"/>
+<area shape="rect" id="Node000002" href="$d0/dd8/class_observable_database_1_1_task.html#a84d300c9db9f621e2c6558fe969e3cdb" title=" " alt="" coords="196,5,338,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,44,180,38,181,43,149,49"/>
+<area shape="rect" id="Node000003" href="$d5/d20/class_observable_executor.html#aa534e9b47c1cd6aef5ba7c7f00204d18" title=" " alt="" coords="198,71,336,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="149,68,183,74,182,80,148,74"/>
 </map>

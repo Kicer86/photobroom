@@ -120,10 +120,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ad133c232d1ea26c728605bcf419cfd6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0b95fea80210ee6657d79a0f8a266aa7" id="r_a0b95fea80210ee6657d79a0f8a266aa7"><td class="memItemLeft" align="right" valign="top">virtual <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0b95fea80210ee6657d79a0f8a266aa7">backend</a> ()=0</td></tr>
 <tr class="separator:a0b95fea80210ee6657d79a0f8a266aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac86cb641a8f5a37a00873df333bb12bb" id="r_ac86cb641a8f5a37a00873df333bb12bb"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; <br />
+<tr class="memitem:aa3790cf001a3f456414294820a5109b0" id="r_aa3790cf001a3f456414294820a5109b0"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; <br />
 requires std::is_invocable_v&lt;Callable, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a> &amp;&gt;</td></tr>
-<tr class="memitem:ac86cb641a8f5a37a00873df333bb12bb"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#ac86cb641a8f5a37a00873df333bb12bb">exec</a> (Callable &amp;&amp;f, const std::string &amp;name=std::source_location::current().function_name())</td></tr>
-<tr class="separator:ac86cb641a8f5a37a00873df333bb12bb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa3790cf001a3f456414294820a5109b0"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa3790cf001a3f456414294820a5109b0">exec</a> (Callable &amp;&amp;f, std::string_view name)</td></tr>
+<tr class="separator:aa3790cf001a3f456414294820a5109b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a988838f5c8505e5d207d9165099c1004" id="r_a988838f5c8505e5d207d9165099c1004"><td class="memItemLeft" align="right" valign="top">virtual std::unique_ptr&lt; <a class="el" href="../../dc/dec/struct_database_1_1_i_client.html">IClient</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a988838f5c8505e5d207d9165099c1004">attach</a> (QStringView)=0</td></tr>
 <tr class="memdesc:a988838f5c8505e5d207d9165099c1004"><td class="mdescLeft">&#160;</td><td class="mdescRight">Attach to db as a client.  <br /></td></tr>
 <tr class="separator:a988838f5c8505e5d207d9165099c1004"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -231,8 +231,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ac86cb641a8f5a37a00873df333bb12bb" name="ac86cb641a8f5a37a00873df333bb12bb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac86cb641a8f5a37a00873df333bb12bb">&#9670;&#160;</a></span>exec()</h2>
+<a id="aa3790cf001a3f456414294820a5109b0" name="aa3790cf001a3f456414294820a5109b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3790cf001a3f456414294820a5109b0">&#9670;&#160;</a></span>exec()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -251,7 +251,7 @@ requires std::is_invocable_v&lt;Callable, <a class="el" href="../../d2/ddd/struc
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>name</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::source_location::current().function_name()</span>&#160;)</td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -261,14 +261,9 @@ requires std::is_invocable_v&lt;Callable, <a class="el" href="../../d2/ddd/struc
 </table>
 </div><div class="memdoc">
 <div class="dynheader">
-Here is the call graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d7/da9/struct_database_1_1_i_database_ac86cb641a8f5a37a00873df333bb12bb_cgraph.svg" width="267" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
-</div>
-<div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d7/da9/struct_database_1_1_i_database_ac86cb641a8f5a37a00873df333bb12bb_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="../../d7/da9/struct_database_1_1_i_database_aa3790cf001a3f456414294820a5109b0_icgraph.svg" width="100%" height="600"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div></div>
 </div>
 
 </div>
@@ -306,7 +301,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 6 2026 20:55:48 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Jan 17 2026 16:34:31 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

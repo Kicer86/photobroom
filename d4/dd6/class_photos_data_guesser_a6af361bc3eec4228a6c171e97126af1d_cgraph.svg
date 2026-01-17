@@ -32,8 +32,8 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="268.25,-177.5 162.25,-177.5 162.25,-147 268.25,-147 268.25,-177.5"/>
+<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="268.25,-177.5 162.25,-177.5 162.25,-147 268.25,-147 268.25,-177.5"/>
 <text text-anchor="start" x="170.25" y="-164" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 <text text-anchor="middle" x="215.25" y="-152.75" font-family="Helvetica,sans-Serif" font-size="10.00">::exec</text>
 </a>
@@ -48,58 +48,58 @@
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="Node000005" class="node">
-<title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#ac762cc3e374776d405c5854a0d7e02d2" target="_top" xlink:title="fetch photo data">
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#ac762cc3e374776d405c5854a0d7e02d2" target="_top" xlink:title="fetch photo data">
 <polygon fill="white" stroke="#666666" points="266.75,-128.5 163.75,-128.5 163.75,-98 266.75,-98 266.75,-128.5"/>
 <text text-anchor="start" x="171.75" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="215.25" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::getPhotoDelta</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge2_Node000001_Node000005" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M108.55,-96.64C122.52,-98.84 137.69,-101.22 152.07,-103.48"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="151.47,-106.93 161.89,-105.02 152.55,-100.01 151.47,-106.93"/>
 </a>
 </g>
 </g>
-<!-- Node6 -->
-<g id="Node000006" class="node">
-<title>Node6</title>
-<g id="a_Node000006"><a xlink:href="../../de/d3a/class_a_heavy_list_model.html#a7805c377711542356690a7e6c2cfec88" target="_top" xlink:title=" ">
+<!-- Node4 -->
+<g id="Node000004" class="node">
+<title>Node4</title>
+<g id="a_Node000004"><a xlink:href="../../de/d3a/class_a_heavy_list_model.html#a7805c377711542356690a7e6c2cfec88" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="286.25,-79.5 144.25,-79.5 144.25,-49 286.25,-49 286.25,-79.5"/>
 <text text-anchor="start" x="152.25" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">AHeavyListModel&lt; Collected</text>
 <text text-anchor="middle" x="215.25" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">Data &gt;::internalData</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node6 -->
-<g id="edge3_Node000001_Node000006" class="edge">
-<title>Node1&#45;&gt;Node6</title>
-<g id="a_edge3_Node000001_Node000006"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node4 -->
+<g id="edge3_Node000001_Node000004" class="edge">
+<title>Node1&#45;&gt;Node4</title>
+<g id="a_edge3_Node000001_Node000004"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M108.55,-80.19C116.38,-79.01 124.58,-77.78 132.8,-76.53"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="133.14,-80.02 142.51,-75.07 132.1,-73.1 133.14,-80.02"/>
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="Node000007" class="node">
-<title>Node7</title>
-<g id="a_Node000007"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" target="_top" xlink:title="update photos details">
+<!-- Node5 -->
+<g id="Node000005" class="node">
+<title>Node5</title>
+<g id="a_Node000005"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" target="_top" xlink:title="update photos details">
 <polygon fill="white" stroke="#666666" points="266.75,-30.5 163.75,-30.5 163.75,0 266.75,0 266.75,-30.5"/>
 <text text-anchor="start" x="171.75" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="215.25" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::update</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge4_Node000001_Node000007" class="edge">
-<title>Node1&#45;&gt;Node7</title>
-<g id="a_edge4_Node000001_Node000007"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node5 -->
+<g id="edge4_Node000001_Node000005" class="edge">
+<title>Node1&#45;&gt;Node5</title>
+<g id="a_edge4_Node000001_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M81.51,-72.68C98.97,-62.71 122.57,-49.89 144.25,-40.25 148.25,-38.47 152.41,-36.73 156.64,-35.04"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="157.7,-38.38 165.76,-31.51 155.17,-31.85 157.7,-38.38"/>
 </a>

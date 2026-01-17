@@ -21,8 +21,8 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="273.5,-79.5 167.5,-79.5 167.5,-49 273.5,-49 273.5,-79.5"/>
+<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="273.5,-79.5 167.5,-79.5 167.5,-49 273.5,-49 273.5,-79.5"/>
 <text text-anchor="start" x="175.5" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 <text text-anchor="middle" x="220.5" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::exec</text>
 </a>
@@ -37,20 +37,20 @@
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="Node000005" class="node">
-<title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" target="_top" xlink:title="begin transaction">
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#aa5e1e6e8e5e37e1eea11d6d02dc54abb" target="_top" xlink:title="begin transaction">
 <polygon fill="white" stroke="#666666" points="272,-30.5 169,-30.5 169,0 272,0 272,-30.5"/>
 <text text-anchor="start" x="177" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="220.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::openTransaction</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge2_Node000001_Node000005" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M131.97,-29C140.45,-27.67 149.11,-26.31 157.53,-24.99"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="157.98,-28.46 167.32,-23.45 156.9,-21.54 157.98,-28.46"/>
 </a>

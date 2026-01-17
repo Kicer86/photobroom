@@ -31,8 +31,8 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="251.75,-79.5 145.75,-79.5 145.75,-49 251.75,-49 251.75,-79.5"/>
+<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="251.75,-79.5 145.75,-79.5 145.75,-49 251.75,-49 251.75,-79.5"/>
 <text text-anchor="start" x="153.75" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 <text text-anchor="middle" x="198.75" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">::exec</text>
 </a>
@@ -47,20 +47,20 @@
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="Node000005" class="node">
-<title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" target="_top" xlink:title="update photos details">
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" target="_top" xlink:title="update photos details">
 <polygon fill="white" stroke="#666666" points="250.25,-30.5 147.25,-30.5 147.25,0 250.25,0 250.25,-30.5"/>
 <text text-anchor="start" x="155.25" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="198.75" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::update</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge2_Node000001_Node000005" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M109.92,-30.11C118.41,-28.67 127.25,-27.18 135.9,-25.71"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="136.36,-29.18 145.64,-24.07 135.19,-22.28 136.36,-29.18"/>
 </a>

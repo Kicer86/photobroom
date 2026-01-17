@@ -35,19 +35,19 @@
 </a>
 </g>
 </g>
-<!-- Node19 -->
-<g id="Node000019" class="node">
-<title>Node19</title>
-<g id="a_Node000019"><a xlink:href="../../de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" target="_top" xlink:title=" ">
+<!-- Node17 -->
+<g id="Node000017" class="node">
+<title>Node17</title>
+<g id="a_Node000017"><a xlink:href="../../de/d4e/class_people_list_model.html#a217120aaf87ae60bb5c66d97a07f92d9" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="266.75,-19.25 146.5,-19.25 146.5,0 266.75,0 266.75,-19.25"/>
 <text text-anchor="middle" x="206.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PeopleListModel::setDB</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node19 -->
-<g id="edge2_Node000001_Node000019" class="edge">
-<title>Node1&#45;&gt;Node19</title>
-<g id="a_edge2_Node000001_Node000019"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node17 -->
+<g id="edge2_Node000001_Node000017" class="edge">
+<title>Node1&#45;&gt;Node17</title>
+<g id="a_edge2_Node000001_Node000017"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M110.6,-21.08C118.42,-20.13 126.57,-19.15 134.66,-18.18"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="135,-21.66 144.51,-16.99 134.17,-14.71 135,-21.66"/>
 </a>

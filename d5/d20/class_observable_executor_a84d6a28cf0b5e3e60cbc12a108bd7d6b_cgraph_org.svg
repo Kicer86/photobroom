@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d5/d20/class_observable_executor.html#a73c037d40f5ae415719b64676e151395" target="_top" xlink:title=" ">
+<g id="a_Node000002"><a xlink:href="../../d5/d20/class_observable_executor.html#a33461e90f5d19e9649bd469bb3f4e795" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="283.25,-30.5 155.5,-30.5 155.5,0 283.25,0 283.25,-30.5"/>
 <text text-anchor="start" x="163.5" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">ObservableExecutor</text>
 <text text-anchor="middle" x="219.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::executionSpeedChanged</text>

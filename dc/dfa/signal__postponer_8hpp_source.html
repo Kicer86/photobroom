@@ -117,144 +117,169 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">#include &lt;optional&gt;</span></div>
 <div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">#include &lt;QObject&gt;</span></div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &lt;QTimer&gt;</span></div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &lt;QSharedPointer&gt;</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">#include &lt;QSharedPointer&gt;</span></div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span><span class="preprocessor">#include &lt;QTimer&gt;</span></div>
 <div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="preprocessor">#include &quot;core_export.h&quot;</span></div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span> </div>
-<div class="foldopen" id="foldopen00033" data-start="{" data-end="};">
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html">   33</a></span><span class="keyword">class </span>CORE_EXPORT <a class="code hl_class" href="../../df/d97/class_signal_postponer.html">SignalPostponer</a>: <span class="keyword">public</span> QObject</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>{</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>     Q_OBJECT</div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Fire&gt;</div>
-<div class="foldopen" id="foldopen00039" data-start="{" data-end="}">
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#aa88214ac8dc30171f36e3393191dc9ac">   39</a></span>        <span class="keyword">explicit</span> <a class="code hl_function" href="../../df/d97/class_signal_postponer.html#aa88214ac8dc30171f36e3393191dc9ac">SignalPostponer</a>(Fire fire, QObject* p):</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>            QObject(p),</div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            m_delay(<a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::chrono::milliseconds(250)),</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            m_patience(<a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::chrono::milliseconds(1000))</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>        {</div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>            connect(&amp;m_lazinessTimer, &amp;QTimer::timeout, fire);</div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            connect(&amp;m_patienceTimer, &amp;QTimer::timeout, fire);</div>
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span> </div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>            <span class="comment">// when any of timers timeouts, stop both of them</span></div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            connect(&amp;m_lazinessTimer, &amp;QTimer::timeout, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#a5ca6252316ce443660e7d67c46ffd518">SignalPostponer::stop</a>);</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            connect(&amp;m_patienceTimer, &amp;QTimer::timeout, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#a5ca6252316ce443660e7d67c46ffd518">SignalPostponer::stop</a>);</div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span> </div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span>            m_lazinessTimer.setSingleShot(<span class="keyword">true</span>);</div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            m_patienceTimer.setSingleShot(<span class="keyword">true</span>);</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>        }</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
+<div class="foldopen" id="foldopen00034" data-start="{" data-end="};">
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html">   34</a></span><span class="keyword">class </span>CORE_EXPORT <a class="code hl_class" href="../../df/d97/class_signal_postponer.html">SignalPostponer</a>: <span class="keyword">public</span> QObject</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>{</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>     Q_OBJECT</div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span> </div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>    <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>        <span class="keyword">template</span>&lt;<span class="keyword">typename</span> Fire&gt;</div>
+<div class="foldopen" id="foldopen00040" data-start="{" data-end="}">
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#aa88214ac8dc30171f36e3393191dc9ac">   40</a></span>        <span class="keyword">explicit</span> <a class="code hl_function" href="../../df/d97/class_signal_postponer.html#aa88214ac8dc30171f36e3393191dc9ac">SignalPostponer</a>(Fire fire, QObject* p):</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            QObject(p),</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            m_delay(<a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::chrono::milliseconds(250)),</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            m_patience(<a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::chrono::milliseconds(1000))</div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        {</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            connect(&amp;m_lazinessTimer, &amp;QTimer::timeout, fire);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            connect(&amp;m_patienceTimer, &amp;QTimer::timeout, fire);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>            <span class="comment">// when any of timers timeouts, stop both of them</span></div>
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>            connect(&amp;m_lazinessTimer, &amp;QTimer::timeout, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#a5ca6252316ce443660e7d67c46ffd518">SignalPostponer::stop</a>);</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>            connect(&amp;m_patienceTimer, &amp;QTimer::timeout, <span class="keyword">this</span>, &amp;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#a5ca6252316ce443660e7d67c46ffd518">SignalPostponer::stop</a>);</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>            m_lazinessTimer.setSingleShot(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>            m_patienceTimer.setSingleShot(<span class="keyword">true</span>);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span>        }</div>
 </div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#afc6fe4451c98e13f2eda9b4685b04b00">   55</a></span>        <a class="code hl_function" href="../../df/d97/class_signal_postponer.html#afc6fe4451c98e13f2eda9b4685b04b00">~SignalPostponer</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span> </div>
-<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span>        <span class="keywordtype">void</span> setDelay(<span class="keyword">const</span> std::chrono::milliseconds &amp;);</div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordtype">void</span> setPatiece(<span class="keyword">const</span> std::chrono::milliseconds &amp;);</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordtype">void</span> notify();</div>
-<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keyword">private</span>:</div>
-<div class="line"><a id="l00062" name="l00062"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#aa8c389e263ced68027c86ef9a8acd9c3">   62</a></span>        QTimer <a class="code hl_variable" href="../../df/d97/class_signal_postponer.html#aa8c389e263ced68027c86ef9a8acd9c3">m_lazinessTimer</a>;</div>
-<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#aa2aca105a276ac0d566c364c27f743cf">   63</a></span>        QTimer <a class="code hl_variable" href="../../df/d97/class_signal_postponer.html#aa2aca105a276ac0d566c364c27f743cf">m_patienceTimer</a>;</div>
-<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#a4370259bcda9fd69d4bb915e1fbe374b">   64</a></span>        std::chrono::milliseconds <a class="code hl_variable" href="../../df/d97/class_signal_postponer.html#a4370259bcda9fd69d4bb915e1fbe374b">m_delay</a>;</div>
-<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#ad21bfb1cfe5f570f04d2342c92cace97">   65</a></span>        std::chrono::milliseconds <a class="code hl_variable" href="../../df/d97/class_signal_postponer.html#ad21bfb1cfe5f570f04d2342c92cace97">m_patience</a>;</div>
-<div class="line"><a id="l00066" name="l00066"></a><span class="lineno">   66</span> </div>
-<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span>        <span class="keywordtype">void</span> stop();</div>
-<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>};</div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span> </div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#afc6fe4451c98e13f2eda9b4685b04b00">   56</a></span>        <a class="code hl_function" href="../../df/d97/class_signal_postponer.html#afc6fe4451c98e13f2eda9b4685b04b00">~SignalPostponer</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>        <span class="keywordtype">void</span> setDelay(<span class="keyword">const</span> std::chrono::milliseconds &amp;);</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>        <span class="keywordtype">void</span> setPatiece(<span class="keyword">const</span> std::chrono::milliseconds &amp;);</div>
+<div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span>        <span class="keywordtype">void</span> notify();</div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span> </div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>    <span class="keyword">private</span>:</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#aa8c389e263ced68027c86ef9a8acd9c3">   63</a></span>        QTimer <a class="code hl_variable" href="../../df/d97/class_signal_postponer.html#aa8c389e263ced68027c86ef9a8acd9c3">m_lazinessTimer</a>;</div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#aa2aca105a276ac0d566c364c27f743cf">   64</a></span>        QTimer <a class="code hl_variable" href="../../df/d97/class_signal_postponer.html#aa2aca105a276ac0d566c364c27f743cf">m_patienceTimer</a>;</div>
+<div class="line"><a id="l00065" name="l00065"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#a4370259bcda9fd69d4bb915e1fbe374b">   65</a></span>        std::chrono::milliseconds <a class="code hl_variable" href="../../df/d97/class_signal_postponer.html#a4370259bcda9fd69d4bb915e1fbe374b">m_delay</a>;</div>
+<div class="line"><a id="l00066" name="l00066"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#ad21bfb1cfe5f570f04d2342c92cace97">   66</a></span>        std::chrono::milliseconds <a class="code hl_variable" href="../../df/d97/class_signal_postponer.html#ad21bfb1cfe5f570f04d2342c92cace97">m_patience</a>;</div>
+<div class="line"><a id="l00067" name="l00067"></a><span class="lineno">   67</span> </div>
+<div class="line"><a id="l00068" name="l00068"></a><span class="lineno">   68</span>        <span class="keywordtype">void</span> stop();</div>
+<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span>};</div>
 </div>
-<div class="line"><a id="l00069" name="l00069"></a><span class="lineno">   69</span> </div>
 <div class="line"><a id="l00070" name="l00070"></a><span class="lineno">   70</span> </div>
-<div class="line"><a id="l00094" name="l00094"></a><span class="lineno">   94</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> SrcObj, <span class="keyword">typename</span> Signal, <span class="keyword">typename</span> Dst, <span class="keyword">typename</span> Slot&gt;</div>
-<div class="foldopen" id="foldopen00095" data-start="{" data-end="}">
-<div class="line"><a id="l00095" name="l00095"></a><span class="lineno"><a class="line" href="../../dc/dfa/signal__postponer_8hpp.html#abe66cbd029d63c7ed5b45b8b8e29ebd1">   95</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../dc/dfa/signal__postponer_8hpp.html#abe66cbd029d63c7ed5b45b8b8e29ebd1">lazy_connect</a>(SrcObj* src, Signal sig,</div>
-<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span>                  Dst* dst, Slot slot,</div>
-<div class="line"><a id="l00097" name="l00097"></a><span class="lineno">   97</span>                  <span class="keyword">const</span> std::chrono::milliseconds&amp; delay = std::chrono::milliseconds(250),</div>
-<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                  <span class="keyword">const</span> std::chrono::milliseconds&amp; patience = std::chrono::milliseconds(1000),</div>
-<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                  Qt::ConnectionType type = Qt::AutoConnection)</div>
-<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>{</div>
-<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>    <a class="code hl_class" href="../../df/d97/class_signal_postponer.html">SignalPostponer</a>* postponer = <span class="keyword">new</span> <a class="code hl_class" href="../../df/d97/class_signal_postponer.html">SignalPostponer</a>([dst, slot]()</div>
-<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>    {</div>
-<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span>        <span class="comment">// launch destination slot</span></div>
-<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>        (dst-&gt;*slot)();</div>
-<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span>    },</div>
-<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    src);</div>
-<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span> </div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>    postponer-&gt;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#a2407134540561c3bac49039e4dda8442">setDelay</a>(delay);</div>
-<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>    postponer-&gt;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#ad6b41649280a5a744fd9b8a32950fdf0">setPatiece</a>(patience);</div>
-<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span> </div>
-<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>    QObject::connect(src, sig, postponer, &amp;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#a1e89012203ce98b0f866087510ea5bf3">SignalPostponer::notify</a>, type);</div>
-<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>}</div>
+<div class="line"><a id="l00071" name="l00071"></a><span class="lineno">   71</span> </div>
+<div class="line"><a id="l00095" name="l00095"></a><span class="lineno">   95</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> SrcObj, <span class="keyword">typename</span> Signal, <span class="keyword">typename</span> Dst, <span class="keyword">typename</span> Slot&gt;</div>
+<div class="line"><a id="l00096" name="l00096"></a><span class="lineno">   96</span><span class="keyword">requires</span> (std::is_invocable_v&lt;Slot&gt; || std::is_invocable_v&lt;Slot, Dst&gt;)</div>
+<div class="foldopen" id="foldopen00097" data-start="{" data-end="}">
+<div class="line"><a id="l00097" name="l00097"></a><span class="lineno"><a class="line" href="../../dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd">   97</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd">lazy_connect</a>(SrcObj* src, Signal sig,</div>
+<div class="line"><a id="l00098" name="l00098"></a><span class="lineno">   98</span>                  Dst* dst, Slot slot,</div>
+<div class="line"><a id="l00099" name="l00099"></a><span class="lineno">   99</span>                  <span class="keyword">const</span> std::chrono::milliseconds&amp; delay = std::chrono::milliseconds(250),</div>
+<div class="line"><a id="l00100" name="l00100"></a><span class="lineno">  100</span>                  <span class="keyword">const</span> std::chrono::milliseconds&amp; patience = std::chrono::milliseconds(1000),</div>
+<div class="line"><a id="l00101" name="l00101"></a><span class="lineno">  101</span>                  Qt::ConnectionType type = Qt::AutoConnection)</div>
+<div class="line"><a id="l00102" name="l00102"></a><span class="lineno">  102</span>{</div>
+<div class="line"><a id="l00103" name="l00103"></a><span class="lineno">  103</span> </div>
+<div class="line"><a id="l00104" name="l00104"></a><span class="lineno">  104</span>    <a class="code hl_class" href="../../df/d97/class_signal_postponer.html">SignalPostponer</a>* postponer = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a id="l00105" name="l00105"></a><span class="lineno">  105</span> </div>
+<div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_invocable_v&lt;Slot&gt;)</div>
+<div class="line"><a id="l00107" name="l00107"></a><span class="lineno">  107</span>        postponer = <span class="keyword">new</span> <a class="code hl_class" href="../../df/d97/class_signal_postponer.html">SignalPostponer</a>([slot]()</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>        {</div>
+<div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>            <span class="comment">// launch destination slot</span></div>
+<div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>            slot();</div>
+<div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span>        },</div>
+<div class="line"><a id="l00112" name="l00112"></a><span class="lineno">  112</span>        dst);</div>
+<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (std::is_invocable_v&lt;Slot, Dst&gt;)</div>
+<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span>        postponer = <span class="keyword">new</span> <a class="code hl_class" href="../../df/d97/class_signal_postponer.html">SignalPostponer</a>([dst, slot]()</div>
+<div class="line"><a id="l00115" name="l00115"></a><span class="lineno">  115</span>        {</div>
+<div class="line"><a id="l00116" name="l00116"></a><span class="lineno">  116</span>            <span class="comment">// launch destination slot</span></div>
+<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>            (dst-&gt;*slot)();</div>
+<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>        },</div>
+<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span>        dst);</div>
+<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span> </div>
+<div class="line"><a id="l00121" name="l00121"></a><span class="lineno">  121</span>    postponer-&gt;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#a2407134540561c3bac49039e4dda8442">setDelay</a>(delay);</div>
+<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span>    postponer-&gt;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#ad6b41649280a5a744fd9b8a32950fdf0">setPatiece</a>(patience);</div>
+<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span> </div>
+<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    QObject::connect(src, sig, postponer, &amp;<a class="code hl_function" href="../../df/d97/class_signal_postponer.html#a1e89012203ce98b0f866087510ea5bf3">SignalPostponer::notify</a>, type);</div>
+<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span>}</div>
 </div>
-<div class="line"><a id="l00113" name="l00113"></a><span class="lineno">  113</span> </div>
-<div class="line"><a id="l00114" name="l00114"></a><span class="lineno">  114</span> </div>
-<div class="foldopen" id="foldopen00116" data-start="{" data-end="};">
-<div class="line"><a id="l00116" name="l00116"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html">  116</a></span><span class="keyword">class </span>CORE_EXPORT <a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>: <span class="keyword">public</span> QObject</div>
-<div class="line"><a id="l00117" name="l00117"></a><span class="lineno">  117</span>{</div>
-<div class="line"><a id="l00118" name="l00118"></a><span class="lineno">  118</span>    Q_OBJECT</div>
-<div class="line"><a id="l00119" name="l00119"></a><span class="lineno">  119</span> </div>
-<div class="line"><a id="l00120" name="l00120"></a><span class="lineno">  120</span><span class="keyword">public</span>:</div>
-<div class="line"><a id="l00121" name="l00121"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">  121</a></span>    <span class="keyword">typedef</span> QSharedPointer&lt;QObject&gt; <a class="code hl_typedef" href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">Locker</a>;</div>
-<div class="line"><a id="l00122" name="l00122"></a><span class="lineno">  122</span> </div>
-<div class="line"><a id="l00123" name="l00123"></a><span class="lineno">  123</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>(std::chrono::milliseconds blockTime, QObject* parent = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a id="l00124" name="l00124"></a><span class="lineno">  124</span>    <span class="keywordtype">void</span> notify();</div>
-<div class="line"><a id="l00125" name="l00125"></a><span class="lineno">  125</span> </div>
-<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span>signals:</div>
-<div class="line"><a id="l00127" name="l00127"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#a892f8f76a1c8037cd1aa6e74aa3dd9ec">  127</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="../../d8/da6/class_signal_blocker.html#a892f8f76a1c8037cd1aa6e74aa3dd9ec">fire</a>(<a class="code hl_typedef" href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">Locker</a>) <span class="keyword">const</span>;</div>
-<div class="line"><a id="l00128" name="l00128"></a><span class="lineno">  128</span> </div>
-<div class="line"><a id="l00129" name="l00129"></a><span class="lineno">  129</span><span class="keyword">private</span>:</div>
-<div class="line"><a id="l00130" name="l00130"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#a49505081666468fcfcd485f826766a1a">  130</a></span>    QTimer <a class="code hl_variable" href="../../d8/da6/class_signal_blocker.html#a49505081666468fcfcd485f826766a1a">m_timer</a>;</div>
-<div class="line"><a id="l00131" name="l00131"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#ac973359de5b0b2704127d5bbdf852068">  131</a></span>    std::recursive_mutex <a class="code hl_variable" href="../../d8/da6/class_signal_blocker.html#ac973359de5b0b2704127d5bbdf852068">m_mutex</a>;</div>
-<div class="line"><a id="l00132" name="l00132"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#aa8f977681e691070a8fced443e75c8e9">  132</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="../../d8/da6/class_signal_blocker.html#aa8f977681e691070a8fced443e75c8e9">m_dirty</a>;</div>
-<div class="line"><a id="l00133" name="l00133"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#a4f3f8708d254bda17cdac77fa661131c">  133</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="../../d8/da6/class_signal_blocker.html#a4f3f8708d254bda17cdac77fa661131c">m_locked</a>;</div>
-<div class="line"><a id="l00134" name="l00134"></a><span class="lineno">  134</span> </div>
-<div class="line"><a id="l00135" name="l00135"></a><span class="lineno">  135</span>    <span class="keywordtype">void</span> tryFire();</div>
-<div class="line"><a id="l00136" name="l00136"></a><span class="lineno">  136</span>    <a class="code hl_typedef" href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">Locker</a> lock();</div>
-<div class="line"><a id="l00137" name="l00137"></a><span class="lineno">  137</span>    <span class="keywordtype">void</span> unlock();</div>
-<div class="line"><a id="l00138" name="l00138"></a><span class="lineno">  138</span>};</div>
+<div class="line"><a id="l00126" name="l00126"></a><span class="lineno">  126</span> </div>
+<div class="line"><a id="l00127" name="l00127"></a><span class="lineno">  127</span> </div>
+<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> SrcObj, <span class="keyword">typename</span> Signal, <span class="keyword">typename</span> Dst, <span class="keyword">typename</span> Slot&gt;</div>
+<div class="foldopen" id="foldopen00141" data-start="{" data-end="}">
+<div class="line"><a id="l00141" name="l00141"></a><span class="lineno"><a class="line" href="../../dc/dfa/signal__postponer_8hpp.html#abb6a0177870a2a9bc886ddfda4110618">  141</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd">lazy_connect</a>(QPointer&lt;SrcObj&gt;&amp; src, Signal sig,</div>
+<div class="line"><a id="l00142" name="l00142"></a><span class="lineno">  142</span>                  Dst* dst, Slot slot,</div>
+<div class="line"><a id="l00143" name="l00143"></a><span class="lineno">  143</span>                  <span class="keyword">const</span> std::chrono::milliseconds&amp; delay = std::chrono::milliseconds(250),</div>
+<div class="line"><a id="l00144" name="l00144"></a><span class="lineno">  144</span>                  <span class="keyword">const</span> std::chrono::milliseconds&amp; patience = std::chrono::milliseconds(1000),</div>
+<div class="line"><a id="l00145" name="l00145"></a><span class="lineno">  145</span>                  Qt::ConnectionType type = Qt::AutoConnection)</div>
+<div class="line"><a id="l00146" name="l00146"></a><span class="lineno">  146</span>{</div>
+<div class="line"><a id="l00147" name="l00147"></a><span class="lineno">  147</span>    <a class="code hl_function" href="../../dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd">lazy_connect</a>(src.data(), sig, dst, slot, delay, patience, type);</div>
+<div class="line"><a id="l00148" name="l00148"></a><span class="lineno">  148</span>}</div>
 </div>
-<div class="line"><a id="l00139" name="l00139"></a><span class="lineno">  139</span> </div>
-<div class="line"><a id="l00140" name="l00140"></a><span class="lineno">  140</span> </div>
-<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> SrcObj, <span class="keyword">typename</span> Signal, <span class="keyword">typename</span> Dst, <span class="keyword">typename</span> Slot&gt;</div>
-<div class="foldopen" id="foldopen00162" data-start="{" data-end="}">
-<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="../../dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184">  162</a></span><a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>* <a class="code hl_function" href="../../dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184">blocked_connect</a>(SrcObj* src, Signal sig,</div>
-<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span>                               Dst* dst, Slot slot,</div>
-<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span>                               <span class="keyword">const</span> std::chrono::milliseconds&amp; block = std::chrono::milliseconds(0))</div>
-<div class="line"><a id="l00165" name="l00165"></a><span class="lineno">  165</span>{</div>
-<div class="line"><a id="l00166" name="l00166"></a><span class="lineno">  166</span>    <a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>* blocker = <span class="keyword">new</span> <a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>(block, src);</div>
-<div class="line"><a id="l00167" name="l00167"></a><span class="lineno">  167</span>    QObject::connect(src, sig, blocker, &amp;<a class="code hl_function" href="../../d8/da6/class_signal_blocker.html#a04b4aed681630b681cc37f6726844bf9">SignalBlocker::notify</a>);</div>
-<div class="line"><a id="l00168" name="l00168"></a><span class="lineno">  168</span>    QObject::connect(blocker, &amp;<a class="code hl_signal" href="../../d8/da6/class_signal_blocker.html#a892f8f76a1c8037cd1aa6e74aa3dd9ec">SignalBlocker::fire</a>, dst, slot);</div>
+<div class="line"><a id="l00149" name="l00149"></a><span class="lineno">  149</span> </div>
+<div class="foldopen" id="foldopen00151" data-start="{" data-end="};">
+<div class="line"><a id="l00151" name="l00151"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html">  151</a></span><span class="keyword">class </span>CORE_EXPORT <a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>: <span class="keyword">public</span> QObject</div>
+<div class="line"><a id="l00152" name="l00152"></a><span class="lineno">  152</span>{</div>
+<div class="line"><a id="l00153" name="l00153"></a><span class="lineno">  153</span>    Q_OBJECT</div>
+<div class="line"><a id="l00154" name="l00154"></a><span class="lineno">  154</span> </div>
+<div class="line"><a id="l00155" name="l00155"></a><span class="lineno">  155</span><span class="keyword">public</span>:</div>
+<div class="line"><a id="l00156" name="l00156"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">  156</a></span>    <span class="keyword">typedef</span> QSharedPointer&lt;QObject&gt; <a class="code hl_typedef" href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">Locker</a>;</div>
+<div class="line"><a id="l00157" name="l00157"></a><span class="lineno">  157</span> </div>
+<div class="line"><a id="l00158" name="l00158"></a><span class="lineno">  158</span>    <span class="keyword">explicit</span> <a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>(std::chrono::milliseconds blockTime, QObject* parent = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a id="l00159" name="l00159"></a><span class="lineno">  159</span>    <span class="keywordtype">void</span> notify();</div>
+<div class="line"><a id="l00160" name="l00160"></a><span class="lineno">  160</span> </div>
+<div class="line"><a id="l00161" name="l00161"></a><span class="lineno">  161</span>signals:</div>
+<div class="line"><a id="l00162" name="l00162"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#a892f8f76a1c8037cd1aa6e74aa3dd9ec">  162</a></span>    <span class="keywordtype">void</span> <a class="code hl_signal" href="../../d8/da6/class_signal_blocker.html#a892f8f76a1c8037cd1aa6e74aa3dd9ec">fire</a>(<a class="code hl_typedef" href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">Locker</a>) <span class="keyword">const</span>;</div>
+<div class="line"><a id="l00163" name="l00163"></a><span class="lineno">  163</span> </div>
+<div class="line"><a id="l00164" name="l00164"></a><span class="lineno">  164</span><span class="keyword">private</span>:</div>
+<div class="line"><a id="l00165" name="l00165"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#a49505081666468fcfcd485f826766a1a">  165</a></span>    QTimer <a class="code hl_variable" href="../../d8/da6/class_signal_blocker.html#a49505081666468fcfcd485f826766a1a">m_timer</a>;</div>
+<div class="line"><a id="l00166" name="l00166"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#ac973359de5b0b2704127d5bbdf852068">  166</a></span>    std::recursive_mutex <a class="code hl_variable" href="../../d8/da6/class_signal_blocker.html#ac973359de5b0b2704127d5bbdf852068">m_mutex</a>;</div>
+<div class="line"><a id="l00167" name="l00167"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#aa8f977681e691070a8fced443e75c8e9">  167</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="../../d8/da6/class_signal_blocker.html#aa8f977681e691070a8fced443e75c8e9">m_dirty</a>;</div>
+<div class="line"><a id="l00168" name="l00168"></a><span class="lineno"><a class="line" href="../../d8/da6/class_signal_blocker.html#a4f3f8708d254bda17cdac77fa661131c">  168</a></span>    <span class="keywordtype">bool</span> <a class="code hl_variable" href="../../d8/da6/class_signal_blocker.html#a4f3f8708d254bda17cdac77fa661131c">m_locked</a>;</div>
 <div class="line"><a id="l00169" name="l00169"></a><span class="lineno">  169</span> </div>
-<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordflow">return</span> blocker;</div>
-<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>}</div>
+<div class="line"><a id="l00170" name="l00170"></a><span class="lineno">  170</span>    <span class="keywordtype">void</span> tryFire();</div>
+<div class="line"><a id="l00171" name="l00171"></a><span class="lineno">  171</span>    <a class="code hl_typedef" href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">Locker</a> lock();</div>
+<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span>    <span class="keywordtype">void</span> unlock();</div>
+<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span>};</div>
 </div>
-<div class="line"><a id="l00172" name="l00172"></a><span class="lineno">  172</span> </div>
-<div class="line"><a id="l00173" name="l00173"></a><span class="lineno">  173</span><span class="preprocessor">#endif </span><span class="comment">// SIGNALPOSTPONER_HPP</span></div>
-<div class="ttc" id="aclass_signal_blocker_html"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a></div><div class="ttdoc">Helper class for blocked_connect. Not meant to be use directly.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:117</div></div>
+<div class="line"><a id="l00174" name="l00174"></a><span class="lineno">  174</span> </div>
+<div class="line"><a id="l00175" name="l00175"></a><span class="lineno">  175</span> </div>
+<div class="line"><a id="l00196" name="l00196"></a><span class="lineno">  196</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> SrcObj, <span class="keyword">typename</span> Signal, <span class="keyword">typename</span> Dst, <span class="keyword">typename</span> Slot&gt;</div>
+<div class="foldopen" id="foldopen00197" data-start="{" data-end="}">
+<div class="line"><a id="l00197" name="l00197"></a><span class="lineno"><a class="line" href="../../dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184">  197</a></span><a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>* <a class="code hl_function" href="../../dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184">blocked_connect</a>(SrcObj* src, Signal sig,</div>
+<div class="line"><a id="l00198" name="l00198"></a><span class="lineno">  198</span>                               Dst* dst, Slot slot,</div>
+<div class="line"><a id="l00199" name="l00199"></a><span class="lineno">  199</span>                               <span class="keyword">const</span> std::chrono::milliseconds&amp; block = std::chrono::milliseconds(0))</div>
+<div class="line"><a id="l00200" name="l00200"></a><span class="lineno">  200</span>{</div>
+<div class="line"><a id="l00201" name="l00201"></a><span class="lineno">  201</span>    <a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>* blocker = <span class="keyword">new</span> <a class="code hl_class" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a>(block, src);</div>
+<div class="line"><a id="l00202" name="l00202"></a><span class="lineno">  202</span>    QObject::connect(src, sig, blocker, &amp;<a class="code hl_function" href="../../d8/da6/class_signal_blocker.html#a04b4aed681630b681cc37f6726844bf9">SignalBlocker::notify</a>);</div>
+<div class="line"><a id="l00203" name="l00203"></a><span class="lineno">  203</span>    QObject::connect(blocker, &amp;<a class="code hl_signal" href="../../d8/da6/class_signal_blocker.html#a892f8f76a1c8037cd1aa6e74aa3dd9ec">SignalBlocker::fire</a>, dst, slot);</div>
+<div class="line"><a id="l00204" name="l00204"></a><span class="lineno">  204</span> </div>
+<div class="line"><a id="l00205" name="l00205"></a><span class="lineno">  205</span>    <span class="keywordflow">return</span> blocker;</div>
+<div class="line"><a id="l00206" name="l00206"></a><span class="lineno">  206</span>}</div>
+</div>
+<div class="line"><a id="l00207" name="l00207"></a><span class="lineno">  207</span> </div>
+<div class="line"><a id="l00208" name="l00208"></a><span class="lineno">  208</span><span class="preprocessor">#endif </span><span class="comment">// SIGNALPOSTPONER_HPP</span></div>
+<div class="ttc" id="aclass_signal_blocker_html"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a></div><div class="ttdoc">Helper class for blocked_connect. Not meant to be use directly.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:152</div></div>
 <div class="ttc" id="aclass_signal_blocker_html_a04b4aed681630b681cc37f6726844bf9"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#a04b4aed681630b681cc37f6726844bf9">SignalBlocker::notify</a></div><div class="ttdeci">void notify()</div><div class="ttdef"><b>Definition</b> signal_postponer.cpp:62</div></div>
-<div class="ttc" id="aclass_signal_blocker_html_a1078d418e35314a0f1e9ced025f447da"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">SignalBlocker::Locker</a></div><div class="ttdeci">QSharedPointer&lt; QObject &gt; Locker</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:121</div></div>
-<div class="ttc" id="aclass_signal_blocker_html_a49505081666468fcfcd485f826766a1a"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#a49505081666468fcfcd485f826766a1a">SignalBlocker::m_timer</a></div><div class="ttdeci">QTimer m_timer</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:130</div></div>
-<div class="ttc" id="aclass_signal_blocker_html_a4f3f8708d254bda17cdac77fa661131c"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#a4f3f8708d254bda17cdac77fa661131c">SignalBlocker::m_locked</a></div><div class="ttdeci">bool m_locked</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:133</div></div>
+<div class="ttc" id="aclass_signal_blocker_html_a1078d418e35314a0f1e9ced025f447da"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#a1078d418e35314a0f1e9ced025f447da">SignalBlocker::Locker</a></div><div class="ttdeci">QSharedPointer&lt; QObject &gt; Locker</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:156</div></div>
+<div class="ttc" id="aclass_signal_blocker_html_a49505081666468fcfcd485f826766a1a"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#a49505081666468fcfcd485f826766a1a">SignalBlocker::m_timer</a></div><div class="ttdeci">QTimer m_timer</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:165</div></div>
+<div class="ttc" id="aclass_signal_blocker_html_a4f3f8708d254bda17cdac77fa661131c"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#a4f3f8708d254bda17cdac77fa661131c">SignalBlocker::m_locked</a></div><div class="ttdeci">bool m_locked</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:168</div></div>
 <div class="ttc" id="aclass_signal_blocker_html_a892f8f76a1c8037cd1aa6e74aa3dd9ec"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#a892f8f76a1c8037cd1aa6e74aa3dd9ec">SignalBlocker::fire</a></div><div class="ttdeci">void fire(Locker) const</div></div>
-<div class="ttc" id="aclass_signal_blocker_html_aa8f977681e691070a8fced443e75c8e9"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#aa8f977681e691070a8fced443e75c8e9">SignalBlocker::m_dirty</a></div><div class="ttdeci">bool m_dirty</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:132</div></div>
-<div class="ttc" id="aclass_signal_blocker_html_ac973359de5b0b2704127d5bbdf852068"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#ac973359de5b0b2704127d5bbdf852068">SignalBlocker::m_mutex</a></div><div class="ttdeci">std::recursive_mutex m_mutex</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:131</div></div>
-<div class="ttc" id="aclass_signal_postponer_html"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html">SignalPostponer</a></div><div class="ttdoc">Helper for lazy_connect. Not meant to be used directly.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:34</div></div>
+<div class="ttc" id="aclass_signal_blocker_html_aa8f977681e691070a8fced443e75c8e9"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#aa8f977681e691070a8fced443e75c8e9">SignalBlocker::m_dirty</a></div><div class="ttdeci">bool m_dirty</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:167</div></div>
+<div class="ttc" id="aclass_signal_blocker_html_ac973359de5b0b2704127d5bbdf852068"><div class="ttname"><a href="../../d8/da6/class_signal_blocker.html#ac973359de5b0b2704127d5bbdf852068">SignalBlocker::m_mutex</a></div><div class="ttdeci">std::recursive_mutex m_mutex</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:166</div></div>
+<div class="ttc" id="aclass_signal_postponer_html"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html">SignalPostponer</a></div><div class="ttdoc">Helper for lazy_connect. Not meant to be used directly.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:35</div></div>
 <div class="ttc" id="aclass_signal_postponer_html_a1e89012203ce98b0f866087510ea5bf3"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#a1e89012203ce98b0f866087510ea5bf3">SignalPostponer::notify</a></div><div class="ttdeci">void notify()</div><div class="ttdef"><b>Definition</b> signal_postponer.cpp:34</div></div>
 <div class="ttc" id="aclass_signal_postponer_html_a2407134540561c3bac49039e4dda8442"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#a2407134540561c3bac49039e4dda8442">SignalPostponer::setDelay</a></div><div class="ttdeci">void setDelay(const std::chrono::milliseconds &amp;)</div><div class="ttdef"><b>Definition</b> signal_postponer.cpp:22</div></div>
-<div class="ttc" id="aclass_signal_postponer_html_a4370259bcda9fd69d4bb915e1fbe374b"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#a4370259bcda9fd69d4bb915e1fbe374b">SignalPostponer::m_delay</a></div><div class="ttdeci">std::chrono::milliseconds m_delay</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:64</div></div>
+<div class="ttc" id="aclass_signal_postponer_html_a4370259bcda9fd69d4bb915e1fbe374b"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#a4370259bcda9fd69d4bb915e1fbe374b">SignalPostponer::m_delay</a></div><div class="ttdeci">std::chrono::milliseconds m_delay</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:65</div></div>
 <div class="ttc" id="aclass_signal_postponer_html_a5ca6252316ce443660e7d67c46ffd518"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#a5ca6252316ce443660e7d67c46ffd518">SignalPostponer::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdef"><b>Definition</b> signal_postponer.cpp:43</div></div>
-<div class="ttc" id="aclass_signal_postponer_html_aa2aca105a276ac0d566c364c27f743cf"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#aa2aca105a276ac0d566c364c27f743cf">SignalPostponer::m_patienceTimer</a></div><div class="ttdeci">QTimer m_patienceTimer</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:63</div></div>
-<div class="ttc" id="aclass_signal_postponer_html_aa88214ac8dc30171f36e3393191dc9ac"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#aa88214ac8dc30171f36e3393191dc9ac">SignalPostponer::SignalPostponer</a></div><div class="ttdeci">SignalPostponer(Fire fire, QObject *p)</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:39</div></div>
-<div class="ttc" id="aclass_signal_postponer_html_aa8c389e263ced68027c86ef9a8acd9c3"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#aa8c389e263ced68027c86ef9a8acd9c3">SignalPostponer::m_lazinessTimer</a></div><div class="ttdeci">QTimer m_lazinessTimer</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:62</div></div>
-<div class="ttc" id="aclass_signal_postponer_html_ad21bfb1cfe5f570f04d2342c92cace97"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#ad21bfb1cfe5f570f04d2342c92cace97">SignalPostponer::m_patience</a></div><div class="ttdeci">std::chrono::milliseconds m_patience</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:65</div></div>
+<div class="ttc" id="aclass_signal_postponer_html_aa2aca105a276ac0d566c364c27f743cf"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#aa2aca105a276ac0d566c364c27f743cf">SignalPostponer::m_patienceTimer</a></div><div class="ttdeci">QTimer m_patienceTimer</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:64</div></div>
+<div class="ttc" id="aclass_signal_postponer_html_aa88214ac8dc30171f36e3393191dc9ac"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#aa88214ac8dc30171f36e3393191dc9ac">SignalPostponer::SignalPostponer</a></div><div class="ttdeci">SignalPostponer(Fire fire, QObject *p)</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:40</div></div>
+<div class="ttc" id="aclass_signal_postponer_html_aa8c389e263ced68027c86ef9a8acd9c3"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#aa8c389e263ced68027c86ef9a8acd9c3">SignalPostponer::m_lazinessTimer</a></div><div class="ttdeci">QTimer m_lazinessTimer</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:63</div></div>
+<div class="ttc" id="aclass_signal_postponer_html_ad21bfb1cfe5f570f04d2342c92cace97"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#ad21bfb1cfe5f570f04d2342c92cace97">SignalPostponer::m_patience</a></div><div class="ttdeci">std::chrono::milliseconds m_patience</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:66</div></div>
 <div class="ttc" id="aclass_signal_postponer_html_ad6b41649280a5a744fd9b8a32950fdf0"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#ad6b41649280a5a744fd9b8a32950fdf0">SignalPostponer::setPatiece</a></div><div class="ttdeci">void setPatiece(const std::chrono::milliseconds &amp;)</div><div class="ttdef"><b>Definition</b> signal_postponer.cpp:28</div></div>
 <div class="ttc" id="aclass_signal_postponer_html_afc6fe4451c98e13f2eda9b4685b04b00"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#afc6fe4451c98e13f2eda9b4685b04b00">SignalPostponer::~SignalPostponer</a></div><div class="ttdeci">~SignalPostponer()=default</div></div>
 <div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition</b> general.hpp:13</div></div>
-<div class="ttc" id="asignal__postponer_8hpp_html_a07a9380d3812074d4bdcd7346b60a184"><div class="ttname"><a href="../../dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184">blocked_connect</a></div><div class="ttdeci">SignalBlocker * blocked_connect(SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;block=std::chrono::milliseconds(0))</div><div class="ttdoc">blocks slot invocation until previous invocation is complete.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:162</div></div>
-<div class="ttc" id="asignal__postponer_8hpp_html_abe66cbd029d63c7ed5b45b8b8e29ebd1"><div class="ttname"><a href="../../dc/dfa/signal__postponer_8hpp.html#abe66cbd029d63c7ed5b45b8b8e29ebd1">lazy_connect</a></div><div class="ttdeci">void lazy_connect(SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;delay=std::chrono::milliseconds(250), const std::chrono::milliseconds &amp;patience=std::chrono::milliseconds(1000), Qt::ConnectionType type=Qt::AutoConnection)</div><div class="ttdoc">Create lazy Qt connection between signal and slot.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:95</div></div>
+<div class="ttc" id="asignal__postponer_8hpp_html_a04ceca6d6db222d93899b7d9bf9fa4cd"><div class="ttname"><a href="../../dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd">lazy_connect</a></div><div class="ttdeci">void lazy_connect(SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;delay=std::chrono::milliseconds(250), const std::chrono::milliseconds &amp;patience=std::chrono::milliseconds(1000), Qt::ConnectionType type=Qt::AutoConnection)</div><div class="ttdoc">Create lazy Qt connection between signal and slot.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:97</div></div>
+<div class="ttc" id="asignal__postponer_8hpp_html_a07a9380d3812074d4bdcd7346b60a184"><div class="ttname"><a href="../../dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184">blocked_connect</a></div><div class="ttdeci">SignalBlocker * blocked_connect(SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;block=std::chrono::milliseconds(0))</div><div class="ttdoc">blocks slot invocation until previous invocation is complete.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:197</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 6 2026 20:55:46 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Jan 17 2026 16:34:30 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

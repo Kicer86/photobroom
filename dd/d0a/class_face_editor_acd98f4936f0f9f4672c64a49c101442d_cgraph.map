@@ -1,19 +1,19 @@
 <map id="FaceEditor::findFaces" name="FaceEditor::findFaces">
 <area shape="rect" id="Node000001" title=" " alt="" coords="5,215,151,240"/>
-<area shape="rect" id="Node000002" href="$d4/d20/task__executor__utils_8hpp.html#a3f0aa9b30c11096d7aa5e0e982b1c7a5" title=" " alt="" coords="269,5,340,31"/>
+<area shape="rect" id="Node000002" href="$d4/d20/task__executor__utils_8hpp.html#a4f5a6ee4a98dc1e4ad0be01037d6040c" title=" " alt="" coords="269,5,340,31"/>
 <area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,213,96,179,120,132,153,83,174,61,197,41,224,27,253,20,255,25,226,32,200,46,178,64,158,86,124,135,101,181,86,215"/>
-<area shape="rect" id="Node000003" href="$d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" title=" " alt="" coords="234,55,375,96"/>
+<area shape="rect" id="Node000003" href="$d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0" title=" " alt="" coords="234,55,375,96"/>
 <area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="87,212,131,161,162,132,197,107,218,96,220,101,200,111,166,136,135,165,91,216"/>
-<area shape="rect" id="Node000006" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#afc9e76cdb4731506c7f06857205615e7" title=" " alt="" coords="199,120,410,161"/>
-<area shape="poly" id="edge3_Node000001_Node000006" title=" " alt="" coords="105,212,198,170,215,164,217,169,200,175,107,217"/>
-<area shape="rect" id="Node000007" href="$db/d29/class_photo_1_1_explicit_delta.html#aa17dc0e526caaa840d26a44e3b0d9b40" title=" " alt="" coords="226,185,382,211"/>
-<area shape="poly" id="edge4_Node000001_Node000007" title=" " alt="" coords="150,215,210,208,211,213,151,221"/>
-<area shape="rect" id="Node000011" href="$db/d29/class_photo_1_1_explicit_delta.html#a17a99123198a14dfec77677700c8d2ad" title=" " alt="" coords="238,235,370,276"/>
-<area shape="poly" id="edge5_Node000001_Node000011" title=" " alt="" coords="151,234,223,243,222,248,150,239"/>
-<area shape="rect" id="Node000013" href="$d2/ddd/struct_database_1_1_i_backend.html#ac762cc3e374776d405c5854a0d7e02d2" title="fetch photo data" alt="" coords="236,300,373,341"/>
-<area shape="poly" id="edge6_Node000001_Node000013" title=" " alt="" coords="104,238,200,285,222,293,220,298,198,290,102,243"/>
-<area shape="rect" id="Node000014" href="$d2/ddd/struct_database_1_1_i_backend.html#a1e061ef0e8b1c3645f134171c4869bba" title="set flag for photo to given value" alt="" coords="224,365,385,391"/>
-<area shape="poly" id="edge7_Node000001_Node000014" title=" " alt="" coords="90,239,133,294,164,325,200,351,213,357,211,362,197,355,161,329,129,297,86,243"/>
-<area shape="rect" id="Node000015" href="$d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" title="update photos details" alt="" coords="236,415,373,456"/>
-<area shape="poly" id="edge8_Node000001_Node000015" title=" " alt="" coords="87,240,102,273,126,316,159,362,200,401,223,414,220,419,197,406,155,366,122,319,97,275,82,242"/>
+<area shape="rect" id="Node000004" href="$d2/dbd/namespace_database_1_1_common_general_flags.html#afc9e76cdb4731506c7f06857205615e7" title=" " alt="" coords="199,120,410,161"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="105,212,198,170,215,164,217,169,200,175,107,217"/>
+<area shape="rect" id="Node000005" href="$db/d29/class_photo_1_1_explicit_delta.html#aa17dc0e526caaa840d26a44e3b0d9b40" title=" " alt="" coords="226,185,382,211"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="150,215,210,208,211,213,151,221"/>
+<area shape="rect" id="Node000009" href="$db/d29/class_photo_1_1_explicit_delta.html#a17a99123198a14dfec77677700c8d2ad" title=" " alt="" coords="238,235,370,276"/>
+<area shape="poly" id="edge5_Node000001_Node000009" title=" " alt="" coords="151,234,223,243,222,248,150,239"/>
+<area shape="rect" id="Node000011" href="$d2/ddd/struct_database_1_1_i_backend.html#ac762cc3e374776d405c5854a0d7e02d2" title="fetch photo data" alt="" coords="236,300,373,341"/>
+<area shape="poly" id="edge6_Node000001_Node000011" title=" " alt="" coords="104,238,200,285,222,293,220,298,198,290,102,243"/>
+<area shape="rect" id="Node000012" href="$d2/ddd/struct_database_1_1_i_backend.html#a1e061ef0e8b1c3645f134171c4869bba" title="set flag for photo to given value" alt="" coords="224,365,385,391"/>
+<area shape="poly" id="edge7_Node000001_Node000012" title=" " alt="" coords="90,239,133,294,164,325,200,351,213,357,211,362,197,355,161,329,129,297,86,243"/>
+<area shape="rect" id="Node000013" href="$d2/ddd/struct_database_1_1_i_backend.html#a54e72b2ef4e7cde71e7be3b7fd70c03e" title="update photos details" alt="" coords="236,415,373,456"/>
+<area shape="poly" id="edge8_Node000001_Node000013" title=" " alt="" coords="87,240,102,273,126,316,159,362,200,401,223,414,220,419,197,406,155,366,122,319,97,275,82,242"/>
 </map>

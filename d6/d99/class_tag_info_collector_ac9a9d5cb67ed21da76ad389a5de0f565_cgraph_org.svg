@@ -21,8 +21,8 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#ac86cb641a8f5a37a00873df333bb12bb" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="270.88,-128.5 164.88,-128.5 164.88,-98 270.88,-98 270.88,-128.5"/>
+<g id="a_Node000002"><a xlink:href="../../d7/da9/struct_database_1_1_i_database.html#aa3790cf001a3f456414294820a5109b0" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="270.88,-128.5 164.88,-128.5 164.88,-98 270.88,-98 270.88,-128.5"/>
 <text text-anchor="start" x="172.88" y="-115" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IDatabase</text>
 <text text-anchor="middle" x="217.88" y="-103.75" font-family="Helvetica,sans-Serif" font-size="10.00">::exec</text>
 </a>
@@ -37,39 +37,39 @@
 </a>
 </g>
 </g>
-<!-- Node5 -->
-<g id="Node000005" class="node">
-<title>Node5</title>
-<g id="a_Node000005"><a xlink:href="../../d6/d99/class_tag_info_collector.html#abf40d1de87194feee9c0b1a23172ff12" target="_top" xlink:title=" ">
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:href="../../d6/d99/class_tag_info_collector.html#abf40d1de87194feee9c0b1a23172ff12" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="278.75,-79.5 157,-79.5 157,-49 278.75,-49 278.75,-79.5"/>
 <text text-anchor="start" x="165" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">TagInfoCollector::gotTag</text>
 <text text-anchor="middle" x="217.88" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">Values</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node5 -->
-<g id="edge2_Node000001_Node000005" class="edge">
-<title>Node1&#45;&gt;Node5</title>
-<g id="a_edge2_Node000001_Node000005"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M121.13,-64.25C129.04,-64.25 137.21,-64.25 145.3,-64.25"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="145.12,-67.75 155.12,-64.25 145.12,-60.75 145.12,-67.75"/>
 </a>
 </g>
 </g>
-<!-- Node7 -->
-<g id="Node000007" class="node">
-<title>Node7</title>
-<g id="a_Node000007"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a566e5e93d90f9747fd65b028d47812c5" target="_top" xlink:title="list all values of tag for photos matching provided filter">
+<!-- Node5 -->
+<g id="Node000005" class="node">
+<title>Node5</title>
+<g id="a_Node000005"><a xlink:href="../../d2/ddd/struct_database_1_1_i_backend.html#a566e5e93d90f9747fd65b028d47812c5" target="_top" xlink:title="list all values of tag for photos matching provided filter">
 <polygon fill="white" stroke="#666666" points="269.38,-30.5 166.38,-30.5 166.38,0 269.38,0 269.38,-30.5"/>
 <text text-anchor="start" x="174.38" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Database::IBackend</text>
 <text text-anchor="middle" x="217.88" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">::listTagValues</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node7 -->
-<g id="edge3_Node000001_Node000007" class="edge">
-<title>Node1&#45;&gt;Node7</title>
-<g id="a_edge3_Node000001_Node000007"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node5 -->
+<g id="edge3_Node000001_Node000005" class="edge">
+<title>Node1&#45;&gt;Node5</title>
+<g id="a_edge3_Node000001_Node000005"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M111.09,-48.61C125.45,-44.08 141.3,-39.08 156.26,-34.37"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="157.03,-37.79 165.51,-31.45 154.92,-31.12 157.03,-37.79"/>
 </a>

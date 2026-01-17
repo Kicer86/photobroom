@@ -37,19 +37,19 @@
 </a>
 </g>
 </g>
-<!-- Node19 -->
-<g id="Node000019" class="node">
-<title>Node19</title>
-<g id="a_Node000019"><a xlink:href="../../d3/d3d/class_photos_collector.html#a28abdbad84581fe869c99c25fe035d6b" target="_top" xlink:title=" ">
+<!-- Node17 -->
+<g id="Node000017" class="node">
+<title>Node17</title>
+<g id="a_Node000017"><a xlink:href="../../d3/d3d/class_photos_collector.html#a28abdbad84581fe869c99c25fe035d6b" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="#666666" points="257.75,-19.25 135.25,-19.25 135.25,0 257.75,0 257.75,-19.25"/>
 <text text-anchor="middle" x="196.5" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">PhotosCollector::finished</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node19 -->
-<g id="edge2_Node000001_Node000019" class="edge">
-<title>Node1&#45;&gt;Node19</title>
-<g id="a_edge2_Node000001_Node000019"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node17 -->
+<g id="edge2_Node000001_Node000017" class="edge">
+<title>Node1&#45;&gt;Node17</title>
+<g id="a_edge2_Node000001_Node000017"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M99.67,-23.52C107.37,-22.4 115.47,-21.23 123.55,-20.05"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="124.05,-23.52 133.44,-18.62 123.04,-16.59 124.05,-23.52"/>
 </a>

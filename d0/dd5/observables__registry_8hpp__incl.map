@@ -1,12 +1,13 @@
 <map id="src/core/observables_registry.hpp" name="src/core/observables_registry.hpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="126,5,268,46"/>
-<area shape="rect" id="Node000002" title=" " alt="" coords="5,94,75,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="159,49,79,89,77,84,157,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="98,94,150,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,48,147,84,144,81,177,45"/>
-<area shape="rect" id="Node000004" href="$d2/de0/observable__executor_8hpp.html" title=" " alt="" coords="174,94,367,120"/>
-<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="217,45,251,81,247,84,214,48"/>
-<area shape="rect" id="Node000006" title=" " alt="" coords="288,168,386,193"/>
-<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="269,31,300,39,331,51,359,68,382,93,388,110,384,127,364,159,359,156,380,125,383,110,378,95,356,73,329,56,299,44,268,36"/>
-<area shape="poly" id="edge4_Node000004_Node000006" title=" " alt="" coords="284,118,318,154,314,158,280,122"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="50,5,192,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="67,168,137,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="67,49,36,68,13,95,9,114,18,130,36,146,58,158,56,163,33,150,14,134,4,114,8,93,33,64,64,44"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="22,94,73,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="105,48,71,84,67,81,101,45"/>
+<area shape="rect" id="Node000004" href="$d2/de0/observable__executor_8hpp.html" title=" " alt="" coords="97,94,291,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="141,45,175,81,171,84,137,48"/>
+<area shape="rect" id="Node000012" title=" " alt="" coords="212,168,310,193"/>
+<area shape="poly" id="edge6_Node000001_Node000012" title=" " alt="" coords="193,31,224,39,255,51,283,68,306,93,311,110,308,127,287,159,283,156,303,125,306,110,301,95,279,73,252,56,222,44,192,36"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="180,122,131,160,128,156,177,118"/>
+<area shape="poly" id="edge5_Node000004_Node000012" title=" " alt="" coords="207,118,241,154,237,158,203,122"/>
 </map>

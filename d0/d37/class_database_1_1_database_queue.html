@@ -116,9 +116,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:ab1d818805bed22dc99601f016cfd3cdb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d6460f2605cbc8c9721fd7211b136e4" id="r_a3d6460f2605cbc8c9721fd7211b136e4"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a3d6460f2605cbc8c9721fd7211b136e4">flush</a> ()</td></tr>
 <tr class="separator:a3d6460f2605cbc8c9721fd7211b136e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a986bb6cbf5feb18300106de60e39dc74" id="r_a986bb6cbf5feb18300106de60e39dc74"><td class="memTemplParams" colspan="2">template&lt;typename C &gt; </td></tr>
-<tr class="memitem:a986bb6cbf5feb18300106de60e39dc74"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a986bb6cbf5feb18300106de60e39dc74">pushTask</a> (C &amp;&amp;task)</td></tr>
-<tr class="separator:a986bb6cbf5feb18300106de60e39dc74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8560ab677e6ff0d4d9cc120f4bbff4db" id="r_a8560ab677e6ff0d4d9cc120f4bbff4db"><td class="memTemplParams" colspan="2">template&lt;typename C &gt; </td></tr>
+<tr class="memitem:a8560ab677e6ff0d4d9cc120f4bbff4db"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a8560ab677e6ff0d4d9cc120f4bbff4db">pushTask</a> (C &amp;&amp;task, std::string_view name)</td></tr>
+<tr class="separator:a8560ab677e6ff0d4d9cc120f4bbff4db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a54ab13b393f13e53c72d2bb9a4077eac" id="r_a54ab13b393f13e53c72d2bb9a4077eac"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a54ab13b393f13e53c72d2bb9a4077eac">pushPackibleTask</a> (std::function&lt; void(<a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a> &amp;)&gt; &amp;&amp;)</td></tr>
 <tr class="memdesc:a54ab13b393f13e53c72d2bb9a4077eac"><td class="mdescLeft">&#160;</td><td class="mdescRight">task will be send to db as a pack with other tasks  <br /></td></tr>
 <tr class="separator:a54ab13b393f13e53c72d2bb9a4077eac"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -286,8 +286,8 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a986bb6cbf5feb18300106de60e39dc74" name="a986bb6cbf5feb18300106de60e39dc74"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a986bb6cbf5feb18300106de60e39dc74">&#9670;&#160;</a></span>pushTask()</h2>
+<a id="a8560ab677e6ff0d4d9cc120f4bbff4db" name="a8560ab677e6ff0d4d9cc120f4bbff4db"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8560ab677e6ff0d4d9cc120f4bbff4db">&#9670;&#160;</a></span>pushTask()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -300,8 +300,12 @@ template&lt;typename C &gt; </div>
         <tr>
           <td class="memname">void Database::DatabaseQueue::pushTask </td>
           <td>(</td>
-          <td class="paramtype">C &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>task</em></span></td><td>)</td>
+          <td class="paramtype">C &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>task</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">std::string_view</td>          <td class="paramname"><span class="paramname"><em>name</em></span>&#160;)</td>
         </tr>
       </table>
   </td>
@@ -312,19 +316,19 @@ template&lt;typename C &gt; </div>
 </div><div class="memdoc">
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">task</td><td>task will be send directly to db </td></tr>
+    <tr><td class="paramname">name</td><td>task will be send directly to db </td></tr>
   </table>
   </dd>
 </dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d37/class_database_1_1_database_queue_a986bb6cbf5feb18300106de60e39dc74_cgraph.svg" width="376" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d37/class_database_1_1_database_queue_a8560ab677e6ff0d4d9cc120f4bbff4db_cgraph.svg" width="376" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d37/class_database_1_1_database_queue_a986bb6cbf5feb18300106de60e39dc74_icgraph.svg" width="414" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d37/class_database_1_1_database_queue_a8560ab677e6ff0d4d9cc120f4bbff4db_icgraph.svg" width="414" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -381,7 +385,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 6 2026 20:55:48 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Jan 17 2026 16:34:31 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

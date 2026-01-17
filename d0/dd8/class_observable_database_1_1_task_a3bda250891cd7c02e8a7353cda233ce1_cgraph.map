@@ -1,7 +1,9 @@
 <map id="ObservableDatabase::Task::run" name="ObservableDatabase::Task::run">
-<area shape="rect" id="Node000001" title=" " alt="" coords="5,39,148,79"/>
-<area shape="rect" id="Node000002" href="$d5/d20/class_observable_executor.html#a204f6bfdc8d818f11bbd81ac2f1b1cd2" title=" " alt="" coords="208,5,346,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,45,193,37,194,42,149,50"/>
-<area shape="rect" id="Node000004" href="$d5/d20/class_observable_executor.html#a21881159755709fdae96a9afaf55194a" title=" " alt="" coords="196,71,358,111"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="149,68,180,73,180,78,148,73"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,71,148,111"/>
+<area shape="rect" id="Node000002" href="$d0/dd8/class_observable_database_1_1_task.html#a84d300c9db9f621e2c6558fe969e3cdb" title=" " alt="" coords="206,5,348,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,68,197,49,199,54,142,73"/>
+<area shape="rect" id="Node000003" href="$d5/d20/class_observable_executor.html#ac4484c7c17b00d84c7c940081088ca12" title=" " alt="" coords="208,71,346,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="148,88,193,88,193,94,148,94"/>
+<area shape="rect" id="Node000010" href="$d5/d20/class_observable_executor.html#af1e7364f6d3adc7c9e681e1e8a7329a7" title=" " alt="" coords="196,136,358,177"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="142,109,199,128,197,133,140,114"/>
 </map>

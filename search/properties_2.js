@@ -1,8 +1,7 @@
 var searchData=
 [
-  ['categories_0',['categories',['../d2/d10/class_photos_model_controller_component.html#a5e78c5995af1cd100e8eb0e70c013c84',1,'PhotosModelControllerComponent']]],
-  ['category_1',['category',['../d2/d10/class_photos_model_controller_component.html#af273583215a11c242be14107d64c54fb',1,'PhotosModelControllerComponent']]],
-  ['core_2',['core',['../d6/de2/class_faces_model.html#ae3a6b4f06064258fc392ae75e61245b4',1,'FacesModel::core'],['../d3/d07/class_media_view_ctrl.html#a24544ef752e669a82a07a15fe89f3986',1,'MediaViewCtrl::core'],['../dc/d96/class_batch_face_detector.html#aefb065ee3fda9f98894d08278762b71a',1,'BatchFaceDetector::core']]],
-  ['corefactory_3',['coreFactory',['../d5/d0f/class_series_model.html#a08c8b90eab74ffc358ec22a742a3b470',1,'SeriesModel::coreFactory'],['../de/db3/class_context_menu_manager.html#a1e35efdd792e91f0e05093a5ff1c46ae',1,'ContextMenuManager::coreFactory'],['../df/db2/class_objects_accessor.html#ae8888d84a7e88bb376b6f67993cacfdf',1,'ObjectsAccessor::coreFactory']]],
-  ['count_4',['count',['../d3/d28/class_notifications_model.html#a6b28c11f13bbe0572b32e076534238ba',1,'NotificationsModel']]]
+  ['data_0',['data',['../d7/ddf/class_photo_data_qml.html#a3b23413b674ee1df94aa04fe8fbd0f9a',1,'PhotoDataQml']]],
+  ['database_1',['database',['../d3/d94/class_duplicates_model.html#ad413eced76575206cbca7aa244d9af2d',1,'DuplicatesModel::database'],['../d6/de2/class_faces_model.html#a50254cfc7439d3bcde1c0e5b6783e2bd',1,'FacesModel::database'],['../d2/dbb/class_photo_properties_model.html#a3277faa0fb008e6b3a0e76287ab324e8',1,'PhotoPropertiesModel::database'],['../d4/dd6/class_photos_data_guesser.html#aa434ad5b2f5a9ecefd485c1e1c1ecf56',1,'PhotosDataGuesser::database'],['../d5/d40/class_q_m_l_flat_model.html#a3a176ca67002d16ae4548a5789895682',1,'QMLFlatModel::database'],['../d0/d5d/class_tags_model.html#aece9dd224e7da4b91acc5a46380f9f69',1,'TagsModel::database'],['../df/db2/class_objects_accessor.html#a637b9720b1bea861a680877cd996c97a',1,'ObjectsAccessor::database'],['../d2/d10/class_photos_model_controller_component.html#a67b69cda548f0e5e6b8afc7707302cd4',1,'PhotosModelControllerComponent::database']]],
+  ['datescount_2',['datesCount',['../d2/d10/class_photos_model_controller_component.html#a9a6ea24c17760f4e95da7e15985dfd33',1,'PhotosModelControllerComponent']]],
+  ['db_3',['db',['../dc/d96/class_batch_face_detector.html#a426ddbc7d0a32ef257b5e57d71e77ccf',1,'BatchFaceDetector']]]
 ];

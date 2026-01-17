@@ -98,8 +98,8 @@ $(function(){ initResizable(false); });
 <code>#include &lt;mutex&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;QObject&gt;</code><br />
-<code>#include &lt;QTimer&gt;</code><br />
 <code>#include &lt;QSharedPointer&gt;</code><br />
+<code>#include &lt;QTimer&gt;</code><br />
 <code>#include &quot;core_export.h&quot;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for signal_postponer.hpp:</div>
@@ -117,7 +117,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="nested-classes" name="nested-classes"></a>
 Classes</h2></td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d97/class_signal_postponer.html">SignalPostponer</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for <a class="el" href="#abe66cbd029d63c7ed5b45b8b8e29ebd1">lazy_connect</a>. Not meant to be used directly.  <a href="../../df/d97/class_signal_postponer.html#details">More...</a><br /></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper for <a class="el" href="#a04ceca6d6db222d93899b7d9bf9fa4cd">lazy_connect</a>. Not meant to be used directly.  <a href="../../df/d97/class_signal_postponer.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a></td></tr>
 <tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Helper class for <a class="el" href="#a07a9380d3812074d4bdcd7346b60a184">blocked_connect</a>. Not meant to be use directly.  <a href="../../d8/da6/class_signal_blocker.html#details">More...</a><br /></td></tr>
@@ -125,10 +125,15 @@ Classes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:abe66cbd029d63c7ed5b45b8b8e29ebd1" id="r_abe66cbd029d63c7ed5b45b8b8e29ebd1"><td class="memTemplParams" colspan="2">template&lt;typename SrcObj , typename Signal , typename Dst , typename Slot &gt; </td></tr>
-<tr class="memitem:abe66cbd029d63c7ed5b45b8b8e29ebd1"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abe66cbd029d63c7ed5b45b8b8e29ebd1">lazy_connect</a> (SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;delay=std::chrono::milliseconds(250), const std::chrono::milliseconds &amp;patience=std::chrono::milliseconds(1000), Qt::ConnectionType type=Qt::AutoConnection)</td></tr>
-<tr class="memdesc:abe66cbd029d63c7ed5b45b8b8e29ebd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create lazy Qt connection between signal and slot.  <br /></td></tr>
-<tr class="separator:abe66cbd029d63c7ed5b45b8b8e29ebd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a04ceca6d6db222d93899b7d9bf9fa4cd" id="r_a04ceca6d6db222d93899b7d9bf9fa4cd"><td class="memTemplParams" colspan="2">template&lt;typename SrcObj , typename Signal , typename Dst , typename Slot &gt; <br />
+requires (std::is_invocable_v&lt;Slot&gt; || std::is_invocable_v&lt;Slot, Dst&gt;)</td></tr>
+<tr class="memitem:a04ceca6d6db222d93899b7d9bf9fa4cd"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a04ceca6d6db222d93899b7d9bf9fa4cd">lazy_connect</a> (SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;delay=std::chrono::milliseconds(250), const std::chrono::milliseconds &amp;patience=std::chrono::milliseconds(1000), Qt::ConnectionType type=Qt::AutoConnection)</td></tr>
+<tr class="memdesc:a04ceca6d6db222d93899b7d9bf9fa4cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create lazy Qt connection between signal and slot.  <br /></td></tr>
+<tr class="separator:a04ceca6d6db222d93899b7d9bf9fa4cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abb6a0177870a2a9bc886ddfda4110618" id="r_abb6a0177870a2a9bc886ddfda4110618"><td class="memTemplParams" colspan="2">template&lt;typename SrcObj , typename Signal , typename Dst , typename Slot &gt; </td></tr>
+<tr class="memitem:abb6a0177870a2a9bc886ddfda4110618"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#abb6a0177870a2a9bc886ddfda4110618">lazy_connect</a> (QPointer&lt; SrcObj &gt; &amp;src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;delay=std::chrono::milliseconds(250), const std::chrono::milliseconds &amp;patience=std::chrono::milliseconds(1000), Qt::ConnectionType type=Qt::AutoConnection)</td></tr>
+<tr class="memdesc:abb6a0177870a2a9bc886ddfda4110618"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convenience overload for QPointer sources.  <br /></td></tr>
+<tr class="separator:abb6a0177870a2a9bc886ddfda4110618"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a07a9380d3812074d4bdcd7346b60a184" id="r_a07a9380d3812074d4bdcd7346b60a184"><td class="memTemplParams" colspan="2">template&lt;typename SrcObj , typename Signal , typename Dst , typename Slot &gt; </td></tr>
 <tr class="memitem:a07a9380d3812074d4bdcd7346b60a184"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="../../d8/da6/class_signal_blocker.html">SignalBlocker</a> *&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a07a9380d3812074d4bdcd7346b60a184">blocked_connect</a> (SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;block=std::chrono::milliseconds(0))</td></tr>
 <tr class="memdesc:a07a9380d3812074d4bdcd7346b60a184"><td class="mdescLeft">&#160;</td><td class="mdescRight">blocks slot invocation until previous invocation is complete.  <br /></td></tr>
@@ -196,13 +201,82 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="abe66cbd029d63c7ed5b45b8b8e29ebd1" name="abe66cbd029d63c7ed5b45b8b8e29ebd1"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abe66cbd029d63c7ed5b45b8b8e29ebd1">&#9670;&#160;</a></span>lazy_connect()</h2>
+<a id="abb6a0177870a2a9bc886ddfda4110618" name="abb6a0177870a2a9bc886ddfda4110618"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abb6a0177870a2a9bc886ddfda4110618">&#9670;&#160;</a></span>lazy_connect() <span class="overload">[1/2]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;typename SrcObj , typename Signal , typename Dst , typename Slot &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void lazy_connect </td>
+          <td>(</td>
+          <td class="paramtype">QPointer&lt; SrcObj &gt; &amp;</td>          <td class="paramname"><span class="paramname"><em>src</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Signal</td>          <td class="paramname"><span class="paramname"><em>sig</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Dst *</td>          <td class="paramname"><span class="paramname"><em>dst</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Slot</td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::chrono::milliseconds &amp;</td>          <td class="paramname"><span class="paramname"><em>delay</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::milliseconds(250)</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::chrono::milliseconds &amp;</td>          <td class="paramname"><span class="paramname"><em>patience</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::chrono::milliseconds(1000)</span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Qt::ConnectionType</td>          <td class="paramname"><span class="paramname"><em>type</em></span><span class="paramdefsep"> = </span><span class="paramdefval">Qt::AutoConnection</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Convenience overload for QPointer sources. </p>
+<p>Forwards to pointer-based <a class="el" href="#a04ceca6d6db222d93899b7d9bf9fa4cd">lazy_connect</a> using <code>src.data()</code>.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">src</td><td>source object as QPointer. </td></tr>
+    <tr><td class="paramname">sig</td><td>signal. </td></tr>
+    <tr><td class="paramname">dst</td><td>destination object. </td></tr>
+    <tr><td class="paramname">slot</td><td>slot. </td></tr>
+    <tr><td class="paramname">delay</td><td>minimal delay between signal emission and slot invocation. </td></tr>
+    <tr><td class="paramname">patience</td><td>maximal delay between signal emission and slot invocation. </td></tr>
+    <tr><td class="paramname">type</td><td>connection type. </td></tr>
+  </table>
+  </dd>
+</dl>
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_abb6a0177870a2a9bc886ddfda4110618_cgraph.svg" width="252" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a04ceca6d6db222d93899b7d9bf9fa4cd" name="a04ceca6d6db222d93899b7d9bf9fa4cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a04ceca6d6db222d93899b7d9bf9fa4cd">&#9670;&#160;</a></span>lazy_connect() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename SrcObj , typename Signal , typename Dst , typename Slot &gt; <br />
+requires (std::is_invocable_v&lt;Slot&gt; || std::is_invocable_v&lt;Slot, Dst&gt;)</div>
       <table class="memname">
         <tr>
           <td class="memname">void lazy_connect </td>
@@ -259,12 +333,12 @@ template&lt;typename SrcObj , typename Signal , typename Dst , typename Slot &gt
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_abe66cbd029d63c7ed5b45b8b8e29ebd1_cgraph.svg" width="340" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_a04ceca6d6db222d93899b7d9bf9fa4cd_cgraph.svg" width="340" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_abe66cbd029d63c7ed5b45b8b8e29ebd1_icgraph.svg" width="248" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_a04ceca6d6db222d93899b7d9bf9fa4cd_icgraph.svg" width="328" height="151"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -272,7 +346,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jan 6 2026 20:55:47 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Jan 17 2026 16:34:30 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>
