@@ -26,9 +26,9 @@ namespace Database
         void flush();
 
         template<typename C>
-        void pushTask(C&& task)                                                ///< task will be send directly to db
+        void pushTask(C&& task, std::string_view name)                         ///< task will be send directly to db
         {
-            m_db.exec(std::move(task));
+            m_db.exec(std::move(task), name);
         }
 
         void pushPackibleTask(std::function<void(Database::IBackend &)> &&);   ///< task will be send to db as a pack with other tasks
@@ -46,9 +46,9 @@ namespace Database
 template<typename T>
 struct ExecutorTraits<Database::DatabaseQueue, T>
 {
-    static void exec(Database::DatabaseQueue& queue, T&& t)
+    static void exec(Database::DatabaseQueue& queue, T&& t, std::string_view name)
     {
-        queue.pushTask(std::move(t));
+        queue.pushTask(std::move(t), name);
     }
 };
 

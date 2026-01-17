@@ -14,6 +14,8 @@ set(SRC
     itags_operator.hpp
     notifications_model.cpp
     notifications_model.hpp
+    observable_executor_model.cpp
+    observable_executor_model.hpp
     photo_properties_model.cpp
     photo_properties_model.hpp
     photos_data_guesser.cpp

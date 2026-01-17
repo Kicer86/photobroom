@@ -50,7 +50,7 @@ jobs:
     # Workaround: build dependencies into the manual binary cache since run-vcpkg cache is unreliable.
     - name: build dependencies
       run: |
-        vcpkg\vcpkg.exe install
+        vcpkg\\vcpkg.exe install
 
 
   build-photo-broom:
@@ -62,11 +62,11 @@ jobs:
       matrix:
         config:
           - name: "debug"
-            cmake_config: "ninja_debug_vcpkg"
-            cmake_build: "Ninja Debug"
+            cmake_config: "ninja-vcpkg-debug"
+            cmake_build: "ninja-vcpkg-debug"
           - name: "release"
-            cmake_config: "ninja_release_vcpkg"
-            cmake_build: "Ninja Release"
+            cmake_config: "ninja-vcpkg-release"
+            cmake_build: "ninja-vcpkg-release"
 
     steps:
     - name: Print setup
@@ -142,7 +142,7 @@ jobs:
       uses: actions/upload-artifact@v6
       with:
         name: Installer
-        path: out/build/ninja_release_vcpkg/PhotoBroom-*-win64.exe
+        path: out/build/ninja-vcpkg-release/PhotoBroom-*-win64.exe
 
 
   test-installation:
@@ -175,4 +175,4 @@ jobs:
       - name: Check dependencies
         run: |
           pip install pefile
-          python dependencies_valdiator.py "C:\Program Files\PhotoBroom\Photo_Broom.exe"
+          python dependencies_valdiator.py "C:\\Program Files\\PhotoBroom\\Photo_Broom.exe"

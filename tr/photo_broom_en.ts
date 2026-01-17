@@ -161,30 +161,6 @@
     </message>
 </context>
 <context>
-    <name>DebugWindow</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="23"/>
-        <source>Tasks in queue</source>
-        <translation>Tasks in queue</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="27"/>
-        <source>Tasks executed</source>
-        <translation>Tasks executed</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="31"/>
-        <source>Execution speed</source>
-        <translation>Execution speed</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="31"/>
-        <source>tps</source>
-        <comment>tasks per second</comment>
-        <translation>tps</translation>
-    </message>
-</context>
-<context>
     <name>DuplicatesView</name>
     <message>
         <location filename="../src/gui/desktop/quick_items/views/DuplicatesView.qml" line="16"/>
@@ -536,6 +512,35 @@ Error code: %1</translation>
     </message>
 </context>
 <context>
+    <name>ObservableExecutorModel</name>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="138"/>
+        <source>Tasks in queue</source>
+        <translation>Tasks in queue</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="140"/>
+        <source>Tasks executed</source>
+        <translation>Tasks executed</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="142"/>
+        <source>Execution speed</source>
+        <translation>Execution speed</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="144"/>
+        <source>Tasks</source>
+        <translation>Tasks</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="161"/>
+        <source>tps</source>
+        <comment>tasks per second</comment>
+        <translation>tps</translation>
+    </message>
+</context>
+<context>
     <name>PhotoDataCompletion</name>
     <message>
         <location filename="../src/gui/desktop/quick_items/views/PhotoDataCompletion.qml" line="27"/>
@@ -641,7 +646,7 @@ Error code: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="296"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="298"/>
         <source>Extracting data from new photos</source>
         <translation>Extracting data from new photos</translation>
     </message>
@@ -771,17 +776,17 @@ Error code: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="218"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="219"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation>&lt;b&gt;Properties&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="231"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="232"/>
         <source>&lt;b&gt;Media information&lt;/b&gt;</source>
         <translation>&lt;b&gt;Media information&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="244"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="246"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation>&lt;b&gt;Debug window&lt;/b&gt;</translation>
     </message>

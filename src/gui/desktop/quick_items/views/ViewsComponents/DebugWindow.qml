@@ -1,34 +1,81 @@
 
-import QtQuick 2.0
-import quick_items
+import QtQuick
+import QtQuick.Controls
+
+import quick_items.components as Components
+
+import photo_broom.models
 import photo_broom.singletons
 
 
 Item {
-    implicitWidth: childrenRect.width
-    implicitHeight: childrenRect.height
+    id: root
 
-    Column {
-        Repeater {
-            id: repeater
-            model: ObservablesRegistry.executors
+    implicitWidth: 300
+    implicitHeight: contentColumn.implicitHeight
 
-            Column {
-                Text {
-                    text: modelData.name
-                    font.bold: true
-                }
+    ScrollView {
+        id: scrollView
+        anchors.fill: parent
+        clip: true
 
-                Text {
-                    text: qsTr("Tasks in queue") + ": " + modelData.awaitingTasks
-                }
+        Column {
+            id: contentColumn
+            width: scrollView.availableWidth
+            spacing: 8
 
-                Text {
-                    text: qsTr("Tasks executed")+ ": " + modelData.tasksExecuted
-                }
+            Repeater {
+                model: ObservablesRegistry.executors
 
-                Text {
-                    text: qsTr("Execution speed")+ ": " + modelData.executionSpeed + " " + qsTr("tps", "tasks per second");
+                Components.CollapsibleGroupBox {
+                    id: executorGroup
+
+                    width: parent.width
+                    clip: true
+
+                    readonly property ObservableExecutorModel executorModel: ObservableExecutorModel {
+                        executor: modelData
+                    }
+
+                    title: "<b>" + executorModel.title + "</b>"
+
+                    TreeView {
+                        width: parent.width
+                        clip: true
+                        model: executorModel
+                        delegate: TreeViewDelegate {
+                            id: treeDelegate
+
+                            contentItem: Item {
+                                implicitHeight: Math.max(labelText.implicitHeight, valueText.implicitHeight)
+                                implicitWidth: labelText.implicitWidth + (valueText.visible ? valueText.implicitWidth + 12 : 0)
+
+                                Text {
+                                    id: labelText
+                                    anchors.left: parent.left
+                                    anchors.right: valueText.left
+                                    anchors.rightMargin: valueText.visible ? 12 : 0
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    elide: Text.ElideRight
+                                    color: treeDelegate.highlighted ? treeDelegate.palette.highlightedText : treeDelegate.palette.buttonText
+                                    text: model.label !== undefined ? model.label : model.display
+                                }
+
+                                Text {
+                                    id: valueText
+                                    anchors.right: parent.right
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    width: visible ? implicitWidth : 0
+                                    color: treeDelegate.highlighted ? treeDelegate.palette.highlightedText : treeDelegate.palette.buttonText
+                                    text: model.value !== undefined ? model.value : ""
+                                    visible: model.value !== undefined
+                                }
+                            }
+                        }
+
+                        implicitHeight: contentHeight
+                        height: implicitHeight
+                    }
                 }
             }
         }

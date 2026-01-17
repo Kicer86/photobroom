@@ -64,7 +64,7 @@ namespace
             const auto analysisState = backend.get(ph_id, FacesAnalysisState);
 
             return analysisState? *analysisState == static_cast<int>(FacesAnalysisType::AnalysedAndNotFound): false;
-        });
+        }, "PeopleEditor: mark no faces");
     }
 
     QString pathFor(Database::IDatabase& db, const Photo::Id& id)
@@ -74,7 +74,7 @@ namespace
             auto photo = backend.getPhotoDelta(id, {Photo::Field::Path});
 
             return photo.get<Photo::Field::Path>();
-        });
+        }, "PeopleEditor: fetch photo path");
     }
 
     std::vector<QRect> detectFaces(const OrientedImage& image, const ILogger& logger)
@@ -192,7 +192,7 @@ class Recognizer: public IRecognizePerson
                 }
 
                 m_fingerprints = std::tuple(people_fingerprints, people);
-            });
+            }, "PeopleEditor: fetch people & fingerprints");
         }
 };
 
@@ -240,7 +240,7 @@ FaceEditor::PeopleData FaceEditor::findFaces(const OrientedImage& image, const P
         result = evaluate(m_db, [id](Database::IBackend& backend)
         {
             return backend.getPhotoDelta<Photo::Field::People>(id);
-        });
+        }, "PeopleEditor: fetch people");
 
         // no data in db
         if (result.get<Photo::Field::People>().empty())
@@ -251,23 +251,27 @@ FaceEditor::PeopleData FaceEditor::findFaces(const OrientedImage& image, const P
             {
                 // mark photo as one without faces
                 m_db.exec([id](Database::IBackend& backend)
-                {
-                    backend.set(
-                        id,
-                        FacesAnalysisState,
-                        FacesAnalysisType::AnalysedAndNotFound);
-                });
+                    {
+                        backend.set(
+                            id,
+                            FacesAnalysisState,
+                            FacesAnalysisType::AnalysedAndNotFound);
+                    },
+                    "FaceEditor: set analysis state"
+                );
             }
             else
             {
                 // store face location and fingerprint in db and update ids
                 evaluate(m_db, [&result](Database::IBackend& backend)
-                {
-                    backend.update({result});
+                    {
+                        backend.update({result});
 
-                    // refetch data to get updated ids
-                    result = backend.getPhotoDelta<Photo::Field::People>(result.getId());
-                });
+                        // refetch data to get updated ids
+                        result = backend.getPhotoDelta<Photo::Field::People>(result.getId());
+                    },
+                    "FaceEditor: get people"
+                );
             }
         }
     }

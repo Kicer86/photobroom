@@ -75,7 +75,7 @@ namespace Database
         virtual IBackend& backend() = 0;
 
         template<typename Callable> requires std::is_invocable_v<Callable, IBackend &>
-        void exec(Callable&& f, const std::string& name = std::source_location::current().function_name())
+        void exec(Callable&& f, std::string_view name)
         {
             auto task = std::make_unique<Task<Callable>>(std::forward<Callable>(f), name);
             execute(std::move(task));
@@ -104,7 +104,7 @@ namespace Database
             template<typename Callable>
             struct Task final: ITask
             {
-                Task(Callable&& f, const std::string& name)
+                Task(Callable&& f, std::string_view name)
                     : m_f(std::forward<Callable>(f))
                     , m_name(name)
                 {
@@ -121,7 +121,7 @@ namespace Database
                     return m_name;
                 }
 
-                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of object, not reference or something
+                typedef typename std::remove_reference<Callable>::type Callable_T;  // be sure we store copy of an object, not a reference or something
                 Callable_T m_f;
                 std::string m_name;
             };

@@ -179,7 +179,7 @@ void ContextMenuManager::manageGroupsAction()
         }
 
         return members;
-    });
+    }, "ContextMenuManager: fetch group members");
 
     IExifReaderFactory& factory = m_core->getExifReaderFactory();
     auto logger = m_core->getLoggerFactory().get("PhotosGrouping");

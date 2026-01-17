@@ -22,6 +22,7 @@
       "features": [ "avcodec", "avformat", "swscale" ]
     },
     "boost-multi-index",
+    "boost-type-index",
     "exiv2",
     "jsoncpp",
     "libguarded",

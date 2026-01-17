@@ -167,30 +167,6 @@
     </message>
 </context>
 <context>
-    <name>DebugWindow</name>
-    <message>
-        <location filename="../src/gui/desktop/quick_items/views/ViewsComponents/DebugWindow.qml" line="+23"/>
-        <source>Tasks in queue</source>
-        <translation>Zadań w kolejce</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Tasks executed</source>
-        <translation>Zadań wykonywanych</translation>
-    </message>
-    <message>
-        <location line="+4"/>
-        <source>Execution speed</source>
-        <translation>Prędkość wykonywania</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>tps</source>
-        <comment>tasks per second</comment>
-        <translation>zadań/sekundę</translation>
-    </message>
-</context>
-<context>
     <name>DuplicatesView</name>
     <message>
         <location filename="../src/gui/desktop/quick_items/views/DuplicatesView.qml" line="+16"/>
@@ -542,6 +518,35 @@ Kod błędu: %1</translation>
     </message>
 </context>
 <context>
+    <name>ObservableExecutorModel</name>
+    <message>
+        <location filename="../src/gui/desktop/models/observable_executor_model.cpp" line="+138"/>
+        <source>Tasks in queue</source>
+        <translation>Zadań w kolejce</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tasks executed</source>
+        <translation>Zadań wykonywanych</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Execution speed</source>
+        <translation>Prędkość wykonywania</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Tasks</source>
+        <translation>Operacje</translation>
+    </message>
+    <message>
+        <location line="+17"/>
+        <source>tps</source>
+        <comment>tasks per second</comment>
+        <translation>zadań/sekundę</translation>
+    </message>
+</context>
+<context>
     <name>PhotoDataCompletion</name>
     <message>
         <location filename="../src/gui/desktop/quick_items/views/PhotoDataCompletion.qml" line="+27"/>
@@ -651,7 +656,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+296"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+298"/>
         <source>Extracting data from new photos</source>
         <translation>Wczytywanie danych z nowych zdjęć</translation>
     </message>
@@ -781,7 +786,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosView</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="+218"/>
+        <location filename="../src/gui/desktop/quick_items/views/PhotosView.qml" line="+219"/>
         <source>&lt;b&gt;Properties&lt;/b&gt;</source>
         <translation>&lt;b&gt;Właściwości&lt;/b&gt;</translation>
     </message>
@@ -791,7 +796,7 @@ Kod błędu: %1</translation>
         <translation>&lt;b&gt;Informacje o mediach&lt;/b&gt;</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location line="+14"/>
         <source>&lt;b&gt;Debug window&lt;/b&gt;</source>
         <translation>&lt;b&gt;Okno debugowania&lt;/b&gt;</translation>
     </message>

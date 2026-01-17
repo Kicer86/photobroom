@@ -208,6 +208,7 @@ Item {
 
             Column {
                 SplitView.fillWidth: true
+                SplitView.fillHeight: true
 
                 spacing: 10
 
@@ -240,6 +241,7 @@ Item {
                     id: debugWindow
 
                     width: parent.width
+                    height: Math.max(0, parent.height - y)
                     visible: ObservablesRegistry.enabled
                     title: qsTr("<b>Debug window</b>")
                     clip: true

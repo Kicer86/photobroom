@@ -1,4 +1,13 @@
 
+#include <cassert>
+#include <chrono>
+#include <numeric>
+
+#include <QHash>
+#include <QVector>
+
+#include <core/function_wrappers.hpp>
+
 #include "observable_executor.hpp"
 #include "observables_registry.hpp"
 
@@ -22,13 +31,13 @@ ObservableExecutor::~ObservableExecutor()
 
 int ObservableExecutor::awaitingTasks() const
 {
-    return m_awaitingTasks;
+    return m_awaitingTasks.load();
 }
 
 
 int ObservableExecutor::tasksExecuted() const
 {
-    return m_tasksExecuted;
+    return m_tasksExecuted.load();
 }
 
 
@@ -38,30 +47,46 @@ double ObservableExecutor::executionSpeed() const
 }
 
 
-void ObservableExecutor::newTaskInQueue()
+const std::vector<ObservableExecutor::TaskEntry>& ObservableExecutor::tasks() const
 {
-    m_awaitingTasks++;
-
-    emit awaitingTasksChanged(m_awaitingTasks);
+    return m_taskEntries;
 }
 
 
-void ObservableExecutor::taskMovedToExecution()
+void ObservableExecutor::newTaskInQueue(const std::string& name)
+{
+    const QString qname = QString::fromStdString(name);
+
+    m_awaitingTasks++;
+
+    invokeMethod(this, &ObservableExecutor::notifyAwaitingTasksChanged);
+    invokeMethod(this, &ObservableExecutor::adjustTask, qname, 1);
+}
+
+
+void ObservableExecutor::taskMovedToExecution(const std::string &)
 {
     m_awaitingTasks--;
     m_tasksExecuted++;
 
-    emit awaitingTasksChanged(m_awaitingTasks);
-    emit tasksExecutedChanged(m_tasksExecuted);
+    assert(m_awaitingTasks >= 0);
+
+    invokeMethod(this, &ObservableExecutor::notifyAwaitingTasksChanged);
+    invokeMethod(this, &ObservableExecutor::notifyTasksExecutedChanged);
 }
 
 
-void ObservableExecutor::taskExecuted()
+void ObservableExecutor::taskExecuted(const std::string& name)
 {
+    const QString qname = QString::fromStdString(name);
+
     m_tasksExecuted--;
     m_executionSpeedCounter++;
 
-    emit tasksExecutedChanged(m_tasksExecuted);
+    assert(m_tasksExecuted >= 0);
+
+    invokeMethod(this, &ObservableExecutor::notifyTasksExecutedChanged);
+    invokeMethod(this, &ObservableExecutor::adjustTask, qname, -1);
 }
 
 
@@ -75,4 +100,40 @@ void ObservableExecutor::updateExecutionSpeed()
     m_executionSpeed = std::accumulate(m_executionSpeedBuffer.begin(), m_executionSpeedBuffer.end(), 0) / static_cast<double>(bufferSize);
 
     emit executionSpeedChanged(m_executionSpeed);
+}
+
+
+void ObservableExecutor::notifyAwaitingTasksChanged()
+{
+    emit awaitingTasksChanged(m_awaitingTasks.load());
+}
+
+
+void ObservableExecutor::notifyTasksExecutedChanged()
+{
+    emit tasksExecutedChanged(m_tasksExecuted.load());
+}
+
+
+void ObservableExecutor::adjustTask(const QString& name, int delta)
+{
+    const auto it = m_taskRowForText.constFind(name);
+    const int existingRow = it == m_taskRowForText.constEnd()? -1 : *it;
+
+    if (existingRow < 0)
+    {
+        assert(delta >= 0);
+        const int row = m_taskEntries.size();
+
+        m_taskEntries.push_back(TaskEntry{.name = name, .count = delta});
+        m_taskRowForText.insert(name, row);
+        emit taskEntryChanged(name, delta);
+    }
+    else
+    {
+        TaskEntry& entry = m_taskEntries[existingRow];
+        entry.count += delta;
+        assert(entry.count >= 0);
+        emit taskEntryChanged(entry.name, entry.count);
+    }
 }

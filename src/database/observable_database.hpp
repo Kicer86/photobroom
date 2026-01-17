@@ -2,6 +2,8 @@
 #ifndef OBSERVABLE_DATABASE_HPP_INCLUDED
 #define OBSERVABLE_DATABASE_HPP_INCLUDED
 
+#include <boost/type_index.hpp>
+
 #include <core/observable_executor.hpp>
 #include <database/idatabase.hpp>
 
@@ -15,7 +17,7 @@ class ObservableDatabase: public ObservableExecutor, public T
 
         QString name() const override
         {
-            return typeid(T).name();
+            return boost::typeindex::type_id<T>().pretty_name().c_str();
         }
 
     private:
@@ -26,14 +28,14 @@ class ObservableDatabase: public ObservableExecutor, public T
                     : m_task(std::move(task))
                     , m_executor(executor)
                 {
-                    m_executor.newTaskInQueue();
+                    m_executor.newTaskInQueue(name());
                 }
 
                 void run(Database::IBackend& backend) override
                 {
-                    m_executor.taskMovedToExecution();
+                    m_executor.taskMovedToExecution(name());
                     m_task->run(backend);
-                    m_executor.taskExecuted();
+                    m_executor.taskExecuted(name());
                 }
 
                 std::string name() override

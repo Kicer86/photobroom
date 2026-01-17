@@ -46,7 +46,7 @@ void PhotoDeltaFetcher::fetchIds(const std::vector<Photo::Id>& ids, const std::s
             promise.finish();
         };
 
-        m_db.exec(std::move(db_task));
+        m_db.exec(std::move(db_task), "PhotoDeltaFetcher: fetch photos data");
     }
 }
 
