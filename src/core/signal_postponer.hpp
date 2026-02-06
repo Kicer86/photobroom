@@ -56,7 +56,7 @@ class CORE_EXPORT SignalPostponer: public QObject
         ~SignalPostponer() = default;
 
         void setDelay(const std::chrono::milliseconds &);
-        void setPatiece(const std::chrono::milliseconds &);
+        void setPatience(const std::chrono::milliseconds &);
         void notify();
 
     private:
@@ -119,7 +119,7 @@ void lazy_connect(SrcObj* src, Signal sig,
         dst);
 
     postponer->setDelay(delay);
-    postponer->setPatiece(patience);
+    postponer->setPatience(patience);
 
     QObject::connect(src, sig, postponer, &SignalPostponer::notify, type);
 }

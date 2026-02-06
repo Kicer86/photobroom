@@ -25,7 +25,7 @@ void SignalPostponer::setDelay(const std::chrono::milliseconds& d)
 }
 
 
-void SignalPostponer::setPatiece(const std::chrono::milliseconds& p)
+void SignalPostponer::setPatience(const std::chrono::milliseconds& p)
 {
     m_patience = p;
 }
