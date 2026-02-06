@@ -74,12 +74,16 @@ struct CORE_EXPORT ITaskExecutor
 
     struct IProcessSupervisor
     {
+        virtual ~IProcessSupervisor() = default;
+
         virtual bool keepWorking() = 0;
         virtual void resume() = 0;
     };
 
     struct IProcessControl
     {
+        virtual ~IProcessControl() = default;
+
         virtual void terminate() = 0;
         virtual void resume() = 0;
         virtual ProcessState state() = 0;

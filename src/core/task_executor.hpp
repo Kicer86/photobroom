@@ -20,6 +20,7 @@
 #ifndef TASKEXECUTOR_HPP
 #define TASKEXECUTOR_HPP
 
+#include <atomic>
 #include <condition_variable>
 #include <map>
 #include <mutex>
@@ -48,7 +49,7 @@ struct CORE_EXPORT TaskExecutor: public ITaskExecutor
     void stop();
 
 private:
-    class ProcessInfo: public IProcessControl, public IProcessSupervisor
+    class ProcessInfo final: public IProcessControl, public IProcessSupervisor
     {
     public:
         ProcessInfo(TaskExecutor &, ProcessState);
@@ -83,7 +84,7 @@ private:
     std::condition_variable m_processesIdleCV;
     ILogger& m_logger;
     unsigned int m_threads;
-    bool m_working;
+    std::atomic<bool> m_working;
 
     void eat();
     void execute(const std::shared_ptr<ITask>& task) const;
