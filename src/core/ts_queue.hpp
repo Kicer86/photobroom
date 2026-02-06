@@ -78,24 +78,7 @@ namespace ol
             /*! When queue is full, current thread will be suspended until some data is consumed by reader(s).
             *  No writes are allowed when TS_Queue is being destroyed.
             */
-            void push(const T &item)
-            {
-                assert(m_stopped == false);
-
-                if (m_stopped == false)
-                {
-                    std::unique_lock<std::mutex> lock(m_queue_mutex);
-
-                    m_is_not_full.wait(lock, [&] { return m_queue.size() < m_max_size; } );  //wait for conditional_variable if there is no place in queue
-                    m_queue.push_back(item);
-                    m_is_not_empty.notify_one();
-                }
-            }
-
-            //! Write data to TS_Queue.
-            /*! Behaves as TS_Queue::push(const T &), but uses move semantics
-             */
-            void push(T&& item)
+            void push(T item)
             {
                 assert(m_stopped == false);
 
