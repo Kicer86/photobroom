@@ -50,26 +50,41 @@ void TaskExecutor::ProcessInfo::setCoroutine(const ProcessCoroutine& h)
 void TaskExecutor::ProcessInfo::terminate()
 {
     m_work = false;
+
+    {
+        std::lock_guard lk(m_stateMtx);
+
+        if (m_state != ProcessState::Finished)
+            m_state = ProcessState::Running;
+    }
+
     m_executor.wakeUpScheduler();
 }
 
 
 void TaskExecutor::ProcessInfo::resume()
 {
-    setState(ITaskExecutor::ProcessState::Running);
+    {
+        std::lock_guard lk(m_stateMtx);
+
+        if (m_state != ProcessState::Finished)
+            m_state = ProcessState::Running;
+    }
+
     m_executor.wakeUpScheduler();
 }
 
 
 ITaskExecutor::ProcessState TaskExecutor::ProcessInfo::state()
 {
+    std::lock_guard _(m_stateMtx);
     return m_state;
 }
 
 
 bool TaskExecutor::ProcessInfo::keepWorking()
 {
-    return m_work;
+    return m_work.load();
 }
 
 
@@ -135,7 +150,10 @@ std::shared_ptr<ITaskExecutor::IProcessControl> TaskExecutor::add(Process&& task
     ITaskExecutor::IProcessSupervisor* supervisor = process.get();
     process->setCoroutine(task(supervisor));
 
-    m_processes.push_back(process);
+    {
+        std::lock_guard lk(m_processesIdleMutex);
+        m_processes.push_back(process);
+    }
     wakeUpScheduler();
 
     return process;
@@ -266,11 +284,17 @@ void TaskExecutor::runProcesses()
 {
     while(m_working)
     {
+        std::vector<std::shared_ptr<ProcessInfo>> processes;
+        {
+            std::lock_guard lk(m_processesIdleMutex);
+            processes = m_processes;
+        }
+
         bool has_running = false;
 
         std::set<ProcessInfo*> toRemove;
 
-        for(auto& process: m_processes)
+        for(auto& process: processes)
         {
             const auto state = process->state();
 
@@ -313,16 +337,24 @@ void TaskExecutor::runProcesses()
         }
 
         if (toRemove.empty() == false)
+        {
+            std::lock_guard lk(m_processesIdleMutex);
             m_processes.erase(std::remove_if(
-                                m_processes.begin(),
-                                m_processes.end(),
-                                [&toRemove](const auto& process){ return toRemove.contains(process.get()); }),
-               m_processes.end());
+                                  m_processes.begin(),
+                                  m_processes.end(),
+                                  [&toRemove](const auto& process){ return toRemove.contains(process.get()); }),
+                              m_processes.end());
+        }
 
         if (has_running == false)
         {
             std::unique_lock lock(m_processesIdleMutex);
-            m_processesIdleCV.wait(lock);
+            m_processesIdleCV.wait(lock, [&]
+            {
+                return m_working == false || m_processesWakeRequested;
+            });
+
+            m_processesWakeRequested = false;
         }
     };
 }
@@ -330,5 +362,10 @@ void TaskExecutor::runProcesses()
 
 void TaskExecutor::wakeUpScheduler()
 {
+    {
+        std::lock_guard lk(m_processesIdleMutex);
+        m_processesWakeRequested = true;
+    }
+
     m_processesIdleCV.notify_one();
 }
