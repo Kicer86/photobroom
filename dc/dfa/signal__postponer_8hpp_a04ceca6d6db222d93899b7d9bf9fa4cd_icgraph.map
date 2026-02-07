@@ -1,9 +1,13 @@
 <map id="lazy_connect" name="lazy_connect">
-<area shape="rect" id="Node000001" title="Create lazy Qt connection between signal and slot." alt="" coords="226,70,322,96"/>
+<area shape="rect" id="Node000001" title="Create lazy Qt connection between signal and slot." alt="" coords="226,120,322,145"/>
 <area shape="rect" id="Node000002" href="$d2/dd2/class_observable_executor_model.html#a76308dd5126d67db058e2a400a415e44" title=" " alt="" coords="5,5,178,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="215,68,158,49,159,44,217,63"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="246,111,214,85,176,60,154,49,156,44,179,55,217,81,249,107"/>
 <area shape="rect" id="Node000004" href="$d0/dc9/init_8cpp.html#a688e5e76f4625cd287663fd6bc48c10a" title=" " alt="" coords="45,70,138,96"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="210,86,138,86,138,80,210,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="210,118,137,98,139,93,211,113"/>
 <area shape="rect" id="Node000005" href="$dc/dfa/signal__postponer_8hpp.html#abb6a0177870a2a9bc886ddfda4110618" title="Convenience overload for QPointer sources." alt="" coords="43,120,140,145"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="211,103,140,122,139,117,210,97"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="211,135,140,135,140,130,211,130"/>
+<area shape="rect" id="Node000006" href="$dd/ddd/signal__postponer__tests_8cpp.html#a41ea140ec4d41e459fa664905fa2825f" title=" " alt="" coords="64,169,119,194"/>
+<area shape="poly" id="edge4_Node000001_Node000006" title=" " alt="" coords="212,152,120,177,118,172,210,147"/>
+<area shape="rect" id="Node000007" href="$dd/ddd/signal__postponer__tests_8cpp.html#a39bdb1846dedb8322e233d3ea3f93f22" title=" " alt="" coords="64,218,119,244"/>
+<area shape="poly" id="edge5_Node000001_Node000007" title=" " alt="" coords="250,158,218,185,179,209,149,221,120,229,118,224,147,216,176,205,215,180,247,154"/>
 </map>

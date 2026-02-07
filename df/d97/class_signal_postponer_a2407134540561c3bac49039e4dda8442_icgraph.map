@@ -1,5 +1,9 @@
 <map id="SignalPostponer::setDelay" name="SignalPostponer::setDelay">
-<area shape="rect" id="Node000001" title=" " alt="" coords="150,5,322,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="150,55,322,80"/>
 <area shape="rect" id="Node000002" href="$dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd" title="Create lazy Qt connection between signal and slot." alt="" coords="5,5,102,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,21,102,21,102,16,134,16"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="170,53,101,34,103,29,172,47"/>
+<area shape="rect" id="Node000009" href="$dd/ddd/signal__postponer__tests_8cpp.html#aabd9add3b15e6786abc98b16b8826df1" title=" " alt="" coords="26,55,81,80"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="134,70,81,70,81,65,134,65"/>
+<area shape="rect" id="Node000010" href="$dd/ddd/signal__postponer__tests_8cpp.html#a7aae9e27716c0879ea7ea90ab40d9d29" title=" " alt="" coords="26,104,81,130"/>
+<area shape="poly" id="edge3_Node000001_Node000010" title=" " alt="" coords="171,88,82,112,80,107,170,82"/>
 </map>

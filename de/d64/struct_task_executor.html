@@ -163,16 +163,14 @@ Private Attributes</h2></td></tr>
 <tr class="separator:aa36ad29c46419e402b2b67ac2c8afa1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61c08a8dc961c016806893718624061d" id="r_a61c08a8dc961c016806893718624061d"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a61c08a8dc961c016806893718624061d">m_processesIdleMutex</a></td></tr>
 <tr class="separator:a61c08a8dc961c016806893718624061d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2b7a40afa0bdb324d93f31f2675f5340" id="r_a2b7a40afa0bdb324d93f31f2675f5340"><td class="memItemLeft" align="right" valign="top">std::mutex&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2b7a40afa0bdb324d93f31f2675f5340">m_processAlternationMutex</a></td></tr>
-<tr class="separator:a2b7a40afa0bdb324d93f31f2675f5340"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aefe73a69d4c033dc42323dded9e4048f" id="r_aefe73a69d4c033dc42323dded9e4048f"><td class="memItemLeft" align="right" valign="top">std::condition_variable&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#aefe73a69d4c033dc42323dded9e4048f">m_processesIdleCV</a></td></tr>
 <tr class="separator:aefe73a69d4c033dc42323dded9e4048f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adce38083f02c3ebb789013e557fd6686" id="r_adce38083f02c3ebb789013e557fd6686"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../df/ddd/struct_i_logger.html">ILogger</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#adce38083f02c3ebb789013e557fd6686">m_logger</a></td></tr>
 <tr class="separator:adce38083f02c3ebb789013e557fd6686"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9559d03d4ca8f4c4ba3d7b250189abe" id="r_af9559d03d4ca8f4c4ba3d7b250189abe"><td class="memItemLeft" align="right" valign="top">unsigned int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#af9559d03d4ca8f4c4ba3d7b250189abe">m_threads</a></td></tr>
 <tr class="separator:af9559d03d4ca8f4c4ba3d7b250189abe"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac81330a4838073359d43991d6ce7e700" id="r_ac81330a4838073359d43991d6ce7e700"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#ac81330a4838073359d43991d6ce7e700">m_working</a></td></tr>
-<tr class="separator:ac81330a4838073359d43991d6ce7e700"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c3c3889a623452b1603990b6fc08307" id="r_a0c3c3889a623452b1603990b6fc08307"><td class="memItemLeft" align="right" valign="top">std::atomic&lt; bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a0c3c3889a623452b1603990b6fc08307">m_working</a></td></tr>
+<tr class="separator:a0c3c3889a623452b1603990b6fc08307"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="friends" name="friends"></a>
 Friends</h2></td></tr>
@@ -618,28 +616,6 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a2b7a40afa0bdb324d93f31f2675f5340" name="a2b7a40afa0bdb324d93f31f2675f5340"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2b7a40afa0bdb324d93f31f2675f5340">&#9670;&#160;</a></span>m_processAlternationMutex</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">std::mutex TaskExecutor::m_processAlternationMutex</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a958a4271a1ad33d57862da2bee8d8ab0" name="a958a4271a1ad33d57862da2bee8d8ab0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a958a4271a1ad33d57862da2bee8d8ab0">&#9670;&#160;</a></span>m_processes</h2>
 
@@ -794,8 +770,8 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ac81330a4838073359d43991d6ce7e700" name="ac81330a4838073359d43991d6ce7e700"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac81330a4838073359d43991d6ce7e700">&#9670;&#160;</a></span>m_working</h2>
+<a id="a0c3c3889a623452b1603990b6fc08307" name="a0c3c3889a623452b1603990b6fc08307"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0c3c3889a623452b1603990b6fc08307">&#9670;&#160;</a></span>m_working</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -804,7 +780,7 @@ Here is the caller graph for this function:</div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">bool TaskExecutor::m_working</td>
+          <td class="memname">std::atomic&lt;bool&gt; TaskExecutor::m_working</td>
         </tr>
       </table>
   </td>
@@ -823,7 +799,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 17 2026 16:34:31 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Feb 7 2026 19:42:24 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

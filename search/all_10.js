@@ -219,7 +219,7 @@ var searchData=
   ['prune_216',['prune',['../d5/d1b/class_database_1_1_a_sql_backend.html#a6781e0e515cd87e811f72520e9df095e',1,'Database::ASqlBackend']]],
   ['purpose_217',['Purpose',['../d6/d76/struct_database_1_1_col_definition.html#a583db3a7b65e6fd2672db0a40d3a208a',1,'Database::ColDefinition']]],
   ['purpose_218',['purpose',['../d6/d76/struct_database_1_1_col_definition.html#a08d94545e3180108635cbb803bea67c8',1,'Database::ColDefinition']]],
-  ['push_219',['push',['../df/d8a/class_accumulative_queue.html#a90063ec4effe547b013576c0dce532b2',1,'AccumulativeQueue::push()'],['../d4/da4/class_queue.html#a9c6a1d0575f7d678f7c374988377d847',1,'Queue::push()'],['../d2/d36/classol_1_1_t_s___queue.html#aa938934d5d6302372454104214113d64',1,'ol::TS_Queue::push(const T &amp;item)'],['../d2/d36/classol_1_1_t_s___queue.html#a007b9487e1a019b625c2963c9739c89d',1,'ol::TS_Queue::push(T &amp;&amp;item)']]],
+  ['push_219',['push',['../df/d8a/class_accumulative_queue.html#a90063ec4effe547b013576c0dce532b2',1,'AccumulativeQueue::push()'],['../d4/da4/class_queue.html#a9c6a1d0575f7d678f7c374988377d847',1,'Queue::push()'],['../d2/d36/classol_1_1_t_s___queue.html#a10a8d9bcb33b299f793a6de2f1e7ebcf',1,'ol::TS_Queue::push()']]],
   ['pushpackibletask_220',['pushPackibleTask',['../d0/d37/class_database_1_1_database_queue.html#a54ab13b393f13e53c72d2bb9a4077eac',1,'Database::DatabaseQueue']]],
   ['pushtask_221',['pushTask',['../d0/d37/class_database_1_1_database_queue.html#a8560ab677e6ff0d4d9cc120f4bbff4db',1,'Database::DatabaseQueue']]]
 ];

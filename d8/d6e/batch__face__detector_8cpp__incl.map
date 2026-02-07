@@ -1,21 +1,22 @@
 <map id="src/gui/desktop/utils/batch_face_detector.cpp" name="src/gui/desktop/utils/batch_face_detector.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="471,5,639,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="374,5,541,46"/>
 <area shape="rect" id="Node000002" href="$dd/d59/cast_8hpp.html" title=" " alt="" coords="5,102,105,127"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="471,39,307,61,117,97,106,99,105,94,116,91,306,56,471,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="374,44,252,66,117,97,107,99,106,94,116,91,251,61,373,38"/>
 <area shape="rect" id="Node000005" href="$d2/d0c/exif__reader__factory_8hpp.html" title=" " alt="" coords="129,102,312,127"/>
-<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="479,49,283,100,281,95,478,44"/>
-<area shape="rect" id="Node000019" href="$d5/d80/itask__executor_8hpp.html" title=" " alt="" coords="738,183,897,208"/>
-<area shape="poly" id="edge3_Node000001_Node000019" title=" " alt="" coords="472,48,425,64,387,83,375,95,368,106,369,119,377,133,399,149,432,163,474,173,522,181,626,190,723,193,723,198,625,195,521,186,473,179,431,168,397,154,373,136,364,120,363,105,371,91,384,79,423,59,470,43"/>
-<area shape="rect" id="Node000022" href="$d5/df1/logger__factory_8hpp.html" title=" " alt="" coords="387,102,542,127"/>
-<area shape="poly" id="edge4_Node000001_Node000022" title=" " alt="" coords="536,48,490,93,486,89,533,45"/>
-<area shape="rect" id="Node000029" href="$de/d3b/oriented__image_8hpp.html" title=" " alt="" coords="566,102,728,127"/>
-<area shape="poly" id="edge5_Node000001_Node000029" title=" " alt="" coords="578,45,625,89,621,93,574,48"/>
-<area shape="rect" id="Node000031" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="752,94,883,135"/>
-<area shape="poly" id="edge6_Node000001_Node000031" title=" " alt="" coords="615,44,744,86,742,91,614,49"/>
-<area shape="rect" id="Node000038" href="$de/d11/batch__face__detector_8hpp.html" title=" " alt="" coords="908,102,1071,127"/>
-<area shape="poly" id="edge8_Node000001_Node000038" title=" " alt="" coords="640,41,896,91,915,95,914,101,894,97,639,46"/>
-<area shape="rect" id="Node000078" title=" " alt="" coords="1095,102,1167,127"/>
-<area shape="poly" id="edge10_Node000001_Node000078" title=" " alt="" coords="639,29,843,48,964,66,1084,91,1090,93,1089,98,1082,97,963,71,842,53,639,34"/>
-<area shape="poly" id="edge7_Node000031_Node000019" title=" " alt="" coords="820,135,820,167,815,167,815,135"/>
-<area shape="poly" id="edge9_Node000038_Node000019" title=" " alt="" coords="964,130,859,178,857,173,962,125"/>
+<area shape="poly" id="edge2_Node000001_Node000005" title=" " alt="" coords="405,49,269,98,267,93,403,44"/>
+<area shape="rect" id="Node000019" href="$d5/d80/itask__executor_8hpp.html" title=" " alt="" coords="588,183,746,208"/>
+<area shape="poly" id="edge3_Node000001_Node000019" title=" " alt="" coords="445,48,432,68,423,90,420,113,428,133,449,148,484,162,573,180,572,186,483,167,447,153,424,136,415,113,418,89,428,65,440,45"/>
+<area shape="rect" id="Node000023" title=" " alt="" coords="371,256,443,282"/>
+<area shape="poly" id="edge11_Node000001_Node000023" title=" " alt="" coords="442,48,427,70,415,95,406,134,403,173,406,241,401,241,398,173,401,133,410,93,422,67,438,45"/>
+<area shape="rect" id="Node000024" href="$d5/df1/logger__factory_8hpp.html" title=" " alt="" coords="437,102,593,127"/>
+<area shape="poly" id="edge5_Node000001_Node000024" title=" " alt="" coords="473,45,501,87,497,90,468,48"/>
+<area shape="rect" id="Node000031" href="$de/d3b/oriented__image_8hpp.html" title=" " alt="" coords="616,102,779,127"/>
+<area shape="poly" id="edge6_Node000001_Node000031" title=" " alt="" coords="513,44,650,93,649,98,511,49"/>
+<area shape="rect" id="Node000033" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="803,94,934,135"/>
+<area shape="poly" id="edge7_Node000001_Node000033" title=" " alt="" coords="542,40,788,91,787,96,541,45"/>
+<area shape="rect" id="Node000040" href="$de/d11/batch__face__detector_8hpp.html" title=" " alt="" coords="959,102,1122,127"/>
+<area shape="poly" id="edge9_Node000001_Node000040" title=" " alt="" coords="542,34,728,58,946,91,969,95,968,101,945,97,727,64,541,40"/>
+<area shape="poly" id="edge4_Node000019_Node000023" title=" " alt="" coords="624,211,458,257,457,251,622,206"/>
+<area shape="poly" id="edge8_Node000033_Node000019" title=" " alt="" coords="819,138,713,179,711,174,817,133"/>
+<area shape="poly" id="edge10_Node000040_Node000019" title=" " alt="" coords="983,130,740,182,739,176,982,125"/>
 </map>

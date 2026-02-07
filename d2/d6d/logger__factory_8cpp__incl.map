@@ -1,9 +1,11 @@
 <map id="src/core/implementation/logger_factory.cpp" name="src/core/implementation/logger_factory.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="116,5,277,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="160,5,321,46"/>
 <area shape="rect" id="Node000002" href="$d5/df1/logger__factory_8hpp.html" title=" " alt="" coords="5,94,132,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="166,49,102,88,99,83,163,44"/>
-<area shape="rect" id="Node000013" href="$d6/da3/logger_8hpp.html" title=" " alt="" coords="156,94,237,120"/>
-<area shape="poly" id="edge2_Node000001_Node000013" title=" " alt="" coords="199,46,199,78,194,78,194,46"/>
-<area shape="rect" id="Node000016" href="$d6/d4d/log__file__rotator_8hpp.html" title=" " alt="" coords="261,94,390,120"/>
-<area shape="poly" id="edge3_Node000001_Node000016" title=" " alt="" coords="230,44,295,83,292,88,227,49"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="199,49,110,90,108,85,196,44"/>
+<area shape="rect" id="Node000013" title=" " alt="" coords="156,94,227,120"/>
+<area shape="poly" id="edge2_Node000001_Node000013" title=" " alt="" coords="231,48,209,82,205,79,226,45"/>
+<area shape="rect" id="Node000014" href="$d6/da3/logger_8hpp.html" title=" " alt="" coords="251,94,331,120"/>
+<area shape="poly" id="edge3_Node000001_Node000014" title=" " alt="" coords="255,45,277,79,273,82,251,48"/>
+<area shape="rect" id="Node000017" href="$d6/d4d/log__file__rotator_8hpp.html" title=" " alt="" coords="356,94,485,120"/>
+<area shape="poly" id="edge4_Node000001_Node000017" title=" " alt="" coords="287,44,380,85,378,90,284,49"/>
 </map>

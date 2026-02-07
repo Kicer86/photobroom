@@ -1,0 +1,20 @@
+<map id="src/core/unit_tests/signal_postponer_tests.cpp" name="src/core/unit_tests/signal_postponer_tests.cpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="178,5,362,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,168,66,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="179,42,120,61,92,77,68,96,50,123,41,154,36,152,45,121,64,92,89,72,118,57,177,36"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="308,94,401,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="293,44,332,81,328,85,289,48"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="424,94,535,120"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="323,44,434,86,432,91,322,49"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="558,94,652,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="354,44,544,88,543,94,353,49"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="108,168,177,193"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="179,38,150,47,123,58,99,74,79,95,74,111,80,127,94,143,110,157,107,161,90,146,76,130,69,111,75,93,95,70,121,54,149,42,177,33"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="219,168,284,193"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="270,47,257,152,252,152,265,46"/>
+<area shape="rect" id="Node000008" href="$dc/dfa/signal__postponer_8hpp.html" title=" " alt="" coords="89,94,232,120"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="245,49,191,87,188,82,242,44"/>
+<area shape="poly" id="edge8_Node000008_Node000002" title=" " alt="" coords="141,123,71,162,69,157,138,118"/>
+<area shape="poly" id="edge9_Node000008_Node000006" title=" " alt="" coords="160,121,152,153,147,152,155,119"/>
+<area shape="poly" id="edge10_Node000008_Node000007" title=" " alt="" coords="178,118,226,156,223,160,175,122"/>
+</map>

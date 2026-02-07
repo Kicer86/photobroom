@@ -108,131 +108,131 @@
 </a>
 </g>
 </g>
-<!-- Node28 -->
-<g id="Node000028" class="node">
-<title>Node28</title>
-<g id="a_Node000028"><a xlink:href="../../d4/d20/task__executor__utils_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node30 -->
+<g id="Node000030" class="node">
+<title>Node30</title>
+<g id="a_Node000030"><a xlink:href="../../d4/d20/task__executor__utils_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="188.55,-85.75 90.05,-85.75 90.05,-55.25 188.55,-55.25 188.55,-85.75"/>
 <text text-anchor="start" x="98.05" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">core/task_executor</text>
 <text text-anchor="middle" x="139.3" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">_utils.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node28 -->
-<g id="edge6_Node000001_Node000028" class="edge">
-<title>Node1&#45;&gt;Node28</title>
-<g id="a_edge6_Node000001_Node000028"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node30 -->
+<g id="edge6_Node000001_Node000030" class="edge">
+<title>Node1&#45;&gt;Node30</title>
+<g id="a_edge6_Node000001_Node000030"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M457.48,-197.82C380.09,-190.84 249.02,-175.92 207.3,-152.25 183.9,-138.97 164.97,-114.37 153.09,-95.79"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="156.22,-94.2 148.01,-87.49 150.25,-97.85 156.22,-94.2"/>
 </a>
 </g>
 </g>
-<!-- Node34 -->
-<g id="Node000034" class="node">
-<title>Node34</title>
-<g id="a_Node000034"><a xlink:href="../../d8/dda/qmodel__utils_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node36 -->
+<g id="Node000036" class="node">
+<title>Node36</title>
+<g id="a_Node000036"><a xlink:href="../../d8/dda/qmodel__utils_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="638.55,-146.62 528.05,-146.62 528.05,-127.38 638.55,-127.38 638.55,-146.62"/>
 <text text-anchor="middle" x="583.3" y="-133.12" font-family="Helvetica,sans-Serif" font-size="10.00">core/qmodel_utils.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node34 -->
-<g id="edge9_Node000001_Node000034" class="edge">
-<title>Node1&#45;&gt;Node34</title>
-<g id="a_edge9_Node000001_Node000034"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node36 -->
+<g id="edge9_Node000001_Node000036" class="edge">
+<title>Node1&#45;&gt;Node36</title>
+<g id="a_edge9_Node000001_Node000036"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M531.51,-187.86C541.76,-177.99 555.32,-164.94 565.99,-154.67"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="568.27,-157.33 573.05,-147.87 563.42,-152.29 568.27,-157.33"/>
 </a>
 </g>
 </g>
-<!-- Node39 -->
-<g id="Node000039" class="node">
-<title>Node39</title>
-<g id="a_Node000039"><a xlink:href="../../d9/d71/series__detector_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node41 -->
+<g id="Node000041" class="node">
+<title>Node41</title>
+<g id="a_Node000041"><a xlink:href="../../d9/d71/series__detector_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="880.68,-85.75 755.93,-85.75 755.93,-55.25 880.68,-55.25 880.68,-85.75"/>
 <text text-anchor="start" x="763.93" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">database/database_tools</text>
 <text text-anchor="middle" x="818.3" y="-61" font-family="Helvetica,sans-Serif" font-size="10.00">/series_detector.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node39 -->
-<g id="edge10_Node000001_Node000039" class="edge">
-<title>Node1&#45;&gt;Node39</title>
-<g id="a_edge10_Node000001_Node000039"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node41 -->
+<g id="edge10_Node000001_Node000041" class="edge">
+<title>Node1&#45;&gt;Node41</title>
+<g id="a_edge10_Node000001_Node000041"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M575.09,-201.57C655.15,-198.92 792.09,-188.98 823.3,-152.25 836.06,-137.23 833.33,-114.43 828.26,-96.88"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="831.68,-96.07 825.21,-87.68 825.04,-98.27 831.68,-96.07"/>
-</a>
-</g>
-</g>
-<!-- Node70 -->
-<g id="Node000070" class="node">
-<title>Node70</title>
-<g id="a_Node000070"><a xlink:href="../../dc/de9/database__executor__traits_8hpp.html" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="160.55,-152.25 20.05,-152.25 20.05,-121.75 160.55,-121.75 160.55,-152.25"/>
-<text text-anchor="start" x="28.05" y="-138.75" font-family="Helvetica,sans-Serif" font-size="10.00">database/database_executor</text>
-<text text-anchor="middle" x="90.3" y="-127.5" font-family="Helvetica,sans-Serif" font-size="10.00">_traits.hpp</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node70 -->
-<g id="edge12_Node000001_Node000070" class="edge">
-<title>Node1&#45;&gt;Node70</title>
-<g id="a_edge12_Node000001_Node000070"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M457.23,-194.23C389.01,-184.58 273.44,-167.94 174.3,-152.25 173.48,-152.12 172.65,-151.99 171.82,-151.86"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="172.79,-148.47 162.36,-150.33 171.67,-155.38 172.79,-148.47"/>
-</a>
-</g>
-</g>
-<!-- Node71 -->
-<g id="Node000071" class="node">
-<title>Node71</title>
-<g id="a_Node000071"><a xlink:title=" ">
-<polygon fill="#e0e0e0" stroke="#999999" points="814.68,-146.62 731.93,-146.62 731.93,-127.38 814.68,-127.38 814.68,-146.62"/>
-<text text-anchor="middle" x="773.3" y="-133.12" font-family="Helvetica,sans-Serif" font-size="10.00">QElapsedTimer</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node71 -->
-<g id="edge14_Node000001_Node000071" class="edge">
-<title>Node1&#45;&gt;Node71</title>
-<g id="a_edge14_Node000001_Node000071"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M575.12,-188.03C615.44,-178.07 670.14,-164.48 718.3,-152.25 721.25,-151.5 724.28,-150.73 727.34,-149.94"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="728.12,-153.36 736.93,-147.47 726.38,-146.58 728.12,-153.36"/>
 </a>
 </g>
 </g>
 <!-- Node72 -->
 <g id="Node000072" class="node">
 <title>Node72</title>
-<g id="a_Node000072"><a xlink:href="../../dc/db1/groups__manager_8hpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000072"><a xlink:href="../../dc/de9/database__executor__traits_8hpp.html" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="160.55,-152.25 20.05,-152.25 20.05,-121.75 160.55,-121.75 160.55,-152.25"/>
+<text text-anchor="start" x="28.05" y="-138.75" font-family="Helvetica,sans-Serif" font-size="10.00">database/database_executor</text>
+<text text-anchor="middle" x="90.3" y="-127.5" font-family="Helvetica,sans-Serif" font-size="10.00">_traits.hpp</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node72 -->
+<g id="edge12_Node000001_Node000072" class="edge">
+<title>Node1&#45;&gt;Node72</title>
+<g id="a_edge12_Node000001_Node000072"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M457.23,-194.23C389.01,-184.58 273.44,-167.94 174.3,-152.25 173.48,-152.12 172.65,-151.99 171.82,-151.86"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="172.79,-148.47 162.36,-150.33 171.67,-155.38 172.79,-148.47"/>
+</a>
+</g>
+</g>
+<!-- Node73 -->
+<g id="Node000073" class="node">
+<title>Node73</title>
+<g id="a_Node000073"><a xlink:title=" ">
+<polygon fill="#e0e0e0" stroke="#999999" points="814.68,-146.62 731.93,-146.62 731.93,-127.38 814.68,-127.38 814.68,-146.62"/>
+<text text-anchor="middle" x="773.3" y="-133.12" font-family="Helvetica,sans-Serif" font-size="10.00">QElapsedTimer</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node73 -->
+<g id="edge14_Node000001_Node000073" class="edge">
+<title>Node1&#45;&gt;Node73</title>
+<g id="a_edge14_Node000001_Node000073"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M575.12,-188.03C615.44,-178.07 670.14,-164.48 718.3,-152.25 721.25,-151.5 724.28,-150.73 727.34,-149.94"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="728.12,-153.36 736.93,-147.47 726.38,-146.58 728.12,-153.36"/>
+</a>
+</g>
+</g>
+<!-- Node74 -->
+<g id="Node000074" class="node">
+<title>Node74</title>
+<g id="a_Node000074"><a xlink:href="../../dc/db1/groups__manager_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="510.05,-152.25 390.55,-152.25 390.55,-121.75 510.05,-121.75 510.05,-152.25"/>
 <text text-anchor="start" x="398.55" y="-138.75" font-family="Helvetica,sans-Serif" font-size="10.00">gui/desktop/utils/groups</text>
 <text text-anchor="middle" x="450.3" y="-127.5" font-family="Helvetica,sans-Serif" font-size="10.00">_manager.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node72 -->
-<g id="edge16_Node000001_Node000072" class="edge">
-<title>Node1&#45;&gt;Node72</title>
-<g id="a_edge16_Node000001_Node000072"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node74 -->
+<g id="edge16_Node000001_Node000074" class="edge">
+<title>Node1&#45;&gt;Node74</title>
+<g id="a_edge16_Node000001_Node000074"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M501.33,-187.86C493.06,-179.78 482.61,-169.57 473.32,-160.5"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="475.9,-158.12 466.3,-153.64 471.01,-163.13 475.9,-158.12"/>
 </a>
 </g>
 </g>
-<!-- Node77 -->
-<g id="Node000077" class="node">
-<title>Node77</title>
-<g id="a_Node000077"><a xlink:href="../../d7/d9a/series__model_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node79 -->
+<g id="Node000079" class="node">
+<title>Node79</title>
+<g id="a_Node000079"><a xlink:href="../../d7/d9a/series__model_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="962.18,-146.62 870.43,-146.62 870.43,-127.38 962.18,-127.38 962.18,-146.62"/>
 <text text-anchor="middle" x="916.3" y="-133.12" font-family="Helvetica,sans-Serif" font-size="10.00">series_model.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node77 -->
-<g id="edge19_Node000001_Node000077" class="edge">
-<title>Node1&#45;&gt;Node77</title>
-<g id="a_edge19_Node000001_Node000077"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node79 -->
+<g id="edge19_Node000001_Node000079" class="edge">
+<title>Node1&#45;&gt;Node79</title>
+<g id="a_edge19_Node000001_Node000079"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M575.22,-195.36C643.23,-186.76 758.3,-171.09 856.3,-152.25 860.56,-151.43 864.97,-150.52 869.37,-149.55"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="869.78,-153.05 878.76,-147.43 868.24,-146.22 869.78,-153.05"/>
 </a>
@@ -247,55 +247,55 @@
 </a>
 </g>
 </g>
-<!-- Node28&#45;&gt;Node8 -->
-<g id="edge7_Node000028_Node000008" class="edge">
-<title>Node28&#45;&gt;Node8</title>
-<g id="a_edge7_Node000028_Node000008"><a xlink:title=" ">
+<!-- Node30&#45;&gt;Node8 -->
+<g id="edge7_Node000030_Node000008" class="edge">
+<title>Node30&#45;&gt;Node8</title>
+<g id="a_edge7_Node000030_Node000008"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M188.8,-60.37C251.63,-48.77 358.88,-28.97 417.35,-18.18"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="417.68,-21.68 426.87,-16.43 416.4,-14.8 417.68,-21.68"/>
 </a>
 </g>
 </g>
-<!-- Node28&#45;&gt;Node26 -->
-<g id="edge8_Node000028_Node000026" class="edge">
-<title>Node28&#45;&gt;Node26</title>
-<g id="a_edge8_Node000028_Node000026"><a xlink:title=" ">
+<!-- Node30&#45;&gt;Node26 -->
+<g id="edge8_Node000030_Node000026" class="edge">
+<title>Node30&#45;&gt;Node26</title>
+<g id="a_edge8_Node000030_Node000026"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M127.19,-54.95C120.52,-46.93 112.18,-36.92 105.13,-28.44"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="107.91,-26.31 98.82,-20.86 102.53,-30.79 107.91,-26.31"/>
 </a>
 </g>
 </g>
-<!-- Node39&#45;&gt;Node8 -->
-<g id="edge11_Node000039_Node000008" class="edge">
-<title>Node39&#45;&gt;Node8</title>
-<g id="a_edge11_Node000039_Node000008"><a xlink:title=" ">
+<!-- Node41&#45;&gt;Node8 -->
+<g id="edge11_Node000041_Node000008" class="edge">
+<title>Node41&#45;&gt;Node8</title>
+<g id="a_edge11_Node000041_Node000008"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M755.59,-59.24C682.01,-47.21 562.11,-27.6 499.43,-17.35"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="500.34,-13.95 489.91,-15.79 499.21,-20.86 500.34,-13.95"/>
 </a>
 </g>
 </g>
-<!-- Node70&#45;&gt;Node28 -->
-<g id="edge13_Node000070_Node000028" class="edge">
-<title>Node70&#45;&gt;Node28</title>
-<g id="a_edge13_Node000070_Node000028"><a xlink:title=" ">
+<!-- Node72&#45;&gt;Node30 -->
+<g id="edge13_Node000072_Node000030" class="edge">
+<title>Node72&#45;&gt;Node30</title>
+<g id="a_edge13_Node000072_Node000030"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M101.42,-121.36C107.31,-113.61 114.69,-103.9 121.36,-95.11"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="124.05,-97.36 127.31,-87.28 118.48,-93.13 124.05,-97.36"/>
 </a>
 </g>
 </g>
-<!-- Node72&#45;&gt;Node8 -->
-<g id="edge17_Node000072_Node000008" class="edge">
-<title>Node72&#45;&gt;Node8</title>
-<g id="a_edge17_Node000072_Node000008"><a xlink:title=" ">
+<!-- Node74&#45;&gt;Node8 -->
+<g id="edge17_Node000074_Node000008" class="edge">
+<title>Node74&#45;&gt;Node8</title>
+<g id="a_edge17_Node000074_Node000008"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M451.22,-121.62C452.64,-99.28 455.4,-56.17 457.02,-30.75"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="460.49,-31.28 457.63,-21.08 453.5,-30.84 460.49,-31.28"/>
 </a>
 </g>
 </g>
-<!-- Node72&#45;&gt;Node10 -->
-<g id="edge18_Node000072_Node000010" class="edge">
-<title>Node72&#45;&gt;Node10</title>
-<g id="a_edge18_Node000072_Node000010"><a xlink:title=" ">
+<!-- Node74&#45;&gt;Node10 -->
+<g id="edge18_Node000074_Node000010" class="edge">
+<title>Node74&#45;&gt;Node10</title>
+<g id="a_edge18_Node000074_Node000010"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M480.03,-121.36C501.86,-110.62 531.33,-96.11 552.85,-85.51"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="554.22,-88.74 561.64,-81.18 551.13,-82.46 554.22,-88.74"/>
 </a>

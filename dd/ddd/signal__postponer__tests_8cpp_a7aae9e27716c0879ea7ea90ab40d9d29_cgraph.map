@@ -1,0 +1,7 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$df/d97/class_signal_postponer.html#a1e89012203ce98b0f866087510ea5bf3" title=" " alt="" coords="117,5,270,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,37,101,30,102,35,60,42"/>
+<area shape="rect" id="Node000003" href="$df/d97/class_signal_postponer.html#a2407134540561c3bac49039e4dda8442" title=" " alt="" coords="108,55,280,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,45,93,50,92,55,60,50"/>
+</map>

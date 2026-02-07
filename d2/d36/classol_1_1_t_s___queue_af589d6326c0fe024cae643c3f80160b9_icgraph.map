@@ -1,11 +1,14 @@
 <map id="ol::TS_Queue::wait_for_data" name="ol::TS_Queue::wait_for_data">
-<area shape="rect" id="Node000001" title="Wait until data is available." alt="" coords="374,29,503,70"/>
-<area shape="poly" id="edge5_Node000001_Node000001" title=" " alt="" coords="469,16,458,10,439,8,421,10,410,15,406,20,408,28,403,29,401,19,407,10,420,5,439,3,459,5,471,11"/>
-<area shape="rect" id="Node000002" href="$de/d64/struct_task_executor.html#af4d3c0895333064d125202402bfe924e" title=" " alt="" coords="5,37,130,62"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="358,32,326,27,252,21,178,27,117,39,116,34,177,22,252,16,326,22,359,27"/>
-<area shape="rect" id="Node000004" href="$d2/d36/classol_1_1_t_s___queue.html#af04d57c2821371b697f828444adfb762" title="Get data." alt="" coords="189,37,315,62"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="359,52,315,52,315,47,359,47"/>
-<area shape="rect" id="Node000005" href="$d2/d36/classol_1_1_t_s___queue.html#a84aa50c15e60d6b0cc74a7c91b4854bc" title="Get data." alt="" coords="178,86,326,112"/>
-<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="360,73,304,88,302,83,358,68"/>
-<area shape="poly" id="edge4_Node000005_Node000002" title=" " alt="" coords="186,84,118,66,119,61,187,79"/>
+<area shape="rect" id="Node000001" title="Wait until data is available." alt="" coords="374,44,503,85"/>
+<area shape="poly" id="edge7_Node000001_Node000001" title=" " alt="" coords="469,31,458,25,439,23,421,25,410,29,406,35,408,43,403,44,401,34,407,25,420,19,439,17,459,20,471,26"/>
+<area shape="rect" id="Node000002" href="$de/d64/struct_task_executor.html#af4d3c0895333064d125202402bfe924e" title=" " alt="" coords="5,14,130,40"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="388,39,357,26,325,16,275,9,223,9,130,18,130,12,223,3,275,4,327,11,359,21,390,34"/>
+<area shape="rect" id="Node000004" href="$d2/d36/classol_1_1_t_s___queue.html#af04d57c2821371b697f828444adfb762" title="Get data." alt="" coords="189,76,315,101"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="359,77,315,83,315,78,358,72"/>
+<area shape="rect" id="Node000008" href="$da/d14/ts__queue__tests_8cpp.html#ae42342486247ba365c6baecce4b64bad" title=" " alt="" coords="40,89,95,115"/>
+<area shape="poly" id="edge6_Node000001_Node000008" title=" " alt="" coords="388,95,358,107,327,116,262,124,197,123,95,110,95,105,197,118,261,119,325,111,356,102,386,90"/>
+<area shape="rect" id="Node000009" href="$d2/d36/classol_1_1_t_s___queue.html#a84aa50c15e60d6b0cc74a7c91b4854bc" title="Get data." alt="" coords="178,26,326,52"/>
+<area shape="poly" id="edge4_Node000001_Node000009" title=" " alt="" coords="358,56,326,52,327,47,359,51"/>
+<area shape="poly" id="edge3_Node000004_Node000008" title=" " alt="" coords="173,97,95,102,95,97,173,91"/>
+<area shape="poly" id="edge5_Node000009_Node000002" title=" " alt="" coords="162,36,130,34,130,28,162,31"/>
 </map>

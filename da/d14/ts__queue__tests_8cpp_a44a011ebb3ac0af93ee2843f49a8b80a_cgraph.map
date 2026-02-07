@@ -1,0 +1,11 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,80,60,106"/>
+<area shape="rect" id="Node000002" href="$d2/d36/classol_1_1_t_s___queue.html#a5e04951cb14143becb1c0541d777d3c5" title="Clears queue&#39;s content." alt="" coords="111,5,244,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="49,77,106,40,117,35,119,40,109,44,52,82"/>
+<area shape="rect" id="Node000003" href="$d2/d36/classol_1_1_t_s___queue.html#acbad8bfd039166e75269a23c05a7a98f" title="Check if TS_Queue is empty." alt="" coords="108,55,248,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,86,92,80,93,85,60,91"/>
+<area shape="rect" id="Node000004" href="$d2/d36/classol_1_1_t_s___queue.html#a10a8d9bcb33b299f793a6de2f1e7ebcf" title="Write data to TS_Queue." alt="" coords="111,104,244,130"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="60,95,96,101,96,106,60,100"/>
+<area shape="rect" id="Node000005" href="$d2/d36/classol_1_1_t_s___queue.html#a179a3cbcc179102ec2a28e563cd3309d" title="Take objects count." alt="" coords="114,153,242,179"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="53,104,109,140,119,145,117,149,106,145,50,109"/>
+</map>

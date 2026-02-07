@@ -1,0 +1,7 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$d2/d36/classol_1_1_t_s___queue.html#af04d57c2821371b697f828444adfb762" title="Get data." alt="" coords="111,5,238,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="60,36,95,30,96,35,60,41"/>
+<area shape="rect" id="Node000004" href="$d2/d36/classol_1_1_t_s___queue.html#a10a8d9bcb33b299f793a6de2f1e7ebcf" title="Write data to TS_Queue." alt="" coords="108,55,241,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="60,45,93,51,92,56,60,51"/>
+</map>

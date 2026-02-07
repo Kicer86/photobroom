@@ -1,0 +1,7 @@
+<map id="TEST" name="TEST">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,60,56"/>
+<area shape="rect" id="Node000002" href="$d8/da6/class_signal_blocker.html#a892f8f76a1c8037cd1aa6e74aa3dd9ec" title=" " alt="" coords="115,5,239,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="59,36,99,29,100,34,60,41"/>
+<area shape="rect" id="Node000003" href="$d8/da6/class_signal_blocker.html#a04b4aed681630b681cc37f6726844bf9" title=" " alt="" coords="108,55,246,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="60,45,93,51,92,56,59,51"/>
+</map>

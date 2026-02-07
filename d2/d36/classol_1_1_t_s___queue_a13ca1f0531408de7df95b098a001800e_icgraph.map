@@ -1,7 +1,9 @@
 <map id="ol::TS_Queue::stop" name="ol::TS_Queue::stop">
-<area shape="rect" id="Node000001" title="Release all threads waiting in TS_Queue::pop()." alt="" coords="228,31,358,56"/>
+<area shape="rect" id="Node000001" title="Release all threads waiting in TS_Queue::pop()." alt="" coords="228,55,358,80"/>
 <area shape="rect" id="Node000002" href="$de/d64/struct_task_executor.html#a7fee90630e8837841fc5db4921a3bbc5" title=" " alt="" coords="27,5,158,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="212,36,158,29,159,24,213,31"/>
-<area shape="rect" id="Node000004" href="$d2/d36/classol_1_1_t_s___queue.html#a3b0de22cf9bf12c2bb8086c2a9d5936f" title="Destructor." alt="" coords="5,55,180,80"/>
-<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="212,56,180,60,180,54,212,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="222,53,147,34,148,29,223,48"/>
+<area shape="rect" id="Node000004" href="$da/d14/ts__queue__tests_8cpp.html#a474b97bad2d70f302d0e4759254d61e8" title=" " alt="" coords="65,55,120,80"/>
+<area shape="poly" id="edge2_Node000001_Node000004" title=" " alt="" coords="212,70,120,70,120,65,212,65"/>
+<area shape="rect" id="Node000005" href="$d2/d36/classol_1_1_t_s___queue.html#a3b0de22cf9bf12c2bb8086c2a9d5936f" title="Destructor." alt="" coords="5,104,180,130"/>
+<area shape="poly" id="edge3_Node000001_Node000005" title=" " alt="" coords="223,87,148,106,147,101,222,82"/>
 </map>

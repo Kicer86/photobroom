@@ -1,5 +1,9 @@
 <map id="blocked_connect" name="blocked_connect">
-<area shape="rect" id="Node000001" title="blocks slot invocation until previous invocation is complete." alt="" coords="194,5,313,31"/>
+<area shape="rect" id="Node000001" title="blocks slot invocation until previous invocation is complete." alt="" coords="194,55,313,80"/>
 <area shape="rect" id="Node000002" href="$d6/d99/class_tag_info_collector.html#aec9fe80391af5e8f10a25bb4f7bc3f4b" title=" " alt="" coords="5,5,146,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="178,21,146,21,146,16,178,16"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="189,53,124,34,125,29,190,47"/>
+<area shape="rect" id="Node000007" href="$dd/ddd/signal__postponer__tests_8cpp.html#aff8af178276529bc1ef75f74b4c93550" title=" " alt="" coords="48,55,103,80"/>
+<area shape="poly" id="edge2_Node000001_Node000007" title=" " alt="" coords="178,70,103,70,103,65,178,65"/>
+<area shape="rect" id="Node000008" href="$dd/ddd/signal__postponer__tests_8cpp.html#a2b8097d6bfc5c5930677cffc12baa6cb" title=" " alt="" coords="48,104,103,130"/>
+<area shape="poly" id="edge3_Node000001_Node000008" title=" " alt="" coords="190,88,104,112,102,107,189,83"/>
 </map>

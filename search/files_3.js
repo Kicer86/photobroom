@@ -11,12 +11,11 @@ var searchData=
   ['database_5fqueue_2ecpp_8',['database_queue.cpp',['../dd/d13/database__queue_8cpp.html',1,'']]],
   ['database_5fqueue_2ehpp_9',['database_queue.hpp',['../d7/dfc/database__queue_8hpp.html',1,'']]],
   ['database_5fstatus_2ehpp_10',['database_status.hpp',['../dd/d23/database__status_8hpp.html',1,'']]],
-  ['databasetests_2ecpp_11',['databaseTests.cpp',['../d9/d4f/database_tests_8cpp.html',1,'']]],
-  ['db_5ferror_5ftests_2ecpp_12',['db_error_tests.cpp',['../d2/da8/db__error__tests_8cpp.html',1,'']]],
-  ['disk_5fobserver_2ecpp_13',['disk_observer.cpp',['../d8/d9b/disk__observer_8cpp.html',1,'']]],
-  ['disk_5fobserver_2ehpp_14',['disk_observer.hpp',['../d2/dce/disk__observer_8hpp.html',1,'']]],
-  ['dlib_5fface_5frecognition_5fapi_2ecpp_15',['dlib_face_recognition_api.cpp',['../d4/d47/dlib__face__recognition__api_8cpp.html',1,'']]],
-  ['dlib_5fface_5frecognition_5fapi_2ehpp_16',['dlib_face_recognition_api.hpp',['../df/dc1/dlib__face__recognition__api_8hpp.html',1,'']]],
-  ['duplicates_5fmodel_2ecpp_17',['duplicates_model.cpp',['../df/d45/duplicates__model_8cpp.html',1,'']]],
-  ['duplicates_5fmodel_2ehpp_18',['duplicates_model.hpp',['../d6/d5c/duplicates__model_8hpp.html',1,'']]]
+  ['db_5ferror_5ftests_2ecpp_11',['db_error_tests.cpp',['../d2/da8/db__error__tests_8cpp.html',1,'']]],
+  ['disk_5fobserver_2ecpp_12',['disk_observer.cpp',['../d8/d9b/disk__observer_8cpp.html',1,'']]],
+  ['disk_5fobserver_2ehpp_13',['disk_observer.hpp',['../d2/dce/disk__observer_8hpp.html',1,'']]],
+  ['dlib_5fface_5frecognition_5fapi_2ecpp_14',['dlib_face_recognition_api.cpp',['../d4/d47/dlib__face__recognition__api_8cpp.html',1,'']]],
+  ['dlib_5fface_5frecognition_5fapi_2ehpp_15',['dlib_face_recognition_api.hpp',['../df/dc1/dlib__face__recognition__api_8hpp.html',1,'']]],
+  ['duplicates_5fmodel_2ecpp_16',['duplicates_model.cpp',['../df/d45/duplicates__model_8cpp.html',1,'']]],
+  ['duplicates_5fmodel_2ehpp_17',['duplicates_model.hpp',['../d6/d5c/duplicates__model_8hpp.html',1,'']]]
 ];

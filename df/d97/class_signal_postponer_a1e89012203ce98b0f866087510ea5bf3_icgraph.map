@@ -1,5 +1,7 @@
 <map id="SignalPostponer::notify" name="SignalPostponer::notify">
-<area shape="rect" id="Node000001" title=" " alt="" coords="150,5,303,31"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="150,31,303,56"/>
 <area shape="rect" id="Node000002" href="$dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd" title="Create lazy Qt connection between signal and slot." alt="" coords="5,5,102,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,21,102,21,102,16,134,16"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,33,102,28,102,23,135,27"/>
+<area shape="rect" id="Node000009" href="$dd/ddd/signal__postponer__tests_8cpp.html#a7aae9e27716c0879ea7ea90ab40d9d29" title=" " alt="" coords="26,55,81,80"/>
+<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="135,59,81,66,81,61,134,54"/>
 </map>

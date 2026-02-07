@@ -1,7 +1,11 @@
 <map id="SignalBlocker::fire" name="SignalBlocker::fire">
-<area shape="rect" id="Node000001" title=" " alt="" coords="197,31,321,56"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="197,80,321,106"/>
 <area shape="rect" id="Node000002" href="$dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184" title="blocks slot invocation until previous invocation is complete." alt="" coords="17,5,137,31"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,35,136,29,137,24,182,30"/>
-<area shape="rect" id="Node000008" href="$d8/da6/class_signal_blocker.html#a149c4c2b1cd03f119f75b9e46dda77b1" title=" " alt="" coords="5,55,149,80"/>
-<area shape="poly" id="edge2_Node000001_Node000008" title=" " alt="" coords="182,56,149,61,149,55,181,51"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="217,76,148,45,119,34,121,29,150,40,219,71"/>
+<area shape="rect" id="Node000010" href="$dd/ddd/signal__postponer__tests_8cpp.html#aebacd27239fe9d78afbdb6998e24d39a" title=" " alt="" coords="50,55,104,80"/>
+<area shape="poly" id="edge2_Node000001_Node000010" title=" " alt="" coords="181,85,104,74,105,69,182,79"/>
+<area shape="rect" id="Node000011" href="$dd/ddd/signal__postponer__tests_8cpp.html#a0eecccdf82d3ea3ccf56aaaf24883904" title=" " alt="" coords="50,104,104,130"/>
+<area shape="poly" id="edge3_Node000001_Node000011" title=" " alt="" coords="182,106,105,116,104,111,181,100"/>
+<area shape="rect" id="Node000012" href="$d8/da6/class_signal_blocker.html#a149c4c2b1cd03f119f75b9e46dda77b1" title=" " alt="" coords="5,153,149,179"/>
+<area shape="poly" id="edge4_Node000001_Node000012" title=" " alt="" coords="217,115,150,145,121,155,119,150,148,140,215,110"/>
 </map>

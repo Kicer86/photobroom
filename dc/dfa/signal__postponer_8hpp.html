@@ -177,7 +177,7 @@ template&lt;typename SrcObj , typename Signal , typename Dst , typename Slot &gt
 </div><div class="memdoc">
 
 <p>blocks slot invocation until previous invocation is complete. </p>
-<p>Function creates <code>blocked</code> connection (similar to Qt's QObject::connect). Goal of blocked connection is to prevent calling slot faster than it executes. When signal is emitted slot will be invoked, but connection becomes suspended until slot finishes execution. If signal was emitted many times during that period, slot will be called only once. Blocked connection passes extra object to invoked slot. As long as this object (or a copy of it) exists, slot invocation is suspended. Suspension time can be additionaly extendend with <code>block</code> parameter: when last copy of object passed to slot is destroyed, connection will be suspended for addiotional <code>block</code> milliseconds.</p>
+<p>Function creates <code>blocked</code> connection (similar to Qt's QObject::connect). Goal of blocked connection is to prevent calling slot faster than it executes. When signal is emitted slot will be invoked, but connection becomes suspended until slot finishes execution. If signal was emitted many times during that period, slot will be called only once. Blocked connection passes extra object to invoked slot. As long as this object (or a copy of it) exists, slot invocation is suspended. Suspension time can be additionally extended with <code>block</code> parameter: when last copy of object passed to slot is destroyed, connection will be suspended for additional <code>block</code> milliseconds.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">src</td><td>source object. </td></tr>
@@ -196,7 +196,7 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_a07a9380d3812074d4bdcd7346b60a184_icgraph.svg" width="319" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_a07a9380d3812074d4bdcd7346b60a184_icgraph.svg" width="319" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -333,12 +333,12 @@ requires (std::is_invocable_v&lt;Slot&gt; || std::is_invocable_v&lt;Slot, Dst&gt
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_a04ceca6d6db222d93899b7d9bf9fa4cd_cgraph.svg" width="340" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_a04ceca6d6db222d93899b7d9bf9fa4cd_cgraph.svg" width="347" height="135"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_a04ceca6d6db222d93899b7d9bf9fa4cd_icgraph.svg" width="328" height="151"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../dc/dfa/signal__postponer_8hpp_a04ceca6d6db222d93899b7d9bf9fa4cd_icgraph.svg" width="328" height="250"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -346,7 +346,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 17 2026 16:34:30 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sat Feb 7 2026 19:42:23 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>
