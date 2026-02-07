@@ -965,13 +965,13 @@ Kod błędu: %1</translation>
     <name>main</name>
     <message>
         <location filename="../src/main.cpp" line="+92"/>
-        <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
-        <translation>Poziom logowania. Możliwe opcje to: Trace, Debug, Info, Warning (domyślny), Error</translation>
+        <source>Defines logging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+1"/>
-        <source>loging level</source>
-        <translation>poziom logowania</translation>
+        <source>logging level</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+5"/>

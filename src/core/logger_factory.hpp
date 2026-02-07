@@ -36,14 +36,14 @@ class CORE_EXPORT LoggerFactory final: public ILoggerFactory
         virtual ~LoggerFactory() = default;
 
         LoggerFactory& operator=(const LoggerFactory &) = delete;
-        void setLogingLevel(ILogger::Severity);
+        void setLoggingLevel(ILogger::Severity);
 
         std::unique_ptr<ILogger> get(const QString& utility) const override;
         std::unique_ptr<ILogger> get(const QStringList& utility) const override;
 
     private:
         mutable std::ofstream m_logFile;
-        ILogger::Severity m_logingLevel;
+        ILogger::Severity m_loggingLevel;
         mutable std::mutex m_outputMutex;
 };
 
