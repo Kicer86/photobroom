@@ -141,6 +141,8 @@ add_executable(core_ut
     implementation/video_media_information.cpp
     implementation/tag.cpp
     implementation/task_executor_utils.cpp
+    implementation/signal_postponer.cpp
+    signal_postponer.hpp
     imodel_compositor_data_source.hpp
     property_awaiter.hpp
 
@@ -155,8 +157,12 @@ add_executable(core_ut
     unit_tests/property_awaiter_tests.cpp
     unit_tests/qmodelindex_comparator_tests.cpp
     unit_tests/qmodelindex_selector_tests.cpp
+    unit_tests/signal_postponer_tests.cpp
     unit_tests/status_tests.cpp
     unit_tests/tag_value_tests.cpp
+    unit_tests/ts_queue_tests.cpp
+
+    unit_tests/main.cpp
 )
 
 target_link_libraries(core_ut
@@ -164,7 +170,7 @@ target_link_libraries(core_ut
         ${EXIV2_LIB}
         ${FFMPEG_LIBRARIES}
         GTest::gtest
-        GTest::gmock_main
+        GTest::gmock
         Qt::Core
         Qt::Gui
         Qt::Test
