@@ -19,6 +19,8 @@
 
 #include "logger_factory.hpp"
 
+#include <iostream>
+
 #include "logger.hpp"
 #include "log_file_rotator.hpp"
 
@@ -30,6 +32,9 @@ LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(IL
     const std::string str_path = log_path.toStdString();
 
     m_logFile.open(str_path, std::ofstream::out | std::ofstream::app);
+
+    if (!m_logFile.is_open())
+        std::cerr << "Failed to open log file: " << str_path << std::endl;
 }
 
 
