@@ -262,6 +262,13 @@ function(hideSymbols target)
 
         endif()
 
+        if(target_type STREQUAL "SHARED_LIBRARY")
+
+            set_target_properties(${target} PROPERTIES VERSION ${PROJECT_VERSION}
+                                                       SOVERSION ${PROJECT_VERSION_MAJOR})
+
+        endif()
+
     endif(TARGET ${target})
 
 endfunction(hideSymbols)
