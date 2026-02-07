@@ -56,7 +56,7 @@ class CORE_EXPORT SignalPostponer: public QObject
         ~SignalPostponer() = default;
 
         void setDelay(const std::chrono::milliseconds &);
-        void setPatiece(const std::chrono::milliseconds &);
+        void setPatience(const std::chrono::milliseconds &);
         void notify();
 
     private:
@@ -119,7 +119,7 @@ void lazy_connect(SrcObj* src, Signal sig,
         dst);
 
     postponer->setDelay(delay);
-    postponer->setPatiece(patience);
+    postponer->setPatience(patience);
 
     QObject::connect(src, sig, postponer, &SignalPostponer::notify, type);
 }
@@ -183,9 +183,9 @@ private:
  * times during that period, slot will be called only once.
  * Blocked connection passes extra object to invoked slot. As long as
  * this object (or a copy of it) exists, slot invocation is suspended.
- * Suspension time can be additionaly extendend with @p block parameter:
+ * Suspension time can be additionally extended with @p block parameter:
  * when last copy of object passed to slot is destroyed,
- * connection will be suspended for addiotional @p block milliseconds.
+ * connection will be suspended for additional @p block milliseconds.
  *
  * @param src source object.
  * @param sig signal.

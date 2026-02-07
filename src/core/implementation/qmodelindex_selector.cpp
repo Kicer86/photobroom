@@ -25,7 +25,7 @@ std::vector<QModelIndex> QModelIndexSelector::listAllBetween(const QModelIndex& 
 
     while (true)
     {
-        // should not happend, but if it does, do not hang
+        // should not happen, but if it does, do not hang
         assert(item.isValid());
         if (item.isValid() == false)
             break;

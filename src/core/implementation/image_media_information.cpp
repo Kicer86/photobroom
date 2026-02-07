@@ -52,7 +52,7 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
     // Exif.Photo.PixelYDimension or
     // Exif.Image.ImageWidth
     // kind of tags to get photo dimensions (if exif available).
-    // But it may happend that a photo was rotated in an editor
+    // But it may happen that a photo was rotated in an editor
     // and exif's dimensions were not touched. It will cause wrong results.
     // Therefore QImageReader is used here as basic source of image resolution.
 

@@ -21,7 +21,9 @@
 #define ITASKEXECUTOR_H
 
 #include <coroutine>
+#include <exception>
 #include <functional>
+#include <iostream>
 #include <memory>
 #include <string>
 
@@ -61,7 +63,13 @@ struct CORE_EXPORT ITaskExecutor
             std::suspend_always initial_suspend() noexcept { return {}; }
             std::suspend_always final_suspend() noexcept { return {}; }
             void return_void() { nextState = ProcessState::Finished; }
-            void unhandled_exception() {}
+            void unhandled_exception()
+            {
+                try { std::rethrow_exception(std::current_exception()); }
+                catch(const std::exception& e) { std::cerr << "Unhandled exception in Process: " << e.what() << std::endl; }
+                catch(...) { std::cerr << "Unhandled unknown exception in Process" << std::endl; }
+                nextState = ProcessState::Finished;
+            }
             std::suspend_always yield_value(ProcessState sr) { nextState = sr; return {}; }
         };
 
@@ -74,12 +82,16 @@ struct CORE_EXPORT ITaskExecutor
 
     struct IProcessSupervisor
     {
+        virtual ~IProcessSupervisor() = default;
+
         virtual bool keepWorking() = 0;
         virtual void resume() = 0;
     };
 
     struct IProcessControl
     {
+        virtual ~IProcessControl() = default;
+
         virtual void terminate() = 0;
         virtual void resume() = 0;
         virtual ProcessState state() = 0;

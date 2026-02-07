@@ -955,13 +955,13 @@ Error code: %1</translation>
     <name>main</name>
     <message>
         <location filename="../src/main.cpp" line="92"/>
-        <source>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
-        <translation>Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error</translation>
+        <source>Defines logging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="93"/>
-        <source>loging level</source>
-        <translation>loging level</translation>
+        <source>logging level</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="98"/>

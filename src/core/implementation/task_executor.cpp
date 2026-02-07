@@ -83,7 +83,7 @@ void TaskExecutor::ProcessInfo::setState(ProcessState s)
 
 void TaskExecutor::ProcessInfo::run()
 {
-    // lock state and raturn lock to caller, so state is locked until re
+    // lock state and return lock to caller, so state is locked until re
     std::lock_guard lk(m_stateMtx);
 
     m_co_h();
@@ -307,7 +307,7 @@ void TaskExecutor::runProcesses()
                 }
 
                 case ProcessState::Finished:
-                    assert(!"Should not happend");
+                    assert(!"Should not happen");
                     break;
             }
         }

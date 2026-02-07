@@ -19,10 +19,12 @@
 
 #include "logger_factory.hpp"
 
+#include <iostream>
+
 #include "logger.hpp"
 #include "log_file_rotator.hpp"
 
-LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(ILogger::Severity::Warning), m_outputMutex()
+LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_loggingLevel(ILogger::Severity::Warning), m_outputMutex()
 {
     const QString log_path = path + "/photo_broom.log";
     LogFileRotator().rotate(log_path);
@@ -30,12 +32,15 @@ LoggerFactory::LoggerFactory(const QString& path): m_logFile(), m_logingLevel(IL
     const std::string str_path = log_path.toStdString();
 
     m_logFile.open(str_path, std::ofstream::out | std::ofstream::app);
+
+    if (!m_logFile.is_open())
+        std::cerr << "Failed to open log file: " << str_path << std::endl;
 }
 
 
-void LoggerFactory::setLogingLevel(ILogger::Severity logingLevel)
+void LoggerFactory::setLoggingLevel(ILogger::Severity logingLevel)
 {
-    m_logingLevel = logingLevel;
+    m_loggingLevel = logingLevel;
 }
 
 
@@ -47,5 +52,5 @@ std::unique_ptr<ILogger> LoggerFactory::get(const QString& utility) const
 
 std::unique_ptr<ILogger> LoggerFactory::get(const QStringList& utility) const
 {
-    return std::make_unique<Logger>(m_outputMutex, m_logFile, utility, m_logingLevel, this);
+    return std::make_unique<Logger>(m_outputMutex, m_logFile, utility, m_loggingLevel, this);
 }

@@ -88,9 +88,9 @@ int main(int argc, char **argv)
     parser.addHelpOption();
     parser.addVersionOption();
 
-    QCommandLineOption logingLevelOption("loging-level",
-                                         QCoreApplication::translate("main", "Defines loging level. Possible options are: Trace, Debug, Info, Warning (default), Error"),
-                                         QCoreApplication::translate("main", "loging level"),
+    QCommandLineOption loggingLevelOption("logging-level",
+                                         QCoreApplication::translate("main", "Defines logging level. Possible options are: Trace, Debug, Info, Warning (default), Error"),
+                                         QCoreApplication::translate("main", "logging level"),
                                          "Warning"
     );
 
@@ -123,7 +123,7 @@ int main(int argc, char **argv)
     parser.addOption(enableConsole);
 #endif
 
-    parser.addOption(logingLevelOption);
+    parser.addOption(loggingLevelOption);
     parser.addOption(developerOptions);
     parser.addOption(disableCrashCatcher);
     parser.addOption(imageMemoryLimit);
@@ -146,22 +146,22 @@ int main(int argc, char **argv)
 
     ObservablesRegistry::instance().enable(featureToggles.contains("debug-view"));
 
-    const QString logingLevelStr = parser.value(logingLevelOption);
-    ILogger::Severity logingLevel = ILogger::Severity::Warning;
+    const QString loggingLevelStr = parser.value(loggingLevelOption);
+    ILogger::Severity loggingLevel = ILogger::Severity::Warning;
 
-    if (logingLevelStr == "Trace")
-        logingLevel = ILogger::Severity::Trace;
-    else if (logingLevelStr == "Debug")
-        logingLevel = ILogger::Severity::Debug;
-    else if (logingLevelStr == "Info")
-        logingLevel = ILogger::Severity::Info;
-    else if (logingLevelStr == "Warning")
-        logingLevel = ILogger::Severity::Warning;
-    else if (logingLevelStr == "Error")
-        logingLevel = ILogger::Severity::Error;
+    if (loggingLevelStr == "Trace")
+        loggingLevel = ILogger::Severity::Trace;
+    else if (loggingLevelStr == "Debug")
+        loggingLevel = ILogger::Severity::Debug;
+    else if (loggingLevelStr == "Info")
+        loggingLevel = ILogger::Severity::Info;
+    else if (loggingLevelStr == "Warning")
+        loggingLevel = ILogger::Severity::Warning;
+    else if (loggingLevelStr == "Error")
+        loggingLevel = ILogger::Severity::Error;
     else
     {
-        std::cerr << "Invalid option: '" << logingLevelStr.toStdString() << "' for loging-level option" << std::endl;
+        std::cerr << "Invalid option: '" << loggingLevelStr.toStdString() << "' for logging-level option" << std::endl;
         return 1;
     }
 
@@ -188,7 +188,7 @@ int main(int argc, char **argv)
     CommandLineToggles cmdLineToggles(toggles);
 
     LoggerFactory logger_factory(basePath);
-    logger_factory.setLogingLevel(logingLevel);
+    logger_factory.setLoggingLevel(loggingLevel);
 
     const QString configFileDir = System::getApplicationConfigDir();
     const QString configFilePath = configFileDir + "/" + "config.json";

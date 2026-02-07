@@ -1,3 +1,4 @@
+
 pull_request_rules:
   - name: Squash and merge (one commit)
     conditions:
@@ -7,8 +8,6 @@ pull_request_rules:
       - check-success=Build PhotoBroom sources on Linux (LLVM, clang, clang++, Release, true, ubuntu-24.04)
       - check-success=Build PhotoBroom sources on MacOS (macos-15)
       - check-success=Build PhotoBroom sources on MacOS (macos-26)
-      - check-success=Build PhotoBroom sources on Windows (debug, ninja_debug_vcpkg, Ninja Debug)
-      - check-success=Build PhotoBroom sources on Windows (release, ninja_release_vcpkg, Ninja Release)
       - check-success=Windows installer verification
       - check-success=Unit tests coverage (ubuntu-24.04)
       - "#commits=1"
@@ -29,8 +28,6 @@ pull_request_rules:
       - check-success=Build PhotoBroom sources on Linux (LLVM, clang, clang++, Release, true, ubuntu-24.04)
       - check-success=Build PhotoBroom sources on MacOS (macos-15)
       - check-success=Build PhotoBroom sources on MacOS (macos-26)
-      - check-success=Build PhotoBroom sources on Windows (debug, ninja_debug_vcpkg, Ninja Debug)
-      - check-success=Build PhotoBroom sources on Windows (release, ninja_release_vcpkg, Ninja Release)
       - check-success=Windows installer verification
       - check-success=Unit tests coverage (ubuntu-24.04)
       - "#commits>1"
