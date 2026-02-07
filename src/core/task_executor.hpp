@@ -80,7 +80,6 @@ private:
     std::thread m_taskEater;
     std::thread m_processRunner;
     std::mutex m_processesIdleMutex;
-    std::mutex m_processAlternationMutex;
     std::condition_variable m_processesIdleCV;
     ILogger& m_logger;
     unsigned int m_threads;
