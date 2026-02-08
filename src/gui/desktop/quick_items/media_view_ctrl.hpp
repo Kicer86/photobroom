@@ -2,7 +2,8 @@
 #ifndef MEDIAVIEWCTRL_HPP
 #define MEDIAVIEWCTRL_HPP
 
-#include <QFuture>
+#include <utility>
+
 #include <QQmlEngine>
 #include <QObject>
 #include <QUrl>
@@ -10,6 +11,11 @@
 #include <core/icore_factory_accessor.hpp>
 #include <core/property_awaiter.hpp>
 #include <database/photo_types.hpp>
+
+namespace Database
+{
+    struct IDatabase;
+}
 
 
 class MediaViewCtrl: public QObject
@@ -59,10 +65,10 @@ private:
 
     void setPath(const QUrl &);
     void setMode(Mode);
+    void applyMediaInfo(const std::pair<QUrl, Mode>&);
     void process();
 };
 
 Q_DECLARE_METATYPE(MediaViewCtrl::Mode)
 
 #endif
-
