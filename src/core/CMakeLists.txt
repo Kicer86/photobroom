@@ -77,6 +77,7 @@ set(CORE_SOURCES
     tag.hpp                                                 implementation/tag.cpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
     task_executor.hpp                                       implementation/task_executor.cpp
+    task_executor_qcoro_utils.hpp
     task_executor_traits.hpp
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     thread_utils.hpp
