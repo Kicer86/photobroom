@@ -28,6 +28,7 @@ set(DATABASE_SOURCES
     ibackend.hpp
     idatabase_builder.hpp
     idatabase.hpp
+    database_qcoro_utils.hpp
     idatabase_plugin.hpp
     igroup_operator.hpp
     ipeople_information_accessor.hpp

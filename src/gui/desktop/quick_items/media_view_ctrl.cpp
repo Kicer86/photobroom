@@ -3,13 +3,12 @@
 #include <utility>
 
 #include <QFileInfo>
-#include <QCoroFuture>
 #include <QCoroTask>
-#include <QPromise>
 
 #include <core/iexif_reader.hpp>
 #include <core/media_types.hpp>
 #include <core/task_executor_qcoro_utils.hpp>
+#include <database/database_qcoro_utils.hpp>
 
 #include "media_view_ctrl.hpp"
 #include "objects_accessor.hpp"
@@ -49,32 +48,28 @@ namespace
         return mode;
     }
 
-    QFuture<DbMediaData> readMediaData(Database::IDatabase& database, const Photo::Id& id)
+    QCoro::Task<DbMediaData> readMediaData(Database::IDatabase& database, const Photo::Id& id)
     {
-        QPromise<DbMediaData> promise;
-        promise.start();
-        auto future = promise.future();
-
-        database.exec([id, promise = std::move(promise)](Database::IBackend& backend) mutable
-        {
-            const auto data = backend.getPhotoDelta<Photo::Field::Path>(id);
-            const auto path = data.get<Photo::Field::Path>();
-            const QFileInfo pathInfo(path);
-            const auto url = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
-            const auto state = backend.get(id, MultimediaType);
-
-            if (state)
+        co_return co_await Database::coRunOn(
+            database,
+            [id](Database::IBackend& backend)
             {
-                const MediaViewCtrl::Mode mode = static_cast<MediaViewCtrl::Mode>(*state);
-                promise.addResult(DbMediaData{url, mode});
-            }
-            else
-                promise.addResult(DbMediaData{url, std::nullopt});
+                const auto data = backend.getPhotoDelta<Photo::Field::Path>(id);
+                const auto path = data.get<Photo::Field::Path>();
+                const QFileInfo pathInfo(path);
+                const auto url = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
+                const auto state = backend.get(id, MultimediaType);
 
-            promise.finish();
-        }, "MediaViewCtrl: update mode");
+                if (state)
+                {
+                    const MediaViewCtrl::Mode mode = static_cast<MediaViewCtrl::Mode>(*state);
+                    return DbMediaData{url, mode};
+                }
 
-        return future;
+                return DbMediaData{url, std::nullopt};
+            },
+            "MediaViewCtrl: update mode"
+        );
     }
 
     QCoro::Task<MediaInfo> getMediaInfo(ICoreFactoryAccessor& core, Database::IDatabase& database, const Photo::Id& id)
@@ -83,22 +78,24 @@ namespace
 
         if (data.mode)
             co_return std::make_pair(data.url, *data.mode);
-
-        const auto mode = co_await runOnCoro(
-            core.getTaskExecutor(),
-            [core = &core, url = data.url]()
-            {
-                return getFileType(*core, url);
-            },
-            "MediaViewCtrl: detect file type"
-        );
-
-        database.exec([id, mode](Database::IBackend& storage_backend)
+        else
         {
-            storage_backend.set(id, MultimediaType, mode);
-        }, "MediaViewCtrl: set file type");
+            const auto mode = co_await coRunOn(
+                core.getTaskExecutor(),
+                [core = &core, url = data.url]()
+                {
+                    return getFileType(*core, url);
+                },
+                "MediaViewCtrl: detect file type"
+            );
 
-        co_return std::make_pair(data.url, mode);
+            database.exec([id, mode](Database::IBackend& storage_backend)
+            {
+                storage_backend.set(id, MultimediaType, mode);
+            }, "MediaViewCtrl: set file type");
+
+            co_return std::make_pair(data.url, mode);
+        }
     }
 }
 
