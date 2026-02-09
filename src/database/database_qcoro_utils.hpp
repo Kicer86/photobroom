@@ -21,8 +21,7 @@ namespace Database
 
 
     template<typename Callable>
-    QCoro::Task<co_run_on_result_t<Callable>>
-    coRunOn(
+    QCoro::Task<co_run_on_result_t<Callable>> coRunOn(
         IDatabase& database,
         Callable&& callable,
         const std::string& taskName = std::source_location::current().function_name())
@@ -38,10 +37,25 @@ namespace Database
         );
     }
 
+    template<typename Callable, typename Receiver, typename Slot>
+    void coRunOn(
+        IDatabase& database,
+        Callable&& callable,
+        Receiver* receiver,
+        Slot slot,
+        const std::string& taskName = std::source_location::current().function_name())
+        requires std::is_invocable_v<std::remove_reference_t<Callable>, IBackend&>
+    {
+        QCoro::connect(
+            coRunOn(database, std::forward<Callable>(callable), taskName),
+            receiver,
+            slot
+        );
+    }
+
 
     template<typename Callable>
-    QCoro::Task<co_run_on_result_t<Callable>>
-    coExec(
+    QCoro::Task<co_run_on_result_t<Callable>> coExec(
         IDatabase& database,
         Callable&& callable,
         const std::string& taskName = std::source_location::current().function_name())
