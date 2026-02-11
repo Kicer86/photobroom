@@ -14,7 +14,7 @@ module;
 
 #include <unit_tests_utils/empty_logger.hpp>
 
-module photoDeltaFetchingBenchmarks;
+module photoDeltaFetchingBenchmarks:impl;
 
 namespace
 {
