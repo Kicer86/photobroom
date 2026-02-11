@@ -25,7 +25,7 @@
 #include <QFileInfo>
 
 
-import system;
+import broom.system;
 
 #include "gui/desktop/utils/photo_delta_fetcher_binding.hpp"
 

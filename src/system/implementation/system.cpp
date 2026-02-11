@@ -9,7 +9,7 @@ module;
 #include <QStandardPaths>
 #include <QTemporaryDir>
 
-module system;
+module broom.system;
 import :system;
 
 

@@ -24,7 +24,7 @@
 
 #include "hdr_generator.hpp"
 
-import system;
+import broom.system;
 
 
 HDRGenerator::HDRGenerator(const Data& data, ILogger* logger, IExifReaderFactory& exif):

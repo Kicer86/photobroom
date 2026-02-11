@@ -34,7 +34,7 @@
 
 #include "project.hpp"
 
-import system;
+import broom.system;
 
 
 ProjectManager::ProjectManager(Database::IBuilder& builder): m_dbBuilder(builder)

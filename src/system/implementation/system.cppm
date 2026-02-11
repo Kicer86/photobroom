@@ -9,7 +9,7 @@ class QString;
 template <typename Enum>
 class QFlags;
 
-export module system:system;
+export module broom.system:system;
 
 export struct SYSTEM_EXPORT ITmpDir
 {

@@ -28,7 +28,7 @@
 #include "utils/grouppers/collage_generator.hpp"
 #include "groups_manager.hpp"
 
-import system;
+import broom.system;
 
 
 QString GroupsManager::includeRepresentatInDatabase(const QString& representativePhoto, Project& project)

@@ -35,7 +35,7 @@
 #include "paths.hpp"
 
 
-import system;
+import broom.system;
 
 namespace
 {

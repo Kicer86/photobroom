@@ -32,7 +32,7 @@
 #include "utils/qml_setup.hpp"
 
 
-import system;
+import broom.system;
 
 
 Q_IMPORT_QML_PLUGIN(QmlItemsPlugin);

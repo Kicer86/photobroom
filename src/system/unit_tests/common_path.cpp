@@ -5,7 +5,7 @@
 
 #include "unit_tests_utils/printers.hpp"
 
-import system;
+import broom.system;
 
 
 TEST(FileSystemTest, EqualFilePaths)
