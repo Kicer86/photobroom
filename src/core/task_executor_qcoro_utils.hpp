@@ -22,7 +22,7 @@ QCoro::Task<co_run_on_result_t<Callable>> coRunOn(
 {
     using Result = co_run_on_result_t<Callable>;
     co_return co_await QCoroTaskUtils::coRunScheduled<Result>(
-        [&executor, &taskName](auto&& task)
+        [&executor, taskName](auto&& task)
         {
             runOn(executor, std::forward<decltype(task)>(task), taskName);
         },
@@ -43,17 +43,6 @@ void coRunOn(
         coRunOn(executor, std::forward<Callable>(callable), taskName),
         receiver, slot
     );
-}
-
-
-template<typename Callable>
-QCoro::Task<co_run_on_result_t<Callable>> runOnCoro(
-    ITaskExecutor& executor,
-    Callable&& callable,
-    const std::string& taskName = std::source_location::current().function_name())
-    requires std::is_invocable_v<std::remove_reference_t<Callable>>
-{
-    co_return co_await coRunOn(executor, std::forward<Callable>(callable), taskName);
 }
 
 #endif

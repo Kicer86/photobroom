@@ -29,7 +29,7 @@ namespace Database
     {
         using Result = co_run_on_result_t<Callable>;
         co_return co_await QCoroTaskUtils::coRunScheduled<Result>(
-            [&database, &taskName](auto&& task)
+            [&database, taskName](auto&& task)
             {
                 database.exec(std::forward<decltype(task)>(task), taskName);
             },
@@ -51,17 +51,6 @@ namespace Database
             receiver,
             slot
         );
-    }
-
-
-    template<typename Callable>
-    QCoro::Task<co_run_on_result_t<Callable>> coExec(
-        IDatabase& database,
-        Callable&& callable,
-        const std::string& taskName = std::source_location::current().function_name())
-        requires std::is_invocable_v<std::remove_reference_t<Callable>, IBackend&>
-    {
-        co_return co_await coRunOn(database, std::forward<Callable>(callable), taskName);
     }
 }
 
