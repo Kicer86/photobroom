@@ -45,7 +45,7 @@
 #include "quick_items/selection_manager_component.hpp"
 #include "quick_items/thumbnail_image_provider.hpp"
 
-import system;
+import broom.system;
 
 MainWindow::MainWindow(IFeaturesManager& featuresManager, ICoreFactoryAccessor* coreFactory, IThumbnailsManager* thbMgr):
     QObject(),

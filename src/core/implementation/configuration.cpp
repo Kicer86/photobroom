@@ -29,7 +29,7 @@
 
 #include "constants.hpp"
 
-import system;
+import broom.system;
 
 
 ConfigurationPrivate::ConfigurationPrivate(IConfigStorage& configStorage):

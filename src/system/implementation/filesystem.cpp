@@ -23,7 +23,7 @@ module;
 
 #include "paths.hpp"
 
-module system;
+module broom.system;
 import :filesystem;
 
 QString FileSystem::getPluginsPath() const

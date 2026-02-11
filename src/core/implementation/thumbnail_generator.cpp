@@ -41,7 +41,7 @@ extern "C"
 #include "media_types.hpp"
 #include "video_media_information.hpp"
 
-import system;
+import broom.system;
 
 namespace
 {

@@ -3,7 +3,7 @@ module;
 class QString;
 #include "system_export.h"
 
-export module system:filesystem;
+export module broom.system:filesystem;
 
 export struct SYSTEM_EXPORT FileSystem
 {

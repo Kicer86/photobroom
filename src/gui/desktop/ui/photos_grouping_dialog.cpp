@@ -21,7 +21,7 @@
 #include "utils/grouppers/collage_generator.hpp"
 #include "widgets/media_preview.hpp"
 
-import system;
+import broom.system;
 
 namespace
 {
