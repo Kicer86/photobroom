@@ -23,8 +23,10 @@
 #include <atomic>
 #include <condition_variable>
 #include <map>
+#include <memory>
 #include <mutex>
 #include <thread>
+#include <vector>
 
 #include "core_export.h"
 #include "itask_executor.hpp"
@@ -69,7 +71,7 @@ private:
         ProcessState m_state = ProcessState::Suspended;
         ProcessCoroutine::handle_type m_co_h;
         TaskExecutor& m_executor;
-        bool m_work = true;
+        std::atomic<bool> m_work = true;
     };
 
     friend class ProcessInfo;
@@ -81,6 +83,7 @@ private:
     std::thread m_processRunner;
     std::mutex m_processesIdleMutex;
     std::condition_variable m_processesIdleCV;
+    bool m_processesWakeRequested = false;
     ILogger& m_logger;
     unsigned int m_threads;
     std::atomic<bool> m_working;
