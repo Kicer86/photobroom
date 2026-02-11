@@ -954,42 +954,42 @@ Error code: %1</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="92"/>
+        <location filename="../src/main.cpp" line="98"/>
         <source>Defines logging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="93"/>
+        <location filename="../src/main.cpp" line="99"/>
         <source>logging level</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="98"/>
+        <location filename="../src/main.cpp" line="104"/>
         <source>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</source>
         <translation>Enables experimental features. Use for each flag you want to turn on: test-crash-catcher, debug-view</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="99"/>
+        <location filename="../src/main.cpp" line="105"/>
         <source>flag</source>
         <translation>flag</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="105"/>
+        <location filename="../src/main.cpp" line="111"/>
         <source>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</source>
         <translation>Limit for image sizes in megabytes. 512MB by default, which allows to open 512/4 = 128MPix photos.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="106"/>
+        <location filename="../src/main.cpp" line="112"/>
         <source>image memory limit</source>
         <translation>image memory limit</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="112"/>
+        <location filename="../src/main.cpp" line="118"/>
         <source>Limit for working threads count. Photo broom will not use more working threads than specified here. Another limitation is number of available CPU cores which won&apos;t be exceeded either.</source>
         <translation>Limit for working threads count. Photo broom will not use more working threads than specified here. Another limitation is number of available CPU cores which won&apos;t be exceeded either.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="115"/>
+        <location filename="../src/main.cpp" line="121"/>
         <source>threads count</source>
         <translation>threads count</translation>
     </message>
