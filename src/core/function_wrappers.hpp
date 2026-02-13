@@ -170,7 +170,8 @@ template<typename F>
     std::weak_ptr<bool> weak = guard;
 
     auto wrapper = [weak = std::move(weak), fn = std::forward<F>(callable)]
-                   (auto&&... args) mutable
+                   (auto&&... args)
+                   requires std::is_invocable_v<const F&, decltype(args)...>
     {
         if (weak.expired())
             return;
