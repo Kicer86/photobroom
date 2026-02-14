@@ -9,7 +9,8 @@ pull_request_rules:
       - check-success=Build PhotoBroom sources on MacOS (macos-15)
       - check-success=Build PhotoBroom sources on MacOS (macos-26)
       - check-success=Windows installer verification
-      - check-success=Unit tests coverage (ubuntu-24.04)
+      - check-success=Unit tests coverage
+      - check-success=AUR package build
       - "#commits=1"
       - or:
         - "#approved-reviews-by>0"
@@ -29,7 +30,8 @@ pull_request_rules:
       - check-success=Build PhotoBroom sources on MacOS (macos-15)
       - check-success=Build PhotoBroom sources on MacOS (macos-26)
       - check-success=Windows installer verification
-      - check-success=Unit tests coverage (ubuntu-24.04)
+      - check-success=Unit tests coverage
+      - check-success=AUR package build
       - "#commits>1"
       - "#commits-behind=0"
       - or:
