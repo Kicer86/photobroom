@@ -964,7 +964,7 @@ Kod błędu: %1</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/main.cpp" line="+92"/>
+        <location filename="../src/main.cpp" line="+98"/>
         <source>Defines logging level. Possible options are: Trace, Debug, Info, Warning (default), Error</source>
         <translation type="unfinished"></translation>
     </message>
