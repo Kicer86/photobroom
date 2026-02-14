@@ -9,7 +9,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -30,51 +30,10 @@ jobs:
       with:
         submodules: true
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update &&              \
-        sudo apt-get install                \
-          ninja-build                       \
-          python3-cairosvg                  \
-          python3-defusedxml                \
-          python3-pil                       \
-          libavformat-dev                   \
-          libboost-dev                      \
-          libopencv-dev                     \
-          libopenblas-dev                   \
-          libdlib-dev                       \
-          libgmock-dev                      \
-          libgl1-mesa-dev                   \
-          libglvnd-dev                      \
-          libwebp-dev
-
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v4
+    - name: Install dependencies
+      uses: ./.github/actions/linux-deps
       with:
-        version: '6.7.2'
-        cache: 'true'
-        modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
-
-    - name: Install CsLibGuarded
-      run: |
-        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
-        cd cs_libguarded
-        mkdir build
-        cd build
-        cmake ..
-        cmake --build . --target all
-        sudo cmake --build . --target install
-
-    - name: Install Exiv2
-      run: |
-        sudo apt-get install libinih-dev libbrotli-dev
-        git clone -b v0.28.2 https://github.com/Exiv2/exiv2.git
-        cd exiv2
-        mkdir build
-        cd build
-        cmake .. -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_BUILD_EXIV2_COMMAND=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_SAMPLES=OFF
-        cmake --build . --target all
-        sudo cmake --build . --target install
+        extra-packages: libavformat-dev
 
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
