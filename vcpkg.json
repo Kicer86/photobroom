@@ -37,6 +37,9 @@
     "qtdeclarative",
     "qtmultimedia",
     "qtquick3d",
-    "qcoro"
+    {
+      "name": "qcoro",
+      "default-features": false
+    }
   ]
 }
