@@ -11,16 +11,10 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
-
 jobs:
-  build:
+  coverage:
     name: "Unit tests coverage"
-
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-24.04]
+    runs-on: ubuntu-24.04
 
     steps:
     - uses: actions/checkout@v6
@@ -28,58 +22,15 @@ jobs:
         submodules: true
         lfs: true
 
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update &&              \
-        sudo apt-get install                \
-          gcc-14                            \
-          g++-14                            \
-          lcov                              \
-          ninja-build                       \
-          python3-cairosvg                  \
-          python3-defusedxml                \
-          python3-pil                       \
-          libboost-dev                      \
-          libopencv-dev                     \
-          libopenblas-dev                   \
-          libdlib-dev                       \
-          libgmock-dev                      \
-          libgl1-mesa-dev                   \
-          libglvnd-dev                      \
-          libwebp-dev
-
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v4
+    - name: Install dependencies
+      uses: ./.github/actions/linux-deps
       with:
-        version: '6.7.2'
-        cache: 'true'
-        modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
-
-    - name: Install CsLibGuarded
-      run: |
-        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
-        cd cs_libguarded
-        mkdir build
-        cd build
-        cmake ..
-        cmake --build . --target all
-        sudo cmake --build . --target install
-
-    - name: Install Exiv2
-      run: |
-        sudo apt-get install libinih-dev libbrotli-dev
-        git clone -b v0.28.2 https://github.com/Exiv2/exiv2.git
-        cd exiv2
-        mkdir build
-        cd build
-        cmake .. -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_BUILD_EXIV2_COMMAND=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_SAMPLES=OFF
-        cmake --build . --target all
-        sudo cmake --build . --target install
+        extra-packages: gcc-14 g++-14 lcov
 
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:
-        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+        key: ${{ github.job }}
 
     - name: Build
       uses: ashutoshvarma/action-cmake-build@master
@@ -89,7 +40,6 @@ jobs:
         cc: gcc-14
         cxx: g++-14
         configure-options:
-            -DBUILD_SHARED_LIBS=${{ matrix.shared }}
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
             -DENABLE_SANITIZERS_FOR_TESTS=FALSE
