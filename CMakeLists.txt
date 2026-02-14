@@ -118,12 +118,6 @@ set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE)
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/${PATH_LIBS}")
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-# Workaround for GCC 15 C++23 compatibility issue with Qt6 headers
-# GCC 15 enforces stricter rules about TU-local entities in templates
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 15.0)
-    add_compile_options(-Wno-error=template-id-cdtor)
-endif()
-
 #system dependent stuff
 if(UNIX OR CYGWIN)
     include(${PROJECT_SOURCE_DIR}/cmake/system/linux.cmake)
