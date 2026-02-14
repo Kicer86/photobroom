@@ -1,5 +1,25 @@
 {
     "name": "qtbase",
     "version": "6.4.0",
-    "port-version": 0
+    "port-version": 0,
+    "default-features": [
+        "concurrent",
+        "dbus",
+        "gui",
+        "network",
+        "sql",
+        "testlib",
+        "thread",
+        "widgets"
+    ],
+    "features": {
+        "concurrent": { "description": "Qt Concurrent" },
+        "dbus": { "description": "Qt D-Bus" },
+        "gui": { "description": "Qt GUI" },
+        "network": { "description": "Qt Network" },
+        "sql": { "description": "Qt SQL" },
+        "testlib": { "description": "Qt Test" },
+        "thread": { "description": "Thread support" },
+        "widgets": { "description": "Qt Widgets" }
+    }
 }
