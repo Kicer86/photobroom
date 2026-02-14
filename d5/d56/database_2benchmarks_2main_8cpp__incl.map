@@ -1,7 +1,7 @@
 <map id="src/database/benchmarks/main.cpp" name="src/database/benchmarks/main.cpp">
-<area shape="rect" id="Node000001" title=" " alt="" coords="74,5,246,46"/>
+<area shape="rect" id="Node000001" title=" " alt="" coords="72,5,243,46"/>
 <area shape="rect" id="Node000002" title=" " alt="" coords="5,94,128,120"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,48,94,86,91,82,135,44"/>
-<area shape="rect" id="Node000003" title=" " alt="" coords="151,94,358,120"/>
-<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="185,44,230,82,227,86,182,48"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="137,48,94,86,90,82,133,44"/>
+<area shape="rect" id="Node000003" href="$d0/d49/photo__fetch__benchmarks_8hpp.html" title=" " alt="" coords="152,94,344,120"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="181,44,224,82,221,86,178,48"/>
 </map>
