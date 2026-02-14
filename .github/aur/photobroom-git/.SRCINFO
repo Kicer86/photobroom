@@ -15,6 +15,7 @@ pkgbase = photobroom-git
 	makedepends = cs-libguarded
 	makedepends = boost
 	makedepends = openmp
+	makedepends = qcoro
 	depends = exiv2
 	depends = qt6-base
 	depends = qt6-multimedia
@@ -24,6 +25,7 @@ pkgbase = photobroom-git
 	depends = dlib
 	depends = opencv
 	depends = jsoncpp
+	depends = qcoro
 	provides = photobroom
 	conflicts = photobroom
 	source = photobroom-git::git+https://github.com/Kicer86/photobroom.git#branch=master
