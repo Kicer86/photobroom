@@ -5,14 +5,6 @@ git submodule update --init --recursive
 or clone whole repo with --recursive option:
 git clone --recursive https://github.com/Kicer86/photobroom.git
 
-When switching branches, always update submodules to avoid build issues:
-git checkout <branch>
-git submodule update --init --recursive
-
-If you encounter build errors related to missing files in submodules, reset them with:
-git submodule foreach 'git reset --hard HEAD'
-git submodule update --init --recursive
-
 
 Required tools and libraries:
  - cmake - version 3.18 or later
