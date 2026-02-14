@@ -1,5 +1,5 @@
 
-module;
+#include "photo_fetch_benchmarks.hpp"
 
 #include <QDir>
 #include <QTime>
@@ -13,8 +13,6 @@ module;
 #include <database/project_info.hpp>
 
 #include <unit_tests_utils/empty_logger.hpp>
-
-module photoDeltaFetchingBenchmarks:impl;
 
 namespace
 {

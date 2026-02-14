@@ -1,7 +1,7 @@
 
 #include <QCoreApplication>
 
-import photoDeltaFetchingBenchmarks;
+#include "photo_fetch_benchmarks.hpp"
 
 int main(int argc, char** argv)
 {
