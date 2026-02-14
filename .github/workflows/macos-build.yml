@@ -35,6 +35,7 @@ jobs:
           dlib              \
           exiv2             \
           opencv            \
+          qcoro6            \
           qt6
 
     - name: Configure LLVM toolchain

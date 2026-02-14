@@ -27,6 +27,7 @@ runs:
           libgl1-mesa-dev                   \
           libglvnd-dev                      \
           libwebp-dev                       \
+          qcoro-qt6-dev                     \
           ${{ inputs.extra-packages }}
 
     - name: Install Qt
