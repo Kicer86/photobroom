@@ -37,6 +37,7 @@ namespace Database
         );
     }
 
+
     template<typename Callable, typename Receiver, typename Slot>
     void coRunOn(
         IDatabase& database,
