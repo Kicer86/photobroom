@@ -89,10 +89,14 @@ namespace
                 "MediaViewCtrl: detect file type"
             );
 
-            database.exec([id, mode](Database::IBackend& storage_backend)
-            {
-                storage_backend.set(id, MultimediaType, mode);
-            }, "MediaViewCtrl: set file type");
+            co_await Database::coRunOn(
+                database,
+                [id, mode](Database::IBackend& storage_backend)
+                {
+                    storage_backend.set(id, MultimediaType, mode);
+                },
+                "MediaViewCtrl: set file type"
+            );
 
             co_return std::make_pair(data.url, mode);
         }
