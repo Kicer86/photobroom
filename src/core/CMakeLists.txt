@@ -3,6 +3,7 @@ find_package(CsLibGuarded     REQUIRED)
 find_package(exiv2            REQUIRED)
 find_package(FFmpeg           COMPONENTS AVCODEC AVFORMAT AVUTIL SWSCALE REQUIRED)
 find_package(OpenCV           REQUIRED)
+find_package(QCoro6Core       CONFIG REQUIRED)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui)
 
 include(GenerateExportHeader)
@@ -102,6 +103,7 @@ add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_directories(core PUBLIC ${FFMPEG_LIBRARY_DIRS})
 target_link_libraries(core
     PUBLIC
+        QCoro6::Core
         Qt::Core
         Qt::Gui
         ${FFMPEG_LIBRARIES}
