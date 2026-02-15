@@ -7,6 +7,7 @@
 #include <type_traits>
 #include <utility>
 
+#include <QCoroCore>
 #include <QCoroTask>
 
 #include <core/qcoro_task_utils.hpp>
