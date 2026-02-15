@@ -2,8 +2,11 @@
 #define TASK_EXECUTOR_QCORO_UTILS_HPP_INCLUDED
 
 
+#include <source_location>
 #include <type_traits>
 #include <utility>
+
+#include <QCoroCore>
 
 #include "qcoro_task_utils.hpp"
 #include "task_executor_utils.hpp"
