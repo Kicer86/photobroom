@@ -13,7 +13,7 @@ concurrency:
 
 
 env:
-  VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
+  # VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
   # Workaround for lukka/run-vcpkg cache issue (#251): use vcpkg binary cache stored via actions/cache.
   VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}\\vcpkg-binary-cache,readwrite"
   # Workaround to avoid re-downloading sources every run while run-vcpkg caching is unreliable.
