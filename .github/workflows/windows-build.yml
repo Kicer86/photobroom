@@ -13,11 +13,11 @@ concurrency:
 
 
 env:
-  # VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
   # Workaround for lukka/run-vcpkg cache issue (#251): use vcpkg binary cache stored via actions/cache.
   VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}\\vcpkg-binary-cache,readwrite"
   # Workaround to avoid re-downloading sources every run while run-vcpkg caching is unreliable.
   VCPKG_DOWNLOADS: "${{ github.workspace }}\\vcpkg-downloads"
+  VCPKG_MAX_CONCURRENCY: 4
 
 jobs:
   build-dependencies:
@@ -48,9 +48,10 @@ jobs:
         vcpkgJsonGlob: vcpkg.json
 
     # Workaround: build dependencies into the manual binary cache since run-vcpkg cache is unreliable.
+    # Use short buildtrees root to avoid long path issues with qtdeclarative (microsoft/vcpkg#47075).
     - name: build dependencies
       run: |
-        vcpkg\\vcpkg.exe install
+        vcpkg\vcpkg.exe install --x-buildtrees-root=C:\bt
 
 
   build-photo-broom:
@@ -115,7 +116,8 @@ jobs:
                 '-DBUILD_TESTING=OFF',
                 '-DBUILD_SHARED_LIBS=TRUE',
                 '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
-                '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe'
+                '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
+                '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=C:/bt'
             ]
         buildPreset: "${{ matrix.config.cmake_build }}"
 
