@@ -114,7 +114,6 @@ target_link_libraries(core
         ${EXIV2_LIB}
         opencv_photo
         opencv_videoio
-        opencv_tracking
 )
 
 target_include_directories(core
