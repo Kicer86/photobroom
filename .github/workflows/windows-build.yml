@@ -38,8 +38,9 @@ jobs:
         path: |
           vcpkg-binary-cache
           vcpkg-downloads
-        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}
+        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
         restore-keys: |
+          vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-
           vcpkg-binary-${{ runner.os }}-
 
     - name: Run vcpkg
@@ -61,7 +62,7 @@ jobs:
         path: |
           vcpkg-binary-cache
           vcpkg-downloads
-        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}
+        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
 
 
   build-photo-broom:
@@ -96,8 +97,9 @@ jobs:
         path: |
           vcpkg-binary-cache
           vcpkg-downloads
-        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}
+        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
         restore-keys: |
+          vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-
           vcpkg-binary-${{ runner.os }}-
 
     - name: Install Qt
