@@ -102,13 +102,6 @@ jobs:
           vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-
           vcpkg-binary-${{ runner.os }}-
 
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: '6.7.2'
-        cache: 'true'
-        modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
-
     - name: Setup ccache
       uses: Chocobo1/setup-ccache-action@v1
       with:
