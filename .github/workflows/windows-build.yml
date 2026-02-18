@@ -49,9 +49,10 @@ jobs:
 
     # Workaround: build dependencies into the manual binary cache since run-vcpkg cache is unreliable.
     # Use short buildtrees root to avoid long path issues with qtdeclarative (microsoft/vcpkg#47075).
+    # Clean buildtrees/packages after each build to avoid running out of disk space.
     - name: build dependencies
       run: |
-        vcpkg\vcpkg.exe install --x-buildtrees-root=C:\bt
+        vcpkg\vcpkg.exe install --x-buildtrees-root=D:\bt --clean-buildtrees-after-build --clean-packages-after-build
 
     - name: Save vcpkg binary cache
       if: always()
@@ -126,7 +127,7 @@ jobs:
                 '-DBUILD_SHARED_LIBS=TRUE',
                 '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
                 '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
-                '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=C:/bt'
+                '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt'
             ]
         buildPreset: "${{ matrix.config.cmake_build }}"
 
