@@ -117,6 +117,7 @@ target_include_directories(core
     PUBLIC
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}/src
+    SYSTEM PUBLIC
         ${PROJECT_SOURCE_DIR}/src/third_party/reflect-cpp/include
     PRIVATE
         ${CMAKE_CURRENT_SOURCE_DIR}
