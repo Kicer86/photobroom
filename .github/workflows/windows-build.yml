@@ -17,7 +17,6 @@ env:
   VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}\\vcpkg-binary-cache,readwrite"
   # Workaround to avoid re-downloading sources every run while run-vcpkg caching is unreliable.
   VCPKG_DOWNLOADS: "${{ github.workspace }}\\vcpkg-downloads"
-  VCPKG_MAX_CONCURRENCY: 4
 
 jobs:
   build-dependencies:
