@@ -11,6 +11,7 @@ endif()
 
 find_package(CsLibGuarded   REQUIRED)
 find_package(Qt6            REQUIRED COMPONENTS Core Gui)
+find_package(QCoro6Core     CONFIG REQUIRED)
 find_package(Threads        REQUIRED)
 find_package(OpenCV         REQUIRED)
 
@@ -28,6 +29,7 @@ set(DATABASE_SOURCES
     ibackend.hpp
     idatabase_builder.hpp
     idatabase.hpp
+    database_qcoro_utils.hpp
     idatabase_plugin.hpp
     igroup_operator.hpp
     ipeople_information_accessor.hpp
@@ -78,6 +80,7 @@ target_link_libraries(database
                             CsLibGuarded::CsLibGuarded
                             Qt::Gui
                             magic_enum::magic_enum
+                            QCoro6::Core
                             core                            # core is being used in some public interfaces (see photo_data.hpp)
 
                         PRIVATE

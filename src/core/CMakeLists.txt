@@ -3,6 +3,7 @@ find_package(CsLibGuarded     REQUIRED)
 find_package(exiv2            REQUIRED)
 find_package(FFmpeg           COMPONENTS AVCODEC AVFORMAT AVUTIL SWSCALE REQUIRED)
 find_package(OpenCV           REQUIRED)
+find_package(QCoro6Core       CONFIG REQUIRED)
 find_package(Qt6              REQUIRED COMPONENTS Core Gui)
 
 include(GenerateExportHeader)
@@ -77,6 +78,8 @@ set(CORE_SOURCES
     tag.hpp                                                 implementation/tag.cpp
     tags_utils.hpp                                          implementation/tags_utils.cpp
     task_executor.hpp                                       implementation/task_executor.cpp
+    task_executor_qcoro_utils.hpp
+    qcoro_task_utils.hpp
     task_executor_traits.hpp
     task_executor_utils.hpp                                 implementation/task_executor_utils.cpp
     thread_utils.hpp
@@ -100,6 +103,7 @@ add_library(core ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_directories(core PUBLIC ${FFMPEG_LIBRARY_DIRS})
 target_link_libraries(core
     PUBLIC
+        QCoro6::Core
         Qt::Core
         Qt::Gui
         ${FFMPEG_LIBRARIES}

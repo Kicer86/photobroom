@@ -13,7 +13,6 @@ concurrency:
 
 
 env:
-  VCPKG_OVERLAY_PORTS: ${{ github.workspace }}/.github/vcpkg_overlays/qt
   # Workaround for lukka/run-vcpkg cache issue (#251): use vcpkg binary cache stored via actions/cache.
   VCPKG_BINARY_SOURCES: "clear;files,${{ github.workspace }}\\vcpkg-binary-cache,readwrite"
   # Workaround to avoid re-downloading sources every run while run-vcpkg caching is unreliable.
@@ -33,13 +32,14 @@ jobs:
 
     - name: Restore vcpkg binary cache
       # Workaround for run-vcpkg cache instability: persist vcpkg binaries/downloads between jobs.
-      uses: actions/cache@v5
+      uses: actions/cache/restore@v5
       with:
         path: |
           vcpkg-binary-cache
           vcpkg-downloads
-        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}
+        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
         restore-keys: |
+          vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-
           vcpkg-binary-${{ runner.os }}-
 
     - name: Run vcpkg
@@ -48,9 +48,20 @@ jobs:
         vcpkgJsonGlob: vcpkg.json
 
     # Workaround: build dependencies into the manual binary cache since run-vcpkg cache is unreliable.
+    # Use short buildtrees root to avoid long path issues with qtdeclarative (microsoft/vcpkg#47075).
+    # Clean buildtrees/packages after each build to avoid running out of disk space.
     - name: build dependencies
       run: |
-        vcpkg\\vcpkg.exe install
+        vcpkg\vcpkg.exe install --x-buildtrees-root=D:\bt --clean-buildtrees-after-build --clean-packages-after-build
+
+    - name: Save vcpkg binary cache
+      if: always()
+      uses: actions/cache/save@v5
+      with:
+        path: |
+          vcpkg-binary-cache
+          vcpkg-downloads
+        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
 
 
   build-photo-broom:
@@ -85,16 +96,10 @@ jobs:
         path: |
           vcpkg-binary-cache
           vcpkg-downloads
-        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}
+        key: vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
         restore-keys: |
+          vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-
           vcpkg-binary-${{ runner.os }}-
-
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: '6.7.2'
-        cache: 'true'
-        modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
 
     - name: Setup ccache
       uses: Chocobo1/setup-ccache-action@v1
@@ -115,7 +120,8 @@ jobs:
                 '-DBUILD_TESTING=OFF',
                 '-DBUILD_SHARED_LIBS=TRUE',
                 '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
-                '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe'
+                '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
+                '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt'
             ]
         buildPreset: "${{ matrix.config.cmake_build }}"
 

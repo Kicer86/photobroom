@@ -151,4 +151,35 @@ requires std::is_base_of_v<QObject, ObjT>
     };
 }
 
+
+// Construct a cancellable wrapper around a callable.
+// Returns a pair: {guard, wrapper}.
+// Keep the guard alive (e.g. as a class member) for as long as the result
+// should be accepted. When a new request is made, simply reassign the guard
+// — the old one expires and any pending wrapper calls become no-ops.
+//
+// Usage:
+//   auto [guard, callback] = make_cancellable([this](const Data& d) { use(d); });
+//   m_guard = std::move(guard);   // old guard expires → old callbacks silenced
+//   asyncOp(..., std::move(callback));
+//
+template<typename F>
+[[nodiscard]] auto make_cancellable(F&& callable)
+{
+    auto guard = std::make_shared<bool>(true);
+    std::weak_ptr<bool> weak = guard;
+
+    auto wrapper = [weak = std::move(weak), fn = std::forward<F>(callable)]
+                   (auto&&... args)
+                   requires std::is_invocable_v<const F&, decltype(args)...>
+    {
+        if (weak.expired())
+            return;
+
+        std::invoke(fn, std::forward<decltype(args)>(args)...);
+    };
+
+    return std::make_pair(std::move(guard), std::move(wrapper));
+}
+
 #endif
