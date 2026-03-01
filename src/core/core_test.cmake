@@ -41,9 +41,6 @@ add_custom_target(core_tests_images
 
 if (BUILD_LEARNING_TESTS)
 
-    # HDR test images from src/unit_tests_utils/image-files/hdr/
-    # (previously downloaded at build time from easyhdr.com and wikimedia)
-
     set(hdr_images_src_dir ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/image-files/hdr)
 
     set(hdr_photos_list

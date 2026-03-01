@@ -4,8 +4,7 @@ if(FALSE)                                                   # TODO: reenable whe
 find_package(GTest REQUIRED CONFIG)
 find_package(Qt6 REQUIRED COMPONENTS Core Gui)
 
-# LFW face dataset — local copy from src/unit_tests_utils/image-files/lfw/
-# (previously downloaded at build time from vis-www.cs.umass.edu/lfw/)
+# LFW face dataset (http://vis-www.cs.umass.edu/lfw/)
 set(lfw_src_dir ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/image-files/lfw)
 
 add_custom_command(OUTPUT lfw/George_W_Bush/George_W_Bush_0518.jpg
