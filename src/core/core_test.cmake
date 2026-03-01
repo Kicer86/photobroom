@@ -9,7 +9,6 @@ find_package(Qt6Test REQUIRED)
 find_package(OpenCV  REQUIRED)
 
 find_program(Python python REQUIRED)
-find_program(Wget wget REQUIRED)
 
 foreach(ext png jpeg)
     foreach(img img1 img2)
@@ -42,31 +41,28 @@ add_custom_target(core_tests_images
 
 if (BUILD_LEARNING_TESTS)
 
-    # download face dataset from https://www.easyhdr.com/examples/wadi-rum-sunset/
+    # HDR test images from src/unit_tests_utils/image-files/hdr/
+    # (previously downloaded at build time from easyhdr.com and wikimedia)
 
-    set(hdr_photos_list)
-    foreach(N 1 2 3)
-        add_custom_command(OUTPUT wadi-rum-sunset${N}.jpg
-                           COMMAND ${Wget} https://www.easyhdr.com/examples/wadi-rum-sunset/wadi-rum-sunset${N}.jpg
-                                           -O ${CMAKE_CURRENT_BINARY_DIR}/wadi-rum-sunset${N}.jpg
-        )
+    set(hdr_images_src_dir ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/image-files/hdr)
 
-        list(APPEND hdr_photos_list wadi-rum-sunset${N}.jpg)
-    endforeach()
-
-    foreach(URL
-        https://upload.wikimedia.org/wikipedia/commons/0/09/StLouisArchMultExpEV-4.72.JPG
-        https://upload.wikimedia.org/wikipedia/commons/c/c3/StLouisArchMultExpEV-1.82.JPG
-        https://upload.wikimedia.org/wikipedia/commons/8/89/StLouisArchMultExpEV+1.51.JPG
-        https://upload.wikimedia.org/wikipedia/commons/8/8f/StLouisArchMultExpEV+4.09.JPG
+    set(hdr_photos_list
+        wadi-rum-sunset1.jpg
+        wadi-rum-sunset2.jpg
+        wadi-rum-sunset3.jpg
+        StLouisArchMultExpEV-4.72.JPG
+        StLouisArchMultExpEV-1.82.JPG
+        StLouisArchMultExpEV+1.51.JPG
+        StLouisArchMultExpEV+4.09.JPG
     )
-        get_filename_component(fileName ${URL} NAME)
 
-        add_custom_command(OUTPUT ${fileName}
-                           COMMAND ${Wget} ${URL} -O ${CMAKE_CURRENT_BINARY_DIR}/${fileName}
+    foreach(photo ${hdr_photos_list})
+        add_custom_command(OUTPUT ${photo}
+                           COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                                   ${hdr_images_src_dir}/${photo}
+                                   ${CMAKE_CURRENT_BINARY_DIR}/${photo}
+                           DEPENDS ${hdr_images_src_dir}/${photo}
         )
-
-        list(APPEND hdr_photos_list ${fileName})
     endforeach()
 
     add_custom_target(hdr_photos
