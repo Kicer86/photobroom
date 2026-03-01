@@ -49,9 +49,17 @@ jobs:
             -DCMAKE_SHARED_LINKER_FLAGS=--coverage
             -DCMAKE_EXE_LINKER_FLAGS=--coverage
             -G Ninja
-        run-test: true
-        ctest-options:
-            --output-on-failure
+
+    - name: Install face recognition models for tests
+      run: |
+        sudo mkdir -p /usr/local/share/photo_broom/face_recognition_models
+        sudo cp src/face_recognition/dlib_wrapper/face_recognition_models/face_recognition_models/models/*.dat \
+               /usr/local/share/photo_broom/face_recognition_models/
+
+    - name: Run tests
+      run: |
+        cd ${{ runner.workspace }}/build
+        /usr/local/bin/ctest -C Debug --output-on-failure
 
     - name: Generate lcov raports
       run: |
