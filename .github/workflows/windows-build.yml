@@ -139,7 +139,7 @@ jobs:
 
     - name: Upload artifact
       if: matrix.config.name == 'release'
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: Installer
         path: out/build/ninja-vcpkg-release/PhotoBroom-*-win64.exe
