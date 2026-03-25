@@ -11,9 +11,10 @@ install(CODE [[
             api-ms-.*
             ext-ms-.*
             hvsifiletrust.dll
-            qt6.*\\.dll                                                         # windeployqt will take care about Qt's libs
         POST_EXCLUDE_REGEXES
             ".*system32.*\\.dll"
+        DIRECTORIES
+            "$<TARGET_FILE_DIR:Qt6::Core>"
         RESOLVED_DEPENDENCIES_VAR deps
         EXECUTABLES $<TARGET_FILE:photo_broom>
     )
