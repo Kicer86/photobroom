@@ -12,6 +12,7 @@ find_package(Qt6 6.4 REQUIRED COMPONENTS
     Quick3D
     QuickWidgets
 )
+find_package(QCoro6Core CONFIG REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -58,6 +59,7 @@ target_link_libraries(quick_items
         Qt::Quick
         Qt::Quick3D
         Qt::Widgets                  # TODO: remove ASAP
+        QCoro6::Core
 )
 
 target_include_directories(quick_items
