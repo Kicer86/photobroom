@@ -120,91 +120,91 @@ var sectionId = 'dynsection-0';
 </a>
 </g>
 </g>
-<!-- Node54 -->
-<g id="Node000054" class="node">
-<title>Node54</title>
-<g id="a_Node000054"><a xlink:title=" ">
+<!-- Node53 -->
+<g id="Node000053" class="node">
+<title>Node53</title>
+<g id="a_Node000053"><a xlink:title=" ">
 <polygon fill="#e0e0e0" stroke="#999999" points="339.25,-85.75 229.5,-85.75 229.5,-66.5 339.25,-66.5 339.25,-85.75"/>
 <text text-anchor="middle" x="284.38" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">QItemSelectionModel</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node54 -->
-<g id="edge4_Node000001_Node000054" class="edge">
-<title>Node1&#45;&gt;Node54</title>
-<g id="a_edge4_Node000001_Node000054"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node53 -->
+<g id="edge4_Node000001_Node000053" class="edge">
+<title>Node1&#45;&gt;Node53</title>
+<g id="a_edge4_Node000001_Node000053"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M324.27,-121.45C316.98,-113.34 307.85,-103.2 300.16,-94.66"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="302.85,-92.42 293.56,-87.33 297.65,-97.1 302.85,-92.42"/>
+</a>
+</g>
+</g>
+<!-- Node54 -->
+<g id="Node000054" class="node">
+<title>Node54</title>
+<g id="a_Node000054"><a xlink:title=" ">
+<polygon fill="#e0e0e0" stroke="#999999" points="423.12,-85.75 357.62,-85.75 357.62,-66.5 423.12,-66.5 423.12,-85.75"/>
+<text text-anchor="middle" x="390.38" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">QDateTime</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node54 -->
+<g id="edge5_Node000001_Node000054" class="edge">
+<title>Node1&#45;&gt;Node54</title>
+<g id="a_edge5_Node000001_Node000054"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M350.48,-121.45C357.77,-113.34 366.9,-103.2 374.59,-94.66"/>
+<polygon fill="#63b8ff" stroke="#63b8ff" points="377.1,-97.1 381.19,-87.33 371.9,-92.42 377.1,-97.1"/>
 </a>
 </g>
 </g>
 <!-- Node55 -->
 <g id="Node000055" class="node">
 <title>Node55</title>
-<g id="a_Node000055"><a xlink:title=" ">
-<polygon fill="#e0e0e0" stroke="#999999" points="423.12,-85.75 357.62,-85.75 357.62,-66.5 423.12,-66.5 423.12,-85.75"/>
-<text text-anchor="middle" x="390.38" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">QDateTime</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node55 -->
-<g id="edge5_Node000001_Node000055" class="edge">
-<title>Node1&#45;&gt;Node55</title>
-<g id="a_edge5_Node000001_Node000055"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M350.48,-121.45C357.77,-113.34 366.9,-103.2 374.59,-94.66"/>
-<polygon fill="#63b8ff" stroke="#63b8ff" points="377.1,-97.1 381.19,-87.33 371.9,-92.42 377.1,-97.1"/>
-</a>
-</g>
-</g>
-<!-- Node56 -->
-<g id="Node000056" class="node">
-<title>Node56</title>
-<g id="a_Node000056"><a xlink:href="../../d0/dd6/function__wrappers_8hpp.html" target="_top" xlink:title=" ">
+<g id="a_Node000055"><a xlink:href="../../d0/dd6/function__wrappers_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="576,-85.75 440.75,-85.75 440.75,-66.5 576,-66.5 576,-85.75"/>
 <text text-anchor="middle" x="508.38" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">core/function_wrappers.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node56 -->
-<g id="edge6_Node000001_Node000056" class="edge">
-<title>Node1&#45;&gt;Node56</title>
-<g id="a_edge6_Node000001_Node000056"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node55 -->
+<g id="edge6_Node000001_Node000055" class="edge">
+<title>Node1&#45;&gt;Node55</title>
+<g id="a_edge6_Node000001_Node000055"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M380.08,-121.3C408.04,-111.67 444.23,-99.21 471.03,-89.98"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="472.15,-93.3 480.47,-86.73 469.87,-86.68 472.15,-93.3"/>
 </a>
 </g>
 </g>
-<!-- Node62 -->
-<g id="Node000062" class="node">
-<title>Node62</title>
-<g id="a_Node000062"><a xlink:href="../../d9/d1e/base__tags_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node61 -->
+<g id="Node000061" class="node">
+<title>Node61</title>
+<g id="a_Node000061"><a xlink:href="../../d9/d1e/base__tags_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="694.75,-85.75 594,-85.75 594,-66.5 694.75,-66.5 694.75,-85.75"/>
 <text text-anchor="middle" x="644.38" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">core/base_tags.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node62 -->
-<g id="edge7_Node000001_Node000062" class="edge">
-<title>Node1&#45;&gt;Node62</title>
-<g id="a_edge7_Node000001_Node000062"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node61 -->
+<g id="edge7_Node000001_Node000061" class="edge">
+<title>Node1&#45;&gt;Node61</title>
+<g id="a_edge7_Node000001_Node000061"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M396.2,-124.72C450.66,-114.28 531.19,-98.83 585.62,-88.39"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="586.17,-91.85 595.33,-86.53 584.85,-84.98 586.17,-91.85"/>
 </a>
 </g>
 </g>
-<!-- Node64 -->
-<g id="Node000064" class="node">
-<title>Node64</title>
-<g id="a_Node000064"><a xlink:href="../../dc/dfa/signal__postponer_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node63 -->
+<g id="Node000063" class="node">
+<title>Node63</title>
+<g id="a_Node000063"><a xlink:href="../../dc/dfa/signal__postponer_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="842,-85.75 712.75,-85.75 712.75,-66.5 842,-66.5 842,-85.75"/>
 <text text-anchor="middle" x="777.38" y="-72.25" font-family="Helvetica,sans-Serif" font-size="10.00">core/signal_postponer.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node64 -->
-<g id="edge8_Node000001_Node000064" class="edge">
-<title>Node1&#45;&gt;Node64</title>
-<g id="a_edge8_Node000001_Node000064"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node63 -->
+<g id="edge8_Node000001_Node000063" class="edge">
+<title>Node1&#45;&gt;Node63</title>
+<g id="a_edge8_Node000001_Node000063"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M396.26,-128.12C474.92,-117.6 614.42,-98.93 701.06,-87.34"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="701.45,-90.81 710.9,-86.02 700.53,-83.88 701.45,-90.81"/>
 </a>

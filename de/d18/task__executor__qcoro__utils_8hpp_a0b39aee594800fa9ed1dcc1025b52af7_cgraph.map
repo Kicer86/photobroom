@@ -1,0 +1,7 @@
+<map id="coRunOn" name="coRunOn">
+<area shape="rect" id="Node000001" title=" " alt="" coords="5,31,81,56"/>
+<area shape="rect" id="Node000002" href="$d3/dca/namespace_q_coro_task_utils.html#a361da4057f6d087b4c6ec875cdec8b6c" title=" " alt="" coords="129,5,347,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="81,36,119,31,120,36,81,41"/>
+<area shape="rect" id="Node000003" href="$d4/d20/task__executor__utils_8hpp.html#a2ca7a07566bec22218321fdca74d520f" title=" " alt="" coords="210,55,266,80"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="81,45,195,60,194,65,81,51"/>
+</map>

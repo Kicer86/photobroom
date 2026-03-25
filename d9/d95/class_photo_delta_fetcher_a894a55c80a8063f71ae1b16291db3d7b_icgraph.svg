@@ -32,10 +32,10 @@
 <!-- Node2 -->
 <g id="Node000002" class="node">
 <title>Node2</title>
-<g id="a_Node000002"><a xlink:href="../../d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a9e0255b182c915ce27b75039acaf3dbb" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="141.25,-79.5 0,-79.5 0,-49 141.25,-49 141.25,-79.5"/>
-<text text-anchor="start" x="8" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">Gui::Utils::PhotoDeltaFetcher</text>
-<text text-anchor="middle" x="70.62" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">Binding::setDatabase</text>
+<g id="a_Node000002"><a xlink:href="../../d9/d95/class_photo_delta_fetcher.html#a14b13b1a4f59b82ebac67de36bd160f4" target="_top" xlink:title=" ">
+<polygon fill="white" stroke="#666666" points="121.38,-79.5 19.88,-79.5 19.88,-49 121.38,-49 121.38,-79.5"/>
+<text text-anchor="start" x="27.88" y="-66" font-family="Helvetica,sans-Serif" font-size="10.00">PhotoDeltaFetcher::</text>
+<text text-anchor="middle" x="70.62" y="-54.75" font-family="Helvetica,sans-Serif" font-size="10.00">fetchIds</text>
 </a>
 </g>
 </g>
@@ -43,26 +43,26 @@
 <g id="edge1_Node000001_Node000002" class="edge">
 <title>Node1&#45;&gt;Node2</title>
 <g id="a_edge1_Node000001_Node000002"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M165.89,-49.85C157.86,-51.07 149.67,-52.33 141.63,-53.55"/>
+<path fill="none" stroke="#63b8ff" d="M165.9,-49.85C151.06,-52.11 135.67,-54.47 121.72,-56.6"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="166.25,-53.33 175.61,-48.36 165.19,-46.41 166.25,-53.33"/>
 </a>
 </g>
 </g>
-<!-- Node9 -->
-<g id="Node000009" class="node">
-<title>Node9</title>
-<g id="a_Node000009"><a xlink:href="../../d9/d95/class_photo_delta_fetcher.html#a4aa3fedda3fb4504bb6b6352b300c297" target="_top" xlink:title=" ">
-<polygon fill="#fff0f0" stroke="red" points="121.38,-30.5 19.88,-30.5 19.88,0 121.38,0 121.38,-30.5"/>
-<text text-anchor="start" x="27.88" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">PhotoDeltaFetcher::</text>
-<text text-anchor="middle" x="70.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">storePhotoData</text>
+<!-- Node3 -->
+<g id="Node000003" class="node">
+<title>Node3</title>
+<g id="a_Node000003"><a xlink:href="../../d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a9e0255b182c915ce27b75039acaf3dbb" target="_top" xlink:title=" ">
+<polygon fill="#fff0f0" stroke="red" points="141.25,-30.5 0,-30.5 0,0 141.25,0 141.25,-30.5"/>
+<text text-anchor="start" x="8" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">Gui::Utils::PhotoDeltaFetcher</text>
+<text text-anchor="middle" x="70.62" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">Binding::setDatabase</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node9 -->
-<g id="edge2_Node000001_Node000009" class="edge">
-<title>Node1&#45;&gt;Node9</title>
-<g id="a_edge2_Node000001_Node000009"><a xlink:title=" ">
-<path fill="none" stroke="#63b8ff" d="M165.9,-29.08C151.06,-26.9 135.67,-24.64 121.72,-22.6"/>
+<!-- Node1&#45;&gt;Node3 -->
+<g id="edge2_Node000001_Node000003" class="edge">
+<title>Node1&#45;&gt;Node3</title>
+<g id="a_edge2_Node000001_Node000003"><a xlink:title=" ">
+<path fill="none" stroke="#63b8ff" d="M165.89,-29.08C157.86,-27.9 149.67,-26.7 141.63,-25.52"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="165.2,-32.51 175.6,-30.5 166.22,-25.59 165.2,-32.51"/>
 </a>
 </g>

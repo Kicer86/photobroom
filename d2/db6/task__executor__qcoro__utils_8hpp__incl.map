@@ -1,0 +1,18 @@
+<map id="src/core/task_executor_qcoro_utils.hpp" name="src/core/task_executor_qcoro_utils.hpp">
+<area shape="rect" id="Node000001" title=" " alt="" coords="181,5,334,46"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="15,168,127,193"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="181,40,80,62,38,78,13,96,8,111,13,126,26,142,42,156,38,160,22,146,9,129,3,111,9,92,36,73,79,57,180,35"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="206,168,288,193"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="255,47,246,94,246,120,248,152,242,152,240,120,240,94,250,46"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="463,168,514,193"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="335,34,444,56,490,72,508,81,520,92,526,108,525,125,510,157,505,155,520,124,521,109,516,96,505,86,488,77,443,61,334,39"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="255,94,340,120"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="270,45,287,79,282,81,265,48"/>
+<area shape="rect" id="Node000006" href="$d3/db0/qcoro__task__utils_8hpp.html" title=" " alt="" coords="365,94,505,120"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="303,44,395,85,393,90,301,49"/>
+<area shape="rect" id="Node000012" href="$d4/d20/task__executor__utils_8hpp.html" title=" " alt="" coords="23,94,180,120"/>
+<area shape="poly" id="edge8_Node000001_Node000012" title=" " alt="" coords="220,49,140,89,138,84,218,44"/>
+<area shape="poly" id="edge6_Node000006_Node000003" title=" " alt="" coords="404,123,294,164,292,159,402,118"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="446,118,472,153,468,157,442,121"/>
+<area shape="poly" id="edge9_Node000012_Node000002" title=" " alt="" coords="99,121,85,154,80,152,94,119"/>
+</map>

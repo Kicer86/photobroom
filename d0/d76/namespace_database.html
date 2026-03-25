@@ -241,6 +241,9 @@ Typedefs</h2></td></tr>
 <tr class="separator:ae93ff7ad382ae688fd989e58927b075f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7191d74f70b64daf49e5256da9597642" id="r_a7191d74f70b64daf49e5256da9597642"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a7191d74f70b64daf49e5256da9597642">PeopleContainer</a></td></tr>
 <tr class="separator:a7191d74f70b64daf49e5256da9597642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e674854a7d0b0d3128022ec52318a61" id="r_a4e674854a7d0b0d3128022ec52318a61"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; </td></tr>
+<tr class="memitem:a4e674854a7d0b0d3128022ec52318a61"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a4e674854a7d0b0d3128022ec52318a61">co_run_on_result_t</a> = std::remove_cvref_t&lt;std::invoke_result_t&lt;std::remove_reference_t&lt;Callable&gt;, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a>&amp;&gt;&gt;</td></tr>
+<tr class="separator:a4e674854a7d0b0d3128022ec52318a61"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2f00c97643e7d6fcd7b5ce802964bdfb" id="r_a2f00c97643e7d6fcd7b5ce802964bdfb"><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="../../d0/de5/class_status.html">Status</a>&lt; <a class="el" href="#a25b897a700669116efa4f786360831a7">StatusCodes</a>, <a class="el" href="#a25b897a700669116efa4f786360831a7aa60852f204ed8028c1c58808b746d115">StatusCodes::Ok</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a2f00c97643e7d6fcd7b5ce802964bdfb">BackendStatus</a></td></tr>
 <tr class="separator:a2f00c97643e7d6fcd7b5ce802964bdfb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a83ac85e1ab7c263f60d6aa6b5bfe4a12" id="r_a83ac85e1ab7c263f60d6aa6b5bfe4a12"><td class="memItemLeft" align="right" valign="top">typedef std::variant&lt; <a class="el" href="../../d3/d0c/struct_database_1_1_empty_filter.html">EmptyFilter</a>, <a class="el" href="../../df/d31/struct_database_1_1_group_filter.html">GroupFilter</a>, <a class="el" href="../../db/da3/struct_database_1_1_filter_photos_with_tag.html">FilterPhotosWithTag</a>, <a class="el" href="../../db/deb/struct_database_1_1_filter_photos_with_flags.html">FilterPhotosWithFlags</a>, <a class="el" href="../../d5/d8b/struct_database_1_1_filter_not_matching_filter.html">FilterNotMatchingFilter</a>, <a class="el" href="../../db/df3/struct_database_1_1_filter_photos_with_id.html">FilterPhotosWithId</a>, <a class="el" href="../../d0/d66/struct_database_1_1_filter_photos_matching_expression.html">FilterPhotosMatchingExpression</a>, <a class="el" href="../../da/dbe/struct_database_1_1_filter_photos_with_path.html">FilterPhotosWithPath</a>, <a class="el" href="../../d5/dcd/struct_database_1_1_filter_photos_with_role.html">FilterPhotosWithRole</a>, <a class="el" href="../../d9/d4b/struct_database_1_1_filter_photos_with_person.html">FilterPhotosWithPerson</a>, <a class="el" href="../../d9/d10/struct_database_1_1_filter_photos_with_general_flag.html">FilterPhotosWithGeneralFlag</a>, <a class="el" href="../../d9/d81/struct_database_1_1_filter_photos_with_p_hash.html">FilterPhotosWithPHash</a>, <a class="el" href="../../d0/d36/struct_database_1_1_filter_similar_photos.html">FilterSimilarPhotos</a>, <a class="el" href="../../d0/df6/struct_database_1_1_filter_face_analysis_status.html">FilterFaceAnalysisStatus</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a83ac85e1ab7c263f60d6aa6b5bfe4a12">Filter</a></td></tr>
@@ -294,6 +297,14 @@ Functions</h2></td></tr>
 <tr class="separator:aa6552d7b9a792ed15a2f3c6d4c6ef710"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a214cbe8711df46c9d1292f16b344f2e9" id="r_a214cbe8711df46c9d1292f16b344f2e9"><td class="memItemLeft" align="right" valign="top"><a class="el" href="../../d7/dbf/namespace_person.html#af84d3e82aa1a5174066b0d53a6c74e8d">Person::Fingerprint</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="#a214cbe8711df46c9d1292f16b344f2e9">decodeFingerprint</a> (QByteArrayView f)</td></tr>
 <tr class="separator:a214cbe8711df46c9d1292f16b344f2e9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa59eca351edcc134a71e2ccc5a59a64a" id="r_aa59eca351edcc134a71e2ccc5a59a64a"><td class="memTemplParams" colspan="2">template&lt;typename Callable &gt; <br />
+requires std::is_invocable_v&lt;std::remove_reference_t&lt;Callable&gt;, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a>&amp;&gt;</td></tr>
+<tr class="memitem:aa59eca351edcc134a71e2ccc5a59a64a"><td class="memTemplItemLeft" align="right" valign="top">QCoro::Task&lt; <a class="el" href="#a4e674854a7d0b0d3128022ec52318a61">co_run_on_result_t</a>&lt; Callable &gt; &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#aa59eca351edcc134a71e2ccc5a59a64a">coRunOn</a> (<a class="el" href="../../d7/da9/struct_database_1_1_i_database.html">IDatabase</a> &amp;database, Callable &amp;&amp;callable, const std::string &amp;taskName=std::source_location::current().function_name())</td></tr>
+<tr class="separator:aa59eca351edcc134a71e2ccc5a59a64a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d2993cf070a816b53c9c7c3ff5c31b9" id="r_a1d2993cf070a816b53c9c7c3ff5c31b9"><td class="memTemplParams" colspan="2">template&lt;typename Callable , typename <a class="el" href="../../dd/d23/class_receiver.html">Receiver</a> , typename Slot &gt; <br />
+requires std::is_invocable_v&lt;std::remove_reference_t&lt;Callable&gt;, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a>&amp;&gt;</td></tr>
+<tr class="memitem:a1d2993cf070a816b53c9c7c3ff5c31b9"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a1d2993cf070a816b53c9c7c3ff5c31b9">coRunOn</a> (<a class="el" href="../../d7/da9/struct_database_1_1_i_database.html">IDatabase</a> &amp;database, Callable &amp;&amp;callable, <a class="el" href="../../dd/d23/class_receiver.html">Receiver</a> *receiver, Slot slot, const std::string &amp;taskName=std::source_location::current().function_name())</td></tr>
+<tr class="separator:a1d2993cf070a816b53c9c7c3ff5c31b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a479c4f90cf4a75943214f51a61633fa1" id="r_a479c4f90cf4a75943214f51a61633fa1"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; <br />
 requires std::input_iterator&lt;T&gt; &amp;&amp; std::is_same_v&lt;typename T::value_type, <a class="el" href="../../d4/d50/namespace_photo.html#afa4c62447f4e95a825d9ce684c63a526">Photo::Id</a>&gt;</td></tr>
 <tr class="memitem:a479c4f90cf4a75943214f51a61633fa1"><td class="memTemplItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="../../d7/d1e/class_photo_1_1_data_delta.html">Photo::DataDelta</a> &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="#a479c4f90cf4a75943214f51a61633fa1">fetchPhotoData</a> (<a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a> &amp;backend, T first, T last)</td></tr>
@@ -362,6 +373,22 @@ Variables</h2></td></tr>
       <table class="memname">
         <tr>
           <td class="memname">typedef <a class="el" href="../../d0/de5/class_status.html">Status</a>&lt;<a class="el" href="#a25b897a700669116efa4f786360831a7">StatusCodes</a>, <a class="el" href="#a25b897a700669116efa4f786360831a7aa60852f204ed8028c1c58808b746d115">StatusCodes::Ok</a>&gt; <a class="el" href="#a2f00c97643e7d6fcd7b5ce802964bdfb">Database::BackendStatus</a></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+</div>
+</div>
+<a id="a4e674854a7d0b0d3128022ec52318a61" name="a4e674854a7d0b0d3128022ec52318a61"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4e674854a7d0b0d3128022ec52318a61">&#9670;&#160;</a></span>co_run_on_result_t</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Callable &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="#a4e674854a7d0b0d3128022ec52318a61">Database::co_run_on_result_t</a> = std::remove_cvref_t&lt;std::invoke_result_t&lt;std::remove_reference_t&lt;Callable&gt;, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a>&amp;&gt;&gt;</td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -515,6 +542,89 @@ Variables</h2></td></tr>
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_a704f892ae2492e80827433911d9fd9bb_icgraph.svg" width="396" height="52"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="aa59eca351edcc134a71e2ccc5a59a64a" name="aa59eca351edcc134a71e2ccc5a59a64a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa59eca351edcc134a71e2ccc5a59a64a">&#9670;&#160;</a></span>coRunOn() <span class="overload">[1/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Callable &gt; <br />
+requires std::is_invocable_v&lt;std::remove_reference_t&lt;Callable&gt;, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a>&amp;&gt;</div>
+      <table class="memname">
+        <tr>
+          <td class="memname">QCoro::Task&lt; <a class="el" href="#a4e674854a7d0b0d3128022ec52318a61">co_run_on_result_t</a>&lt; Callable &gt; &gt; Database::coRunOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/da9/struct_database_1_1_i_database.html">IDatabase</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>database</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Callable &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>callable</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>taskName</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::source_location::current().function_name()</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_aa59eca351edcc134a71e2ccc5a59a64a_cgraph.svg" width="414" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+<div class="dynheader">
+Here is the caller graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_aa59eca351edcc134a71e2ccc5a59a64a_icgraph.svg" width="332" height="102"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+</div>
+
+</div>
+</div>
+<a id="a1d2993cf070a816b53c9c7c3ff5c31b9" name="a1d2993cf070a816b53c9c7c3ff5c31b9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1d2993cf070a816b53c9c7c3ff5c31b9">&#9670;&#160;</a></span>coRunOn() <span class="overload">[2/2]</span></h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Callable , typename <a class="el" href="../../dd/d23/class_receiver.html">Receiver</a> , typename Slot &gt; <br />
+requires std::is_invocable_v&lt;std::remove_reference_t&lt;Callable&gt;, <a class="el" href="../../d2/ddd/struct_database_1_1_i_backend.html">IBackend</a>&amp;&gt;</div>
+      <table class="memname">
+        <tr>
+          <td class="memname">void Database::coRunOn </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../d7/da9/struct_database_1_1_i_database.html">IDatabase</a> &amp;</td>          <td class="paramname"><span class="paramname"><em>database</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Callable &amp;&amp;</td>          <td class="paramname"><span class="paramname"><em>callable</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="../../dd/d23/class_receiver.html">Receiver</a> *</td>          <td class="paramname"><span class="paramname"><em>receiver</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Slot</td>          <td class="paramname"><span class="paramname"><em>slot</em></span>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::string &amp;</td>          <td class="paramname"><span class="paramname"><em>taskName</em></span><span class="paramdefsep"> = </span><span class="paramdefval">std::source_location::current().function_name()</span>&#160;)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../d0/d76/namespace_database_a1d2993cf070a816b53c9c7c3ff5c31b9_cgraph.svg" width="332" height="36"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 
 </div>
@@ -1111,7 +1221,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Mar 2 2026 11:06:34 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Wed Mar 25 2026 19:24:57 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

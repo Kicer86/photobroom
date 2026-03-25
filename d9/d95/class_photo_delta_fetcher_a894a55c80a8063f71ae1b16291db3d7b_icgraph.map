@@ -1,7 +1,7 @@
 <map id="PhotoDeltaFetcher::photoDataDeltaFetched" name="PhotoDeltaFetcher::photoDataDeltaFetched">
 <area shape="rect" id="Node000001" title=" " alt="" coords="242,39,399,79"/>
-<area shape="rect" id="Node000002" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a9e0255b182c915ce27b75039acaf3dbb" title=" " alt="" coords="5,5,194,46"/>
-<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,48,194,43,195,37,227,42"/>
-<area shape="rect" id="Node000009" href="$d9/d95/class_photo_delta_fetcher.html#a4aa3fedda3fb4504bb6b6352b300c297" title=" " alt="" coords="32,71,167,111"/>
-<area shape="poly" id="edge2_Node000001_Node000009" title=" " alt="" coords="227,75,168,84,167,79,226,70"/>
+<area shape="rect" id="Node000002" href="$d9/d95/class_photo_delta_fetcher.html#a14b13b1a4f59b82ebac67de36bd160f4" title=" " alt="" coords="32,5,167,46"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="226,48,167,39,168,33,227,42"/>
+<area shape="rect" id="Node000003" href="$d7/dfc/class_gui_1_1_utils_1_1_photo_delta_fetcher_binding.html#a9e0255b182c915ce27b75039acaf3dbb" title=" " alt="" coords="5,71,194,111"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="227,75,195,80,194,75,226,70"/>
 </map>

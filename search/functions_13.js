@@ -128,13 +128,12 @@ var searchData=
   ['storegeometryfor_125',['storeGeometryFor',['../d5/d1b/class_database_1_1_a_sql_backend.html#a5e2dade3290d318258ea503ee1e409cc',1,'Database::ASqlBackend']]],
   ['storegroup_126',['storeGroup',['../d5/d1b/class_database_1_1_a_sql_backend.html#af67dc95e772d82537f4d0912868ba235',1,'Database::ASqlBackend']]],
   ['storeperson_127',['storePerson',['../db/d61/class_database_1_1_a_people_information_accessor.html#a0030d71a09a8ad1e94ad61ad785e1a49',1,'Database::APeopleInformationAccessor::storePerson()'],['../da/dba/class_database_1_1_memory_backend.html#a56f06aeb4b70f0083737161fd4b2c5d9',1,'Database::MemoryBackend::storePerson()'],['../db/dd9/class_database_1_1_people_information_accessor.html#abc5159ace6d41c67ac212a3792ebb7cd',1,'Database::PeopleInformationAccessor::storePerson()']]],
-  ['storephotodata_128',['storePhotoData',['../d9/d95/class_photo_delta_fetcher.html#a4aa3fedda3fb4504bb6b6352b300c297',1,'PhotoDeltaFetcher']]],
-  ['storetags_129',['storeTags',['../d5/d1b/class_database_1_1_a_sql_backend.html#a21c7b6005ea9c9e59adc7166f978111b',1,'Database::ASqlBackend']]],
-  ['string_130',['string',['../df/d7c/class_tag_value.html#a3dcb33e9cb91ca3f5a21724a347f2119',1,'TagValue']]],
-  ['sublogger_131',['subLogger',['../df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643',1,'ILogger::subLogger()'],['../d3/d42/class_logger.html#a3c52871649f3a3e7aeab8d4ad2437b86',1,'Logger::subLogger()'],['../d3/ddb/class_empty_logger.html#a75a0a0861b5da724c3d4831a455f84eb',1,'EmptyLogger::subLogger()']]],
-  ['swap_132',['swap',['../db/dfb/class_id.html#aa4447c185339b2d67dd7bd40c321b3f7',1,'Id']]],
-  ['switchuitogeneration_133',['switchUiToGeneration',['../d0/d4e/class_photos_grouping_dialog.html#a5f2052c462d393f01e2358dde9a23add',1,'PhotosGroupingDialog']]],
-  ['switchuitogenerationfinished_134',['switchUiToGenerationFinished',['../d0/d4e/class_photos_grouping_dialog.html#a4697e96057f2fb7ad4b3e2a2a257a7b2',1,'PhotosGroupingDialog']]],
-  ['syncdata_135',['syncData',['../d0/d5d/class_tags_model.html#a0ca870d04bfdedfd7020398264dedeeb',1,'TagsModel']]],
-  ['synctasksfromexecutor_136',['syncTasksFromExecutor',['../d2/dd2/class_observable_executor_model.html#a34e12392577cb37b4b93fe603e691e4e',1,'ObservableExecutorModel']]]
+  ['storetags_128',['storeTags',['../d5/d1b/class_database_1_1_a_sql_backend.html#a21c7b6005ea9c9e59adc7166f978111b',1,'Database::ASqlBackend']]],
+  ['string_129',['string',['../df/d7c/class_tag_value.html#a3dcb33e9cb91ca3f5a21724a347f2119',1,'TagValue']]],
+  ['sublogger_130',['subLogger',['../df/ddd/struct_i_logger.html#a716fe84503defec75a54e1d58a679643',1,'ILogger::subLogger()'],['../d3/d42/class_logger.html#a3c52871649f3a3e7aeab8d4ad2437b86',1,'Logger::subLogger()'],['../d3/ddb/class_empty_logger.html#a75a0a0861b5da724c3d4831a455f84eb',1,'EmptyLogger::subLogger()']]],
+  ['swap_131',['swap',['../db/dfb/class_id.html#aa4447c185339b2d67dd7bd40c321b3f7',1,'Id']]],
+  ['switchuitogeneration_132',['switchUiToGeneration',['../d0/d4e/class_photos_grouping_dialog.html#a5f2052c462d393f01e2358dde9a23add',1,'PhotosGroupingDialog']]],
+  ['switchuitogenerationfinished_133',['switchUiToGenerationFinished',['../d0/d4e/class_photos_grouping_dialog.html#a4697e96057f2fb7ad4b3e2a2a257a7b2',1,'PhotosGroupingDialog']]],
+  ['syncdata_134',['syncData',['../d0/d5d/class_tags_model.html#a0ca870d04bfdedfd7020398264dedeeb',1,'TagsModel']]],
+  ['synctasksfromexecutor_135',['syncTasksFromExecutor',['../d2/dd2/class_observable_executor_model.html#a34e12392577cb37b4b93fe603e691e4e',1,'ObservableExecutorModel']]]
 ];
