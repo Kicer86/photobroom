@@ -1110,6 +1110,7 @@ qml\QtQuick\Controls\Imagine\ToolBar.qml
 qml\QtQuick\Controls\Imagine\ToolButton.qml
 qml\QtQuick\Controls\Imagine\ToolSeparator.qml
 qml\QtQuick\Controls\Imagine\ToolTip.qml
+qml\QtQuick\Controls\Imagine\Tumbler.qml
 qml\QtQuick\Controls\Imagine\VerticalHeaderView.qml
 qml\QtQuick\Controls\impl\plugins.qmltypes
 qml\QtQuick\Controls\impl\qmldir
