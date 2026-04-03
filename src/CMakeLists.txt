@@ -23,6 +23,7 @@ add_subdirectory(plugins)
 add_subdirectory(project_utils)
 add_subdirectory(unit_tests_utils)
 add_subdirectory(system)
+add_subdirectory(rust_hello)
 
 add_executable(photo_broom
     config_storage.cpp
@@ -57,6 +58,7 @@ target_link_libraries(photo_broom
     gui
     project_utils
     system
+    rust_hello
     $<$<TARGET_EXISTS:QtClick::QtClick>:QtClick::QtClick>
     Qt::Core
     Qt::Widgets
