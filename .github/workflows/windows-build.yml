@@ -47,12 +47,21 @@ jobs:
       with:
         vcpkgJsonGlob: vcpkg.json
 
-    # Workaround: build dependencies into the manual binary cache since run-vcpkg cache is unreliable.
+    # Build dependencies via CMake configure (not raw vcpkg install) to ensure
+    # the compiler hash matches the one produced by build-photo-broom jobs.
+    # A raw `vcpkg install` detects the compiler differently than `run-cmake`,
+    # causing ABI hash mismatch and 0 cache hits in downstream jobs.
     # Use short buildtrees root to avoid long path issues with qtdeclarative (microsoft/vcpkg#47075).
-    # Clean buildtrees/packages after each build to avoid running out of disk space.
-    - name: build dependencies
-      run: |
-        vcpkg\vcpkg.exe install --x-buildtrees-root=D:\bt --clean-buildtrees-after-build --clean-packages-after-build
+    - name: Build dependencies
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: ninja-vcpkg-release
+        configurePresetAdditionalArgs: |
+            [
+                '-DBUILD_TESTING=OFF',
+                '-DBUILD_SHARED_LIBS=TRUE',
+                '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt;--clean-buildtrees-after-build;--clean-packages-after-build'
+            ]
 
     - name: Save vcpkg binary cache
       if: always()
