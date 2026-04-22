@@ -7,9 +7,9 @@ $PLUGINSDIR\StartMenu.dll
 $PLUGINSDIR\System.dll
 $PLUGINSDIR\UserInfo.dll
 AnimatedWebP.dll
-avcodec-61.dll
-avformat-61.dll
-avutil-59.dll
+avcodec-62.dll
+avformat-62.dll
+avutil-60.dll
 bin\AnimatedWebP.dll
 brotlicommon.dll
 brotlidec.dll
@@ -33,9 +33,9 @@ freetype.dll
 gui.dll
 harfbuzz.dll
 icons\svg\photo_broom.svg
-icudt74.dll
-icuin74.dll
-icuuc74.dll
+icudt78.dll
+icuin78.dll
+icuuc78.dll
 jsoncpp.dll
 lib\AnimatedWebP.lib
 libcrypto-3-x64.dll
@@ -48,6 +48,7 @@ libsharpyuv.dll
 libwebp.dll
 libwebpmux.dll
 libwinpthread-1.dll
+md4c.dll
 openblas.dll
 opencv_calib3d4.dll
 opencv_core4.dll
@@ -68,6 +69,9 @@ qml\QML\qmldir
 qml\Qt\labs\folderlistmodel\plugins.qmltypes
 qml\Qt\labs\folderlistmodel\qmldir
 qml\Qt\labs\folderlistmodel\qmlfolderlistmodelplugin.dll
+qml\Qt\labs\qmlmodels\labsmodelsplugin.dll
+qml\Qt\labs\qmlmodels\plugins.qmltypes
+qml\Qt\labs\qmlmodels\qmldir
 qml\QtQml\Models\modelsplugin.dll
 qml\QtQml\Models\plugins.qmltypes
 qml\QtQml\Models\qmldir
@@ -81,7 +85,6 @@ qml\QtQuick3D\Helpers\AxisHelper.qml
 qml\QtQuick3D\Helpers\DebugView.qml
 qml\QtQuick3D\Helpers\ExtendedSceneEnvironment.qml
 qml\QtQuick3D\Helpers\impl\DepthOfFieldBlur.qml
-qml\QtQuick3D\Helpers\impl\LightmapperOutputWindow.qml
 qml\QtQuick3D\Helpers\impl\plugins.qmltypes
 qml\QtQuick3D\Helpers\impl\qmldir
 qml\QtQuick3D\Helpers\impl\qtquick3dhelpersimplplugin.dll
@@ -92,6 +95,7 @@ qml\QtQuick3D\Helpers\plugins.qmltypes
 qml\QtQuick3D\Helpers\qmldir
 qml\QtQuick3D\Helpers\qtquick3dhelpersplugin.dll
 qml\QtQuick3D\Helpers\WasdController.qml
+qml\QtQuick3D\LightmapperOutputWindow.qml
 qml\QtQuick3D\qmldir
 qml\QtQuick3D\qquick3dplugin.dll
 qml\QtQuick3D\Quick3D.qmltypes
@@ -118,6 +122,7 @@ qml\QtQuick\Controls\Basic\Drawer.qml
 qml\QtQuick\Controls\Basic\Frame.qml
 qml\QtQuick\Controls\Basic\GroupBox.qml
 qml\QtQuick\Controls\Basic\HorizontalHeaderView.qml
+qml\QtQuick\Controls\Basic\HorizontalHeaderViewDelegate.qml
 qml\QtQuick\Controls\Basic\impl\plugins.qmltypes
 qml\QtQuick\Controls\Basic\impl\qmldir
 qml\QtQuick\Controls\Basic\impl\qtquickcontrols2basicstyleimplplugin.dll
@@ -144,6 +149,7 @@ qml\QtQuick\Controls\Basic\RoundButton.qml
 qml\QtQuick\Controls\Basic\ScrollBar.qml
 qml\QtQuick\Controls\Basic\ScrollIndicator.qml
 qml\QtQuick\Controls\Basic\ScrollView.qml
+qml\QtQuick\Controls\Basic\SearchField.qml
 qml\QtQuick\Controls\Basic\SelectionRectangle.qml
 qml\QtQuick\Controls\Basic\Slider.qml
 qml\QtQuick\Controls\Basic\SpinBox.qml
@@ -155,6 +161,7 @@ qml\QtQuick\Controls\Basic\Switch.qml
 qml\QtQuick\Controls\Basic\SwitchDelegate.qml
 qml\QtQuick\Controls\Basic\TabBar.qml
 qml\QtQuick\Controls\Basic\TabButton.qml
+qml\QtQuick\Controls\Basic\TableViewDelegate.qml
 qml\QtQuick\Controls\Basic\TextArea.qml
 qml\QtQuick\Controls\Basic\TextField.qml
 qml\QtQuick\Controls\Basic\ToolBar.qml
@@ -164,6 +171,7 @@ qml\QtQuick\Controls\Basic\ToolTip.qml
 qml\QtQuick\Controls\Basic\TreeViewDelegate.qml
 qml\QtQuick\Controls\Basic\Tumbler.qml
 qml\QtQuick\Controls\Basic\VerticalHeaderView.qml
+qml\QtQuick\Controls\Basic\VerticalHeaderViewDelegate.qml
 qml\QtQuick\Controls\Basic\WeekNumberColumn.qml
 qml\QtQuick\Controls\FluentWinUI3\ApplicationWindow.qml
 qml\QtQuick\Controls\FluentWinUI3\BusyIndicator.qml
@@ -571,15 +579,23 @@ qml\QtQuick\Controls\FluentWinUI3\GroupBox.qml
 qml\QtQuick\Controls\FluentWinUI3\icons\checkmark.png
 qml\QtQuick\Controls\FluentWinUI3\icons\checkmark@2x.png
 qml\QtQuick\Controls\FluentWinUI3\icons\checkmark@3x.png
+qml\QtQuick\Controls\FluentWinUI3\icons\close_big.png
+qml\QtQuick\Controls\FluentWinUI3\icons\close_big@2x.png
+qml\QtQuick\Controls\FluentWinUI3\icons\close_big@3x.png
 qml\QtQuick\Controls\FluentWinUI3\icons\menuarrow.png
 qml\QtQuick\Controls\FluentWinUI3\icons\menuarrow@2x.png
 qml\QtQuick\Controls\FluentWinUI3\icons\menuarrow@3x.png
+qml\QtQuick\Controls\FluentWinUI3\icons\search-magnifier.png
+qml\QtQuick\Controls\FluentWinUI3\icons\search-magnifier@2x.png
+qml\QtQuick\Controls\FluentWinUI3\icons\search-magnifier@3x.png
 qml\QtQuick\Controls\FluentWinUI3\impl\ButtonBackground.qml
 qml\QtQuick\Controls\FluentWinUI3\impl\CheckIndicator.qml
+qml\QtQuick\Controls\FluentWinUI3\impl\FocusFrame.qml
 qml\QtQuick\Controls\FluentWinUI3\impl\plugins.qmltypes
 qml\QtQuick\Controls\FluentWinUI3\impl\qmldir
 qml\QtQuick\Controls\FluentWinUI3\impl\qtquickcontrols2fluentwinui3styleimplplugin.dll
 qml\QtQuick\Controls\FluentWinUI3\impl\RadioIndicator.qml
+qml\QtQuick\Controls\FluentWinUI3\impl\StyleImage.qml
 qml\QtQuick\Controls\FluentWinUI3\impl\SwitchIndicator.qml
 qml\QtQuick\Controls\FluentWinUI3\ItemDelegate.qml
 qml\QtQuick\Controls\FluentWinUI3\light\images\checkbox-indicator-checked-disabled.png
@@ -987,6 +1003,7 @@ qml\QtQuick\Controls\FluentWinUI3\RadioButton.qml
 qml\QtQuick\Controls\FluentWinUI3\RadioDelegate.qml
 qml\QtQuick\Controls\FluentWinUI3\RangeSlider.qml
 qml\QtQuick\Controls\FluentWinUI3\RoundButton.qml
+qml\QtQuick\Controls\FluentWinUI3\SearchField.qml
 qml\QtQuick\Controls\FluentWinUI3\Slider.qml
 qml\QtQuick\Controls\FluentWinUI3\SpinBox.qml
 qml\QtQuick\Controls\FluentWinUI3\StyleImage.qml
@@ -1015,6 +1032,7 @@ qml\QtQuick\Controls\Fusion\Drawer.qml
 qml\QtQuick\Controls\Fusion\Frame.qml
 qml\QtQuick\Controls\Fusion\GroupBox.qml
 qml\QtQuick\Controls\Fusion\HorizontalHeaderView.qml
+qml\QtQuick\Controls\Fusion\HorizontalHeaderViewDelegate.qml
 qml\QtQuick\Controls\Fusion\impl\ButtonPanel.qml
 qml\QtQuick\Controls\Fusion\impl\CheckIndicator.qml
 qml\QtQuick\Controls\Fusion\impl\plugins.qmltypes
@@ -1024,6 +1042,7 @@ qml\QtQuick\Controls\Fusion\impl\RadioIndicator.qml
 qml\QtQuick\Controls\Fusion\impl\SliderGroove.qml
 qml\QtQuick\Controls\Fusion\impl\SliderHandle.qml
 qml\QtQuick\Controls\Fusion\impl\SwitchIndicator.qml
+qml\QtQuick\Controls\Fusion\impl\TextFieldBackground.qml
 qml\QtQuick\Controls\Fusion\ItemDelegate.qml
 qml\QtQuick\Controls\Fusion\Label.qml
 qml\QtQuick\Controls\Fusion\Menu.qml
@@ -1046,6 +1065,7 @@ qml\QtQuick\Controls\Fusion\RoundButton.qml
 qml\QtQuick\Controls\Fusion\ScrollBar.qml
 qml\QtQuick\Controls\Fusion\ScrollIndicator.qml
 qml\QtQuick\Controls\Fusion\ScrollView.qml
+qml\QtQuick\Controls\Fusion\SearchField.qml
 qml\QtQuick\Controls\Fusion\SelectionRectangle.qml
 qml\QtQuick\Controls\Fusion\Slider.qml
 qml\QtQuick\Controls\Fusion\SpinBox.qml
@@ -1064,6 +1084,7 @@ qml\QtQuick\Controls\Fusion\ToolTip.qml
 qml\QtQuick\Controls\Fusion\TreeViewDelegate.qml
 qml\QtQuick\Controls\Fusion\Tumbler.qml
 qml\QtQuick\Controls\Fusion\VerticalHeaderView.qml
+qml\QtQuick\Controls\Fusion\VerticalHeaderViewDelegate.qml
 qml\QtQuick\Controls\Imagine\ApplicationWindow.qml
 qml\QtQuick\Controls\Imagine\BusyIndicator.qml
 qml\QtQuick\Controls\Imagine\Button.qml
@@ -1078,6 +1099,7 @@ qml\QtQuick\Controls\Imagine\Drawer.qml
 qml\QtQuick\Controls\Imagine\Frame.qml
 qml\QtQuick\Controls\Imagine\GroupBox.qml
 qml\QtQuick\Controls\Imagine\HorizontalHeaderView.qml
+qml\QtQuick\Controls\Imagine\HorizontalHeaderViewDelegate.qml
 qml\QtQuick\Controls\Imagine\impl\OpacityMask.qml
 qml\QtQuick\Controls\Imagine\impl\qmldir
 qml\QtQuick\Controls\Imagine\impl\qtquickcontrols2imaginestyleimplplugin.dll
@@ -1102,6 +1124,7 @@ qml\QtQuick\Controls\Imagine\RoundButton.qml
 qml\QtQuick\Controls\Imagine\ScrollBar.qml
 qml\QtQuick\Controls\Imagine\ScrollIndicator.qml
 qml\QtQuick\Controls\Imagine\ScrollView.qml
+qml\QtQuick\Controls\Imagine\SearchField.qml
 qml\QtQuick\Controls\Imagine\SelectionRectangle.qml
 qml\QtQuick\Controls\Imagine\Slider.qml
 qml\QtQuick\Controls\Imagine\SpinBox.qml
@@ -1121,6 +1144,7 @@ qml\QtQuick\Controls\Imagine\ToolSeparator.qml
 qml\QtQuick\Controls\Imagine\ToolTip.qml
 qml\QtQuick\Controls\Imagine\Tumbler.qml
 qml\QtQuick\Controls\Imagine\VerticalHeaderView.qml
+qml\QtQuick\Controls\Imagine\VerticalHeaderViewDelegate.qml
 qml\QtQuick\Controls\impl\plugins.qmltypes
 qml\QtQuick\Controls\impl\qmldir
 qml\QtQuick\Controls\impl\qtquickcontrols2implplugin.dll
@@ -1138,6 +1162,7 @@ qml\QtQuick\Controls\Material\Drawer.qml
 qml\QtQuick\Controls\Material\Frame.qml
 qml\QtQuick\Controls\Material\GroupBox.qml
 qml\QtQuick\Controls\Material\HorizontalHeaderView.qml
+qml\QtQuick\Controls\Material\HorizontalHeaderViewDelegate.qml
 qml\QtQuick\Controls\Material\impl\BoxShadow.qml
 qml\QtQuick\Controls\Material\impl\CheckIndicator.qml
 qml\QtQuick\Controls\Material\impl\CursorDelegate.qml
@@ -1172,6 +1197,7 @@ qml\QtQuick\Controls\Material\RoundButton.qml
 qml\QtQuick\Controls\Material\ScrollBar.qml
 qml\QtQuick\Controls\Material\ScrollIndicator.qml
 qml\QtQuick\Controls\Material\ScrollView.qml
+qml\QtQuick\Controls\Material\SearchField.qml
 qml\QtQuick\Controls\Material\SelectionRectangle.qml
 qml\QtQuick\Controls\Material\Slider.qml
 qml\QtQuick\Controls\Material\SpinBox.qml
@@ -1192,6 +1218,7 @@ qml\QtQuick\Controls\Material\ToolTip.qml
 qml\QtQuick\Controls\Material\TreeViewDelegate.qml
 qml\QtQuick\Controls\Material\Tumbler.qml
 qml\QtQuick\Controls\Material\VerticalHeaderView.qml
+qml\QtQuick\Controls\Material\VerticalHeaderViewDelegate.qml
 qml\QtQuick\Controls\plugins.qmltypes
 qml\QtQuick\Controls\qmldir
 qml\QtQuick\Controls\qtquickcontrols2plugin.dll
@@ -1209,6 +1236,7 @@ qml\QtQuick\Controls\Universal\Drawer.qml
 qml\QtQuick\Controls\Universal\Frame.qml
 qml\QtQuick\Controls\Universal\GroupBox.qml
 qml\QtQuick\Controls\Universal\HorizontalHeaderView.qml
+qml\QtQuick\Controls\Universal\HorizontalHeaderViewDelegate.qml
 qml\QtQuick\Controls\Universal\impl\CheckIndicator.qml
 qml\QtQuick\Controls\Universal\impl\plugins.qmltypes
 qml\QtQuick\Controls\Universal\impl\qmldir
@@ -1237,6 +1265,7 @@ qml\QtQuick\Controls\Universal\RoundButton.qml
 qml\QtQuick\Controls\Universal\ScrollBar.qml
 qml\QtQuick\Controls\Universal\ScrollIndicator.qml
 qml\QtQuick\Controls\Universal\ScrollView.qml
+qml\QtQuick\Controls\Universal\SearchField.qml
 qml\QtQuick\Controls\Universal\SelectionRectangle.qml
 qml\QtQuick\Controls\Universal\Slider.qml
 qml\QtQuick\Controls\Universal\SpinBox.qml
@@ -1255,6 +1284,7 @@ qml\QtQuick\Controls\Universal\ToolSeparator.qml
 qml\QtQuick\Controls\Universal\ToolTip.qml
 qml\QtQuick\Controls\Universal\Tumbler.qml
 qml\QtQuick\Controls\Universal\VerticalHeaderView.qml
+qml\QtQuick\Controls\Universal\VerticalHeaderViewDelegate.qml
 qml\QtQuick\Controls\Windows\ApplicationWindow.qml
 qml\QtQuick\Controls\Windows\Button.qml
 qml\QtQuick\Controls\Windows\CheckBox.qml
@@ -1266,9 +1296,15 @@ qml\QtQuick\Controls\Windows\GroupBox.qml
 qml\QtQuick\Controls\Windows\images\checkmark.png
 qml\QtQuick\Controls\Windows\images\checkmark@2x.png
 qml\QtQuick\Controls\Windows\images\checkmark@3x.png
+qml\QtQuick\Controls\Windows\images\close_big.png
+qml\QtQuick\Controls\Windows\images\close_big@2x.png
+qml\QtQuick\Controls\Windows\images\close_big@3x.png
 qml\QtQuick\Controls\Windows\images\menuarrow.png
 qml\QtQuick\Controls\Windows\images\menuarrow@2x.png
 qml\QtQuick\Controls\Windows\images\menuarrow@3x.png
+qml\QtQuick\Controls\Windows\images\search-magnifier.png
+qml\QtQuick\Controls\Windows\images\search-magnifier@2x.png
+qml\QtQuick\Controls\Windows\images\search-magnifier@3x.png
 qml\QtQuick\Controls\Windows\impl\CheckIndicator.qml
 qml\QtQuick\Controls\Windows\impl\qmldir
 qml\QtQuick\Controls\Windows\impl\qtquickcontrols2windowsstyleimplplugin.dll
@@ -1290,6 +1326,7 @@ qml\QtQuick\Controls\Windows\RangeSlider.qml
 qml\QtQuick\Controls\Windows\ScrollBar.qml
 qml\QtQuick\Controls\Windows\ScrollIndicator.qml
 qml\QtQuick\Controls\Windows\ScrollView.qml
+qml\QtQuick\Controls\Windows\SearchField.qml
 qml\QtQuick\Controls\Windows\SelectionRectangle.qml
 qml\QtQuick\Controls\Windows\Slider.qml
 qml\QtQuick\Controls\Windows\SpinBox.qml
@@ -1302,6 +1339,7 @@ qml\QtQuick\Dialogs\qmldir
 qml\QtQuick\Dialogs\qtquickdialogsplugin.dll
 qml\QtQuick\Dialogs\quickimpl\plugins.qmltypes
 qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\ColorDialog.qml
+qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\ColorInputs.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\FileDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\FileDialogDelegate.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\FolderBreadcrumbBar.qml
@@ -1309,7 +1347,9 @@ qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\FolderDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\FolderDialogDelegate.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\FontDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\MessageDialog.qml
+qml\QtQuick\Dialogs\quickimpl\qml\+Fusion\SideBar.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\ColorDialog.qml
+qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\ColorInputs.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\FileDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\FileDialogDelegate.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\FolderBreadcrumbBar.qml
@@ -1317,7 +1357,9 @@ qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\FolderDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\FolderDialogDelegate.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\FontDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\MessageDialog.qml
+qml\QtQuick\Dialogs\quickimpl\qml\+Imagine\SideBar.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Material\ColorDialog.qml
+qml\QtQuick\Dialogs\quickimpl\qml\+Material\ColorInputs.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Material\FileDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Material\FileDialogDelegate.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Material\FolderBreadcrumbBar.qml
@@ -1325,7 +1367,9 @@ qml\QtQuick\Dialogs\quickimpl\qml\+Material\FolderDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Material\FolderDialogDelegate.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Material\FontDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Material\MessageDialog.qml
+qml\QtQuick\Dialogs\quickimpl\qml\+Material\SideBar.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Universal\ColorDialog.qml
+qml\QtQuick\Dialogs\quickimpl\qml\+Universal\ColorInputs.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Universal\FileDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Universal\FileDialogDelegate.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Universal\FolderBreadcrumbBar.qml
@@ -1333,6 +1377,7 @@ qml\QtQuick\Dialogs\quickimpl\qml\+Universal\FolderDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Universal\FolderDialogDelegate.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Universal\FontDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\+Universal\MessageDialog.qml
+qml\QtQuick\Dialogs\quickimpl\qml\+Universal\SideBar.qml
 qml\QtQuick\Dialogs\quickimpl\qml\ColorDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\ColorInputs.qml
 qml\QtQuick\Dialogs\quickimpl\qml\FileDialog.qml
@@ -1348,6 +1393,7 @@ qml\QtQuick\Dialogs\quickimpl\qml\HueGradient.qml
 qml\QtQuick\Dialogs\quickimpl\qml\MessageDialog.qml
 qml\QtQuick\Dialogs\quickimpl\qml\PickerHandle.qml
 qml\QtQuick\Dialogs\quickimpl\qml\SaturationLightnessPicker.qml
+qml\QtQuick\Dialogs\quickimpl\qml\SideBar.qml
 qml\QtQuick\Dialogs\quickimpl\qmldir
 qml\QtQuick\Dialogs\quickimpl\qtquickdialogs2quickimplplugin.dll
 qml\QtQuick\Effects\effectsplugin.dll
@@ -1374,6 +1420,7 @@ qml\QtQuick\Window\quickwindowplugin.dll
 Qt6Core.dll
 Qt6Gui.dll
 Qt6LabsFolderListModel.dll
+Qt6LabsQmlModels.dll
 Qt6Network.dll
 Qt6OpenGL.dll
 Qt6Qml.dll
@@ -1437,7 +1484,8 @@ qt_plugins\styles\qmodernwindowsstyle.dll
 qt_plugins\tls\qcertonlybackend.dll
 qt_plugins\tls\qschannelbackend.dll
 sql_backend_base.dll
-swscale-8.dll
+swresample-6.dll
+swscale-9.dll
 system.dll
 tr\photo_broom_en.qm
 tr\photo_broom_pl.qm
