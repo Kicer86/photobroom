@@ -1491,5 +1491,5 @@ tr\photo_broom_en.qm
 tr\photo_broom_pl.qm
 updater.dll
 vc_redist.x64.exe
-zlib1.dll
+z.dll
 zstd.dll
