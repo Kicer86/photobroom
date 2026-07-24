@@ -48,7 +48,7 @@ namespace
         return mode;
     }
 
-    QCoro::Task<DbMediaData> readMediaData(Database::IDatabase& database, const Photo::Id& id)
+    QCoro::Task<DbMediaData> readMediaData(Database::IDatabase& database, const Photo::Id id)
     {
         co_return co_await Database::coRunOn(
             database,
@@ -72,7 +72,7 @@ namespace
         );
     }
 
-    QCoro::Task<MediaInfo> getMediaInfo(ICoreFactoryAccessor& core, Database::IDatabase& database, const Photo::Id& id)
+    QCoro::Task<MediaInfo> getMediaInfo(ICoreFactoryAccessor& core, Database::IDatabase& database, const Photo::Id id)
     {
         const DbMediaData data = co_await readMediaData(database, id);
 
