@@ -19,11 +19,11 @@ jobs:
       fail-fast: false
       matrix:
         compiler:
-          - { compiler: GNU, CC: gcc-14, CXX: g++-14 }
+          - { compiler: GNU, CC: gcc, CXX: g++ }
           - { compiler: LLVM, CC: clang, CXX: clang++ }
         build: [Release]
         shared: [TRUE, FALSE]
-        os: [ubuntu-24.04]
+        os: [ubuntu-26.04]
 
     steps:
     - uses: nschloe/action-cached-lfs-checkout@v1
