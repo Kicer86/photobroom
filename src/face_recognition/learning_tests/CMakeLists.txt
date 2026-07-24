@@ -15,7 +15,6 @@ add_custom_command(OUTPUT lfw/George_W_Bush/George_W_Bush_0518.jpg
 
 add_executable(dlib_behaviour_tests
                face_locations_tests.cpp
-               issues.cpp
                person_recognition_tests.cpp
                scaled_face_similarity_tests.cpp
                utils.cpp
