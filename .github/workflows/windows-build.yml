@@ -21,7 +21,7 @@ env:
 jobs:
   build-dependencies:
     name: "Build PhotoBroom dependencies for Windows"
-    runs-on: windows-2025
+    runs-on: windows-2022
     strategy:
       fail-fast: true
 
@@ -76,7 +76,7 @@ jobs:
   build-photo-broom:
     name: "Build PhotoBroom sources on Windows"
     needs: build-dependencies
-    runs-on: windows-2025
+    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix:
@@ -163,7 +163,7 @@ jobs:
   test-installation:
     name: "Windows installer verification"
     needs: build-photo-broom
-    runs-on: windows-2025
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v6
 
