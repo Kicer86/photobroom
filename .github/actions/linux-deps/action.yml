@@ -20,6 +20,7 @@ runs:
           python3-defusedxml                \
           python3-pil                       \
           libboost-dev                      \
+          libexiv2-dev                      \
           libopencv-dev                     \
           libopenblas-dev                   \
           libdlib-dev                       \
@@ -27,15 +28,15 @@ runs:
           libgl1-mesa-dev                   \
           libglvnd-dev                      \
           libwebp-dev                       \
+          libqt6quick3d6                    \
+          libxkbcommon-dev                  \
+          qt6-base-dev                      \
+          qt6-declarative-dev               \
+          qt6-declarative-private-dev       \
+          qt6-multimedia-dev                \
+          qt6-quick3d-dev                   \
           qcoro-qt6-dev                     \
           ${{ inputs.extra-packages }}
-
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v4
-      with:
-        version: '6.7.2'
-        cache: 'true'
-        modules: 'qtmultimedia qtquick3d qtshadertools qtquicktimeline'
 
     - name: Install CsLibGuarded
       shell: bash
@@ -45,17 +46,5 @@ runs:
         mkdir build
         cd build
         cmake ..
-        cmake --build . --target all
-        sudo cmake --build . --target install
-
-    - name: Install Exiv2
-      shell: bash
-      run: |
-        sudo apt-get install libinih-dev libbrotli-dev
-        git clone -b v0.28.2 https://github.com/Exiv2/exiv2.git
-        cd exiv2
-        mkdir build
-        cd build
-        cmake .. -DEXIV2_ENABLE_VIDEO=ON -DEXIV2_BUILD_EXIV2_COMMAND=OFF -DEXIV2_BUILD_UNIT_TESTS=OFF -DEXIV2_BUILD_SAMPLES=OFF
         cmake --build . --target all
         sudo cmake --build . --target install

@@ -14,7 +14,7 @@ concurrency:
 jobs:
   coverage:
     name: "Unit tests coverage"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
     - uses: actions/checkout@v7
@@ -25,7 +25,7 @@ jobs:
     - name: Install dependencies
       uses: ./.github/actions/linux-deps
       with:
-        extra-packages: gcc-14 g++-14 lcov
+        extra-packages: gcc g++ lcov
 
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
@@ -37,8 +37,8 @@ jobs:
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Debug
-        cc: gcc-14
-        cxx: g++-14
+        cc: gcc
+        cxx: g++
         configure-options:
             -DCMAKE_C_COMPILER_LAUNCHER=ccache
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache
@@ -62,9 +62,14 @@ jobs:
         /usr/local/bin/ctest -C Debug --output-on-failure
 
     - name: Generate lcov raports
+      continue-on-error: true
       run: |
-        lcov --capture --gcov-tool gcov-14 --ignore-errors mismatch --directory ${{ runner.workspace }}/build --output-file coverage.info
-        lcov --gcov-tool gcov-14 --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --capture --gcov-tool gcov                 \
+            --ignore-errors mismatch,inconsistent       \
+            --rc geninfo_unexecuted_blocks=1            \
+            --directory ${{ runner.workspace }}/build   \
+            --output-file coverage.info
+        lcov --gcov-tool gcov --remove coverage.info '/usr/*' --output-file coverage.info
         lcov --list coverage.info
 
     - name: Upload coverage reports to Codecov
