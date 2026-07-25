@@ -32,7 +32,7 @@ jobs:
 
     - name: Restore vcpkg binary cache
       # Workaround for run-vcpkg cache instability: persist vcpkg binaries/downloads between jobs.
-      uses: actions/cache/restore@v5
+      uses: actions/cache/restore@v6
       with:
         path: |
           vcpkg-binary-cache
@@ -65,7 +65,7 @@ jobs:
 
     - name: Save vcpkg binary cache
       if: always()
-      uses: actions/cache/save@v5
+      uses: actions/cache/save@v6
       with:
         path: |
           vcpkg-binary-cache
@@ -100,7 +100,7 @@ jobs:
 
     - name: Restore vcpkg binary cache
       # Workaround for run-vcpkg cache instability: reuse binaries/downloads in build job.
-      uses: actions/cache@v5
+      uses: actions/cache@v6
       with:
         path: |
           vcpkg-binary-cache
