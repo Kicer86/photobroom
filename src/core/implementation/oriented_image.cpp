@@ -57,7 +57,7 @@ OrientedImage::OrientedImage(IExifReader& exif, const QString& src):
                 break;    // nothing to do - no data, or normal orientation
 
             case 2:
-                rotated = img.mirrored(true, false);
+                rotated = img.flipped(Qt::Horizontal);
                 break;
 
             case 3:
@@ -70,7 +70,7 @@ OrientedImage::OrientedImage(IExifReader& exif, const QString& src):
             }
 
             case 4:
-                rotated = img.mirrored(false, true);
+                rotated = img.flipped(Qt::Vertical);
                 break;
 
             case 5:
@@ -78,7 +78,7 @@ OrientedImage::OrientedImage(IExifReader& exif, const QString& src):
                 QTransform transform;
                 transform.rotate(270);
 
-                rotated = img.mirrored(true, false).transformed(transform);
+                rotated = img.flipped(Qt::Horizontal).transformed(transform);
                 break;
             }
 
@@ -96,7 +96,7 @@ OrientedImage::OrientedImage(IExifReader& exif, const QString& src):
                 QTransform transform;
                 transform.rotate(90);
 
-                rotated = img.mirrored(true, false).transformed(transform);
+                rotated = img.flipped(Qt::Horizontal).transformed(transform);
                 break;
             }
 
