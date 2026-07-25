@@ -39,6 +39,7 @@ set(CORE_SOURCES
     disk_observer.hpp                                       implementation/disk_observer.cpp
     exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
     features_manager_compositor.hpp                         implementation/features_manager_compositor.cpp
+    filesystem.hpp                                          implementation/filesystem.cpp
     function_wrappers.hpp
     generic_concepts.hpp
     iconfiguration.hpp
