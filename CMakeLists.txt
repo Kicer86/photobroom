@@ -2,7 +2,7 @@
 cmake_minimum_required(VERSION 4.3)
 
 # Enable experimental Rust support
-set(CMAKE_EXPERIMENTAL_RUST "3cc9b32c-47d3-4056-8953-d74e69fc0d6c")
+set(CMAKE_EXPERIMENTAL_RUST "b6fdddce-bf66-41a5-bc5f-077f6fa4d2a1")
 
 project(PhotoBroom VERSION 1.7.0 LANGUAGES CXX Rust)
 
