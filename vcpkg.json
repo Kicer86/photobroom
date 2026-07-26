@@ -27,7 +27,10 @@
     "jsoncpp",
     "libguarded",
     "libwebp",
-    "qtbase",
+    {
+      "name": "qtbase",
+      "features": [ "windeployqt" ]
+    },
     "qtsvg",
     {
       "name": "qttools",
