@@ -25,7 +25,12 @@ extern "C"
 
 #include <iostream>
 
+#include <algorithm>
 #include <cassert>
+#include <cstdint>
+#include <limits>
+#include <span>
+
 #include <QTimeZone>
 
 #include "constants.hpp"
@@ -34,6 +39,141 @@ extern "C"
 
 namespace
 {
+    class FileAvio
+    {
+    public:
+        explicit FileAvio(const Filesystem::IFile& file)
+            : m_data(file.byteView())
+        {
+            m_formatContext = avformat_alloc_context();
+            if (m_formatContext == nullptr)
+                return;
+
+            constexpr int bufferSize = 4096;
+            auto* buffer = static_cast<unsigned char*>(av_malloc(bufferSize));
+            if (buffer == nullptr)
+                return;
+
+            m_ioContext = avio_alloc_context(
+                buffer,
+                bufferSize,
+                0,
+                this,
+                &FileAvio::read,
+                nullptr,
+                &FileAvio::seek
+            );
+
+            if (m_ioContext == nullptr)
+            {
+                av_free(buffer);
+                return;
+            }
+
+            m_formatContext->pb = m_ioContext;
+            m_formatContext->flags |= AVFMT_FLAG_CUSTOM_IO;
+        }
+
+        FileAvio(const FileAvio&) = delete;
+        FileAvio& operator=(const FileAvio&) = delete;
+
+        ~FileAvio()
+        {
+            if (m_formatContext != nullptr)
+                avformat_close_input(&m_formatContext);
+
+            if (m_ioContext != nullptr)
+            {
+                av_freep(&m_ioContext->buffer);
+                avio_context_free(&m_ioContext);
+            }
+        }
+
+        AVFormatContext* open()
+        {
+            if (m_formatContext == nullptr || m_ioContext == nullptr)
+                return nullptr;
+
+            if (avformat_open_input(&m_formatContext, nullptr, nullptr, nullptr) < 0)
+                return nullptr;
+
+            return m_formatContext;
+        }
+
+    private:
+        static int read(void* opaque, unsigned char* buffer, int bufferSize)
+        {
+            return static_cast<FileAvio*>(opaque)->readImpl(buffer, bufferSize);
+        }
+
+        int readImpl(unsigned char* buffer, int bufferSize)
+        {
+            if (m_position >= m_data.size())
+                return AVERROR_EOF;
+
+            const auto remaining = m_data.size() - m_position;
+            const auto amount = std::min<std::size_t>(remaining, static_cast<std::size_t>(bufferSize));
+            std::copy_n(m_data.begin() + m_position, amount, buffer);
+            m_position += amount;
+
+            return static_cast<int>(amount);
+        }
+
+        static int64_t seek(void* opaque, int64_t offset, int whence)
+        {
+            return static_cast<FileAvio*>(opaque)->seekImpl(offset, whence);
+        }
+
+        int64_t seekImpl(int64_t offset, int whence)
+        {
+            if ((whence & AVSEEK_SIZE) != 0)
+            {
+                if (m_data.size() > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()))
+                    return AVERROR(EINVAL);
+
+                return static_cast<int64_t>(m_data.size());
+            }
+
+            whence &= ~AVSEEK_FORCE;
+
+            int64_t base = 0;
+            switch (whence)
+            {
+                case SEEK_SET:
+                    base = 0;
+                    break;
+                case SEEK_CUR:
+                    if (m_position > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()))
+                        return AVERROR(EINVAL);
+                    base = static_cast<int64_t>(m_position);
+                    break;
+                case SEEK_END:
+                    if (m_data.size() > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()))
+                        return AVERROR(EINVAL);
+                    base = static_cast<int64_t>(m_data.size());
+                    break;
+                default:
+                    return AVERROR(EINVAL);
+            }
+
+            if ((offset > 0 && base > std::numeric_limits<int64_t>::max() - offset) ||
+                (offset < 0 && base < std::numeric_limits<int64_t>::min() - offset))
+                return AVERROR(EINVAL);
+
+            const int64_t position = base + offset;
+            if (position < 0 || static_cast<uint64_t>(position) > m_data.size())
+                return AVERROR(EINVAL);
+
+            m_position = static_cast<std::size_t>(position);
+            return position;
+        }
+
+        std::span<const std::uint8_t> m_data;
+        std::size_t m_position = 0;
+        AVFormatContext* m_formatContext = nullptr;
+        AVIOContext* m_ioContext = nullptr;
+    };
+
     AVStream* findVideoStream(AVFormatContext* context)
     {
         for (auto i = 0u; i < context->nb_streams; ++i)
@@ -75,12 +215,13 @@ VideoMediaInformation::VideoMediaInformation(IExifReaderFactory& exif, const ILo
 }
 
 
-FileInformation VideoMediaInformation::getInformation(const QString& path) const
+FileInformation VideoMediaInformation::getInformation(const Filesystem::IFile& file) const
 {
     FileInformation info;
     VideoFile videoInfo;
 
     IExifReader& exif = m_exif.get();
+    const QString path = QString::fromStdString(file.path());
 
     const auto exif_creation_time = exif.get(path, IExifReader::TagType::Xmp_video_DateTimeOriginal);
     auto width = exif.get(path, IExifReader::TagType::Xmp_video_Width);
@@ -94,8 +235,9 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
         info.common.creationTime = QDateTime::fromString(creation_time_qstr, "yyyy:MM:dd hh:mm:ss");
     }
 
-    AVFormatContext* formatContext = nullptr;
-    if (avformat_open_input(&formatContext, path.toStdString().c_str(), NULL, NULL) == 0)
+    FileAvio fileAvio(file);
+    AVFormatContext* formatContext = fileAvio.open();
+    if (formatContext != nullptr)
     {
         if (avformat_find_stream_info(formatContext, NULL) >= 0)
         {
@@ -127,9 +269,6 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
 
     if (width && height)
         info.common.dimension = QSize(std::any_cast<int>(*width), std::any_cast<int>(*height));
-
-    avformat_close_input(&formatContext);
-    avformat_free_context(formatContext);
 
     info.details = videoInfo;
 

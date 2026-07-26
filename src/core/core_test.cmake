@@ -122,6 +122,7 @@ add_executable(core_ut
     implementation/exiv2_exif_reader.cpp
     implementation/exif_reader_factory.cpp
     implementation/data_from_path_extractor.cpp
+    implementation/filesystem.cpp
     implementation/oriented_image.cpp
     implementation/image_aligner.cpp
     implementation/image_media_information.cpp
@@ -209,6 +210,7 @@ add_executable(core_video_ut
     implementation/base_tags.cpp
     implementation/exiv2_exif_reader.cpp
     implementation/exif_reader_factory.cpp
+    implementation/filesystem.cpp
     implementation/image_media_information.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
