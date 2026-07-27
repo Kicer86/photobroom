@@ -28,8 +28,22 @@ namespace Filesystem
         virtual std::string path() const = 0;
     };
 
-    CORE_EXPORT std::unique_ptr<IFile> openFile(std::string_view path);
-    CORE_EXPORT std::unique_ptr<IFile> openFile(const QString& path);
+    class CORE_EXPORT Location
+    {
+    public:
+        Location() = default;
+        explicit Location(const QStringView &);
+        explicit Location(const std::string_view &);
+        auto operator<=>(const Location &) const = default;
+
+        QString toQStr() const;
+        std::string toStr() const;
+
+    private:
+        QString m_location;
+    };
+
+    CORE_EXPORT std::unique_ptr<IFile> openFile(const Location &);
 }
 
-#endif // FILESYSTEM_HPP_INCLUDED
+#endif

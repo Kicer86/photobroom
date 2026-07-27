@@ -76,13 +76,38 @@ namespace Filesystem
         };
     }
 
-    std::unique_ptr<IFile> openFile(std::string_view path)
+
+    Location::Location(const QStringView& path)
+        : m_location(path)
     {
-        return openFile(QString::fromUtf8(path.data(), static_cast<qsizetype>(path.size())));
+
     }
 
-    std::unique_ptr<IFile> openFile(const QString& path)
+
+    Location::Location(const std::string_view& path)
+        : m_location(QString::fromUtf8(path.data(), path.size()))
     {
+
+    }
+
+
+    QString Location::toQStr() const
+    {
+        return m_location;
+    }
+
+
+    std::string Location::toStr() const
+    {
+        return m_location.toStdString();
+    }
+
+
+
+    std::unique_ptr<IFile> openFile(const Location& location)
+    {
+        const auto path = location.toQStr();
+
         if (QFile::exists(path))
         {
             auto file = std::make_unique<LocalFile>(path);
