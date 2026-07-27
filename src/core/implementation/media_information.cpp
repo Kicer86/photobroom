@@ -60,22 +60,17 @@ MediaInformation::~MediaInformation()
 }
 
 
-FileInformation MediaInformation::getInformation(const QString& path) const
+FileInformation MediaInformation::getInformation(const Filesystem::Location& location) const
 {
     FileInformation info;
-    const QFileInfo fileInfo(path);
-    const QString full_path = fileInfo.absoluteFilePath();
+    const auto filePath = location.toQStr();
 
-    if (MediaTypes::isImageFile(full_path))
-        info = m_impl->m_image_info.getInformation(full_path);
-    else if (MediaTypes::isVideoFile(full_path))
-    {
-        const auto file = Filesystem::openFile(full_path);
-        if (file != nullptr)
-            info = m_impl->m_video_info.getInformation(*file);
-    }
+    if (MediaTypes::isImageFile(filePath))
+        info = m_impl->m_image_info.getInformation(location);
+    else if (MediaTypes::isVideoFile(filePath))
+        info = m_impl->m_video_info.getInformation(location);
     else
-        m_impl->m_logger->error(QString("Unknown type of file: %1").arg(full_path));
+        m_impl->m_logger->error(QString("Unknown type of file: %1").arg(filePath));
 
     return info;
 }

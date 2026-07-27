@@ -31,7 +31,8 @@ TEST_P(OrientedImageTest, allOrientations)
     Exiv2ExifReader reader;
 
     const auto testFilePath = QString(IMAGES_DIR) + "/" + QString(fileName);
-    OrientedImage orientedImage(reader, testFilePath);
+    const Filesystem::Location testFileLocation(testFilePath);
+    OrientedImage orientedImage(reader, testFileLocation);
     ASSERT_FALSE(orientedImage->isNull());
 
     const QImage referenceImage(QString(IMAGES_DIR) + "/f/f1.jpg");

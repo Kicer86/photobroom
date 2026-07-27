@@ -364,8 +364,10 @@ void PhotosGroupingDialog::fillModel(const std::vector<ExplicitDelta>& photos)
     for(const auto& photo: photos)
     {
         const QString& path = photo.get<Photo::Field::Path>();
-        const std::optional<std::any> sequence_number = exif.get(path, IExifReader::TagType::SequenceNumber);
-        const std::optional<std::any> exposure_number = exif.get(path, IExifReader::TagType::Exposure);
+        const Filesystem::Location location(path);
+
+        const std::optional<std::any> sequence_number = exif.get(location, IExifReader::TagType::SequenceNumber);
+        const std::optional<std::any> exposure_number = exif.get(location, IExifReader::TagType::Exposure);
 
         const QRegularExpressionMatch burstMatch = burstRE.match(path);
         const QString burst_str = burstMatch.hasMatch()? burstMatch.captured(1) : "-";

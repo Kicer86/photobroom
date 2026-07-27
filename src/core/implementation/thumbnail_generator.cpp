@@ -293,9 +293,10 @@ QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
     stopwatch.start();
 
     QImage image;
+    const Filesystem::Location location(path);
 
     if(QFile::exists(path))
-        image = Image::normalized(path, reader).get();
+        image = Image::normalized(location, reader).get();
 
     if (image.isNull())
     {
@@ -323,12 +324,13 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
     {
         m_logger->trace(QString("Opening video file %1 to read frame for thumbnail").arg(path));
         const QString absolutePath = pathInfo.absoluteFilePath();
+        const Filesystem::Location absoluteLocation(absolutePath);
         const VideoMediaInformation videoMediaInfo(m_exif, *m_logger);
-        const auto file = Filesystem::openFile(absolutePath);
+        const auto file = Filesystem::openFile(absoluteLocation);
 
         if (file != nullptr)
         {
-            const auto fileInfo = videoMediaInfo.getInformation(*file);
+            const auto fileInfo = videoMediaInfo.getInformation(absoluteLocation);
 
             if (std::holds_alternative<VideoFile>(fileInfo.details))
             {

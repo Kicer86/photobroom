@@ -42,8 +42,8 @@ namespace
     class FileAvio
     {
     public:
-        explicit FileAvio(const Filesystem::IFile& file)
-            : m_data(file.byteView())
+        explicit FileAvio(const Filesystem::Location& location)
+            : m_location(location)
         {
             m_formatContext = avformat_alloc_context();
             if (m_formatContext == nullptr)
@@ -91,6 +91,9 @@ namespace
 
         AVFormatContext* open()
         {
+            assert(not m_file);
+            m_file = Filesystem::openFile(m_location);
+
             if (m_formatContext == nullptr || m_ioContext == nullptr)
                 return nullptr;
 
@@ -108,12 +111,14 @@ namespace
 
         int readImpl(unsigned char* buffer, int bufferSize)
         {
-            if (m_position >= m_data.size())
+            const auto data = m_file->byteView();
+
+            if (m_position >= data.size())
                 return AVERROR_EOF;
 
-            const auto remaining = m_data.size() - m_position;
+            const auto remaining = data.size() - m_position;
             const auto amount = std::min<std::size_t>(remaining, static_cast<std::size_t>(bufferSize));
-            std::copy_n(m_data.begin() + m_position, amount, buffer);
+            std::copy_n(data.begin() + m_position, amount, buffer);
             m_position += amount;
 
             return static_cast<int>(amount);
@@ -126,12 +131,14 @@ namespace
 
         int64_t seekImpl(int64_t offset, int whence)
         {
+            const auto data = m_file->byteView();
+
             if ((whence & AVSEEK_SIZE) != 0)
             {
-                if (m_data.size() > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()))
+                if (data.size() > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()))
                     return AVERROR(EINVAL);
 
-                return static_cast<int64_t>(m_data.size());
+                return static_cast<int64_t>(data.size());
             }
 
             whence &= ~AVSEEK_FORCE;
@@ -148,9 +155,9 @@ namespace
                     base = static_cast<int64_t>(m_position);
                     break;
                 case SEEK_END:
-                    if (m_data.size() > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()))
+                    if (data.size() > static_cast<std::size_t>(std::numeric_limits<int64_t>::max()))
                         return AVERROR(EINVAL);
-                    base = static_cast<int64_t>(m_data.size());
+                    base = static_cast<int64_t>(data.size());
                     break;
                 default:
                     return AVERROR(EINVAL);
@@ -161,14 +168,15 @@ namespace
                 return AVERROR(EINVAL);
 
             const int64_t position = base + offset;
-            if (position < 0 || static_cast<uint64_t>(position) > m_data.size())
+            if (position < 0 || static_cast<uint64_t>(position) > data.size())
                 return AVERROR(EINVAL);
 
             m_position = static_cast<std::size_t>(position);
             return position;
         }
 
-        std::span<const std::uint8_t> m_data;
+        Filesystem::Location m_location;
+        std::unique_ptr<Filesystem::IFile> m_file;
         std::size_t m_position = 0;
         AVFormatContext* m_formatContext = nullptr;
         AVIOContext* m_ioContext = nullptr;
@@ -215,17 +223,16 @@ VideoMediaInformation::VideoMediaInformation(IExifReaderFactory& exif, const ILo
 }
 
 
-FileInformation VideoMediaInformation::getInformation(const Filesystem::IFile& file) const
+FileInformation VideoMediaInformation::getInformation(const Filesystem::Location& location) const
 {
     FileInformation info;
     VideoFile videoInfo;
 
     IExifReader& exif = m_exif.get();
-    const QString path = QString::fromStdString(file.path());
 
-    const auto exif_creation_time = exif.get(path, IExifReader::TagType::Xmp_video_DateTimeOriginal);
-    auto width = exif.get(path, IExifReader::TagType::Xmp_video_Width);
-    auto height = exif.get(path, IExifReader::TagType::Xmp_video_Height);
+    const auto exif_creation_time = exif.get(location, IExifReader::TagType::Xmp_video_DateTimeOriginal);
+    auto width = exif.get(location, IExifReader::TagType::Xmp_video_Width);
+    auto height = exif.get(location, IExifReader::TagType::Xmp_video_Height);
 
     if (exif_creation_time)
     {
@@ -235,7 +242,7 @@ FileInformation VideoMediaInformation::getInformation(const Filesystem::IFile& f
         info.common.creationTime = QDateTime::fromString(creation_time_qstr, "yyyy:MM:dd hh:mm:ss");
     }
 
-    FileAvio fileAvio(file);
+    FileAvio fileAvio(location);
     AVFormatContext* formatContext = fileAvio.open();
     if (formatContext != nullptr)
     {

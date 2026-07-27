@@ -656,7 +656,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+298"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+300"/>
         <source>Extracting data from new photos</source>
         <translation>Wczytywanie danych z nowych zdjęć</translation>
     </message>
@@ -755,7 +755,7 @@ Kod błędu: %1</translation>
         <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+39"/>
         <source>exposure (EV)</source>
         <translation>ekspozycja (EV)</translation>
     </message>

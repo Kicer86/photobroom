@@ -40,7 +40,7 @@ class VideoMediaInformation
 
         virtual ~VideoMediaInformation() = default;
 
-        FileInformation getInformation(const Filesystem::IFile &) const;
+        FileInformation getInformation(const Filesystem::Location &) const;
 
     private:
         std::unique_ptr<ILogger> m_logger;

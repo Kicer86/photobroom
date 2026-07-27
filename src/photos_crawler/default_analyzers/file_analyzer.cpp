@@ -15,9 +15,9 @@ FileAnalyzer::~FileAnalyzer()
 }
 
 
-bool FileAnalyzer::isMediaFile(const QString &path)
+bool FileAnalyzer::isMediaFile(const QString& filename)
 {
-    const bool status = MediaTypes::isImageFile(path) || MediaTypes::isVideoFile(path);
+    const bool status = MediaTypes::isImageFile(filename) || MediaTypes::isVideoFile(filename);
 
     return status;
 }

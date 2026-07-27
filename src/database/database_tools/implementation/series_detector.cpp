@@ -65,7 +65,8 @@ namespace
 
         void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
-            m_sequence = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
+            const Filesystem::Location location(d.get<Photo::Field::Path>());
+            m_sequence = m_exifReader.get(location, IExifReader::TagType::SequenceNumber);
         }
 
         bool canBePartOfGroup() const override
@@ -184,7 +185,8 @@ namespace
         void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
             Base::setCurrentPhoto(d);
-            m_exposure = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::Exposure);
+            const Filesystem::Location location(d.get<Photo::Field::Path>());
+            m_exposure = m_exifReader.get(location, IExifReader::TagType::Exposure);
         }
 
         bool canBePartOfGroup() const override

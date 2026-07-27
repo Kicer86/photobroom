@@ -27,6 +27,7 @@ namespace
     MediaViewCtrl::Mode getFileType(ICoreFactoryAccessor& core, const QUrl& url)
     {
         const auto path = url.toLocalFile();
+        const Filesystem::Location location(path);
         MediaViewCtrl::Mode mode = MediaViewCtrl::Mode::Unknown;
 
         if (MediaTypes::isAnimatedImageFile(path))
@@ -34,7 +35,7 @@ namespace
         else if (MediaTypes::isImageFile(path))
         {
             auto& exifReader = core.getExifReaderFactory().get();
-            const auto projection = exifReader.get(path, IExifReader::TagType::Projection);
+            const auto projection = exifReader.get(location, IExifReader::TagType::Projection);
             if (projection && std::any_cast<std::string>(*projection) == "equirectangular")
                 mode = MediaViewCtrl::Mode::EquirectangularProjectionImage;
             else
