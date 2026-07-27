@@ -2,7 +2,8 @@
 #ifndef UTILS_HPP_INCLUDED
 #define UTILS_HPP_INCLUDED
 
-#include <magic_enum/magic_enum.hpp>
+#include <array>
+#include <rfl/enums.hpp>
 #include <cmath>
 
 
@@ -52,7 +53,16 @@ namespace details
 template<typename E>
 void for_each(auto op)
 {
-    constexpr auto enum_values = magic_enum::enum_values<E>();
+    constexpr auto enum_values = []
+    {
+        constexpr auto enumerators = rfl::get_enumerator_array<E>();
+        std::array<E, enumerators.size()> values{};
+
+        for (std::size_t i = 0; i < values.size(); ++i)
+            values[i] = enumerators[i].second;
+
+        return values;
+    }();
     details::Generator<enum_values>{}(op);
 }
 

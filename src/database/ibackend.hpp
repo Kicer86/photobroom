@@ -25,7 +25,7 @@
 #include <vector>
 #include <optional>
 #include <source_location>
-#include <magic_enum/magic_enum.hpp>
+#include <rfl/enums.hpp>
 
 #include <core/tag.hpp>
 
@@ -65,7 +65,7 @@ namespace Database
                 m_status(status)
             {
                 m_err += err + ": ";
-                m_err.append(magic_enum::enum_name(m_status));
+                m_err.append(rfl::enum_to_string(m_status));
 
                 if (details.empty() == false)
                     m_err += ", " + details;

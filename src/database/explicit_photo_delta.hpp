@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 
-#include <magic_enum/magic_enum.hpp>
+#include <rfl/enums.hpp>
 
 #include <core/generic_concepts.hpp>
 #include "photo_data.hpp"
@@ -126,9 +126,9 @@ namespace Photo
 
         void validate(const Photo::DataDelta& other) const
         {
-            for(const Photo::Field field : magic_enum::enum_values<Photo::Field>())
+            for(const auto& [name, field] : rfl::get_enumerator_array<Photo::Field>())
                 if (other.has(field) && has(field) == false)
-                    throw std::invalid_argument(std::string("Photo::Field: ") + magic_enum::enum_name(field).data() + " from DataDelta is not part of this ExplicitDelta.");
+                    throw std::invalid_argument(std::string("Photo::Field: ") + std::string(name) + " from DataDelta is not part of this ExplicitDelta.");
         }
 
         template<Field field, Field... fields>
@@ -185,7 +185,16 @@ namespace Photo
         using Generator_t = typename Generator<arr>::type;
     }
 
-    using FullDelta = details::Generator_t<magic_enum::enum_values<Photo::Field>()>;
+    using FullDelta = details::Generator_t<[]
+    {
+        constexpr auto enumerators = rfl::get_enumerator_array<Photo::Field>();
+        std::array<Photo::Field, enumerators.size()> fields{};
+
+        for (std::size_t i = 0; i < fields.size(); ++i)
+            fields[i] = enumerators[i].second;
+
+        return fields;
+    }()>;
 }
 
 

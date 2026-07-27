@@ -2,7 +2,7 @@
 #ifndef PHOTO_DATA_FIELDS_HPP_INCLUDED
 #define PHOTO_DATA_FIELDS_HPP_INCLUDED
 
-#include <magic_enum/magic_enum.hpp>
+#include <rfl/enums.hpp>
 
 #include "photo_types.hpp"
 #include "person_data.hpp"
@@ -30,7 +30,16 @@ namespace Photo
     template<> struct DeltaTypes<Field::PHash>     { using Storage = Photo::PHashT;                 };
     template<> struct DeltaTypes<Field::People>    { using Storage = std::vector<PersonFullInfo>;   };
 
-    inline const std::set<Field> AllFields(magic_enum::enum_values<Field>().begin(), magic_enum::enum_values<Field>().end());
+    inline const std::set<Field> AllFields = []
+    {
+        const auto enumerators = rfl::get_enumerator_array<Field>();
+        std::set<Field> fields;
+
+        for (const auto& [name, field] : enumerators)
+            fields.insert(field);
+
+        return fields;
+    }();
 }
 
 #endif

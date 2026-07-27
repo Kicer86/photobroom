@@ -12,7 +12,6 @@ Required tools and libraries:
  - Qt6 - version 6.7 or higher*
  - exiv2*
  - dlib*
- - magic_enum*
  - opencv*
  - libwebp*
  - cs-libguarded*
@@ -48,7 +47,7 @@ vcpkg.json file and install all dependencies.
 Please mind that dlib will be built without GPU support. Read more about it below).
 
 Dependencies can be also install by hand:
-vcpkg install dlib[core,cuda,fftw3] exiv2 magic-enum qtbase qtsvg qttools qtdeclarative qtmultimedia opencv4[core,contrib] libwebp libguarded
+vcpkg install dlib[core,cuda,fftw3] exiv2 qtbase qtsvg qttools qtdeclarative qtmultimedia opencv4[core,contrib] libwebp libguarded
 
 You may wish to include --triplet=x64-windows option to build x64 binaries on Windows system.
 

@@ -5,14 +5,14 @@
 #include <type_traits>
 #include <QByteArray>
 #include <QHash>
-#include <magic_enum/magic_enum.hpp>
+#include <rfl/enums.hpp>
 
 
-#define ENUM_ROLES_SETUP(T)                         \
-    template <>                                     \
-    struct magic_enum::customize::enum_range<T> {   \
-    static constexpr int min = 0;                   \
-    static constexpr int max = 512;                 \
+#define ENUM_ROLES_SETUP(T)                        \
+    template <>                                    \
+    struct enchantum::enum_traits<T> {             \
+    static constexpr int min = 0;                  \
+    static constexpr int max = 512;                \
 }
 
 
@@ -27,8 +27,9 @@
 template<typename T, int i, int Count> requires std::is_enum_v<T> && (i < Count)
 void _parseRoles(std::array<std::pair<int, QByteArray>, Count>& output)
 {
-    constexpr const T value = magic_enum::enum_value<T>(i);
-    constexpr const std::string_view fullName = magic_enum::enum_name(value);
+    constexpr const auto enumerators = rfl::get_enumerator_array<T>();
+    constexpr const T value = enumerators[i].second;
+    constexpr const std::string_view fullName = enumerators[i].first;
     static_assert(fullName.size() > 4 && fullName.substr(fullName.size() - 4) == "Role", "enum entry needs to end with 'Role'");
 
     constexpr std::string_view name = fullName.substr(0, fullName.size() - 4);
@@ -45,11 +46,11 @@ void _parseRoles(std::array<std::pair<int, QByteArray>, Count>& output)
 template<typename T> requires std::is_enum_v<T>
 constexpr auto parseRoles()
 {
-    static_assert(magic_enum::customize::enum_range<T>::min == 0 && magic_enum::customize::enum_range<T>::max == 512,
+    static_assert(enchantum::enum_traits<T>::min == 0 && enchantum::enum_traits<T>::max == 512,
                   "ENUM_ROLES_SETUP macro needs to be applied for enum with roles."
     );
 
-    constexpr auto count = magic_enum::enum_count<T>();
+    constexpr auto count = rfl::get_enumerator_array<T>().size();
     static_assert(count > 0, "Enum is empty");
 
     std::array<std::pair<int, QByteArray>, count> output;
