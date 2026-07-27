@@ -68,7 +68,6 @@ class MainWindow: public QObject
         NotificationsModel        m_notifications;
         FeaturesObserver          m_featuresObserver;
 
-        Q_INVOKABLE void openProject(const QString &, bool = false);
         void closeProject();
         void updateGui();
         void updateTools();
@@ -81,6 +80,8 @@ class MainWindow: public QObject
         void setupConfig();
 
     private slots:
+        void openProject(const QString &, bool = false);
+
         // album menu
         void on_actionNew_collection_triggered();
         void on_actionOpen_collection_triggered();
