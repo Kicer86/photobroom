@@ -14,7 +14,6 @@ enum Roles
 
 ENUM_ROLES_SETUP(Roles);
 
-
 DuplicatesModel::DuplicatesModel()
 {
 

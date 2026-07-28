@@ -20,7 +20,6 @@ using namespace Qt::Literals::StringLiterals;
 
 ENUM_ROLES_SETUP(SeriesModel::Roles);
 
-
 SeriesModel::SeriesModel()
     : m_logger()
     , m_project()

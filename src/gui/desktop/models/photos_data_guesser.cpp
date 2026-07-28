@@ -27,7 +27,6 @@ namespace
 
 ENUM_ROLES_SETUP(Roles);
 
-
 PhotosDataGuesser::PhotosDataGuesser()
     : m_db(nullptr)
 {

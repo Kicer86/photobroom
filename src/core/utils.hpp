@@ -3,7 +3,7 @@
 #define UTILS_HPP_INCLUDED
 
 #include <array>
-#include <rfl/enums.hpp>
+#include <core/enum_reflection.hpp>
 #include <cmath>
 
 
@@ -53,16 +53,7 @@ namespace details
 template<typename E>
 void for_each(auto op)
 {
-    constexpr auto enum_values = []
-    {
-        constexpr auto enumerators = rfl::get_enumerator_array<E>();
-        std::array<E, enumerators.size()> values{};
-
-        for (std::size_t i = 0; i < values.size(); ++i)
-            values[i] = enumerators[i].second;
-
-        return values;
-    }();
+    constexpr auto enum_values = reflection::enum_values<E>;
     details::Generator<enum_values>{}(op);
 }
 

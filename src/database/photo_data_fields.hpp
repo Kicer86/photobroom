@@ -2,7 +2,7 @@
 #ifndef PHOTO_DATA_FIELDS_HPP_INCLUDED
 #define PHOTO_DATA_FIELDS_HPP_INCLUDED
 
-#include <rfl/enums.hpp>
+#include <core/enum_reflection.hpp>
 
 #include "photo_types.hpp"
 #include "person_data.hpp"
@@ -32,10 +32,9 @@ namespace Photo
 
     inline const std::set<Field> AllFields = []
     {
-        const auto enumerators = rfl::get_enumerator_array<Field>();
         std::set<Field> fields;
 
-        for (const auto& [name, field] : enumerators)
+        for (const Field field : reflection::enum_values<Field>)
             fields.insert(field);
 
         return fields;
