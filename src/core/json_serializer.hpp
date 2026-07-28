@@ -84,7 +84,8 @@ namespace JSon
         void forEachMember(T&& object, F&& process)
         {
             using Object = std::remove_cvref_t<T>;
-            static constexpr auto members = std::define_static_array(std::meta::nonstatic_data_members_of(^^Object));
+            static constexpr auto members = std::define_static_array(
+                std::meta::nonstatic_data_members_of(^^Object, std::meta::access_context::current()));
 
             template for (constexpr auto member : members)
                 process(std::meta::identifier_of(member), object.[:member:]);
