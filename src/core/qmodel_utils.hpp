@@ -14,7 +14,7 @@
     template <>                                   \
     struct enchantum::enum_traits<T> {            \
         static constexpr int min = 0;             \
-        static constexpr int max = 512;           \
+        static constexpr int max = 511;           \
     }
 #endif
 
@@ -49,7 +49,7 @@ template<typename T> requires std::is_enum_v<T>
 constexpr auto parseRoles()
 {
 #if !PHOTO_BROOM_HAS_CPP26_REFLECTION
-    static_assert(enchantum::enum_traits<T>::min == 0 && enchantum::enum_traits<T>::max == 512,
+    static_assert(enchantum::enum_traits<T>::min == 0 && enchantum::enum_traits<T>::max == 511,
                   "ENUM_ROLES_SETUP macro needs to be applied for enum with roles.");
 #endif
     constexpr auto count = reflection::enum_values<T>.size();
