@@ -7,9 +7,15 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+#include "enum_reflection.hpp"
+#include "generic_concepts.hpp"
+
+#if PHOTO_BROOM_HAS_CPP26_REFLECTION
+#include <meta>
+#else
 #include "rfl.hpp"
 #include "rfl/to_view.hpp"
-#include "generic_concepts.hpp"
+#endif
 
 namespace JSon
 {
@@ -73,6 +79,18 @@ namespace JSon
         template<typename T>
         auto getSerialized(const T &);
 
+#if PHOTO_BROOM_HAS_CPP26_REFLECTION
+        template<typename T, typename F>
+        void forEachMember(T&& object, F&& process)
+        {
+            using Object = std::remove_cvref_t<T>;
+            static constexpr auto members = std::define_static_array(std::meta::nonstatic_data_members_of(^^Object));
+
+            template for (constexpr auto member : members)
+                process(std::meta::identifier_of(member), object.[:member:]);
+        }
+#endif
+
         template<typename T>
         auto serialize(const T& obj)
         {
@@ -91,6 +109,11 @@ namespace JSon
             {
                 QJsonObject jsonObj;
 
+#if PHOTO_BROOM_HAS_CPP26_REFLECTION
+                forEachMember(obj, [&jsonObj](const std::string_view name, const auto& field) {
+                    jsonObj[QString::fromUtf8(name)] = getSerialized(field);
+                });
+#else
                 const auto objView = rfl::to_view(obj);
 
                 const auto process = [&jsonObj]<typename... F>(F... _field) {
@@ -98,6 +121,7 @@ namespace JSon
                 };
 
                 rfl::apply(process, objView.fields());
+#endif
 
                 return jsonObj;
             }
@@ -141,6 +165,11 @@ namespace JSon
             else
             {
                 const QJsonObject jsonObj = convertTo<QJsonObject>(json);
+#if PHOTO_BROOM_HAS_CPP26_REFLECTION
+                forEachMember(r, [&jsonObj](const std::string_view name, auto& field) {
+                    field = getDeserialized<std::remove_cvref_t<decltype(field)>>(jsonObj[QString::fromUtf8(name)]);
+                });
+#else
                 auto objView = rfl::to_view(r);
 
                 const auto process = [&jsonObj]<typename... F>(F... _field) {
@@ -148,6 +177,7 @@ namespace JSon
                 };
 
                 rfl::apply(process, objView.fields());
+#endif
             }
 
             return r;
