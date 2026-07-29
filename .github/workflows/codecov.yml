@@ -71,7 +71,8 @@ jobs:
             --rc geninfo_unexecuted_blocks=1            \
             --directory ${{ runner.workspace }}/build   \
             --output-file coverage.info
-        lcov --gcov-tool gcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --gcov-tool gcov --remove coverage.info '/usr/*' \
+            --ignore-errors mismatch,inconsistent --output-file coverage.info
         lcov --list coverage.info
 
     - name: Upload coverage reports to Codecov
