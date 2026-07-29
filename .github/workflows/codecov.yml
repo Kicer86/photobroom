@@ -64,8 +64,7 @@ jobs:
         cd ${{ runner.workspace }}/build
         /usr/local/bin/ctest -C Debug --output-on-failure
 
-    - name: Generate lcov raports
-      continue-on-error: true
+    - name: Generate lcov reports
       run: |
         lcov --capture --gcov-tool gcov                 \
             --ignore-errors mismatch,inconsistent       \
