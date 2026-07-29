@@ -4,6 +4,7 @@ find_program(Python NAMES python python3 REQUIRED)
 option(ENABLE_SANITIZERS_FOR_TESTS "Enables build of tests with sanitizers turned on" OFF)
 option(ENABLE_CODE_COVERAGE "Enables code coeverage for unit tests" OFF)
 option(ENABLE_OBJDUMPING "Performs objdump on targets if enabled" OFF)
+option(USE_IMAGEMAGICK_INTERNAL_SVG_RENDERER "Uses ImageMagick's internal SVG renderer" OFF)
 
 function(addFlags target propertyName flags)
     get_target_property(current_properties ${target} ${propertyName})
@@ -200,6 +201,11 @@ function(convertSVG output_file input_file width height)
     elseif(A_PB_IMAGE_CONVERTER STREQUAL "MAGICK")
         find_program(Magick magick REQUIRED)
 
+        set(image_input ${input_file})
+        if(USE_IMAGEMAGICK_INTERNAL_SVG_RENDERER)
+            set(image_input "MSVG:${input_file}")
+        endif()
+
         if(${width} EQUAL -1 AND ${height} EQUAL -1)
             set(resize "")
         elseif(${width} EQUAL -1 OR ${height} EQUAL -1)
@@ -215,7 +221,7 @@ function(convertSVG output_file input_file width height)
         endif()
 
         add_custom_command(OUTPUT ${output_file}
-            COMMAND ${CMAKE_COMMAND} -E env NO_AT_BRIDGE=1 ${Magick} ${input_file} ${resize} ${output_opts}${output_file}
+            COMMAND ${CMAKE_COMMAND} -E env NO_AT_BRIDGE=1 ${Magick} ${image_input} ${resize} ${output_opts}${output_file}
             DEPENDS ${input_file}
         )
     else()
@@ -272,4 +278,3 @@ function(hideSymbols target)
     endif(TARGET ${target})
 
 endfunction(hideSymbols)
-
