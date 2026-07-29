@@ -98,74 +98,80 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;type_traits&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span><span class="preprocessor">#include &lt;QByteArray&gt;</span></div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &lt;QHash&gt;</span></div>
-<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;magic_enum/magic_enum.hpp&gt;</span></div>
+<div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &lt;<a class="code" href="../../dd/d96/enum__reflection_8hpp.html">core/enum_reflection.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00009" name="l00009"></a><span class="lineno">    9</span> </div>
-<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span> </div>
-<div class="foldopen" id="foldopen00011" data-start="" data-end="">
-<div class="line"><a id="l00011" name="l00011"></a><span class="lineno"><a class="line" href="../../d8/dda/qmodel__utils_8hpp.html#a04bf2098434de6070304081f8bf02ed5">   11</a></span><span class="preprocessor">#define ENUM_ROLES_SETUP(T)                         \</span></div>
-<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">    template &lt;&gt;                                     \</span></div>
-<div class="line"><a id="l00013" name="l00013"></a><span class="lineno">   13</span><span class="preprocessor">    struct magic_enum::customize::enum_range&lt;T&gt; {   \</span></div>
-<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">    static constexpr int min = 0;                   \</span></div>
-<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">    static constexpr int max = 512;                 \</span></div>
-<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">}</span></div>
+<div class="line"><a id="l00010" name="l00010"></a><span class="lineno">   10</span><span class="preprocessor">#if PHOTO_BROOM_HAS_CPP26_REFLECTION</span></div>
+<div class="line"><a id="l00011" name="l00011"></a><span class="lineno">   11</span><span class="preprocessor">#define ENUM_ROLES_SETUP(T)</span></div>
+<div class="line"><a id="l00012" name="l00012"></a><span class="lineno">   12</span><span class="preprocessor">#else</span></div>
+<div class="foldopen" id="foldopen00013" data-start="" data-end="">
+<div class="line"><a id="l00013" name="l00013"></a><span class="lineno"><a class="line" href="../../d8/dda/qmodel__utils_8hpp.html#a04bf2098434de6070304081f8bf02ed5">   13</a></span><span class="preprocessor">#define ENUM_ROLES_SETUP(T)                       \</span></div>
+<div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">    template &lt;&gt;                                   \</span></div>
+<div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">    struct enchantum::enum_traits&lt;T&gt; {            \</span></div>
+<div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span><span class="preprocessor">        static constexpr int min = 0;             \</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">        static constexpr int max = 511;           \</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">    }</span></div>
 </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span> </div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span> </div>
-<div class="foldopen" id="foldopen00019" data-start="" data-end="">
-<div class="line"><a id="l00019" name="l00019"></a><span class="lineno"><a class="line" href="../../d8/dda/qmodel__utils_8hpp.html#a07b672761ffb4024499489a39609e7fd">   19</a></span><span class="preprocessor">#define RETURN_MODEL_ROLES(A, R)                                            \</span></div>
-<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="preprocessor">    auto roles = A::roleNames();                                            \</span></div>
-<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span><span class="preprocessor">    const auto extra = parseRoles&lt;R&gt;();                                     \</span></div>
-<div class="line"><a id="l00022" name="l00022"></a><span class="lineno">   22</span><span class="preprocessor">    const QHash&lt;int, QByteArray&gt; extraRoles(extra.begin(), extra.end());    \</span></div>
-<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">    roles.insert(extraRoles);                                               \</span></div>
-<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">    return roles</span></div>
+<div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span> </div>
+<div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
+<div class="foldopen" id="foldopen00022" data-start="" data-end="">
+<div class="line"><a id="l00022" name="l00022"></a><span class="lineno"><a class="line" href="../../d8/dda/qmodel__utils_8hpp.html#a07b672761ffb4024499489a39609e7fd">   22</a></span><span class="preprocessor">#define RETURN_MODEL_ROLES(A, R)                                            \</span></div>
+<div class="line"><a id="l00023" name="l00023"></a><span class="lineno">   23</span><span class="preprocessor">    auto roles = A::roleNames();                                            \</span></div>
+<div class="line"><a id="l00024" name="l00024"></a><span class="lineno">   24</span><span class="preprocessor">    const auto extra = parseRoles&lt;R&gt;();                                     \</span></div>
+<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span><span class="preprocessor">    const QHash&lt;int, QByteArray&gt; extraRoles(extra.begin(), extra.end());    \</span></div>
+<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="preprocessor">    roles.insert(extraRoles);                                               \</span></div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="preprocessor">    return roles</span></div>
 </div>
-<div class="line"><a id="l00025" name="l00025"></a><span class="lineno">   25</span> </div>
-<div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span> </div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keywordtype">int</span> i, <span class="keywordtype">int</span> Count&gt; <span class="keyword">requires</span> std::is_enum_v&lt;T&gt; &amp;&amp; (i &lt; Count)</div>
-<div class="foldopen" id="foldopen00028" data-start="{" data-end="}">
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno"><a class="line" href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">   28</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">_parseRoles</a>(std::array&lt;std::pair&lt;int, QByteArray&gt;, Count&gt;&amp; output)</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>{</div>
-<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span>    <span class="keyword">constexpr</span> <span class="keyword">const</span> T value = magic_enum::enum_value&lt;T&gt;(i);</div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="keyword">constexpr</span> <span class="keyword">const</span> std::string_view fullName = magic_enum::enum_name(value);</div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    <span class="keyword">static_assert</span>(fullName.size() &gt; 4 &amp;&amp; fullName.substr(fullName.size() - 4) == <span class="stringliteral">&quot;Role&quot;</span>, <span class="stringliteral">&quot;enum entry needs to end with &#39;Role&#39;&quot;</span>);</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span> </div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">constexpr</span> std::string_view name = fullName.substr(0, fullName.size() - 4);</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span>    QByteArray lowerCaseName(name.data(), name.size());</div>
-<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    lowerCaseName[0] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(std::tolower(lowerCaseName[0]));</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span> </div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span> </div>
+<div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T, <span class="keywordtype">int</span> i, <span class="keywordtype">int</span> Count&gt; <span class="keyword">requires</span> std::is_enum_v&lt;T&gt; &amp;&amp; (i &lt; Count)</div>
+<div class="foldopen" id="foldopen00031" data-start="{" data-end="}">
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">   31</a></span><span class="keywordtype">void</span> <a class="code hl_function" href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">_parseRoles</a>(std::array&lt;std::pair&lt;int, QByteArray&gt;, Count&gt;&amp; output)</div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>{</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    <span class="keyword">constexpr</span> <span class="keyword">const</span> T value = <a class="code hl_variable" href="../../d5/de2/namespacereflection.html#aa5ded2b4af272983b73e6efb424edb33">reflection::enum_values&lt;T&gt;</a>[i];</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    <span class="keyword">constexpr</span> <span class="keyword">const</span> std::string_view fullName = <a class="code hl_variable" href="../../d5/de2/namespacereflection.html#aa37696e80eb5651e041133e3cb293670">reflection::enum_names&lt;T&gt;</a>[i];</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>    <span class="keyword">static_assert</span>(fullName.size() &gt; 4 &amp;&amp; fullName.substr(fullName.size() - 4) == <span class="stringliteral">&quot;Role&quot;</span>, <span class="stringliteral">&quot;enum entry needs to end with &#39;Role&#39;&quot;</span>);</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>    <span class="keyword">constexpr</span> std::string_view name = fullName.substr(0, fullName.size() - 4);</div>
 <div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span> </div>
-<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    output[i] = std::make_pair(value, lowerCaseName);</div>
-<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (i + 1 &lt; Count)</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>        <a class="code hl_function" href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">_parseRoles&lt;T, i + 1, Count&gt;</a>(output);</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>}</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span>    QByteArray lowerCaseName(name.data(), name.size());</div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>    lowerCaseName[0] = <span class="keyword">static_cast&lt;</span><span class="keywordtype">char</span><span class="keyword">&gt;</span>(std::tolower(lowerCaseName[0]));</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span> </div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>    output[i] = std::make_pair(value, lowerCaseName);</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>    <span class="keywordflow">if</span> <span class="keyword">constexpr</span> (i + 1 &lt; Count)</div>
+<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>        <a class="code hl_function" href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">_parseRoles&lt;T, i + 1, Count&gt;</a>(output);</div>
+<div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>}</div>
 </div>
-<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span> </div>
-<div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">requires</span> std::is_enum_v&lt;T&gt;</div>
-<div class="foldopen" id="foldopen00046" data-start="{" data-end="}">
-<div class="line"><a id="l00046" name="l00046"></a><span class="lineno"><a class="line" href="../../d8/dda/qmodel__utils_8hpp.html#a50375e99944c9fd4fc77b0017cc00edb">   46</a></span><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="../../d8/dda/qmodel__utils_8hpp.html#a50375e99944c9fd4fc77b0017cc00edb">parseRoles</a>()</div>
-<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span>{</div>
-<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span>    <span class="keyword">static_assert</span>(magic_enum::customize::enum_range&lt;T&gt;::min == 0 &amp;&amp; magic_enum::customize::enum_range&lt;T&gt;::max == 512,</div>
-<div class="line"><a id="l00049" name="l00049"></a><span class="lineno">   49</span>                  <span class="stringliteral">&quot;ENUM_ROLES_SETUP macro needs to be applied for enum with roles.&quot;</span></div>
-<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>    );</div>
-<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span> </div>
-<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> count = magic_enum::enum_count&lt;T&gt;();</div>
-<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>    <span class="keyword">static_assert</span>(count &gt; 0, <span class="stringliteral">&quot;Enum is empty&quot;</span>);</div>
-<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span> </div>
-<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    std::array&lt;std::pair&lt;int, QByteArray&gt;, count&gt; output;</div>
-<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <a class="code hl_function" href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">_parseRoles&lt;T, 0, count&gt;</a>(output);</div>
+<div class="line"><a id="l00047" name="l00047"></a><span class="lineno">   47</span> </div>
+<div class="line"><a id="l00048" name="l00048"></a><span class="lineno">   48</span><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">requires</span> std::is_enum_v&lt;T&gt;</div>
+<div class="foldopen" id="foldopen00049" data-start="{" data-end="}">
+<div class="line"><a id="l00049" name="l00049"></a><span class="lineno"><a class="line" href="../../d8/dda/qmodel__utils_8hpp.html#a50375e99944c9fd4fc77b0017cc00edb">   49</a></span><span class="keyword">constexpr</span> <span class="keyword">auto</span> <a class="code hl_function" href="../../d8/dda/qmodel__utils_8hpp.html#a50375e99944c9fd4fc77b0017cc00edb">parseRoles</a>()</div>
+<div class="line"><a id="l00050" name="l00050"></a><span class="lineno">   50</span>{</div>
+<div class="line"><a id="l00051" name="l00051"></a><span class="lineno">   51</span><span class="preprocessor">#if !PHOTO_BROOM_HAS_CPP26_REFLECTION</span></div>
+<div class="line"><a id="l00052" name="l00052"></a><span class="lineno">   52</span>    <span class="keyword">static_assert</span>(enchantum::enum_traits&lt;T&gt;::min == 0 &amp;&amp; enchantum::enum_traits&lt;T&gt;::max == 511,</div>
+<div class="line"><a id="l00053" name="l00053"></a><span class="lineno">   53</span>                  <span class="stringliteral">&quot;ENUM_ROLES_SETUP macro needs to be applied for enum with roles.&quot;</span>);</div>
+<div class="line"><a id="l00054" name="l00054"></a><span class="lineno">   54</span><span class="preprocessor">#endif</span></div>
+<div class="line"><a id="l00055" name="l00055"></a><span class="lineno">   55</span>    <span class="keyword">constexpr</span> <span class="keyword">auto</span> count = <a class="code hl_variable" href="../../d5/de2/namespacereflection.html#aa5ded2b4af272983b73e6efb424edb33">reflection::enum_values&lt;T&gt;</a>.size();</div>
+<div class="line"><a id="l00056" name="l00056"></a><span class="lineno">   56</span>    <span class="keyword">static_assert</span>(count &gt; 0, <span class="stringliteral">&quot;Enum is empty&quot;</span>);</div>
 <div class="line"><a id="l00057" name="l00057"></a><span class="lineno">   57</span> </div>
-<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    <span class="keywordflow">return</span> output;</div>
-<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>}</div>
-</div>
+<div class="line"><a id="l00058" name="l00058"></a><span class="lineno">   58</span>    std::array&lt;std::pair&lt;int, QByteArray&gt;, count&gt; output;</div>
+<div class="line"><a id="l00059" name="l00059"></a><span class="lineno">   59</span>    <a class="code hl_function" href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">_parseRoles&lt;T, 0, count&gt;</a>(output);</div>
 <div class="line"><a id="l00060" name="l00060"></a><span class="lineno">   60</span> </div>
-<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span><span class="preprocessor">#endif </span><span class="comment">// QMODEL_UTILS_HPP_INCLUDED</span></div>
-<div class="ttc" id="aqmodel__utils_8hpp_html_a50375e99944c9fd4fc77b0017cc00edb"><div class="ttname"><a href="../../d8/dda/qmodel__utils_8hpp.html#a50375e99944c9fd4fc77b0017cc00edb">parseRoles</a></div><div class="ttdeci">constexpr auto parseRoles()</div><div class="ttdef"><b>Definition</b> qmodel_utils.hpp:46</div></div>
-<div class="ttc" id="aqmodel__utils_8hpp_html_a615cf25d254750b630c7b05933bcb0be"><div class="ttname"><a href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">_parseRoles</a></div><div class="ttdeci">void _parseRoles(std::array&lt; std::pair&lt; int, QByteArray &gt;, Count &gt; &amp;output)</div><div class="ttdef"><b>Definition</b> qmodel_utils.hpp:28</div></div>
+<div class="line"><a id="l00061" name="l00061"></a><span class="lineno">   61</span>    <span class="keywordflow">return</span> output;</div>
+<div class="line"><a id="l00062" name="l00062"></a><span class="lineno">   62</span>}</div>
+</div>
+<div class="line"><a id="l00063" name="l00063"></a><span class="lineno">   63</span> </div>
+<div class="line"><a id="l00064" name="l00064"></a><span class="lineno">   64</span><span class="preprocessor">#endif </span><span class="comment">// QMODEL_UTILS_HPP_INCLUDED</span></div>
+<div class="ttc" id="aenum__reflection_8hpp_html"><div class="ttname"><a href="../../dd/d96/enum__reflection_8hpp.html">enum_reflection.hpp</a></div></div>
+<div class="ttc" id="anamespacereflection_html_aa37696e80eb5651e041133e3cb293670"><div class="ttname"><a href="../../d5/de2/namespacereflection.html#aa37696e80eb5651e041133e3cb293670">reflection::enum_names</a></div><div class="ttdeci">constexpr auto enum_names</div><div class="ttdef"><b>Definition</b> enum_reflection.hpp:79</div></div>
+<div class="ttc" id="anamespacereflection_html_aa5ded2b4af272983b73e6efb424edb33"><div class="ttname"><a href="../../d5/de2/namespacereflection.html#aa5ded2b4af272983b73e6efb424edb33">reflection::enum_values</a></div><div class="ttdeci">constexpr auto enum_values</div><div class="ttdef"><b>Definition</b> enum_reflection.hpp:66</div></div>
+<div class="ttc" id="aqmodel__utils_8hpp_html_a50375e99944c9fd4fc77b0017cc00edb"><div class="ttname"><a href="../../d8/dda/qmodel__utils_8hpp.html#a50375e99944c9fd4fc77b0017cc00edb">parseRoles</a></div><div class="ttdeci">constexpr auto parseRoles()</div><div class="ttdef"><b>Definition</b> qmodel_utils.hpp:49</div></div>
+<div class="ttc" id="aqmodel__utils_8hpp_html_a615cf25d254750b630c7b05933bcb0be"><div class="ttname"><a href="../../d8/dda/qmodel__utils_8hpp.html#a615cf25d254750b630c7b05933bcb0be">_parseRoles</a></div><div class="ttdeci">void _parseRoles(std::array&lt; std::pair&lt; int, QByteArray &gt;, Count &gt; &amp;output)</div><div class="ttdef"><b>Definition</b> qmodel_utils.hpp:31</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2026 20:59:23 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Wed Jul 29 2026 06:26:24 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

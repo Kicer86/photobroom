@@ -54,38 +54,38 @@
 </a>
 </g>
 </g>
-<!-- Node37 -->
-<g id="Node000037" class="node">
-<title>Node37</title>
-<g id="a_Node000037"><a xlink:href="../../d8/d0e/explicit__photo__delta_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node41 -->
+<g id="Node000041" class="node">
+<title>Node41</title>
+<g id="a_Node000041"><a xlink:href="../../d8/d0e/explicit__photo__delta_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="382.88,-24.88 263.38,-24.88 263.38,-5.63 382.88,-5.63 382.88,-24.88"/>
 <text text-anchor="middle" x="323.12" y="-11.38" font-family="Helvetica,sans-Serif" font-size="10.00">explicit_photo_delta.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node37 -->
-<g id="edge3_Node000001_Node000037" class="edge">
-<title>Node1&#45;&gt;Node37</title>
-<g id="a_edge3_Node000001_Node000037"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node41 -->
+<g id="edge3_Node000001_Node000041" class="edge">
+<title>Node1&#45;&gt;Node41</title>
+<g id="a_edge3_Node000001_Node000041"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M269.78,-66.11C280.34,-56.24 294.3,-43.19 305.29,-32.92"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="307.67,-35.49 312.58,-26.11 302.89,-30.38 307.67,-35.49"/>
 </a>
 </g>
 </g>
-<!-- Node47 -->
-<g id="Node000047" class="node">
-<title>Node47</title>
-<g id="a_Node000047"><a xlink:href="../../d3/d0f/photo__delta__fetcher__binding_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node51 -->
+<g id="Node000051" class="node">
+<title>Node51</title>
+<g id="a_Node000051"><a xlink:href="../../d3/d0f/photo__delta__fetcher__binding_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="532.88,-30.5 401.38,-30.5 401.38,0 532.88,0 532.88,-30.5"/>
 <text text-anchor="start" x="409.38" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">gui/desktop/utils/photo</text>
 <text text-anchor="middle" x="467.12" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">_delta_fetcher_binding.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node47 -->
-<g id="edge4_Node000001_Node000047" class="edge">
-<title>Node1&#45;&gt;Node47</title>
-<g id="a_edge4_Node000001_Node000047"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node51 -->
+<g id="edge4_Node000001_Node000051" class="edge">
+<title>Node1&#45;&gt;Node51</title>
+<g id="a_edge4_Node000001_Node000051"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M302.72,-66.03C333.94,-56.58 374.7,-44.24 407.82,-34.21"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="408.73,-37.59 417.29,-31.34 406.7,-30.89 408.73,-37.59"/>
 </a>

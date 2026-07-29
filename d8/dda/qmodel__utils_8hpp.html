@@ -97,11 +97,11 @@ $(function(){ initResizable(false); });
 <div class="textblock"><code>#include &lt;type_traits&gt;</code><br />
 <code>#include &lt;QByteArray&gt;</code><br />
 <code>#include &lt;QHash&gt;</code><br />
-<code>#include &lt;magic_enum/magic_enum.hpp&gt;</code><br />
+<code>#include &lt;<a class="el" href="../../dd/d96/enum__reflection_8hpp_source.html">core/enum_reflection.hpp</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for qmodel_utils.hpp:</div>
 <div class="dyncontent">
-<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/de9/qmodel__utils_8hpp__incl.svg" width="511" height="111"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><iframe scrolling="no" frameborder="0" src="../../db/de9/qmodel__utils_8hpp__incl.svg" width="391" height="184"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
@@ -144,11 +144,11 @@ requires std::is_enum_v&lt;T&gt;</td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">    <span class="keyword">template</span> &lt;&gt;                                     \</div>
-<div class="line">    <span class="keyword">struct </span>magic_enum::customize::enum_range&lt;T&gt; {   \</div>
-<div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">int</span> min = 0;                   \</div>
-<div class="line">    <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">int</span> max = 512;                 \</div>
-<div class="line">}</div>
+<b>Value:</b><div class="fragment"><div class="line">    <span class="keyword">template</span> &lt;&gt;                                   \</div>
+<div class="line">    <span class="keyword">struct </span>enchantum::enum_traits&lt;T&gt; {            \</div>
+<div class="line">        <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">int</span> min = 0;             \</div>
+<div class="line">        <span class="keyword">static</span> <span class="keyword">constexpr</span> <span class="keywordtype">int</span> max = 511;           \</div>
+<div class="line">    }</div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -175,7 +175,7 @@ requires std::is_enum_v&lt;T&gt;</td></tr>
 <div class="line">    <span class="keyword">const</span> QHash&lt;int, QByteArray&gt; extraRoles(extra.begin(), extra.end());    \</div>
 <div class="line">    roles.insert(extraRoles);                                               \</div>
 <div class="line">    <span class="keywordflow">return</span> roles</div>
-<div class="ttc" id="aqmodel__utils_8hpp_html_a50375e99944c9fd4fc77b0017cc00edb"><div class="ttname"><a href="#a50375e99944c9fd4fc77b0017cc00edb">parseRoles</a></div><div class="ttdeci">constexpr auto parseRoles()</div><div class="ttdef"><b>Definition</b> qmodel_utils.hpp:46</div></div>
+<div class="ttc" id="aqmodel__utils_8hpp_html_a50375e99944c9fd4fc77b0017cc00edb"><div class="ttname"><a href="#a50375e99944c9fd4fc77b0017cc00edb">parseRoles</a></div><div class="ttdeci">constexpr auto parseRoles()</div><div class="ttdef"><b>Definition</b> qmodel_utils.hpp:49</div></div>
 </div><!-- fragment -->
 </div>
 </div>
@@ -251,7 +251,7 @@ Here is the caller graph for this function:</div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2026 20:59:24 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Wed Jul 29 2026 06:26:25 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

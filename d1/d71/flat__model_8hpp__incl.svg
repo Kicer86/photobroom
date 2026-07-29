@@ -173,20 +173,20 @@ var sectionId = 'dynsection-0';
 </a>
 </g>
 </g>
-<!-- Node41 -->
-<g id="Node000041" class="node">
-<title>Node41</title>
-<g id="a_Node000041"><a xlink:href="../../d3/d0f/photo__delta__fetcher__binding_8hpp.html" target="_top" xlink:title=" ">
+<!-- Node45 -->
+<g id="Node000045" class="node">
+<title>Node45</title>
+<g id="a_Node000045"><a xlink:href="../../d3/d0f/photo__delta__fetcher__binding_8hpp.html" target="_top" xlink:title=" ">
 <polygon fill="#fff0f0" stroke="red" points="611.12,-30.5 479.62,-30.5 479.62,0 611.12,0 611.12,-30.5"/>
 <text text-anchor="start" x="487.62" y="-17" font-family="Helvetica,sans-Serif" font-size="10.00">gui/desktop/utils/photo</text>
 <text text-anchor="middle" x="545.38" y="-5.75" font-family="Helvetica,sans-Serif" font-size="10.00">_delta_fetcher_binding.hpp</text>
 </a>
 </g>
 </g>
-<!-- Node1&#45;&gt;Node41 -->
-<g id="edge7_Node000001_Node000041" class="edge">
-<title>Node1&#45;&gt;Node41</title>
-<g id="a_edge7_Node000001_Node000041"><a xlink:title=" ">
+<!-- Node1&#45;&gt;Node45 -->
+<g id="edge7_Node000001_Node000045" class="edge">
+<title>Node1&#45;&gt;Node45</title>
+<g id="a_edge7_Node000001_Node000045"><a xlink:title=" ">
 <path fill="none" stroke="#63b8ff" d="M252.3,-70.21C305.98,-60.57 387.77,-45.8 468.29,-30.88"/>
 <polygon fill="#63b8ff" stroke="#63b8ff" points="468.45,-34.41 477.64,-29.14 467.17,-27.53 468.45,-34.41"/>
 </a>

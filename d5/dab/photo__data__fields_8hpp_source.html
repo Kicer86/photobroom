@@ -95,7 +95,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00002" name="l00002"></a><span class="lineno">    2</span><span class="preprocessor">#ifndef PHOTO_DATA_FIELDS_HPP_INCLUDED</span></div>
 <div class="line"><a id="l00003" name="l00003"></a><span class="lineno">    3</span><span class="preprocessor">#define PHOTO_DATA_FIELDS_HPP_INCLUDED</span></div>
 <div class="line"><a id="l00004" name="l00004"></a><span class="lineno">    4</span> </div>
-<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;magic_enum/magic_enum.hpp&gt;</span></div>
+<div class="line"><a id="l00005" name="l00005"></a><span class="lineno">    5</span><span class="preprocessor">#include &lt;<a class="code" href="../../dd/d96/enum__reflection_8hpp.html">core/enum_reflection.hpp</a>&gt;</span></div>
 <div class="line"><a id="l00006" name="l00006"></a><span class="lineno">    6</span> </div>
 <div class="line"><a id="l00007" name="l00007"></a><span class="lineno">    7</span><span class="preprocessor">#include &quot;<a class="code" href="../../dc/d82/photo__types_8hpp.html">photo_types.hpp</a>&quot;</span></div>
 <div class="line"><a id="l00008" name="l00008"></a><span class="lineno">    8</span><span class="preprocessor">#include &quot;<a class="code" href="../../d9/d0f/person__data_8hpp.html">person_data.hpp</a>&quot;</span></div>
@@ -125,11 +125,22 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno"><a class="line" href="../../dd/dd2/struct_photo_1_1_delta_types_3_01_field_1_1_p_hash_01_4.html#a932af6f16c85e55d9374fa75b5d7802b">   30</a></span>    <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code hl_struct" href="../../d1/d06/struct_photo_1_1_delta_types.html">DeltaTypes</a>&lt;<a class="code hl_enumeration" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a>::<a class="code hl_enumvalue" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aadde14c9f1d4445db790595f2cbe31a8d">PHash</a>&gt;     { <span class="keyword">using </span><a class="code hl_class" href="../../db/dfb/class_id.html">Storage</a> = <a class="code hl_typedef" href="../../d4/d50/namespace_photo.html#ae2f99864828ef960d2bf1d176e1bf903">Photo::PHashT</a>;                 };</div>
 <div class="line"><a id="l00031" name="l00031"></a><span class="lineno"><a class="line" href="../../da/de7/struct_photo_1_1_delta_types_3_01_field_1_1_people_01_4.html#ae343cf3bfe338e4ebefcfc98d956422f">   31</a></span>    <span class="keyword">template</span>&lt;&gt; <span class="keyword">struct </span><a class="code hl_struct" href="../../d1/d06/struct_photo_1_1_delta_types.html">DeltaTypes</a>&lt;<a class="code hl_enumeration" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a>::<a class="code hl_enumvalue" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aa78386ec8f2845742c324a3d7d3e800ff">People</a>&gt;    { <span class="keyword">using </span><a class="code hl_typedef" href="../../da/de7/struct_photo_1_1_delta_types_3_01_field_1_1_people_01_4.html#ae343cf3bfe338e4ebefcfc98d956422f">Storage</a> = std::vector&lt;PersonFullInfo&gt;;   };</div>
 <div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span> </div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">   33</a></span>    <span class="keyword">inline</span> <span class="keyword">const</span> std::set&lt;Field&gt; <a class="code hl_function" href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">AllFields</a>(magic_enum::enum_values&lt;Field&gt;().begin(), magic_enum::enum_values&lt;Field&gt;().end());</div>
-<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>}</div>
-<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span> </div>
-<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span><span class="preprocessor">#endif</span></div>
+<div class="foldopen" id="foldopen00033" data-start="{" data-end="};">
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno"><a class="line" href="../../d4/d50/namespace_photo.html#a747dc764bd2f3f3cf1f76ce3caaf0875">   33</a></span>    <span class="keyword">inline</span> <span class="keyword">const</span> std::set&lt;Field&gt; <a class="code hl_variable" href="../../d4/d50/namespace_photo.html#a747dc764bd2f3f3cf1f76ce3caaf0875">AllFields</a> = []</div>
+<div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span>    {</div>
+<div class="line"><a id="l00035" name="l00035"></a><span class="lineno">   35</span>        std::set&lt;Field&gt; fields;</div>
+<div class="line"><a id="l00036" name="l00036"></a><span class="lineno">   36</span> </div>
+<div class="line"><a id="l00037" name="l00037"></a><span class="lineno">   37</span>        <span class="keywordflow">for</span> (<span class="keyword">const</span> <a class="code hl_enumeration" href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Field</a> field : <a class="code hl_variable" href="../../d5/de2/namespacereflection.html#aa5ded2b4af272983b73e6efb424edb33">reflection::enum_values&lt;Field&gt;</a>)</div>
+<div class="line"><a id="l00038" name="l00038"></a><span class="lineno">   38</span>            fields.insert(field);</div>
+<div class="line"><a id="l00039" name="l00039"></a><span class="lineno">   39</span> </div>
+<div class="line"><a id="l00040" name="l00040"></a><span class="lineno">   40</span>        <span class="keywordflow">return</span> fields;</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    }();</div>
+</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>}</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
+<div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclass_id_html"><div class="ttname"><a href="../../db/dfb/class_id.html">Id&lt; int, struct photo_tag &gt;</a></div></div>
+<div class="ttc" id="aenum__reflection_8hpp_html"><div class="ttname"><a href="../../dd/d96/enum__reflection_8hpp.html">enum_reflection.hpp</a></div></div>
 <div class="ttc" id="anamespace_photo_html"><div class="ttname"><a href="../../d4/d50/namespace_photo.html">Photo</a></div><div class="ttdef"><b>Definition</b> explicit_photo_delta.hpp:14</div></div>
 <div class="ttc" id="anamespace_photo_html_a079cf4ed945a7147196c481b65c9d38a"><div class="ttname"><a href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38a">Photo::Field</a></div><div class="ttdeci">Field</div><div class="ttdef"><b>Definition</b> photo_data_fields.hpp:14</div></div>
 <div class="ttc" id="anamespace_photo_html_a079cf4ed945a7147196c481b65c9d38aa189f63f277cd73395561651753563065"><div class="ttname"><a href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aa189f63f277cd73395561651753563065">Photo::Field::Tags</a></div><div class="ttdeci">@ Tags</div></div>
@@ -140,9 +151,10 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="anamespace_photo_html_a079cf4ed945a7147196c481b65c9d38aad9c6333623e6357515fcbf17be806273"><div class="ttname"><a href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aad9c6333623e6357515fcbf17be806273">Photo::Field::Geometry</a></div><div class="ttdeci">@ Geometry</div></div>
 <div class="ttc" id="anamespace_photo_html_a079cf4ed945a7147196c481b65c9d38aadde14c9f1d4445db790595f2cbe31a8d"><div class="ttname"><a href="../../d4/d50/namespace_photo.html#a079cf4ed945a7147196c481b65c9d38aadde14c9f1d4445db790595f2cbe31a8d">Photo::Field::PHash</a></div><div class="ttdeci">@ PHash</div></div>
 <div class="ttc" id="anamespace_photo_html_a091bce950ce3e8bd8f927568286ff75a"><div class="ttname"><a href="../../d4/d50/namespace_photo.html#a091bce950ce3e8bd8f927568286ff75a">Photo::FlagValues</a></div><div class="ttdeci">std::map&lt; FlagsE, int &gt; FlagValues</div><div class="ttdef"><b>Definition</b> photo_types.hpp:37</div></div>
-<div class="ttc" id="anamespace_photo_html_ab3e400538726a76ca56222737a903494"><div class="ttname"><a href="../../d4/d50/namespace_photo.html#ab3e400538726a76ca56222737a903494">Photo::AllFields</a></div><div class="ttdeci">const std::set&lt; Field &gt; AllFields(magic_enum::enum_values&lt; Field &gt;().begin(), magic_enum::enum_values&lt; Field &gt;().end())</div></div>
+<div class="ttc" id="anamespace_photo_html_a747dc764bd2f3f3cf1f76ce3caaf0875"><div class="ttname"><a href="../../d4/d50/namespace_photo.html#a747dc764bd2f3f3cf1f76ce3caaf0875">Photo::AllFields</a></div><div class="ttdeci">const std::set&lt; Field &gt; AllFields</div><div class="ttdef"><b>Definition</b> photo_data_fields.hpp:33</div></div>
 <div class="ttc" id="anamespace_photo_html_ae2f99864828ef960d2bf1d176e1bf903"><div class="ttname"><a href="../../d4/d50/namespace_photo.html#ae2f99864828ef960d2bf1d176e1bf903">Photo::PHashT</a></div><div class="ttdeci">::Id&lt; qlonglong, phash_tag &gt; PHashT</div><div class="ttdef"><b>Definition</b> photo_types.hpp:48</div></div>
 <div class="ttc" id="anamespace_tag_html_ad16db965857beb8e99d35bb5997a6d8a"><div class="ttname"><a href="../../da/dac/namespace_tag.html#ad16db965857beb8e99d35bb5997a6d8a">Tag::TagsList</a></div><div class="ttdeci">std::map&lt; Tag::Types, TagValue &gt; TagsList</div><div class="ttdef"><b>Definition</b> tag.hpp:185</div></div>
+<div class="ttc" id="anamespacereflection_html_aa5ded2b4af272983b73e6efb424edb33"><div class="ttname"><a href="../../d5/de2/namespacereflection.html#aa5ded2b4af272983b73e6efb424edb33">reflection::enum_values</a></div><div class="ttdeci">constexpr auto enum_values</div><div class="ttdef"><b>Definition</b> enum_reflection.hpp:66</div></div>
 <div class="ttc" id="aperson__data_8hpp_html"><div class="ttname"><a href="../../d9/d0f/person__data_8hpp.html">person_data.hpp</a></div></div>
 <div class="ttc" id="aphoto__types_8hpp_html"><div class="ttname"><a href="../../dc/d82/photo__types_8hpp.html">photo_types.hpp</a></div></div>
 <div class="ttc" id="astruct_group_info_html"><div class="ttname"><a href="../../d8/d51/struct_group_info.html">GroupInfo</a></div><div class="ttdef"><b>Definition</b> group.hpp:23</div></div>
@@ -155,7 +167,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jul 27 2026 20:59:23 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Wed Jul 29 2026 06:26:24 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>
