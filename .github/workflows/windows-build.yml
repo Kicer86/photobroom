@@ -6,6 +6,8 @@ on:
     branches:
       - master
   pull_request:
+  # Manual runs exercise the latest Windows and MSVC image; push and PR builds stay on Windows 2022.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -24,7 +26,7 @@ env:
 jobs:
   build-dependencies:
     name: "Build PhotoBroom dependencies for Windows"
-    runs-on: windows-2022
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && 'windows-2025' || 'windows-2022' }}
     strategy:
       fail-fast: true
 
@@ -86,7 +88,7 @@ jobs:
   build-photo-broom:
     name: "Build PhotoBroom sources on Windows"
     needs: build-dependencies
-    runs-on: windows-2022
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && 'windows-2025' || 'windows-2022' }}
     strategy:
       fail-fast: false
       matrix:
@@ -101,6 +103,7 @@ jobs:
     steps:
     - name: Print setup
       run: |
+        echo "image: $env:ImageOS $env:ImageVersion"
         echo "config: ${{ matrix.config.cmake_config }}"
         echo "build: ${{ matrix.config.cmake_build }}"
 
@@ -172,7 +175,7 @@ jobs:
   test-installation:
     name: "Windows installer verification"
     needs: build-photo-broom
-    runs-on: windows-2022
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && 'windows-2025' || 'windows-2022' }}
     steps:
       - uses: actions/checkout@v7
 
