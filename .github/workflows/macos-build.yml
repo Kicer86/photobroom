@@ -39,6 +39,7 @@ jobs:
           dlib              \
           exiv2             \
           googletest        \
+          imagemagick       \
           opencv            \
           qcoro6            \
           qt6
