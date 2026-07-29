@@ -38,6 +38,12 @@ jobs:
       with:
         extra-packages: libavformat-dev
 
+    - name: Report toolchain
+      run: |
+        cmake --version
+        ${{ matrix.compiler.CC }} --version
+        ${{ matrix.compiler.CXX }} --version
+
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:

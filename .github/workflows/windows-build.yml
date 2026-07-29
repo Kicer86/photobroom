@@ -50,6 +50,13 @@ jobs:
       with:
         vcpkgJsonGlob: vcpkg.json
 
+    - name: Report toolchain
+      shell: pwsh
+      run: |
+        & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationVersion
+        cmake --version
+        git -C vcpkg rev-parse HEAD
+
     # Build dependencies via CMake configure (not raw vcpkg install) to ensure
     # the compiler hash matches the one produced by build-photo-broom jobs.
     # A raw `vcpkg install` detects the compiler differently than `run-cmake`,

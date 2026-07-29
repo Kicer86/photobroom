@@ -60,6 +60,13 @@ jobs:
         echo "CPPFLAGS=-I${LLVM_PREFIX}/include" >> "${GITHUB_ENV}"
         echo "CXXFLAGS=-nostdlib++ -stdlib=libc++" >> "${GITHUB_ENV}"
 
+    - name: Report toolchain
+      run: |
+        xcodebuild -version
+        cmake --version
+        "${CC}" --version
+        "${CXX}" --version
+
     - name: Install CsLibGuarded
       run: |
         git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
