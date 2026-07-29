@@ -38,6 +38,7 @@ jobs:
           ninja             \
           dlib              \
           exiv2             \
+          googletest        \
           opencv            \
           qcoro6            \
           qt6
