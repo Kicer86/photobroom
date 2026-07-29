@@ -69,8 +69,11 @@ jobs:
 
     - name: Install CsLibGuarded
       run: |
-        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
+        git init cs_libguarded
         cd cs_libguarded
+        git remote add origin https://github.com/copperspice/cs_libguarded.git
+        git fetch --depth 1 origin 9c1e82f42f228345f3b024bed5d08be643c00f8a
+        git checkout --detach FETCH_HEAD
         mkdir build
         cd build
         cmake ..
