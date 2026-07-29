@@ -82,7 +82,7 @@ jobs:
         sudo cmake --build . --target install
 
     - name: Build
-      uses: ashutoshvarma/action-cmake-build@v1
+      uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: Release

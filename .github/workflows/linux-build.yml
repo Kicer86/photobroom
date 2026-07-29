@@ -60,7 +60,7 @@ jobs:
         echo "ENABLE_SANITIZERS=$( test ${{ matrix.build }} == "Release" && echo "ON" || echo "OFF" )" >> $GITHUB_ENV
 
     - name: Build
-      uses: ashutoshvarma/action-cmake-build@v1
+      uses: ashutoshvarma/action-cmake-build@master
       with:
         build-dir: ${{ runner.workspace }}/build
         build-type: ${{ matrix.build }}
