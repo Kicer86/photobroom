@@ -177,11 +177,24 @@ jobs:
     runs-on: windows-11-arm
     env:
       VCPKG_DEFAULT_TRIPLET: arm64-windows
+      VCPKG_DEFAULT_HOST_TRIPLET: arm64-windows
 
     steps:
     - uses: actions/checkout@v7
       with:
         submodules: true
+
+    - name: Restore vcpkg binary cache
+      # vcpkg no longer supports the x-gha binary-cache backend (lukka/run-vcpkg#251).
+      uses: actions/cache/restore@v6
+      with:
+        path: |
+          vcpkg-binary-cache
+          vcpkg-downloads
+        key: vcpkg-binary-${{ runner.os }}-arm64-windows-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
+        restore-keys: |
+          vcpkg-binary-${{ runner.os }}-arm64-windows-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-
+          vcpkg-binary-${{ runner.os }}-arm64-windows-
 
     - name: Print setup
       run: |
@@ -192,6 +205,7 @@ jobs:
       uses: lukka/run-vcpkg@v11.6
       with:
         vcpkgJsonGlob: vcpkg.json
+        doNotCache: false
 
     - name: Report toolchain
       shell: pwsh
@@ -212,6 +226,15 @@ jobs:
                 '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt;--clean-buildtrees-after-build;--clean-packages-after-build'
             ]
         buildPreset: ninja-vcpkg-release
+
+    - name: Save vcpkg binary cache
+      if: always()
+      uses: actions/cache/save@v6
+      with:
+        path: |
+          vcpkg-binary-cache
+          vcpkg-downloads
+        key: vcpkg-binary-${{ runner.os }}-arm64-windows-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
 
 
   test-installation:
