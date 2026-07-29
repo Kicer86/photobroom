@@ -90,6 +90,7 @@ if(UNIX OR CYGWIN)
     add_definitions(-DOS_UNIX)
 elseif(WIN32)
     add_definitions(-DOS_WIN)
+    add_compile_definitions(NOMINMAX)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
