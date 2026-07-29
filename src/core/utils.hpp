@@ -2,7 +2,8 @@
 #ifndef UTILS_HPP_INCLUDED
 #define UTILS_HPP_INCLUDED
 
-#include <magic_enum/magic_enum.hpp>
+#include <array>
+#include <core/enum_reflection.hpp>
 #include <cmath>
 
 
@@ -52,7 +53,7 @@ namespace details
 template<typename E>
 void for_each(auto op)
 {
-    constexpr auto enum_values = magic_enum::enum_values<E>();
+    constexpr auto enum_values = reflection::enum_values<E>;
     details::Generator<enum_values>{}(op);
 }
 

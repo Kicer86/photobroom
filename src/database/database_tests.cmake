@@ -50,7 +50,6 @@ target_link_libraries(database_ut
         Qt::Test
         GTest::gtest
         GTest::gmock
-        magic_enum::magic_enum
         opencv_img_hash
 )
 

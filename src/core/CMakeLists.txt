@@ -103,6 +103,7 @@ add_library(core SHARED ${CORE_SOURCES} ${CORE_RESOURCES})
 target_link_directories(core PUBLIC ${FFMPEG_LIBRARY_DIRS})
 target_link_libraries(core
     PUBLIC
+        cxx26_static_reflection
         QCoro6::Core
         Qt::Core
         Qt::Gui

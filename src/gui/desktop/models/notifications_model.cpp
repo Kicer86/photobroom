@@ -5,7 +5,6 @@
 
 ENUM_ROLES_SETUP(NotificationsModel::Roles);
 
-
 INotifications::Id NotificationsModel::insert(const QString& warning, Type type)
 {
     const Id id = m_id;

@@ -28,7 +28,18 @@ set(CMAKE_MODULE_PATH
 
 set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_STANDARD 23)
+add_library(cxx26_static_reflection INTERFACE)
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 16.1)
+    set(CMAKE_CXX_STANDARD 26)
+    target_compile_definitions(cxx26_static_reflection INTERFACE PHOTO_BROOM_HAS_CPP26_REFLECTION=1)
+    target_compile_options(cxx26_static_reflection INTERFACE
+        $<$<COMPILE_LANGUAGE:CXX>:-freflection>
+    )
+else()
+    set(CMAKE_CXX_STANDARD 23)
+    target_compile_definitions(cxx26_static_reflection INTERFACE PHOTO_BROOM_HAS_CPP26_REFLECTION=0)
+endif()
 
 set(CMAKE_POSITION_INDEPENDENT_CODE TRUE)
 
@@ -79,6 +90,7 @@ if(UNIX OR CYGWIN)
     add_definitions(-DOS_UNIX)
 elseif(WIN32)
     add_definitions(-DOS_WIN)
+    add_compile_definitions(NOMINMAX)
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
     set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")

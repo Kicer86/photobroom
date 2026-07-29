@@ -79,7 +79,6 @@ target_link_libraries(database
                         PUBLIC
                             CsLibGuarded::CsLibGuarded
                             Qt::Gui
-                            magic_enum::magic_enum
                             QCoro6::Core
                             core                            # core is being used in some public interfaces (see photo_data.hpp)
 

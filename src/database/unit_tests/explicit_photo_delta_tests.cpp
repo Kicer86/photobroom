@@ -18,3 +18,10 @@ TEST(ExplicitPhotoTest, dataFetch)
 
     EXPECT_EQ(ed.get<Photo::Field::Geometry>(), QSize(1, 2));
 }
+
+TEST(ExplicitPhotoTest, allFieldsContainsEveryPhotoField)
+{
+    EXPECT_EQ(Photo::AllFields.size(), reflection::enum_values<Photo::Field>.size());
+    for (const Photo::Field field : reflection::enum_values<Photo::Field>)
+        EXPECT_TRUE(Photo::AllFields.contains(field));
+}

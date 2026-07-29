@@ -110,10 +110,11 @@ jobs:
           vcpkg-binary-${{ runner.os }}-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-
           vcpkg-binary-${{ runner.os }}-
 
-    - name: Setup ccache
-      uses: Chocobo1/setup-ccache-action@v1
-      with:
-        windows_compile_environment: msvc
+#    modules are not supported by ccache and it causes problems
+#    - name: Setup ccache
+#      uses: Chocobo1/setup-ccache-action@v1
+#      with:
+#        windows_compile_environment: msvc
 
     - name: Run vcpkg
       uses: lukka/run-vcpkg@v11.6
@@ -128,8 +129,6 @@ jobs:
             [
                 '-DBUILD_TESTING=OFF',
                 '-DBUILD_SHARED_LIBS=TRUE',
-                '-DCMAKE_CXX_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
-                '-DCMAKE_C_COMPILER_LAUNCHER:FILEPATH=C:/ProgramData/Chocolatey/bin/ccache.exe',
                 '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt'
             ]
         buildPreset: "${{ matrix.config.cmake_build }}"

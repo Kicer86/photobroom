@@ -22,7 +22,6 @@ using namespace std::placeholders;
 
 ENUM_ROLES_SETUP(FacesModel::Roles);
 
-
 FacesModel::FacesModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_initializer(this, {"photoID", "database", "core"}, std::bind(&FacesModel::initialSetup, this))
