@@ -172,6 +172,48 @@ jobs:
         path: out/build/ninja-vcpkg-release/PhotoBroom-*-win64.exe
 
 
+  build-arm64:
+    name: "Build PhotoBroom sources on Windows ARM64"
+    runs-on: windows-11-arm
+    env:
+      VCPKG_DEFAULT_TRIPLET: arm64-windows
+
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        submodules: true
+
+    - name: Print setup
+      run: |
+        echo "image: $env:ImageOS $env:ImageVersion"
+        echo "triplet: $env:VCPKG_DEFAULT_TRIPLET"
+
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v11.6
+      with:
+        vcpkgJsonGlob: vcpkg.json
+
+    - name: Report toolchain
+      shell: pwsh
+      run: |
+        & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationVersion
+        cmake --version
+        git -C vcpkg rev-parse HEAD
+
+    - name: Build
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: ninja-vcpkg-release
+        configurePresetAdditionalArgs: |
+            [
+                '-DBUILD_TESTING=OFF',
+                '-DBUILD_SHARED_LIBS=TRUE',
+                '-DVCPKG_TARGET_TRIPLET=arm64-windows',
+                '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt;--clean-buildtrees-after-build;--clean-packages-after-build'
+            ]
+        buildPreset: ninja-vcpkg-release
+
+
   test-installation:
     name: "Windows installer verification"
     needs: build-photo-broom
