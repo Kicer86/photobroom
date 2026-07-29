@@ -6,6 +6,7 @@ on:
     branches:
       - master
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -27,6 +28,11 @@ jobs:
         build: [Release]
         shared: [TRUE, FALSE]
         os: [ubuntu-26.04]
+        include:
+          - compiler: { compiler: GNU, CC: gcc, CXX: g++ }
+            build: Release
+            shared: TRUE
+            os: ubuntu-26.04-arm
 
     steps:
     - uses: nschloe/action-cached-lfs-checkout@v1
