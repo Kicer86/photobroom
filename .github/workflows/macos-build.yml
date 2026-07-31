@@ -53,7 +53,10 @@ jobs:
           qt6
 
     - name: Install SVG conversion dependencies
-      run: python3 -m pip install --break-system-packages cairosvg Pillow defusedxml
+      run: |
+        python3 -m pip install --break-system-packages cairosvg Pillow defusedxml
+        echo "PB_PYTHON=$(command -v python3)" >> "${GITHUB_ENV}"
+        python3 tools/svg2any.py --check-requirements _ _
 
     - name: Configure LLVM toolchain
       run: |
@@ -104,6 +107,7 @@ jobs:
             -DCMAKE_CXX_COMPILER=${{ env.CXX }}
             -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS=${{ env.CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS }}
             -DCMAKE_OSX_SYSROOT=${{ env.CMAKE_OSX_SYSROOT }}
+            -DPython=${{ env.PB_PYTHON }}
             -DBUILD_TESTING=ON
             -DBUILD_SHARED_LIBS=ON
             -G Ninja
