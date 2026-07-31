@@ -54,6 +54,7 @@ add_executable(database_backends_ut
 
 target_link_libraries(database_backends_ut
     PRIVATE
+        CsLibGuarded::CsLibGuarded
         core
         plugins
         sample_dbs
