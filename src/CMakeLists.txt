@@ -36,21 +36,12 @@ if(WIN32)
 
     set(MAIN_ICO_PATH ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico)
 
-    add_custom_command(
-        OUTPUT ${MAIN_ICO_PATH}
-        COMMAND
-            ${CMAKE_COMMAND} -E env
-            "PATH=$<TARGET_FILE_DIR:Qt6::Core>"
-            "QT_PLUGIN_PATH=${QT6_INSTALL_PREFIX}/${QT6_INSTALL_PLUGINS}"
-            $<TARGET_FILE:svg_to_ico>
-            ${CMAKE_SOURCE_DIR}/images/photo_broom.svg
-            ${MAIN_ICO_PATH}
-            32
-            32
-        DEPENDS
-            svg_to_ico
-            ${CMAKE_SOURCE_DIR}/images/photo_broom.svg
-        VERBATIM
+    convert_svg(
+        ${MAIN_ICO_PATH}
+        ${CMAKE_SOURCE_DIR}/images/photo_broom.svg
+        32
+        32
+        transparent
     )
 
     set_target_properties(photo_broom PROPERTIES WIN32_EXECUTABLE TRUE)

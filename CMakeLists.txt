@@ -139,8 +139,8 @@ endif(UNIX OR CYGWIN)
 #subdirs
 find_package(Qt6 REQUIRED COMPONENTS Gui Svg)
 
-add_executable(svg_to_ico EXCLUDE_FROM_ALL tools/svg_to_ico.cpp)
-target_link_libraries(svg_to_ico PRIVATE Qt::Gui Qt::Svg)
+add_executable(svg_to_image EXCLUDE_FROM_ALL tools/svg_to_image.cpp)
+target_link_libraries(svg_to_image PRIVATE Qt::Gui Qt::Svg)
 
 add_subdirectory(src)
 add_subdirectory(tr)
