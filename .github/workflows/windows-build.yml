@@ -5,7 +5,15 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/windows-build.yml'
   pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/windows-build.yml'
   # Manual runs exercise the latest Windows and MSVC image; push and PR builds stay on Windows 2022.
   workflow_dispatch:
 

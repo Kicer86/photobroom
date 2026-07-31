@@ -5,7 +5,15 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/linux-build.yml'
   pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/linux-build.yml'
   workflow_dispatch:
 
 permissions:
