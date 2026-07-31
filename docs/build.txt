@@ -15,7 +15,6 @@ Required tools and libraries:
  - opencv*
  - libwebp*
  - cs-libguarded*
- - ImageMagick**
 
  Optional libraries:
  - KCrash + drkonqi (for crash catching)
@@ -31,14 +30,7 @@ Required tools and libraries:
 * For convenience it is possible to use vcpkg tool
   for download, build and install all marked libraries.
 
-** Optional
-Build process generates images from svg files.
-It requires either ImageMagick or python with proper packages to be installed to achieve this.
-For python make sure PIL, defusedxml and cairosvg are installed.
-For cairosvg to work on Windows, it may be required to install pipwin and then to install cairocffi with:
-  pipwin install cairocffi
-
-See here for details: https://stackoverflow.com/questions/46265677/get-cairosvg-working-in-windows
+Python's PIL/Pillow package is required when unit tests are enabled.
 
 
 Build tips:

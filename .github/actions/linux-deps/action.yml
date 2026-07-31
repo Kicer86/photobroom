@@ -16,8 +16,6 @@ runs:
         sudo apt-get update &&              \
         sudo apt-get install                \
           ninja-build                       \
-          python3-cairosvg                  \
-          python3-defusedxml                \
           python3-pil                       \
           libboost-dev                      \
           libexiv2-dev                      \

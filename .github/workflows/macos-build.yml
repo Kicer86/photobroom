@@ -48,16 +48,14 @@ jobs:
           dlib              \
           exiv2             \
           googletest        \
-          imagemagick       \
           opencv            \
           qcoro6            \
           qt6
 
-    - name: Install SVG conversion dependencies
+    - name: Install Python test dependencies
       run: |
-        python3 -m pip install --break-system-packages cairosvg Pillow defusedxml
+        python3 -m pip install --break-system-packages Pillow
         echo "PB_PYTHON=$(command -v python3)" >> "${GITHUB_ENV}"
-        python3 tools/svg2any.py --check-requirements _ _
 
     - name: Configure LLVM toolchain
       run: |
