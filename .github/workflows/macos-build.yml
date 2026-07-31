@@ -44,6 +44,9 @@ jobs:
           qcoro6            \
           qt6
 
+    - name: Install SVG conversion dependencies
+      run: python3 -m pip install --break-system-packages cairosvg Pillow defusedxml
+
     - name: Configure LLVM toolchain
       run: |
         LLVM_PREFIX="$(brew --prefix llvm)"
@@ -95,7 +98,6 @@ jobs:
             -DCMAKE_OSX_SYSROOT=${{ env.CMAKE_OSX_SYSROOT }}
             -DBUILD_TESTING=ON
             -DBUILD_SHARED_LIBS=ON
-            -DUSE_IMAGEMAGICK_INTERNAL_SVG_RENDERER=ON
             -G Ninja
         run-test: true
         ctest-options:
