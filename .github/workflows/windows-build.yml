@@ -143,17 +143,17 @@ jobs:
         vcpkgJsonGlob: vcpkg.json
 
     - name: Build
+      timeout-minutes: 30
       uses: lukka/run-cmake@v10
       with:
         configurePreset: ${{ matrix.config.cmake_config }}
-        # Clean CI builds cannot reuse incremental linker state; disabling it also avoids MSVC linker hangs.
+        # Debug symbols are not published from CI. Avoid generating module PDBs: MSVC can hang while
+        # merging debug information for database_sqlite_plugin.dll.
         configurePresetAdditionalArgs: |
             [
                 '-DBUILD_TESTING=OFF',
                 '-DBUILD_SHARED_LIBS=TRUE',
-                '-DCMAKE_EXE_LINKER_FLAGS_DEBUG=/DEBUG /INCREMENTAL:NO',
-                '-DCMAKE_MODULE_LINKER_FLAGS_DEBUG=/DEBUG /INCREMENTAL:NO',
-                '-DCMAKE_SHARED_LINKER_FLAGS_DEBUG=/DEBUG /INCREMENTAL:NO',
+                '-DCMAKE_MODULE_LINKER_FLAGS_DEBUG=/DEBUG:NONE /INCREMENTAL:NO',
                 '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt'
             ]
         buildPreset: "${{ matrix.config.cmake_build }}"
