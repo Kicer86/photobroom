@@ -193,7 +193,7 @@ $(function(){ initResizable(false); });
 <div class="line"><a id="l00106" name="l00106"></a><span class="lineno">  106</span>            {</div>
 <div class="foldopen" id="foldopen00107" data-start="{" data-end="}">
 <div class="line"><a id="l00107" name="l00107"></a><span class="lineno"><a class="line" href="../../dd/d3e/struct_database_1_1_i_database_1_1_task.html#a4a6b35ffce4cb898cbff5ad4184a4df7">  107</a></span>                <a class="code hl_function" href="../../dd/d3e/struct_database_1_1_i_database_1_1_task.html#a4a6b35ffce4cb898cbff5ad4184a4df7">Task</a>(Callable&amp;&amp; f, std::string_view name)</div>
-<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                    : m_f(<a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::forward&lt;Callable&gt;(f))</div>
+<div class="line"><a id="l00108" name="l00108"></a><span class="lineno">  108</span>                    : m_f(std::forward&lt;Callable&gt;(f))</div>
 <div class="line"><a id="l00109" name="l00109"></a><span class="lineno">  109</span>                    , m_name(name)</div>
 <div class="line"><a id="l00110" name="l00110"></a><span class="lineno">  110</span>                {</div>
 <div class="line"><a id="l00111" name="l00111"></a><span class="lineno">  111</span> </div>
@@ -250,7 +250,6 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="agroup_8hpp_html"><div class="ttname"><a href="../../d8/d3d/group_8hpp.html">group.hpp</a></div></div>
 <div class="ttc" id="aibackend_8hpp_html"><div class="ttname"><a href="../../da/d2a/ibackend_8hpp.html">ibackend.hpp</a></div></div>
 <div class="ttc" id="anamespace_database_html"><div class="ttname"><a href="../../d0/d76/namespace_database.html">Database</a></div><div class="ttdef"><b>Definition</b> actions.hpp:10</div></div>
-<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition</b> general.hpp:13</div></div>
 <div class="ttc" id="aperson__data_8hpp_html"><div class="ttname"><a href="../../d9/d0f/person__data_8hpp.html">person_data.hpp</a></div></div>
 <div class="ttc" id="astruct_database_1_1_i_backend_html"><div class="ttname"><a href="../../d2/ddd/struct_database_1_1_i_backend.html">Database::IBackend</a></div><div class="ttdoc">Low level database interface.</div><div class="ttdef"><b>Definition</b> ibackend.hpp:92</div></div>
 <div class="ttc" id="astruct_database_1_1_i_client_html"><div class="ttname"><a href="../../dc/dec/struct_database_1_1_i_client.html">Database::IClient</a></div><div class="ttdef"><b>Definition</b> idatabase.hpp:59</div></div>
@@ -288,7 +287,7 @@ $(function(){ initResizable(false); });
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 29 2026 06:26:24 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sun Aug 2 2026 11:42:28 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>

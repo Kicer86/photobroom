@@ -133,8 +133,8 @@ $(function(){ initResizable(false); });
 <div class="foldopen" id="foldopen00040" data-start="{" data-end="}">
 <div class="line"><a id="l00040" name="l00040"></a><span class="lineno"><a class="line" href="../../df/d97/class_signal_postponer.html#aa88214ac8dc30171f36e3393191dc9ac">   40</a></span>        <span class="keyword">explicit</span> <a class="code hl_function" href="../../df/d97/class_signal_postponer.html#aa88214ac8dc30171f36e3393191dc9ac">SignalPostponer</a>(Fire fire, QObject* p):</div>
 <div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>            QObject(p),</div>
-<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            m_delay(<a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::chrono::milliseconds(250)),</div>
-<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            m_patience(<a class="code hl_namespace" href="../../d8/dcc/namespacestd.html">std</a>::chrono::milliseconds(1000))</div>
+<div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>            m_delay(std::chrono::milliseconds(250)),</div>
+<div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span>            m_patience(std::chrono::milliseconds(1000))</div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>        {</div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span>            connect(&amp;m_lazinessTimer, &amp;QTimer::timeout, fire);</div>
 <div class="line"><a id="l00046" name="l00046"></a><span class="lineno">   46</span>            connect(&amp;m_patienceTimer, &amp;QTimer::timeout, fire);</div>
@@ -273,13 +273,12 @@ $(function(){ initResizable(false); });
 <div class="ttc" id="aclass_signal_postponer_html_aa8c389e263ced68027c86ef9a8acd9c3"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#aa8c389e263ced68027c86ef9a8acd9c3">SignalPostponer::m_lazinessTimer</a></div><div class="ttdeci">QTimer m_lazinessTimer</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:63</div></div>
 <div class="ttc" id="aclass_signal_postponer_html_ad21bfb1cfe5f570f04d2342c92cace97"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#ad21bfb1cfe5f570f04d2342c92cace97">SignalPostponer::m_patience</a></div><div class="ttdeci">std::chrono::milliseconds m_patience</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:66</div></div>
 <div class="ttc" id="aclass_signal_postponer_html_afc6fe4451c98e13f2eda9b4685b04b00"><div class="ttname"><a href="../../df/d97/class_signal_postponer.html#afc6fe4451c98e13f2eda9b4685b04b00">SignalPostponer::~SignalPostponer</a></div><div class="ttdeci">~SignalPostponer()=default</div></div>
-<div class="ttc" id="anamespacestd_html"><div class="ttname"><a href="../../d8/dcc/namespacestd.html">std</a></div><div class="ttdef"><b>Definition</b> general.hpp:13</div></div>
 <div class="ttc" id="asignal__postponer_8hpp_html_a04ceca6d6db222d93899b7d9bf9fa4cd"><div class="ttname"><a href="../../dc/dfa/signal__postponer_8hpp.html#a04ceca6d6db222d93899b7d9bf9fa4cd">lazy_connect</a></div><div class="ttdeci">void lazy_connect(SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;delay=std::chrono::milliseconds(250), const std::chrono::milliseconds &amp;patience=std::chrono::milliseconds(1000), Qt::ConnectionType type=Qt::AutoConnection)</div><div class="ttdoc">Create lazy Qt connection between signal and slot.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:97</div></div>
 <div class="ttc" id="asignal__postponer_8hpp_html_a07a9380d3812074d4bdcd7346b60a184"><div class="ttname"><a href="../../dc/dfa/signal__postponer_8hpp.html#a07a9380d3812074d4bdcd7346b60a184">blocked_connect</a></div><div class="ttdeci">SignalBlocker * blocked_connect(SrcObj *src, Signal sig, Dst *dst, Slot slot, const std::chrono::milliseconds &amp;block=std::chrono::milliseconds(0))</div><div class="ttdoc">blocks slot invocation until previous invocation is complete.</div><div class="ttdef"><b>Definition</b> signal_postponer.hpp:197</div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 29 2026 06:26:24 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
+Generated on Sun Aug 2 2026 11:42:28 for Photo Broom by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="../../doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.12.0
 </small></address>
 </div><!-- doc-content -->
 </body>
