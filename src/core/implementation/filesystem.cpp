@@ -46,6 +46,11 @@ namespace Filesystem
                 );
             }
 
+            qint64 readData(char* data, qint64 maxSize) final
+            {
+                return m_file.read(data, maxSize);
+            }
+
             [[deprecated("Use byteView() or asQArrayView() instead")]]
             std::string path() const override
             {
@@ -74,6 +79,29 @@ namespace Filesystem
                 }
             }
         };
+
+
+        class Device final: public QIODevice
+        {
+        public:
+            Device(const Location& location)
+                : m_file(openFile(location))
+            {
+            }
+
+            qint64 readData(char* data, qint64 maxSize) final
+            {
+                return m_file->readData(data, maxSize);
+            }
+
+            qint64 writeData(const char *data, qint64 maxSize) final
+            {
+                return 0;
+            }
+
+        private:
+            std::unique_ptr<IFile> m_file;
+        };
     }
 
 
@@ -93,15 +121,26 @@ namespace Filesystem
 
     QString Location::toQStr() const
     {
-        return m_location;
+        return url();
     }
 
 
     std::string Location::toStr() const
     {
-        return m_location.toStdString();
+        return url().toStdString();
     }
 
+
+    QString Location::url() const
+    {
+        return m_location;
+    }
+
+
+    std::unique_ptr<QIODevice> openAsDevice(const Location& location)
+    {
+        return std::make_unique<Device>(location);
+    }
 
 
     std::unique_ptr<IFile> openFile(const Location& location)
