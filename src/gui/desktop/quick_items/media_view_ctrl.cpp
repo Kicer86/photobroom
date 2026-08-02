@@ -13,6 +13,7 @@
 #include "media_view_ctrl.hpp"
 #include "objects_accessor.hpp"
 
+
 namespace
 {
     const QString MultimediaType("multimedia_type");
@@ -30,9 +31,9 @@ namespace
         const Filesystem::Location location(path);
         MediaViewCtrl::Mode mode = MediaViewCtrl::Mode::Unknown;
 
-        if (MediaTypes::isAnimatedImageFile(path))
+        if (MediaTypes::isAnimatedImageFile(location))
             mode = MediaViewCtrl::Mode::AnimatedImage;
-        else if (MediaTypes::isImageFile(path))
+        else if (MediaTypes::isImageFile(location))
         {
             auto& exifReader = core.getExifReaderFactory().get();
             const auto projection = exifReader.get(location, IExifReader::TagType::Projection);
@@ -41,7 +42,7 @@ namespace
             else
                 mode = MediaViewCtrl::Mode::StaticImage;
         }
-        else if (MediaTypes::isVideoFile(path))
+        else if (MediaTypes::isVideoFile(location))
             mode = MediaViewCtrl::Mode::Video;
         else
             mode = MediaViewCtrl::Mode::Error;

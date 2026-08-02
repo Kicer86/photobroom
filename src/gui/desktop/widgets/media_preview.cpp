@@ -122,12 +122,14 @@ void MediaPreview::setMedia(const QString& path)
     delete m_interior;
     m_interior = nullptr;
 
+    const Filesystem::Location location(path);
+
     if (path.isEmpty())
     {
 
     }
-    else if (MediaTypes::isAnimatedImageFile(path) ||
-             MediaTypes::isVideoFile(path))
+    else if (MediaTypes::isAnimatedImageFile(location) ||
+             MediaTypes::isVideoFile(location))
     {
         AnimatedInternal* interior = new AnimatedInternal(path, this);
         m_interior = interior;
@@ -135,7 +137,7 @@ void MediaPreview::setMedia(const QString& path)
         QWidget* w = interior->getWidget();
         l->addWidget(w);
     }
-    else if (MediaTypes::isImageFile(path))
+    else if (MediaTypes::isImageFile(location))
     {
         StaticInternal* interior = new StaticInternal(path, this);
         m_interior = interior;

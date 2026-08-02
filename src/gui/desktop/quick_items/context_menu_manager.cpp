@@ -114,7 +114,7 @@ void ContextMenuManager::updateModel(const std::vector<Photo::DataDelta>& select
 
     const bool groupsOnly = std::ranges::all_of(m_photos, &PhotoExplicitDelta::is<GroupInfo::Role::Representative, ExplicitDelta>);
     const bool isSingleGroup = m_photos.size() == 1 && groupsOnly;
-    const bool imagesOnly = std::ranges::all_of(m_photos | std::views::transform(qOverload<const ExplicitDelta &>(&Photo::getPath<ExplicitDelta>)), &MediaTypes::isImageFile) &&
+    const bool imagesOnly = std::ranges::all_of(m_photos | std::views::transform(qOverload<const ExplicitDelta &>(&Photo::getLocation<ExplicitDelta>)), &MediaTypes::isImageFile) &&
                             std::ranges::all_of(m_photos, &PhotoExplicitDelta::is<GroupInfo::Role::None, ExplicitDelta>);
     const bool isSingleImage = m_photos.size() == 1 && imagesOnly;
 

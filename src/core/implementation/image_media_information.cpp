@@ -58,7 +58,8 @@ std::optional<QSize> ImageMediaInformation::size(const Filesystem::Location& loc
 
     std::optional<QSize> result;
 
-    const QImageReader reader(location.toQStr());
+    const auto device = Filesystem::openAsDevice(location);
+    const QImageReader reader(&*device);
     const QSize size = reader.size();
 
     if (size.isValid())

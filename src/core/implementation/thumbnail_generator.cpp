@@ -358,9 +358,11 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
 {
     QImage image;
 
-    if (MediaTypes::isImageFile(path))
+    const Filesystem::Location location(path);
+
+    if (MediaTypes::isImageFile(location))
         image = readFrameFromImage(path);
-    else if (MediaTypes::isVideoFile(path))
+    else if (MediaTypes::isVideoFile(location))
         image = readFrameFromVideo(path);
     else
         m_logger->error(QString("Unknown file type: %1").arg(path));

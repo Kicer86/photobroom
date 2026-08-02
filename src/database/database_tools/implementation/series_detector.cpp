@@ -413,8 +413,10 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Expli
 
     // grouping works for images only
     timer.start();
-    std::ranges::copy_if(photos, std::back_inserter(suitablePhotos), [](const auto& photo) {
-        return MediaTypes::isImageFile(Photo::getPath(photo));
+    std::ranges::copy_if(photos, std::back_inserter(suitablePhotos), [](const auto& photo)
+    {
+        const Filesystem::Location location(Photo::getPath(photo));
+        return MediaTypes::isImageFile(location);
     });
 
     m_logger.debug(QString("Validating media type took %1s").arg(timer.elapsed() / 1000));

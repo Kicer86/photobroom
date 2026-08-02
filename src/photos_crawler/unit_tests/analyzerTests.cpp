@@ -5,7 +5,7 @@
 
 #include <QString>
 
-typedef std::pair<QString, bool> AnalyzerExpectations;
+typedef std::pair<Filesystem::Location, bool> AnalyzerExpectations;
 
 
 struct FileAnalyzerTest: testing::TestWithParam<AnalyzerExpectations> {};
