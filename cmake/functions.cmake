@@ -133,94 +133,36 @@ function(stringify_file output_file input_file variable_with_type namespace)
 endfunction(stringify_file)
 
 
-function(determine_image_conversion_tool result)
-    find_program(Python python)
-
-    if(Python)
-        execute_process(
-            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py --check-requirements _ _
-            RESULT_VARIABLE _result
-            OUTPUT_QUIET
-            ERROR_QUIET
-        )
-
-        if(_result EQUAL 0)        # success
-            set(${result} "PYTHON")
-            return(PROPAGATE ${result})
-        else()
-            message(DEBUG "Image conversion: Python found but 'svg2any.py --check-requirements _ _' exited with an error")
-        endif()
-    else()
-        message(DEBUG "Image conversion: Python not found")
-    endif()
-
-    find_program(Magick magick)
-    if(Magick)
-        set(${result} "MAGICK")
-        return(PROPAGATE ${result})
-    else()
-        message(DEBUG "Image conversion: Magick not found. No tool for image conversion found")
-    endif()
-
-    set(${result} "NONE")
-    return(PROPAGATE ${result})
-endfunction()
-
-
-function(convertSVG output_file input_file width height)
-
-    if(NOT A_PB_IMAGE_CONVERTER)
-        determine_image_conversion_tool(converter)
-        set(A_PB_IMAGE_CONVERTER ${converter} CACHE INTERNAL "Tool used for converting svg files" FORCE)
-    endif()
-
-    if(A_PB_IMAGE_CONVERTER STREQUAL "NONE")
-        # Magick executable was not found OR
-        # Python executable was not found OR
-        # Python was found but there are missing dependencies for tools/svg2any.py
-        message(FATAL_ERROR "Neither magick nor python can be used for generation of required images.")
-    endif()
-
-    if(A_PB_IMAGE_CONVERTER STREQUAL "PYTHON")
-        find_program(Python python REQUIRED)
-
-        if(${width} EQUAL -1 AND ${height} EQUAL -1)
-            set(resize "")
-        elseif(${width} EQUAL -1 OR ${height} EQUAL -1)
-            message(FATAL_ERROR "Not handled")
-        else()
-            set(resize --width ${width} --height ${height})
-        endif()
-
-        add_custom_command(OUTPUT ${output_file}
-            COMMAND ${Python} ${PROJECT_SOURCE_DIR}/tools/svg2any.py ${input_file} ${output_file} ${resize}
-            DEPENDS ${PROJECT_SOURCE_DIR}/tools/svg2any.py
-            DEPENDS ${input_file}
-        )
-    elseif(A_PB_IMAGE_CONVERTER STREQUAL "MAGICK")
-        find_program(Magick magick REQUIRED)
-
-        if(${width} EQUAL -1 AND ${height} EQUAL -1)
-            set(resize "")
-        elseif(${width} EQUAL -1 OR ${height} EQUAL -1)
-            message(FATAL_ERROR "Not handled")
-        else()
-            set(resize -resize ${width}x${height})
-        endif()
-
-        set(output_opts)
-        get_filename_component(output_file_ext ${output_file} EXT)
-        if(${output_file_ext} STREQUAL ".png")
-            set(output_opts "PNG24:")
-        endif()
-
-        add_custom_command(OUTPUT ${output_file}
-            COMMAND ${CMAKE_COMMAND} -E env NO_AT_BRIDGE=1 ${Magick} ${input_file} ${resize} ${output_opts}${output_file}
-            DEPENDS ${input_file}
+function(convert_svg output_file input_file width height background)
+    if(WIN32)
+        set(svg_to_image_command
+            ${CMAKE_COMMAND} -E env
+            "PATH=$<TARGET_FILE_DIR:Qt6::Core>"
+            "QT_PLUGIN_PATH=${QT6_INSTALL_PREFIX}/${QT6_INSTALL_PLUGINS}"
+            $<TARGET_FILE:svg_to_image>
         )
     else()
-        message(FATAL_ERROR "Unexpected value of A_PB_IMAGE_CONVERTER variable: ${A_PB_IMAGE_CONVERTER}")
+        set(svg_to_image_command
+            ${CMAKE_COMMAND} -E env
+            "QT_QPA_PLATFORM=offscreen"
+            $<TARGET_FILE:svg_to_image>
+        )
     endif()
+
+    add_custom_command(
+        OUTPUT ${output_file}
+        COMMAND
+            ${svg_to_image_command}
+            ${input_file}
+            ${output_file}
+            ${width}
+            ${height}
+            ${background}
+        DEPENDS
+            svg_to_image
+            ${input_file}
+        VERBATIM
+    )
 endfunction()
 
 
@@ -272,4 +214,3 @@ function(hideSymbols target)
     endif(TARGET ${target})
 
 endfunction(hideSymbols)
-

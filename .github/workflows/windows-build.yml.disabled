@@ -5,7 +5,20 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/windows-build.yml'
   pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/windows-build.yml'
+  # Manual runs exercise the latest Windows and MSVC image; push and PR builds stay on Windows 2022.
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -21,7 +34,7 @@ env:
 jobs:
   build-dependencies:
     name: "Build PhotoBroom dependencies for Windows"
-    runs-on: windows-2022
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && 'windows-2025' || 'windows-2022' }}
     strategy:
       fail-fast: true
 
@@ -46,6 +59,13 @@ jobs:
       uses: lukka/run-vcpkg@v11.6
       with:
         vcpkgJsonGlob: vcpkg.json
+
+    - name: Report toolchain
+      shell: pwsh
+      run: |
+        & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationVersion
+        cmake --version
+        git -C vcpkg rev-parse HEAD
 
     # Build dependencies via CMake configure (not raw vcpkg install) to ensure
     # the compiler hash matches the one produced by build-photo-broom jobs.
@@ -76,7 +96,7 @@ jobs:
   build-photo-broom:
     name: "Build PhotoBroom sources on Windows"
     needs: build-dependencies
-    runs-on: windows-2022
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && 'windows-2025' || 'windows-2022' }}
     strategy:
       fail-fast: false
       matrix:
@@ -91,6 +111,7 @@ jobs:
     steps:
     - name: Print setup
       run: |
+        echo "image: $env:ImageOS $env:ImageVersion"
         echo "config: ${{ matrix.config.cmake_config }}"
         echo "build: ${{ matrix.config.cmake_build }}"
 
@@ -122,13 +143,17 @@ jobs:
         vcpkgJsonGlob: vcpkg.json
 
     - name: Build
+      timeout-minutes: 30
       uses: lukka/run-cmake@v10
       with:
         configurePreset: ${{ matrix.config.cmake_config }}
+        # Debug symbols are not published from CI. Avoid generating module PDBs: MSVC can hang while
+        # merging debug information for database_sqlite_plugin.dll.
         configurePresetAdditionalArgs: |
             [
                 '-DBUILD_TESTING=OFF',
                 '-DBUILD_SHARED_LIBS=TRUE',
+                '-DCMAKE_MODULE_LINKER_FLAGS_DEBUG=/DEBUG:NONE /INCREMENTAL:NO',
                 '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt'
             ]
         buildPreset: "${{ matrix.config.cmake_build }}"
@@ -159,10 +184,79 @@ jobs:
         path: out/build/ninja-vcpkg-release/PhotoBroom-*-win64.exe
 
 
+  build-arm64:
+    name: "Build PhotoBroom sources on Windows ARM64"
+    runs-on: windows-11-arm
+    env:
+      VCPKG_DEFAULT_TRIPLET: arm64-windows
+      VCPKG_DEFAULT_HOST_TRIPLET: arm64-windows
+
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        submodules: true
+
+    - name: Restore vcpkg binary cache
+      # vcpkg no longer supports the x-gha binary-cache backend (lukka/run-vcpkg#251).
+      uses: actions/cache/restore@v6
+      with:
+        path: |
+          vcpkg-binary-cache
+          vcpkg-downloads
+        key: vcpkg-binary-${{ runner.os }}-arm64-windows-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
+        restore-keys: |
+          vcpkg-binary-${{ runner.os }}-arm64-windows-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-
+          vcpkg-binary-${{ runner.os }}-arm64-windows-
+
+    - name: Print setup
+      run: |
+        echo "image: $env:ImageOS $env:ImageVersion"
+        echo "triplet: $env:VCPKG_DEFAULT_TRIPLET"
+
+    - name: Run vcpkg
+      uses: lukka/run-vcpkg@v11.6
+      with:
+        vcpkgJsonGlob: vcpkg.json
+        doNotCache: false
+
+    - name: Report toolchain
+      shell: pwsh
+      run: |
+        & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationVersion
+        cmake --version
+        git -C vcpkg rev-parse HEAD
+
+    - name: Prepare vcpkg build directory
+      shell: pwsh
+      run: New-Item -ItemType Directory -Force -Path C:\bt
+
+    - name: Build
+      uses: lukka/run-cmake@v10
+      with:
+        configurePreset: ninja-vcpkg-release
+        configurePresetAdditionalArgs: |
+            [
+                '-DBUILD_TESTING=OFF',
+                '-DBUILD_SHARED_LIBS=TRUE',
+                '-DVCPKG_TARGET_TRIPLET=arm64-windows',
+                '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=C:/bt;--clean-buildtrees-after-build;--clean-packages-after-build'
+            ]
+        buildPreset: ninja-vcpkg-release
+
+    - name: Save vcpkg binary cache
+      if: always()
+      uses: actions/cache/save@v6
+      with:
+        path: |
+          vcpkg-binary-cache
+          vcpkg-downloads
+        key: vcpkg-binary-${{ runner.os }}-arm64-windows-${{ hashFiles('vcpkg.json', '.github/vcpkg_overlays/**') }}-${{ github.run_id }}
+
+
   test-installation:
     name: "Windows installer verification"
     needs: build-photo-broom
-    runs-on: windows-2022
+    runs-on: ${{ github.event_name == 'workflow_dispatch' && 'windows-2025' || 'windows-2022' }}
     steps:
       - uses: actions/checkout@v7
 

@@ -5,7 +5,19 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/linux-build.yml'
   pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/linux-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -24,6 +36,15 @@ jobs:
         build: [Release]
         shared: [TRUE, FALSE]
         os: [ubuntu-26.04]
+        include:
+          - compiler: { compiler: GNU, CC: gcc, CXX: g++ }
+            build: Release
+            shared: TRUE
+            os: ubuntu-26.04-arm
+          - compiler: { compiler: LLVM, CC: clang, CXX: clang++ }
+            build: Release
+            shared: TRUE
+            os: ubuntu-26.04-arm
 
     steps:
     - uses: nschloe/action-cached-lfs-checkout@v1
@@ -35,10 +56,16 @@ jobs:
       with:
         extra-packages: libavformat-dev
 
+    - name: Report toolchain
+      run: |
+        cmake --version
+        ${{ matrix.compiler.CC }} --version
+        ${{ matrix.compiler.CXX }} --version
+
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:
-        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+        key: ${{ github.job }}-${{ runner.arch }}-${{ matrix.compiler.compiler }}
 
     - name: Setup environment
       run: |
@@ -63,3 +90,17 @@ jobs:
             --output-on-failure
       env:
         TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
+
+  build-result:
+    name: "Linux build matrix"
+    needs: build
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Verify build matrix result
+      env:
+        BUILD_RESULT: ${{ needs.build.result }}
+      run: |
+        echo "Build matrix result: ${BUILD_RESULT}"
+        test "${BUILD_RESULT}" = "success"

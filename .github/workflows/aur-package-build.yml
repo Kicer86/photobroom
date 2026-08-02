@@ -5,7 +5,18 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/aur-package-build.yml'
   pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/aur-package-build.yml'
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

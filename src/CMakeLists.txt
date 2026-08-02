@@ -34,14 +34,22 @@ add_executable(photo_broom
 
 if(WIN32)
 
-    convertSVG(${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico ${CMAKE_SOURCE_DIR}/images/photo_broom.svg 32 32)
+    set(MAIN_ICO_PATH ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico)
+
+    convert_svg(
+        ${MAIN_ICO_PATH}
+        ${CMAKE_SOURCE_DIR}/images/photo_broom.svg
+        32
+        32
+        transparent
+    )
 
     set_target_properties(photo_broom PROPERTIES WIN32_EXECUTABLE TRUE)
 
     target_sources(photo_broom
         PRIVATE
             env/PhotoBroom.rc
-            ${CMAKE_CURRENT_BINARY_DIR}/main_ico.ico
+            ${MAIN_ICO_PATH}
     )
 
     # used by env/PhotoBroom.rc

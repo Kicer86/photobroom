@@ -5,7 +5,19 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/macos-build.yml'
   pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/macos-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -19,12 +31,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-15, macos-26]
+        os: [macos-15-intel, macos-26]
 
     steps:
     - uses: actions/checkout@v7
       with:
         submodules: true
+        lfs: true
 
     - name: Install system dependencies
       run: |
@@ -34,9 +47,15 @@ jobs:
           ninja             \
           dlib              \
           exiv2             \
+          googletest        \
           opencv            \
           qcoro6            \
           qt6
+
+    - name: Install Python test dependencies
+      run: |
+        python3 -m pip install --break-system-packages Pillow
+        echo "PB_PYTHON=$(command -v python3)" >> "${GITHUB_ENV}"
 
     - name: Configure LLVM toolchain
       run: |
@@ -57,10 +76,20 @@ jobs:
         echo "CPPFLAGS=-I${LLVM_PREFIX}/include" >> "${GITHUB_ENV}"
         echo "CXXFLAGS=-nostdlib++ -stdlib=libc++" >> "${GITHUB_ENV}"
 
+    - name: Report toolchain
+      run: |
+        xcodebuild -version
+        cmake --version
+        "${CC}" --version
+        "${CXX}" --version
+
     - name: Install CsLibGuarded
       run: |
-        git clone -b libguarded-1.4.1 https://github.com/copperspice/cs_libguarded.git
+        git init cs_libguarded
         cd cs_libguarded
+        git remote add origin https://github.com/copperspice/cs_libguarded.git
+        git fetch --depth 1 origin 9c1e82f42f228345f3b024bed5d08be643c00f8a
+        git checkout --detach FETCH_HEAD
         mkdir build
         cd build
         cmake ..
@@ -77,8 +106,27 @@ jobs:
             -DCMAKE_CXX_COMPILER=${{ env.CXX }}
             -DCMAKE_CXX_COMPILER_CLANG_SCAN_DEPS=${{ env.CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS }}
             -DCMAKE_OSX_SYSROOT=${{ env.CMAKE_OSX_SYSROOT }}
-            -DBUILD_TESTING=OFF
+            -DPython=${{ env.PB_PYTHON }}
+            -DBUILD_TESTING=ON
             -DBUILD_SHARED_LIBS=ON
             -G Ninja
+        run-test: true
+        ctest-options:
+            --output-on-failure
       env:
         VERBOSE: 1
+        QT_QPA_PLATFORM: offscreen
+
+  build-result:
+    name: "macOS build matrix"
+    needs: build
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Verify build matrix result
+      env:
+        BUILD_RESULT: ${{ needs.build.result }}
+      run: |
+        echo "Build matrix result: ${BUILD_RESULT}"
+        test "${BUILD_RESULT}" = "success"

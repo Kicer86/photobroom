@@ -3,11 +3,9 @@ find_package(OpenCV REQUIRED)
 find_package(GTest  REQUIRED)
 find_package(Qt6    REQUIRED COMPONENTS Gui)
 
-find_program(Python python REQUIRED)
-
 foreach(ext png jpeg)
     foreach(size 100 500 1000)
-        convertSVG(${CMAKE_CURRENT_BINARY_DIR}/img1_${size}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/img1.svg ${size} ${size})
+        convert_svg(${CMAKE_CURRENT_BINARY_DIR}/img1_${size}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/img1.svg ${size} ${size} white)
     endforeach()
 endforeach()
 

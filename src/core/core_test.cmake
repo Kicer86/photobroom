@@ -12,7 +12,7 @@ find_program(Python python REQUIRED)
 
 foreach(ext png jpeg)
     foreach(img img1 img2)
-        convertSVG(${CMAKE_CURRENT_BINARY_DIR}/${img}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/${img}.svg -1 -1)
+        convert_svg(${CMAKE_CURRENT_BINARY_DIR}/${img}.${ext} ${PROJECT_SOURCE_DIR}/src/unit_tests_utils/assets/${img}.svg -1 -1 white)
     endforeach()
 endforeach()
 
@@ -159,6 +159,8 @@ add_executable(core_ut
     unit_tests/main.cpp
 )
 
+target_link_directories(core_ut PRIVATE ${FFMPEG_LIBRARY_DIRS})
+
 target_link_libraries(core_ut
     PRIVATE
         ${EXIV2_LIB}
@@ -215,6 +217,8 @@ add_executable(core_video_ut
 
     unit_tests/video_metadata_extraction_tests.cpp
 )
+
+target_link_directories(core_video_ut PRIVATE ${FFMPEG_LIBRARY_DIRS})
 
 target_link_libraries(core_video_ut
     PRIVATE

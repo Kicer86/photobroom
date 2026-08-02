@@ -5,7 +5,18 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/codecov.yml'
   pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/codecov.yml'
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -61,15 +72,15 @@ jobs:
         cd ${{ runner.workspace }}/build
         /usr/local/bin/ctest -C Debug --output-on-failure
 
-    - name: Generate lcov raports
-      continue-on-error: true
+    - name: Generate lcov reports
       run: |
         lcov --capture --gcov-tool gcov                 \
             --ignore-errors mismatch,inconsistent       \
             --rc geninfo_unexecuted_blocks=1            \
             --directory ${{ runner.workspace }}/build   \
             --output-file coverage.info
-        lcov --gcov-tool gcov --remove coverage.info '/usr/*' --output-file coverage.info
+        lcov --gcov-tool gcov --remove coverage.info '/usr/*' \
+            --ignore-errors mismatch,inconsistent --output-file coverage.info
         lcov --list coverage.info
 
     - name: Upload coverage reports to Codecov
