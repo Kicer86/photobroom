@@ -116,3 +116,17 @@ jobs:
       env:
         VERBOSE: 1
         QT_QPA_PLATFORM: offscreen
+
+  build-result:
+    name: "macOS build matrix"
+    needs: build
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Verify build matrix result
+      env:
+        BUILD_RESULT: ${{ needs.build.result }}
+      run: |
+        echo "Build matrix result: ${BUILD_RESULT}"
+        test "${BUILD_RESULT}" = "success"

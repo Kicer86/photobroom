@@ -90,3 +90,17 @@ jobs:
             --output-on-failure
       env:
         TSAN_OPTIONS=suppressions: ${{ runner.workspace }}/photobroom/sanitizer-thread-suppressions.txt
+
+  build-result:
+    name: "Linux build matrix"
+    needs: build
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Verify build matrix result
+      env:
+        BUILD_RESULT: ${{ needs.build.result }}
+      run: |
+        echo "Build matrix result: ${BUILD_RESULT}"
+        test "${BUILD_RESULT}" = "success"
