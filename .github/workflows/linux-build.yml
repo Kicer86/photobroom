@@ -41,6 +41,10 @@ jobs:
             build: Release
             shared: TRUE
             os: ubuntu-26.04-arm
+          - compiler: { compiler: LLVM, CC: clang, CXX: clang++ }
+            build: Release
+            shared: TRUE
+            os: ubuntu-26.04-arm
 
     steps:
     - uses: nschloe/action-cached-lfs-checkout@v1
@@ -61,7 +65,7 @@ jobs:
     - name: Setup ccache
       uses: hendrikmuhs/ccache-action@v1.2
       with:
-        key: ${{ github.job }}-${{ matrix.compiler.compiler }}
+        key: ${{ github.job }}-${{ runner.arch }}-${{ matrix.compiler.compiler }}
 
     - name: Setup environment
       run: |
