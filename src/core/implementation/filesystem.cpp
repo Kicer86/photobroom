@@ -91,7 +91,10 @@ namespace Filesystem
 
             qint64 readData(char* data, qint64 maxSize) final
             {
-                return m_file->readData(data, maxSize);
+                if (m_file)
+                    return m_file->readData(data, maxSize);
+                else
+                    return 0;
             }
 
             qint64 writeData(const char *data, qint64 maxSize) final
