@@ -20,6 +20,7 @@
 #ifndef PHOTOINFORMATION_HPP
 #define PHOTOINFORMATION_HPP
 
+#include "filesystem.hpp"
 #include "iexif_reader.hpp"
 #include "imedia_information.hpp"
 #include "ilogger.hpp"
@@ -37,14 +38,14 @@ class CORE_EXPORT ImageMediaInformation
 
         ImageMediaInformation& operator=(const ImageMediaInformation &) = delete;
 
-        FileInformation getInformation(const QString &) const;
+        FileInformation getInformation(const Filesystem::Location &) const;
 
     private:
         IExifReaderFactory& m_exif;
         ILogger& m_logger;
 
-        std::optional<QSize> size(const QString &, IExifReader &) const;
-        std::optional<QDateTime> creationTime(const QString &, IExifReader &) const;
+        std::optional<QSize> size(const Filesystem::Location &, IExifReader &) const;
+        std::optional<QDateTime> creationTime(const Filesystem::Location &, IExifReader &) const;
 };
 
-#endif // PHOTOINFORMATION_H
+#endif

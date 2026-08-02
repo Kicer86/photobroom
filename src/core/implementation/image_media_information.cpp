@@ -34,19 +34,19 @@ ImageMediaInformation::ImageMediaInformation(IExifReaderFactory& exif, ILogger& 
 }
 
 
-FileInformation ImageMediaInformation::getInformation(const QString& path) const
+FileInformation ImageMediaInformation::getInformation(const Filesystem::Location& location) const
 {
     IExifReader& exif = m_exif.get();
 
     FileInformation info;
-    info.common.dimension = size(path, exif);
-    info.common.creationTime = creationTime(path, exif);
+    info.common.dimension = size(location, exif);
+    info.common.creationTime = creationTime(location, exif);
 
     return info;
 }
 
 
-std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReader& exif) const
+std::optional<QSize> ImageMediaInformation::size(const Filesystem::Location& location, IExifReader& exif) const
 {
     // Here we could have used exif's
     // Exif.Photo.PixelYDimension or
@@ -58,18 +58,19 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
 
     std::optional<QSize> result;
 
-    const QImageReader reader(path);
+    const auto device = Filesystem::openAsDevice(location);
+    const QImageReader reader(&*device);
     const QSize size = reader.size();
 
     if (size.isValid())
         result = size;
 
-    const bool has = exif.hasExif(path);
+    const bool has = exif.hasExif(location);
 
     if (has)
     {
-        const std::optional<std::any> xdim = exif.get(path, IExifReader::TagType::PixelXDimension);
-        const std::optional<std::any> ydim = exif.get(path, IExifReader::TagType::PixelYDimension);
+        const std::optional<std::any> xdim = exif.get(location, IExifReader::TagType::PixelXDimension);
+        const std::optional<std::any> ydim = exif.get(location, IExifReader::TagType::PixelYDimension);
 
         if (xdim.has_value() && ydim.has_value())
         {
@@ -86,12 +87,12 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
                     .arg(result->height())
                     .arg(x)
                     .arg(y)
-                    .arg(path)
+                    .arg(location.toQStr())
                 );
         }
 
         // apply orientation if available
-        const std::optional<std::any> orientation_raw = exif.get(path, IExifReader::TagType::Orientation);
+        const std::optional<std::any> orientation_raw = exif.get(location, IExifReader::TagType::Orientation);
 
         int orientation = 0;
         if (orientation_raw.has_value())
@@ -106,7 +107,7 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
 
     if (!result)
     {
-        const QImage image(path);
+        const QImage image(location.toQStr());
 
         if (image.isNull() == false)
             result = image.size();
@@ -116,11 +117,11 @@ std::optional<QSize> ImageMediaInformation::size(const QString& path, IExifReade
 }
 
 
-std::optional<QDateTime> ImageMediaInformation::creationTime(const QString& path, IExifReader& exif) const
+std::optional<QDateTime> ImageMediaInformation::creationTime(const Filesystem::Location& location, IExifReader& exif) const
 {
     std::optional<QDateTime> result;
 
-    const auto datetime_raw = exif.get(path, IExifReader::TagType::DateTimeOriginal);
+    const auto datetime_raw = exif.get(location, IExifReader::TagType::DateTimeOriginal);
 
     if (datetime_raw.has_value())
     {
@@ -140,7 +141,7 @@ std::optional<QDateTime> ImageMediaInformation::creationTime(const QString& path
             if (datetime.isValid())
                 result = datetime;
             else
-                m_logger.warning(QString("File %1 contains broken exif data").arg(path));
+                m_logger.warning(QString("File %1 contains broken exif data").arg(location.toQStr()));
         }
     }
 

@@ -106,7 +106,8 @@ TEST_P(VideoMediaInformationTest, validateMetadata)
     ON_CALL(core, getExifReaderFactory).WillByDefault(ReturnRef(exifFactory));
     ON_CALL(loggerFactory, get(An<const QString &>())).WillByDefault(Invoke([]{ return std::make_unique<EmptyLogger>(); }));
 
-    const auto info = MediaInformation(&core).getInformation(QString::fromStdString(std::string(path)));
+    const Filesystem::Location location(path);
+    const auto info = MediaInformation(&core).getInformation(location);
 
     // valdiate creation time
     if (creationTime.isValid())

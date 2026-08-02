@@ -13,6 +13,7 @@
 #include "media_view_ctrl.hpp"
 #include "objects_accessor.hpp"
 
+
 namespace
 {
     const QString MultimediaType("multimedia_type");
@@ -27,20 +28,21 @@ namespace
     MediaViewCtrl::Mode getFileType(ICoreFactoryAccessor& core, const QUrl& url)
     {
         const auto path = url.toLocalFile();
+        const Filesystem::Location location(path);
         MediaViewCtrl::Mode mode = MediaViewCtrl::Mode::Unknown;
 
-        if (MediaTypes::isAnimatedImageFile(path))
+        if (MediaTypes::isAnimatedImageFile(location))
             mode = MediaViewCtrl::Mode::AnimatedImage;
-        else if (MediaTypes::isImageFile(path))
+        else if (MediaTypes::isImageFile(location))
         {
             auto& exifReader = core.getExifReaderFactory().get();
-            const auto projection = exifReader.get(path, IExifReader::TagType::Projection);
+            const auto projection = exifReader.get(location, IExifReader::TagType::Projection);
             if (projection && std::any_cast<std::string>(*projection) == "equirectangular")
                 mode = MediaViewCtrl::Mode::EquirectangularProjectionImage;
             else
                 mode = MediaViewCtrl::Mode::StaticImage;
         }
-        else if (MediaTypes::isVideoFile(path))
+        else if (MediaTypes::isVideoFile(location))
             mode = MediaViewCtrl::Mode::Video;
         else
             mode = MediaViewCtrl::Mode::Error;

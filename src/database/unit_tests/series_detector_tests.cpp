@@ -84,10 +84,11 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     }));
 
     // return sequence number basing on file name (file name contains photo id)
-    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.toQStr();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -145,10 +146,11 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     }));
 
     // return sequence number basing on file name (file name contains photo id)
-    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.toQStr();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -207,10 +209,11 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     }));
 
     // return sequence number basing on file name (file name contains photo id)
-    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.toQStr();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -323,10 +326,11 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     }));
 
     // return sequence number basing on file name (file name contains photo id)
-    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.toQStr();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -340,10 +344,11 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     }));
 
     // return EV basing on file name
-    ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.toQStr();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 

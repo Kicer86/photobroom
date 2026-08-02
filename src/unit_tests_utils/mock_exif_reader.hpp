@@ -7,13 +7,15 @@
 
 #include <gmock/gmock.h>
 
+#include <core/filesystem.hpp>
 #include <core/iexif_reader.hpp>
+
 
 struct MockExifReader: IExifReader
 {
-    MOCK_METHOD(bool, hasExif, (const QString &), (override));
-    MOCK_METHOD(Tag::TagsList, getTagsFor, (const QString &), (override));
-    MOCK_METHOD(std::optional<std::any>, get, (const QString &, const TagType &), (override));
+    MOCK_METHOD(bool, hasExif, (const Filesystem::Location &), (override));
+    MOCK_METHOD(Tag::TagsList, getTagsFor, (const Filesystem::Location &), (override));
+    MOCK_METHOD(std::optional<std::any>, get, (const Filesystem::Location &, const TagType &), (override));
 };
 
 #endif

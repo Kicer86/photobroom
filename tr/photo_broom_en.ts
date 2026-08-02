@@ -646,7 +646,7 @@ Error code: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="298"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="300"/>
         <source>Extracting data from new photos</source>
         <translation>Extracting data from new photos</translation>
     </message>
@@ -750,17 +750,17 @@ Error code: %1</translation>
         <translation>Error during collage generation. Possibly too many images, or height to small or too big.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="380"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="382"/>
         <source>photo path</source>
         <translation>photo path</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="381"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="383"/>
         <source>sequence number</source>
         <translation>sequence number</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="382"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="384"/>
         <source>exposure (EV)</source>
         <translation>exposure (EV)</translation>
     </message>

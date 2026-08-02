@@ -42,7 +42,8 @@ namespace
     void assignGeometry(IMediaInformation& mediaInfo, auto& data)
     {
         const QString path = data.template get<Photo::Field::Path>();
-        const auto info = mediaInfo.getInformation(path);
+        const Filesystem::Location location(path);
+        const auto info = mediaInfo.getInformation(location);
 
         if (info.common.dimension.has_value())
         {
@@ -58,6 +59,7 @@ namespace
     {
         auto& tags = data.template get<Photo::Field::Tags>();
         const auto path = data.template get<Photo::Field::Path>();
+        const Filesystem::Location location(path);
 
         // If media already has date or time update, do not override it.
         // Just update ExifLoaded flag. It could be set to previous version, so bump it
@@ -68,7 +70,7 @@ namespace
         }
 
         // collect data
-        const FileInformation info = mediaInfo.getInformation(path);
+        const FileInformation info = mediaInfo.getInformation(location);
 
         if (info.common.creationTime.has_value())
         {

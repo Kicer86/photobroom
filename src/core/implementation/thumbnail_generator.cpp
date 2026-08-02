@@ -293,9 +293,10 @@ QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
     stopwatch.start();
 
     QImage image;
+    const Filesystem::Location location(path);
 
     if(QFile::exists(path))
-        image = Image::normalized(path, reader).get();
+        image = Image::normalized(location, reader).get();
 
     if (image.isNull())
     {
@@ -323,20 +324,26 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
     {
         m_logger->trace(QString("Opening video file %1 to read frame for thumbnail").arg(path));
         const QString absolutePath = pathInfo.absoluteFilePath();
+        const Filesystem::Location absoluteLocation(absolutePath);
         const VideoMediaInformation videoMediaInfo(m_exif, *m_logger);
-        const auto fileInfo = videoMediaInfo.getInformation(absolutePath);
+        const auto file = Filesystem::openFile(absoluteLocation);
 
-        if (std::holds_alternative<VideoFile>(fileInfo.details))
+        if (file != nullptr)
         {
-            const auto videoInfo = std::get<VideoFile>(fileInfo.details);
-            const auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(videoInfo.duration).count();
+            const auto fileInfo = videoMediaInfo.getInformation(absoluteLocation);
 
-            m_logger->trace(QString("Video file %1ms long").arg(milliseconds));
-
-            if (milliseconds > 0)
+            if (std::holds_alternative<VideoFile>(fileInfo.details))
             {
-                const int64_t positionMs = milliseconds / 10;
-                result = readVideoFrame(absolutePath, path, positionMs, m_logger);
+                const auto videoInfo = std::get<VideoFile>(fileInfo.details);
+                const auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(videoInfo.duration).count();
+
+                m_logger->trace(QString("Video file %1ms long").arg(milliseconds));
+
+                if (milliseconds > 0)
+                {
+                    const int64_t positionMs = milliseconds / 10;
+                    result = readVideoFrame(absolutePath, path, positionMs, m_logger);
+                }
             }
         }
     }
@@ -351,9 +358,11 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
 {
     QImage image;
 
-    if (MediaTypes::isImageFile(path))
+    const Filesystem::Location location(path);
+
+    if (MediaTypes::isImageFile(location))
         image = readFrameFromImage(path);
-    else if (MediaTypes::isVideoFile(path))
+    else if (MediaTypes::isVideoFile(location))
         image = readFrameFromVideo(path);
     else
         m_logger->error(QString("Unknown file type: %1").arg(path));

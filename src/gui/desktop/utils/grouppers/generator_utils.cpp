@@ -197,7 +197,8 @@ namespace GeneratorUtils
                                     .arg(tmpDirPath())
                                     .arg(photo_index);
 
-            const OrientedImage normalized = Image::normalized(photo, exif);
+            const Filesystem::Location photoLocation(photo);
+            const OrientedImage normalized = Image::normalized(photoLocation, exif);
             const QImage scaled = scale == 100?
                 normalized.get():
                 normalized->scaled(normalized->width() * scale / 100, normalized->height() * scale / 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);

@@ -22,6 +22,7 @@
 
 #include <QString>
 
+#include "filesystem.hpp"
 #include "ilogger.hpp"
 #include "imedia_information.hpp"
 #include "iexif_reader.hpp"
@@ -39,7 +40,7 @@ class VideoMediaInformation
 
         virtual ~VideoMediaInformation() = default;
 
-        FileInformation getInformation(const QString &) const;
+        FileInformation getInformation(const Filesystem::Location &) const;
 
     private:
         std::unique_ptr<ILogger> m_logger;

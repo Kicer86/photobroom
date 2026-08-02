@@ -65,7 +65,8 @@ namespace
 
         void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
-            m_sequence = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::SequenceNumber);
+            const Filesystem::Location location(d.get<Photo::Field::Path>());
+            m_sequence = m_exifReader.get(location, IExifReader::TagType::SequenceNumber);
         }
 
         bool canBePartOfGroup() const override
@@ -184,7 +185,8 @@ namespace
         void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
             Base::setCurrentPhoto(d);
-            m_exposure = m_exifReader.get(d.get<Photo::Field::Path>(), IExifReader::TagType::Exposure);
+            const Filesystem::Location location(d.get<Photo::Field::Path>());
+            m_exposure = m_exifReader.get(location, IExifReader::TagType::Exposure);
         }
 
         bool canBePartOfGroup() const override
@@ -411,8 +413,10 @@ std::vector<GroupCandidate> SeriesDetector::analyzePhotos(const std::deque<Expli
 
     // grouping works for images only
     timer.start();
-    std::ranges::copy_if(photos, std::back_inserter(suitablePhotos), [](const auto& photo) {
-        return MediaTypes::isImageFile(Photo::getPath(photo));
+    std::ranges::copy_if(photos, std::back_inserter(suitablePhotos), [](const auto& photo)
+    {
+        const Filesystem::Location location(Photo::getPath(photo));
+        return MediaTypes::isImageFile(location);
     });
 
     m_logger.debug(QString("Validating media type took %1s").arg(timer.elapsed() / 1000));

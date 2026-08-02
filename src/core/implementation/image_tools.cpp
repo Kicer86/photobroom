@@ -8,13 +8,13 @@
 
 namespace Image
 {
-    OrientedImage normalized(const QString& src, IExifReader& exif)
+    OrientedImage normalized(const Filesystem::Location& src, IExifReader& exif)
     {
         return OrientedImage(exif, src);
     }
 
 
-    bool normalize(const QString& src, const QString& dst, IExifReader& exif)
+    bool normalize(const Filesystem::Location& src, const QString& dst, IExifReader& exif)
     {
         const OrientedImage oi = normalized(src, exif);
         const QImage n = oi.get();

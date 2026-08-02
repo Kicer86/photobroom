@@ -31,20 +31,21 @@ OrientedImage::OrientedImage():
 }
 
 
-OrientedImage::OrientedImage(IExifReader& exif, const QString& src):
+OrientedImage::OrientedImage(IExifReader& exif, const Filesystem::Location& location):
     m_oriented()
 {
-    QImage img(src);
+    const auto src = Filesystem::openFile(location);
+    const QImage img = QImage::fromData(src->asQArrayView());
     QImage rotated;
 
     if (img.isNull())
     {
-        QImageReader check(src);
+        QImageReader check(location.toQStr());
         qDebug() << check.errorString();
     }
     else
     {
-        const std::optional<std::any> orientation_raw = exif.get(src, IExifReader::TagType::Orientation);
+        const std::optional<std::any> orientation_raw = exif.get(location, IExifReader::TagType::Orientation);
         const int orientation = orientation_raw.has_value()?
                                     std::any_cast<int>(*orientation_raw):
                                     0;
