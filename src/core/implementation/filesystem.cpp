@@ -1,4 +1,5 @@
 
+#include <cassert>
 #include <utility>
 
 #include <QFile>
@@ -57,10 +58,10 @@ namespace Filesystem
             {
                 assert(mode == QIODeviceBase::ReadOnly);
 
-                const bool status = m_file.open(mode);
-                const auto fileMode = m_file.openMode();
+                if (mode != QIODeviceBase::ReadOnly || !m_file.open(mode))
+                    return false;
 
-                return QIODevice::open(fileMode);
+                return QIODevice::open(mode);
             }
 
             qint64 readData(char* data, qint64 maxSize) final
