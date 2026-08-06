@@ -46,15 +46,31 @@ namespace Filesystem
                 );
             }
 
+            [[deprecated("Use byteView() or asQArrayView() instead")]]
+            std::string path() const override
+            {
+                return m_file.fileName().toStdString();
+            }
+
+            // QIODevice interface overrides:
+            bool open(QIODeviceBase::OpenMode mode) final
+            {
+                assert(mode == QIODeviceBase::ReadOnly);
+
+                const bool status = m_file.open(mode);
+                const auto fileMode = m_file.openMode();
+
+                return QIODevice::open(fileMode);
+            }
+
             qint64 readData(char* data, qint64 maxSize) final
             {
                 return m_file.read(data, maxSize);
             }
 
-            [[deprecated("Use byteView() or asQArrayView() instead")]]
-            std::string path() const override
+            qint64 writeData(const char *, qint64) final
             {
-                return m_file.fileName().toStdString();
+                return -1;
             }
 
         private:
@@ -66,7 +82,7 @@ namespace Filesystem
             {
                 if (not m_data)
                 {
-                    if (m_file.open(QIODevice::ReadOnly) == false)
+                    if (m_file.openMode() == QIODeviceBase::NotOpen)
                         return;
 
                     m_size = m_file.size();
@@ -80,31 +96,6 @@ namespace Filesystem
             }
         };
 
-
-        class Device final: public QIODevice
-        {
-        public:
-            Device(const Location& location)
-                : m_file(openFile(location))
-            {
-            }
-
-            qint64 readData(char* data, qint64 maxSize) final
-            {
-                if (m_file)
-                    return m_file->readData(data, maxSize);
-                else
-                    return 0;
-            }
-
-            qint64 writeData(const char *data, qint64 maxSize) final
-            {
-                return 0;
-            }
-
-        private:
-            std::unique_ptr<IFile> m_file;
-        };
     }
 
 
@@ -140,22 +131,10 @@ namespace Filesystem
     }
 
 
-    std::unique_ptr<QIODevice> openAsDevice(const Location& location)
-    {
-        return std::make_unique<Device>(location);
-    }
-
-
     std::unique_ptr<IFile> openFile(const Location& location)
     {
-        const auto path = location.toQStr();
-
-        if (QFile::exists(path))
-        {
-            auto file = std::make_unique<LocalFile>(path);
-            return file;
-        }
-        else
-            return nullptr;
+        auto file = std::make_unique<LocalFile>(location.toQStr());
+        file->open(QIODeviceBase::ReadOnly);
+        return file;
     }
 }

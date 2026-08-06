@@ -17,15 +17,13 @@
 
 namespace Filesystem
 {
-    class CORE_EXPORT IFile
+    class CORE_EXPORT IFile: public QIODevice
     {
     public:
         virtual ~IFile() = default;
 
         virtual QByteArrayView asQArrayView() const = 0;
         virtual std::span<const std::uint8_t> byteView() const = 0;
-
-        virtual qint64 readData(char* data, qint64 maxSize) = 0;
 
         [[deprecated("Use byteView() or asQArrayView() instead")]]
         virtual std::string path() const = 0;
@@ -56,7 +54,6 @@ namespace Filesystem
     };
 
 
-    CORE_EXPORT std::unique_ptr<QIODevice> openAsDevice(const Location &);
     CORE_EXPORT std::unique_ptr<IFile> openFile(const Location &);
 }
 

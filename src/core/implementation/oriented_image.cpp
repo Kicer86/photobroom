@@ -40,7 +40,8 @@ OrientedImage::OrientedImage(IExifReader& exif, const Filesystem::Location& loca
 
     if (img.isNull())
     {
-        QImageReader check(location.toQStr());
+        const auto file = Filesystem::openFile(location);
+        QImageReader check(&*file);
         qDebug() << check.errorString();
     }
     else

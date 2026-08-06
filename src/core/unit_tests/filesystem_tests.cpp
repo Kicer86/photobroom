@@ -13,7 +13,7 @@ TEST(FilesystemLocationTest, KeepsQStringView)
     const QString path = QStringLiteral("photos/image.jpg");
     const Filesystem::Location location{QStringView(path)};
 
-    EXPECT_EQ(location.toQStr(), path);
+    EXPECT_EQ(location.url(), path);
     EXPECT_EQ(QString::fromStdString(location.toStr()), path);
 }
 
@@ -23,12 +23,12 @@ TEST(FilesystemLocationTest, KeepsStdStringView)
     constexpr std::string_view path = "photos/image.jpg";
     const Filesystem::Location location{path};
 
-    EXPECT_EQ(location.toStr(), path);
-    EXPECT_EQ(location.toQStr(), QString::fromUtf8(path.data(), path.size()));
+    EXPECT_EQ(location.url(), path);
+    EXPECT_EQ(location.url(), QString::fromUtf8(path.data(), path.size()));
 }
 
 
-TEST(FilesystemOpenFileTest, ReturnsNullForMissingFile)
+TEST(FilesystemOpenFileTest, ReturnsNotOpenForMissingFile)
 {
     QTemporaryDir temporaryDirectory;
     ASSERT_TRUE(temporaryDirectory.isValid());
@@ -36,7 +36,7 @@ TEST(FilesystemOpenFileTest, ReturnsNullForMissingFile)
     const auto path = temporaryDirectory.filePath(QStringLiteral("missing.bin"));
     const auto file = Filesystem::openFile(Filesystem::Location{QStringView(path)});
 
-    EXPECT_EQ(file, nullptr);
+    EXPECT_EQ(file->openMode(), QIODeviceBase::NotOpen);
 }
 
 

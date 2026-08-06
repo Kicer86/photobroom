@@ -28,8 +28,8 @@ namespace MediaTypes
                 return front(mimeNames);
             else
             {
-                auto device = Filesystem::openAsDevice(location);
-                auto mimeType = mimeDB.mimeTypeForData(&*device);
+                auto file = Filesystem::openFile(location);
+                auto mimeType = mimeDB.mimeTypeForData(&*file);
 
                 return mimeType.name();
             }

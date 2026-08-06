@@ -88,7 +88,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     {
         std::optional<std::any> result;
 
-        const auto path = location.toQStr();
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -150,7 +150,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     {
         std::optional<std::any> result;
 
-        const auto path = location.toQStr();
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -213,7 +213,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     {
         std::optional<std::any> result;
 
-        const auto path = location.toQStr();
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -330,7 +330,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     {
         std::optional<std::any> result;
 
-        const auto path = location.toQStr();
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -348,7 +348,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     {
         std::optional<std::any> result;
 
-        const auto path = location.toQStr();
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
