@@ -162,29 +162,29 @@ namespace
 
         QImage image(frame->width, frame->height, QImage::Format_RGB888);
 
-        if (image.isNull())
-            return {};
+        if (not image.isNull())
+        {
+            SwsContextGuard swsContext;
+            swsContext.context = sws_getContext(
+                frame->width,
+                frame->height,
+                static_cast<AVPixelFormat>(frame->format),
+                frame->width,
+                frame->height,
+                AV_PIX_FMT_RGB24,
+                SWS_BILINEAR,
+                nullptr,
+                nullptr,
+                nullptr);
 
-        SwsContextGuard swsContext;
-        swsContext.context = sws_getContext(
-            frame->width,
-            frame->height,
-            static_cast<AVPixelFormat>(frame->format),
-            frame->width,
-            frame->height,
-            AV_PIX_FMT_RGB24,
-            SWS_BILINEAR,
-            nullptr,
-            nullptr,
-            nullptr);
+            if (swsContext.context == nullptr)
+                return {};
 
-        if (swsContext.context == nullptr)
-            return {};
+            uint8_t* const dstData[4] = { image.bits(), nullptr, nullptr, nullptr };
+            const int dstLinesize[4] = { static_cast<int>(image.bytesPerLine()), 0, 0, 0 };
 
-        uint8_t* const dstData[4] = { image.bits(), nullptr, nullptr, nullptr };
-        const int dstLinesize[4] = { static_cast<int>(image.bytesPerLine()), 0, 0, 0 };
-
-        sws_scale(swsContext.context, frame->data, frame->linesize, 0, frame->height, dstData, dstLinesize);
+            sws_scale(swsContext.context, frame->data, frame->linesize, 0, frame->height, dstData, dstLinesize);
+        }
 
         return image;
     }
