@@ -24,9 +24,6 @@ namespace Filesystem
 
         virtual QByteArrayView asQArrayView() const = 0;
         virtual std::span<const std::uint8_t> byteView() const = 0;
-
-        [[deprecated("Use byteView() or asQArrayView() instead")]]
-        virtual std::string path() const = 0;
     };
 
     class CORE_EXPORT Location

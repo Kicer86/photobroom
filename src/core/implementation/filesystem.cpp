@@ -47,12 +47,6 @@ namespace Filesystem
                 );
             }
 
-            [[deprecated("Use byteView() or asQArrayView() instead")]]
-            std::string path() const override
-            {
-                return m_file.fileName().toStdString();
-            }
-
             // QIODevice interface overrides:
             bool open(QIODeviceBase::OpenMode mode) final
             {
