@@ -58,7 +58,7 @@ std::optional<QSize> ImageMediaInformation::size(const Filesystem::Location& loc
 
     std::optional<QSize> result;
 
-    const auto file = Filesystem::openFile(location);
+    auto file = Filesystem::openFile(location);
     const QImageReader reader(&*file);
     const QSize size = reader.size();
 
@@ -87,7 +87,7 @@ std::optional<QSize> ImageMediaInformation::size(const Filesystem::Location& loc
                     .arg(result->height())
                     .arg(x)
                     .arg(y)
-                    .arg(location.toQStr())
+                    .arg(location.url())
                 );
         }
 
@@ -107,7 +107,7 @@ std::optional<QSize> ImageMediaInformation::size(const Filesystem::Location& loc
 
     if (!result)
     {
-        const QImage image(location.toQStr());
+        const QImage image = QImage::fromData(file->asQArrayView());
 
         if (image.isNull() == false)
             result = image.size();
@@ -141,7 +141,7 @@ std::optional<QDateTime> ImageMediaInformation::creationTime(const Filesystem::L
             if (datetime.isValid())
                 result = datetime;
             else
-                m_logger.warning(QString("File %1 contains broken exif data").arg(location.toQStr()));
+                m_logger.warning(QString("File %1 contains broken exif data").arg(location.url()));
         }
     }
 
