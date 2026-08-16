@@ -18,6 +18,11 @@ TEST_P(FileAnalyzerTest, ProperExtensionsAreRespected)
     EXPECT_EQ(is, analyzer.isMediaFile(path));
 }
 
+// TODO: add new prefix for paths which QT will understand, like "tst:".
+//       Then create a virtual filesystem which will make sure these
+//       path do not interfere with real ones.
+//       Look for other tests like this and implement it there as well
+
 INSTANTIATE_TEST_SUITE_P(ExtensionsTest,
                          FileAnalyzerTest,
                          testing::Values(
