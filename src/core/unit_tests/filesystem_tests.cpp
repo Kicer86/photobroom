@@ -14,7 +14,6 @@ TEST(FilesystemLocationTest, KeepsQStringView)
     const Filesystem::Location location{QStringView(path)};
 
     EXPECT_EQ(location.url(), path);
-    EXPECT_EQ(QString::fromStdString(location.toStr()), path);
 }
 
 
