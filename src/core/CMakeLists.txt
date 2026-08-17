@@ -26,6 +26,7 @@ set(CORE_SOURCES
                                                             implementation/hdr_assembler.cpp
     implementation/image_media_information.hpp              implementation/image_media_information.cpp
     implementation/init.cpp
+    implementation/libav_toolkit.hpp                        implementation/libav_toolkit.cpp
     implementation/log_file_rotator.hpp                     implementation/log_file_rotator.cpp
     implementation/video_media_information.hpp              implementation/video_media_information.cpp
     accumulative_queue.hpp

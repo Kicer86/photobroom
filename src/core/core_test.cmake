@@ -126,6 +126,7 @@ add_executable(core_ut
     implementation/oriented_image.cpp
     implementation/image_aligner.cpp
     implementation/image_media_information.cpp
+    implementation/libav_toolkit.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
     implementation/model_compositor.cpp
@@ -213,6 +214,7 @@ add_executable(core_video_ut
     implementation/exif_reader_factory.cpp
     implementation/filesystem.cpp
     implementation/image_media_information.cpp
+    implementation/libav_toolkit.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
     implementation/tag.cpp
