@@ -19,15 +19,13 @@ namespace
 
         FileNotifier& operator=(const FileNotifier &) = delete;
 
-        virtual void found(const QString& file) override
+        void found(const Filesystem::Location& file) override
         {
-            const Filesystem::Location location(file);
-
-            if (m_analyzer->isMediaFile(location))
+            if (m_analyzer->isMediaFile(file))
                 m_notifications->found(file);
         }
 
-        virtual void finished() override
+        void finished() override
         {
             m_notifications->finished();
         }

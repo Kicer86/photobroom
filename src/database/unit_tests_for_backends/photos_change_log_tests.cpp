@@ -17,7 +17,7 @@ TYPED_TEST(PhotosChangeLog, tagsManipulation)
 {
     // add new photo
     Photo::DataDelta pd;
-    pd.insert<Photo::Field::Path>("photo1.jpeg");
+    pd.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::DataDelta> photos = { pd };
     ASSERT_TRUE(this->m_backend->addPhotos(photos));
@@ -66,12 +66,12 @@ TYPED_TEST(PhotosChangeLog, groupsManipulation)
     // add some photos
     Photo::DataDelta pd0,pd1,pd2,pd3,pd4,pd5;
 
-    pd0.insert<Photo::Field::Path>("photo0.jpeg");
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
-    pd2.insert<Photo::Field::Path>("photo2.jpeg");
-    pd3.insert<Photo::Field::Path>("photo1.jpeg");
-    pd4.insert<Photo::Field::Path>("photo4.jpeg");
-    pd5.insert<Photo::Field::Path>("photo5.jpeg");
+    pd0.insert<Photo::Field::Path>(Filesystem::Location("photo0.jpeg"));
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
+    pd2.insert<Photo::Field::Path>(Filesystem::Location("photo2.jpeg"));
+    pd3.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
+    pd4.insert<Photo::Field::Path>(Filesystem::Location("photo4.jpeg"));
+    pd5.insert<Photo::Field::Path>(Filesystem::Location("photo5.jpeg"));
 
     std::vector<Photo::DataDelta> photos = { pd0, pd1, pd2, pd3, pd4, pd5 };
     ASSERT_TRUE(this->m_backend->addPhotos(photos));

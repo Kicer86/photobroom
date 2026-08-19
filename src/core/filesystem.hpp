@@ -43,8 +43,16 @@ namespace Filesystem
          * As this url may not point to a physical file on disk, it should never be used to open a file.
          * It is for display purpose only.
          */
-
         QString url() const;
+
+        /**
+         * @brief Check if any value was assigned
+         * @return true if object was constructed with nonempty string
+         */
+        bool isEmpty() const;
+
+        // TODO: decide where to place it
+        bool exists() const { return true; }
 
     private:
         QString m_location;
@@ -52,6 +60,9 @@ namespace Filesystem
 
 
     CORE_EXPORT std::unique_ptr<IFile> openFile(const Location &);
+
 }
+
+Q_DECLARE_METATYPE(Filesystem::Location);
 
 #endif

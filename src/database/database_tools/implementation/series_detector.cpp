@@ -120,7 +120,8 @@ namespace
 
         void setCurrentPhoto(const SeriesDetector::ExplicitDelta& d) override
         {
-            const auto path = d.get<Photo::Field::Path>();
+            const auto location = d.get<Photo::Field::Path>();
+            const auto path = location.url();
             const int burstLen = 5;
             const qsizetype burstIdx = path.indexOf("BURST");
 

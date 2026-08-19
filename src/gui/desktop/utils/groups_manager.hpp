@@ -40,11 +40,11 @@ namespace GroupsManager
     struct GroupDetails
     {
         std::vector<Photo::Id> members;
-        QString representativePath;
+        Filesystem::Location representativePath;
         Group::Type type;
     };
 
-    QString includeRepresentatInDatabase(const QString& representativePhoto, Project &);
+    Filesystem::Location includeRepresentatInDatabase(const Filesystem::Location& representativePhoto, Project &);
 
     void groupIntoUnified(Project &,
                           QPromise<void> &&,
@@ -52,7 +52,7 @@ namespace GroupsManager
 
     void group(Database::IDatabase &,
                const std::vector<Photo::Id> &,
-               const QString& representativePath,
+               const Filesystem::Location& representativePath,
                Group::Type);                                 // group set of photos as one with given (external/generated) representative
 
     void group(Database::IDatabase &, QPromise<void> &&, const std::vector<GroupDetails> &);

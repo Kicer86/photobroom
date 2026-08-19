@@ -5,6 +5,7 @@
 #include <vector>
 #include <QStringList>
 
+#include "core/filesystem.hpp"
 #include "photos_crawler_export.h"
 
 
@@ -12,7 +13,7 @@ struct PHOTOS_CRAWLER_EXPORT IMediaNotification
 {
     virtual ~IMediaNotification() = default;
 
-    virtual void found(const QString &) = 0;
+    virtual void found(const Filesystem::Location &) = 0;
     virtual void finished() = 0;
 };
 

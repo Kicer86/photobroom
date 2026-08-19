@@ -59,7 +59,7 @@ std::optional<QSize> ImageMediaInformation::size(const Filesystem::Location& loc
     std::optional<QSize> result;
 
     auto file = Filesystem::openFile(location);
-    const QImageReader reader(&*file);
+    QImageReader reader(file.get());
     const QSize size = reader.size();
 
     if (size.isValid())
@@ -107,7 +107,7 @@ std::optional<QSize> ImageMediaInformation::size(const Filesystem::Location& loc
 
     if (!result)
     {
-        const QImage image = QImage::fromData(file->asQArrayView());
+        const QImage image = reader.read();
 
         if (image.isNull() == false)
             result = image.size();

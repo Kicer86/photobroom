@@ -22,6 +22,8 @@
 
 #include <QWidget>
 
+#include "core/filesystem.hpp"
+
 
 class MediaPreview : public QWidget
 {
@@ -32,7 +34,7 @@ class MediaPreview : public QWidget
         ~MediaPreview();
 
         void clean();
-        void setMedia(const QString &);
+        void setMedia(const Filesystem::Location &);
         void scale(double);
 
         struct IInternal
@@ -44,7 +46,7 @@ class MediaPreview : public QWidget
         };
 
     private:
-        IInternal* m_interior;
+        std::unique_ptr<IInternal> m_interior;
 
     signals:
         void scalableContentAvailable(bool);

@@ -91,8 +91,8 @@ TYPED_TEST(PeopleTest, simpleAssignmentToPhoto)
         {
             // store 2 photos
             Photo::DataDelta pd1, pd2;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
-            pd2.insert<Photo::Field::Path>("photo2.jpeg");
+            pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
+            pd2.insert<Photo::Field::Path>(Filesystem::Location("photo2.jpeg"));
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1, pd2 };
@@ -179,7 +179,7 @@ TYPED_TEST(PeopleTest, assignmentToPhotoTouchesPeople)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+            pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };
@@ -240,7 +240,7 @@ TYPED_TEST(PeopleTest, alteringPersonData)
 {
     // store 1 photo
     Photo::DataDelta pd1;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
@@ -316,7 +316,7 @@ TYPED_TEST(PeopleTest, rectIsMoreImportantThanName)
 {
     // store 1 photo
     Photo::DataDelta pd1;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
@@ -343,7 +343,7 @@ TYPED_TEST(PeopleTest, inteligentRectUpdate)
 {
     // store 1 photo
     Photo::DataDelta pd1;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
@@ -387,7 +387,7 @@ TYPED_TEST(PeopleTest, inteligentNameUpdate)
 {
     // store 1 photo
     Photo::DataDelta pd1;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
@@ -431,7 +431,7 @@ TYPED_TEST(PeopleTest, photoTagsWhenNoName)
 {
     // store 1 photo
     Photo::DataDelta pd1;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
@@ -459,7 +459,7 @@ TYPED_TEST(PeopleTest, inteligentPersonNameRemoval)
 {
     // store 1 photo
     Photo::DataDelta pd1;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
@@ -519,7 +519,7 @@ TYPED_TEST(PeopleTest, removePersonWhenItsRemovedFromTags)
         {
             // store 1 photo
             Photo::DataDelta pd1;
-            pd1.insert<Photo::Field::Path>("photo1.jpeg");
+            pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
             std::vector<Photo::Id> ids;
             std::vector<Photo::DataDelta> photos = { pd1 };

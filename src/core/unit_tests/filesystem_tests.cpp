@@ -143,6 +143,7 @@ TEST(FilesystemOpenFileTest, CanBeClosedAndReopened)
     const auto file = openTestFile(path);
     ASSERT_NE(file, nullptr);
     ASSERT_TRUE(file->isOpen());
+    EXPECT_EQ(file->asQArrayView(), expected);
 
     file->close();
     EXPECT_FALSE(file->isOpen());
@@ -150,6 +151,7 @@ TEST(FilesystemOpenFileTest, CanBeClosedAndReopened)
     ASSERT_TRUE(file->open(QIODevice::ReadOnly));
     EXPECT_EQ(file->pos(), 0);
     EXPECT_EQ(file->readAll(), expected);
+    EXPECT_EQ(file->asQArrayView(), expected);
 }
 
 

@@ -35,15 +35,12 @@ OrientedImage::OrientedImage(IExifReader& exif, const Filesystem::Location& loca
     m_oriented()
 {
     const auto src = Filesystem::openFile(location);
-    const QImage img = QImage::fromData(src->asQArrayView());
+    QImageReader reader(src.get());
+    const QImage img = reader.read();
     QImage rotated;
 
     if (img.isNull())
-    {
-        const auto file = Filesystem::openFile(location);
-        QImageReader check(&*file);
-        qDebug() << check.errorString();
-    }
+        qDebug() << reader.errorString();
     else
     {
         const std::optional<std::any> orientation_raw = exif.get(location, IExifReader::TagType::Orientation);

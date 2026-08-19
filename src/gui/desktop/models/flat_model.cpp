@@ -190,16 +190,6 @@ QModelIndex FlatModel::index(int r, int c, const QModelIndex& p) const
 }
 
 
-QUrl FlatModel::getPhotoPath(int row) const
-{
-    const Photo::Id id = m_photos[row];
-    const auto& data = photoData(id);
-    const QUrl url = QUrl::fromLocalFile(data.get<Photo::Field::Path>());
-
-    return url;
-}
-
-
 Photo::Id FlatModel::getId(int row) const
 {
     assert(row >= 0 && row < static_cast<int>(m_photos.size()));

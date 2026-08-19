@@ -138,23 +138,24 @@ const ProjectInfo& Project::getProjectInfo() const
 }
 
 
-QString Project::makePathRelative(const QString& path) const
+Filesystem::Location Project::makePathRelative(const Filesystem::Location& path) const
 {
     const QString baseDir = m_prjInfo.getBaseDir();
     const auto l = baseDir.size();
-    const bool subdir = path.left(l) == baseDir;
+    const auto rawPath = path.url();
+    const bool subdir = rawPath.left(l) == baseDir;
 
     assert(subdir);
 
-    const QString result = "prj:" + path.mid(l);
+    const Filesystem::Location result = Filesystem::Location("prj:" + rawPath.mid(l));
     return result;
 }
 
 
-QString Project::makePathAbsolute(const QString& relative) const
+Filesystem::Location Project::makePathAbsolute(const Filesystem::Location& relative) const
 {
-    const QFileInfo info(relative);
+    const QFileInfo info(relative.url());
     const QString absolute = info.absoluteFilePath();
 
-    return absolute;
+    return Filesystem::Location(absolute);
 }

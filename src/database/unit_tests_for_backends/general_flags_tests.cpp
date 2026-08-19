@@ -16,8 +16,8 @@ TYPED_TEST(GeneralFlagsTest, flagsIntroduction)
 {
     // store 2 photos
     Photo::DataDelta pd1, pd2;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
-    pd2.insert<Photo::Field::Path>("photo2.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
+    pd2.insert<Photo::Field::Path>(Filesystem::Location("photo2.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1, pd2 };
@@ -42,7 +42,7 @@ TYPED_TEST(GeneralFlagsTest, invalidName)
 {
     // store 2 photos
     Photo::DataDelta pd1;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1 };
@@ -59,7 +59,7 @@ TYPED_TEST(GeneralFlagsTest, setAndClearBits)
 {
     // store photo
     Photo::DataDelta pd;
-    pd.insert<Photo::Field::Path>("photo1.jpeg");
+    pd.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::DataDelta> photos = { pd };
     this->m_backend->addPhotos(photos);
@@ -82,7 +82,7 @@ TYPED_TEST(GeneralFlagsTest, notificationAfterChange)
 {
     // store photo
     Photo::DataDelta pd;
-    pd.insert<Photo::Field::Path>("photo1.jpeg");
+    pd.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
 
     std::vector<Photo::DataDelta> photos = { pd };
     this->m_backend->addPhotos(photos);

@@ -40,7 +40,7 @@ PhotosCollector::~PhotosCollector()
 }
 
 
-void PhotosCollector::collect(const std::function<void(const QString &)>& callback)
+void PhotosCollector::collect(const std::function<void(const Filesystem::Location &)>& callback)
 {
     stop();
 
@@ -65,7 +65,7 @@ void PhotosCollector::stop()
 }
 
 
-void PhotosCollector::found(const QString& path)
+void PhotosCollector::found(const Filesystem::Location& path)
 {
     m_callback(path);
 }

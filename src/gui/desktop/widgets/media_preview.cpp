@@ -21,6 +21,7 @@
 #include <cassert>
 
 #include <QHBoxLayout>
+#include <QImageReader>
 #include <QLabel>
 #include <QMovie>
 
@@ -32,7 +33,7 @@ namespace
     class StaticInternal: public MediaPreview::IInternal
     {
         public:
-            StaticInternal(const QString& path, QWidget* p):
+            StaticInternal(const Filesystem::Location& path, QWidget* p):
                 m_label(p),
                 m_path(path)
             {
@@ -46,7 +47,10 @@ namespace
 
             void scale(double f) override
             {
-                QPixmap pixmap(m_path);
+                const auto image = Filesystem::openFile(m_path);
+                QImageReader reader(image.get());
+                const QPixmap pixmap = QPixmap::fromImage(reader.read());
+
                 QSizeF size = pixmap.size();
                 size *= f;
 
@@ -56,19 +60,20 @@ namespace
 
         private:
             QLabel m_label;
-            QString m_path;
+            Filesystem::Location m_path;
     };
 
 
     class AnimatedInternal: public MediaPreview::IInternal
     {
         public:
-            AnimatedInternal(const QString& path, QWidget* p):
-                m_label(p),
-                m_movie(path)
+            AnimatedInternal(const Filesystem::Location& path, QWidget* p)
+                : m_label(p)
+                , m_file(Filesystem::openFile(path))
+                , m_movie(std::make_unique<QMovie>(m_file.get()))
             {
-                m_label.setMovie(&m_movie);
-                m_movie.start();
+                m_label.setMovie(&*m_movie);
+                m_movie->start();
             }
 
             QWidget* getWidget() override
@@ -79,25 +84,25 @@ namespace
             void scale(double f) override
             {
                 if (m_baseSize.isValid() == false)
-                    m_baseSize = m_movie.frameRect().size();
+                    m_baseSize = m_movie->frameRect().size();
 
                 QSizeF size = m_baseSize;
                 size *= f;
 
-                m_movie.setScaledSize(size.toSize());
+                m_movie->setScaledSize(size.toSize());
             }
 
         private:
             QLabel m_label;
-            QMovie m_movie;
             QSize m_baseSize;
+            std::unique_ptr<Filesystem::IFile> m_file;
+            std::unique_ptr<QMovie> m_movie;
     };
 }
 
 
 MediaPreview::MediaPreview(QWidget* p):
-    QWidget(p),
-    m_interior(nullptr)
+    QWidget(p)
 {
     new QHBoxLayout(this);
 }
@@ -105,44 +110,39 @@ MediaPreview::MediaPreview(QWidget* p):
 
 MediaPreview::~MediaPreview()
 {
-    delete m_interior;
+
 }
 
 
 void MediaPreview::clean()
 {
-    setMedia("");
+    setMedia({});
 }
 
 
-void MediaPreview::setMedia(const QString& path)
+void MediaPreview::setMedia(const Filesystem::Location& location)
 {
     QLayout* l = layout();
 
-    delete m_interior;
-    m_interior = nullptr;
+    m_interior.reset();
 
-    const Filesystem::Location location(path);
-
-    if (path.isEmpty())
+    if (location.isEmpty())
     {
 
     }
     else if (MediaTypes::isAnimatedImageFile(location) ||
              MediaTypes::isVideoFile(location))
     {
-        AnimatedInternal* interior = new AnimatedInternal(path, this);
-        m_interior = interior;
+        m_interior = std::make_unique<AnimatedInternal>(location, this);
 
-        QWidget* w = interior->getWidget();
+        QWidget* w = m_interior->getWidget();
         l->addWidget(w);
     }
     else if (MediaTypes::isImageFile(location))
     {
-        StaticInternal* interior = new StaticInternal(path, this);
-        m_interior = interior;
+        m_interior = std::make_unique<StaticInternal>(location, this);
 
-        QWidget* w = interior->getWidget();
+        QWidget* w = m_interior->getWidget();
         l->addWidget(w);
     }
     else

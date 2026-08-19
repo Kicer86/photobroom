@@ -18,7 +18,7 @@ TYPED_TEST_SUITE(ThumbnailsTest, BackendTypes);
 TYPED_TEST(ThumbnailsTest, storesThumbnail)
 {
     Photo::DataDelta photo;
-    photo.insert<Photo::Field::Path>("/path/photo.jpeg");
+    photo.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
     std::vector<Photo::DataDelta> photos { photo };
 
     this->m_backend->addPhotos(photos);
@@ -34,7 +34,7 @@ TYPED_TEST(ThumbnailsTest, storesThumbnail)
 TYPED_TEST(ThumbnailsTest, thumbnailOverride)
 {
     Photo::DataDelta photo;
-    photo.insert<Photo::Field::Path>("/path/photo.jpeg");
+    photo.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
     std::vector<Photo::DataDelta> photos { photo };
 
     this->m_backend->addPhotos(photos);
@@ -51,7 +51,7 @@ TYPED_TEST(ThumbnailsTest, thumbnailOverride)
 TYPED_TEST(ThumbnailsTest, emptyResultWhenMissing)
 {
     Photo::DataDelta photo;
-    photo.insert<Photo::Field::Path>("/path/photo.jpeg");
+    photo.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
     std::vector<Photo::DataDelta> photos { photo };
 
     this->m_backend->addPhotos(photos);

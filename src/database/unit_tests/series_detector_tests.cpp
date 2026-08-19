@@ -22,6 +22,7 @@ using testing::Return;
 using testing::ReturnRef;
 using testing::_;
 
+using Location = Filesystem::Location;
 
 class SeriesDetectorTest: public testing::Test
 {
@@ -72,7 +73,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                          // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(Location(QString("path: %1.jpeg").arg(id.value())));                          // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -134,7 +135,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                                     // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(Location(QString("path: %1.jpeg").arg(id.value())));                                     // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -197,7 +198,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value())) ;        // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(Location(QString("path: %1.jpeg").arg(id.value())));        // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -261,7 +262,7 @@ TEST_F(SeriesDetectorTest, smartphoneSeries)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path_BURST%1.jpeg").arg(id.value() % 3 + 1));              // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(Location(QString("path_BURST%1.jpeg").arg(id.value() % 3 + 1)));              // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -314,7 +315,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                                     // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(Location(QString("path: %1.jpeg").arg(id.value())));                                     // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -419,7 +420,7 @@ TEST_F(SeriesDetectorTest, Complexity)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                          // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(Location(QString("path: %1.jpeg").arg(id.value())));                          // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
