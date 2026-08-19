@@ -93,7 +93,7 @@ void ThumbnailManager::fetch(const Photo::Id& id, const QSize& desired_size, con
                 baseThumbnail = m_generator.generate(photoData.get<Photo::Field::Path>(), IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize));
 
                 if (baseThumbnail.isNull())
-                    m_logger->error(QString("Generator returned empty thumbnail for %1").arg(photoData.get<Photo::Field::Path>()));
+                    m_logger->error(QString("Generator returned empty thumbnail for %1").arg(photoData.get<Photo::Field::Path>().url()));
                 else
                 {
                     // store thumbnail in db

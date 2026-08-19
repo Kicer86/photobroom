@@ -1,0 +1,48 @@
+# QML / Qt Quick — notatki i plan modernizacji
+
+## Wnioski
+
+Projekt już automatycznie kompiluje pliki QML przez `qmlcachegen`, ponieważ wszystkie są dodawane przez `qt6_add_qml_module(... QML_FILES ...)`. Nie trzeba włączać tej kompilacji osobną opcją.
+
+`ENABLE_TYPE_COMPILER` w `src/gui/desktop/QmlItems/CMakeLists.txt` uruchamia `qmltc`, czyli eksperymentalny kompilator generujący klasy C++ z dokumentów QML. Obecny kod nie używa wygenerowanych klas bezpośrednio — główny widok jest tworzony przez `QQmlApplicationEngine` — więc ta opcja nie daje obecnie pełnej korzyści, a wymaga prywatnych bibliotek Qt (`QmlPrivate`, `QuickPrivate`).
+
+W Qt 6.11 `qmltc` nadal jest Tech Preview. Ma ograniczenia dotyczące m.in. modułów QML zdefiniowanych w QML (np. Qt Quick Controls), a wygenerowane API nie jest gwarantowane jako kompatybilne nawet pomiędzy wydaniami patch. Jeśli `qmltc` stanie się stabilny, prawdopodobnie wystarczy ponownie włączyć `ENABLE_TYPE_COMPILER` i ewentualnie prywatne zależności. Nie należy teraz uzależniać kodu aplikacji od wygenerowanych nagłówków.
+
+## Do wykonania teraz
+
+1. Usunąć z `QmlItems/CMakeLists.txt` warunek wersji Qt, `ENABLE_TYPE_COMPILER` oraz linkowanie `Qt::QmlPrivate` i `Qt::QuickPrivate`.
+2. Zachować automatyczny `qmlcachegen` dla wszystkich modułów.
+3. Dodać w głównym `CMakeLists.txt` `qt_standard_project_setup(REQUIRES 6.8)` i podnieść minimalną wersję Qt z 6.7 do 6.8. To włącza współczesne polityki QML, w szczególności QTP0004.
+4. Usunąć własne `RESOURCE_PREFIX /photo_broom` i `m_mainView.addImportPath(":/photo_broom")`. Przejść na standardowy prefix `:/qt/qml`.
+5. Zastąpić ładowanie `qrc:///photo_broom/quick_items/views/MainWindow.qml` przez `m_mainView.loadFromModule("quick_items", "MainWindow")` oraz obsłużyć `objectCreationFailed`.
+6. Rozważyć połączenie `quick_items.components` i `quick_items.views` w jeden moduł `quick_items`. Ich obecny podział był obejściem dawnego problemu QTP0004. Po włączeniu QTP0004 podkatalogi jednego modułu mogą mieć własne generowane `qmldir`.
+7. Uporządkować zależności QML przez `DEPENDENCIES TARGET`. Obecnie moduł `quick_items` linkuje moduły komponentów i widoków, które z kolei importują `quick_items`, co tworzy nieczytelny graf zależności.
+8. Oznaczyć pomocnicze typy `ViewsComponents/*` i `internal/ComboBoxDelegate.qml` jako `QT_QML_INTERNAL_TYPE`. Dla `ViewLogic.js` i `ZoomLogic.js`, używanych wyłącznie przez import relatywny, rozważyć `QT_QML_SKIP_QMLDIR_ENTRY`.
+9. Przenieść rejestrację typów z `qmlRegisterType` / `qmlRegisterUncreatableMetaObject` do deklaratywnych makr `QML_ELEMENT`, `QML_NAMED_ELEMENT`, `QML_UNCREATABLE`, `QML_FOREIGN` i `QML_SINGLETON`. Poprawi to `.qmltypes`, `qmllint`, QML Language Server i skuteczność kompilacji.
+10. Zarejestrować image providera przed ładowaniem głównego QML. Obecnie `registerImageProviders()` jest wywoływane dopiero po `load()`, co jest bezpieczne tylko dlatego, że obrazy są prawdopodobnie tworzone później przez loadery.
+
+## Poprawa wyników kompilacji QML
+
+- Zastępować `required property var` konkretnymi typami (`int`, `string`, `date`, `Component` albo typ C++).
+- Typować argumenty i wyniki funkcji JavaScript/QML.
+- Ograniczać niekwalifikowany dostęp do nazw; preferować np. `root.model` zamiast samego `model`.
+- W plikach z delegatami i zagnieżdżonymi `Component` rozważyć `pragma ComponentBehavior: Bound`. Wymaga to przekazywania danych modeli przez `required property`, a nie przez niejawne `model.*`.
+- Włączyć w CI cele `all_qmllint` i opcjonalnie `all_aotstats`.
+
+W wygenerowanych statystykach z Qt 6.11.1 znaleziono dużo fallbacków: typy C++ nieznane narzędziom, `QVariant`/`var`, nieznane singletony i funkcje bez typów. Najpierw warto naprawić deklaratywną rejestrację typów, dopiero później optymalizować poszczególne bindingi.
+
+## Gdy `qmltc` stanie się stabilny
+
+Włączyć go najpierw dla kilku prostych komponentów i sprawdzić wygenerowane API. Pełna korzyść z `qmltc` wymaga bezpośredniego tworzenia wygenerowanych klas C++; samo ładowanie dokumentu przez `QQmlApplicationEngine` nie jest tym samym przypadkiem użycia.
+
+Jeśli eksperyment się powiedzie, można stopniowo rozszerzać zakres. Pojedyncze nieobsługiwane pliki należy wyłączać właściwością `QT_QML_SKIP_TYPE_COMPILER`, zamiast rezygnować z kompilacji całego modułu.
+
+Najprawdopodobniej nie będzie potrzeby cofania pozostałych zmian: standardowe moduły, deklaratywna rejestracja typów, poprawne zależności i typowanie QML są również wymaganiami i dobrymi praktykami dla przyszłego stabilnego `qmltc`.
+
+Dokumentacja Qt:
+
+- https://doc.qt.io/qt-6/qtqml-qml-type-compiler.html
+- https://doc.qt.io/qt-6/qt-add-qml-module.html
+- https://doc.qt.io/qt-6/qt6-modernize-qml-modules.html
+- https://doc.qt.io/qt-6/qt-cmake-policy-qtp0004.html
+- https://doc.qt.io/qt-6/qt-target-qml-sources.html

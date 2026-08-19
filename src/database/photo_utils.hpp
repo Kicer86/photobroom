@@ -12,10 +12,10 @@
 
 namespace Photo
 {
-    DATABASE_EXPORT const QString& getPath(const Photo::DataDelta &);
+    DATABASE_EXPORT const Filesystem::Location& getPath(const Photo::DataDelta &);
 
     template<typename T>                    // TODO: T is expected to be Photo::ExplicitDelta
-    const QString& getPath(const T& data)
+    const Filesystem::Location& getPath(const T& data)
     {
         return data.template get<Photo::Field::Path>();
     }

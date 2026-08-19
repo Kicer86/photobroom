@@ -59,7 +59,7 @@ class AnimationGenerator: public GeneratorUtils::BreakableTask
         ILogger* m_logger;
 
         QStringList stabilize(const QStringList &);
-        QString generateAnimation(const QStringList &);
+        Filesystem::Location generateAnimation(const QStringList &);
 };
 
 

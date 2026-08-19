@@ -20,8 +20,8 @@ TYPED_TEST(FiltersTest, generalFlagsFilterTests)
 {
     // store 2 photos
     Photo::DataDelta pd1, pd2;
-    pd1.insert<Photo::Field::Path>("photo1.jpeg");
-    pd2.insert<Photo::Field::Path>("photo2.jpeg");
+    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
+    pd2.insert<Photo::Field::Path>(Filesystem::Location("photo2.jpeg"));
 
     std::vector<Photo::Id> ids;
     std::vector<Photo::DataDelta> photos = { pd1, pd2 };

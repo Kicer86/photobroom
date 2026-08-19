@@ -19,6 +19,8 @@
 
 #include <opencv2/img_hash.hpp>
 
+#include <QImageReader>
+
 #include <core/function_wrappers.hpp>
 #include <core/icore_factory_accessor.hpp>
 #include <core/itask_executor.hpp>
@@ -41,8 +43,7 @@ namespace
     // TODO: put some nice concept here which will detect if T is ExplicitDelta and has required fields
     void assignGeometry(IMediaInformation& mediaInfo, auto& data)
     {
-        const QString path = data.template get<Photo::Field::Path>();
-        const Filesystem::Location location(path);
+        const Filesystem::Location location = data.template get<Photo::Field::Path>();
         const auto info = mediaInfo.getInformation(location);
 
         if (info.common.dimension.has_value())
@@ -87,12 +88,14 @@ namespace
         // based on:
         // https://docs.opencv.org/3.4/d4/d93/group__img__hash.html
 
-        const QString path = data.template get<Photo::Field::Path>();
+        const auto path = data.template get<Photo::Field::Path>();
+        const auto file = Filesystem::openFile(path);
 
         // NOTE: cv::imread could be used here, however it would be better to have a unique mechanism
         // of reading images, so if an image can be displayed in gui, then we also know how to
         // read and phash it here.
-        QImage image(path);
+        QImageReader reader(file.get());
+        QImage image = reader.read();
 
         if (image.isNull())
             throw std::make_pair(Database::CommonGeneralFlags::PHashState, static_cast<int>(Database::CommonGeneralFlags::PHashStateType::Incompatible));

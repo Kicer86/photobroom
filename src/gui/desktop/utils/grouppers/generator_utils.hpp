@@ -27,6 +27,7 @@
 
 #include <core/ilogger.hpp>
 #include <core/itask_executor.hpp>
+#include <core/filesystem.hpp>
 
 struct IExifReaderFactory;
 
@@ -150,7 +151,7 @@ namespace GeneratorUtils
         signals:
             void operation(const QString &) const;
             void progress(int) const;
-            void finished(const QString &) const;
+            void finished(const Filesystem::Location &) const;
             void canceled() const;
             void error(const QString &, const QStringList &) const;
 

@@ -31,7 +31,6 @@ private:
 
     Filesystem::Location m_location;
     std::unique_ptr<Filesystem::IFile> m_file;
-    std::size_t m_position = 0;
     AVFormatContext* m_formatContext = nullptr;
     AVIOContext* m_ioContext = nullptr;
 };

@@ -63,7 +63,7 @@ bool PhotoDataQml::isGroup() const
 }
 
 
-QString PhotoDataQml::path() const
+Filesystem::Location PhotoDataQml::path() const
 {
-    return m_photo.has(Photo::Field::Path)? m_photo.get<Photo::Field::Path>() : QString();
+    return m_photo.has(Photo::Field::Path)? m_photo.get<Photo::Field::Path>() : Filesystem::Location{};
 }

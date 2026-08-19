@@ -176,9 +176,9 @@ void CollectionScanner::checkIfReady()
 }
 
 
-void CollectionScanner::gotDiskPhoto(const QString& path)
+void CollectionScanner::gotDiskPhoto(const Filesystem::Location& path)
 {
-    const QString relative = m_project.makePathRelative(path);
+    const Filesystem::Location relative = m_project.makePathRelative(path);
     Photo::DataDelta photo;
     photo.insert<Photo::Field::Path>(relative);
     m_diskPhotos.push_back(photo);

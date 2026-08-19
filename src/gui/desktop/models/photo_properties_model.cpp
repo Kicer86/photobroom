@@ -140,8 +140,9 @@ void PhotoPropertiesModel::refreshValues(const std::vector<PhotoDelta>& photos)
     std::size_t size = 0;
     for(std::size_t i = 0; i < s; i++)
     {
-        const QFileInfo info(photos[i].get<Photo::Field::Path>());
-        size += info.size();
+        const auto location = photos[i].get<Photo::Field::Path>();
+        const auto file = Filesystem::openFile(location);
+        size += file->size();
     }
 
     const QString size_human = sizeHuman(size);
@@ -156,7 +157,7 @@ void PhotoPropertiesModel::refreshValues(const std::vector<PhotoDelta>& photos)
     else if (s == 1)
     {
         const PhotoDelta& photo = photos.front();
-        const QString& filePath = photo.get<Photo::Field::Path>();
+        const QString& filePath = photo.get<Photo::Field::Path>().url();
         const QString geometry = geometryToStr(photo);
 
         // update values
@@ -167,11 +168,11 @@ void PhotoPropertiesModel::refreshValues(const std::vector<PhotoDelta>& photos)
     else
     {
         // 'merge' paths
-        QString result = photos.front().get<Photo::Field::Path>();
+        QString result = photos.front().get<Photo::Field::Path>().url();
 
         for(std::size_t i = 1; i < s; i++)
         {
-            const QString anotherPhotoPath = photos[i].get<Photo::Field::Path>();
+            const QString anotherPhotoPath = photos[i].get<Photo::Field::Path>().url();
             result = FileSystem().commonPath(result, anotherPhotoPath);
         }
 

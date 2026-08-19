@@ -36,7 +36,7 @@ TEST(JsonToBackendTest, photo)
     };
 
     Photo::DataDelta photo;
-    photo.insert<Photo::Field::Path>("/some/path");
+    photo.insert<Photo::Field::Path>(Filesystem::Location("/some/path"));
     photo.insert<Photo::Field::Tags>(tags);
 
     std::vector<Photo::DataDelta> photos = { photo };

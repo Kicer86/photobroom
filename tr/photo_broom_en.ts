@@ -135,27 +135,27 @@
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="103"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="104"/>
         <source>Group</source>
         <translation>Group</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="104"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="105"/>
         <source>Manage group...</source>
         <translation>Manage group...</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="105"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="106"/>
         <source>Ungroup</source>
         <translation>Ungroup</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="106"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="107"/>
         <source>Open photo location</source>
         <translation>Open photo location</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="107"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="108"/>
         <source>Recognize people...</source>
         <translation>Recognize people...</translation>
     </message>
@@ -611,7 +611,7 @@ Error code: %1</translation>
         <translation>Photos geometry:</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="212"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="213"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n byte</numerusform>
@@ -619,7 +619,7 @@ Error code: %1</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="213"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="214"/>
         <source>%n kbyte(s)</source>
         <translation>
             <numerusform>%n kbyte</numerusform>
@@ -627,7 +627,7 @@ Error code: %1</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="214"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="215"/>
         <source>%n Mbyte(s)</source>
         <translation>
             <numerusform>%n Mbyte</numerusform>
@@ -635,7 +635,7 @@ Error code: %1</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="215"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="216"/>
         <source>%n Gbyte(s)</source>
         <translation>
             <numerusform>%n Gbyte</numerusform>
@@ -646,7 +646,7 @@ Error code: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="300"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="303"/>
         <source>Extracting data from new photos</source>
         <translation>Extracting data from new photos</translation>
     </message>
@@ -750,17 +750,17 @@ Error code: %1</translation>
         <translation>Error during collage generation. Possibly too many images, or height to small or too big.</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="382"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="384"/>
         <source>photo path</source>
         <translation>photo path</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="383"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="385"/>
         <source>sequence number</source>
         <translation>sequence number</translation>
     </message>
     <message>
-        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="384"/>
+        <location filename="../src/gui/desktop/ui/photos_grouping_dialog.cpp" line="386"/>
         <source>exposure (EV)</source>
         <translation>exposure (EV)</translation>
     </message>
