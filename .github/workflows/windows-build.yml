@@ -1,0 +1,93 @@
+name: Build-Windows
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/windows-build.yml'
+  pull_request:
+    paths:
+      - '**'
+      - '!.github/workflows/**'
+      - '.github/workflows/windows-build.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  VCPKG_BINARY_SOURCES: clear
+  VCPKG_DISABLE_METRICS: '1'
+
+jobs:
+  build:
+    name: "Build PhotoBroom Release on Windows"
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v7
+      with:
+        submodules: true
+
+    - name: Set up MSVC
+      uses: ilammy/msvc-dev-cmd@v1.13.0
+
+    - name: Compute vcpkg cache key
+      id: vcpkg-cache-key
+      shell: pwsh
+      env:
+        CACHE_ARCH: ${{ runner.arch }}
+        MANIFEST_HASH: ${{ hashFiles('vcpkg.json', 'vcpkg-configuration.json') }}
+      run: |
+        $compilerPath = (Get-Command cl.exe -ErrorAction Stop).Source
+        $compilerHash = (Get-FileHash -LiteralPath $compilerPath -Algorithm SHA256).Hash.ToLowerInvariant()
+        $toolset = "$env:VCToolsVersion".Trim() -replace '[\\/]+$', ''
+        $sdk = "$env:WindowsSDKVersion".Trim() -replace '[\\/]+$', ''
+        if (-not $toolset -or -not $sdk) {
+          throw 'MSVC cache fingerprint is incomplete.'
+        }
+
+        $vcpkgCommit = (git rev-parse HEAD:vcpkg).Trim()
+        $baseKey = "vcpkg-installed-v1-$env:ImageOS-$env:CACHE_ARCH-x64-windows-release-$toolset-$sdk-$compilerHash"
+
+        "key=$baseKey-$vcpkgCommit-$env:MANIFEST_HASH" >> $env:GITHUB_OUTPUT
+        "vcpkg-prefix=$baseKey-$vcpkgCommit-" >> $env:GITHUB_OUTPUT
+
+    - name: Restore vcpkg dependencies
+      id: vcpkg-cache
+      uses: actions/cache/restore@v6
+      with:
+        path: out/build/ninja-vcpkg-release/vcpkg_installed
+        key: ${{ steps.vcpkg-cache-key.outputs.key }}
+        restore-keys: |
+          ${{ steps.vcpkg-cache-key.outputs.vcpkg-prefix }}
+
+    - name: Bootstrap vcpkg
+      run: .\vcpkg\bootstrap-vcpkg.bat -disableMetrics
+
+    - name: Configure
+      run: >-
+        cmake --preset ninja-vcpkg-release
+        -DBUILD_SHARED_LIBS=ON
+        -DBUILD_BENCHMARKS=OFF
+        -DVCPKG_TARGET_TRIPLET=x64-windows-release
+        -DVCPKG_HOST_TRIPLET=x64-windows-release
+        '-DVCPKG_INSTALL_OPTIONS=--x-buildtrees-root=D:/bt;--clean-after-build;--x-abi-tools-use-exact-versions'
+
+    # PR caches are isolated by ref and would duplicate this large tree for every PR.
+    - name: Save vcpkg dependencies
+      if: github.ref == 'refs/heads/master' && steps.vcpkg-cache.outputs.cache-hit != 'true'
+      uses: actions/cache/save@v6
+      with:
+        path: out/build/ninja-vcpkg-release/vcpkg_installed
+        key: ${{ steps.vcpkg-cache-key.outputs.key }}
+
+    - name: Build
+      run: cmake --build --preset ninja-vcpkg-release --parallel
