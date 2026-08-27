@@ -19,8 +19,8 @@ TYPED_TEST_SUITE(TransactionAccumulationsTests, BackendTypes);
 TYPED_TEST(TransactionAccumulationsTests, newPhotos)
 {
     Photo::DataDelta photo1, photo2;
-    photo1.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
-    photo2.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
+    photo1.insert<Photo::Field::Path>(UnitTests::makeLocation("/path/photo.jpeg"));
+    photo2.insert<Photo::Field::Path>(UnitTests::makeLocation("/path/photo.jpeg"));
 
     std::vector photos1{photo1};
     std::vector photos2{photo2};
@@ -40,8 +40,8 @@ TYPED_TEST(TransactionAccumulationsTests, newPhotos)
 TYPED_TEST(TransactionAccumulationsTests, newPhotosAborted)
 {
     Photo::DataDelta photo1, photo2;
-    photo1.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
-    photo2.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
+    photo1.insert<Photo::Field::Path>(UnitTests::makeLocation("/path/photo.jpeg"));
+    photo2.insert<Photo::Field::Path>(UnitTests::makeLocation("/path/photo.jpeg"));
 
     std::vector photos1{photo1};
     std::vector photos2{photo2};
@@ -62,8 +62,8 @@ TYPED_TEST(TransactionAccumulationsTests, newPhotosAborted)
 TYPED_TEST(TransactionAccumulationsTests, newPhotosAbortedInMiddle)
 {
     Photo::DataDelta photo1, photo2;
-    photo1.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
-    photo2.insert<Photo::Field::Path>(Filesystem::Location("/path/photo.jpeg"));
+    photo1.insert<Photo::Field::Path>(UnitTests::makeLocation("/path/photo.jpeg"));
+    photo2.insert<Photo::Field::Path>(UnitTests::makeLocation("/path/photo.jpeg"));
 
     std::vector photos1{photo1};
     std::vector photos2{photo2};

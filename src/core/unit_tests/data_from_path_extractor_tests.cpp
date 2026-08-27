@@ -4,6 +4,7 @@
 #include <QDate>
 
 #include "data_from_path_extractor.hpp"
+#include "unit_tests_utils/location.hpp"
 
 
 using testing::ElementsAre;
@@ -14,10 +15,10 @@ TEST(DataFromPathExtractorTest, NoDate)
 {
     DataFromPathExtractor extractor;
 
-    const auto tags1 = extractor.extract(Filesystem::Location{"qwer/rertty/11/23/fdgfg/h.jpeg"});
-    const auto tags2 = extractor.extract(Filesystem::Location{""});
+    const auto tags1 = extractor.extract(UnitTests::makeLocation("qwer/rertty/11/23/fdgfg/h.jpeg"));
+    const auto tags2 = extractor.extract(UnitTests::makeLocation(""));
     const auto tags3 = extractor.extract({});
-    const auto tags4 = extractor.extract(Filesystem::Location{"00000000000000000000000000000000000000000000000000000000"});
+    const auto tags4 = extractor.extract(UnitTests::makeLocation("00000000000000000000000000000000000000000000000000000000"));
 
     EXPECT_TRUE(tags1.empty());
     EXPECT_TRUE(tags2.empty());
@@ -30,11 +31,11 @@ TEST(DataFromPathExtractorTest, InvalidDate)
 {
     DataFromPathExtractor extractor;
 
-    const auto tags1 = extractor.extract(Filesystem::Location{"2010-13-12"});
-    const auto tags2 = extractor.extract(Filesystem::Location{"2010-01-32"});
-    const auto tags3 = extractor.extract(Filesystem::Location{"scrapbooking/1301092178_181016502_1-fdg--fdh-jhgyt-jhgjy-htfh-u-ghdtjhy.jpg"});
-    const auto tags4 = extractor.extract(Filesystem::Location{"gh ji/hfh/hfgj/Rgfhgh/120408105348.jpg"});
-    const auto tags5 = extractor.extract(Filesystem::Location{"d fg/vdgf/received_892712301075716.jpeg"});
+    const auto tags1 = extractor.extract(UnitTests::makeLocation("2010-13-12"));
+    const auto tags2 = extractor.extract(UnitTests::makeLocation("2010-01-32"));
+    const auto tags3 = extractor.extract(UnitTests::makeLocation("scrapbooking/1301092178_181016502_1-fdg--fdh-jhgyt-jhgjy-htfh-u-ghdtjhy.jpg"));
+    const auto tags4 = extractor.extract(UnitTests::makeLocation("gh ji/hfh/hfgj/Rgfhgh/120408105348.jpg"));
+    const auto tags5 = extractor.extract(UnitTests::makeLocation("d fg/vdgf/received_892712301075716.jpeg"));
 
     EXPECT_TRUE(tags1.empty());
     EXPECT_TRUE(tags2.empty());
@@ -48,11 +49,11 @@ TEST(DataFromPathExtractorTest, ValidDate)
 {
     DataFromPathExtractor extractor;
 
-    const auto tags1 = extractor.extract(Filesystem::Location{"Mandrake.20071106.gif"});
-    const auto tags2 = extractor.extract(Filesystem::Location{"2022-12-50_11-99-99/2010.10-11/11112010039.mp4"});
-    const auto tags3 = extractor.extract(Filesystem::Location{"/2010.05.22-23/DSCF8415.mkv"});
-    const auto tags4 = extractor.extract(Filesystem::Location{"2017-06-01-QQQ-WWW/024.jpg"});
-    const auto tags5 = extractor.extract(Filesystem::Location{"zzzq-11-11-2016/GFFHGHGJ/JHGJYY/GFH/R#YHHG/00019.MTS"});
+    const auto tags1 = extractor.extract(UnitTests::makeLocation("Mandrake.20071106.gif"));
+    const auto tags2 = extractor.extract(UnitTests::makeLocation("2022-12-50_11-99-99/2010.10-11/11112010039.mp4"));
+    const auto tags3 = extractor.extract(UnitTests::makeLocation("/2010.05.22-23/DSCF8415.mkv"));
+    const auto tags4 = extractor.extract(UnitTests::makeLocation("2017-06-01-QQQ-WWW/024.jpg"));
+    const auto tags5 = extractor.extract(UnitTests::makeLocation("zzzq-11-11-2016/GFFHGHGJ/JHGJYY/GFH/R#YHHG/00019.MTS"));
 
     EXPECT_THAT( tags1, ElementsAre( std::pair{Tag::Types::Date, QDate(2007, 11, 06)} ) );
     EXPECT_THAT( tags2, ElementsAre( std::pair{Tag::Types::Date, QDate(2010, 10, 11)} ) );
@@ -66,17 +67,17 @@ TEST(DataFromPathExtractorTest, ValidDateAndTime)
 {
     DataFromPathExtractor extractor;
 
-    const auto tags1 = extractor.extract(Filesystem::Location{"WP_20150705_135843Z.mp4"});
-    const auto tags2 = extractor.extract(Filesystem::Location{"/dir/Camera 2/20141122_164931.mp4"});
-    const auto tags3 = extractor.extract(Filesystem::Location{"qq/ww/2008-07-06_13-55-04_1280x1024_screenshot.png"});
-    const auto tags4 = extractor.extract(Filesystem::Location{"/2010-12-07-21_55_11.png"});
-    const auto tags5 = extractor.extract(Filesystem::Location{"jk/2020-12-01_19_05_39 1-0.png"});
-    const auto tags6 = extractor.extract(Filesystem::Location{"mm/20161215_092517.mp4"});
-    const auto tags7 = extractor.extract(Filesystem::Location{"20005678-123456/WP_20180123_09_44_08_Pro.mp4"});
-    const auto tags8 = extractor.extract(Filesystem::Location{"/2015-10-20/20151020183114.MTS"});
-    const auto tags9 = extractor.extract(Filesystem::Location{"2020-07-21-sdfgg_t_kjyy/2020-07-21/20200721104521.MTS"});
-    const auto tags10 = extractor.extract(Filesystem::Location{"q erty/vcxjfdsfjk/gfkrtklbvj/2010-01-16 23;57;20.jpg"});
-    const auto tags11 = extractor.extract(Filesystem::Location{"z ff/huh6u6/2019_08_26_18_04_41.mp4"});
+    const auto tags1 = extractor.extract(UnitTests::makeLocation("WP_20150705_135843Z.mp4"));
+    const auto tags2 = extractor.extract(UnitTests::makeLocation("/dir/Camera 2/20141122_164931.mp4"));
+    const auto tags3 = extractor.extract(UnitTests::makeLocation("qq/ww/2008-07-06_13-55-04_1280x1024_screenshot.png"));
+    const auto tags4 = extractor.extract(UnitTests::makeLocation("/2010-12-07-21_55_11.png"));
+    const auto tags5 = extractor.extract(UnitTests::makeLocation("jk/2020-12-01_19_05_39 1-0.png"));
+    const auto tags6 = extractor.extract(UnitTests::makeLocation("mm/20161215_092517.mp4"));
+    const auto tags7 = extractor.extract(UnitTests::makeLocation("20005678-123456/WP_20180123_09_44_08_Pro.mp4"));
+    const auto tags8 = extractor.extract(UnitTests::makeLocation("/2015-10-20/20151020183114.MTS"));
+    const auto tags9 = extractor.extract(UnitTests::makeLocation("2020-07-21-sdfgg_t_kjyy/2020-07-21/20200721104521.MTS"));
+    const auto tags10 = extractor.extract(UnitTests::makeLocation("q erty/vcxjfdsfjk/gfkrtklbvj/2010-01-16 23;57;20.jpg"));
+    const auto tags11 = extractor.extract(UnitTests::makeLocation("z ff/huh6u6/2019_08_26_18_04_41.mp4"));
 
     EXPECT_THAT( tags1, UnorderedElementsAre( std::pair{Tag::Types::Date, QDate(2015, 07, 05)}, std::pair{Tag::Types::Time, QTime(13, 58, 43)} ) );
     EXPECT_THAT( tags2, UnorderedElementsAre( std::pair{Tag::Types::Date, QDate(2014, 11, 22)}, std::pair{Tag::Types::Time, QTime(16, 49, 31)} ) );

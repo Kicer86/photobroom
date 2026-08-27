@@ -15,9 +15,9 @@ TYPED_TEST(GroupsTest, groupCreation)
 {
     // store 3 photos
     Photo::DataDelta pd1, pd2, pd3;
-    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
-    pd2.insert<Photo::Field::Path>(Filesystem::Location("photo2.jpeg"));
-    pd3.insert<Photo::Field::Path>(Filesystem::Location("photo3.jpeg"));
+    pd1.insert<Photo::Field::Path>(UnitTests::makeLocation("photo1.jpeg"));
+    pd2.insert<Photo::Field::Path>(UnitTests::makeLocation("photo2.jpeg"));
+    pd3.insert<Photo::Field::Path>(UnitTests::makeLocation("photo3.jpeg"));
 
     std::vector<Photo::DataDelta> photos = { pd1, pd2, pd3 };
     ASSERT_TRUE(this->m_backend->addPhotos(photos));
@@ -44,9 +44,9 @@ TYPED_TEST(GroupsTest, groupRemoval)
 {
     // store 3 photos
     Photo::DataDelta pd1, pd2, pd3;
-    pd1.insert<Photo::Field::Path>(Filesystem::Location("photo1.jpeg"));
-    pd2.insert<Photo::Field::Path>(Filesystem::Location("photo2.jpeg"));
-    pd3.insert<Photo::Field::Path>(Filesystem::Location("photo3.jpeg"));
+    pd1.insert<Photo::Field::Path>(UnitTests::makeLocation("photo1.jpeg"));
+    pd2.insert<Photo::Field::Path>(UnitTests::makeLocation("photo2.jpeg"));
+    pd3.insert<Photo::Field::Path>(UnitTests::makeLocation("photo3.jpeg"));
 
     std::vector<Photo::DataDelta> photos = { pd1, pd2, pd3 };
     ASSERT_TRUE(this->m_backend->addPhotos(photos));

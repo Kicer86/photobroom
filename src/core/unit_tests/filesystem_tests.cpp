@@ -2,25 +2,17 @@
 #include <memory>
 #include <string_view>
 
-#include <QFile>
-#include <QTemporaryDir>
 #include <gtest/gtest.h>
 
 #include "filesystem.hpp"
+#include "unit_tests_utils/temporary_files.hpp"
 
 
 namespace
 {
-    bool writeFile(const QString& path, const QByteArray& contents)
+    std::unique_ptr<Filesystem::IFile> openTestFile(const Filesystem::Location& location)
     {
-        QFile output(path);
-        return output.open(QIODevice::WriteOnly) && output.write(contents) == contents.size();
-    }
-
-
-    std::unique_ptr<Filesystem::IFile> openTestFile(const QString& path)
-    {
-        return Filesystem::openFile(Filesystem::Location{QStringView(path)});
+        return Filesystem::openFile(location);
     }
 }
 
@@ -46,11 +38,8 @@ TEST(FilesystemLocationTest, KeepsStdStringView)
 
 TEST(FilesystemOpenFileTest, ReturnsNotOpenForMissingFile)
 {
-    QTemporaryDir temporaryDirectory;
-    ASSERT_TRUE(temporaryDirectory.isValid());
-
-    const auto path = temporaryDirectory.filePath(QStringLiteral("missing.bin"));
-    const auto file = Filesystem::openFile(Filesystem::Location{QStringView(path)});
+    const UnitTests::TemporaryFiles temporaryFiles;
+    const auto file = openTestFile(temporaryFiles.location(u"missing.bin"));
 
     EXPECT_EQ(file->openMode(), QIODeviceBase::NotOpen);
 }
@@ -58,14 +47,10 @@ TEST(FilesystemOpenFileTest, ReturnsNotOpenForMissingFile)
 
 TEST(FilesystemOpenFileTest, ReadsExistingFileThroughBothViews)
 {
-    QTemporaryDir temporaryDirectory;
-    ASSERT_TRUE(temporaryDirectory.isValid());
-
-    const auto path = temporaryDirectory.filePath(QStringLiteral("data.bin"));
+    const UnitTests::TemporaryFiles temporaryFiles;
     const QByteArray expected("file contents\0with a zero", 25);
 
-    ASSERT_TRUE(writeFile(path, expected));
-    const auto file = openTestFile(path);
+    const auto file = openTestFile(temporaryFiles.createFile(u"data.bin", expected));
     ASSERT_NE(file, nullptr);
 
     const auto qArrayView = file->asQArrayView();
@@ -80,14 +65,10 @@ TEST(FilesystemOpenFileTest, ReadsExistingFileThroughBothViews)
 
 TEST(FilesystemOpenFileTest, ExposesSizeAndReadStateThroughQIODevice)
 {
-    QTemporaryDir temporaryDirectory;
-    ASSERT_TRUE(temporaryDirectory.isValid());
-
-    const auto path = temporaryDirectory.filePath(QStringLiteral("data.bin"));
+    const UnitTests::TemporaryFiles temporaryFiles;
     const QByteArray expected("abcdef");
-    ASSERT_TRUE(writeFile(path, expected));
 
-    const auto file = openTestFile(path);
+    const auto file = openTestFile(temporaryFiles.createFile(u"data.bin", expected));
     ASSERT_NE(file, nullptr);
     ASSERT_TRUE(file->isOpen());
     EXPECT_TRUE(file->isReadable());
@@ -113,14 +94,10 @@ TEST(FilesystemOpenFileTest, ExposesSizeAndReadStateThroughQIODevice)
 
 TEST(FilesystemOpenFileTest, SeeksUnderlyingDeviceBackwards)
 {
-    QTemporaryDir temporaryDirectory;
-    ASSERT_TRUE(temporaryDirectory.isValid());
-
-    const auto path = temporaryDirectory.filePath(QStringLiteral("data.bin"));
+    const UnitTests::TemporaryFiles temporaryFiles;
     const QByteArray expected("abcdef");
-    ASSERT_TRUE(writeFile(path, expected));
 
-    const auto file = openTestFile(path);
+    const auto file = openTestFile(temporaryFiles.createFile(u"data.bin", expected));
     ASSERT_NE(file, nullptr);
     ASSERT_TRUE(file->isOpen());
 
@@ -133,14 +110,10 @@ TEST(FilesystemOpenFileTest, SeeksUnderlyingDeviceBackwards)
 
 TEST(FilesystemOpenFileTest, CanBeClosedAndReopened)
 {
-    QTemporaryDir temporaryDirectory;
-    ASSERT_TRUE(temporaryDirectory.isValid());
-
-    const auto path = temporaryDirectory.filePath(QStringLiteral("data.bin"));
+    const UnitTests::TemporaryFiles temporaryFiles;
     const QByteArray expected("abcdef");
-    ASSERT_TRUE(writeFile(path, expected));
 
-    const auto file = openTestFile(path);
+    const auto file = openTestFile(temporaryFiles.createFile(u"data.bin", expected));
     ASSERT_NE(file, nullptr);
     ASSERT_TRUE(file->isOpen());
     EXPECT_EQ(file->asQArrayView(), expected);
@@ -157,13 +130,9 @@ TEST(FilesystemOpenFileTest, CanBeClosedAndReopened)
 
 TEST(FilesystemOpenFileTest, OpensEmptyFile)
 {
-    QTemporaryDir temporaryDirectory;
-    ASSERT_TRUE(temporaryDirectory.isValid());
+    const UnitTests::TemporaryFiles temporaryFiles;
 
-    const auto path = temporaryDirectory.filePath(QStringLiteral("empty.bin"));
-    ASSERT_TRUE(writeFile(path, {}));
-
-    const auto file = openTestFile(path);
+    const auto file = openTestFile(temporaryFiles.createFile(u"empty.bin"));
     ASSERT_NE(file, nullptr);
 
     EXPECT_EQ(file->size(), 0);
