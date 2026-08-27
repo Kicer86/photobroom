@@ -17,7 +17,7 @@ using testing::UnorderedElementsAreArray;
 
 
 MATCHER_P(IsPhotoWithPath, _path, "") {
-    return arg.template get<Photo::Field::Path>() == Filesystem::Location(_path);
+    return arg.template get<Photo::Field::Path>() == UnitTests::makeLocation(_path);
 }
 
 template<typename T>
@@ -171,7 +171,7 @@ TYPED_TEST(PhotoOperatorTest, removal)
 {
     // insert photo
     Photo::DataDelta data;
-    const auto path = Filesystem::Location("some path");
+    const auto path = UnitTests::makeLocation("some path");
     data.insert<Photo::Field::Path>(path);
     std::vector<Photo::DataDelta> photos = {data};
     this->m_backend->addPhotos(photos);

@@ -5,6 +5,7 @@
 
 #include "../implementation/exiv2_exif_reader.hpp"
 #include "../oriented_image.hpp"
+#include "unit_tests_utils/location.hpp"
 
 
 class OrientedImageTest: public testing::TestWithParam<QLatin1StringView> {};
@@ -31,7 +32,7 @@ TEST_P(OrientedImageTest, allOrientations)
     Exiv2ExifReader reader;
 
     const auto testFilePath = QString(IMAGES_DIR) + "/" + QString(fileName);
-    const Filesystem::Location testFileLocation(testFilePath);
+    const auto testFileLocation = UnitTests::makeLocation(testFilePath);
     OrientedImage orientedImage(reader, testFileLocation);
     ASSERT_FALSE(orientedImage->isNull());
 
