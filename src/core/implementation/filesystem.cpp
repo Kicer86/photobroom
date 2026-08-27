@@ -23,8 +23,7 @@ namespace Filesystem
 
             ~LocalFile() override
             {
-                if (m_data != nullptr)
-                    m_file.unmap(m_data);
+                close();
             }
 
             QByteArrayView asQArrayView() const override
@@ -55,7 +54,47 @@ namespace Filesystem
                 if (mode != QIODeviceBase::ReadOnly || !m_file.open(mode))
                     return false;
 
-                return QIODevice::open(mode);
+                if (QIODevice::open(mode))
+                    return true;
+
+                m_file.close();
+                return false;
+            }
+
+            void close() final
+            {
+                if (m_data != nullptr)
+                {
+                    m_file.unmap(m_data);
+                    m_data = nullptr;
+                }
+
+                m_size = 0;
+                QIODevice::close();
+                m_file.close();
+            }
+
+            bool isSequential() const final
+            {
+                return m_file.isSequential();
+            }
+
+            qint64 size() const final
+            {
+                return m_file.size();
+            }
+
+            bool seek(qint64 position) final
+            {
+                const qint64 oldPosition = m_file.pos();
+                if (!m_file.seek(position))
+                    return false;
+
+                if (QIODevice::seek(position))
+                    return true;
+
+                m_file.seek(oldPosition);
+                return false;
             }
 
             qint64 readData(char* data, qint64 maxSize) final
