@@ -1,4 +1,5 @@
 
+#include <memory>
 #include <string_view>
 
 #include <QFile>
@@ -6,6 +7,22 @@
 #include <gtest/gtest.h>
 
 #include "filesystem.hpp"
+
+
+namespace
+{
+    bool writeFile(const QString& path, const QByteArray& contents)
+    {
+        QFile output(path);
+        return output.open(QIODevice::WriteOnly) && output.write(contents) == contents.size();
+    }
+
+
+    std::unique_ptr<Filesystem::IFile> openTestFile(const QString& path)
+    {
+        return Filesystem::openFile(Filesystem::Location{QStringView(path)});
+    }
+}
 
 
 TEST(FilesystemLocationTest, KeepsQStringView)
@@ -47,12 +64,8 @@ TEST(FilesystemOpenFileTest, ReadsExistingFileThroughBothViews)
     const auto path = temporaryDirectory.filePath(QStringLiteral("data.bin"));
     const QByteArray expected("file contents\0with a zero", 25);
 
-    QFile output(path);
-    ASSERT_TRUE(output.open(QIODevice::WriteOnly));
-    ASSERT_EQ(output.write(expected), expected.size());
-    output.close();
-
-    const auto file = Filesystem::openFile(Filesystem::Location{QStringView(path)});
+    ASSERT_TRUE(writeFile(path, expected));
+    const auto file = openTestFile(path);
     ASSERT_NE(file, nullptr);
 
     const auto qArrayView = file->asQArrayView();
@@ -65,19 +78,96 @@ TEST(FilesystemOpenFileTest, ReadsExistingFileThroughBothViews)
 }
 
 
+TEST(FilesystemOpenFileTest, ExposesSizeAndReadStateThroughQIODevice)
+{
+    QTemporaryDir temporaryDirectory;
+    ASSERT_TRUE(temporaryDirectory.isValid());
+
+    const auto path = temporaryDirectory.filePath(QStringLiteral("data.bin"));
+    const QByteArray expected("abcdef");
+    ASSERT_TRUE(writeFile(path, expected));
+
+    const auto file = openTestFile(path);
+    ASSERT_NE(file, nullptr);
+    ASSERT_TRUE(file->isOpen());
+    EXPECT_TRUE(file->isReadable());
+    EXPECT_FALSE(file->isWritable());
+    EXPECT_FALSE(file->isSequential());
+
+    EXPECT_EQ(file->size(), expected.size());
+    EXPECT_EQ(file->pos(), 0);
+    EXPECT_EQ(file->bytesAvailable(), expected.size());
+    EXPECT_FALSE(file->atEnd());
+
+    EXPECT_EQ(file->read(2), expected.left(2));
+    EXPECT_EQ(file->pos(), 2);
+    EXPECT_EQ(file->bytesAvailable(), expected.size() - 2);
+    EXPECT_FALSE(file->atEnd());
+
+    EXPECT_EQ(file->readAll(), expected.mid(2));
+    EXPECT_EQ(file->pos(), expected.size());
+    EXPECT_EQ(file->bytesAvailable(), 0);
+    EXPECT_TRUE(file->atEnd());
+}
+
+
+TEST(FilesystemOpenFileTest, SeeksUnderlyingDeviceBackwards)
+{
+    QTemporaryDir temporaryDirectory;
+    ASSERT_TRUE(temporaryDirectory.isValid());
+
+    const auto path = temporaryDirectory.filePath(QStringLiteral("data.bin"));
+    const QByteArray expected("abcdef");
+    ASSERT_TRUE(writeFile(path, expected));
+
+    const auto file = openTestFile(path);
+    ASSERT_NE(file, nullptr);
+    ASSERT_TRUE(file->isOpen());
+
+    EXPECT_EQ(file->read(4), expected.left(4));
+    ASSERT_TRUE(file->seek(1));
+    EXPECT_EQ(file->pos(), 1);
+    EXPECT_EQ(file->read(2), expected.mid(1, 2));
+}
+
+
+TEST(FilesystemOpenFileTest, CanBeClosedAndReopened)
+{
+    QTemporaryDir temporaryDirectory;
+    ASSERT_TRUE(temporaryDirectory.isValid());
+
+    const auto path = temporaryDirectory.filePath(QStringLiteral("data.bin"));
+    const QByteArray expected("abcdef");
+    ASSERT_TRUE(writeFile(path, expected));
+
+    const auto file = openTestFile(path);
+    ASSERT_NE(file, nullptr);
+    ASSERT_TRUE(file->isOpen());
+
+    file->close();
+    EXPECT_FALSE(file->isOpen());
+
+    ASSERT_TRUE(file->open(QIODevice::ReadOnly));
+    EXPECT_EQ(file->pos(), 0);
+    EXPECT_EQ(file->readAll(), expected);
+}
+
+
 TEST(FilesystemOpenFileTest, OpensEmptyFile)
 {
     QTemporaryDir temporaryDirectory;
     ASSERT_TRUE(temporaryDirectory.isValid());
 
     const auto path = temporaryDirectory.filePath(QStringLiteral("empty.bin"));
-    QFile output(path);
-    ASSERT_TRUE(output.open(QIODevice::WriteOnly));
-    output.close();
+    ASSERT_TRUE(writeFile(path, {}));
 
-    const auto file = Filesystem::openFile(Filesystem::Location{QStringView(path)});
+    const auto file = openTestFile(path);
     ASSERT_NE(file, nullptr);
 
+    EXPECT_EQ(file->size(), 0);
+    EXPECT_EQ(file->bytesAvailable(), 0);
+    EXPECT_TRUE(file->atEnd());
+    EXPECT_TRUE(file->readAll().isEmpty());
     EXPECT_TRUE(file->asQArrayView().isEmpty());
     EXPECT_TRUE(file->byteView().empty());
 }
