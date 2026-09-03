@@ -213,16 +213,11 @@ void ContextMenuManager::locationAction()
 {
     const auto& first = m_photos.front();
     const Filesystem::Location relative_path = first.get<Photo::Field::Path>();
-    const Filesystem::Location absolute_path = m_project->makePathAbsolute(relative_path);
-
-    // TODO: fix me. Also there is a similar code in qml. unify
-
-    /*
+    const QString absolute_path = Filesystem::toLocalFile(m_project->makePathAbsolute(relative_path));
     const QFileInfo photoFileInfo(absolute_path);
     const QString file_dir = photoFileInfo.path();
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
-    */
 }
 
 
