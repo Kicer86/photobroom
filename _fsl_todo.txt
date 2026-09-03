@@ -1,0 +1,116 @@
+TODO — abstrakcja filesystemu (bez problemów kompilacji/migracji typów)
+
+Priorytety
+==========
+
+[P1] Naprawić tworzenie reprezentantów grup
+--------------------------------------------
+includeFileInPrivateMediaLocation() jest obecnie stubem i zawsze zwraca pustą
+Filesystem::Location. GroupsManager przekazuje tę wartość do makePathRelative().
+W debug kończy się to asercją, a w release może zapisać błędną ścieżkę
+reprezentanta grupy.
+
+Przywrócić copy/link przez abstrakcję filesystemu (nie bezpośrednio przez
+std::filesystem). Operacja powinna jawnie raportować błąd.
+
+
+[P1] Przywrócić bezpieczne generowanie miniatur wideo
+-----------------------------------------------------
+readVideoFrame() używa wyniku av_find_best_stream() jako indeksu bez sprawdzenia,
+czy wynik jest ujemny. Dla pliku audio-only, uszkodzonego albo nierozpoznanego
+może to prowadzić do dostępu do streams[-1]. Przy migracji zniknęło także
+avformat_find_stream_info(), więc parametry kodeka mogą nie być gotowe.
+
+Przywrócić probe, sprawdzić videoStreamIndex i obsłużyć brak strumienia.
+Jeżeli backend jest sekwencyjny i nie obsługuje seek(), generator powinien albo
+odmówić miniatury, albo dekodować od początku; obecnie wynik seek jest ignorowany.
+
+
+[P1/P2] Usunąć zależność Exiv2 od pożyczonego byteView()
+----------------------------------------------------------
+Exiv2ExifReader przekazuje Exiv2 wskaźnik z byteView(), po czym lokalny IFile
+jest niszczony. Exiv2::MemIo ma copy-on-write i może czytać bezpośrednio z tego
+bufora, więc m_exif_data może zachować wskaźnik do odmapowanej pamięci.
+
+Docelowo dodać adapter Exiv2::BasicIo posiadający IFile i delegujący read(),
+seek(), tell()/pos() oraz size(). Nie zastępować tego bezwarunkowym readAll(),
+bo wymuszałoby materializowanie całego pliku w pamięci. Po tej zmianie można
+usunąć byteView()/asQArrayView() z obowiązkowego kontraktu IFile albo przenieść
+je do opcjonalnej capability.
+
+
+[P2] Wprowadzić osobne API stat/metadanych
+------------------------------------------
+PhotoPropertiesModel otwiera każdy plik wyłącznie po to, żeby odczytać rozmiar.
+Dla backendu zdalnego lub wirtualnego jest to niepotrzebne otwarcie, a rozmiar
+nieznany/błąd (np. -1) nie może być dodawany do std::size_t.
+
+Dodać Filesystem::stat(Location), zwracające co najmniej opcjonalny rozmiar,
+displayName/fileName, MIME i czasy. UI powinno umieć pokazać „rozmiar
+nieznany”, zamiast traktować go jak zwykłą liczbę.
+
+
+[P1/P2] Dodać dispatcher backendów i resolver lokalizacji
+-----------------------------------------------------------
+openFile() nadal zawsze tworzy LocalFile, a LocalFile normalizuje wejście przez
+QFileInfo::absoluteFilePath(). W praktyce nie istnieje jeszcze punkt rozszerzeń
+dla archiwów, HTTP/S3, bazy danych, pamięci ani lokalizacji projektu (prj:).
+
+Wprowadzić rejestr/providerów wybieranych na podstawie rodzaju lokalizacji.
+Minimalny kontrakt providera powinien obejmować openRead() i stat(), a później
+także copy/move/remove oraz jawne materialize() dla narzędzi wymagających
+fizycznej ścieżki.
+
+
+[P1/P2] Ujednolicić błędy otwierania
+------------------------------------
+openFile() zwraca obiekt nawet wtedy, gdy urządzenia nie udało się otworzyć.
+Wiele miejsc przekazuje wtedy zamknięty QIODevice dalej, co może wyglądać jak
+„nieznany format”, pusty plik albo brak metadanych.
+
+Rozważyć expected<unique_ptr<IFile>, FilesystemError> albo przynajmniej nullptr
+plus diagnostykę backendu i konsekwentne sprawdzanie wyniku.
+
+
+[P2] Nie używać tekstu prezentacyjnego jako tożsamości Location
+---------------------------------------------------------------
+Location::url() jest opisane jako wartość display-only, ale jest używane do
+decyzji technicznych: rozszerzeń MIME, QFileInfo, wspólnych ścieżek i regexów.
+Dialog grupowania zapisuje url() w DisplayRole, a potem odtwarza z niego ścieżkę
+przez QFileInfo. To gubi schematy prj:, archiwa i inne wirtualne lokalizacje.
+
+Przechowywać Location w osobnym Qt::UserRole (Q_DECLARE_METATYPE już istnieje),
+DisplayRole zostawić tylko do prezentacji, a getPhotos() niech zwraca kolekcję
+Location. Materializować dopiero na granicy API wymagającego lokalnej ścieżki.
+
+
+[P2] Klasyfikować MIME tylko raz
+---------------------------------
+isImageFile(), isAnimatedImageFile() i isVideoFile() niezależnie wywołują
+fetchMimeTypeName(). Przy niejednoznacznym rozszerzeniu każdy etap może ponownie
+otworzyć backend. MediaViewCtrl wykonuje nawet trzy takie próby.
+
+Dodać classify(Location), zwracające enum/kategorię oraz MIME, i przekazywać
+wynik dalej zamiast ponownie otwierać źródło.
+
+
+[P2] Rozszerzyć testy kontraktowe backendów
+-------------------------------------------
+Obecne testy dobrze pokrywają LocalFile: size(), seek(), EOF, close/reopen oraz
+mapowanie. Brakuje testów dla:
+
+- sekwencyjnego backendu bez seek();
+- nieznanego rozmiaru i błędu otwarcia;
+- backendu bez pełnego, ciągłego byteView();
+- liczby otwarć podczas klasyfikacji MIME;
+- pliku bez strumienia wideo;
+- grupowania z wirtualną Location;
+- lifetime'u danych przekazywanych do Exiv2.
+
+
+Stan po ostatnim patchu
+=======================
+
+QIODevice jest już używany w FileAvio oraz w ścieżkach QImageReader. LocalFile
+ma poprawne size()/seek()/close(), a testy filesystemu i metadanych wideo
+przechodzą. Produkcyjnym użytkownikiem pełnego widoku pozostaje jeszcze Exiv2.

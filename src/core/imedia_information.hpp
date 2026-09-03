@@ -7,6 +7,8 @@
 #include <QSize>
 #include <QDateTime>
 
+#include "filesystem.hpp"
+
 
 struct MediaFile
 {
@@ -34,7 +36,7 @@ struct IMediaInformation
 {
     virtual ~IMediaInformation() = default;
 
-    virtual FileInformation getInformation(const QString &) const = 0;
+    virtual FileInformation getInformation(const Filesystem::Location &) const = 0;
 };
 
 #endif

@@ -1,0 +1,68 @@
+
+#ifndef FILESYSTEM_HPP_INCLUDED
+#define FILESYSTEM_HPP_INCLUDED
+
+#include <cstdint>
+#include <memory>
+#include <span>
+#include <string>
+#include <string_view>
+
+#include <QByteArrayView>
+#include <QIODevice>
+#include <QString>
+
+#include "core_export.h"
+
+
+namespace Filesystem
+{
+    class CORE_EXPORT IFile: public QIODevice
+    {
+    public:
+        virtual ~IFile() = default;
+
+        virtual QByteArrayView asQArrayView() const = 0;
+        virtual std::span<const std::uint8_t> byteView() const = 0;
+    };
+
+    class CORE_EXPORT Location
+    {
+    public:
+        Location() = default;
+        explicit Location(const QStringView &);
+        explicit Location(const std::string_view &);
+        auto operator<=>(const Location &) const = default;
+
+        [[deprecated]] QString toQStr() const;
+        [[deprecated]] std::string toStr() const;
+
+        /**
+         * @brief Return url of the location.
+         *
+         * As this url may not point to a physical file on disk, it should never be used to open a file.
+         * It is for display purpose only.
+         */
+        QString url() const;
+
+        /**
+         * @brief Check if any value was assigned
+         * @return true if object was constructed with nonempty string
+         */
+        bool isEmpty() const;
+
+        // TODO: decide where to place it
+        bool exists() const { return true; }
+
+    private:
+        QString m_location;
+    };
+
+
+    CORE_EXPORT std::unique_ptr<IFile> openFile(const Location &);
+
+}
+
+Q_DECLARE_METATYPE(Filesystem::Location);
+
+#endif

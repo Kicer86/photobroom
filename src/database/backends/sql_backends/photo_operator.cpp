@@ -430,13 +430,13 @@ namespace Database
     }
 
 
-    std::unordered_map<Photo::Id, QString> PhotoOperator::getPaths(const Filter& filter) const
+    std::unordered_map<Photo::Id, Filesystem::Location> PhotoOperator::getPaths(const Filter& filter) const
     {
         const QString query = QString("SELECT id, path FROM %1").arg(TAB_PHOTOS);
-        const auto pathsOfMatchingPhotos = getAny<QString>(filter, query, [](const QSqlQuery& sqlQuery)
+        const auto pathsOfMatchingPhotos = getAny<Filesystem::Location>(filter, query, [](const QSqlQuery& sqlQuery)
         {
             const auto [id, path] = readValues<Photo::Id, QString>(sqlQuery);
-            return std::tuple{id, path};
+            return std::tuple{id, Filesystem::Location(path)};
         },
         "id");
 

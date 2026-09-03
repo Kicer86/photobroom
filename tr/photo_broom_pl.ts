@@ -141,7 +141,7 @@
 <context>
     <name>ContextMenuManager</name>
     <message>
-        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+103"/>
+        <location filename="../src/gui/desktop/quick_items/context_menu_manager.cpp" line="+104"/>
         <source>Group</source>
         <translation>Grupuj</translation>
     </message>
@@ -617,7 +617,7 @@ Kod błędu: %1</translation>
         <translation>Wymiary zdjęć:</translation>
     </message>
     <message numerus="yes">
-        <location line="+89"/>
+        <location line="+90"/>
         <source>%n byte(s)</source>
         <translation>
             <numerusform>%n bajt</numerusform>
@@ -656,7 +656,7 @@ Kod błędu: %1</translation>
 <context>
     <name>PhotosAnalyzerImpl</name>
     <message>
-        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+298"/>
+        <location filename="../src/database/database_tools/implementation/photos_analyzer.cpp" line="+303"/>
         <source>Extracting data from new photos</source>
         <translation>Wczytywanie danych z nowych zdjęć</translation>
     </message>
@@ -755,7 +755,7 @@ Kod błędu: %1</translation>
         <translation>Wystapił błąd podczas generowania kolażu. Być może zdjęć jest zbyt wiele, lub ustalona wysokość kolażu jest zbyt duża bądź zbyt mała.</translation>
     </message>
     <message>
-        <location line="+37"/>
+        <location line="+41"/>
         <source>exposure (EV)</source>
         <translation>ekspozycja (EV)</translation>
     </message>
@@ -852,7 +852,7 @@ Kod błędu: %1</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-177"/>
+        <location filename="../src/gui/desktop/models/photo_properties_model.cpp" line="-178"/>
         <source>%1×%2</source>
         <translation>%1×%2</translation>
     </message>

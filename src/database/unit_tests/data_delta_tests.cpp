@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 
 #include "photo_data.hpp"
+#include "unit_tests_utils/location.hpp"
 
 using testing::UnorderedElementsAre;
 
@@ -14,7 +15,7 @@ TEST(DataDeltaTest, merging)
     d1.insert<Photo::Field::Flags>( {{Photo::FlagsE::ExifLoaded, 1}} );
 
     d2.insert<Photo::Field::Geometry>(QSize(10, 20));
-    d2.insert<Photo::Field::Path>("2222");
+    d2.insert<Photo::Field::Path>(UnitTests::makeLocation("2222"));
     d2.insert<Photo::Field::Flags>( {{Photo::FlagsE::StagingArea, 1}} );
 
     d1 |= d2;
@@ -24,7 +25,7 @@ TEST(DataDeltaTest, merging)
     ASSERT_TRUE(d1.has(Photo::Field::Flags));
 
     EXPECT_EQ(d1.get<Photo::Field::Geometry>(), QSize(10, 20));
-    EXPECT_EQ(d1.get<Photo::Field::Path>(), "2222");
+    EXPECT_EQ(d1.get<Photo::Field::Path>(), UnitTests::makeLocation("2222"));
     EXPECT_THAT(d1.get<Photo::Field::Flags>(), UnorderedElementsAre( std::pair{Photo::FlagsE::ExifLoaded, 1}, std::pair{Photo::FlagsE::StagingArea, 1} ));
 }
 
@@ -35,7 +36,7 @@ TEST(DataDeltaTest, mergingWithEmpty)
     Photo::DataDelta d2(Photo::Id(1));
 
     d2.insert<Photo::Field::Geometry>(QSize(10, 20));
-    d2.insert<Photo::Field::Path>("2222");
+    d2.insert<Photo::Field::Path>(UnitTests::makeLocation("2222"));
     d2.insert<Photo::Field::Flags>( {{Photo::FlagsE::ExifLoaded, 1}} );
 
     d1 |= d2;

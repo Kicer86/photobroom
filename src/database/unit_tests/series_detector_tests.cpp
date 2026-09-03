@@ -5,6 +5,7 @@
 #include <QTime>
 
 #include <unit_tests_utils/empty_logger.hpp>
+#include <unit_tests_utils/location.hpp>
 #include <unit_tests_utils/mock_backend.hpp>
 #include <unit_tests_utils/mock_exif_reader.hpp>
 #include <unit_tests_utils/mock_photo_operator.hpp>
@@ -21,7 +22,6 @@ using testing::NiceMock;
 using testing::Return;
 using testing::ReturnRef;
 using testing::_;
-
 
 class SeriesDetectorTest: public testing::Test
 {
@@ -72,7 +72,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                          // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(UnitTests::makeLocation(QString("path: %1.jpeg").arg(id.value())));                          // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -84,10 +84,11 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario1)
     }));
 
     // return sequence number basing on file name (file name contains photo id)
-    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -133,7 +134,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                                     // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(UnitTests::makeLocation(QString("path: %1.jpeg").arg(id.value())));                                     // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -145,10 +146,11 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario2)
     }));
 
     // return sequence number basing on file name (file name contains photo id)
-    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -195,7 +197,7 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value())) ;        // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(UnitTests::makeLocation(QString("path: %1.jpeg").arg(id.value())));        // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -207,10 +209,11 @@ TEST_F(SeriesDetectorTest, animationDetectionScenario3)
     }));
 
     // return sequence number basing on file name (file name contains photo id)
-    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -258,7 +261,7 @@ TEST_F(SeriesDetectorTest, smartphoneSeries)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path_BURST%1.jpeg").arg(id.value() % 3 + 1));              // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(UnitTests::makeLocation(QString("path_BURST%1.jpeg").arg(id.value() % 3 + 1)));              // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -311,7 +314,7 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                                     // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(UnitTests::makeLocation(QString("path: %1.jpeg").arg(id.value())));                                     // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));
@@ -323,10 +326,11 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     }));
 
     // return sequence number basing on file name (file name contains photo id)
-    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::SequenceNumber)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -340,10 +344,11 @@ TEST_F(SeriesDetectorTest, HDRDetectionScenario1)
     }));
 
     // return EV basing on file name
-    ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Invoke([](const QString& path, IExifReader::TagType) -> std::optional<std::any>
+    ON_CALL(exif, get(_, IExifReader::TagType::Exposure)).WillByDefault(Invoke([](const Filesystem::Location& location, IExifReader::TagType) -> std::optional<std::any>
     {
         std::optional<std::any> result;
 
+        const auto path = location.url();
         const QStringList pathSplitted = path.split(" ");
         assert(pathSplitted.size() == 2);
 
@@ -414,7 +419,7 @@ TEST_F(SeriesDetectorTest, Complexity)
     {
         Photo::DataDelta data(id);
 
-        data.insert<Photo::Field::Path>(QString("path: %1.jpeg").arg(id.value()));                          // add id to path so exif mock can use it for data mocking
+        data.insert<Photo::Field::Path>(UnitTests::makeLocation(QString("path: %1.jpeg").arg(id.value())));                          // add id to path so exif mock can use it for data mocking
 
         Tag::TagsList tags;
         tags.emplace(Tag::Types::Date, QDate::fromString("2000.12.01", "yyyy.MM.dd"));

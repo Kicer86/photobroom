@@ -12,6 +12,7 @@
 #include "backends/memory_backend/memory_backend.hpp"
 #include "project_info.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
+#include "unit_tests_utils/location.hpp"
 
 
 namespace

@@ -13,34 +13,34 @@
 #include "media_view_ctrl.hpp"
 #include "objects_accessor.hpp"
 
+
 namespace
 {
     const QString MultimediaType("multimedia_type");
-    using MediaInfo = std::pair<QUrl, MediaViewCtrl::Mode>;
+    using MediaInfo = std::pair<Filesystem::Location, MediaViewCtrl::Mode>;
 
     struct DbMediaData
     {
-        QUrl url;
+        Filesystem::Location url;
         std::optional<MediaViewCtrl::Mode> mode;
     };
 
-    MediaViewCtrl::Mode getFileType(ICoreFactoryAccessor& core, const QUrl& url)
+    MediaViewCtrl::Mode getFileType(ICoreFactoryAccessor& core, const Filesystem::Location& location)
     {
-        const auto path = url.toLocalFile();
         MediaViewCtrl::Mode mode = MediaViewCtrl::Mode::Unknown;
 
-        if (MediaTypes::isAnimatedImageFile(path))
+        if (MediaTypes::isAnimatedImageFile(location))
             mode = MediaViewCtrl::Mode::AnimatedImage;
-        else if (MediaTypes::isImageFile(path))
+        else if (MediaTypes::isImageFile(location))
         {
             auto& exifReader = core.getExifReaderFactory().get();
-            const auto projection = exifReader.get(path, IExifReader::TagType::Projection);
+            const auto projection = exifReader.get(location, IExifReader::TagType::Projection);
             if (projection && std::any_cast<std::string>(*projection) == "equirectangular")
                 mode = MediaViewCtrl::Mode::EquirectangularProjectionImage;
             else
                 mode = MediaViewCtrl::Mode::StaticImage;
         }
-        else if (MediaTypes::isVideoFile(path))
+        else if (MediaTypes::isVideoFile(location))
             mode = MediaViewCtrl::Mode::Video;
         else
             mode = MediaViewCtrl::Mode::Error;
@@ -56,8 +56,13 @@ namespace
             {
                 const auto data = backend.getPhotoDelta<Photo::Field::Path>(id);
                 const auto path = data.get<Photo::Field::Path>();
-                const QFileInfo pathInfo(path);
-                const auto url = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
+
+                //const QFileInfo pathInfo(path);
+                //const auto url = QUrl::fromLocalFile(pathInfo.absoluteFilePath());       // QML's MediaPlayer does not like 'prj:' prefix
+
+                // TODO: solve issue with location in QML
+
+                const auto url = path;
                 const auto state = backend.get(id, MultimediaType);
 
                 if (state)
@@ -65,8 +70,8 @@ namespace
                     const MediaViewCtrl::Mode mode = static_cast<MediaViewCtrl::Mode>(*state);
                     return DbMediaData{url, mode};
                 }
-
-                return DbMediaData{url, std::nullopt};
+                else
+                    return DbMediaData{url, std::nullopt};
             },
             "MediaViewCtrl: update mode"
         );
@@ -133,7 +138,7 @@ QString MediaViewCtrl::photoIDString() const
 }
 
 
-QUrl MediaViewCtrl::path() const
+Filesystem::Location MediaViewCtrl::path() const
 {
     return m_path;
 }
@@ -145,7 +150,7 @@ MediaViewCtrl::Mode MediaViewCtrl::mode() const
 }
 
 
-void MediaViewCtrl::setPath(const QUrl& path)
+void MediaViewCtrl::setPath(const Filesystem::Location& path)
 {
     m_path = path;
     emit pathChanged(m_path);
@@ -159,7 +164,7 @@ void MediaViewCtrl::setMode(Mode mode)
 }
 
 
-void MediaViewCtrl::applyMediaInfo(const std::pair<QUrl, Mode>& mediaInfo)
+void MediaViewCtrl::applyMediaInfo(const std::pair<Filesystem::Location, Mode>& mediaInfo)
 {
     setPath(mediaInfo.first);
     setMode(mediaInfo.second);

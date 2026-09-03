@@ -67,7 +67,7 @@ namespace
         }, "PeopleEditor: mark no faces");
     }
 
-    QString pathFor(Database::IDatabase& db, const Photo::Id& id)
+    Filesystem::Location pathFor(Database::IDatabase& db, const Photo::Id& id)
     {
         return evaluate(db, [id](Database::IBackend& backend)
         {
@@ -209,10 +209,8 @@ FaceEditor::FaceEditor(Database::IDatabase& db, ICoreFactoryAccessor& core, cons
 
 std::vector<std::unique_ptr<IFace>> FaceEditor::getFacesFor(const Photo::Id& id)
 {
-    const QString path = pathFor(m_db, id);
-    const QFileInfo pathInfo(path);
-    const QString full_path = pathInfo.absoluteFilePath();
-    auto image = std::make_shared<OrientedImage>(m_core.getExifReaderFactory().get(), full_path);
+    const Filesystem::Location location = pathFor(m_db, id);
+    auto image = std::make_shared<OrientedImage>(m_core.getExifReaderFactory().get(), location);
 
     auto faces = findFaces(*image, id);
 

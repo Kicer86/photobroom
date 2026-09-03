@@ -889,7 +889,7 @@ namespace Database
         InsertQueryData insertData(TAB_PHOTOS);
 
         insertData.setColumns("path", "store_date");
-        insertData.setValues(data.get<Photo::Field::Path>(), InsertQueryData::Value::CurrentTime);
+        insertData.setValues(data.get<Photo::Field::Path>().url(), InsertQueryData::Value::CurrentTime);
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 
@@ -1321,7 +1321,7 @@ namespace Database
      * \param id photo id
      * \return path to photo
      */
-    QString ASqlBackend::getPathFor(const Photo::Id& id) const
+    Filesystem::Location ASqlBackend::getPathFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -1341,7 +1341,7 @@ namespace Database
             result = path.toString();
         }
 
-        return result;
+        return Filesystem::Location(result);
     }
 
 

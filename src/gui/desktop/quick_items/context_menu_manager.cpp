@@ -91,7 +91,8 @@ void ContextMenuManager::updateModel(const std::vector<Photo::DataDelta>& select
     std::ranges::transform(
         selectedPhotos | std::views::filter([](const Photo::DataDelta& photo)
         {
-            return QFile::exists(photo.get<Photo::Field::Path>());
+            const Filesystem::Location location(photo.get<Photo::Field::Path>());
+            return location.exists();
         }),
         std::back_inserter(m_photos),
         [](const Photo::DataDelta& photo) { return ContextMenuManager::ExplicitDelta(photo); }
@@ -114,7 +115,7 @@ void ContextMenuManager::updateModel(const std::vector<Photo::DataDelta>& select
 
     const bool groupsOnly = std::ranges::all_of(m_photos, &PhotoExplicitDelta::is<GroupInfo::Role::Representative, ExplicitDelta>);
     const bool isSingleGroup = m_photos.size() == 1 && groupsOnly;
-    const bool imagesOnly = std::ranges::all_of(m_photos | std::views::transform(qOverload<const ExplicitDelta &>(&Photo::getPath<ExplicitDelta>)), &MediaTypes::isImageFile) &&
+    const bool imagesOnly = std::ranges::all_of(m_photos | std::views::transform(qOverload<const ExplicitDelta &>(&Photo::getLocation<ExplicitDelta>)), &MediaTypes::isImageFile) &&
                             std::ranges::all_of(m_photos, &PhotoExplicitDelta::is<GroupInfo::Role::None, ExplicitDelta>);
     const bool isSingleImage = m_photos.size() == 1 && imagesOnly;
 
@@ -150,7 +151,8 @@ void ContextMenuManager::removeGroupOf(const std::vector<ExplicitDelta>& represe
         GroupsManager::ungroup(db, gid);
 
         // delete representative file
-        QFile::remove(representative.get<Photo::Field::Path>());
+        // TODO: implement properly
+        // QFile::remove(representative.get<Photo::Field::Path>());
     }
 }
 
@@ -195,7 +197,7 @@ void ContextMenuManager::manageGroupsAction()
         std::vector<Photo::Id> member_ids;
         std::transform(groupMembers.begin(), groupMembers.end(), std::back_inserter(member_ids), [](const auto& data){ return data.getId(); });
 
-        const QString representantPath = GroupsManager::includeRepresentatInDatabase(dialog.getRepresentative(), *m_project);
+        const Filesystem::Location representantPath = GroupsManager::includeRepresentatInDatabase(dialog.getRepresentative(), *m_project);
         GroupsManager::group(db, member_ids, representantPath, dialog.groupType());
     }
 }
@@ -210,12 +212,17 @@ void ContextMenuManager::ungroupAction()
 void ContextMenuManager::locationAction()
 {
     const auto& first = m_photos.front();
-    const QString relative_path = first.get<Photo::Field::Path>();
-    const QString absolute_path = m_project->makePathAbsolute(relative_path);
+    const Filesystem::Location relative_path = first.get<Photo::Field::Path>();
+    const Filesystem::Location absolute_path = m_project->makePathAbsolute(relative_path);
+
+    // TODO: fix me. Also there is a similar code in qml. unify
+
+    /*
     const QFileInfo photoFileInfo(absolute_path);
     const QString file_dir = photoFileInfo.path();
 
     QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
+    */
 }
 
 

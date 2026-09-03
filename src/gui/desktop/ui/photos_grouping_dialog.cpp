@@ -90,7 +90,7 @@ struct PhotosGroupingDialog::Impl
     QStandardItemModel model;
     std::shared_ptr<ITmpDir> tmpDir;
     SortingProxy sortProxy;
-    QString representativeFile;
+    Filesystem::Location representativeFile;
     std::vector<ExplicitDelta> photos;
     Group::Type representativeType;
     Ui::PhotosGroupingDialog ui;
@@ -155,7 +155,7 @@ PhotosGroupingDialog::~PhotosGroupingDialog()
 }
 
 
-QString PhotosGroupingDialog::getRepresentative() const
+Filesystem::Location PhotosGroupingDialog::getRepresentative() const
 {
     return m_impl->representativeFile;
 }
@@ -203,7 +203,7 @@ void PhotosGroupingDialog::generationProgress(int v)
 }
 
 
-void PhotosGroupingDialog::generationDone(const QString& location)
+void PhotosGroupingDialog::generationDone(const Filesystem::Location& location)
 {
     m_impl->representativeFile = location;
     m_impl->representativeType = comboboxToGroupType(m_impl->ui.optionsWidget->currentIndex());
@@ -219,13 +219,13 @@ void PhotosGroupingDialog::generationDone(const QString& location)
 
 void PhotosGroupingDialog::generationCanceled()
 {
-    generationDone(QString());
+    generationDone({});
 }
 
 
 void PhotosGroupingDialog::generationError(const QString& info, const QStringList& output)
 {
-    generationDone(QString());
+    generationDone({});
 
     QDialog errorReporter(this);
     errorReporter.setModal(true);
@@ -348,7 +348,9 @@ void PhotosGroupingDialog::makeCollage()
         const QString collagePath = System::getUniqueFileName(m_impl->tmpDir->path(), "jpeg");
 
         collage.save(collagePath);
-        generationDone(collagePath);
+
+        const Filesystem::Location collageLocation(collagePath);
+        generationDone(collageLocation);
     }
 }
 
@@ -363,9 +365,11 @@ void PhotosGroupingDialog::fillModel(const std::vector<ExplicitDelta>& photos)
 
     for(const auto& photo: photos)
     {
-        const QString& path = photo.get<Photo::Field::Path>();
-        const std::optional<std::any> sequence_number = exif.get(path, IExifReader::TagType::SequenceNumber);
-        const std::optional<std::any> exposure_number = exif.get(path, IExifReader::TagType::Exposure);
+        const Filesystem::Location& location = photo.get<Photo::Field::Path>();
+        const auto path = location.url();
+
+        const std::optional<std::any> sequence_number = exif.get(location, IExifReader::TagType::SequenceNumber);
+        const std::optional<std::any> exposure_number = exif.get(location, IExifReader::TagType::Exposure);
 
         const QRegularExpressionMatch burstMatch = burstRE.match(path);
         const QString burst_str = burstMatch.hasMatch()? burstMatch.captured(1) : "-";
@@ -421,7 +425,7 @@ void PhotosGroupingDialog::switchUiToGeneration()
     m_impl->ui.optionsWidget->setEnabled(false);
     m_impl->preview->clean();
     m_impl->workInProgress = true;
-    m_impl->representativeFile.clear();
+    m_impl->representativeFile = {};
 
     refreshDialogButtons();
 }

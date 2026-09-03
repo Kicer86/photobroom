@@ -122,9 +122,11 @@ add_executable(core_ut
     implementation/exiv2_exif_reader.cpp
     implementation/exif_reader_factory.cpp
     implementation/data_from_path_extractor.cpp
+    implementation/filesystem.cpp
     implementation/oriented_image.cpp
     implementation/image_aligner.cpp
     implementation/image_media_information.cpp
+    implementation/libav_toolkit.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
     implementation/model_compositor.cpp
@@ -142,6 +144,7 @@ add_executable(core_ut
     unit_tests/containers_utils_tests.cpp
     unit_tests/data_from_path_extractor_tests.cpp
     unit_tests/enum_reflection_tests.cpp
+    unit_tests/filesystem_tests.cpp
     unit_tests/image_aligner_tests.cpp
     unit_tests/json_serializer_tests.cpp
     unit_tests/lazy_ptr_tests.cpp
@@ -209,7 +212,9 @@ add_executable(core_video_ut
     implementation/base_tags.cpp
     implementation/exiv2_exif_reader.cpp
     implementation/exif_reader_factory.cpp
+    implementation/filesystem.cpp
     implementation/image_media_information.cpp
+    implementation/libav_toolkit.cpp
     implementation/media_information.cpp
     implementation/media_types.cpp
     implementation/tag.cpp

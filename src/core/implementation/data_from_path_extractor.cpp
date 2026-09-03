@@ -15,11 +15,11 @@ DataFromPathExtractor::DataFromPathExtractor()
 }
 
 
-Tag::TagsList DataFromPathExtractor::extract(const QString& path) const
+Tag::TagsList DataFromPathExtractor::extract(const Filesystem::Location& path) const
 {
-   const auto tags1 = extractRegex1(path);
+   const auto tags1 = extractRegex1(path.url());
 
-   return tags1.empty()? extractRegex2(path): tags1;
+   return tags1.empty()? extractRegex2(path.url()): tags1;
 }
 
 

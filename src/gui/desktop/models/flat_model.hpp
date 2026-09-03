@@ -56,7 +56,6 @@ class FlatModel: public APhotoDataModel
         QModelIndex parent(const QModelIndex&) const override;
         QModelIndex index(int, int, const QModelIndex&) const override;
 
-        Q_INVOKABLE QUrl getPhotoPath(int row) const;
         Q_INVOKABLE Photo::Id getId(int row) const;
 
     private:

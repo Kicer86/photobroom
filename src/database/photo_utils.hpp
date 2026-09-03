@@ -4,6 +4,7 @@
 
 #include <QString>
 
+#include <core/filesystem.hpp>
 #include <core/utils.hpp>
 #include <database/explicit_photo_delta.hpp>
 #include <database_export.h>
@@ -11,12 +12,20 @@
 
 namespace Photo
 {
-    DATABASE_EXPORT const QString& getPath(const Photo::DataDelta &);
+    DATABASE_EXPORT const Filesystem::Location& getPath(const Photo::DataDelta &);
 
     template<typename T>                    // TODO: T is expected to be Photo::ExplicitDelta
-    const QString& getPath(const T& data)
+    const Filesystem::Location& getPath(const T& data)
     {
         return data.template get<Photo::Field::Path>();
+    }
+
+    template<typename T>                    // TODO: T is expected to be Photo::ExplicitDelta
+    Filesystem::Location getLocation(const T& data)
+    {
+        const Filesystem::Location location(data.template get<Photo::Field::Path>());
+
+        return location;
     }
 
     template<GroupInfo::Role role> bool is(const Photo::DataDelta& data)
