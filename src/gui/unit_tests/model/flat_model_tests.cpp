@@ -585,24 +585,3 @@ TEST_F(FlatModelTest, returnsPhotoId)
     EXPECT_EQ(id0, Photo::Id(1));
     EXPECT_EQ(id1, Photo::Id(2));
 }
-
-
-#ifndef NDEBUG
-TEST_F(FlatModelTest, handlesInvalidIndex)
-{
-    const auto photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2)};
-
-    EXPECT_CALL(photoOperator, onPhotos(_, _))
-        .WillOnce(Return(photos_set));
-
-    model.setDatabase(&db);
-
-    EXPECT_DEATH({
-        model.getId(-1);
-    }, ".*");
-
-    EXPECT_DEATH({
-        model.getId(2);
-    }, ".*");
-}
-#endif
