@@ -178,4 +178,10 @@ namespace Filesystem
         file->open(QIODeviceBase::ReadOnly);
         return file;
     }
+
+    QString toLocalFile(const Location& location)
+    {
+        // TODO: improve
+        return location.url();
+    }
 }

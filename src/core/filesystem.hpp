@@ -60,7 +60,7 @@ namespace Filesystem
 
 
     CORE_EXPORT std::unique_ptr<IFile> openFile(const Location &);
-
+    CORE_EXPORT QString toLocalFile(const Location &);
 }
 
 Q_DECLARE_METATYPE(Filesystem::Location);
