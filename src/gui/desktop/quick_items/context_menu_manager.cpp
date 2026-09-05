@@ -1,9 +1,6 @@
 
 #include <ranges>
-#include <QDesktopServices>
 #include <QFile>
-#include <QFileInfo>
-#include <QUrl>
 
 #include <core/media_types.hpp>
 #include <core/task_executor_utils.hpp>
@@ -12,6 +9,7 @@
 #include <database/igroup_operator.hpp>
 #include <database/photo_utils.hpp>
 #include <face_recognition/face_recognition.hpp>
+#include <desktop_services.hpp>
 #include "ui/photos_grouping_dialog.hpp"
 #include "utils/groups_manager.hpp"
 #include "context_menu_manager.hpp"
@@ -213,11 +211,8 @@ void ContextMenuManager::locationAction()
 {
     const auto& first = m_photos.front();
     const Filesystem::Location relative_path = first.get<Photo::Field::Path>();
-    const QString absolute_path = Filesystem::toLocalFile(m_project->makePathAbsolute(relative_path));
-    const QFileInfo photoFileInfo(absolute_path);
-    const QString file_dir = photoFileInfo.path();
 
-    QDesktopServices::openUrl(QUrl::fromLocalFile(file_dir));
+    DesktopServices::openContainingDirectory(m_project->makePathAbsolute(relative_path));
 }
 
 

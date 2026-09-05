@@ -4,7 +4,7 @@
 
 #include <QObject>
 
-#include "file_info.hpp"
+#include <core/filesystem.hpp>
 
 
 class Utils: public QObject
@@ -12,7 +12,7 @@ class Utils: public QObject
     Q_OBJECT
 
 public:
-    Q_INVOKABLE static FileInfo* fileInfo();
+    Q_INVOKABLE static bool openContainingDirectory(const Filesystem::Location& photo);
 };
 
 #endif

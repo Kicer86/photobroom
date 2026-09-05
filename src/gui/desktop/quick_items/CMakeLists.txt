@@ -58,6 +58,7 @@ target_link_libraries(quick_items
 
         Qt::Quick
         Qt::Quick3D
+        Qt::Gui
         Qt::Widgets                  # TODO: remove ASAP
         QCoro6::Core
 )
@@ -65,4 +66,6 @@ target_link_libraries(quick_items
 target_include_directories(quick_items
     PUBLIC
         ${CMAKE_CURRENT_BINARY_DIR}
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/..
 )
