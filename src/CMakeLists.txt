@@ -24,6 +24,10 @@ add_subdirectory(project_utils)
 add_subdirectory(unit_tests_utils)
 add_subdirectory(system)
 
+if(CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
+    add_subdirectory(wasm)
+endif()
+
 add_executable(photo_broom
     config_storage.cpp
     config_storage.hpp
