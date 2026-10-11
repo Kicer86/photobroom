@@ -33,6 +33,7 @@
 #include "config_storage.hpp"
 #include "features.hpp"
 #include "paths.hpp"
+#include "rust_hello/rust_hello.hpp"
 
 
 import broom.system;
@@ -69,6 +70,11 @@ namespace
 
 int main(int argc, char **argv)
 {
+    // Test Rust integration
+    const char* rust_msg = rust_hello_world();
+    std::cout << rust_msg << std::endl;
+    rust_free_string(const_cast<char*>(rust_msg));
+
 #ifdef OS_WIN
     QCoreApplication::setLibraryPaths({ "qt_plugins" });
 #endif
