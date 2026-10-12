@@ -139,12 +139,12 @@ namespace GeneratorUtils
     ///////////////////////////////////////////////////////////////////////////
 
 
-    BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory& exif):
-        QObject(),
-        m_impl(std::make_unique<Impl>()),
-        m_storage(storage),
-        m_runner(),
-        m_exif(exif)
+    BreakableTask::BreakableTask(const QString& storage, IExifReaderFactory& exif)
+        : QObject()
+        , m_storage(storage)
+        , m_runner()
+        , m_exif(exif)
+        , m_impl(std::make_unique<Impl>())
     {
         m_impl->tmpDir = System::createTmpDir("BT_tmp", QFlags<System::TmpOption>{System::Confidential, System::BigFiles});
         m_impl->tmpDirPath = m_impl->tmpDir->path();

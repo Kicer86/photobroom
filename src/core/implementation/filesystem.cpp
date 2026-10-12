@@ -171,7 +171,6 @@ namespace Filesystem
     }
 
 
-
     std::unique_ptr<IFile> openFile(const Location& location)
     {
         auto file = std::make_unique<LocalFile>(location.toQStr());
