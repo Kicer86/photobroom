@@ -749,7 +749,41 @@ namespace Database
 
                 } [[fallthrough]];
 
-                case 7:             // current version, break updgrades chain
+                case 7:
+                {
+                    // convert all paths to json arrays
+                    const QString select_paths = QString("SELECT id, path FROM %1").arg(TAB_PHOTOS);
+                    status = m_executor.exec(select_paths, &query);
+
+                    std::vector<std::pair<QString, QString>> paths;
+                    while (status && query.next())
+                    {
+                        const QString id = query.value(0).toString();
+                        const QString raw_path = query.value(1).toString();
+                        const QString json_path = locationToString(Filesystem::Location(raw_path));
+
+                        paths.emplace_back(id, json_path);
+                    }
+
+                    query.clear();
+
+                    for (const auto& [id, path] : paths)
+                    {
+                        UpdateQueryData update(TAB_PHOTOS);
+                        update.setColumns("path");
+                        update.setValues(path);
+                        update.addCondition("id", id);
+
+                        QSqlQuery updateQuery = getGenericQueryGenerator().update(db, update);
+                        status = m_executor.exec(updateQuery);
+
+                        if (status == false)
+                            break;
+                    }
+
+                } [[fallthrough]];
+
+                case 8:             // current version, break updgrades chain
                     break;
 
                 default:
