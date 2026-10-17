@@ -21,12 +21,12 @@ class Exiv2ExifReader final: public AExifReader
         Exiv2ExifReader& operator=(Exiv2ExifReader &&) = delete;
 
     private:
-        bool hasExif(const QString & path) override;
-        virtual void collect(const QString &) override;
+        bool hasExif(const Filesystem::Location& path) override;
+        virtual void collect(const Filesystem::Location &) override;
         virtual std::optional<std::string> read(TagType) const override;
 
         Exiv2::Image::UniquePtr m_exif_data;
-        QString m_path;
+        Filesystem::Location m_location;
 };
 
 #endif

@@ -12,7 +12,7 @@ class PHOTOS_CRAWLER_EXPORT FileAnalyzer final: public IAnalyzer
         FileAnalyzer();
         virtual ~FileAnalyzer();
 
-        virtual bool isMediaFile(const QString &) override;
+        virtual bool isMediaFile(const Filesystem::Location &) override;
 };
 
 #endif

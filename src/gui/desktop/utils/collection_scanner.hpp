@@ -66,7 +66,7 @@ class CollectionScanner: public QObject
 
         void checkIfReady();
 
-        void gotDiskPhoto(const QString &);
+        void gotDiskPhoto(const Filesystem::Location &);
         void gotDBPhotos(const std::vector<PhotoPaths> &, const std::vector<PhotoPaths> &);
         void addNotification(std::size_t, std::size_t, std::size_t);
 };

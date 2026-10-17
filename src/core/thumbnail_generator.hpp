@@ -39,7 +39,7 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         ThumbnailGenerator& operator=(const ThumbnailGenerator &) = delete;
 
         // IThumbnailGenerator:
-        QImage generate(const QString &, const ThumbnailParameters& params) override;
+        QImage generate(const Filesystem::Location &, const ThumbnailParameters& params) override;
         QImage generateFrom(const QImage &, const ThumbnailParameters& params) override;
 
     private:
@@ -47,10 +47,10 @@ class CORE_EXPORT ThumbnailGenerator: public IThumbnailsGenerator
         mutable ExifReaderFactory m_exifReaderFactory;
         IExifReaderFactory& m_exif;
 
-        QImage readFrameFromImage(const QString& path) const;
-        QImage readFrameFromVideo(const QString& path) const;
-        QImage readFrame(const QString& path) const;
-        QImage scaleImage(const QImage& path, const ThumbnailParameters& params) const;
+        QImage readFrameFromImage(const Filesystem::Location& path) const;
+        QImage readFrameFromVideo(const Filesystem::Location& path) const;
+        QImage readFrame(const Filesystem::Location& path) const;
+        QImage scaleImage(const QImage& image, const ThumbnailParameters& params) const;
 };
 
 #endif

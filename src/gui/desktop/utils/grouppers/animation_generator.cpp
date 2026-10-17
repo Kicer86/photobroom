@@ -69,7 +69,7 @@ void AnimationGenerator::run()
                                               prepared;
 
         // generate animation (if there was no cancel during stabilization)
-        const QString animation_path = generateAnimation(images_to_be_used);
+        const Filesystem::Location animation_path = generateAnimation(images_to_be_used);
 
         emit finished(animation_path);
     }
@@ -109,7 +109,7 @@ QStringList AnimationGenerator::stabilize(const QStringList& photos)
 }
 
 
-QString AnimationGenerator::generateAnimation(const QStringList& photos)
+Filesystem::Location AnimationGenerator::generateAnimation(const QStringList& photos)
 {
     // generate animation
     const QStringList all_but_last = photos.mid(0, photos.size() - 1);
@@ -139,5 +139,5 @@ QString AnimationGenerator::generateAnimation(const QStringList& photos)
     outputFile.open(QFile::WriteOnly);
     outputFile.write(outputData);
 
-    return location;
+    return Filesystem::Location(location);
 }

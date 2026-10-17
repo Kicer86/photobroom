@@ -2,6 +2,7 @@
 #include <QRegularExpression>
 #include <QStringList>
 
+#include <core/json_serializer.hpp>
 #include "utils.hpp"
 
 
@@ -72,4 +73,21 @@ namespace Database
         return fingerprint;
     }
 
+
+    QString locationToString(const Filesystem::Location& location)
+    {
+        const auto data = location.get();
+        const auto json = JSon::serialize(data);
+        const auto str = json.toJson(QJsonDocument::Compact);
+        return str;
+    }
+
+
+    Filesystem::Location stringToLocation(const QString& string)
+    {
+        const auto json = QJsonDocument::fromJson(string.toUtf8());
+        const auto rawLocation = JSon::deserialize<QStringList>(json);
+
+        return Filesystem::Location(rawLocation);
+    }
 }

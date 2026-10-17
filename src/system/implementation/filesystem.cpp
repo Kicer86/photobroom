@@ -1,3 +1,4 @@
+
 /*
  * Photo Broom - photos management tool.
  * Copyright (C) 2014  Michał Walenciak <MichalWalenciak@gmail.com>

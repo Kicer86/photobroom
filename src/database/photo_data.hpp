@@ -48,6 +48,7 @@ namespace Photo
             DataDelta(const DataDelta& other);
             explicit DataDelta(DataDelta&& other) noexcept;
             explicit DataDelta(const Photo::Id& id): m_id(id), m_data() {}
+            explicit DataDelta(const typename DeltaTypes<Photo::Field::Path>::Storage& path): m_id(), m_data({{Photo::Field::Path, path}}) {}
 
             DataDelta& operator=(const DataDelta& other);
 

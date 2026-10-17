@@ -2,12 +2,14 @@
 #ifndef MISC_HPP
 #define MISC_HPP
 
+#include <QString>
+
+#include "core/filesystem.hpp"
 #include "project_utils_export.h"
 
-#include <QString>
 
 struct ProjectInfo;
 
-QString PROJECT_UTILS_EXPORT includeFileInPrivateMediaLocation(const ProjectInfo &, const QString& path);  // intelligently move, copy or link
+Filesystem::Location PROJECT_UTILS_EXPORT includeFileInPrivateMediaLocation(const ProjectInfo &, const Filesystem::Location& path);  // intelligently move, copy or link
 
 #endif
