@@ -41,6 +41,7 @@ set(CORE_SOURCES
     exif_reader_factory.hpp                                 implementation/exif_reader_factory.cpp
     features_manager_compositor.hpp                         implementation/features_manager_compositor.cpp
     filesystem.hpp                                          implementation/filesystem.cpp
+    implementation/filesystem_localfile.hpp                 implementation/filesystem_localfile.cpp
     function_wrappers.hpp
     generic_concepts.hpp
     iconfiguration.hpp
