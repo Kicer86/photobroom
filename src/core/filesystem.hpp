@@ -30,12 +30,21 @@ namespace Filesystem
     {
     public:
         Location() = default;
+        explicit Location(const char *);
         explicit Location(const QStringView &);
         explicit Location(const std::string_view &);
+        explicit Location(const QString &);
+        explicit Location(const QStringList &);
+
         auto operator<=>(const Location &) const = default;
 
         [[deprecated]] QString toQStr() const;
         [[deprecated]] std::string toStr() const;
+
+        /**
+         * Returns Location as it is stored internally.
+         */
+        const QStringList& get() const;
 
         /**
          * @brief Return url of the location.
@@ -55,7 +64,7 @@ namespace Filesystem
         bool exists() const { return true; }
 
     private:
-        QString m_location;
+        QStringList m_location;
     };
 
 

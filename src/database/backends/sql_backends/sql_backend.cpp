@@ -51,6 +51,7 @@
 #include "query_structs.hpp"
 #include "sql_filter_query_generator.hpp"
 #include "people_information_accessor.hpp"
+#include "utils.hpp"
 
 
 // useful links
@@ -59,7 +60,6 @@
 
 namespace Database
 {
-
     ASqlBackend::ASqlBackend(ILogger* l):
         m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, this->getGenericQueryGenerator()); }),
         m_connectionName(""),
@@ -887,9 +887,10 @@ namespace Database
         assert(id.valid() == false);
 
         InsertQueryData insertData(TAB_PHOTOS);
+        const auto path = locationToString(data.get<Photo::Field::Path>());
 
         insertData.setColumns("path", "store_date");
-        insertData.setValues(data.get<Photo::Field::Path>().url(), InsertQueryData::Value::CurrentTime);
+        insertData.setValues(path, InsertQueryData::Value::CurrentTime);
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 
@@ -1341,7 +1342,9 @@ namespace Database
             result = path.toString();
         }
 
-        return Filesystem::Location(result);
+        const auto location = stringToLocation(result);
+
+        return location;
     }
 
 

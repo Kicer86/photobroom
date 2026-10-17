@@ -84,3 +84,31 @@ TYPED_TEST(PhotosTest, retrievingPartialDataInDelta)
         EXPECT_TRUE(photoDelta.has(Photo::Field::Geometry));
     }
 }
+
+
+TYPED_TEST(PhotosTest, properlyStoriesComplexPaths)
+{
+    Filesystem::Location l1("/11/22/345.qwe"),
+                         l2(QStringList{"/12/34/56.qwerty", "/sddg/gretwq/dsd"}),
+                         l3(QStringList{"/12/34/56", "/sddg/gretwq/dsd/", "ds21/111.ert"}),
+                         l4(QStringList{"/12sdfdsfd/34/", "/sddg/gretwq/dsd/", "/ds21/111.ert"});
+
+    Photo::DataDelta p1(l1),
+                     p2(l2),
+                     p3(l3),
+                     p4(l4);
+
+    std::vector photos = {p1, p2, p3, p4};
+    const bool status = this->m_backend->addPhotos(photos);
+    ASSERT_TRUE(status);
+
+    const auto p1_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[0].getId());
+    const auto p2_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[1].getId());
+    const auto p3_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[2].getId());
+    const auto p4_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[3].getId());
+
+    EXPECT_EQ(p1_asRead.template get<Photo::Field::Path>(), l1);
+    EXPECT_EQ(p2_asRead.template get<Photo::Field::Path>(), l2);
+    EXPECT_EQ(p3_asRead.template get<Photo::Field::Path>(), l3);
+    EXPECT_EQ(p4_asRead.template get<Photo::Field::Path>(), l4);
+}

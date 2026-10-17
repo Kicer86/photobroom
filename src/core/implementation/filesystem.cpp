@@ -133,15 +133,36 @@ namespace Filesystem
     }
 
 
+    Location::Location(const char* location)
+        : Location(QString(location))
+    {
+
+    }
+
+
     Location::Location(const QStringView& path)
-        : m_location(path)
+        : Location(QString(path))
     {
 
     }
 
 
     Location::Location(const std::string_view& path)
-        : m_location(QString::fromUtf8(path.data(), path.size()))
+        : Location(QString::fromUtf8(path.data(), path.size()))
+    {
+
+    }
+
+
+    Location::Location(const QString& location)
+        : Location(QStringList(location))
+    {
+
+    }
+
+
+    Location::Location(const QStringList& location)
+        : m_location(location)
     {
 
     }
@@ -159,9 +180,15 @@ namespace Filesystem
     }
 
 
-    QString Location::url() const
+    const QStringList& Location::get() const
     {
         return m_location;
+    }
+
+
+    QString Location::url() const
+    {
+        return m_location.join("");
     }
 
 
