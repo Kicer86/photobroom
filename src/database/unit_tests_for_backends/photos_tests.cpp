@@ -91,14 +91,20 @@ TYPED_TEST(PhotosTest, properlyStoriesComplexPaths)
     Filesystem::Location l1("/11/22/345.qwe"),
                          l2(QStringList{"/12/34/56.qwerty", "/sddg/gretwq/dsd"}),
                          l3(QStringList{"/12/34/56", "/sddg/gretwq/dsd/", "ds21/111.ert"}),
-                         l4(QStringList{"/12sdfdsfd/34/", "/sddg/gretwq/dsd/", "/ds21/111.ert"});
+                         l4(QStringList{"/12sdfdsfd/34/", "/sddg/gretwq/dsd/", "/ds21/111.ert"}),
+                         l5("[\"prj://photo.jpg\"]"),
+                         l6("{\"path\":\"prj://photo.jpg\"}"),
+                         l7(QStringList{"[\"prj://source.jpg\"]", "{\"path\":\"prj://sidecar.json\"}"});
 
     Photo::DataDelta p1(l1),
                      p2(l2),
                      p3(l3),
-                     p4(l4);
+                     p4(l4),
+                     p5(l5),
+                     p6(l6),
+                     p7(l7);
 
-    std::vector photos = {p1, p2, p3, p4};
+    std::vector photos = {p1, p2, p3, p4, p5, p6, p7};
     const bool status = this->m_backend->addPhotos(photos);
     ASSERT_TRUE(status);
 
@@ -106,9 +112,15 @@ TYPED_TEST(PhotosTest, properlyStoriesComplexPaths)
     const auto p2_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[1].getId());
     const auto p3_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[2].getId());
     const auto p4_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[3].getId());
+    const auto p5_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[4].getId());
+    const auto p6_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[5].getId());
+    const auto p7_asRead = this->m_backend->template getPhotoDelta<Photo::Field::Path>(photos[6].getId());
 
     EXPECT_EQ(p1_asRead.template get<Photo::Field::Path>(), l1);
     EXPECT_EQ(p2_asRead.template get<Photo::Field::Path>(), l2);
     EXPECT_EQ(p3_asRead.template get<Photo::Field::Path>(), l3);
     EXPECT_EQ(p4_asRead.template get<Photo::Field::Path>(), l4);
+    EXPECT_EQ(p5_asRead.template get<Photo::Field::Path>(), l5);
+    EXPECT_EQ(p6_asRead.template get<Photo::Field::Path>(), l6);
+    EXPECT_EQ(p7_asRead.template get<Photo::Field::Path>(), l7);
 }
