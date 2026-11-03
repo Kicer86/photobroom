@@ -60,7 +60,9 @@ namespace Database
             {
                 addValue(id.value());
             }
+
             void addValue(Value);
+            void addValue(const QStringList &) = delete;
 
             //finish variadic templates
             void setColumns();

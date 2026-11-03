@@ -23,7 +23,7 @@ namespace
         for (int i = 0; i < 1000; i++)
         {
             Photo::DataDelta data;
-            data.insert<Photo::Field::Path>(QString("path %1").arg(i % 11));
+            data.insert<Photo::Field::Path>(Filesystem::Location(QString("path %1").arg(i % 11)));
 
             Tag::TagsList tags;
             tags.emplace(Tag::Types::Time, QTime(i % 5 + 10, 0, 0));

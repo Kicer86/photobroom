@@ -301,7 +301,8 @@ QImage CollageGenerator::generateCollage(const QStringList& paths, int height) c
     QList<QImage> images;
     std::transform(paths.begin(), paths.end(), std::back_inserter(images), [this](const auto& path)
     {
-        return OrientedImage(m_exifReader, path).get();
+        const Filesystem::Location location(path);
+        return OrientedImage(m_exifReader, location).get();
     });
 
     const QImage collage = merge(images, height);

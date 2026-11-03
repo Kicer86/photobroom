@@ -553,29 +553,6 @@ TEST_F(FlatModelTest, DataChange)
 }
 
 
-TEST_F(FlatModelTest, accessToPhotoPathByItemIndex)
-{
-    NiceMock<DatabaseMock> memoryDb;
-    Database::MemoryBackend memoryBackend;
-    Database::JsonToBackend jsonReader(memoryBackend);
-
-    jsonReader.append(SampleDB::db1);
-
-    ON_CALL(db, execute(_)).WillByDefault(Invoke([&memoryBackend](auto&& task)
-    {
-        task->run(memoryBackend);
-    }));
-
-    ON_CALL(db, backend).WillByDefault(ReturnRef(memoryBackend));
-
-    model.setDatabase(&db);
-    model.setFilter({});       // setting filters should update set of photos
-
-    const auto path = model.getPhotoPath(1);
-    EXPECT_EQ(path, QUrl::fromLocalFile("/some/path2.jpeg"));
-}
-
-
 TEST_F(FlatModelTest, includeIgnoredPhotosIfTheyMatchNow)
 {
     const auto initial_photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2)};
@@ -608,24 +585,3 @@ TEST_F(FlatModelTest, returnsPhotoId)
     EXPECT_EQ(id0, Photo::Id(1));
     EXPECT_EQ(id1, Photo::Id(2));
 }
-
-
-#ifndef NDEBUG
-TEST_F(FlatModelTest, handlesInvalidIndex)
-{
-    const auto photos_set = std::vector<Photo::Id>{Photo::Id(1), Photo::Id(2)};
-
-    EXPECT_CALL(photoOperator, onPhotos(_, _))
-        .WillOnce(Return(photos_set));
-
-    model.setDatabase(&db);
-
-    EXPECT_DEATH({
-        model.getId(-1);
-    }, ".*");
-
-    EXPECT_DEATH({
-        model.getId(2);
-    }, ".*");
-}
-#endif

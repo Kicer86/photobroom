@@ -4,6 +4,8 @@
 
 #include <QImage>
 
+#include <core/filesystem.hpp>
+
 
 class IThumbnailsGenerator
 {
@@ -12,7 +14,7 @@ public:
 
     virtual ~IThumbnailsGenerator() = default;
 
-    virtual QImage generate(const QString &, const ThumbnailParameters& params) = 0;
+    virtual QImage generate(const Filesystem::Location &, const ThumbnailParameters& params) = 0;
     virtual QImage generateFrom(const QImage &, const ThumbnailParameters& params) = 0;
 };
 

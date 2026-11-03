@@ -25,7 +25,6 @@
 extern "C"
 {
 #include <libavcodec/avcodec.h>
-#include <libavformat/avformat.h>
 #include <libavutil/display.h>
 #include <libavutil/error.h>
 #include <libavutil/mathematics.h>
@@ -37,11 +36,13 @@ extern "C"
 #include "iconfiguration.hpp"
 #include "iexif_reader.hpp"
 #include "ilogger.hpp"
+#include "libav_toolkit.hpp"
 #include "image_tools.hpp"
 #include "media_types.hpp"
 #include "video_media_information.hpp"
 
 import broom.system;
+
 
 namespace
 {
@@ -162,64 +163,49 @@ namespace
 
         QImage image(frame->width, frame->height, QImage::Format_RGB888);
 
-        if (image.isNull())
-            return {};
+        if (not image.isNull())
+        {
+            SwsContextGuard swsContext;
+            swsContext.context = sws_getContext(
+                frame->width,
+                frame->height,
+                static_cast<AVPixelFormat>(frame->format),
+                frame->width,
+                frame->height,
+                AV_PIX_FMT_RGB24,
+                SWS_BILINEAR,
+                nullptr,
+                nullptr,
+                nullptr);
 
-        SwsContextGuard swsContext;
-        swsContext.context = sws_getContext(
-            frame->width,
-            frame->height,
-            static_cast<AVPixelFormat>(frame->format),
-            frame->width,
-            frame->height,
-            AV_PIX_FMT_RGB24,
-            SWS_BILINEAR,
-            nullptr,
-            nullptr,
-            nullptr);
+            if (swsContext.context == nullptr)
+                return {};
 
-        if (swsContext.context == nullptr)
-            return {};
+            uint8_t* const dstData[4] = { image.bits(), nullptr, nullptr, nullptr };
+            const int dstLinesize[4] = { static_cast<int>(image.bytesPerLine()), 0, 0, 0 };
 
-        uint8_t* const dstData[4] = { image.bits(), nullptr, nullptr, nullptr };
-        const int dstLinesize[4] = { static_cast<int>(image.bytesPerLine()), 0, 0, 0 };
-
-        sws_scale(swsContext.context, frame->data, frame->linesize, 0, frame->height, dstData, dstLinesize);
+            sws_scale(swsContext.context, frame->data, frame->linesize, 0, frame->height, dstData, dstLinesize);
+        }
 
         return image;
     }
 
-    QImage readVideoFrame(const QString& absolutePath, const QString& logPath, int64_t positionMs, ILogger* logger)
+    QImage readVideoFrame(const Filesystem::Location& location, int64_t positionMs, ILogger* logger)
     {
-        FormatContextGuard formatContext;
-        const int openResult = avformat_open_input(&formatContext.context, absolutePath.toStdString().c_str(), nullptr, nullptr);
+        FileAvio fileAvio(location);
 
-        if (openResult != 0)
-        {
-            logger->warning(QString("Error while opening video file %1 to read frame for thumbnail").arg(logPath));
+        AVFormatContext* formatContext = fileAvio.open();
+
+        if (formatContext == nullptr)
             return {};
-        }
 
-        if (avformat_find_stream_info(formatContext.context, nullptr) < 0)
-        {
-            logger->warning(QString("Error while reading stream info for %1").arg(logPath));
-            return {};
-        }
-
-        const int videoStreamIndex = av_find_best_stream(formatContext.context, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
-
-        if (videoStreamIndex < 0)
-        {
-            logger->warning(QString("No video stream found in %1").arg(logPath));
-            return {};
-        }
-
-        AVStream* const stream = formatContext.context->streams[videoStreamIndex];
+        const int videoStreamIndex = av_find_best_stream(formatContext, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+        AVStream* const stream = formatContext->streams[videoStreamIndex];
         const AVCodec* const codec = avcodec_find_decoder(stream->codecpar->codec_id);
 
         if (codec == nullptr)
         {
-            logger->warning(QString("No decoder found for video file %1").arg(logPath));
+            logger->warning(QString("No decoder found for video file %1").arg(location.url()));
             return {};
         }
 
@@ -234,18 +220,18 @@ namespace
 
         if (!opened)
         {
-            logger->warning(QString("Error while opening video stream %1 to read frame for thumbnail").arg(logPath));
+            logger->warning(QString("Error while opening video stream %1 to read frame for thumbnail").arg(location.url()));
             return {};
         }
 
         logger->trace("Stream opened successfully");
-        seekToPosition(formatContext.context, codecContext.context, stream, videoStreamIndex, positionMs);
+        seekToPosition(formatContext, codecContext.context, stream, videoStreamIndex, positionMs);
 
         FrameGuard frame;
         if (frame.frame == nullptr)
             return {};
 
-        if (!decodeFrame(formatContext.context, codecContext.context, videoStreamIndex, frame.frame))
+        if (!decodeFrame(formatContext, codecContext.context, videoStreamIndex, frame.frame))
             return {};
 
         return frameToQImage(frame.frame);
@@ -267,7 +253,7 @@ ThumbnailGenerator::~ThumbnailGenerator()
 }
 
 
-QImage ThumbnailGenerator::generate(const QString& path, const ThumbnailParameters& params)
+QImage ThumbnailGenerator::generate(const Filesystem::Location& path, const ThumbnailParameters& params)
 {
     const QImage frame = readFrame(path);
     QImage thumb;
@@ -285,7 +271,7 @@ QImage ThumbnailGenerator::generateFrom(const QImage& image, const ThumbnailPara
 }
 
 
-QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
+QImage ThumbnailGenerator::readFrameFromImage(const Filesystem::Location& path) const
 {
     IExifReader& reader = m_exifReaderFactory.get();
 
@@ -293,38 +279,36 @@ QImage ThumbnailGenerator::readFrameFromImage(const QString& path) const
     stopwatch.start();
 
     QImage image;
-
-    if(QFile::exists(path))
-        image = Image::normalized(path, reader).get();
+    image = Image::normalized(path, reader).get();
 
     if (image.isNull())
     {
-        const QString error = QString("Broken image: %1").arg(path);
+        const QString error = QString("Broken image: %1").arg(path.url());
 
         m_logger->error(error);
     }
 
     const qint64 photo_read = stopwatch.elapsed();
 
-    const QString read_time_message = QString("photo %1 read time: %2ms").arg(path).arg(photo_read);
+    const QString read_time_message = QString("photo %1 read time: %2ms").arg(path.url()).arg(photo_read);
     m_logger->debug(read_time_message);
 
     return image;
 }
 
 
-QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
+QImage ThumbnailGenerator::readFrameFromVideo(const Filesystem::Location& path) const
 {
-    const QFileInfo pathInfo(path);
-
     QImage result;
 
-    if (pathInfo.exists())
+    m_logger->trace(QString("Opening video file %1 to read frame for thumbnail").arg(path.url()));
+
+    const VideoMediaInformation videoMediaInfo(m_exif, *m_logger);
+    const auto file = Filesystem::openFile(path);
+
+    if (file != nullptr && file->isOpen())
     {
-        m_logger->trace(QString("Opening video file %1 to read frame for thumbnail").arg(path));
-        const QString absolutePath = pathInfo.absoluteFilePath();
-        const VideoMediaInformation videoMediaInfo(m_exif, *m_logger);
-        const auto fileInfo = videoMediaInfo.getInformation(absolutePath);
+        const auto fileInfo = videoMediaInfo.getInformation(path);
 
         if (std::holds_alternative<VideoFile>(fileInfo.details))
         {
@@ -336,18 +320,20 @@ QImage ThumbnailGenerator::readFrameFromVideo(const QString& path) const
             if (milliseconds > 0)
             {
                 const int64_t positionMs = milliseconds / 10;
-                result = readVideoFrame(absolutePath, path, positionMs, m_logger);
+                result = readVideoFrame(path, positionMs, m_logger);
             }
         }
     }
+    else
+        m_logger->error(QString("Error when opening filr %1 for thumbnail generation").arg(path.url()));
 
-    m_logger->trace(QString("Video file %1 closed").arg(path));
+    m_logger->trace(QString("Video file %1 closed").arg(path.url()));
 
     return result;
 }
 
 
-QImage ThumbnailGenerator::readFrame(const QString& path) const
+QImage ThumbnailGenerator::readFrame(const Filesystem::Location& path) const
 {
     QImage image;
 
@@ -356,7 +342,7 @@ QImage ThumbnailGenerator::readFrame(const QString& path) const
     else if (MediaTypes::isVideoFile(path))
         image = readFrameFromVideo(path);
     else
-        m_logger->error(QString("Unknown file type: %1").arg(path));
+        m_logger->error(QString("Unknown file type: %1").arg(path.url()));
 
     return image;
 }

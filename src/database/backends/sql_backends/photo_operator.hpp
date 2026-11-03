@@ -70,7 +70,7 @@ namespace Database
             std::vector<Photo::Id> fetch(QSqlQuery &) const;
             void processAction(ActionContext &, const Action &) const;
 
-            std::unordered_map<Photo::Id, QString> getPaths(const Filter &) const;
+            std::unordered_map<Photo::Id, Filesystem::Location> getPaths(const Filter &) const;
             std::unordered_map<Photo::Id, Tag::TagsList> getTags(const Filter &) const;
             std::unordered_map<Photo::Id, Photo::FlagValues> getFlags(const Filter &) const;
             std::unordered_map<Photo::Id, QSize> getGeometry(const Filter &) const;

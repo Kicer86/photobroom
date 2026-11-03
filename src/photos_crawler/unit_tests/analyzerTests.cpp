@@ -5,7 +5,7 @@
 
 #include <QString>
 
-typedef std::pair<QString, bool> AnalyzerExpectations;
+typedef std::pair<Filesystem::Location, bool> AnalyzerExpectations;
 
 
 struct FileAnalyzerTest: testing::TestWithParam<AnalyzerExpectations> {};
@@ -13,9 +13,15 @@ struct FileAnalyzerTest: testing::TestWithParam<AnalyzerExpectations> {};
 TEST_P(FileAnalyzerTest, ProperExtensionsAreRespected)
 {
     FileAnalyzer analyzer;
+    const auto [path, is] = GetParam();
 
-    EXPECT_EQ(GetParam().second, analyzer.isMediaFile(GetParam().first));
+    EXPECT_EQ(is, analyzer.isMediaFile(path));
 }
+
+// TODO: add new prefix for paths which QT will understand, like "tst:".
+//       Then create a virtual filesystem which will make sure these
+//       path do not interfere with real ones.
+//       Look for other tests like this and implement it there as well
 
 INSTANTIATE_TEST_SUITE_P(ExtensionsTest,
                          FileAnalyzerTest,

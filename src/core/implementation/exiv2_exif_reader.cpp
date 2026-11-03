@@ -26,29 +26,31 @@ namespace
 
 Exiv2ExifReader::Exiv2ExifReader():
     m_exif_data(),
-    m_path()
+    m_location()
 {
 
 }
 
 
-bool Exiv2ExifReader::hasExif(const QString& path)
+bool Exiv2ExifReader::hasExif(const Filesystem::Location& location)
 {
-    collect(path);
+    collect(location);
 
     return m_exif_data.get() && m_exif_data.get()->exifData().empty() == false;
 }
 
 
-void Exiv2ExifReader::collect(const QString& path)
+void Exiv2ExifReader::collect(const Filesystem::Location& location)
 {
-    if (m_path != path)
+    if (m_location != location)
     {
         try
         {
-            m_exif_data.reset();
+            const auto file = Filesystem::openFile(location);
+            const auto fileData = file->byteView();
 
-            m_exif_data = Exiv2::ImageFactory::open(path.toStdString());
+            m_exif_data.reset();
+            m_exif_data = Exiv2::ImageFactory::open(fileData.data(), fileData.size());
 
             assert(m_exif_data.get() != 0);
             m_exif_data->readMetadata();
@@ -57,10 +59,10 @@ void Exiv2ExifReader::collect(const QString& path)
         {
             return;
         }
-    }
 
-    // save path of file we are working on
-    m_path = path;
+        // save path of file we are working on
+        m_location = location;
+    }
 }
 
 

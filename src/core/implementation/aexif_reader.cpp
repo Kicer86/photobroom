@@ -21,7 +21,6 @@
 
 #include <QByteArray>
 #include <QDate>
-#include <QFileInfo>
 #include <QStringList>
 #include <QTime>
 #include <stdexcept>
@@ -55,14 +54,11 @@ AExifReader::~AExifReader()
 }
 
 
-Tag::TagsList AExifReader::getTagsFor(const QString& path)
+Tag::TagsList AExifReader::getTagsFor(const Filesystem::Location& location)
 {
     assert(m_id == std::this_thread::get_id());
 
-    const QFileInfo fileInfo(path);
-    const QString full_path = fileInfo.absoluteFilePath();
-
-    collect(full_path);
+    collect(location);
 
     const Tag::TagsList tagData = feedDateAndTime();
 
@@ -70,14 +66,11 @@ Tag::TagsList AExifReader::getTagsFor(const QString& path)
 }
 
 
-std::optional<std::any> AExifReader::get(const QString& path, const IExifReader::TagType& type)
+std::optional<std::any> AExifReader::get(const Filesystem::Location& location, const IExifReader::TagType& type)
 {
     assert(m_id == std::this_thread::get_id());
 
-    const QFileInfo fileInfo(path);
-    const QString full_path = fileInfo.absoluteFilePath();
-
-    collect(full_path);
+    collect(location);
 
     std::optional<std::any> result;
 

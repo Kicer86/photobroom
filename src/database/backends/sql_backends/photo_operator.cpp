@@ -80,6 +80,11 @@ namespace Database
                         assert(value.canConvert<typename vType::type>());
                         v = value.value<typename vType::type>();
                     }
+                    // path
+                    else if constexpr (std::is_same_v<vType, Filesystem::Location>)
+                    {
+                        v = stringToLocation(value.toString());
+                    }
                     else
                     {
                         assert(value.canConvert<vType>());
@@ -430,13 +435,13 @@ namespace Database
     }
 
 
-    std::unordered_map<Photo::Id, QString> PhotoOperator::getPaths(const Filter& filter) const
+    std::unordered_map<Photo::Id, Filesystem::Location> PhotoOperator::getPaths(const Filter& filter) const
     {
         const QString query = QString("SELECT id, path FROM %1").arg(TAB_PHOTOS);
-        const auto pathsOfMatchingPhotos = getAny<QString>(filter, query, [](const QSqlQuery& sqlQuery)
+        const auto pathsOfMatchingPhotos = getAny<Filesystem::Location>(filter, query, [](const QSqlQuery& sqlQuery)
         {
-            const auto [id, path] = readValues<Photo::Id, QString>(sqlQuery);
-            return std::tuple{id, path};
+            const auto [id, path] = readValues<Photo::Id, Filesystem::Location>(sqlQuery);
+            return std::tuple{id, Filesystem::Location(path)};
         },
         "id");
 

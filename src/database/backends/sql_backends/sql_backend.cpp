@@ -51,6 +51,7 @@
 #include "query_structs.hpp"
 #include "sql_filter_query_generator.hpp"
 #include "people_information_accessor.hpp"
+#include "utils.hpp"
 
 
 // useful links
@@ -59,7 +60,6 @@
 
 namespace Database
 {
-
     ASqlBackend::ASqlBackend(ILogger* l):
         m_peopleInfoAccessor([this](){ return new PeopleInformationAccessor(this->m_connectionName, this->m_executor, this->getGenericQueryGenerator()); }),
         m_connectionName(""),
@@ -749,7 +749,41 @@ namespace Database
 
                 } [[fallthrough]];
 
-                case 7:             // current version, break updgrades chain
+                case 7:
+                {
+                    // convert all paths to json arrays
+                    const QString select_paths = QString("SELECT id, path FROM %1").arg(TAB_PHOTOS);
+                    status = m_executor.exec(select_paths, &query);
+
+                    std::vector<std::pair<QString, QString>> paths;
+                    while (status && query.next())
+                    {
+                        const QString id = query.value(0).toString();
+                        const QString raw_path = query.value(1).toString();
+                        const QString json_path = locationToString(Filesystem::Location(raw_path));
+
+                        paths.emplace_back(id, json_path);
+                    }
+
+                    query.clear();
+
+                    for (const auto& [id, path] : paths)
+                    {
+                        UpdateQueryData update(TAB_PHOTOS);
+                        update.setColumns("path");
+                        update.setValues(path);
+                        update.addCondition("id", id);
+
+                        QSqlQuery updateQuery = getGenericQueryGenerator().update(db, update);
+                        status = m_executor.exec(updateQuery);
+
+                        if (status == false)
+                            break;
+                    }
+
+                } [[fallthrough]];
+
+                case 8:             // current version, break updgrades chain
                     break;
 
                 default:
@@ -887,9 +921,10 @@ namespace Database
         assert(id.valid() == false);
 
         InsertQueryData insertData(TAB_PHOTOS);
+        const auto path = locationToString(data.get<Photo::Field::Path>());
 
         insertData.setColumns("path", "store_date");
-        insertData.setValues(data.get<Photo::Field::Path>(), InsertQueryData::Value::CurrentTime);
+        insertData.setValues(path, InsertQueryData::Value::CurrentTime);
         insertData.setColumns("id");
         insertData.setValues(InsertQueryData::Value::Null);
 
@@ -1321,7 +1356,7 @@ namespace Database
      * \param id photo id
      * \return path to photo
      */
-    QString ASqlBackend::getPathFor(const Photo::Id& id) const
+    Filesystem::Location ASqlBackend::getPathFor(const Photo::Id& id) const
     {
         QSqlDatabase db = QSqlDatabase::database(m_connectionName);
         QSqlQuery query(db);
@@ -1341,7 +1376,9 @@ namespace Database
             result = path.toString();
         }
 
-        return result;
+        const auto location = stringToLocation(result);
+
+        return location;
     }
 
 

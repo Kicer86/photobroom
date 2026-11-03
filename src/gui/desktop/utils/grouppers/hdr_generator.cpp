@@ -66,5 +66,5 @@ void HDRGenerator::run()
     const QString output = System::getUniqueFileName(m_storage, "jpeg");
     cv::imwrite(output.toStdString(), hdrMat);
 
-    emit finished(output);
+    emit finished(Filesystem::Location(output));
 }

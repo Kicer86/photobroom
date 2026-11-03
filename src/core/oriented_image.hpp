@@ -23,6 +23,8 @@
 
 #include <core_export.h>
 
+#include <core/filesystem.hpp>
+
 struct IExifReader;
 
 
@@ -30,7 +32,7 @@ class CORE_EXPORT OrientedImage
 {
     public:
         OrientedImage();
-        OrientedImage(IExifReader &, const QString& path);
+        OrientedImage(IExifReader &, const Filesystem::Location& path);
 
         QImage get() const;
         const QImage* operator->() const;

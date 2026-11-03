@@ -24,7 +24,7 @@ class MediaViewCtrl: public QObject
     Q_PROPERTY(ICoreFactoryAccessor* core MEMBER m_core REQUIRED NOTIFY coreChanged)
     Q_PROPERTY(Photo::Id photoID WRITE setSource READ source NOTIFY sourceChanged)
     Q_PROPERTY(QString photoIDString READ photoIDString NOTIFY photoIDStringChanged)
-    Q_PROPERTY(QUrl path READ path NOTIFY pathChanged)
+    Q_PROPERTY(Filesystem::Location path READ path NOTIFY pathChanged)
     Q_PROPERTY(Mode mode READ mode NOTIFY modeChanged)
     Q_ENUMS(Mode)
     QML_ELEMENT
@@ -46,26 +46,26 @@ public:
 
     const Photo::Id& source() const;
     QString photoIDString() const;
-    QUrl path() const;
+    Filesystem::Location path() const;
     Mode mode() const;
 
 signals:
     void coreChanged() const;
     void sourceChanged(const Photo::Id &) const;
     void photoIDStringChanged(const QString &) const;
-    void pathChanged(const QUrl &) const;
+    void pathChanged(const Filesystem::Location &) const;
     void modeChanged(MediaViewCtrl::Mode) const;
 
 private:
     PropertyAwaiter m_initializer;
-    QUrl m_path;
+    Filesystem::Location m_path;
     Mode m_mode = Mode::Unknown;
     ICoreFactoryAccessor* m_core = nullptr;
     Photo::Id m_id;
 
-    void setPath(const QUrl &);
+    void setPath(const Filesystem::Location &);
     void setMode(Mode);
-    void applyMediaInfo(const std::pair<QUrl, Mode>&);
+    void applyMediaInfo(const std::pair<Filesystem::Location, Mode>&);
     void process();
 };
 

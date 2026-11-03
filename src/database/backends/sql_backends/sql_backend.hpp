@@ -27,6 +27,7 @@
 #include <vector>
 
 #include "core/lazy_ptr.hpp"
+#include "core/filesystem.hpp"
 #include "database/ibackend.hpp"
 #include "database/notifications_accumulator.hpp"
 #include "database/transaction_wrapper.hpp"
@@ -186,7 +187,7 @@ namespace Database
             QSize                getGeometryFor(const Photo::Id &) const;
             GroupInfo            getGroupFor(const Photo::Id &) const;
             Photo::FlagValues    getFlagsFor(const Photo::Id &) const;
-            QString getPathFor(const Photo::Id &) const;
+            Filesystem::Location getPathFor(const Photo::Id &) const;
             bool doesPhotoExist(const Photo::Id &) const;
             void prune();
     };

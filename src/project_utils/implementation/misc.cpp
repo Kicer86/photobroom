@@ -1,7 +1,6 @@
 
 #include "misc.hpp"
 
-#include <filesystem>
 #include <QDataStream>
 #include <QDir>
 #include <QFileInfo>
@@ -11,10 +10,12 @@
 
 import broom.system;
 
+// TODO: REWRITE
 
+/*
 namespace
 {
-    std::filesystem::path prepareDestinationPath(const ProjectInfo& prjInfo, const QString& path)
+    Filesystem::Location prepareDestinationPath(const ProjectInfo& prjInfo, const QString& path)
     {
         const QFileInfo originalFileInfo(path);
         const QString extension = originalFileInfo.completeSuffix();
@@ -22,22 +23,22 @@ namespace
         const QString uniqueFileName = System::getUniqueFileName(mediaLocation, extension);
         const QFileInfo uniqueFileInfo(uniqueFileName);
 
-        return uniqueFileInfo.filesystemAbsoluteFilePath();
+        return Filesystem::Location(uniqueFileInfo.filesystemAbsoluteFilePath());
     }
 
-    std::filesystem::path prepareSourcePath(const ProjectInfo& prjInfo, const QString& path)
+    Filesystem::Location prepareSourcePath(const ProjectInfo& prjInfo, const QString& path)
     {
         const QString mediaLocation = prjInfo.getInternalLocation(ProjectInfo::PrivateMultimedia);
         const QFileInfo pathInfo(path);
         const QDir mediaDir(mediaLocation);
         const QString relativePath = mediaDir.relativeFilePath(pathInfo.absoluteFilePath());
 
-        return std::filesystem::path(relativePath.toStdString());;
+        return Filesystem::Location(relativePath);
     }
 
-    QString moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+    Filesystem::Location moveFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
     {
-        const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
+        const Filesystem::Location uniqueFileName = prepareDestinationPath(prjInfo, path);
         const QFileInfo pathInfo(path);
         const std::filesystem::path sourcePath = pathInfo.filesystemAbsoluteFilePath();
 
@@ -46,21 +47,28 @@ namespace
         return QString::fromStdString(uniqueFileName.string());
     }
 
-    QString linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+    Filesystem::Location linkFileToPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
     {
-        const std::filesystem::path uniqueFileName = prepareDestinationPath(prjInfo, path);
-        const std::filesystem::path sourcePath = prepareSourcePath(prjInfo, path);
+        const Filesystem::Location uniqueFileName = prepareDestinationPath(prjInfo, path);
+        const Filesystem::Location sourcePath = prepareSourcePath(prjInfo, path);
 
         std::filesystem::create_symlink(sourcePath, uniqueFileName);
 
-        return QString::fromStdString(uniqueFileName.string());
+        return uniqueFileName;
     }
 }
+*/
 
 
-QString includeFileInPrivateMediaLocation(const ProjectInfo& prjInfo, const QString& path)
+Filesystem::Location includeFileInPrivateMediaLocation(const ProjectInfo& prjInfo, const Filesystem::Location& location)
 {
+    /*
+    const auto path = location.url();
+
     return path.left(5) == "prj:/"?
         linkFileToPrivateMediaLocation(prjInfo, path):
         moveFileToPrivateMediaLocation(prjInfo, path);
+    */
+
+    return {};
 }

@@ -38,15 +38,15 @@ class AExifReader: public IExifReader
         AExifReader& operator=(const AExifReader &) = delete;
 
     protected:
-        virtual void collect(const QString &) = 0;
+        virtual void collect(const Filesystem::Location &) = 0;
         virtual std::optional<std::string> read(TagType) const = 0;
 
     private:
         std::thread::id m_id;
 
         // ITagFeeder:
-        Tag::TagsList getTagsFor(const QString& path) override;
-        std::optional<std::any> get(const QString& path, const TagType &) override;
+        Tag::TagsList getTagsFor(const Filesystem::Location& path) override;
+        std::optional<std::any> get(const Filesystem::Location& path, const TagType &) override;
         //
 
         Tag::TagsList feedDateAndTime() const;

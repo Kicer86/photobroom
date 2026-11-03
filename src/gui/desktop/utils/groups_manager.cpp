@@ -31,10 +31,10 @@
 import broom.system;
 
 
-QString GroupsManager::includeRepresentatInDatabase(const QString& representativePhoto, Project& project)
+Filesystem::Location GroupsManager::includeRepresentatInDatabase(const Filesystem::Location& representativePhoto, Project& project)
 {
-    const QString internalPath = includeFileInPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
-    const QString internalPathDecorated = project.makePathRelative(internalPath);
+    const Filesystem::Location internalPath = includeFileInPrivateMediaLocation(project.getProjectInfo(), representativePhoto);
+    const Filesystem::Location internalPathDecorated = project.makePathRelative(internalPath);
 
     return internalPathDecorated;
 }
@@ -46,7 +46,7 @@ void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise,
 
     std::transform(groups.begin(), groups.end(), std::back_inserter(groupsDetails), [&project](const std::vector<ExplicitDelta>& group)
     {
-        const QString representativePath = GroupsManager::includeRepresentatInDatabase(group.front().get<Photo::Field::Path>(), project);
+        const Filesystem::Location representativePath = GroupsManager::includeRepresentatInDatabase(group.front().get<Photo::Field::Path>(), project);
 
         std::vector<Photo::Id> ids;
         std::transform(group.begin(), group.end(), std::back_inserter(ids), [](const auto& data) { return data.getId(); } );
@@ -60,7 +60,7 @@ void GroupsManager::groupIntoUnified(Project& project, QPromise<void>&& promise,
 
 void GroupsManager::group(Database::IDatabase& database,
                           const std::vector<Photo::Id>& photos,
-                          const QString& representativePath,
+                          const Filesystem::Location& representativePath,
                           Group::Type type)
 {
     group(database, {}, { GroupDetails{.members = photos, .representativePath = representativePath, .type = type} });
@@ -87,7 +87,7 @@ void GroupsManager::group(Database::IDatabase& database, QPromise<void>&& promis
             if (photos.empty())
                 continue;
 
-            const QString& representativePath = group.representativePath;
+            const Filesystem::Location& representativePath = group.representativePath;
             const Group::Type& type = group.type;
 
             // copy details of first member to representative

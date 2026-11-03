@@ -7,9 +7,10 @@
 #include <optional>
 #include <string>
 
+#include "core_export.h"
+#include "filesystem.hpp"
 #include "tag.hpp"
 
-#include "core_export.h"
 
 class QString;
 
@@ -35,10 +36,10 @@ struct CORE_EXPORT IExifReader
 
     virtual ~IExifReader() = default;
 
-    virtual bool hasExif(const QString& path) = 0;
+    virtual bool hasExif(const Filesystem::Location& path) = 0;
 
-    virtual Tag::TagsList getTagsFor(const QString& path) = 0;                       // returns default set of tags
-    virtual std::optional<std::any> get(const QString& path, const TagType &) = 0;   // access to optional data
+    virtual Tag::TagsList getTagsFor(const Filesystem::Location& path) = 0;                       // returns default set of tags
+    virtual std::optional<std::any> get(const Filesystem::Location& path, const TagType &) = 0;   // access to optional data
 };
 
 

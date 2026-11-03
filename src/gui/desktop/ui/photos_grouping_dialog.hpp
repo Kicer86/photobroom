@@ -8,6 +8,7 @@
 
 #include <memory>
 
+#include <core/filesystem.hpp>
 #include <database/explicit_photo_delta.hpp>
 #include "utils/grouppers/generator_utils.hpp"
 
@@ -71,7 +72,7 @@ class PhotosGroupingDialog: public QDialog
 
         PhotosGroupingDialog& operator=(const PhotosGroupingDialog &) = delete;
 
-        QString getRepresentative() const;
+        Filesystem::Location getRepresentative() const;
         Group::Type groupType() const;
 
         void reject() override;
@@ -82,7 +83,7 @@ class PhotosGroupingDialog: public QDialog
 
         void generationTitle(const QString &);
         void generationProgress(int);
-        void generationDone(const QString &);
+        void generationDone(const Filesystem::Location &);
         void generationCanceled();
         void generationError(const QString &, const QStringList &);
         void refreshDialogButtons();

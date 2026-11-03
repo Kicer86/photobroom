@@ -5,7 +5,7 @@
 #include <QRegularExpression>
 
 #include <core/tag.hpp>
-
+#include <core/filesystem.hpp>
 #include <core_export.h>
 
 
@@ -14,7 +14,7 @@ class CORE_EXPORT DataFromPathExtractor
     public:
         DataFromPathExtractor();
 
-        Tag::TagsList extract(const QString& path) const;
+        Tag::TagsList extract(const Filesystem::Location& path) const;
 
     private:
         QRegularExpression m_expr1;

@@ -69,7 +69,7 @@ void FileSystemScanner::scan(const QString& dir_path, IFileNotifier* notifier)
         if (entryInfo.isDir())
             scan(entry, notifier);
         else
-            notifier->found(entry);
+            notifier->found(Filesystem::Location(entry));
     }
 }
 

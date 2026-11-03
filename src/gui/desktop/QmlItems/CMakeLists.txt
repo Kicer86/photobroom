@@ -11,8 +11,6 @@ find_package(Qt6 6.4  COMPONENTS
 set(CMAKE_AUTOMOC ON)
 
 set(CPP_SOURCES
-    file_info.cpp
-    file_info.hpp
     picture_item.cpp
     picture_item.hpp
     utils.cpp
@@ -44,6 +42,13 @@ target_link_libraries(qml_items
     PUBLIC
         Qt::Quick
     PRIVATE
+        core
+        Qt::Gui
         Qt::QmlPrivate
         Qt::QuickPrivate
+)
+
+target_include_directories(qml_items
+    PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/..
 )

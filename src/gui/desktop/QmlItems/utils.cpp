@@ -2,6 +2,7 @@
 #include <QCoreApplication>
 #include <QQmlEngine>
 
+#include <desktop_services.hpp>
 #include "utils.hpp"
 
 
@@ -14,14 +15,13 @@ namespace
             return new Utils;
         });
 
-        qmlRegisterUncreatableType<FileInfo>("QmlItems", 1, 0, "FileInfo", "");
     }
 }
 
 Q_COREAPP_STARTUP_FUNCTION(registerSingleton)
 
 
-FileInfo* Utils::fileInfo()
+bool Utils::openContainingDirectory(const Filesystem::Location& photo)
 {
-    return new FileInfo;
+    return DesktopServices::openContainingDirectory(photo);
 }

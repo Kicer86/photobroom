@@ -20,7 +20,7 @@ struct FileSystemMock: public IFileSystemScanner
 
 struct AnalyzerMock: public IAnalyzer
 {
-    MOCK_METHOD1(isMediaFile, bool(const QString &));
+    MOCK_METHOD(bool, isMediaFile, (const Filesystem::Location &), (override));
 };
 
 

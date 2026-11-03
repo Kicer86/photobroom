@@ -25,15 +25,22 @@ extern "C"
 
 #include <iostream>
 
+#include <algorithm>
 #include <cassert>
+#include <cstdint>
+#include <limits>
+#include <span>
+
 #include <QTimeZone>
 
 #include "constants.hpp"
+#include "libav_toolkit.hpp"
 #include "video_media_information.hpp"
 
 
 namespace
 {
+
     AVStream* findVideoStream(AVFormatContext* context)
     {
         for (auto i = 0u; i < context->nb_streams; ++i)
@@ -75,16 +82,16 @@ VideoMediaInformation::VideoMediaInformation(IExifReaderFactory& exif, const ILo
 }
 
 
-FileInformation VideoMediaInformation::getInformation(const QString& path) const
+FileInformation VideoMediaInformation::getInformation(const Filesystem::Location& location) const
 {
     FileInformation info;
     VideoFile videoInfo;
 
     IExifReader& exif = m_exif.get();
 
-    const auto exif_creation_time = exif.get(path, IExifReader::TagType::Xmp_video_DateTimeOriginal);
-    auto width = exif.get(path, IExifReader::TagType::Xmp_video_Width);
-    auto height = exif.get(path, IExifReader::TagType::Xmp_video_Height);
+    const auto exif_creation_time = exif.get(location, IExifReader::TagType::Xmp_video_DateTimeOriginal);
+    auto width = exif.get(location, IExifReader::TagType::Xmp_video_Width);
+    auto height = exif.get(location, IExifReader::TagType::Xmp_video_Height);
 
     if (exif_creation_time)
     {
@@ -94,8 +101,9 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
         info.common.creationTime = QDateTime::fromString(creation_time_qstr, "yyyy:MM:dd hh:mm:ss");
     }
 
-    AVFormatContext* formatContext = nullptr;
-    if (avformat_open_input(&formatContext, path.toStdString().c_str(), NULL, NULL) == 0)
+    FileAvio fileAvio(location);
+    AVFormatContext* formatContext = fileAvio.open();
+    if (formatContext != nullptr)
     {
         if (avformat_find_stream_info(formatContext, NULL) >= 0)
         {
@@ -127,9 +135,6 @@ FileInformation VideoMediaInformation::getInformation(const QString& path) const
 
     if (width && height)
         info.common.dimension = QSize(std::any_cast<int>(*width), std::any_cast<int>(*height));
-
-    avformat_close_input(&formatContext);
-    avformat_free_context(formatContext);
 
     info.details = videoInfo;
 

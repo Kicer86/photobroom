@@ -25,6 +25,7 @@ set(GUI_HEADERS
     gui.hpp
     inotifications.hpp
     desktop/config_keys.hpp
+    desktop/desktop_services.hpp
     images/images.hpp
 )
 

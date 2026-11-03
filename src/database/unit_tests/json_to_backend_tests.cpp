@@ -4,6 +4,7 @@
 
 #include "database/backends/memory_backend/memory_backend.hpp"
 #include "database_tools/json_to_backend.hpp"
+#include "unit_tests_utils/location.hpp"
 #include "database_tools/common_backend_operations.hpp"
 #include "unit_tests_utils/mock_backend.hpp"
 #include "unit_tests_utils/sample_db_with_groups.json.hpp"
@@ -36,7 +37,7 @@ TEST(JsonToBackendTest, photo)
     };
 
     Photo::DataDelta photo;
-    photo.insert<Photo::Field::Path>("/some/path");
+    photo.insert<Photo::Field::Path>(UnitTests::makeLocation("/some/path"));
     photo.insert<Photo::Field::Tags>(tags);
 
     std::vector<Photo::DataDelta> photos = { photo };

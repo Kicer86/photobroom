@@ -64,11 +64,7 @@ Internals.ToolsBase
                         RoundButton {
                             action: Action {
                                 icon.name: "folder"
-                                onTriggered: {
-                                    var path = Utils.fileInfo().fullDirectoryPath(dataQml.path);
-                                    var url  = Utils.fileInfo().toUrl(path);
-                                    Qt.openUrlExternally(url);
-                                }
+                                onTriggered: Utils.openContainingDirectory(dataQml.path)
                             }
                         }
                     }

@@ -6,6 +6,7 @@
 #include <core/constants.hpp>
 #include "unit_tests_utils/empty_logger.hpp"
 #include "unit_tests_utils/fake_task_executor.hpp"
+#include "unit_tests_utils/location.hpp"
 #include "unit_tests_utils/mock_thumbnails_generator.hpp"
 #include "unit_tests_utils/mock_thumbnails_cache.hpp"
 #include "unit_tests_utils/mock_backend.hpp"
@@ -67,7 +68,7 @@ public:
         ON_CALL(backend, getPhotoDelta).WillByDefault(Invoke([](const auto& id, const auto &)
         {
             Photo::DataDelta delta(id);
-            delta.insert<Photo::Field::Path>(QString("%1.jpeg").arg(id.value()));
+            delta.insert<Photo::Field::Path>(UnitTests::makeLocation(QString("%1.jpeg").arg(id.value())));
 
             return delta;
         }));
@@ -103,7 +104,7 @@ TEST_F(ThumbnailManagerTest, askGeneratorForThumbnailWhenOneWasNotFoundInCache)
     MockThumbnailsGenerator generator;
 
     // call for thumbnail for database cache
-    EXPECT_CALL(generator, generate(QString("5.jpeg"),
+    EXPECT_CALL(generator, generate(UnitTests::makeLocation("5.jpeg"),
                                     IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize)))
         .Times(1)
         .WillOnce(Return(base_img));
@@ -137,7 +138,7 @@ TEST_F(ThumbnailManagerTest, generatedThumbnailsIsBeingCached)
 
     // generator behavior
     MockThumbnailsGenerator generator;
-    EXPECT_CALL(generator, generate(QString("7.jpeg"),
+    EXPECT_CALL(generator, generate(UnitTests::makeLocation("7.jpeg"),
                                     IThumbnailsCache::ThumbnailParameters(Parameters::databaseThumbnailSize)))
         .Times(1)
         .WillOnce(Return(base_img));

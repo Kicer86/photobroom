@@ -8,6 +8,7 @@
 #include "unit_tests_utils/mock_core_factory_accessor.hpp"
 #include "unit_tests_utils/mock_logger_factory.hpp"
 #include "unit_tests_utils/empty_logger.hpp"
+#include "unit_tests_utils/location.hpp"
 #include "unit_tests_utils/printers.hpp"
 
 
@@ -106,7 +107,8 @@ TEST_P(VideoMediaInformationTest, validateMetadata)
     ON_CALL(core, getExifReaderFactory).WillByDefault(ReturnRef(exifFactory));
     ON_CALL(loggerFactory, get(An<const QString &>())).WillByDefault(Invoke([]{ return std::make_unique<EmptyLogger>(); }));
 
-    const auto info = MediaInformation(&core).getInformation(QString::fromStdString(std::string(path)));
+    const auto location = UnitTests::makeLocation(path);
+    const auto info = MediaInformation(&core).getInformation(location);
 
     // valdiate creation time
     if (creationTime.isValid())

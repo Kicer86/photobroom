@@ -41,7 +41,7 @@ class CORE_EXPORT MediaInformation : public IMediaInformation
         MediaInformation& operator=(const MediaInformation &) = delete;
         MediaInformation& operator=(MediaInformation &&) = delete;
 
-        FileInformation getInformation(const QString &) const override;
+        FileInformation getInformation(const Filesystem::Location &) const override;
 
     private:
         struct Impl;

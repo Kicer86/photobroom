@@ -63,7 +63,7 @@ QVariant PhotosDataGuesser::data(const QModelIndex& index, int role) const
     const auto& photo = photos[rowNo];
 
     if (role == photoPathRole)
-        return photo.photoData.get<Photo::Field::Path>();
+        return QVariant::fromValue(photo.photoData.get<Photo::Field::Path>());
     else if (role == PhotoIDRole)
         return QVariant::fromValue(photo.photoData.getId());
     else if (role == SuggestedDateRole)
